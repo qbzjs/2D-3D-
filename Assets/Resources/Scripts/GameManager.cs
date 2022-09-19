@@ -18,10 +18,15 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
+
+    public string nextSceneName;
+
     #endregion
 
 
     #region Private Fields
+    const string LoadingSceneName = "LoadingScene";
+
     static GameManager instance;
     #endregion
 
@@ -41,10 +46,14 @@ public class GameManager : MonoBehaviour
     #region Public Methods
     public void LoadScene(string sceneName)
     {
+        nextSceneName = sceneName;
+        SceneManager.LoadScene( LoadingSceneName );
     }
     #endregion
 
 
     #region Private Methods
     #endregion
+
+
 }
