@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using Photon.Pun;
+
 public class GameManager : MonoBehaviour
 {
     #region Inner Class
@@ -79,6 +81,12 @@ public class GameManager : MonoBehaviour
     {
         nextSceneName = sceneName;
         SceneManager.LoadScene( LoadingSceneName );
+    }
+
+    public void LoadPhotonScene( string sceneName )
+    {
+        nextSceneName = sceneName;
+        PhotonNetwork.LoadLevel( LoadingSceneName );   
     }
 
     public void InputPlayerFaction(bool isCreatedRoom)

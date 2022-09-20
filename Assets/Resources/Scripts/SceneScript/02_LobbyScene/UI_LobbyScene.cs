@@ -21,6 +21,8 @@ public class UI_LobbyScene : MonoBehaviourPunCallbacks
     private GameObject lobbyGameObj;
     [SerializeField]
     private GameObject matchingObj;
+    [SerializeField]
+    private GameObject skipButtonObj;
 
     [Header("Loading UI Setting")]
     [SerializeField]
@@ -49,6 +51,7 @@ public class UI_LobbyScene : MonoBehaviourPunCallbacks
         lobbyObj.SetActive( true );
         lobbyGameObj.SetActive( false );
         matchingObj.SetActive(false);
+        skipButtonObj.SetActive( false );
     }
     private void Update()
     {
@@ -58,11 +61,18 @@ public class UI_LobbyScene : MonoBehaviourPunCallbacks
             ChangePlayerImage();
             ChangePlayerCountText();
 
-            if (curPlayerCnt == 5)
+            if ( curPlayerCnt == 5 )
             {
-                cancelButtonObj.SetActive(false);
+                LoadQuickMatchScene();
             }
         }
+
+
+        if(PhotonNetwork.IsMasterClient)
+        {
+            skipButtonObj.SetActive( true );
+        }
+
     }
     #endregion
 
@@ -133,6 +143,11 @@ public class UI_LobbyScene : MonoBehaviourPunCallbacks
     {
         return $"RandomRoom{PhotonNetwork.CountOfRooms + 1}";
     }
+    void LoadQuickMatchScene()
+    {
+        cancelButtonObj.SetActive( false );
+        GameManager.Instance.LoadPhotonScene( "03_RoomScene" );
+    }
     #endregion
 
 
@@ -157,6 +172,10 @@ public class UI_LobbyScene : MonoBehaviourPunCallbacks
     void OnQuickMatchButton()
     {
         PhotonNetwork.JoinRandomRoom();
+    }
+    void OnTestSkipButton()
+    {
+        LoadQuickMatchScene();
     }
     #endregion
 }
