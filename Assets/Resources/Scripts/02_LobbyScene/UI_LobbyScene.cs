@@ -55,19 +55,17 @@ public class UI_LobbyScene : MonoBehaviourPunCallbacks
         if(isJoinedRoom)
         {
             curPlayerCnt = PhotonNetwork.CurrentRoom.PlayerCount;
-            Debug.Log($"PlayerCount: {curPlayerCnt}");
             ChangePlayerImage();
             ChangePlayerCountText();
 
             if (curPlayerCnt == 5)
             {
                 cancelButtonObj.SetActive(false);
-
             }
-
         }
     }
     #endregion
+
 
     #region MonoBehaviourPun Callbacks
     public override void OnJoinRandomFailed( short returnCode, string message )
@@ -97,8 +95,8 @@ public class UI_LobbyScene : MonoBehaviourPunCallbacks
         base.OnJoinRoomFailed( returnCode, message );
         Debug.Log( "OnJoinRoomFailed Called " + message );
     }
-
     #endregion
+
 
     #region Public Methods
     #endregion
