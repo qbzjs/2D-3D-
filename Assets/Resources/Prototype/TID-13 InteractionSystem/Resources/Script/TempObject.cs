@@ -13,13 +13,14 @@ public class TempObject : MonoBehaviour
     #endregion
 
     #region Private Fields
-    private float chargeValue; 
+    private float chargeValue;
+    private float maxChargeValue = 10.0f;
     #endregion	
 
     #region MonoBehaviour CallBacks
     void Start()
     {
-        ChargeValue = 0.0f;
+        chargeValue = 0.0f;
     }
 
     void Update()
