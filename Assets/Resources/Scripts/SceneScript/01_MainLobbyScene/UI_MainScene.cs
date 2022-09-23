@@ -15,11 +15,11 @@ public class UI_MainScene : MonoBehaviour
     #region MonoBehaviour Callbacks
     private void Start()
     {
-	
+
     }
     private void Update()
     {
-	
+
     }
     #endregion
 
@@ -30,9 +30,26 @@ public class UI_MainScene : MonoBehaviour
 
 
     #region Private Methods
-    void OnGameStart()
+
+    #endregion
+
+    #region Button Callbacks
+    void OnPlayButtonClicked()
     {
-        GameManager.Instance.LoadScene( "02_LobbyScene" );
+
+    }
+    void OnInfoButtonClicked()
+    {
+
+    }
+    void OnOptionButtonClicked()
+    {
+
+    }
+    void OnExitButtonClicked()
+    {
+        Application.Quit();
     }
     #endregion
+
 }

@@ -31,7 +31,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     private void Start()
     {
-        StartCoroutine( LoadingNextScene( "01_MainScene" ) );
+        StartCoroutine( LoadingNextScene( "01_MainLobbyScene" ) );
     }
     private void Update()
     {
