@@ -4,48 +4,28 @@ using UnityEngine;
 
 public class FPV_CharacterController : MonoBehaviour
 {
-    #region Public Fields
+    #region Public Field
+    [SerializeField]
+    private float walkSpeed = 3.0f;
     #endregion
 
     #region Private Fields
-    private CharacterController controller;
-    private Vector3 playerVelocity;
-    private bool groundedPlayer;
-    private float playerSpeed = 2.0f;
-    private float jumpHeight = 1.0f;
-    private float gravityValue = -9.81f;
+
     #endregion
 
     #region MonoBehaviour Callbacks
+    private void Awake()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
     void Start()
     {
-        controller = gameObject.GetComponent<CharacterController>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        groundedPlayer = controller.isGrounded;
-        if (groundedPlayer && playerVelocity.y < 0)
-        {
-            playerVelocity.y = 0f;
-        }
-
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        controller.Move(move * Time.deltaTime * playerSpeed);
-
-        if (move != Vector3.zero)
-        {
-            gameObject.transform.forward = move;
-        }
-
-        // Changes the height position of the player..
-        if (Input.GetButtonDown("Jump") && groundedPlayer)
-        {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-        }
-
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
+        Movement();
     }
     #endregion
 
@@ -53,5 +33,11 @@ public class FPV_CharacterController : MonoBehaviour
     #endregion
 
     #region Private Methods
+    private void Movement()
+    {
+        Vector2 currentInput = FPV_InputManager.instance.GetPlayerMove() * walkSpeed;
+        Vector3 dir = new Vector3(-Camera.main.transform.right.x, 0, Camera.main.transform.right.y);
+        Vector3 moveDirection = (dir * currentInput.y + Camera.main.transform.right * currentInput.x);
+    }
     #endregion
 }
