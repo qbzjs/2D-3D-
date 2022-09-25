@@ -10,12 +10,13 @@ public class FPV_CharacterController : MonoBehaviour
     #endregion
 
     #region Private Fields
-
+    Rigidbody rd;
     #endregion
 
     #region MonoBehaviour Callbacks
     private void Awake()
     {
+        rd = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -36,8 +37,9 @@ public class FPV_CharacterController : MonoBehaviour
     private void Movement()
     {
         Vector2 currentInput = FPV_InputManager.instance.GetPlayerMove() * walkSpeed;
-        Vector3 dir = new Vector3(-Camera.main.transform.right.x, 0, Camera.main.transform.right.y);
-        Vector3 moveDirection = (dir * currentInput.y + Camera.main.transform.right * currentInput.x);
+        Vector3 dir = new Vector3(-Camera.main.transform.right.z, 0, Camera.main.transform.right.x);
+        Vector3 moveDirection = (dir * currentInput.y + Camera.main.transform.right * currentInput.x + Vector3.up * rd.velocity.y);
+        rd.velocity = moveDirection;
     }
     #endregion
 }
