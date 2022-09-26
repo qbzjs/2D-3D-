@@ -4,28 +4,26 @@ using UnityEngine;
 
 public class TPV_PlayerController : MonoBehaviour
 {
-    #region Public Field
-    #endregion
+    private CharacterController controller;
+    private Vector3 playerVelocity;
+    private float playerSpeed = 2.0f;
 
-    #region Private Field
-    #endregion
-
-    #region Monobehaviour CallBacks
-    void Start()
+    private void Start()
     {
-        
+        controller = GetComponent<CharacterController>();
     }
 
-    
     void Update()
     {
-        
+       
+        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        controller.Move(move * Time.deltaTime * playerSpeed);
+
+        if (move != Vector3.zero)
+        {
+            gameObject.transform.forward = move;
+        }
+
+        controller.Move(playerVelocity * Time.deltaTime);
     }
-    #endregion
-
-    #region Public Methods
-    #endregion
-
-    #region Private Methods
-    #endregion
 }
