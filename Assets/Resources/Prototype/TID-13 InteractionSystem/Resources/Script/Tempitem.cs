@@ -33,7 +33,6 @@ public class Tempitem : TempObject
         else if (tag == "Doll")
         {
             ImmediateInteract(character);
-
         }
 
         isOnce = isOncebehave;

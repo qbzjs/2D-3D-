@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +20,8 @@ public class TempCharacterUI : MonoBehaviour
     [SerializeField]
     Text interactText;
     private GameObject obj;
+    private bool isOnceCharge = false;
+    private float OnceChargeTime = 0.0f;
     #endregion	
 
     #region MonoBehaviour CallBacks
@@ -39,6 +43,13 @@ public class TempCharacterUI : MonoBehaviour
         if (obj)
         {
             bar.value = obj.GetComponent<TempObject>().GetChargeValueRate;
+        }
+
+        if (isOnceCharge)
+        {
+            bar.gameObject.SetActive(true);
+            interactText.gameObject.SetActive(false);
+            bar.value += OnceChargeTime*Time.deltaTime;
         }
     }
     #endregion	
@@ -66,6 +77,15 @@ public class TempCharacterUI : MonoBehaviour
         bar.gameObject.SetActive(false);
     }
 
+    public void ActiveFixedChargeBar(float chargeTime)
+    {
+        if (!isOnceCharge)
+        {
+        obj = null;
+        bar.value = 0;
+        StartCoroutine("OnceCharge", chargeTime);
+        }
+    }
 
 
     #endregion	
@@ -73,4 +93,26 @@ public class TempCharacterUI : MonoBehaviour
     #region Private Methods
     #endregion	
 
+    IEnumerator OnceCharge(float chargeTime)
+    {
+        Debug.Log("StartCoroutine");
+        while (true)
+        { 
+            isOnceCharge = true;
+            OnceChargeTime = 1 / chargeTime;
+            SceneManger.Instance.IsCoroutine = true;
+            yield return new WaitForSeconds(chargeTime);
+                
+            if (bar.value >= 1.0f)
+            {
+                Debug.Log("end Enum");
+                isOnceCharge = false;
+                OnceChargeTime = 0;
+                SceneManger.Instance.IsCoroutine = false;
+                bar.gameObject.SetActive(false);
+                break;
+            }
+        }
+        
+    }
 }

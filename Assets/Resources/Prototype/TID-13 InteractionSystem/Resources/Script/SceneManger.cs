@@ -7,13 +7,12 @@ public class SceneManger : MonoBehaviour
     #region Public Fields
     public static SceneManger Instance;
     public GameObject UIPrefab;
+    public bool IsCoroutine = false;
     #endregion
 
     #region Private Fields
     private List<GameObject> objList;
     private TempCharacterUI playerUI;
-    private delegate void GButton(GameObject obj, float chargeVelocity);
-    private GButton PressGButton = null;
     #endregion
 
     #region MonoBehaviour CallBacks
@@ -55,6 +54,12 @@ public class SceneManger : MonoBehaviour
         playerUI.DeactiveChargeBar();
     }
 
+    public void EnableOnceChargeBarUI(float chargeTime)
+    {
+        playerUI.ActiveFixedChargeBar(chargeTime);
+    }
+
+  
 
     #endregion
 
@@ -63,9 +68,9 @@ public class SceneManger : MonoBehaviour
 
     #region Interface Interaction
 
-   
 
-  
+
+
 
     #endregion
 }

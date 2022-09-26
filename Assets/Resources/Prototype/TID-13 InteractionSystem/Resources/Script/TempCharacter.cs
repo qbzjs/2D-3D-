@@ -37,6 +37,7 @@ public class TempCharacter : MonoBehaviour
 
     void Update()
     {
+
         ProcessInput();
     }
 
@@ -64,12 +65,13 @@ public class TempCharacter : MonoBehaviour
             if (isSetUI)
             {
                 bool isOnce;
-                other.gameObject.GetComponent<TempObject>().Interact("Exorcist", this,out isOnce);
+                other.gameObject.GetComponent<TempObject>().Interact("Doll", this,out isOnce);
             }
             else
             {
                 SceneManger sceneManger = SceneManger.Instance;
                 sceneManger.DisableInteractionUI();
+                Debug.Log("isSetUI"+ isSetUI);
                 sceneManger.EnableBarUI(other.gameObject);
                 isSetUI = true;
             }
@@ -90,6 +92,12 @@ public class TempCharacter : MonoBehaviour
     #region Private Methods
     void ProcessInput()
     {
+        if (SceneManger.Instance.IsCoroutine)
+        {
+            isInteraction = false;
+            return;
+        }
+
         if (isinteractUI)
         {
             if (Input.GetKeyDown(KeyCode.G))
@@ -108,7 +116,7 @@ public class TempCharacter : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
-            transform.Translate(transform.forward * 10.0f * Time.deltaTime);
+            transform.position += transform.forward * 10.0f * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.D))

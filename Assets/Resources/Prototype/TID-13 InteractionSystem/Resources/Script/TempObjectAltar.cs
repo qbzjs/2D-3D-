@@ -50,12 +50,12 @@ public class TempObjectAltar : TempObject
         
         if (tag == "Exorcist")
         {
-            ChargeInteract(-5.0f);
+            ChargeInteract(5.0f);
             isOncebehave = true;
         }
         else if (tag == "Doll")
         {
-            ChargeInteract(character.ChargeVelocity);
+            ChargeInteract(character);
             isOncebehave = false;
         }
 
@@ -67,9 +67,9 @@ public class TempObjectAltar : TempObject
         chargeValue += character.ChargeVelocity * Time.deltaTime;
     }
 
-    public override void ChargeInteract(float chargeVelocity)
+    public override void ChargeInteract(float chargeTime)
     {
-        chargeValue += chargeVelocity * Time.deltaTime;
+        SceneManger.Instance.EnableOnceChargeBarUI(chargeTime);
     }
 
     public override void ImmediateInteract(TempCharacter character)
