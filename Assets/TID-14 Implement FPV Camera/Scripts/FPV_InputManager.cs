@@ -51,7 +51,10 @@ public class FPV_InputManager : MonoBehaviour
     {
         return PlayerControl.Player.Move.ReadValue<Vector2>();
     }
-    
+    public Vector2 GetPlayerLook()
+    {
+        return PlayerControl.Player.Look.ReadValue<Vector2>();
+    }
     #endregion
 
     #region Private Methods
