@@ -2,32 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TempCharacter : MonoBehaviour
+public class TempExorcist : TempCharacter
 {
-
     #region Public Fields
-    public float ChargeVelocity
-    {
-        get { return chargeVelocity; }
-    }
-    #endregion
+    #endregion	
 
     #region Private Fields
-
-    #endregion
-
-    #region Protected Fields
-    [SerializeField]
-    protected float chargeVelocity = 2.0f;
-
-    protected Rigidbody rigidbody;
-
-
-    protected bool isInteraction = false;
-    protected bool isinteractUI = false;
-    protected bool isSetUI = false;
-    #endregion
-
+    #endregion	
 
     #region MonoBehaviour CallBacks
     void Start()
@@ -46,10 +27,7 @@ public class TempCharacter : MonoBehaviour
         if (Vector3.Angle(other.transform.position - this.transform.position, this.transform.forward) < 30.0f)
         {
             isinteractUI = true;
-            if (!isSetUI)
-            { 
-                SceneManger.Instance.EnableInteractionUI();
-            }
+            SceneManger.Instance.EnableInteractionUI();
         }
         else
         {
@@ -58,13 +36,12 @@ public class TempCharacter : MonoBehaviour
             return;
         }
 
-       
+
         if (isInteraction)
         {
             if (isSetUI)
             {
-                bool isOnce;
-                other.gameObject.GetComponent<TempObject>().Interact("Exorcist", this,out isOnce);
+
             }
             else
             {
@@ -76,9 +53,8 @@ public class TempCharacter : MonoBehaviour
         }
         else
         {
-            
-            SceneManger.Instance.EnableInteractionUI();
             SceneManger.Instance.DisableBarUI();
+            SceneManger.Instance.EnableInteractionUI();
             isSetUI = false;
         }
     }
@@ -124,9 +100,6 @@ public class TempCharacter : MonoBehaviour
 
 
     }
-    #endregion
-
-  
-    
+    #endregion	
 
 }

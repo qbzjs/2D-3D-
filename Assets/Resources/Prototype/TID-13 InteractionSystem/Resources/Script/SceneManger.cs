@@ -12,6 +12,8 @@ public class SceneManger : MonoBehaviour
     #region Private Fields
     private List<GameObject> objList;
     private TempCharacterUI playerUI;
+    private delegate void GButton(GameObject obj, float chargeVelocity);
+    private GButton PressGButton = null;
     #endregion
 
     #region MonoBehaviour CallBacks
@@ -33,18 +35,37 @@ public class SceneManger : MonoBehaviour
     #endregion	
 
     #region Public Methods
-    public void EnableGButton()
+    public void EnableInteractionUI()
     {
-        playerUI.NotificationGButtonText.gameObject.SetActive(true);
+        playerUI.ActiveInteractionText();
     }
 
-    public void DisableGButton()
+    public void DisableInteractionUI()
     {
-        playerUI.NotificationGButtonText.gameObject.SetActive(false);
+        playerUI.DeactiveInteractionText();
     }
-    #endregion	
+
+    public void EnableBarUI(GameObject obj)
+    {
+        playerUI.ActiveChargeBar(obj);   
+    }
+
+    public void DisableBarUI()
+    {
+        playerUI.DeactiveChargeBar();
+    }
+
+
+    #endregion
 
     #region Private Methods
-    #endregion	
+    #endregion
 
+    #region Interface Interaction
+
+   
+
+  
+
+    #endregion
 }
