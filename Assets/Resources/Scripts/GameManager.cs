@@ -52,8 +52,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public string nextSceneName;
+    public string NextSceneName;
     public PlayerData PlayerGameData;
+    public readonly byte MaxPlayerCount = 5;
     #endregion
 
 
@@ -79,13 +80,13 @@ public class GameManager : MonoBehaviour
     #region Public Methods
     public void LoadScene(string sceneName)
     {
-        nextSceneName = sceneName;
+        NextSceneName = sceneName;
         SceneManager.LoadScene( LoadingSceneName );
     }
 
     public void LoadPhotonScene( string sceneName )
     {
-        nextSceneName = sceneName;
+        NextSceneName = sceneName;
         PhotonNetwork.LoadLevel( LoadingSceneName );   
     }
 

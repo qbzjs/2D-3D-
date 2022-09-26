@@ -26,7 +26,7 @@ public class LoadScene : MonoBehaviour
     #region MonoBehaviour Callbacks
     private void Start()
     {
-        StartCoroutine( LoadingNextScene( GameManager.Instance.nextSceneName ) );
+        StartCoroutine( LoadingNextScene( GameManager.Instance.NextSceneName ) );
     }
     private void Update()
     {

@@ -4,7 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class LobbyUI_Manager : MonoBehaviour
+using Photon.Pun;
+using Photon.Realtime;
+
+public class LobbyUI_Manager : MonoBehaviourPunCallbacks
 {
 
     #region Public Fields
@@ -20,7 +23,7 @@ public class LobbyUI_Manager : MonoBehaviour
     [SerializeField]
     Canvas customRoomLobbyCanvas;
 
-    [Header( "MainLobby Buttons Panel" )]
+    [Header( "MainLobby Buttons UI" )]
     [SerializeField]
     GameObject mainLobbyButtons;
     [SerializeField]
@@ -28,13 +31,37 @@ public class LobbyUI_Manager : MonoBehaviour
     [SerializeField]
     GameObject quickMatchButtons;
 
-    [Header( "Character Select" )]
+    [Header( "Character Select UI" )]
     [SerializeField]
     TextMeshProUGUI roleText;
+
+    [Header( "Matching UI" )]
+    [SerializeField]
+    private string loadSceneName = "02_MainGameScene";
+    [SerializeField]
+    private TextMeshProUGUI userCntTMP;
+    [SerializeField]
+    private Sprite refPlayerOnSprite;
+    [SerializeField]
+    private Sprite refPlayerOffSprite;
+    [SerializeField]
+    private Image[] playerLoadImgs;
+    [SerializeField]
+    private GameObject cancleButtonObj;
+    [SerializeField]
+    private GameObject skipButtonObj;
+
+    [Header( "CustomRoom UI" )]
+    [SerializeField]
+    TextMeshProUGUI customRoomTypeTMP;
+    [SerializeField]
+    TextMeshProUGUI actionButtonTMP;
     #endregion
 
 
     #region Private Fields
+    int curPlayerCnt = 0;
+    bool isJoinedRoom = false;
     #endregion
 
 
@@ -48,14 +75,55 @@ public class LobbyUI_Manager : MonoBehaviour
     }
     private void Update()
     {
-        if ( Input.GetKeyDown( KeyCode.Alpha1 ) )
+        if(isJoinedRoom)
         {
-            mainLobbyCanvas.enabled = true;
+            curPlayerCnt = PhotonNetwork.CurrentRoom.PlayerCount;
+            ChangePlayerImage();
+            ChangePlayerCountText();
+
+            if ( curPlayerCnt == 5 )
+            {
+                LoadRoomScene();
+            }
+
+            if(PhotonNetwork.IsMasterClient)
+            {
+                if(skipButtonObj.activeInHierarchy==false)
+                {
+                    skipButtonObj.SetActive( true );
+                }
+            }
         }
-        if ( Input.GetKeyDown( KeyCode.Alpha2 ) )
-        {
-            mainLobbyCanvas.enabled = false;
-        }
+    }
+    #endregion
+
+
+    #region MonoBehaviourPun Callbacks
+    public override void OnJoinRandomFailed( short returnCode, string message )
+    {
+        base.OnJoinRandomFailed( returnCode, message );
+        Debug.Log( "OnJoinRandomFailed Called " + message );
+        PhotonNetwork.CreateRoom( CreateRandomRoomName(), new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
+    }
+    public override void OnCreatedRoom()
+    {
+        Debug.Log( $"OnCreatedRoom Called, Room Name: {PhotonNetwork.CurrentRoom.Name}" );
+    }
+    public override void OnCreateRoomFailed( short returnCode, string message )
+    {
+        base.OnCreateRoomFailed( returnCode, message );
+        Debug.Log( "OnCreateRoomFailed Called " + message );
+    }
+    public override void OnJoinedRoom()
+    {
+        Debug.Log( "OnJoindRoom Called" );
+        EnableMatchingCanvas();
+        isJoinedRoom = true;
+    }
+    public override void OnJoinRoomFailed( short returnCode, string message )
+    {
+        base.OnJoinRoomFailed( returnCode, message );
+        Debug.Log( "OnJoinRoomFailed Called " + message );
     }
     #endregion
 
@@ -71,6 +139,11 @@ public class LobbyUI_Manager : MonoBehaviour
 
 
     #region Private Methods
+    void LoadRoomScene()
+    {
+        cancleButtonObj.SetActive( false );
+        GameManager.Instance.LoadPhotonScene( "03_RoomScene" );
+    }
     void EnableCanvasObjects()
     {
         mainLobbyCanvas.gameObject.SetActive( true );
@@ -93,6 +166,17 @@ public class LobbyUI_Manager : MonoBehaviour
         playButtons.SetActive( false );
         quickMatchButtons.SetActive( false );
     }
+    void ChangePlayerImage()
+    {
+        for ( int i = 0; i < curPlayerCnt; ++i )
+        {
+            playerLoadImgs[i].sprite = refPlayerOnSprite;
+        }
+        for ( int i = curPlayerCnt; i < GameManager.Instance.MaxPlayerCount; ++i )
+        {
+            playerLoadImgs[i].sprite = refPlayerOffSprite;
+        }
+    }
 
     void EnableMainButtonsPanel()
     {
@@ -114,7 +198,47 @@ public class LobbyUI_Manager : MonoBehaviour
         DisableCanvasesAll();
         mainLobbyCanvas.enabled = true;
     }
+    void EnableMatchingCanvas()
+    {
+        DisableCanvasesAll();
+        matchingCanvas.enabled = true;
+    }
+    void EnableCustomRoomCanvas()
+    {
+        DisableCanvasesAll();
+        customRoomCanvas.enabled = true;
+    }
+    void EnableCustomRoomLobbyCanvas()
+    {
+        DisableCanvasesAll();
+        customRoomLobbyCanvas.enabled = true;
+    }
 
+    void ChangePlayerCountText()
+    {
+        userCntTMP.text = $"{curPlayerCnt} / {GameManager.Instance.MaxPlayerCount}";
+    }
+    string CreateRandomRoomName()
+    {
+        return $"RandomRoom{PhotonNetwork.CountOfRooms + 1}";
+    }
+    void OnMatchingStartButton()
+    {
+        PhotonNetwork.JoinRandomRoom();
+    }
+    void OnMatchingCancleButton()
+    {
+        PhotonNetwork.LeaveRoom();
+        isJoinedRoom = false;
+        EnableMainLobbyCanvas();
+    }
     #endregion
 
+
+    #region Debug Only
+    void OnSkipButtonClicked()
+    {
+        LoadRoomScene();
+    }
+    #endregion
 }

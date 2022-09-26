@@ -21,7 +21,7 @@ public class LoadSceneNetwork : MonoBehaviour
     {
         //StartCoroutine( LoadingNextScene( GameManager.Instance.nextSceneName ) );
 
-        PhotonNetwork.LoadLevel( GameManager.Instance.nextSceneName );
+        PhotonNetwork.LoadLevel( GameManager.Instance.NextSceneName );
     }
     private void Update()
     {
