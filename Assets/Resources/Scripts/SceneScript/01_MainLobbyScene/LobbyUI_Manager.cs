@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class LobbyUI_Manager : MonoBehaviour
 {
@@ -26,6 +27,10 @@ public class LobbyUI_Manager : MonoBehaviour
     GameObject playButtons;
     [SerializeField]
     GameObject quickMatchButtons;
+
+    [Header( "Character Select" )]
+    [SerializeField]
+    TextMeshProUGUI roleText;
     #endregion
 
 
@@ -56,6 +61,12 @@ public class LobbyUI_Manager : MonoBehaviour
 
 
     #region Public Methods
+    public void EnableCharacterSelectCanvas( string roleName )
+    {
+        DisableCanvasesAll();
+        characterSelectCanvas.enabled = true;
+        roleText.text = roleName;
+    }
     #endregion
 
 
@@ -98,6 +109,12 @@ public class LobbyUI_Manager : MonoBehaviour
         DisableMainLobbyPanelAll();
         quickMatchButtons.SetActive( true );
     }
+    void EnableMainLobbyCanvas()
+    {
+        DisableCanvasesAll();
+        mainLobbyCanvas.enabled = true;
+    }
+
     #endregion
 
 }
