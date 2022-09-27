@@ -28,8 +28,21 @@ public class TempObject : MonoBehaviour
     #region Public Methods  
     virtual public void Interact(string tag,TempCharacter character,out bool isOnce )
     {
+        bool isOncebehave = false;
 
-        isOnce = true;
+        if (tag == "Exorcist")
+        {
+            OnceChargeInteract(2.0f);
+            isOncebehave = true;
+        }
+        else if (tag == "Doll")
+        {
+            ChargeInteract(character);
+            isOncebehave = false;
+        }
+
+        isOnce = isOncebehave;
+
     }
 
 
