@@ -74,6 +74,9 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
         DisableCanvasesAll();
         mainLobbyCanvas.enabled = true;
         EnableMainButtonsPanel();
+
+        // Deubg
+        skipButtonObj.SetActive( false );
     }
     private void Update()
     {
