@@ -16,7 +16,7 @@ public class PlayerInputManager : MonoBehaviour
     #region MonoBehaviour Callbacks
     void Awake()
     {
-        if (_instance == null && this != _instance)
+        if (_instance != null && this != _instance)
         {
             Destroy(this.gameObject);
         }
