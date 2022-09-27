@@ -32,6 +32,7 @@ public class TempCharacter : MonoBehaviour
     #region MonoBehaviour CallBacks
     void Start()
     {
+
         rigidbody = GetComponent<Rigidbody>();
     }
 
@@ -43,12 +44,15 @@ public class TempCharacter : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        TempObject obj = other.GetComponent<TempObject>();
 
-        if (Vector3.Angle(other.transform.position - this.transform.position, this.transform.forward) < 30.0f)
+        
+        if (Vector3.Angle(obj.transform.position - this.transform.position, this.transform.forward) < 30.0f
+            && obj.triggerActiveToDoll)
         {
             isinteractUI = true;
             if (!isSetUI)
-            { 
+            {
                 SceneManger.Instance.EnableInteractionUI();
             }
         }
@@ -56,34 +60,37 @@ public class TempCharacter : MonoBehaviour
         {
             isinteractUI = false;
             SceneManger.Instance.DisableInteractionUI();
+            SceneManger.Instance.DisableBarUI();
             return;
         }
-
-       
+        
+        
         if (isInteraction)
         {
             if (isSetUI)
             {
                 bool isOnce;
-                other.gameObject.GetComponent<TempObject>().Interact("Exorcist", this,out isOnce);
+                obj.Interact("Doll", this, out isOnce);
 
             }
             else
             {
                 SceneManger sceneManger = SceneManger.Instance;
                 sceneManger.DisableInteractionUI();
-                Debug.Log("isSetUI"+ isSetUI);
+                Debug.Log("isSetUI" + isSetUI);
                 sceneManger.EnableBarUI(other.gameObject);
                 isSetUI = true;
             }
         }
         else
         {
-            
+
             SceneManger.Instance.EnableInteractionUI();
             SceneManger.Instance.DisableBarUI();
             isSetUI = false;
         }
+        
+        
     }
     #endregion
 
@@ -99,21 +106,20 @@ public class TempCharacter : MonoBehaviour
             return;
         }
 
-        if (isinteractUI)
+        
+        if (Input.GetKeyDown(KeyCode.G)&& isinteractUI)
         {
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                isInteraction = true;
-            }
-            if (Input.GetKey(KeyCode.G))
-            {
-                return;
-            }
-            if (Input.GetKeyUp(KeyCode.G))
-            {
-                isInteraction = false;
-            }
+            isInteraction = true;
         }
+        if (Input.GetKey(KeyCode.G) && isinteractUI)
+        {
+            return;
+        }
+        if (Input.GetKeyUp(KeyCode.G))
+        {
+            isInteraction = false;
+        }
+        
 
         if (Input.GetKey(KeyCode.W))
         {

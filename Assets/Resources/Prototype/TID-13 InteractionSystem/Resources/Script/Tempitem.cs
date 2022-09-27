@@ -47,6 +47,7 @@ public class Tempitem : TempObject
         // 플레이어 소지품에 자기자신을 추가하는 코드 ex) Doll.PushList(this.name)
         this.gameObject.transform.SetParent(character.transform);
         CapsuleCollider collider = this.GetComponent<CapsuleCollider>();
+        SceneManger.Instance.DisableBarUI();
         collider.enabled = false;
     }
  

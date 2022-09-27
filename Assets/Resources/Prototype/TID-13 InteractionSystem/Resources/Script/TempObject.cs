@@ -5,7 +5,8 @@ using UnityEngine;
 public class TempObject : MonoBehaviour
 {
     #region Public Fields
-
+    public bool triggerActiveToDoll = true;
+    public bool triggerActiveToExorcist = true;
     public float GetChargeValueRate
     {
         get { return chargeValue / maxChargeValue; }
@@ -16,7 +17,6 @@ public class TempObject : MonoBehaviour
     protected float chargeValue=0;
     protected float maxChargeValue = 10.0f;
     protected float reduction = 0.5f;
-    protected bool isAltarEnable = false;
     #endregion	
 
     #region Private Fields

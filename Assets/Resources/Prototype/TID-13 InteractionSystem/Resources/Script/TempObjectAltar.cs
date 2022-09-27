@@ -8,6 +8,7 @@ public class TempObjectAltar : TempObject
     #endregion
 
     #region Private Fields
+
     #endregion	
 
     #region MonoBehaviour CallBacks
@@ -19,13 +20,13 @@ public class TempObjectAltar : TempObject
     void Update()
     {
         
-        if (GetChargeValueRate >= 1.0f)
+        if (GetChargeValueRate >= 1.0f&&triggerActiveToDoll)
         {
-            isAltarEnable = true;
-           
+            triggerActiveToDoll = false;
+            triggerActiveToExorcist = false;
         }
 
-        if (!isAltarEnable)
+        if (triggerActiveToDoll)
         { 
                 
             if (chargeValue > 0)
