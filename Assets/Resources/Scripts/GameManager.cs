@@ -3,41 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using DEM;
+
 using Photon.Pun;
 
 public class GameManager : MonoBehaviour
 {
-    #region Inner Class
-
-    public enum Faction
-    {
-        Exocist,
-        Evil
-    }
-    public enum ExocistType
-    {
-        ExA,
-        ExB,
-        ExC,
-        Count
-    }
-    public enum EvilType
-    {
-        EvA,
-        EvB,
-        EvC,
-        Count
-    }
-
-    public struct PlayerData
-    {
-        public Faction faction;
-        public bool isExocist;
-        public ExocistType exocistType;
-        public EvilType evilType;
-    }
-    #endregion
-
     #region Public Fields
     public static GameManager Instance
     {
@@ -52,13 +23,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public string nextSceneName;
-    public PlayerData PlayerGameData;
+    public string NextSceneName;
+    public readonly byte MaxPlayerCount = 5;
+    public PlayerData Data;
     #endregion
 
 
     #region Private Fields
     const string LoadingSceneName = "LoadingScene";
+    const string LoadingNetworkSceneName = "LoadingNetworkScene";
 
     static GameManager instance;
     #endregion
@@ -71,7 +44,6 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-	
     }
     #endregion
 
@@ -79,26 +51,14 @@ public class GameManager : MonoBehaviour
     #region Public Methods
     public void LoadScene(string sceneName)
     {
-        nextSceneName = sceneName;
+        NextSceneName = sceneName;
         SceneManager.LoadScene( LoadingSceneName );
     }
 
     public void LoadPhotonScene( string sceneName )
     {
-        nextSceneName = sceneName;
-        PhotonNetwork.LoadLevel( LoadingSceneName );   
-    }
-
-    public void InputPlayerFaction(bool isCreatedRoom)
-    {
-        if ( isCreatedRoom )
-        {
-            PlayerGameData.faction = Faction.Exocist;
-        }
-        else if ( PlayerGameData.faction != Faction.Exocist)
-        {
-            PlayerGameData.faction = Faction.Evil;
-        }
+        NextSceneName = sceneName;
+        PhotonNetwork.LoadLevel( LoadingNetworkSceneName );   
     }
 
     #endregion
