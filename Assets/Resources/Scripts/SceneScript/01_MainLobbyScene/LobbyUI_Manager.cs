@@ -7,6 +7,8 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 
+using DEM;
+
 public class LobbyUI_Manager : MonoBehaviourPunCallbacks
 {
 
@@ -103,7 +105,7 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
     {
         base.OnJoinRandomFailed( returnCode, message );
         Debug.Log( "OnJoinRandomFailed Called " + message );
-        PhotonNetwork.CreateRoom( CreateRandomRoomName(), new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
+        // Need To Implement fail to Join popup message
     }
     public override void OnCreatedRoom()
     {
@@ -134,6 +136,25 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
         DisableCanvasesAll();
         characterSelectCanvas.enabled = true;
         roleText.text = roleName;
+
+        switch (roleName)
+        {
+            case "Doll":
+            {
+                GameManager.Instance.Data.ChangeRole( RoleType.Doll );
+            }
+            break;
+            case "Exorcist":
+            {
+                GameManager.Instance.Data.ChangeRole( RoleType.Exorcist );
+            }
+            break;
+            default:
+            {
+                GameManager.Instance.Data.ChangeRole( RoleType.Null );
+            }
+            break;
+        }
     }
     #endregion
 
@@ -224,7 +245,24 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
     }
     void OnMatchingStartButton()
     {
-        PhotonNetwork.JoinRandomRoom();
+        switch(GameManager.Instance.Data.Role)
+        {
+            case RoleType.Doll:
+            {
+                PhotonNetwork.JoinRandomRoom();
+            }
+            break;
+            case RoleType.Exorcist:
+            {
+                PhotonNetwork.CreateRoom( CreateRandomRoomName(), new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
+            }
+            break;
+            default:
+            {
+                Debug.LogError( "LobbyUI_Manager: No Player Role Set, Role is Null." );
+            }
+            break;
+        }
     }
     void OnMatchingCancleButton()
     {

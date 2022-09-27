@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using DEM;
+
 using Photon.Pun;
 
 public class GameManager : MonoBehaviour
@@ -23,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     public string NextSceneName;
     public readonly byte MaxPlayerCount = 5;
+    public PlayerData Data;
     #endregion
 
 
@@ -40,7 +43,6 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-	
     }
     #endregion
 
