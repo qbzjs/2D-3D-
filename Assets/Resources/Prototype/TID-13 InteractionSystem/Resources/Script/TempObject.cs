@@ -35,22 +35,22 @@ public class TempObject : MonoBehaviour
 
     virtual public void ChargeInteract(TempCharacter character)
     {
-        return;
+        chargeValue += character.ChargeVelocity * Time.deltaTime;
     }
 
     virtual public void ChargeInteract(float chargeVelocity)
     {
-        return;
+        chargeValue += chargeVelocity * Time.deltaTime;
     }
 
-    virtual public void OnceChargeInteract(float chargTime)
+    virtual public void OnceChargeInteract(float chargeTime)
     {
-        return;
+        SceneManger.Instance.EnableOnceChargeBarUI(chargeTime);
     }
 
     virtual public void ImmediateInteract(TempCharacter character)
     {
-        return;
+        this.gameObject.transform.SetParent(character.transform);
     }
 
 
