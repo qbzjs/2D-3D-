@@ -31,7 +31,7 @@ public class PlayerInputManager : MonoBehaviour
     #region Public Methods
     public Vector2 GetPlayerMove()
     {
-        return playerControll.Player.Movement.ReadValue<Vector2>();
+        return playerControll.Player.Move.ReadValue<Vector2>();
     }
     #endregion
 
