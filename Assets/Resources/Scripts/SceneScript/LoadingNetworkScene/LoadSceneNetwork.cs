@@ -8,46 +8,60 @@ using Photon.Pun;
 public class LoadSceneNetwork : MonoBehaviour
 {
     #region Public Fields
+    [SerializeField]
     private Slider slider;
+    [SerializeField]
+    private float maxDelayTime = 2.0f;
     #endregion
 
 
     #region Private Fields
+    AsyncOperation async;
+    float delayTimer;
     #endregion
 
 
     #region MonoBehaviour Callbacks
     private void Start()
     {
-        //StartCoroutine( LoadingNextScene( GameManager.Instance.nextSceneName ) );
-
-        PhotonNetwork.LoadLevel( GameManager.Instance.NextSceneName );
+        StartCoroutine( LoadingNextScene( GameManager.Instance.NextSceneName ) );
     }
     private void Update()
     {
-        
-        slider.value = PhotonNetwork.LevelLoadingProgress;
+        DelayTime();   
     }
     #endregion
 
-    //#region IEnumerators
-    //IEnumerator LoadingNextScene( string sceneName )
-    //{
-    //    PhotonNetwork.LoadLevel( sceneName );
-    //    progress = PhotonNetwork.LevelLoadingProgress;
-    //    while ( progress < 0.9f )
-    //    {
-    //        slider.value = progress;
-    //        yield return true;
-    //    }
+    #region Private Methods
+    void DelayTime()
+    {
+        delayTimer += Time.deltaTime;
+    }
+    #endregion
 
-    //    while ( async.progress >= 0.9f )
-    //    {
-    //        slider.value = async.progress;
-    //        yield return new WaitForSeconds( 0.1f );
-   
-    //    yield return true;
-    //}
-    //#endregion
+    #region IEnumerators
+    IEnumerator LoadingNextScene( string sceneName )
+    {
+        async = PhotonNetwork.LoadLevelAsync( sceneName );
+        async.allowSceneActivation = false;
 
+        while ( async.progress < 0.9f )
+        {
+            slider.value = async.progress;
+            yield return true;
+        }
+
+        while ( async.progress >= 0.9f )
+        {
+            slider.value = async.progress;
+            yield return new WaitForSeconds( 0.1f );
+            if ( delayTimer >= maxDelayTime )
+            {
+                break;
+            }
+        }
+        async.allowSceneActivation = true;
+        yield return true;
+    }
+    #endregion
 }

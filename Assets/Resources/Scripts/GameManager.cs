@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
 
     #region Private Fields
     const string LoadingSceneName = "LoadingScene";
+    const string LoadingNetworkSceneName = "LoadingNetworkScene";
 
     static GameManager instance;
     #endregion
@@ -57,7 +58,7 @@ public class GameManager : MonoBehaviour
     public void LoadPhotonScene( string sceneName )
     {
         NextSceneName = sceneName;
-        PhotonNetwork.LoadLevel( LoadingSceneName );   
+        PhotonNetwork.LoadLevel( LoadingNetworkSceneName );   
     }
 
     #endregion
@@ -65,4 +66,6 @@ public class GameManager : MonoBehaviour
 
     #region Private Methods
     #endregion
+
+
 }
