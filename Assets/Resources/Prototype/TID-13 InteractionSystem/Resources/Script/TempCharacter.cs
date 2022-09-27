@@ -65,7 +65,8 @@ public class TempCharacter : MonoBehaviour
             if (isSetUI)
             {
                 bool isOnce;
-                other.gameObject.GetComponent<TempObject>().Interact("Doll", this,out isOnce);
+                other.gameObject.GetComponent<TempObject>().Interact("Exorcist", this,out isOnce);
+
             }
             else
             {

@@ -39,7 +39,14 @@ public class TempObject : MonoBehaviour
     }
 
     virtual public void ChargeInteract(float chargeVelocity)
-    { }
+    {
+        return;
+    }
+
+    virtual public void OnceChargeInteract(float chargTime)
+    {
+        return;
+    }
 
     virtual public void ImmediateInteract(TempCharacter character)
     {

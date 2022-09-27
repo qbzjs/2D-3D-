@@ -95,7 +95,6 @@ public class TempCharacterUI : MonoBehaviour
 
     IEnumerator OnceCharge(float chargeTime)
     {
-        Debug.Log("StartCoroutine");
         while (true)
         { 
             isOnceCharge = true;
@@ -105,7 +104,6 @@ public class TempCharacterUI : MonoBehaviour
                 
             if (bar.value >= 1.0f)
             {
-                Debug.Log("end Enum");
                 isOnceCharge = false;
                 OnceChargeTime = 0;
                 SceneManger.Instance.IsCoroutine = false;

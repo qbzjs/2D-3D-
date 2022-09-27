@@ -49,10 +49,7 @@ public class Tempitem : TempObject
         CapsuleCollider collider = this.GetComponent<CapsuleCollider>();
         collider.enabled = false;
     }
-    public void ChargeByDoll(float chargeVelocity)
-    {
-        chargeValue += chargeVelocity * Time.deltaTime;
-    }
+ 
 
     public void initialValue()
     {
