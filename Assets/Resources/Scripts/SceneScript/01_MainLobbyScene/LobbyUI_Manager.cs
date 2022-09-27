@@ -142,7 +142,7 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
     void LoadRoomScene()
     {
         cancleButtonObj.SetActive( false );
-        GameManager.Instance.LoadPhotonScene( "03_RoomScene" );
+        GameManager.Instance.LoadPhotonScene( loadSceneName  );
     }
     void EnableCanvasObjects()
     {

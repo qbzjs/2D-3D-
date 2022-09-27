@@ -7,37 +7,6 @@ using Photon.Pun;
 
 public class GameManager : MonoBehaviour
 {
-    #region Inner Class
-
-    public enum Faction
-    {
-        Exocist,
-        Evil
-    }
-    public enum ExocistType
-    {
-        ExA,
-        ExB,
-        ExC,
-        Count
-    }
-    public enum EvilType
-    {
-        EvA,
-        EvB,
-        EvC,
-        Count
-    }
-
-    public struct PlayerData
-    {
-        public Faction faction;
-        public bool isExocist;
-        public ExocistType exocistType;
-        public EvilType evilType;
-    }
-    #endregion
-
     #region Public Fields
     public static GameManager Instance
     {
@@ -53,7 +22,6 @@ public class GameManager : MonoBehaviour
     }
 
     public string NextSceneName;
-    public PlayerData PlayerGameData;
     public readonly byte MaxPlayerCount = 5;
     #endregion
 
@@ -90,23 +58,9 @@ public class GameManager : MonoBehaviour
         PhotonNetwork.LoadLevel( LoadingSceneName );   
     }
 
-    public void InputPlayerFaction(bool isCreatedRoom)
-    {
-        if ( isCreatedRoom )
-        {
-            PlayerGameData.faction = Faction.Exocist;
-        }
-        else if ( PlayerGameData.faction != Faction.Exocist)
-        {
-            PlayerGameData.faction = Faction.Evil;
-        }
-    }
-
     #endregion
 
 
     #region Private Methods
     #endregion
-
-
 }
