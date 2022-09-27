@@ -24,11 +24,22 @@ public class LoadSceneNetwork : MonoBehaviour
     #region MonoBehaviour Callbacks
     private void Start()
     {
-        StartCoroutine( LoadingNextScene( GameManager.Instance.NextSceneName ) );
+        PhotonNetwork.SetSceneActivation( false );
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine( LoadingNextScene( GameManager.Instance.NextSceneName ) );
+        }
     }
     private void Update()
     {
-        DelayTime();   
+        if ( PhotonNetwork.IsMasterClient )
+        {
+            DelayTime();
+        }
+        if(PhotonNetwork.LevelLoadingProgress > 0.9f)
+        {
+            PhotonNetwork.SetSceneActivation( true );
+        }
     }
     #endregion
 

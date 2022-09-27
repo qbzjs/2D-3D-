@@ -3129,7 +3129,10 @@ namespace Photon.Pun
             return _AsyncLevelLoadingOperation = SceneManager.LoadSceneAsync( levelName, LoadSceneMode.Single );
         }
 
-        
+        public static void SetSceneActivation(bool flag)
+        {
+            _AsyncLevelLoadingOperation.allowSceneActivation = flag;
+        }
 
         /// <summary>
         /// This operation makes Photon call your custom web-service by name (path) with the given parameters.
