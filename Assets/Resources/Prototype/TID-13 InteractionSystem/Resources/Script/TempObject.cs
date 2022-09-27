@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TempObject : MonoBehaviour
 {
-    
     #region Public Fields
 
     public float GetChargeValueRate
@@ -29,6 +28,7 @@ public class TempObject : MonoBehaviour
     #region Public Methods  
     virtual public void Interact(string tag,TempCharacter character,out bool isOnce )
     {
+
         isOnce = true;
     }
 
