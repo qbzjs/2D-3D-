@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TempObjectAltar : TempObject
+public class TempObjectAltar : InteractableObj
 {
     #region Public Fields
     #endregion
@@ -20,7 +20,7 @@ public class TempObjectAltar : TempObject
     void Update()
     {
         
-        if (GetChargeValueRate >= 1.0f&&triggerActiveToDoll)
+        if (GetChargeRate >= 1.0f&&triggerActiveToDoll)
         {
             triggerActiveToDoll = false;
             triggerActiveToExorcist = false;
@@ -29,14 +29,14 @@ public class TempObjectAltar : TempObject
         if (triggerActiveToDoll)
         { 
                 
-            if (chargeValue > 0)
+            if (curChargeValue > 0)
             {
-                chargeValue -= reduction * Time.deltaTime;
+                curChargeValue -= reduction * Time.deltaTime;
                 
             }
-            if (chargeValue < 0)
+            if (curChargeValue < 0)
             {
-                chargeValue = 0.0f;
+                curChargeValue = 0.0f;
                 
             }
         }     
@@ -45,30 +45,24 @@ public class TempObjectAltar : TempObject
 
     #region Public Methods   
 
-    public override void Interact(string tag, TempCharacter character, out bool isOnce)
+    public override void Interact(string tag, TempCharacter character)
     {
-        bool isOncebehave=false;
-        
         if (tag == "Exorcist")
         {
             OnceChargeInteract(2.0f);
-            isOncebehave = true;
         }
         else if (tag == "Doll")
         {
             ChargeInteract(character);
-            isOncebehave = false;
         }
-
-        isOnce = isOncebehave;
     }
 
-    public override void ChargeInteract(TempCharacter character)
+    protected override void ChargeInteract(TempCharacter character)
     {
-        chargeValue += character.ChargeVelocity * Time.deltaTime;
+        curChargeValue += character.ChargeVelocity * Time.deltaTime;
     }
 
-    public override void OnceChargeInteract(float chargeTime)
+    protected override void OnceChargeInteract(float chargeTime)
     {
         SceneManger.Instance.EnableOnceChargeBarUI(chargeTime);
     }
@@ -77,7 +71,7 @@ public class TempObjectAltar : TempObject
 
     public void initialValue()
     {
-        chargeValue = 0.0f;
+        curChargeValue = 0.0f;
     }
     #endregion	
 

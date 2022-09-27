@@ -44,7 +44,7 @@ public class TempCharacter : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        TempObject obj = other.GetComponent<TempObject>();
+        InteractableObj obj = other.GetComponent<InteractableObj>();
 
         
         if (Vector3.Angle(obj.transform.position - this.transform.position, this.transform.forward) < 30.0f
@@ -69,8 +69,7 @@ public class TempCharacter : MonoBehaviour
         {
             if (isSetUI)
             {
-                bool isOnce;
-                obj.Interact("Doll", this, out isOnce);
+                obj.Interact("Doll", this);
 
             }
             else

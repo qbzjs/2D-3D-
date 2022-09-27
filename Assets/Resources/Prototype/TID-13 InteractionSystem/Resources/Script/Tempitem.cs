@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tempitem : TempObject
+public class Tempitem : InteractableObj
 {
     #region Public Fields
     #endregion	
@@ -23,9 +23,8 @@ public class Tempitem : TempObject
     #endregion
 
     #region Public Methods
-    public override void Interact(string tag, TempCharacter character, out bool isOnce)
+    public override void Interact(string tag, TempCharacter character)
     {
-        bool isOncebehave = false;
         if (tag == "Exorcist")
         {
 
@@ -34,15 +33,13 @@ public class Tempitem : TempObject
         {
             ImmediateInteract(character);
         }
-
-        isOnce = isOncebehave;
     }
 
-    public override void ChargeInteract(float chargeVelocity)
+    protected override void ChargeInteract(float chargeVelocity)
     {
-        chargeValue += chargeVelocity * Time.deltaTime;
+        curChargeValue += chargeVelocity * Time.deltaTime;
     }
-    public override void ImmediateInteract(TempCharacter character)
+    protected override void ImmediateInteract(TempCharacter character)
     {
         // 플레이어 소지품에 자기자신을 추가하는 코드 ex) Doll.PushList(this.name)
         this.gameObject.transform.SetParent(character.transform);
@@ -54,7 +51,7 @@ public class Tempitem : TempObject
 
     public void initialValue()
     {
-        chargeValue = 0.0f;
+        curChargeValue = 0.0f;
     }
     #endregion	
 

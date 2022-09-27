@@ -42,7 +42,7 @@ public class TempCharacterUI : MonoBehaviour
     {
         if (obj)
         {
-            bar.value = obj.GetComponent<TempObject>().GetChargeValueRate;
+            bar.value = obj.GetComponent<InteractableObj>().GetChargeRate;
         }
 
         if (isOnceCharge)
