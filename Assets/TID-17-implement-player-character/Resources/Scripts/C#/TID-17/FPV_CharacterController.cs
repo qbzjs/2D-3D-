@@ -33,8 +33,7 @@ public class FPV_CharacterController : MonoBehaviour
     void FixedUpdate()
     {
         Movement();
-        //ControllMove();
-        //Rotation();
+        
     }
     #endregion
 
@@ -50,22 +49,6 @@ public class FPV_CharacterController : MonoBehaviour
         Vector3 moveDirection = (dir * currentInput.y + Camera.main.transform.right * currentInput.x + Vector3.up * rd.velocity.y);
         rd.velocity = moveDirection;
     }
-    private void Rotation()
-    {
-        Vector2 currentRot = FPV_InputManager.instance.GetPlayerLook() * Time.deltaTime * rotSpeed;
-        Vector3 rot = new Vector3(0.0f, currentRot.y,0.0f);
-        transform.Rotate(0.0f, rot.y, 0.0f);
-    }
-    private void ControllMove() 
-    {
-        Vector2 currentInput = FPV_InputManager.instance.GetPlayerMove() * playerSpeed;
-        Vector3 dir = new Vector3(currentInput.x, 0f, currentInput.y);
-        Vector3 move = Camera.main.transform.forward * dir.z + Camera.main.transform.right * dir.x;
-        if (move != Vector3.zero)
-        {
-            transform.forward = move;
-        }
-        rd.velocity = move;
-    }
+    
     #endregion
 }
