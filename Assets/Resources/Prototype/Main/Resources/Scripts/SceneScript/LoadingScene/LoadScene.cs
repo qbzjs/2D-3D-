@@ -7,28 +7,27 @@ public class LoadScene : MonoBehaviour
 {
     #region Public Fields
 
-    [SerializeField]
-    private Slider slider;
-    [SerializeField]
-    private float maxDelayTime = 2.0f;
-
     #endregion
 
 
-    #region Private Fields
+    #region Protected Fields
+    [SerializeField]
+    protected Slider slider;
+    [SerializeField]
+    protected float maxDelayTime = 2.0f;
 
-    AsyncOperation async;
-    float delayTimer;
+    protected AsyncOperation async;
+    protected float delayTimer;
 
     #endregion
 
 
     #region MonoBehaviour Callbacks
-    private void Start()
+    protected virtual void Start()
     {
         StartCoroutine( LoadingNextScene( GameManager.Instance.NextSceneName ) );
     }
-    private void Update()
+    protected virtual void Update()
     {
         DelayTime();
     }
@@ -39,8 +38,8 @@ public class LoadScene : MonoBehaviour
     #endregion
 
 
-    #region Private Methods
-    void DelayTime()
+    #region Protected Methods
+    protected virtual void DelayTime()
     {
         delayTimer += Time.deltaTime;
     }
@@ -48,7 +47,7 @@ public class LoadScene : MonoBehaviour
 
 
     #region IEnumerators
-    IEnumerator LoadingNextScene( string sceneName )
+    protected virtual IEnumerator LoadingNextScene( string sceneName )
     {
         async = SceneManager.LoadSceneAsync( sceneName );
         async.allowSceneActivation = false;

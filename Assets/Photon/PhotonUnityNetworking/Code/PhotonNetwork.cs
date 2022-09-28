@@ -3112,20 +3112,27 @@ namespace Photon.Pun
             _AsyncLevelLoadingOperation = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Single);
         }
 
-        public static AsyncOperation LoadLevelAsync(string levelName)
+        public static AsyncOperation LoadSceneAsync(string levelName, string roleName)
         {
             if ( PhotonHandler.AppQuits )
             {
+                Debug.Log( $"PhotonNetwork.LoadSceneAsync -{roleName}: App Quit" );
                 return null;
             }
 
             if ( PhotonNetwork.AutomaticallySyncScene )
             {
+                Debug.Log( $"PhotonNetwork.LoadSceneAsync -{roleName}: AutomaticallySyncScene is detected, try SetLevelInPropsIfSynced" );
                 SetLevelInPropsIfSynced( levelName );
+                Debug.Log( $"PhotonNetwork.LoadSceneAsync -{roleName}: SetLevelInPropsIfSynced Finished" );
             }
 
             PhotonNetwork.IsMessageQueueRunning = false;
+            Debug.Log( $"PhotonNetwork.LoadSceneAsync -{roleName}: IsMessageQueueRunning false" );
+
             loadingLevelAndPausedNetwork = true;
+            Debug.Log( $"PhotonNetwork.LoadSceneAsync -{roleName}: loadingLevelAndPausedNetwork true" );
+
             return _AsyncLevelLoadingOperation = SceneManager.LoadSceneAsync( levelName, LoadSceneMode.Single );
         }
 
