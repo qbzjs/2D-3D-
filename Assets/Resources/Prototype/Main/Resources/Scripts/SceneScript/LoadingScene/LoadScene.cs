@@ -47,7 +47,7 @@ public class LoadScene : MonoBehaviour
 
 
     #region IEnumerators
-    protected virtual IEnumerator LoadingNextScene( string sceneName )
+    public virtual IEnumerator LoadingNextScene( string sceneName )
     {
         async = SceneManager.LoadSceneAsync( sceneName );
         async.allowSceneActivation = false;
