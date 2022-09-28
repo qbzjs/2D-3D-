@@ -6,8 +6,8 @@ public class FPV_CameraController : CinemachineExtension
 {
 
     #region Public Fields
-    [SerializeField]
-    private float clampAngleX = 100.0f;
+    //[SerializeField]
+    //private float clampAngleX = 35.0f;
     [SerializeField]
     private float clampAngleY = 35.0f;
     [SerializeField]
@@ -63,7 +63,6 @@ public class FPV_CameraController : CinemachineExtension
                 state.RawOrientation = Quaternion.Euler(-startingRotation.y, startingRotation.x, 0.0f);
             }
         }
-        
     }
     #endregion
 }

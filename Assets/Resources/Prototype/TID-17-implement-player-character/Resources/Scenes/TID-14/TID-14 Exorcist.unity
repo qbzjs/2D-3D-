@@ -323,9 +323,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a42599fcbce5124294a79449f8314c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clampAngleX: 100
-  clampAngleY: 80
-  horizontalSpeed: 10.1
+  clampAngleY: 35
+  horizontalSpeed: 10
   verticalSpeed: 10
 --- !u!114 &193621525
 MonoBehaviour:
@@ -346,6 +345,18 @@ MonoBehaviour:
 --- !u!4 &658981874 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3160579518077624702, guid: f4cb235fb369c7e44af71a3ecd0e4b5b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3160579518626996876}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1020236790 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3160579518196496489, guid: f4cb235fb369c7e44af71a3ecd0e4b5b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3160579518626996876}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1162943299 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3160579518077624701, guid: f4cb235fb369c7e44af71a3ecd0e4b5b,
     type: 3}
   m_PrefabInstance: {fileID: 3160579518626996876}
   m_PrefabAsset: {fileID: 0}
@@ -777,6 +788,21 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 7be469c2794c2a94bbcfe9bf394c5686, type: 2}
+    - target: {fileID: 3160579518196496485, guid: f4cb235fb369c7e44af71a3ecd0e4b5b,
+        type: 3}
+      propertyPath: rotSpeed
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3160579518196496485, guid: f4cb235fb369c7e44af71a3ecd0e4b5b,
+        type: 3}
+      propertyPath: camTarget
+      value: 
+      objectReference: {fileID: 1162943299}
+    - target: {fileID: 3160579518196496485, guid: f4cb235fb369c7e44af71a3ecd0e4b5b,
+        type: 3}
+      propertyPath: characterModel
+      value: 
+      objectReference: {fileID: 1020236790}
     - target: {fileID: 3160579518196496489, guid: f4cb235fb369c7e44af71a3ecd0e4b5b,
         type: 3}
       propertyPath: m_Name
