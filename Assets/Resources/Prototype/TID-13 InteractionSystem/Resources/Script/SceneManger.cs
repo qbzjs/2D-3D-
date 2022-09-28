@@ -2,75 +2,79 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class SceneManger : MonoBehaviour
+
+namespace GHJ_Lib
 {
-    #region Public Fields
-    public static SceneManger Instance;
-    public GameObject UIPrefab;
-    public bool IsCoroutine = false;
-    #endregion
-
-    #region Private Fields
-    private List<GameObject> objList;
-    private TempCharacterUI playerUI;
-    #endregion
-
-    #region MonoBehaviour CallBacks
-    void Start()
+    public class SceneManger : MonoBehaviour
     {
-        Instance = this;
-        if (UIPrefab == null)
+        #region Public Fields
+        public static SceneManger Instance;
+        public GameObject UIPrefab;
+        public bool IsCoroutine = false;
+        #endregion
+
+        #region Private Fields
+        private List<GameObject> objList;
+        private InteractionUI playerUI;
+        #endregion
+
+        #region MonoBehaviour CallBacks
+        void Start()
         {
-            Debug.LogError("Missing Prefab");
+            Instance = this;
+            if (UIPrefab == null)
+            {
+                Debug.LogError("Missing Prefab");
+            }
+
+            playerUI = Instantiate(UIPrefab).GetComponent<InteractionUI>();
         }
 
-        playerUI = Instantiate(UIPrefab).GetComponent<TempCharacterUI>();
+        void Update()
+        {
+
+        }
+        #endregion
+
+        #region Public Methods
+        public void EnableInteractionText()
+        {
+            playerUI.ActiveInteractionText();
+        }
+
+        public void DisableInteractionText()
+        {
+            playerUI.DeactiveInteractionText();
+        }
+
+        public void EnableCastingBar(GameObject obj)
+        {
+            playerUI.ActiveCastingBar(obj);
+        }
+
+        public void DisableCastingBar()
+        {
+            playerUI.DeactiveCastingBar();
+        }
+
+        public void EnableAutoCastingBar(float chargeTime)
+        {
+            playerUI.ActiveAutoCastingBar(chargeTime);
+        }
+
+
+
+        #endregion
+
+        #region Private Methods
+        #endregion
+
+        #region Interface Interaction
+
+
+
+
+
+        #endregion
     }
-
-    void Update()
-    {
-        
-    }
-    #endregion	
-
-    #region Public Methods
-    public void EnableInteractionUI()
-    {
-        playerUI.ActiveInteractionText();
-    }
-
-    public void DisableInteractionUI()
-    {
-        playerUI.DeactiveInteractionText();
-    }
-
-    public void EnableBarUI(GameObject obj)
-    {
-        playerUI.ActiveChargeBar(obj);   
-    }
-
-    public void DisableBarUI()
-    {
-        playerUI.DeactiveChargeBar();
-    }
-
-    public void EnableOnceChargeBarUI(float chargeTime)
-    {
-        playerUI.ActiveFixedChargeBar(chargeTime);
-    }
-
-  
-
-    #endregion
-
-    #region Private Methods
-    #endregion
-
-    #region Interface Interaction
-
-
-
-
-
-    #endregion
 }
