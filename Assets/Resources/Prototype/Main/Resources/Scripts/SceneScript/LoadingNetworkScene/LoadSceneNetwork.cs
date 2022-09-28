@@ -40,6 +40,10 @@ public class LoadSceneNetwork : MonoBehaviour
         {
             PhotonNetwork.SetSceneActivation( true );
         }
+        else
+        {
+            PhotonNetwork.SetSceneActivation( false );
+        }
     }
     #endregion
 
