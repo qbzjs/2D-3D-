@@ -2,66 +2,73 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 using Photon.Pun;
 
-public class LoadSceneNetwork : MonoBehaviour
+public class LoadSceneNetwork : LoadScene
 {
     #region Public Fields
-    [SerializeField]
-    private Slider slider;
-    [SerializeField]
-    private float maxDelayTime = 2.0f;
     #endregion
 
 
     #region Private Fields
-    AsyncOperation async;
-    float delayTimer;
     #endregion
 
 
     #region MonoBehaviour Callbacks
-    private void Start()
+    protected override void Start()
     {
-        StartCoroutine( LoadingNextScene( GameManager.Instance.NextSceneName ) );
+        if ( PhotonNetwork.IsMasterClient )
+        {
+            //base.Start();
+            //PhotonNetwork.LoadSceneAsync( GameManager.Instance.NextSceneName );
+            Invoke( "LoadScene", maxDelayTime );
+        }
     }
-    private void Update()
+    protected override void Update()
     {
-        DelayTime();   
+        base.Update();
+
+        if(delayTimer <= maxDelayTime)
+        {
+            slider.value = delayTimer / (maxDelayTime);
+        }
     }
     #endregion
 
     #region Private Methods
-    void DelayTime()
+    void LoadScene()
     {
-        delayTimer += Time.deltaTime;
+        PhotonNetwork.LoadSceneAsync( GameManager.Instance.NextSceneName );
     }
     #endregion
 
     #region IEnumerators
-    IEnumerator LoadingNextScene( string sceneName )
-    {
-        async = PhotonNetwork.LoadLevelAsync( sceneName );
-        async.allowSceneActivation = false;
+    //public override IEnumerator LoadingNextScene( string sceneName )
+    //{
+    //    async = PhotonNetwork.LoadSceneAsync( sceneName );
+    //    PhotonNetwork.SetSceneActivation( false );
 
-        while ( async.progress < 0.9f )
-        {
-            slider.value = async.progress;
-            yield return true;
-        }
+    //    while ( async.progress < 0.9f )
+    //    {
+    //        slider.value = async.progress;
+    //        yield return true;
+    //    }
 
-        while ( async.progress >= 0.9f )
-        {
-            slider.value = async.progress;
-            yield return new WaitForSeconds( 0.1f );
-            if ( delayTimer >= maxDelayTime )
-            {
-                break;
-            }
-        }
-        async.allowSceneActivation = true;
-        yield return true;
-    }
+    //    while ( async.progress >= 0.9f )
+    //    {
+    //        slider.value = async.progress;
+    //        yield return new WaitForSeconds( 0.1f );
+    //        if ( delayTimer >= maxDelayTime )
+    //        {
+    //            break;
+    //        }
+    //    }
+    //    PhotonNetwork.SetSceneActivation( true );
+    //    yield return true;
+    //}
+
+  
     #endregion
 }

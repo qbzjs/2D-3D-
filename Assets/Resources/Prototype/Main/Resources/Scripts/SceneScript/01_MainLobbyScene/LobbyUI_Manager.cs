@@ -161,7 +161,6 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
     }
     #endregion
 
-
     #region Private Methods
     void LoadRoomScene()
     {

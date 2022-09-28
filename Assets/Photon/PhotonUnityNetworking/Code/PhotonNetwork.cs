@@ -3112,7 +3112,7 @@ namespace Photon.Pun
             _AsyncLevelLoadingOperation = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Single);
         }
 
-        public static AsyncOperation LoadLevelAsync(string levelName)
+        public static AsyncOperation LoadSceneAsync(string levelName )
         {
             if ( PhotonHandler.AppQuits )
             {
@@ -3125,11 +3125,20 @@ namespace Photon.Pun
             }
 
             PhotonNetwork.IsMessageQueueRunning = false;
+
             loadingLevelAndPausedNetwork = true;
-            return _AsyncLevelLoadingOperation = SceneManager.LoadSceneAsync( levelName, LoadSceneMode.Single );
+
+            _AsyncLevelLoadingOperation = SceneManager.LoadSceneAsync( levelName, LoadSceneMode.Single );
+            return _AsyncLevelLoadingOperation;
         }
 
-        
+        public static void SetSceneActivation(bool flag)
+        {
+            if(_AsyncLevelLoadingOperation != null)
+            {
+                _AsyncLevelLoadingOperation.allowSceneActivation = flag;
+            }
+        }
 
         /// <summary>
         /// This operation makes Photon call your custom web-service by name (path) with the given parameters.
