@@ -17,7 +17,7 @@ public class FPV_InputManager : MonoBehaviour
     #region MonoBehaviour CallBacks
     void Awake()
     {
-        if(_instance != null && _instance != this)
+        if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
         }
@@ -26,15 +26,6 @@ public class FPV_InputManager : MonoBehaviour
             _instance = this;
         }
         PlayerControl = new PlayerControlls();
-    }
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
     }
     private void OnEnable()
     {
@@ -55,6 +46,7 @@ public class FPV_InputManager : MonoBehaviour
     {
         return PlayerControl.Player.Look.ReadValue<Vector2>();
     }
+    
     #endregion
 
     #region Private Methods

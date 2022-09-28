@@ -425,7 +425,7 @@ MonoBehaviour:
   virtualCam: {fileID: 537149250}
   mouseSpeed: 1.5
   mouseAccelerationTime: 0.15
-  zoomSpeed: 3
+  zoomSpeed: 2
   zoomAccelerationTime: 0.15
   minAngleVertical: -40
   maxAngleVertical: 40
@@ -834,6 +834,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8865846720936348908, guid: cda937651025ddf469051ba670ebb09c,
+        type: 3}
+      propertyPath: rotSpeed
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 8865846720936348908, guid: cda937651025ddf469051ba670ebb09c,
+        type: 3}
+      propertyPath: walkSpeed
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cda937651025ddf469051ba670ebb09c, type: 3}
