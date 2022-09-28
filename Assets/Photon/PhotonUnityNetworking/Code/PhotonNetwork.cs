@@ -3135,7 +3135,6 @@ namespace Photon.Pun
             {
                 _AsyncLevelLoadingOperation.allowSceneActivation = flag;
             }
-            return false;
         }
 
         /// <summary>
