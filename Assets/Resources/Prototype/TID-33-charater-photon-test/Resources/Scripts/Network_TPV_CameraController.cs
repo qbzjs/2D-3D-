@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 using KSH_Lib;
 public class Network_TPV_CameraController : TPV_CameraController
 {
@@ -8,17 +9,20 @@ public class Network_TPV_CameraController : TPV_CameraController
     #endregion	
 
     #region Private Fields
+    private bool canUpdate = false;
     #endregion	
 
     #region MonoBehaviour CallBacks
     protected override void Start()
     {
-        base.Start();
+        //base.Start();
     }
-
     protected override void Update()
     {
-        base.Update();
+        if (canUpdate)
+        { 
+            base.Update();
+        }
     }
     #endregion	
 
@@ -26,6 +30,15 @@ public class Network_TPV_CameraController : TPV_CameraController
     public void SetCamTarget(GameObject cam)
     {
         camTarget = cam;
+    }
+    public void SetModeTPV()
+    {
+        virtualCam.Follow = camTarget.transform;
+        virtualCam.AddCinemachineComponent<Cinemachine3rdPersonFollow>();
+        virtualCam.AddCinemachineComponent<CinemachineSameAsFollowTarget>();
+        base.Start();
+        canUpdate = true;
+
     }
     #endregion	
 

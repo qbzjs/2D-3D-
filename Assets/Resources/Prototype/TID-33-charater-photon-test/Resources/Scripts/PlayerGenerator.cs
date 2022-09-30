@@ -24,17 +24,18 @@ namespace GHJ_Lib
         private GameObject virtualCamera;
         private FPV_CameraController camControllerFPV;
         private TPV_CameraController camControllerTPV;
+        private GameObject localPlayerObj = null;
         #endregion
 
         #region MonoBehaviour CallBacks
         private void Awake()
         {
-            camControllerFPV = virtualCamera.GetComponent<FPV_CameraController>();
+            camControllerFPV = virtualCamera.GetComponent<Network_FPV_CameraController>();
             if (!camControllerFPV)
             {
                 Debug.LogError("Missing FPV_CameraController");
             }
-            camControllerTPV = virtualCamera.GetComponent<TPV_CameraController>();
+            camControllerTPV = virtualCamera.GetComponent<Network_TPV_CameraController>();
             if (!camControllerTPV)
             {
                 Debug.LogError("Missing TPV_CameraController");
@@ -48,12 +49,17 @@ namespace GHJ_Lib
             {
                 camControllerFPV.enabled = false;
                 camControllerTPV.enabled = true;
+
+                camControllerTPV.SendMessage("SetCamTarget", localPlayerObj);
+                camControllerTPV.SendMessage("SetModeTPV");
                 InstantiateDoll();
             }
             else if (role == RoleType.Exorcist)
             {
                 camControllerFPV.enabled = true;
                 camControllerTPV.enabled = false;
+
+                camControllerFPV.SendMessage("SetModeFPV", localPlayerObj);
                 
                 InstantiateExorcist();
             }
@@ -80,7 +86,7 @@ namespace GHJ_Lib
 
                 if (hit.collider.CompareTag("Untagged"))
                 {
-                    PhotonNetwork.Instantiate("Prototype/TID-33-charater-photon-test/Resources/Prefabs/TID_33_Doll", genPos[i], Quaternion.identity, 0);
+                    localPlayerObj =PhotonNetwork.Instantiate("Prototype/TID-33-charater-photon-test/Resources/Prefabs/TID_33_Doll", genPos[i], Quaternion.identity, 0);
                     return true; ;
                 }
 
@@ -90,7 +96,8 @@ namespace GHJ_Lib
 
         private bool InstantiateExorcist()
         {
-            if (PhotonNetwork.Instantiate("Prototype/TID-33-charater-photon-test/Resources/Prefabs/TID_33_Exorcist", genPos[0], Quaternion.identity, 0))
+            localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-33-charater-photon-test/Resources/Prefabs/TID_33_Exorcist", genPos[0], Quaternion.identity, 0);
+            if (localPlayerObj)
             {
                 return true;
             }
