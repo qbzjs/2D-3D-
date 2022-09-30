@@ -49,7 +49,7 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
     [SerializeField]
     private Image[] playerLoadImgs;
     [SerializeField]
-    private GameObject cancleButtonObj;
+    private GameObject cancelButtonObj;
     [SerializeField]
     private GameObject skipButtonObj;
 
@@ -164,7 +164,7 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
     #region Private Methods
     void LoadRoomScene()
     {
-        cancleButtonObj.SetActive( false );
+        cancelButtonObj.SetActive( false );
         GameManager.Instance.LoadPhotonScene( loadSceneName  );
     }
     void EnableCanvasObjects()
@@ -266,7 +266,7 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
             break;
         }
     }
-    void OnMatchingCancleButton()
+    void OnMatchingCancelButton()
     {
         PhotonNetwork.LeaveRoom();
         isJoinedRoom = false;
