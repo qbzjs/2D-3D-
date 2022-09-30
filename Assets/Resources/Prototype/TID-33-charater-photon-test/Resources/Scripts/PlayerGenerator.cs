@@ -51,7 +51,7 @@ namespace GHJ_Lib
                 camControllerTPV.enabled = true;
 
                 InstantiateDoll();
-                camControllerTPV.SendMessage("SetCamTarget", localPlayerObj);
+                camControllerTPV.SendMessage("SetCamTarget", localPlayerObj.transform.GetChild(1).gameObject);
                 camControllerTPV.SendMessage("SetModeTPV");
             }
             else if (role == RoleType.Exorcist)
@@ -60,7 +60,7 @@ namespace GHJ_Lib
                 camControllerTPV.enabled = false;
 
                 InstantiateExorcist();
-                camControllerFPV.SendMessage("SetModeFPV", localPlayerObj);
+                camControllerFPV.SendMessage("SetModeFPV", localPlayerObj.transform.GetChild(1).gameObject);
                 
             }
         }
