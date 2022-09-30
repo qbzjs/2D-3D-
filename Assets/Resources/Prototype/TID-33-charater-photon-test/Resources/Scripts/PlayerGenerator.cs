@@ -29,7 +29,7 @@ public class PlayerGenerator : MonoBehaviour
                 Ray ray = new Ray(genPos[i] + new Vector3(0, 10, 0), Vector3.down);
                 if (!Physics.Raycast(ray))
                 {
-                    PhotonNetwork.Instantiate("Prototype/TID-33-charater-photon-test/Resources/Prefabs/TID_33_Doll", genPos[0], Quaternion.identity, 0);
+                    PhotonNetwork.Instantiate("Prototype/TID-33-charater-photon-test/Resources/Prefabs/TID_33_Doll", genPos[i], Quaternion.identity, 0);
                 }
             }
             
