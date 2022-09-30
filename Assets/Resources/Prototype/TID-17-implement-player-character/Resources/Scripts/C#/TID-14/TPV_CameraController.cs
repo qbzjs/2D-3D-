@@ -70,7 +70,7 @@ namespace KSH_Lib
         protected virtual void Update()
         {
             MouseInput();
-            //RotateCamera();
+            RotateCamera();
             ZoomCamera();
         }
         #endregion
