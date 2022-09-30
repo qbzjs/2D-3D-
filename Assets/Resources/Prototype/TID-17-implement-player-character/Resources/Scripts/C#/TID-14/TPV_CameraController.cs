@@ -11,9 +11,9 @@ namespace KSH_Lib
 
         [Header( "Object Setting" )]
         [SerializeField]
-        GameObject camTarget;
+        protected GameObject camTarget;
         [SerializeField]
-        CinemachineVirtualCamera virtualCam;
+        protected CinemachineVirtualCamera virtualCam;
 
         [Header( "Speed Setting" )]
         [SerializeField]
@@ -59,7 +59,7 @@ namespace KSH_Lib
 
 
         #region MonoBehaviour Callbacks
-        private void Start()
+        protected virtual void Start()
         {
             cmThirdPersonFollow = virtualCam.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
             if ( cmThirdPersonFollow == null )
@@ -67,7 +67,7 @@ namespace KSH_Lib
                 Debug.LogError( "Can not find Cinemachine3rdPersonFollow" );
             }
         }
-        private void Update()
+        protected virtual void Update()
         {
             MouseInput();
             RotateCamera();

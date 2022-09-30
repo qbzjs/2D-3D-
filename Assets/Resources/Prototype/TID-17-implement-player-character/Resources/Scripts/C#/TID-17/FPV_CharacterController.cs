@@ -30,6 +30,7 @@ public class FPV_CharacterController : MonoBehaviour
     }
     void FixedUpdate()
     {
+        
         Movement();
         mouseRotate();
     }

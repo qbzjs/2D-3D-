@@ -27,10 +27,9 @@ public class FPV_CameraController : CinemachineExtension
     protected override void Awake()
     {
         inputManager = FPV_InputManager.instance;
-        
         base.Awake();
     }
-    void Start()
+    protected virtual void Start()
     {
         if (startingRotation == null)
         {
