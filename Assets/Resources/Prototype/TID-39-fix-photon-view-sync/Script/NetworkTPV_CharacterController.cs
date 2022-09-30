@@ -22,8 +22,11 @@ public class NetworkTPV_CharacterController : TestPlayerController
     {
         if (photonView.IsMine)
         {
-            base.Update();
+            PlayerInput();
         }
+        SetDirection();
+        RotateToDirection();
+        MoveCharacter();
     }
     #endregion
     
