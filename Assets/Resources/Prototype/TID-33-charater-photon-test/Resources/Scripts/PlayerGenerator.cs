@@ -26,11 +26,17 @@ public class PlayerGenerator : MonoBehaviour
         {
             for (int i = 0; i < GameManager.Instance.MaxPlayerCount - 1; ++i)
             {
+                RaycastHit hit;
                 Ray ray = new Ray(genPos[i] + new Vector3(0, 10, 0), Vector3.down);
-                if (!Physics.Raycast(ray))
+                Physics.Raycast(ray, out hit);
+
+
+                if (hit.collider.CompareTag("Untagged"))
                 {
                     PhotonNetwork.Instantiate("Prototype/TID-33-charater-photon-test/Resources/Prefabs/TID_33_Doll", genPos[i], Quaternion.identity, 0);
+                    return;
                 }
+                
             }
             
         }
