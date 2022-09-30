@@ -50,18 +50,18 @@ namespace GHJ_Lib
                 camControllerFPV.enabled = false;
                 camControllerTPV.enabled = true;
 
+                InstantiateDoll();
                 camControllerTPV.SendMessage("SetCamTarget", localPlayerObj);
                 camControllerTPV.SendMessage("SetModeTPV");
-                InstantiateDoll();
             }
             else if (role == RoleType.Exorcist)
             {
                 camControllerFPV.enabled = true;
                 camControllerTPV.enabled = false;
 
+                InstantiateExorcist();
                 camControllerFPV.SendMessage("SetModeFPV", localPlayerObj);
                 
-                InstantiateExorcist();
             }
         }
 
@@ -77,7 +77,7 @@ namespace GHJ_Lib
         #region Private Methods
         private bool InstantiateDoll()
         {
-            for (int i = 0; i < GameManager.Instance.MaxPlayerCount - 1; ++i)
+            for (int i = 1; i < GameManager.Instance.MaxPlayerCount - 1; ++i)
             {
                 RaycastHit hit;
                 Ray ray = new Ray(genPos[i] + new Vector3(0, 10, 0), Vector3.down);
@@ -86,11 +86,12 @@ namespace GHJ_Lib
 
                 if (hit.collider.CompareTag("Untagged"))
                 {
-                    localPlayerObj =PhotonNetwork.Instantiate("Prototype/TID-33-charater-photon-test/Resources/Prefabs/TID_33_Doll", genPos[i], Quaternion.identity, 0);
-                    return true; ;
+                    localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-33-charater-photon-test/Resources/Prefabs/TID_33_Doll", genPos[i], Quaternion.identity, 0);
+                    return true;
                 }
 
             }
+            Debug.LogError("can't instantiate Doll character");
             return false;
         }
 
@@ -103,6 +104,7 @@ namespace GHJ_Lib
             }
             else
             {
+                Debug.LogError("can't instantiate Exorcist character");
                 return false;
             }
         }
