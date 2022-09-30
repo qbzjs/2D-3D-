@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class TestPlayerController : MonoBehaviour
+using Photon.Pun;
+using Photon.Realtime;
+public class TestPlayerController : MonoBehaviourPunCallbacks
 {
     #region Public Fields
 
@@ -63,11 +64,12 @@ public class TestPlayerController : MonoBehaviour
         }
     }
     protected virtual void Update()
-    {
+    {   
         PlayerInput();
         SetDirection();
         RotateToDirection();
         MoveCharacter();
+        
     }
     #endregion
 

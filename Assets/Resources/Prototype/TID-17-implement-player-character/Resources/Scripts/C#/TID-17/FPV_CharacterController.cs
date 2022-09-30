@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
-public class FPV_CharacterController : MonoBehaviour
+using Photon.Pun;
+using Photon.Realtime;
+public class FPV_CharacterController : MonoBehaviourPunCallbacks
 {
     #region Public Field
     [SerializeField]
@@ -18,17 +20,17 @@ public class FPV_CharacterController : MonoBehaviour
     #endregion
 
     #region MonoBehaviour Callbacks
-    private void Awake()
+    protected virtual void Awake()
     {
         rd = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-    void Start()
+    protected virtual void Start()
     {
         controller = GetComponent<CharacterController>();
     }
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         
         Movement();

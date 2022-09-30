@@ -86,7 +86,7 @@ namespace GHJ_Lib
 
                 if (hit.collider.CompareTag("Untagged"))
                 {
-                    localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-33-charater-photon-test/Resources/Prefabs/TID_33_Doll", genPos[i], Quaternion.identity, 0);
+                    localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-39-fix-photon-view-sync/Prefabs/Doll", genPos[i], Quaternion.identity, 0);
                     return true;
                 }
 
@@ -97,7 +97,7 @@ namespace GHJ_Lib
 
         private bool InstantiateExorcist()
         {
-            localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-33-charater-photon-test/Resources/Prefabs/TID_33_Exorcist", genPos[0], Quaternion.identity, 0);
+            localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-39-fix-photon-view-sync/Prefabs/Exorcist", genPos[0], Quaternion.identity, 0);
             if (localPlayerObj)
             {
                 return true;
