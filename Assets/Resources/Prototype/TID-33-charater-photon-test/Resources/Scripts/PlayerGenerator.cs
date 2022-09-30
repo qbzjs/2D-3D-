@@ -29,12 +29,12 @@ namespace GHJ_Lib
         #region MonoBehaviour CallBacks
         private void Awake()
         {
-            camControllerFPV = GetComponent<FPV_CameraController>();
+            camControllerFPV = virtualCamera.GetComponent<FPV_CameraController>();
             if (!camControllerFPV)
             {
                 Debug.LogError("Missing FPV_CameraController");
             }
-            camControllerTPV = GetComponent<TPV_CameraController>();
+            camControllerTPV = virtualCamera.GetComponent<TPV_CameraController>();
             if (!camControllerTPV)
             {
                 Debug.LogError("Missing TPV_CameraController");
@@ -54,6 +54,7 @@ namespace GHJ_Lib
             {
                 camControllerFPV.enabled = true;
                 camControllerTPV.enabled = false;
+                
                 InstantiateExorcist();
             }
         }

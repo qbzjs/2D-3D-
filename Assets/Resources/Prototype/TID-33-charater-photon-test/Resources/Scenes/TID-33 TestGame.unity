@@ -134,8 +134,8 @@ GameObject:
   - component: {fileID: 1250689789}
   - component: {fileID: 1250689788}
   - component: {fileID: 1250689787}
-  - component: {fileID: 1250689786}
   - component: {fileID: 1250689785}
+  - component: {fileID: 1250689790}
   m_Layer: 0
   m_Name: VirtualPlayerCamera
   m_TagString: Untagged
@@ -159,31 +159,6 @@ MonoBehaviour:
   AutoEnableInputs: 1
   XYAxis: {fileID: 0}
   ZAxis: {fileID: 0}
---- !u!114 &1250689786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1250689784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aafbfb129ad5b74c900353ff5419ea3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camTarget: {fileID: 0}
-  virtualCam: {fileID: 0}
-  mouseSpeed: 1.5
-  mouseAccelerationTime: 0.15
-  zoomSpeed: 3
-  zoomAccelerationTime: 0.15
-  minAngleVertical: -40
-  maxAngleVertical: 40
-  minZoomDistance: 2
-  maxZoomDistance: 5
-  InvertHorizontal: 0
-  InvertVertical: 1
-  InvertZoom: 0
 --- !u!114 &1250689787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,6 +228,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1250689790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250689784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcfcac5d8a269f146956262be3b309cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camTarget: {fileID: 0}
+  virtualCam: {fileID: 1250689788}
+  mouseSpeed: 1.5
+  mouseAccelerationTime: 0.15
+  zoomSpeed: 3
+  zoomAccelerationTime: 0.15
+  minAngleVertical: -40
+  maxAngleVertical: 40
+  minZoomDistance: 2
+  maxZoomDistance: 5
+  InvertHorizontal: 0
+  InvertVertical: 1
+  InvertZoom: 0
 --- !u!1 &1368616759
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,7 +362,7 @@ GameObject:
   - component: {fileID: 1657798641}
   - component: {fileID: 1657798644}
   - component: {fileID: 1657798643}
-  - component: {fileID: 1657798642}
+  - component: {fileID: 1657798645}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -385,28 +385,6 @@ Transform:
   m_Father: {fileID: 1250689789}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1657798642
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1657798640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 0, z: -10}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
-  m_AngularDampingMode: 0
-  m_PitchDamping: 0
-  m_YawDamping: 0
-  m_RollDamping: 0
-  m_AngularDamping: 0
 --- !u!114 &1657798643
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -446,6 +424,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1657798645
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657798640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd6043bde05a7fc4cba197d06915c1e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damping: {x: 0.1, y: 0.5, z: 0.3}
+  ShoulderOffset: {x: 0.5, y: -0.4, z: 0}
+  VerticalArmLength: 0.4
+  CameraSide: 1
+  CameraDistance: 2
+  CameraCollisionFilter:
+    serializedVersion: 2
+    m_Bits: 0
+  IgnoreTag: 
+  CameraRadius: 0.2
+  DampingIntoCollision: 0
+  DampingFromCollision: 2
 --- !u!1 &1706056868
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,6 +636,7 @@ MonoBehaviour:
   - {x: 5, y: 0, z: -5}
   - {x: -5, y: 0, z: -5}
   - {x: 5, y: 0, z: 5}
+  virtualCamera: {fileID: 1250689784}
 --- !u!4 &1907109266
 Transform:
   m_ObjectHideFlags: 0
