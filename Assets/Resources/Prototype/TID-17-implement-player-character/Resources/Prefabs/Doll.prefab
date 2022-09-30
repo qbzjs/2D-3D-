@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8865846720936348899}
   - component: {fileID: 8865846720936348909}
   - component: {fileID: 8865846720936348898}
-  - component: {fileID: 8865846720936348908}
+  - component: {fileID: 119963436}
   m_Layer: 0
   m_Name: Doll
   m_TagString: Player
@@ -53,7 +53,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.5, z: -0.1}
+  m_Center: {x: 0, y: 0.7, z: -0.1}
 --- !u!54 &8865846720936348898
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -68,9 +68,9 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 36
+  m_Constraints: 32
   m_CollisionDetection: 0
---- !u!114 &8865846720936348908
+--- !u!114 &119963436
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -79,11 +79,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8865846720936348896}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b98e3cb2a1b514c4b81cdfe1b2e78d99, type: 3}
+  m_Script: {fileID: 11500000, guid: 379aee12945e3e549b7bfe8ed636cc8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 3
-  rotSpeed: 2
+  characterObj: {fileID: 8865846720936348896}
+  characterModel: {fileID: 8865846721059509857}
+  camTarget: {fileID: 8865846721793731939}
+  rotateSpeed: 600
+  moveSpeed: 6
 --- !u!1 &8865846721793731939
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,6 +179,12 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 05ad966a6b3793d4290e515b2afb318a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19fbc6433c996574eb80fb6d445e9968, type: 3}
+--- !u!1 &8865846721059509857 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100016, guid: 19fbc6433c996574eb80fb6d445e9968,
+    type: 3}
+  m_PrefabInstance: {fileID: 8865846721059606737}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8865846721059998273 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400016, guid: 19fbc6433c996574eb80fb6d445e9968,
