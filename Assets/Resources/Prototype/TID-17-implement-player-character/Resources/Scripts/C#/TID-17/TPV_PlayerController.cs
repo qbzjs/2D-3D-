@@ -44,7 +44,7 @@ public class TPV_PlayerController : MonoBehaviour
     #region Private Methods
     private void Movement()
     {
-        Vector2 currentInput = TPV_PlayerInputManager.instance.GetTPVPlayerMove() * walkSpeed;
+        Vector2 currentInput = PlayerInputManager.instance.GetPlayerMove() * walkSpeed;
         Debug.Log(currentInput);
         Vector3 dir = new Vector3(currentInput.x, 0f, currentInput.y);
         dir = Camera.main.transform.forward * dir.z + Camera.main.transform.right * dir.x;
