@@ -25,8 +25,8 @@ public class NetworkTPV_CharacterController : TestPlayerController
             PlayerInput();
             SetDirection();
             RotateToDirection();
+            MoveCharacter();
         }
-        MoveCharacter();
     }
     #endregion
     
