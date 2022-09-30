@@ -8,13 +8,10 @@ using Photon.Realtime;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
-    #region Public Fields
+    #region Private Fields
     [SerializeField]
     private float maxDelayTime = 2.0f;
-    #endregion
 
-
-    #region Private Fields
     AsyncOperation async;
     float delayTimer;
     string gameVersion = "1.0";

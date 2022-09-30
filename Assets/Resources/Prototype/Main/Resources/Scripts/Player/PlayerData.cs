@@ -18,7 +18,7 @@ namespace DEM
         #endregion
 
 
-        #region Public Fields
+        #region Public Methods
         public void AddScore( ulong score_in )
         {
             score += score_in;
@@ -30,7 +30,7 @@ namespace DEM
         #endregion
 
 
-        #region Private Fields
+        #region Private Methods
 
         #endregion
 

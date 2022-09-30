@@ -5,20 +5,15 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class LoadScene : MonoBehaviour
 {
-    #region Public Fields
-
-    #endregion
-
-
     #region Protected Fields
     [SerializeField]
     protected Slider slider;
+
     [SerializeField]
     protected float maxDelayTime = 2.0f;
 
     protected AsyncOperation async;
     protected float delayTimer;
-
     #endregion
 
 
@@ -39,7 +34,7 @@ public class LoadScene : MonoBehaviour
 
 
     #region Protected Methods
-    protected virtual void DelayTime()
+    void DelayTime()
     {
         delayTimer += Time.deltaTime;
     }
@@ -47,7 +42,7 @@ public class LoadScene : MonoBehaviour
 
 
     #region IEnumerators
-    public virtual IEnumerator LoadingNextScene( string sceneName )
+    IEnumerator LoadingNextScene( string sceneName )
     {
         async = SceneManager.LoadSceneAsync( sceneName );
         async.allowSceneActivation = false;

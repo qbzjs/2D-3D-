@@ -714,7 +714,7 @@ MonoBehaviour:
   - {fileID: 3318612789891555257}
   - {fileID: 3318612789891555256}
   - {fileID: 3318612789891555255}
-  cancleButtonObj: {fileID: 3318612789891555254}
+  cancelButtonObj: {fileID: 0}
   skipButtonObj: {fileID: 1767312898}
   customRoomTypeTMP: {fileID: 0}
   actionButtonTMP: {fileID: 0}
@@ -2122,7 +2122,7 @@ PrefabInstance:
     - target: {fileID: 3318612788768654032, guid: a76fa38dc54c4784d889a58dead772ff,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: OnMatchingCancleButton
+      value: OnMatchingCancelButton
       objectReference: {fileID: 0}
     - target: {fileID: 3318612788768654033, guid: a76fa38dc54c4784d889a58dead772ff,
         type: 3}
@@ -2351,12 +2351,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a76fa38dc54c4784d889a58dead772ff, type: 3}
---- !u!1 &3318612789891555254 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3318612788768654038, guid: a76fa38dc54c4784d889a58dead772ff,
-    type: 3}
-  m_PrefabInstance: {fileID: 3318612789891555253}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3318612789891555255 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3318612789593401027, guid: a76fa38dc54c4784d889a58dead772ff,
