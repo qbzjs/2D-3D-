@@ -17,6 +17,7 @@ public class FPV_CharacterController : MonoBehaviourPunCallbacks
     Rigidbody rd;
     private CharacterController controller;
     private Vector2 turn;
+    private Animator animator;
     #endregion
 
     #region MonoBehaviour Callbacks
@@ -29,10 +30,11 @@ public class FPV_CharacterController : MonoBehaviourPunCallbacks
     protected virtual void Start()
     {
         controller = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
     }
     protected virtual void FixedUpdate()
     {
-        
+        animator.SetFloat("MoveSpeed", controller.velocity.magnitude);
         Movement();
         mouseRotate();
     }
