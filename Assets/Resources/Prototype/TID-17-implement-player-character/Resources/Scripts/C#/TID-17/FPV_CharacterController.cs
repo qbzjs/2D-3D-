@@ -34,7 +34,7 @@ public class FPV_CharacterController : MonoBehaviourPunCallbacks
     }
     protected virtual void FixedUpdate()
     {
-        animator.SetFloat("MoveSpeed", controller.velocity.magnitude);
+        
         Movement();
         mouseRotate();
     }
@@ -47,11 +47,10 @@ public class FPV_CharacterController : MonoBehaviourPunCallbacks
     private void Movement()
     {
         Vector2 currentInput = FPV_InputManager.instance.GetPlayerMove() * walkSpeed;
-        Debug.Log(currentInput);
         Vector3 dir = new Vector3(currentInput.x, 0f, currentInput.y);
         dir = Camera.main.transform.forward * dir.z + Camera.main.transform.right * dir.x;
-        
         rd.velocity = dir;
+        animator.SetFloat("MoveSpeed", rd.velocity.magnitude);
     }
     private void mouseRotate()
     {

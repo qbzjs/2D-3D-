@@ -5,9 +5,11 @@ using UnityEngine;
 [System.Serializable]
 public struct ExorcistStatus
 {
-    float moveSpeed;
-    float attackSpeed;
-    int offensePower;
-    float interactionSpeed;
-    float projectileSpeed;
+    public float moveSpeed;
+    public bool isAttack;
+    public bool isSkill;
+    public float attackSpeed;
+    public int offensePower;
+    public float interactionSpeed;
+    public float projectileSpeed;
 }
