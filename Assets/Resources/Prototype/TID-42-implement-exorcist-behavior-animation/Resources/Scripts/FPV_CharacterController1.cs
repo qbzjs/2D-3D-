@@ -13,15 +13,16 @@ namespace TID42
         //[SerializeField]
         //private float walkSpeed = 3.0f;
         [SerializeField]
-        private float rotSpeed = 2.0f;
+        private float rotSpeed;
         public ExorcistStatus exorcistStatus = new ExorcistStatus();
+        public GameObject target;
         #endregion
 
         #region Private Fields
         Rigidbody rd;
         private CharacterController controller;
-        private Vector2 turn;
-        private Animator animator;
+        
+        private PFV_CharacterAnimation animator;
         #endregion
 
         #region MonoBehaviour Callbacks
@@ -34,7 +35,7 @@ namespace TID42
         protected virtual void Start()
         {
             controller = GetComponent<CharacterController>();
-            animator = GetComponent<Animator>();
+            animator = GetComponent<PFV_CharacterAnimation>();
         }
         private void Update()
         {
@@ -45,8 +46,7 @@ namespace TID42
         {
             
             Movement();
-            mouseRotate();
-            
+            Rotation();
         }
         #endregion
 
@@ -57,40 +57,42 @@ namespace TID42
         private void Movement()
         {
             Vector2 currentInput = FPV_InputManager.instance.GetPlayerMove() * exorcistStatus.moveSpeed;
-            Vector3 dir = new Vector3(currentInput.x, 0f, currentInput.y);
-            dir = Camera.main.transform.forward * dir.z + Camera.main.transform.right * dir.x;
-            rd.velocity = dir;
-            animator.SetFloat("MoveSpeed", rd.velocity.magnitude);
+            Vector3 dir = new Vector3(-Camera.main.transform.right.z, 0f,Camera.main.transform.right.x);
+            Vector3 movement = (dir * currentInput.y + Camera.main.transform.right * currentInput.x + Vector3.up * rd.velocity.y);
+            transform.rotation = Quaternion.Euler(0, target.transform.rotation.eulerAngles.y, 0);
+            rd.velocity = movement;
+            
+            animator.Move(rd.velocity.magnitude);
         }
-        private void mouseRotate()
+        private void Rotation()
         {
-            turn.x += Input.GetAxis("Mouse X") * rotSpeed;
-            turn.y += Input.GetAxis("Mouse Y") * rotSpeed;
-            this.gameObject.transform.localRotation = Quaternion.Euler(0, turn.x, 0);
+
         }
         private void Attack()
         {
             if(Input.GetKeyDown(KeyCode.Mouse0))
             {
-                Debug.Log("GetKeyDown");
                 exorcistStatus.isAttack = true;
-                animator.SetTrigger("Attack");
+                animator.Attack(exorcistStatus.isAttack);
             }
-            exorcistStatus.isAttack = false;
+            else
+            {
+                exorcistStatus.isAttack = false;
+                animator.Attack(exorcistStatus.isAttack);
+            }
         }
         private void Skill()
         {
-            if(Input.GetKey(KeyCode.F))
+            if (Input.GetKey(KeyCode.F))
             {
                 exorcistStatus.isSkill = true;
-                animator.SetBool("isSkill", exorcistStatus.isSkill);
+                animator.Skill(exorcistStatus.isSkill);
             }
             else
             {
                 exorcistStatus.isSkill = false;
-                animator.SetBool("isSkill", exorcistStatus.isSkill);
+                animator.Skill(exorcistStatus.isSkill);
             }
-            
         }
         #endregion
     }
