@@ -86,7 +86,7 @@ namespace GHJ_Lib
 
                 if (hit.collider.CompareTag("Untagged"))
                 {
-                    localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-39-fix-photon-view-sync/Prefabs/Doll", genPos[i], Quaternion.identity, 0);
+                    localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-41-implement-doll-status/Prefabs/Doll", genPos[i], Quaternion.identity, 0);
                     return true;
                 }
 

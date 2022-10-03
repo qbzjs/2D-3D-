@@ -24,9 +24,9 @@ public class TestPlayerController : MonoBehaviourPunCallbacks
 
     [Header("Character Status Setting")]
     [SerializeField]
-    float rotateSpeed = 600.0f;
+    protected float rotateSpeed = 600.0f;
     [SerializeField]
-    float moveSpeed = 6.0f;
+    protected float moveSpeed = 6.0f;
 
     #endregion
 
