@@ -39,12 +39,18 @@ namespace TID42
         }
         private void Update()
         {
-            Attack();
-            Skill();
+            if (photonView.IsMine)
+            {
+                Attack();
+                Skill();
+            }
         }
         protected virtual void FixedUpdate()
         {
-            Movement();
+            if (photonView.IsMine)
+            { 
+                Movement();
+            }
         }
         #endregion
 

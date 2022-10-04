@@ -42,12 +42,15 @@ public class Network_FPV_CameraController : FPV_CameraController
         virtualCam.AddCinemachineComponent<CinemachinePOV>();
         if (GameObject.Find("Exorcist(Clone)"))
         {
-            GameObject.Find("Exorcist(Clone)").GetComponent<FPV_CharacterController1>().target = this.gameObject;
+            GameObject Exorcist = GameObject.Find("Exorcist(Clone)");
+            virtualCam.LookAt = Exorcist.transform;
+            Exorcist.GetComponent<FPV_CharacterController1>().target = this.gameObject;
         }
         else
         {
             Debug.LogError("Missing Exorcist");
         }
+       
         base.Awake();
         base.Start();
     }

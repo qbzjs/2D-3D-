@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class PFV_CharacterAnimation : MonoBehaviour
+public class PFV_CharacterAnimation : MonoBehaviour,IPunObservable
 {
     #region Public Fields
     [SerializeField]
@@ -71,10 +73,19 @@ public class PFV_CharacterAnimation : MonoBehaviour
         }
 
     }
+
     #endregion
 
     #region Private Methods
 
 
+    #endregion
+
+    #region IPunObservable
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+     
+        
+    }
     #endregion
 }
