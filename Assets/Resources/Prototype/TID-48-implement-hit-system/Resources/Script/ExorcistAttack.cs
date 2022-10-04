@@ -55,6 +55,11 @@ namespace GHJ_Lib
             AttackArea[index].SetActive(false);
         }
 
+        public void EnableAttackFrontArea()
+        {
+            
+        }
+        
         #endregion
 
         #region Protected
