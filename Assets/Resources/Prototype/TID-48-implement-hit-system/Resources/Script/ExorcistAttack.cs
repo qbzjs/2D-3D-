@@ -9,7 +9,7 @@ namespace GHJ_Lib
     public class ExorcistAttack : FPV_CharacterController1
     {
         #region Public Fields
-        public GameObject AttackArea;
+        public GameObject[] AttackArea;
         #endregion
 
         #region Protected Fields
@@ -45,16 +45,23 @@ namespace GHJ_Lib
         #endregion
 
         #region Public Methods
+        public void EnableAttackArea(int index)
+        {
+            AttackArea[index].SetActive(true);
+        }
+
+        public void DisableAttackArea(int index)
+        {
+            AttackArea[index].SetActive(false);
+        }
+
         #endregion
 
         #region Protected
         #endregion
 
         #region Private Methods
-        private void EnableAttackArea(bool _isAttacking)
-        {
-            
-        }
+
         #endregion
 
         #region IPunObservable
