@@ -6,23 +6,9 @@ using Cinemachine;
 
 namespace KSH_Lib
 {
-    public class BaseCameraController : MonoBehaviour
+    public class CG_TPV_CameraController : MonoBehaviour
     {
-        #region Public Fields
-        public enum CamType
-        {
-            FPV,
-            TPV
-        }
-        #endregion
-
-
         #region Private Fields
-
-        /*--- Camera Option ---*/
-        [Header( "Camera Option" )]
-        [SerializeField]
-        CamType camType;
         [Header( "Object Setting" )]
         [SerializeField]
         protected GameObject camTarget;
@@ -71,60 +57,20 @@ namespace KSH_Lib
         #region MonoBehaviour Callbacks
         private void Start()
         {
-            switch(camType)
+            cm3rdPersonFollow = virtualCam.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+            if ( cm3rdPersonFollow == null )
             {
-                case CamType.FPV:
-                {
-
-                }
-                break;
-                case CamType.TPV:
-                {
-                    cm3rdPersonFollow = virtualCam.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
-                    if ( cm3rdPersonFollow == null )
-                    {
-                        Debug.LogError( "BaseCameraController: Can not find Cinemachine3rdPersonFollow" );
-                    }
-                }
-                break;
-
-                default:
-                {
-                    Debug.LogError( "BaseCameraController: Camera Type error" );
-                }
-                break;
+                Debug.LogError( "BaseCameraController: Can not find Cinemachine3rdPersonFollow" );
             }
         }
 
         private void LateUpdate()
         {
-            switch(camType)
-            {
-                case CamType.FPV:
-                { 
-
-                }
-                break;
-                case CamType.TPV:
-                {
-                    GetDataFromInputManager();
-                    SmoothInputData();
-                    RotateCamera();
-                    ZoomCamera();
-                }
-                break;
-            }
+            GetDataFromInputManager();
+            SmoothInputData();
+            RotateCamera();
+            ZoomCamera();
         }
-
-        private void OnGUI()
-        {
-            GUI.Box( new Rect( 0, 0, 150, 30 ), camAxis.ToString() );
-        }
-
-        #endregion
-
-
-        #region Public Methods
         #endregion
 
 

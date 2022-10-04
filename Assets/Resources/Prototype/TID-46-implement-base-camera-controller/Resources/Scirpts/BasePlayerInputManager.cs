@@ -23,10 +23,10 @@ namespace KSH_Lib
         #endregion
 
         #region Public Fields
+        public BasePlayerInput PlayerInput;
         #endregion
 
         #region Private Fields
-        public BasePlayerInput PlayerInput;
         #endregion
 
 
