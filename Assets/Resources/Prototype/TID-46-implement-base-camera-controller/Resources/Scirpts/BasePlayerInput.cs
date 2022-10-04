@@ -37,6 +37,15 @@ namespace KSH_Lib
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""90c79903-2873-468d-b3f1-330fe1a89945"",
+                    ""expectedControlType"": ""Delta"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -48,6 +57,17 @@ namespace KSH_Lib
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c7b0135f-4b31-4ec9-8608-5255dbda5c3c"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -131,6 +151,7 @@ namespace KSH_Lib
             // Camera
             m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
             m_Camera_Look = m_Camera.FindAction("Look", throwIfNotFound: true);
+            m_Camera_Zoom = m_Camera.FindAction("Zoom", throwIfNotFound: true);
             // Player
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
@@ -194,11 +215,13 @@ namespace KSH_Lib
         private readonly InputActionMap m_Camera;
         private ICameraActions m_CameraActionsCallbackInterface;
         private readonly InputAction m_Camera_Look;
+        private readonly InputAction m_Camera_Zoom;
         public struct CameraActions
         {
             private @BasePlayerInput m_Wrapper;
             public CameraActions(@BasePlayerInput wrapper) { m_Wrapper = wrapper; }
             public InputAction @Look => m_Wrapper.m_Camera_Look;
+            public InputAction @Zoom => m_Wrapper.m_Camera_Zoom;
             public InputActionMap Get() { return m_Wrapper.m_Camera; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -211,6 +234,9 @@ namespace KSH_Lib
                     @Look.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnLook;
                     @Look.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnLook;
                     @Look.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnLook;
+                    @Zoom.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnZoom;
+                    @Zoom.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnZoom;
+                    @Zoom.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnZoom;
                 }
                 m_Wrapper.m_CameraActionsCallbackInterface = instance;
                 if (instance != null)
@@ -218,6 +244,9 @@ namespace KSH_Lib
                     @Look.started += instance.OnLook;
                     @Look.performed += instance.OnLook;
                     @Look.canceled += instance.OnLook;
+                    @Zoom.started += instance.OnZoom;
+                    @Zoom.performed += instance.OnZoom;
+                    @Zoom.canceled += instance.OnZoom;
                 }
             }
         }
@@ -258,6 +287,7 @@ namespace KSH_Lib
         public interface ICameraActions
         {
             void OnLook(InputAction.CallbackContext context);
+            void OnZoom(InputAction.CallbackContext context);
         }
         public interface IPlayerActions
         {

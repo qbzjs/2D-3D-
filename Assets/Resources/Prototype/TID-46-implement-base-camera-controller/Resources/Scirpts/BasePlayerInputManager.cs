@@ -7,24 +7,26 @@ namespace KSH_Lib
     public class BasePlayerInputManager : MonoBehaviour
     {
         #region Singleton
-        public BasePlayerInputManager InputManager
+        public static BasePlayerInputManager Instance
         {
             get
             {
-                if ( inputManager == null )
+                if ( instance == null )
                 {
                     GameObject obj = new GameObject( "_InputManager" );
-                    inputManager = obj.AddComponent<BasePlayerInputManager>();
-                    PlayerInput = new BasePlayerInput();
+                    instance = obj.AddComponent<BasePlayerInputManager>();
                 }
-                return inputManager;
+                return instance;
             }
         }
-        BasePlayerInputManager inputManager;
+        static BasePlayerInputManager instance;
         #endregion
 
         #region Public Fields
-        public BasePlayerInput PlayerInput;
+        #endregion
+
+        #region Private Fields
+        BasePlayerInput PlayerInput = new BasePlayerInput();
         #endregion
 
 
@@ -49,6 +51,10 @@ namespace KSH_Lib
         public Vector2 GetCameraLook()
         {
             return PlayerInput.Camera.Look.ReadValue<Vector2>();
+        }
+        public float GetCameraZoom()
+        {
+            return PlayerInput.Camera.Zoom.ReadValue<float>();
         }
         #endregion
     }
