@@ -31,11 +31,11 @@ namespace KSH_Lib
 
         [Header( "Camera Speed Setting" )]
         [SerializeField]
-        float mouseSpeed = 1.5f;
+        float mouseSpeed = 0.3f;
         [SerializeField]
-        float mouseAccel = 0.15f;
+        float mouseAccel = 0.1f;
         [SerializeField]
-        float zoomSpeed = 3.0f;
+        float zoomSpeed = 0.001f;
         [SerializeField]
         float zoomAccel = 0.15f;
 
@@ -116,6 +116,11 @@ namespace KSH_Lib
             }
         }
 
+        private void OnGUI()
+        {
+            GUI.Box( new Rect( 0, 0, 150, 30 ), camAxis.ToString() );
+        }
+
         #endregion
 
 
@@ -175,7 +180,7 @@ namespace KSH_Lib
             }
             else if ( cm3rdPersonFollow.CameraDistance >= maxZoomLength )
             {
-                cm3rdPersonFollow.CameraDistance = maxZoomLengths;
+                cm3rdPersonFollow.CameraDistance = maxZoomLength;
             }
         }
         #endregion

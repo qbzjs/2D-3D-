@@ -18,7 +18,7 @@
                     "name": "Zoom",
                     "type": "PassThrough",
                     "id": "90c79903-2873-468d-b3f1-330fe1a89945",
-                    "expectedControlType": "Delta",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -37,15 +37,37 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "c7b0135f-4b31-4ec9-8608-5255dbda5c3c",
-                    "path": "<Mouse>/scroll",
+                    "name": "1D Axis",
+                    "id": "2853946c-d239-4d83-b356-fd9bf93a8dc8",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Zoom",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "85b4712f-9907-45fb-8a65-15230a45f76a",
+                    "path": "<Mouse>/scroll/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Zoom",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "373037aa-2431-4357-8492-38288737fddb",
+                    "path": "<Mouse>/scroll/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },

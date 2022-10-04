@@ -26,11 +26,15 @@ namespace KSH_Lib
         #endregion
 
         #region Private Fields
-        BasePlayerInput PlayerInput = new BasePlayerInput();
+        public BasePlayerInput PlayerInput;
         #endregion
 
 
         #region MonoBehaviour Callbacks
+        private void Awake()
+        {
+            PlayerInput = new BasePlayerInput();
+        }
         private void OnEnable()
         {
             PlayerInput.Enable();
