@@ -14,7 +14,7 @@ namespace GHJ_Lib
             get { return isMove; }
             set { isMove = value; }
         }
-        public bool IsRolle
+        public bool IsRoll
         {
             get { return isRoll; }
             set { isRoll = value; }

@@ -4,7 +4,7 @@ using UnityEngine;
 using Cinemachine;
 using Photon.Pun;
 using Photon.Realtime;
-
+using GHJ_Lib;
 namespace TID42
 {
     public class FPV_CharacterController1 : MonoBehaviourPunCallbacks,IPunObservable
@@ -21,8 +21,8 @@ namespace TID42
         #region Private Fields
         Rigidbody rd;
         private CharacterController controller;
-        
         private PFV_CharacterAnimation animator;
+        private streamVector3 sVector3;
         #endregion
 
         #region MonoBehaviour Callbacks
@@ -54,6 +54,8 @@ namespace TID42
             { 
                 Movement();
             }
+
+            animator.Move(rd.velocity.magnitude);
         }
         #endregion
 
@@ -69,16 +71,15 @@ namespace TID42
             transform.rotation = Quaternion.Euler(0, target.transform.rotation.eulerAngles.y, 0);
             rd.velocity = movement;
             
-            animator.Move(rd.velocity.magnitude);
+            
         }
         private void Attack()
         {
-            if(Input.GetKeyDown(KeyCode.Mouse0))
+            if(Input.GetKey(KeyCode.Mouse0))
             {
                 exorcistStatus.isAttack = true;
             }
-            
-            if(Input.GetKeyUp(KeyCode.Mouse0))
+            else
             {
                 exorcistStatus.isAttack = false;
             }
@@ -104,12 +105,21 @@ namespace TID42
             {
                 stream.SendNext(exorcistStatus.isSkill);
                 stream.SendNext(exorcistStatus.isAttack);
+                sVector3.x = rd.velocity.x;
+                sVector3.y = rd.velocity.y;
+                sVector3.z = rd.velocity.z;
+                stream.SendNext(sVector3);
             }
 
             if (stream.IsReading)
             {
                 this.exorcistStatus.isSkill = (bool)stream.ReceiveNext();
                 this.exorcistStatus.isAttack = (bool)stream.ReceiveNext();
+                this.sVector3.x = (float)stream.ReceiveNext();
+                this.sVector3.y = (float)stream.ReceiveNext();
+                this.sVector3.z = (float)stream.ReceiveNext();
+
+                this.rd.velocity = new Vector3(sVector3.x, sVector3.y, sVector3.z);
             }
         }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class PFV_CharacterAnimation : MonoBehaviour,IPunObservable
+public class PFV_CharacterAnimation : MonoBehaviour
 {
     #region Public Fields
     [SerializeField]
@@ -55,22 +55,11 @@ public class PFV_CharacterAnimation : MonoBehaviour,IPunObservable
     }
     public void Attack(bool isAttack)
     {
-        if(isAttack)
-        {
-            animator.SetTrigger("Attack");
-        }
+        animator.SetBool("isAttack", isAttack);
     }
     public void Skill(bool isSkill)
     {
-        if(isSkill)
-        {
-            animator.SetBool("isSkill", isSkill);
-        }
-        else
-        {
-            animator.SetBool("isSkill", isSkill);
-        }
-
+        animator.SetBool("isSkill", isSkill);
     }
 
     #endregion
@@ -80,11 +69,5 @@ public class PFV_CharacterAnimation : MonoBehaviour,IPunObservable
 
     #endregion
 
-    #region IPunObservable
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-     
-        
-    }
-    #endregion
+
 }

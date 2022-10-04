@@ -78,11 +78,11 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
 
         if(Input.GetKeyDown(KeyCode.LeftShift))
         {
-            dollAnimationController.IsRolle = true;
+            dollAnimationController.IsRoll = true;
         }
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            dollAnimationController.IsRolle = false;
+            dollAnimationController.IsRoll = false;
         }
     }
 
