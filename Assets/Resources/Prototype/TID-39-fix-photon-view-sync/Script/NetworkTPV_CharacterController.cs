@@ -7,7 +7,7 @@ using GHJ_Lib;
 public class NetworkTPV_CharacterController : TestPlayerController,IPunObservable
 {
     #region Private Fields
-    private streamVector3 sVector3;
+    protected streamVector3 sVector3;
     #endregion
 
     #region Protected Fields

@@ -13,16 +13,16 @@ namespace TID42
         //[SerializeField]
         //private float walkSpeed = 3.0f;
         [SerializeField]
-        private float rotSpeed;
+        protected float rotSpeed;
         public ExorcistStatus exorcistStatus = new ExorcistStatus();
         public GameObject target;
         #endregion
 
-        #region Private Fields
+        #region Protected Fields
         Rigidbody rd;
-        private CharacterController controller;
-        private PFV_CharacterAnimation animator;
-        private streamVector3 sVector3;
+        protected CharacterController controller;
+        protected PFV_CharacterAnimation animator;
+        protected streamVector3 sVector3;
         #endregion
 
         #region MonoBehaviour Callbacks
@@ -37,7 +37,7 @@ namespace TID42
             controller = GetComponent<CharacterController>();
             animator = GetComponent<PFV_CharacterAnimation>();
         }
-        private void Update()
+        protected virtual void Update()
         {
             if (photonView.IsMine)
             {
@@ -62,8 +62,8 @@ namespace TID42
         #region Public Methods
         #endregion
 
-        #region Private Methods
-        private void Movement()
+        #region Protected Methods
+        protected virtual void Movement()
         {
             Vector2 currentInput = FPV_InputManager.instance.GetPlayerMove() * exorcistStatus.moveSpeed;
             Vector3 dir = new Vector3(-Camera.main.transform.right.z, 0f,Camera.main.transform.right.x);
@@ -73,7 +73,7 @@ namespace TID42
             
             
         }
-        private void Attack()
+        protected virtual void Attack()
         {
             if(Input.GetKey(KeyCode.Mouse0))
             {
@@ -84,7 +84,7 @@ namespace TID42
                 exorcistStatus.isAttack = false;
             }
         }
-        private void Skill()
+        protected virtual void Skill()
         {
             if (Input.GetKey(KeyCode.F))
             {
@@ -99,7 +99,7 @@ namespace TID42
         #endregion
 
         #region IPunObservable
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             if (stream.IsWriting)
             {

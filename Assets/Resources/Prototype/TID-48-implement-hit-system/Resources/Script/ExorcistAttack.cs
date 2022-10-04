@@ -1,0 +1,75 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TID42;
+using Photon.Pun;
+
+namespace GHJ_Lib
+{ 
+    public class ExorcistAttack : FPV_CharacterController1
+    {
+        #region Public Fields
+        public GameObject AttackArea;
+        #endregion
+
+        #region Protected Fields
+        protected bool isAttacking=false;
+        #endregion
+
+
+        #region Private Fields
+
+        #endregion
+
+
+
+        #region MonoBehaviour CallBacks
+        protected override void Awake()
+        {
+            base.Awake();
+        }
+        protected override void Start()
+        {
+            base.Start();
+        }
+        protected override void Update()
+        {
+            base.Update();
+            isAttacking=animator.GetIsAttack();
+
+        }
+        protected override void FixedUpdate()
+        {
+            base.FixedUpdate();
+        }
+        #endregion
+
+        #region Public Methods
+        #endregion
+
+        #region Protected
+        #endregion
+
+        #region Private Methods
+        private void EnableAttackArea(bool _isAttacking)
+        {
+            
+        }
+        #endregion
+
+        #region IPunObservable
+        public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            base.OnPhotonSerializeView(stream, info);
+            if (stream.IsWriting)
+            {
+                stream.SendNext(isAttacking);
+            }
+            if (stream.IsReading)
+            {
+                this.isAttacking = (bool)stream.ReceiveNext();
+            }
+        }
+        #endregion
+    }
+}
