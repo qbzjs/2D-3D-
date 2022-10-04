@@ -1,20 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
-using Photon.Realtime;
 
-public class PFV_CharacterAnimation : MonoBehaviour,IPunObservable
+public class FPV_CharacterAnimation : MonoBehaviour
 {
     #region Public Fields
     [SerializeField]
     private Animator animator;
-    public static PFV_CharacterAnimation instance { get { return _instance; } }
+    public static FPV_CharacterAnimation instance { get { return _instance; } }
     #endregion
 
     #region Private Fields
-    private static PFV_CharacterAnimation _instance;
+    private static FPV_CharacterAnimation _instance;
     private Rigidbody rid;
+
     #endregion
 
     #region MonoBehaviour Callbacks
@@ -72,19 +71,10 @@ public class PFV_CharacterAnimation : MonoBehaviour,IPunObservable
         }
 
     }
-
     #endregion
 
     #region Private Methods
 
 
-    #endregion
-
-    #region IPunObservable
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-     
-        
-    }
     #endregion
 }

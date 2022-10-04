@@ -4,10 +4,10 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using GHJ_Lib;
-public class NetworkTPV_CharacterController : TestPlayerController
+public class NetworkTPV_CharacterController : TestPlayerController,IPunObservable
 {
     #region Private Fields
-
+    private streamVector3 sVector3;
     #endregion
 
     #region Protected Fields
@@ -36,9 +36,9 @@ public class NetworkTPV_CharacterController : TestPlayerController
         {
             PlayerInput();
             SetDirection();
+        }
             RotateToDirection();
             MoveCharacter();
-        }
     }
     #endregion
 
@@ -94,6 +94,30 @@ public class NetworkTPV_CharacterController : TestPlayerController
     #endregion
 
     #region Public Methods
+    #endregion
+
+    #region IPunObservable
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+
+        if (stream.IsWriting)
+        {
+            sVector3.x = direction.x;
+            sVector3.y = direction.y;
+            sVector3.z = direction.z;
+            stream.SendNext(sVector3.x);
+            stream.SendNext(sVector3.y);
+            stream.SendNext(sVector3.z);
+        }
+        if (stream.IsReading)
+        {
+            this.sVector3.x = (float)stream.ReceiveNext();
+            this.sVector3.y = (float)stream.ReceiveNext();
+            this.sVector3.z = (float)stream.ReceiveNext();
+            this.direction = new Vector3(sVector3.x, sVector3.y, sVector3.z);
+        }
+        
+    }
     #endregion
 
 }

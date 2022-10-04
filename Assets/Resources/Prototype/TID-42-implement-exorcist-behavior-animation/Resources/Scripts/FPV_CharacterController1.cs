@@ -7,7 +7,7 @@ using Photon.Realtime;
 
 namespace TID42
 {
-    public class FPV_CharacterController1 : MonoBehaviourPunCallbacks
+    public class FPV_CharacterController1 : MonoBehaviourPunCallbacks,IPunObservable
     {
         #region Public Field
         //[SerializeField]
@@ -39,14 +39,21 @@ namespace TID42
         }
         private void Update()
         {
-            Attack();
-            Skill();
+            if (photonView.IsMine)
+            {
+                Attack();
+                Skill();
+            }
+
+            animator.Attack(exorcistStatus.isAttack);
+            animator.Skill(exorcistStatus.isSkill);
         }
         protected virtual void FixedUpdate()
         {
-            
-            Movement();
-            Rotation();
+            if (photonView.IsMine)
+            { 
+                Movement();
+            }
         }
         #endregion
 
@@ -64,21 +71,16 @@ namespace TID42
             
             animator.Move(rd.velocity.magnitude);
         }
-        private void Rotation()
-        {
-
-        }
         private void Attack()
         {
             if(Input.GetKeyDown(KeyCode.Mouse0))
             {
                 exorcistStatus.isAttack = true;
-                animator.Attack(exorcistStatus.isAttack);
             }
-            else
+            
+            if(Input.GetKeyUp(KeyCode.Mouse0))
             {
                 exorcistStatus.isAttack = false;
-                animator.Attack(exorcistStatus.isAttack);
             }
         }
         private void Skill()
@@ -86,14 +88,32 @@ namespace TID42
             if (Input.GetKey(KeyCode.F))
             {
                 exorcistStatus.isSkill = true;
-                animator.Skill(exorcistStatus.isSkill);
             }
             else
             {
                 exorcistStatus.isSkill = false;
-                animator.Skill(exorcistStatus.isSkill);
             }
         }
+
         #endregion
+
+        #region IPunObservable
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+            {
+                stream.SendNext(exorcistStatus.isSkill);
+                stream.SendNext(exorcistStatus.isAttack);
+            }
+
+            if (stream.IsReading)
+            {
+                this.exorcistStatus.isSkill = (bool)stream.ReceiveNext();
+                this.exorcistStatus.isAttack = (bool)stream.ReceiveNext();
+            }
+        }
+
+        #endregion
+
     }
 }
