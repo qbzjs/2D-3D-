@@ -495,7 +495,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -639,7 +639,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -725,59 +725,12 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
---- !u!1 &3160579518073727543 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6023530114998782608, guid: 2155692c3e87c90448f4830127529e4e,
-    type: 3}
-  m_PrefabInstance: {fileID: 8668095481625583783}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3160579518073727547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3160579518073727543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d0c3ce89477a2c469849fdc19a3ec60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotSpeed: 5
-  exorcistStatus:
-    moveSpeed: 3
-    isAttack: 0
-    isSkill: 0
-    attackSpeed: 1
-    offensePower: 1
-    interactionSpeed: 1
-    projectileSpeed: 1
-  target: {fileID: 180018547}
 --- !u!4 &3160579518073727548 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6023530114998782611, guid: 2155692c3e87c90448f4830127529e4e,
     type: 3}
   m_PrefabInstance: {fileID: 8668095481625583783}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &3160579518073727551 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 8668095482253011849, guid: 2155692c3e87c90448f4830127529e4e,
-    type: 3}
-  m_PrefabInstance: {fileID: 8668095481625583783}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3160579518073727552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3160579518073727543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9eac8f54d8126634c968a68256864c9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 3160579518073727551}
 --- !u!4 &3160579518192071456 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6023530114879361927, guid: 2155692c3e87c90448f4830127529e4e,
@@ -791,15 +744,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3160579518073727547, guid: 2155692c3e87c90448f4830127529e4e,
+        type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 180018547}
     - target: {fileID: 6023530114998782608, guid: 2155692c3e87c90448f4830127529e4e,
         type: 3}
       propertyPath: m_Name
       value: Exorcist
-      objectReference: {fileID: 0}
-    - target: {fileID: 6023530114998782610, guid: 2155692c3e87c90448f4830127529e4e,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 6023530114998782611, guid: 2155692c3e87c90448f4830127529e4e,
         type: 3}
@@ -856,10 +809,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8668095482253011849, guid: 2155692c3e87c90448f4830127529e4e,
-        type: 3}
-      propertyPath: m_Avatar
-      value: 
-      objectReference: {fileID: 9000000, guid: 317a56890b5c8e74ab1d492a2c7fb608, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2155692c3e87c90448f4830127529e4e, type: 3}
