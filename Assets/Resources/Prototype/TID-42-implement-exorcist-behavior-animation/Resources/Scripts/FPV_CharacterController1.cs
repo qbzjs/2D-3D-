@@ -44,9 +44,7 @@ namespace TID42
         }
         protected virtual void FixedUpdate()
         {
-            
             Movement();
-            Rotation();
         }
         #endregion
 
@@ -63,10 +61,6 @@ namespace TID42
             rd.velocity = movement;
             
             animator.Move(rd.velocity.magnitude);
-        }
-        private void Rotation()
-        {
-
         }
         private void Attack()
         {

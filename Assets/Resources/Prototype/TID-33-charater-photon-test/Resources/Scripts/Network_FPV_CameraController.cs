@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using KSH_Lib;
-
+using TID42;
 public class Network_FPV_CameraController : FPV_CameraController
 {
     #region Private Fields
@@ -40,6 +40,14 @@ public class Network_FPV_CameraController : FPV_CameraController
         virtualCam.Follow = camTarget.transform;
         virtualCam.AddCinemachineComponent<CinemachineHardLockToTarget>();
         virtualCam.AddCinemachineComponent<CinemachinePOV>();
+        if (GameObject.Find("Exorcist(Clone)"))
+        {
+            GameObject.Find("Exorcist(Clone)").GetComponent<FPV_CharacterController1>().target = this.gameObject;
+        }
+        else
+        {
+            Debug.LogError("Missing Exorcist");
+        }
         base.Awake();
         base.Start();
     }
