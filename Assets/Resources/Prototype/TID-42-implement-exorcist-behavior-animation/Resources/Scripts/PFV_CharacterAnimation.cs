@@ -15,7 +15,6 @@ public class PFV_CharacterAnimation : MonoBehaviour,IPunObservable
     #region Private Fields
     private static PFV_CharacterAnimation _instance;
     private Rigidbody rid;
-
     #endregion
 
     #region MonoBehaviour Callbacks
