@@ -11,7 +11,7 @@ public class TPV_PlayerInputManager : MonoBehaviour
 
     #region Private Fields
     private static TPV_PlayerInputManager _instance;
-    #endregion
+    #endregion  
 
     #region MonoBehaviour Callbacks
     void Awake()

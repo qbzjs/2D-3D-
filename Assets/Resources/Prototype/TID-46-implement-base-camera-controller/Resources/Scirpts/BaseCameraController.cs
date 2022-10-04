@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace KSH_Lib
 {
-    public class CameraController : MonoBehaviour
+    public class BaseCameraController : MonoBehaviour
     {
         #region Public Fields
         #endregion

@@ -5,7 +5,7 @@ using UnityEngine;
 public class TPV_PlayerController : MonoBehaviour
 {
     #region Public Field
-    [SerializeField]
+    [SerializeField]    
     private float walkSpeed = 3.0f;
     [SerializeField]
     private float rotSpeed = 1000.0f;
