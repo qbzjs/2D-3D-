@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 103591394}
   m_Layer: 0
   m_Name: TempCharacter
-  m_TagString: Untagged
+  m_TagString: Exorcist
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a2a8087fd53294f8a0ebb44d8ae000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chargeVelocity: 1
+  castingVelocity: 2
 --- !u!54 &103591394
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -402,6 +402,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84fc3c55e57ced347b0fdc9937c2b42f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canActiveTo: 1
+  maxGauge: 10
+  reduction: 0.5
 --- !u!135 &327228086
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -689,6 +692,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00bbe24557060c64cad090d30605f008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canActiveTo: 1
+  maxGauge: 10
+  reduction: 0.5
 --- !u!1 &1442934107
 GameObject:
   m_ObjectHideFlags: 0
@@ -932,6 +938,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIPrefab: {fileID: 7652469898006950553, guid: 71c441d2640ddc044b63045f504f5e4b,
     type: 3}
+  IsCoroutine: 0
 --- !u!4 &1668655921
 Transform:
   m_ObjectHideFlags: 0
