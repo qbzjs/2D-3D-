@@ -26,6 +26,7 @@ namespace GHJ_Lib
         private DollStatus dollStatus=null;
         private bool isMove=false;
         private bool isRoll=false;
+        
         #endregion
 
         #region MonoBehaviour CallBacks
@@ -36,6 +37,7 @@ namespace GHJ_Lib
 
         void Update()
         {
+
             if (dollStatus == null)
             {
                 return;
@@ -56,6 +58,15 @@ namespace GHJ_Lib
         public void SetStatus(DollStatus dollStatus)
         {
             this.dollStatus = dollStatus;
+        }
+        public void PlayInteractAnimation()
+        {
+            animator.Play("Attack");
+        }
+
+        public void CancelInteractAnimation()
+        {
+            animator.Play("Idle_A");
         }
         #endregion
 

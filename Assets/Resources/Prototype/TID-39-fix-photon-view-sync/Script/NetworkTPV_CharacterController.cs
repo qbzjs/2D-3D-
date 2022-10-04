@@ -11,7 +11,7 @@ public class NetworkTPV_CharacterController : TestPlayerController
     #endregion
 
     #region Protected Fields
-    protected DollStatus dollStatus = null;
+    protected DollStatus dollStatus=null;
     protected DollAnimationController dollAnimationController;
     #endregion
 
@@ -48,6 +48,20 @@ public class NetworkTPV_CharacterController : TestPlayerController
     #region Protected Methods
     protected override void PlayerInput()
     {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            //interact button in 
+            dollAnimationController.PlayInteractAnimation();
+            return;
+        }
+        if (Input.GetKeyUp(KeyCode.G))
+        {
+            //interact button out
+            dollAnimationController.CancelInteractAnimation();
+            return;
+        }
+
+
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
 
@@ -59,6 +73,8 @@ public class NetworkTPV_CharacterController : TestPlayerController
         {
             dollAnimationController.IsMove = false;
         }
+
+        
 
         if(Input.GetKeyDown(KeyCode.LeftShift))
         {

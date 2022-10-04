@@ -47,7 +47,7 @@ namespace GHJ_Lib
         //질문 : 최대속도가 존재해서 움직일때 점점 빨라져서 최대속도에 다다른 후 최대속도로 움직이는가?
         //      -> 예 라면 최대속도를 조정하는방식
         //      -> 아니오 라면 속도는 따로 이동방식마다 정해져 있는지 물어보기.
-
+        // struct vs class
         #region Public Methods
         public DollStatus(DollType dollType)
         {
