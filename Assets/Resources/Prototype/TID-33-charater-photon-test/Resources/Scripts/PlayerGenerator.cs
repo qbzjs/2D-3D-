@@ -79,17 +79,12 @@ namespace GHJ_Lib
         {
             for (int i = 1; i < GameManager.Instance.MaxPlayerCount - 1; ++i)
             {
-                RaycastHit hit;
-                Ray ray = new Ray(genPos[i] + new Vector3(0, 10, 0), Vector3.down);
-                Physics.Raycast(ray, out hit);
-
-
-                if (hit.collider.CompareTag("Untagged"))
+                if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[i])
                 {
                     localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-48-implement-hit-system/Resources/Prefabs/Doll", genPos[i], Quaternion.identity, 0);
                     return true;
                 }
-
+        
             }
             Debug.LogError("can't instantiate Doll character");
             return false;
