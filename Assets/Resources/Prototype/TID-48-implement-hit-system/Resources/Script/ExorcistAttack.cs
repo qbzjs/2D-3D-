@@ -6,14 +6,16 @@ using Photon.Pun;
 
 namespace GHJ_Lib
 { 
-    public class ExorcistAttack : FPV_CharacterController1
+    public class ExorcistAttack : MonoBehaviour,IPunObservable
     {
         #region Public Fields
         public GameObject[] AttackArea;
+        public FPV_CharacterController1 FPV_characterController1;
         #endregion
 
         #region Protected Fields
         protected bool isAttacking=false;
+        protected Animator animator;
         #endregion
 
 
@@ -24,24 +26,17 @@ namespace GHJ_Lib
 
 
         #region MonoBehaviour CallBacks
-        protected override void Awake()
+        void Awake()
         {
-            base.Awake();
+            animator = GetComponent<Animator>();
+            FPV_characterController1 = GetComponent<FPV_CharacterController1>();
         }
-        protected override void Start()
+        void Update()
         {
-            base.Start();
-        }
-        protected override void Update()
-        {
-            base.Update();
-            isAttacking=animator.GetIsAttack();
+            isAttacking=GetIsAttack();
 
         }
-        protected override void FixedUpdate()
-        {
-            base.FixedUpdate();
-        }
+
         #endregion
 
         #region Public Methods
@@ -55,11 +50,37 @@ namespace GHJ_Lib
             AttackArea[index].SetActive(false);
         }
 
-        public void EnableAttackFrontArea()
+        public void EnableAttackBoxArea()
         {
-            
+            AttackArea[2].SetActive(true);
         }
-        
+
+        public void DisableAttackBoxArea()
+        {
+            AttackArea[2].SetActive(false);
+        }
+
+        public bool GetIsAttack()
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void OnTriggerStay(Collider other)
+        {
+            if (other.CompareTag("Doll"))
+            {
+                Debug.Log("Attack Doll");
+                other.GetComponent<DollHit>().HitDoll(FPV_characterController1.exorcistStatus.offensePower);
+                DisableAttackBoxArea();
+            }
+        }
         #endregion
 
         #region Protected
@@ -70,9 +91,8 @@ namespace GHJ_Lib
         #endregion
 
         #region IPunObservable
-        public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
-            base.OnPhotonSerializeView(stream, info);
             if (stream.IsWriting)
             {
                 stream.SendNext(isAttacking);

@@ -79,6 +79,10 @@ namespace GHJ_Lib
             this.moveSpeed=moveSpeed;
         }
 
+        public void HitDollHP(int Damage)
+        {
+            dollHitPoint -= Damage;
+        }
         #endregion
 
         #region Private Methods

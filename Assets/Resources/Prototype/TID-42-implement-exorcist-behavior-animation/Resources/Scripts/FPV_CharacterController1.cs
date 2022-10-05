@@ -19,7 +19,7 @@ namespace TID42
         #endregion
 
         #region Protected Fields
-        Rigidbody rd;
+        //Rigidbody rd;
         protected Vector3 moveVector;
         protected CharacterController controller;
         protected PFV_CharacterAnimation animator;
@@ -29,7 +29,7 @@ namespace TID42
         #region MonoBehaviour Callbacks
         protected virtual void Awake()
         {
-            rd = GetComponent<Rigidbody>();
+            //rd = GetComponent<Rigidbody>();
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
@@ -55,9 +55,11 @@ namespace TID42
             { 
                 Movement();
             }
-            controller.SimpleMove(moveVector);
+            controller.SimpleMove(moveVector * exorcistStatus.moveSpeed);
             animator.Move(moveVector.magnitude);
         }
+
+
         #endregion
 
         #region Public Methods
@@ -66,11 +68,11 @@ namespace TID42
         #region Protected Methods
         protected virtual void Movement()
         {
-            Vector2 currentInput = FPV_InputManager.instance.GetPlayerMove() * exorcistStatus.moveSpeed;
+            Vector2 currentInput = FPV_InputManager.instance.GetPlayerMove();
             Vector3 dir = new Vector3(-Camera.main.transform.right.z, 0f,Camera.main.transform.right.x);
-            Vector3 movement = (dir * currentInput.y + Camera.main.transform.right * currentInput.x + Vector3.up * rd.velocity.y);
+            Vector3 movement = (dir * currentInput.y + Camera.main.transform.right * currentInput.x );
             transform.rotation = Quaternion.Euler(0, target.transform.rotation.eulerAngles.y, 0);
-            moveVector = movement;
+            moveVector = movement.normalized;
             
             
         }
@@ -109,7 +111,10 @@ namespace TID42
                 sVector3.x = moveVector.x;
                 sVector3.y = moveVector.y;
                 sVector3.z = moveVector.z;
-                stream.SendNext(sVector3);
+
+                stream.SendNext(sVector3.x);
+                stream.SendNext(sVector3.y);
+                stream.SendNext(sVector3.z);
             }
 
             if (stream.IsReading)

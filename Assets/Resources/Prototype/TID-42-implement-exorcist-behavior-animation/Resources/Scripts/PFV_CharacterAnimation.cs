@@ -62,17 +62,6 @@ public class PFV_CharacterAnimation : MonoBehaviour
         animator.SetBool("isSkill", isSkill);
     }
 
-    public bool GetIsAttack()
-    {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 
     #endregion
 

@@ -94,6 +94,17 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     #endregion
 
     #region Public Methods
+    public DollStatus GetStatus()
+    {
+        if (dollStatus == null)
+        {
+            return null;
+        }
+        else
+        {
+            return dollStatus;
+        }
+    }
     #endregion
 
     #region IPunObservable
