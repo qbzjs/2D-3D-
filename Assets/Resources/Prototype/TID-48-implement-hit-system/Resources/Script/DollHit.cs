@@ -16,19 +16,19 @@ namespace GHJ_Lib
         #region MonoBehaviour CallBacks
         void Start()
         {
-            
+            dollStatus = GetComponent<NetworkTPV_CharacterController>().GetStatus();
+            if (dollStatus == null)
+            {
+                Debug.LogError("Missing Status");
+                return;
+            }
+
         }
 
         void Update()
         {
-            if (dollStatus == null)
-            {
-                Debug.LogError("Missing Status");
-                dollStatus = GetComponent<NetworkTPV_CharacterController>().GetStatus();
-                return;
-            }
-
-            Debug.Log(dollStatus.DollHitPoint);
+            
+            Debug.Log("Doll HP: " + dollStatus.DollHitPoint);
         }
 
         public void HitDoll(int offensePower)

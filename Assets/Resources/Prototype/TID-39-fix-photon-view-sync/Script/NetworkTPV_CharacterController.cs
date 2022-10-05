@@ -20,7 +20,7 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     #endregion
 
     #region MonoBehaviour CallBacks
-    protected override void Start()
+    protected void Awake()
     {
         dollStatus = new DollStatus(DollType.Rabbit);
         dollAnimationController = GetComponent<DollAnimationController>();
