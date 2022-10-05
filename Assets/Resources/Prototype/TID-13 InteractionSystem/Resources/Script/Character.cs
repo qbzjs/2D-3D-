@@ -71,7 +71,7 @@ namespace GHJ_Lib
             {
                 if (isActiveBar)
                 {
-                    obj.Interact("Doll", this);
+                    obj.Interact(gameObject.tag, this);
 
                 }
                 else

@@ -50,6 +50,7 @@ namespace GHJ_Lib
         }
         virtual protected void AutoCasting(float chargeTime)
         {
+            
             SceneManger.Instance.EnableAutoCastingBar(chargeTime);
         }
         virtual protected void Immediate(Character character)

@@ -65,6 +65,7 @@ namespace GHJ_Lib
 
         protected override void AutoCasting(float chargeTime)
         {
+            Debug.Log("AutoCasting");
             SceneManger.Instance.EnableAutoCastingBar(chargeTime);
         }
 
