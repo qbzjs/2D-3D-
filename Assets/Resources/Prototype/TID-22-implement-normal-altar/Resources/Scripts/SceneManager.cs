@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GHJ_Lib
+namespace TID22
 {
-    public class SceneManger : MonoBehaviour
+    public class SceneManager : MonoBehaviour
     {
         #region Public Fields
-        public static SceneManger Instance;
+        public static SceneManager Instance;
         public GameObject UIPrefab;
         public bool IsCoroutine = false;
         #endregion
