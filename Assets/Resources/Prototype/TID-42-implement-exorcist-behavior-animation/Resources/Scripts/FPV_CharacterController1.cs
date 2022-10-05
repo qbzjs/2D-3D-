@@ -20,6 +20,7 @@ namespace TID42
 
         #region Protected Fields
         Rigidbody rd;
+        protected Vector3 moveVector;
         protected CharacterController controller;
         protected PFV_CharacterAnimation animator;
         protected streamVector3 sVector3;
@@ -54,8 +55,8 @@ namespace TID42
             { 
                 Movement();
             }
-
-            animator.Move(rd.velocity.magnitude);
+            controller.SimpleMove(moveVector);
+            animator.Move(moveVector.magnitude);
         }
         #endregion
 
@@ -69,7 +70,7 @@ namespace TID42
             Vector3 dir = new Vector3(-Camera.main.transform.right.z, 0f,Camera.main.transform.right.x);
             Vector3 movement = (dir * currentInput.y + Camera.main.transform.right * currentInput.x + Vector3.up * rd.velocity.y);
             transform.rotation = Quaternion.Euler(0, target.transform.rotation.eulerAngles.y, 0);
-            rd.velocity = movement;
+            moveVector = movement;
             
             
         }
@@ -105,9 +106,9 @@ namespace TID42
             {
                 stream.SendNext(exorcistStatus.isSkill);
                 stream.SendNext(exorcistStatus.isAttack);
-                sVector3.x = rd.velocity.x;
-                sVector3.y = rd.velocity.y;
-                sVector3.z = rd.velocity.z;
+                sVector3.x = moveVector.x;
+                sVector3.y = moveVector.y;
+                sVector3.z = moveVector.z;
                 stream.SendNext(sVector3);
             }
 
@@ -119,7 +120,7 @@ namespace TID42
                 this.sVector3.y = (float)stream.ReceiveNext();
                 this.sVector3.z = (float)stream.ReceiveNext();
 
-                this.rd.velocity = new Vector3(sVector3.x, sVector3.y, sVector3.z);
+                this.moveVector = new Vector3(sVector3.x, sVector3.y, sVector3.z);
             }
         }
 
