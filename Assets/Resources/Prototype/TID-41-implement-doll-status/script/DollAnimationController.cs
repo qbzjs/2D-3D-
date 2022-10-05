@@ -64,9 +64,14 @@ namespace GHJ_Lib
             animator.Play("Attack");
         }
 
-        public void CancelInteractAnimation()
+        public void CancelAnimation()
         {
             animator.Play("Idle_A");
+        }
+
+        public void PlayHitAnimation()
+        {
+            animator.Play("Hit");
         }
         #endregion
 

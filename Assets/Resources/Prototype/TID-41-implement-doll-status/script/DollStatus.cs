@@ -27,6 +27,7 @@ namespace GHJ_Lib
         {
             get { return devilHitPoint; }
         }
+
         #endregion	
 
         #region Private Fields
@@ -83,6 +84,7 @@ namespace GHJ_Lib
         {
             dollHitPoint -= Damage;
         }
+
         #endregion
 
         #region Private Methods

@@ -11,11 +11,13 @@ namespace GHJ_Lib
 
         #region Private Fields
         private DollStatus dollStatus = null;
+        private DollAnimationController dollanimator;
         #endregion
 
         #region MonoBehaviour CallBacks
         void Start()
         {
+            dollanimator = GetComponent<DollAnimationController>();
             dollStatus = GetComponent<NetworkTPV_CharacterController>().GetStatus();
             if (dollStatus == null)
             {
@@ -27,13 +29,17 @@ namespace GHJ_Lib
 
         void Update()
         {
-            
             Debug.Log("Doll HP: " + dollStatus.DollHitPoint);
+            
         }
+
 
         public void HitDoll(int offensePower)
         {
+
             dollStatus.HitDollHP(offensePower);
+            dollanimator.PlayHitAnimation();
+
         }
         #endregion
 

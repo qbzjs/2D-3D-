@@ -57,7 +57,7 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
         if (Input.GetKeyUp(KeyCode.G))
         {
             //interact button out
-            dollAnimationController.CancelInteractAnimation();
+            dollAnimationController.CancelAnimation();
             return;
         }
 
