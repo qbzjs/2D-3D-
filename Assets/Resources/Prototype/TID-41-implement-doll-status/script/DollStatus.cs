@@ -40,9 +40,9 @@ namespace GHJ_Lib
         private float projectileSpeed;
         [Header("Only Doll")]
         [SerializeField]
-        private int dollHitPoint;
+        private float dollHitPoint;
         [SerializeField]
-        private int devilHitPoint;
+        private float devilHitPoint;
         #endregion
 
         //질문 : 최대속도가 존재해서 움직일때 점점 빨라져서 최대속도에 다다른 후 최대속도로 움직이는가?
