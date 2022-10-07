@@ -21,8 +21,6 @@ namespace GHJ_Lib
         #region MonoBehaviour CallBacks
         void Start()
         {
-
-        
         }
 
         void Update()
