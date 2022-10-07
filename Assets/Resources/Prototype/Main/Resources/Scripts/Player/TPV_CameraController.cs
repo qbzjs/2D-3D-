@@ -6,7 +6,7 @@ using Cinemachine;
 
 namespace KSH_Lib
 {
-    public class CG_TPV_CameraController : MonoBehaviour
+    public class TPV_CameraController : MonoBehaviour
     {
         #region Private Fields
         [Header( "Object Setting" )]
@@ -55,7 +55,7 @@ namespace KSH_Lib
 
 
         #region MonoBehaviour Callbacks
-        private void Start()
+        protected virtual void Start()
         {
             cm3rdPersonFollow = virtualCam.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
             if ( cm3rdPersonFollow == null )
@@ -64,7 +64,7 @@ namespace KSH_Lib
             }
         }
 
-        private void LateUpdate()
+        protected virtual void LateUpdate()
         {
             GetDataFromInputManager();
             SmoothInputData();

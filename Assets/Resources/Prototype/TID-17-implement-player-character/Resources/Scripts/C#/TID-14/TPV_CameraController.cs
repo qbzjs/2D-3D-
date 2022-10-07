@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-namespace KSH_Lib
+namespace LSH_Lib
 {
     public class TPV_CameraController : MonoBehaviour
     {

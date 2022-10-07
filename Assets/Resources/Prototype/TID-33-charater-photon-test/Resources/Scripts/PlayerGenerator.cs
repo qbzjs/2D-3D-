@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using DEM;
-using KSH_Lib;
+using LSH_Lib;
 
 namespace GHJ_Lib
 { 
