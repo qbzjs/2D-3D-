@@ -27,6 +27,7 @@ namespace GHJ_Lib
         {
             get { return devilHitPoint; }
         }
+
         #endregion	
 
         #region Private Fields
@@ -77,6 +78,11 @@ namespace GHJ_Lib
         public void Move(float moveSpeed)
         {
             this.moveSpeed=moveSpeed;
+        }
+
+        public void HitDollHP(int Damage)
+        {
+            dollHitPoint -= Damage;
         }
 
         #endregion

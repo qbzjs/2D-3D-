@@ -7,7 +7,7 @@ using GHJ_Lib;
 public class NetworkTPV_CharacterController : TestPlayerController,IPunObservable
 {
     #region Private Fields
-    private streamVector3 sVector3;
+    protected streamVector3 sVector3;
     #endregion
 
     #region Protected Fields
@@ -20,7 +20,7 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     #endregion
 
     #region MonoBehaviour CallBacks
-    protected override void Start()
+    protected void Awake()
     {
         dollStatus = new DollStatus(DollType.Rabbit);
         dollAnimationController = GetComponent<DollAnimationController>();
@@ -57,7 +57,7 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
         if (Input.GetKeyUp(KeyCode.G))
         {
             //interact button out
-            dollAnimationController.CancelInteractAnimation();
+            dollAnimationController.CancelAnimation();
             return;
         }
 
@@ -78,11 +78,11 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
 
         if(Input.GetKeyDown(KeyCode.LeftShift))
         {
-            dollAnimationController.IsRolle = true;
+            dollAnimationController.IsRoll = true;
         }
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            dollAnimationController.IsRolle = false;
+            dollAnimationController.IsRoll = false;
         }
     }
 
@@ -94,6 +94,17 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     #endregion
 
     #region Public Methods
+    public DollStatus GetStatus()
+    {
+        if (dollStatus == null)
+        {
+            return null;
+        }
+        else
+        {
+            return dollStatus;
+        }
+    }
     #endregion
 
     #region IPunObservable

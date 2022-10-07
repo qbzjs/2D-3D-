@@ -14,7 +14,7 @@ namespace GHJ_Lib
             get { return isMove; }
             set { isMove = value; }
         }
-        public bool IsRolle
+        public bool IsRoll
         {
             get { return isRoll; }
             set { isRoll = value; }
@@ -64,9 +64,14 @@ namespace GHJ_Lib
             animator.Play("Attack");
         }
 
-        public void CancelInteractAnimation()
+        public void CancelAnimation()
         {
             animator.Play("Idle_A");
+        }
+
+        public void PlayHitAnimation()
+        {
+            animator.Play("Hit");
         }
         #endregion
 

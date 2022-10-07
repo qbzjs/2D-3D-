@@ -34,6 +34,9 @@ public class GameManager : MonoBehaviour
     const string LoadingNetworkSceneName = "LoadingNetworkScene";
 
     static GameManager instance;
+    //add new script
+    static int roomNumber = 0;
+    //
     #endregion
 
 
@@ -61,6 +64,19 @@ public class GameManager : MonoBehaviour
         PhotonNetwork.LoadLevel( LoadingNetworkSceneName );   
     }
 
+    //add new script
+    public int GetRoomNumber()
+    {
+        if (PhotonNetwork.CountOfRooms > roomNumber)
+        {
+            return ++roomNumber;
+        }
+        else
+        {
+            return roomNumber;
+        }
+    }
+    //
     #endregion
 
 

@@ -4,7 +4,7 @@ using UnityEngine;
 using Cinemachine;
 using Photon.Pun;
 using Photon.Realtime;
-
+using GHJ_Lib;
 namespace TID42
 {
     public class FPV_CharacterController1 : MonoBehaviourPunCallbacks,IPunObservable
@@ -13,22 +13,23 @@ namespace TID42
         //[SerializeField]
         //private float walkSpeed = 3.0f;
         [SerializeField]
-        private float rotSpeed;
+        protected float rotSpeed;
         public ExorcistStatus exorcistStatus = new ExorcistStatus();
         public GameObject target;
         #endregion
 
-        #region Private Fields
-        Rigidbody rd;
-        private CharacterController controller;
-        
-        private PFV_CharacterAnimation animator;
+        #region Protected Fields
+        //Rigidbody rd;
+        protected Vector3 moveVector;
+        protected CharacterController controller;
+        protected PFV_CharacterAnimation animator;
+        protected streamVector3 sVector3;
         #endregion
 
         #region MonoBehaviour Callbacks
         protected virtual void Awake()
         {
-            rd = GetComponent<Rigidbody>();
+            //rd = GetComponent<Rigidbody>();
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
@@ -37,7 +38,7 @@ namespace TID42
             controller = GetComponent<CharacterController>();
             animator = GetComponent<PFV_CharacterAnimation>();
         }
-        private void Update()
+        protected virtual void Update()
         {
             if (photonView.IsMine)
             {
@@ -54,36 +55,39 @@ namespace TID42
             { 
                 Movement();
             }
+            controller.SimpleMove(moveVector * exorcistStatus.moveSpeed);
+            animator.Move(moveVector.magnitude);
         }
+
+
         #endregion
 
         #region Public Methods
         #endregion
 
-        #region Private Methods
-        private void Movement()
+        #region Protected Methods
+        protected virtual void Movement()
         {
-            Vector2 currentInput = FPV_InputManager.instance.GetPlayerMove() * exorcistStatus.moveSpeed;
+            Vector2 currentInput = FPV_InputManager.instance.GetPlayerMove();
             Vector3 dir = new Vector3(-Camera.main.transform.right.z, 0f,Camera.main.transform.right.x);
-            Vector3 movement = (dir * currentInput.y + Camera.main.transform.right * currentInput.x + Vector3.up * rd.velocity.y);
+            Vector3 movement = (dir * currentInput.y + Camera.main.transform.right * currentInput.x );
             transform.rotation = Quaternion.Euler(0, target.transform.rotation.eulerAngles.y, 0);
-            rd.velocity = movement;
+            moveVector = movement.normalized;
             
-            animator.Move(rd.velocity.magnitude);
+            
         }
-        private void Attack()
+        protected virtual void Attack()
         {
-            if(Input.GetKeyDown(KeyCode.Mouse0))
+            if(Input.GetKey(KeyCode.Mouse0))
             {
                 exorcistStatus.isAttack = true;
             }
-            
-            if(Input.GetKeyUp(KeyCode.Mouse0))
+            else
             {
                 exorcistStatus.isAttack = false;
             }
         }
-        private void Skill()
+        protected virtual void Skill()
         {
             if (Input.GetKey(KeyCode.F))
             {
@@ -98,18 +102,30 @@ namespace TID42
         #endregion
 
         #region IPunObservable
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             if (stream.IsWriting)
             {
                 stream.SendNext(exorcistStatus.isSkill);
                 stream.SendNext(exorcistStatus.isAttack);
+
+                sVector3.x = moveVector.x;
+                sVector3.y = moveVector.y;
+                sVector3.z = moveVector.z;
+                stream.SendNext(sVector3.x);
+                stream.SendNext(sVector3.y);
+                stream.SendNext(sVector3.z);
             }
 
             if (stream.IsReading)
             {
                 this.exorcistStatus.isSkill = (bool)stream.ReceiveNext();
                 this.exorcistStatus.isAttack = (bool)stream.ReceiveNext();
+                this.sVector3.x = (float)stream.ReceiveNext();
+                this.sVector3.y = (float)stream.ReceiveNext();
+                this.sVector3.z = (float)stream.ReceiveNext();
+                this.moveVector = new Vector3(sVector3.x, sVector3.y, sVector3.z);
+
             }
         }
 

@@ -8,7 +8,7 @@ using Photon.Pun;
 using Photon.Realtime;
 
 using DEM;
-
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class LobbyUI_Manager : MonoBehaviourPunCallbacks
 {
 
@@ -112,6 +112,9 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
     }
     public override void OnCreatedRoom()
     {
+        //add new script
+        PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { "roomNumber", GameManager.Instance.GetRoomNumber() } });
+        //
         Debug.Log( $"OnCreatedRoom Called, Room Name: {PhotonNetwork.CurrentRoom.Name}" );
     }
     public override void OnCreateRoomFailed( short returnCode, string message )
