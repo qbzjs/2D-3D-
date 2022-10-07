@@ -43,7 +43,7 @@ public class Network_FPV_CameraController : FPV_CameraController
         if (GameObject.Find("Exorcist(Clone)"))
         {
             GameObject Exorcist = GameObject.Find("Exorcist(Clone)");
-            virtualCam.LookAt = Exorcist.transform;
+            virtualCam.LookAt = camTarget.transform.GetChild(0);
 
             if (Exorcist.GetComponent<FPV_CharacterController1>() == null)
             {
