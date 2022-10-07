@@ -41,6 +41,8 @@ namespace GHJ_Lib
                 Debug.LogError("Missing TPV_CameraController");
             }
 
+            
+
         }
         void Start()
         {
@@ -60,7 +62,12 @@ namespace GHJ_Lib
                 camControllerTPV.enabled = false;
 
                 InstantiateExorcist();
-                camControllerFPV.SendMessage("SetModeFPV", localPlayerObj.transform.GetChild(1).gameObject);
+                GameObject head = GameObject.Find("B-head").gameObject;
+                if (head == null)
+                {
+                    Debug.LogError("can't find head");
+                }
+                camControllerFPV.SendMessage("SetModeFPV", head);
                 
             }
         }
@@ -81,7 +88,7 @@ namespace GHJ_Lib
             {
                 if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[i])
                 {
-                    localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-48-implement-hit-system/Resources/Prefabs/Doll", genPos[i], Quaternion.identity, 0);
+                    localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-53-apply-charater-animation/Resources/Prefabs/Doll", genPos[i], Quaternion.identity, 0);
                     return true;
                 }
         
@@ -92,7 +99,7 @@ namespace GHJ_Lib
 
         private bool InstantiateExorcist()
         {
-            localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-48-implement-hit-system/Resources/Prefabs/Exorcist", genPos[0], Quaternion.identity, 0);
+            localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-53-apply-charater-animation/Resources/Prefabs/Exorcist", genPos[0], Quaternion.identity, 0);
             if (localPlayerObj)
             {
                 return true;
