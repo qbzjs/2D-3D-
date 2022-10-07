@@ -109,19 +109,22 @@ namespace TID42
                 stream.SendNext(exorcistStatus.isSkill);
                 stream.SendNext(exorcistStatus.isAttack);
 
-
-                stream.SendNext(moveVector.x);
-                stream.SendNext(moveVector.y);
-                stream.SendNext(moveVector.z);
+                sVector3.x = moveVector.x;
+                sVector3.y = moveVector.y;
+                sVector3.z = moveVector.z;
+                stream.SendNext(sVector3.x);
+                stream.SendNext(sVector3.y);
+                stream.SendNext(sVector3.z);
             }
 
             if (stream.IsReading)
             {
                 this.exorcistStatus.isSkill = (bool)stream.ReceiveNext();
                 this.exorcistStatus.isAttack = (bool)stream.ReceiveNext();
-                this.moveVector.x = (float)stream.ReceiveNext();
-                this.moveVector.y = (float)stream.ReceiveNext();
-                this.moveVector.z = (float)stream.ReceiveNext();
+                this.sVector3.x = (float)stream.ReceiveNext();
+                this.sVector3.y = (float)stream.ReceiveNext();
+                this.sVector3.z = (float)stream.ReceiveNext();
+                this.moveVector = new Vector3(sVector3.x, sVector3.y, sVector3.z);
 
             }
         }
