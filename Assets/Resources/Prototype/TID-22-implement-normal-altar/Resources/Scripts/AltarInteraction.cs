@@ -25,6 +25,7 @@ namespace TID22
             if (GetGaugeRate >= 1.0f && canActiveTo)
             {
                 canActiveTo = false;
+                AddCount();
             }
 
             if (canActiveTo)
@@ -78,6 +79,10 @@ namespace TID22
         #endregion
 
         #region Private Methods
+        private void AddCount()
+        {
+            AltarManager.instance.AddCount();
+        }
         #endregion
 
     }
