@@ -6,7 +6,7 @@ using Photon.Realtime;
 
 namespace KSH_Lib
 {
-	public class BasePlayerController : MonoBehaviour
+	public class BasePlayerController : MonoBehaviourPunCallbacks
 	{
 		#region Public Fields
 		[Header( "Character Object Setting" )]
@@ -59,34 +59,22 @@ namespace KSH_Lib
 		}
 		protected virtual void Start()
 		{
-			//if(photonView.IsMine)
+			controller = characterObj.GetComponent<CharacterController>();
+			if ( controller == null )
 			{
-				controller = characterObj.GetComponent<CharacterController>();
-				if ( controller == null )
-				{
-					Debug.LogError( "BasePlayerController: Missing CharacterController" );
-				}
+				Debug.LogError( "BasePlayerController: Missing CharacterController" );
 			}
 		}
 		protected virtual void Update()
 		{
-			//if(photonView.IsMine)
-			{
-				SetDirection();
-				RotateToDirection();
-				MoveCharacter();
-			}
+			SetDirection();
+			RotateToDirection();
+			MoveCharacter();
 		}
-
-        private void OnGUI()
-        {
-			GUI.Box( new Rect( 0, 0, 150, 30 ), camRight.ToString() );
-        }
-
-        #endregion
+		#endregion
 
 
-        #region Public Methods
+		#region Public Methods
         #endregion
 
 
@@ -113,10 +101,6 @@ namespace KSH_Lib
 		{
 			controller.Move( moveSpeed * Time.deltaTime * direction );
 		}
-		#endregion
-			
-
-		#region Private Methods
 		#endregion
 	}
 }

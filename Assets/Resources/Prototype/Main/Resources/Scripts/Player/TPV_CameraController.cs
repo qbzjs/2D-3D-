@@ -6,57 +6,36 @@ using Cinemachine;
 
 namespace KSH_Lib
 {
-    public class TPV_CameraController : MonoBehaviour
+    public class TPV_CameraController : BaseCameraController
     {
         #region Private Fields
-        [Header( "Object Setting" )]
-        [SerializeField]
-        protected GameObject camTarget;
-        [SerializeField]
-        protected CinemachineVirtualCamera virtualCam;
-
-        [Header( "Camera Speed Setting" )]
-        [SerializeField]
-        float mouseSpeed = 0.3f;
-        [SerializeField]
-        float mouseAccel = 0.1f;
+        [Header ( "Camera Speed Setting" )]
         [SerializeField]
         float zoomSpeed = 0.001f;
         [SerializeField]
         float zoomAccel = 0.15f;
 
-        [Header( "Limit Setting" )]
-        [SerializeField]
-        float minAngleY = -40.0f;
-        [SerializeField]
-        float maxAngleY = 40.0f;
+        [Header ("Limit Setting")]
         [SerializeField]
         float minZoomLength = 2.0f;
         [SerializeField]
         float maxZoomLength = 5.0f;
 
-        [Header( "Invert Setting" )]
-        [SerializeField]
-        bool isInvertHorizontal = false;
-        [SerializeField]
-        bool isInvertVertical = true;
+        [Header("Invert Setting")]
         [SerializeField]
         bool isInvertZoom = false;
 
-        Vector2 camAxisRaw;
         float zoomValRaw;
-        Vector2 camAxis;
         float zoomVal;
-        Vector3 angles;
 
         Cinemachine3rdPersonFollow cm3rdPersonFollow;
-
         #endregion
 
 
         #region MonoBehaviour Callbacks
-        protected virtual void Start()
+        protected override void Start()
         {
+            base.Start();
             cm3rdPersonFollow = virtualCam.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
             if ( cm3rdPersonFollow == null )
             {
@@ -64,59 +43,47 @@ namespace KSH_Lib
             }
         }
 
-        protected virtual void LateUpdate()
+        protected override void LateUpdate()
         {
-            GetDataFromInputManager();
-            SmoothInputData();
-            RotateCamera();
+            base.LateUpdate();
             ZoomCamera();
+        }
+        #endregion
+
+        #region Public Methods
+        public override void InitCam( GameObject camTarget )
+        {
+            this.camTarget = camTarget;
+
+            virtualCam.Follow = this.camTarget.transform;
+            virtualCam.AddCinemachineComponent<Cinemachine3rdPersonFollow>();
+            virtualCam.AddCinemachineComponent<CinemachineSameAsFollowTarget>();
+
+            base.Start();
+            canUpdate = true;
+        }
+        #endregion
+
+        #region Protected Methods
+        protected override void GetDataFromInputManager()
+        {
+            base.GetDataFromInputManager();
+
+            zoomValRaw = zoomSpeed * BasePlayerInputManager.Instance.GetCameraZoom();
+            if ( isInvertZoom )
+            {
+                zoomValRaw = -zoomValRaw;
+            }
+        }
+        protected override void SmoothInputData()
+        {
+            base.SmoothInputData();
+            zoomVal = Mathf.SmoothStep( zoomVal, zoomValRaw, zoomAccel );
         }
         #endregion
 
 
         #region Private Methods
-        void GetDataFromInputManager()
-        {
-            camAxisRaw = mouseSpeed * BasePlayerInputManager.Instance.GetCameraLook();
-            if( isInvertHorizontal )
-            {
-                camAxisRaw.x = -camAxisRaw.x;
-            }
-            if(isInvertVertical)
-            {
-                camAxisRaw.y = -camAxisRaw.y;
-            }
-
-            zoomValRaw = zoomSpeed * BasePlayerInputManager.Instance.GetCameraZoom();
-            if(isInvertZoom)
-            {
-                zoomValRaw = -zoomValRaw;
-            }
-        }
-
-        void SmoothInputData()
-        {
-            camAxis.x = Mathf.SmoothStep( camAxis.x, camAxisRaw.x, mouseAccel );
-            camAxis.y = Mathf.SmoothStep( camAxis.y, camAxisRaw.y, mouseAccel );
-            zoomVal = Mathf.SmoothStep( zoomVal, zoomValRaw, zoomAccel );
-        }
-
-        void RotateCamera()
-        {
-            camTarget.transform.Rotate( Vector3.up, camAxis.x * mouseSpeed, Space.World );
-            camTarget.transform.Rotate( Vector3.right, camAxis.y * mouseSpeed, Space.Self );
-
-            angles = camTarget.transform.eulerAngles;
-            float angleVertical = angles.x;
-            if ( angleVertical >= maxAngleY && angleVertical <= 180.0f )
-            {
-                camTarget.transform.eulerAngles = new Vector3( maxAngleY, angles.y, angles.z );
-            }
-            else if ( angleVertical <= 360.0f + minAngleY && angleVertical >= 180.0f )
-            {
-                camTarget.transform.eulerAngles = new Vector3( 360.0f + minAngleY, angles.y, angles.z );
-            }
-        }
         void ZoomCamera()
         {
             cm3rdPersonFollow.CameraDistance += zoomVal;
