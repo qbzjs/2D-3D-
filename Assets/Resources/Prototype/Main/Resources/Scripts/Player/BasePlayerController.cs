@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 namespace KSH_Lib
 {
@@ -40,6 +42,7 @@ namespace KSH_Lib
 
 		/*---- Camera Vectors ----*/
 		protected Vector3 camForward;
+		protected Vector3 camProjToPlane;
 		protected Vector3 camRight;
 		#endregion
 
@@ -49,37 +52,54 @@ namespace KSH_Lib
 
 
 		#region MonoBehaviour Callbacks
+		protected virtual void Awake()
+        {
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
+		}
 		protected virtual void Start()
 		{
-			controller = characterObj.GetComponent<CharacterController>();
-			if ( controller == null )
+			//if(photonView.IsMine)
 			{
-				Debug.LogError( "BasePlayerController: Missing CharacterController" );
+				controller = characterObj.GetComponent<CharacterController>();
+				if ( controller == null )
+				{
+					Debug.LogError( "BasePlayerController: Missing CharacterController" );
+				}
 			}
 		}
 		protected virtual void Update()
 		{
-			SetDirection();
-			RotateToDirection();
-			MoveCharacter();
+			//if(photonView.IsMine)
+			{
+				SetDirection();
+				RotateToDirection();
+				MoveCharacter();
+			}
 		}
-		#endregion
+
+        private void OnGUI()
+        {
+			GUI.Box( new Rect( 0, 0, 150, 30 ), camRight.ToString() );
+        }
+
+        #endregion
 
 
-		#region Public Methods
-		#endregion
+        #region Public Methods
+        #endregion
 
 
-		#region Protected Methods
-		protected virtual void SetDirection()
+        #region Protected Methods
+        protected virtual void SetDirection()
 		{
-			inputDir = PlayerInputManager.instance.GetPlayerMove();
+			inputDir = BasePlayerInputManager.Instance.GetPlayerMove();
 
 			camForward = camTarget.transform.forward;
+			camProjToPlane = Vector3.ProjectOnPlane( camForward, Vector3.up );
 			camRight = camTarget.transform.right;
-			direction = (inputDir.x * camRight + inputDir.y * camForward);
-			direction = new Vector3( direction.x, 0.0f, direction.y ).normalized;
-		}
+            direction = (inputDir.x * camRight + inputDir.y * camProjToPlane).normalized;
+        }
 		protected virtual void RotateToDirection()
 		{
 			if ( direction.sqrMagnitude > 0.01f )
