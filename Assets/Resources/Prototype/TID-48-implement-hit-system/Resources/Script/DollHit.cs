@@ -27,13 +27,6 @@ namespace GHJ_Lib
 
         }
 
-        void Update()
-        {
-            Debug.Log("Doll HP: " + dollStatus.DollHitPoint);
-            
-        }
-
-
         public void HitDoll(int offensePower)
         {
 

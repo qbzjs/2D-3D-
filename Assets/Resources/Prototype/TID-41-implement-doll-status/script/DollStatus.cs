@@ -8,42 +8,18 @@ namespace GHJ_Lib
     public class DollStatus :MonoBehaviourPunCallbacks,IPunObservable
     {
         #region Public Fields
-        public float MoveSpeed
-        {
-            get { return moveSpeed; }
-        }
-        public float InteractionSpeed
-        {
-            get { return interactionSpeed; }
-        }
-        public float ProjectileSpeed
-        {
-            get { return projectileSpeed; }
-        }
-        public float DollHitPoint
-        {
-            get { return dollHitPoint; }
-        }
-        public float DevilHitPoint
-        {
-            get { return devilHitPoint; }
-        }
-
+        public float MoveSpeed{get;private set;}
+        public float InteractionSpeed { get; private set; }
+        public float ProjectileSpeed { get; private set; }
+        public float DollHitPoint { get; private set; }
+        public float DevilHitPoint { get; private set; }
+        public float MaxDollHitPoint { get; private set; }
+        public float MaxDevilHitPoint { get; private set; }
+        public float CurrentRateOfDollHP { get { return DollHitPoint / MaxDollHitPoint; } }
+        public float CurrentRateOfDevilHP { get { return DevilHitPoint / MaxDevilHitPoint; } }
         #endregion	
 
         #region Private Fields
-        [Header("All Character")]
-        [SerializeField]
-        private float moveSpeed;
-        [SerializeField]
-        private float interactionSpeed;
-        [SerializeField]
-        private float projectileSpeed;
-        [Header("Only Doll")]
-        [SerializeField]
-        private float dollHitPoint;
-        [SerializeField]
-        private float devilHitPoint;
         #endregion
 
         private void Awake()
@@ -54,22 +30,48 @@ namespace GHJ_Lib
             {
                 case DollType.Rabbit:
                     {
-                        this.moveSpeed = 6.0f;
-                        this.interactionSpeed = 2.0f;
-                        this.projectileSpeed = 10.0f;
-                        this.dollHitPoint = 40;
-                        this.devilHitPoint = 50;
+                        this.MoveSpeed = 6.0f;
+                        this.InteractionSpeed = 2.0f;
+                        this.ProjectileSpeed = 10.0f;
+                        this.DollHitPoint = 40;
+                        this.DevilHitPoint = 50;
+                        MaxDollHitPoint = DollHitPoint;
+                        MaxDevilHitPoint = DevilHitPoint;
                     }
                     break;
                 default:
                     {
-                        this.moveSpeed = 10.0f;
-                        this.interactionSpeed = 1.0f;
-                        this.projectileSpeed = 10.0f;
-                        this.dollHitPoint = 50;
-                        this.devilHitPoint = 50;
+                        this.MoveSpeed = 10.0f;
+                        this.InteractionSpeed = 1.0f;
+                        this.ProjectileSpeed = 10.0f;
+                        this.DollHitPoint = 50;
+                        this.DevilHitPoint = 50;
+                        MaxDollHitPoint = DollHitPoint;
+                        MaxDevilHitPoint = DevilHitPoint;
                     }
                     break;
+            }
+
+         
+        }
+
+        public void Start()
+        {
+            GameObject UIobj = GameObject.Find("DollUI");
+            if (UIobj == null)
+            {
+                Debug.LogError("Missin UI");
+                return;
+            }
+            DollUI dollUI = UIobj.GetComponent<DollUI>();
+
+            if (photonView.IsMine)
+            {
+                dollUI.SetStatus(this);
+            }
+            else
+            {
+                dollUI.SetFriendStatus(this);
             }
         }
 
@@ -77,31 +79,35 @@ namespace GHJ_Lib
 
         public void Move(float moveSpeed)
         {
-            this.moveSpeed=moveSpeed;
+            this.MoveSpeed=moveSpeed;
         }
 
         public void HitDollHP(int Damage)
         {
-            dollHitPoint -= Damage;
+            DollHitPoint -= Damage;
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             if (stream.IsWriting)
             {
-                stream.SendNext(moveSpeed);
-                stream.SendNext(interactionSpeed);
-                stream.SendNext(projectileSpeed);
-                stream.SendNext(dollHitPoint);
-                stream.SendNext(devilHitPoint);
+                stream.SendNext(MoveSpeed);
+                stream.SendNext(InteractionSpeed);
+                stream.SendNext(ProjectileSpeed);
+                stream.SendNext(DollHitPoint);
+                stream.SendNext(DevilHitPoint);
+                stream.SendNext(MaxDollHitPoint);
+                stream.SendNext(MaxDevilHitPoint);
             }
             if (stream.IsReading)
             {
-                this.moveSpeed =(float)stream.ReceiveNext();
-                this.interactionSpeed = (float)stream.ReceiveNext();
-                this.projectileSpeed = (float)stream.ReceiveNext();
-                this.dollHitPoint = (float)stream.ReceiveNext();
-                this.devilHitPoint = (float)stream.ReceiveNext();
+                this.MoveSpeed =(float)stream.ReceiveNext();
+                this.InteractionSpeed = (float)stream.ReceiveNext();
+                this.ProjectileSpeed = (float)stream.ReceiveNext();
+                this.DollHitPoint = (float)stream.ReceiveNext();
+                this.DevilHitPoint = (float)stream.ReceiveNext();
+                this.MaxDollHitPoint = (float)stream.ReceiveNext();
+                this.MaxDevilHitPoint = (float)stream.ReceiveNext();
 
             }
         }

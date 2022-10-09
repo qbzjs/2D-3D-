@@ -61,7 +61,7 @@ namespace GHJ_Lib
                 dollUI.gameObject.SetActive(true);
 
                 InstantiateDoll();
-                dollUI.SetStatus(localPlayerObj.GetComponent<DollStatus>());
+                //dollUI.SetStatus(localPlayerObj.GetComponent<DollStatus>());
                 camControllerTPV.SendMessage("SetCamTarget", localPlayerObj.transform.GetChild(1).gameObject);
                 camControllerTPV.SendMessage("SetModeTPV");
             }
