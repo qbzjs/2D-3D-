@@ -20,12 +20,16 @@ namespace LSH_Lib{
         {
             if (tag == "Doll")
             {
-                Casting(character);
+                AutoCasting(2.0f);
             }
         }
-        protected override void Casting(Character character)
+        //protected override void Casting(Character character)
+        //{
+        //    curGauge += character.CastingVelocity * Time.deltaTime;
+        //}
+        protected override void AutoCasting(float chargeTime)
         {
-            curGauge += character.CastingVelocity * Time.deltaTime;
+            SceneManager.Instance.EnableAutoCastingBar(chargeTime);
         }
         private void CheckPlayerCount()
         {
