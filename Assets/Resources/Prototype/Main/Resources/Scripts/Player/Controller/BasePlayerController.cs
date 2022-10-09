@@ -8,7 +8,7 @@ namespace KSH_Lib
 {
 	public class BasePlayerController : MonoBehaviourPunCallbacks
 	{
-		/*--- Public Fields ---*/
+		/*--- Seriealized Fields ---*/
 		[Header( "Character Object Setting" )]
 		[Tooltip( "The Object has CharacterController Component" )]
 		[SerializeField]
@@ -22,11 +22,11 @@ namespace KSH_Lib
 		[SerializeField]
 		GameObject camTarget;
 
-		[Header( "Character Status Setting" )]
-		[SerializeField]
-		protected float rotateSpeed = 600.0f;
+		[Header( "Character Move Setting" )]
 		[SerializeField]
 		protected float moveSpeed = 6.0f;
+		[SerializeField]
+		protected float rotateSpeed = 600.0f;
 
 
 		/*--- Protected Fields ---*/
