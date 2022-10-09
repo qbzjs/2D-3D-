@@ -40,7 +40,6 @@ namespace KSH_Lib
         }
 
 
-
         /*--- Public Methods ---*/
         public Vector2 GetPlayerMove()
         {
