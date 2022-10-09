@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GHJ_Lib;
 
-namespace TID22
+namespace LSH_Lib
 {
     public class AltarInteraction : interaction
     {
-        #region MonoBehaviour CallBacks
         void Start()
         {
             initialValue();
@@ -18,6 +18,7 @@ namespace TID22
             if (GetGaugeRate >= 1.0f && canActiveTo)
             {
                 canActiveTo = false;
+                FinalAltarInteraction.AddCount();
             }
 
             if (canActiveTo)
@@ -35,9 +36,6 @@ namespace TID22
                 }
             }
         }
-        #endregion
-
-        #region Public Methods   
 
         public override void Interact(string tag, Character character)
         {
@@ -62,13 +60,10 @@ namespace TID22
             SceneManager.Instance.EnableAutoCastingBar(chargeTime);
         }
 
-
-
         public void initialValue()
         {
             curGauge = 0.0f;
         }
-        #endregion
 
     }
 }

@@ -2,29 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TID22
+namespace LSH_Lib
 {
     public class ItemInteraction : interaction
     {
-        #region Public Fields
-        #endregion
-
-        #region Private Fields
-        #endregion
-
-        #region MonoBehaviour CallBacks
         void Start()
         {
             initialValue();
         }
 
-        void Update()
-        {
-
-        }
-        #endregion
-
-        #region Public Methods
         public override void Interact(string tag, Character character)
         {
             if (tag == "Exorcist")
@@ -55,10 +41,5 @@ namespace TID22
         {
             curGauge = 0.0f;
         }
-        #endregion
-
-        #region Private Methods
-        #endregion
-
     }
 }

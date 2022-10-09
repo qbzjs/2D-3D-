@@ -3,22 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace TID22
+namespace LSH_Lib
 {
     public class SceneManager : MonoBehaviour
     {
-        #region Public Fields
         public static SceneManager Instance;
         public GameObject UIPrefab;
         public bool IsCoroutine = false;
-        #endregion
-
-        #region Private Fields
+        
         private List<GameObject> objList;
         private InteractionUI playerUI;
-        #endregion
 
-        #region MonoBehaviour CallBacks
         void Start()
         {
             Instance = this;
@@ -30,13 +25,6 @@ namespace TID22
             playerUI = Instantiate(UIPrefab).GetComponent<InteractionUI>();
         }
 
-        void Update()
-        {
-
-        }
-        #endregion
-
-        #region Public Methods
         public void EnableInteractionText()
         {
             playerUI.ActiveInteractionText();
@@ -61,20 +49,5 @@ namespace TID22
         {
             playerUI.ActiveAutoCastingBar(chargeTime);
         }
-
-
-
-        #endregion
-
-        #region Private Methods
-        #endregion
-
-        #region Interface Interaction
-
-
-
-
-
-        #endregion
     }
 }

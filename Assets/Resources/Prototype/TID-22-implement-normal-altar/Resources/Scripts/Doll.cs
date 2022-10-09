@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TID22
+namespace LSH_Lib
 {
     public class Doll : Character
     {

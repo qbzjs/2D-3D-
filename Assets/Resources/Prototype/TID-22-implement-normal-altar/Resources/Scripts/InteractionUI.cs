@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace TID22
+namespace LSH_Lib
 {
     public class InteractionUI : MonoBehaviour
     {

@@ -2,23 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TID22
+namespace LSH_Lib
 {
     public class Character : MonoBehaviour
     {
-
-        #region Public Fields
         public float CastingVelocity
         {
             get { return castingVelocity; }
         }
-        #endregion
 
-        #region Private Fields
-
-        #endregion
-
-        #region Protected Fields
         [SerializeField]
         protected float castingVelocity = 2.0f;
 
@@ -28,10 +20,7 @@ namespace TID22
         protected bool isInteract = false;
         protected bool canInteract = false;
         protected bool isActiveBar = false;
-        #endregion
 
-
-        #region MonoBehaviour CallBacks
         void Start()
         {
 
@@ -87,12 +76,7 @@ namespace TID22
                 isActiveBar = false;
             }
         }
-        #endregion
 
-        #region Public Methods
-        #endregion
-
-        #region Private Methods
         void ProcessInput()
         {
             if (SceneManager.Instance.IsCoroutine)
@@ -113,6 +97,5 @@ namespace TID22
                 isInteract = false;
             }
         }
-        #endregion
     }
 }
