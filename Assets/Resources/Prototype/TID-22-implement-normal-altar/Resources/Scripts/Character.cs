@@ -84,15 +84,15 @@ namespace LSH_Lib
                 isInteract = false;
                 return;
             }
-            if (Input.GetKeyDown(KeyCode.G) && canInteract)
+            if (Input.GetKey(KeyCode.Mouse0) && canInteract)
             {
                 isInteract = true;
             }
-            if (Input.GetKey(KeyCode.G) && canInteract)
+            if (Input.GetKey(KeyCode.Mouse0) && canInteract)
             {
                 return;
             }
-            if (Input.GetKeyUp(KeyCode.G))
+            if (Input.GetKeyUp(KeyCode.Mouse0))
             {
                 isInteract = false;
             }

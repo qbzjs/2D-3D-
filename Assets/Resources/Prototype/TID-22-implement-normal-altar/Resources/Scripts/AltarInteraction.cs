@@ -53,7 +53,6 @@ namespace LSH_Lib
         {
             curGauge += character.CastingVelocity * Time.deltaTime;
         }
-
         protected override void AutoCasting(float chargeTime)
         {
             Debug.Log("AutoCasting");
