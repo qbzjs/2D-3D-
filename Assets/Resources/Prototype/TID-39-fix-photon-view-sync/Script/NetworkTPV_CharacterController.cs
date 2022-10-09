@@ -12,19 +12,24 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
 
     #region Protected Fields
     protected DollStatus dollStatus=null;
-    protected DollAnimationController dollAnimationController;
     #endregion
 
 
     #region Public Fields
+    public DollAnimationController dollAnimationController;
     #endregion
 
     #region MonoBehaviour CallBacks
-    protected void Awake()
+    protected void Strat()
     {
-        dollStatus = new DollStatus(DollType.Rabbit);
-        dollAnimationController = GetComponent<DollAnimationController>();
-        dollAnimationController.SetStatus(dollStatus);
+        dollStatus = GetComponent<DollStatus>();
+       
+        if (dollAnimationController == null)
+        {
+            Debug.LogError("MIssing DollAnimationController");
+        }
+        //dollAnimationController.SetStatus(dollStatus);
+        
         moveSpeed = dollStatus.MoveSpeed; //최종 스피드는 이동속도*상태*디버프 
         base.Start();   
     }

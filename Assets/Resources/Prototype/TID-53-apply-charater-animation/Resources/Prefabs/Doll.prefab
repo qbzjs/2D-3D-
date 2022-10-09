@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 1086046421335336503}
   - component: {fileID: 4386333914453595254}
   - component: {fileID: -1186141096362551030}
+  - component: {fileID: -156942102994756814}
   m_Layer: 0
   m_Name: Doll
   m_TagString: Doll
@@ -99,6 +100,7 @@ MonoBehaviour:
   - {fileID: -314539837705432538}
   - {fileID: 1086046421335336503}
   - {fileID: 4386333914453595254}
+  - {fileID: -156942102994756814}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -123,6 +125,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: Roll
+  - Type: 1
+    SynchronizeType: 0
+    Name: Blend
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -181,6 +186,7 @@ MonoBehaviour:
   camTarget: {fileID: 8865846721793731939}
   rotateSpeed: 600
   moveSpeed: 6
+  dollAnimationController: {fileID: 4386333914453595254}
 --- !u!114 &4386333914453595254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +209,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75a1f1daaf4161547b047778c857e57a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-156942102994756814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8865846720936348896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bb93b8b6d29566438eed19bc405bc40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8865846721793731939

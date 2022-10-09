@@ -18,7 +18,7 @@ namespace GHJ_Lib
         void Start()
         {
             dollanimator = GetComponent<DollAnimationController>();
-            dollStatus = GetComponent<NetworkTPV_CharacterController>().GetStatus();
+            dollStatus = GetComponent<DollStatus>();
             if (dollStatus == null)
             {
                 Debug.LogError("Missing Status");
@@ -26,13 +26,6 @@ namespace GHJ_Lib
             }
 
         }
-
-        void Update()
-        {
-            Debug.Log("Doll HP: " + dollStatus.DollHitPoint);
-            
-        }
-
 
         public void HitDoll(int offensePower)
         {

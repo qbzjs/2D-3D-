@@ -33,6 +33,7 @@ namespace GHJ_Lib
         void Start()
         {
             animator = GetComponent<Animator>();
+            dollStatus = GetComponent<DollStatus>();
         }
 
         void Update()
