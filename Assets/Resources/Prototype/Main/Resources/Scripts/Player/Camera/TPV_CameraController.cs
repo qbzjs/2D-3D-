@@ -8,13 +8,13 @@ namespace KSH_Lib
 {
     public class TPV_CameraController : BaseCameraController
     {
-        #region Private Fields
+        /*--- Inspector ---*/
         [Header ( "Camera Speed Setting" )]
         [SerializeField]
         float zoomSpeed = 0.001f;
         [SerializeField]
         float zoomAccel = 0.15f;
-
+        
         [Header ("Limit Setting")]
         [SerializeField]
         float minZoomLength = 2.0f;
@@ -25,14 +25,14 @@ namespace KSH_Lib
         [SerializeField]
         bool isInvertZoom = false;
 
+
+        /*--- Private Field ---*/
+        Cinemachine3rdPersonFollow cm3rdPersonFollow;
         float zoomValRaw;
         float zoomVal;
 
-        Cinemachine3rdPersonFollow cm3rdPersonFollow;
-        #endregion
 
-
-        #region MonoBehaviour Callbacks
+        /*--- Monobehaviour Callbacks ---*/
         protected override void Start()
         {
             base.Start();
@@ -42,29 +42,19 @@ namespace KSH_Lib
                 Debug.LogError( "BaseCameraController: Can not find Cinemachine3rdPersonFollow" );
             }
         }
-
         protected override void LateUpdate()
         {
+            if(!canUpdate)
+            {
+                return;
+            }
+
             base.LateUpdate();
             ZoomCamera();
         }
-        #endregion
 
-        #region Public Methods
-        public override void InitCam( GameObject camTarget )
-        {
-            this.camTarget = camTarget;
 
-            virtualCam.Follow = this.camTarget.transform;
-            virtualCam.AddCinemachineComponent<Cinemachine3rdPersonFollow>();
-            virtualCam.AddCinemachineComponent<CinemachineSameAsFollowTarget>();
-
-            base.Start();
-            canUpdate = true;
-        }
-        #endregion
-
-        #region Protected Methods
+        /*--- Protected Methods ---*/
         protected override void GetDataFromInputManager()
         {
             base.GetDataFromInputManager();
@@ -80,10 +70,9 @@ namespace KSH_Lib
             base.SmoothInputData();
             zoomVal = Mathf.SmoothStep( zoomVal, zoomValRaw, zoomAccel );
         }
-        #endregion
 
 
-        #region Private Methods
+        /*--- Private Methods ---*/
         void ZoomCamera()
         {
             cm3rdPersonFollow.CameraDistance += zoomVal;
@@ -96,6 +85,5 @@ namespace KSH_Lib
                 cm3rdPersonFollow.CameraDistance = maxZoomLength;
             }
         }
-        #endregion
     }
 }

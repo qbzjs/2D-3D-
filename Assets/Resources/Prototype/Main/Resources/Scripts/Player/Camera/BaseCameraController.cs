@@ -5,13 +5,13 @@ using Cinemachine;
 
 namespace KSH_Lib
 {
-    public abstract class BaseCameraController : MonoBehaviour
+    public class BaseCameraController : MonoBehaviour
     {
-        #region Public Fields
+        /*--- Public Fields ---*/
         public bool canUpdate = false;
-        #endregion
 
-        #region Protected Fields
+
+        /*--- Protected Fields ---*/
         [Header( "Object Setting" )]
         [Tooltip("This controls Camera and player's Direction. If Player Character doesn't have camTarget Object, You need to create Empty Object for camTarget")]
         [SerializeField]
@@ -21,10 +21,8 @@ namespace KSH_Lib
         [SerializeField]
         protected CinemachineVirtualCamera virtualCam;
 
-        #endregion
 
-
-        #region Private Fields
+        /*--- Private Fields ---*/
         [Header( "Camera Speed Setting" )]
         [SerializeField]
         float mouseSpeed = 0.3f;
@@ -46,10 +44,9 @@ namespace KSH_Lib
         Vector2 camAxisRaw;
         Vector2 camAxis;
         Vector3 angles;
-        #endregion
 
 
-        #region MonoBehaviour Callbacks
+        /*--- MonoBehaviour Callbacks ---*/
         protected virtual void Start()
         {
             if( camTarget == null )
@@ -71,15 +68,27 @@ namespace KSH_Lib
             SmoothInputData();
             RotateCamera();
         }
-        #endregion
+
+        /*--- Public Methods ---*/
+        public virtual void InitCam( GameObject camTarget )
+        {
+            if ( camTarget == null )
+            {
+                Debug.LogError( "BaseCameraController.InitCam(): No camTarget Inited" );
+                return;
+            }
+
+            this.camTarget = camTarget;
+
+            virtualCam.AddCinemachineComponent<Cinemachine3rdPersonFollow>();
+            virtualCam.AddCinemachineComponent<CinemachineSameAsFollowTarget>();
+            virtualCam.Follow = this.camTarget.transform;
+
+            canUpdate = true;
+        }
 
 
-        #region Public Methods
-        public abstract void InitCam( GameObject camTarget );
-        #endregion
-
-
-        #region Protected Methods
+        /*--- Protected Methods ---*/
         protected virtual void GetDataFromInputManager()
         {
             camAxisRaw = mouseSpeed * BasePlayerInputManager.Instance.GetCameraLook();
@@ -98,10 +107,9 @@ namespace KSH_Lib
             camAxis.x = Mathf.SmoothStep( camAxis.x, camAxisRaw.x, mouseAccel );
             camAxis.y = Mathf.SmoothStep( camAxis.y, camAxisRaw.y, mouseAccel );
         }
-        #endregion
 
 
-        #region Private Methods
+        /*--- Private Methods ---*/
         void RotateCamera()
         {
             camTarget.transform.Rotate( Vector3.up, camAxis.x * mouseSpeed, Space.World );
@@ -118,6 +126,5 @@ namespace KSH_Lib
                 camTarget.transform.eulerAngles = new Vector3( 360.0f + minAngleY, angles.y, angles.z );
             }
         }
-        #endregion
     }
 }
