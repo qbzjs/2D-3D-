@@ -6,7 +6,7 @@ namespace KSH_Lib
 {
     public class BasePlayerInputManager : MonoBehaviour
     {
-        #region Singleton
+        /*--- Singleton ---*/
         public static BasePlayerInputManager Instance
         {
             get
@@ -20,17 +20,12 @@ namespace KSH_Lib
             }
         }
         static BasePlayerInputManager instance;
-        #endregion
 
-        #region Public Fields
+        /*--- Public Fields ---*/
         public BasePlayerInput PlayerInput;
-        #endregion
-
-        #region Private Fields
-        #endregion
 
 
-        #region MonoBehaviour Callbacks
+        /*--- MonoBehaviour Callbacks ---*/
         private void Awake()
         {
             PlayerInput = new BasePlayerInput();
@@ -43,11 +38,9 @@ namespace KSH_Lib
         {
             PlayerInput.Disable();
         }
-       
-        #endregion
 
 
-        #region Public Methods
+        /*--- Public Methods ---*/
         public Vector2 GetPlayerMove()
         {
             return PlayerInput.Player.Move.ReadValue<Vector2>();
@@ -60,7 +53,6 @@ namespace KSH_Lib
         {
             return PlayerInput.Camera.Zoom.ReadValue<float>();
         }
-        #endregion
     }
 }
 

@@ -11,8 +11,7 @@ using DEM;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class LobbyUI_Manager : MonoBehaviourPunCallbacks
 {
-
-    #region Public Fields
+    /*--- Serialized Fields ---*/
     [Header("Canvases")]
     [SerializeField]
     Canvas mainLobbyCanvas;
@@ -58,16 +57,14 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
     TextMeshProUGUI customRoomTypeTMP;
     [SerializeField]
     TextMeshProUGUI actionButtonTMP;
-    #endregion
 
 
-    #region Private Fields
+    /*--- Private Fields ---*/
     int curPlayerCnt = 0;
     bool isJoinedRoom = false;
-    #endregion
 
 
-    #region MonoBehaviour Callbacks
+    /*--- MonoBehaviour Callbacks ---*/
     private void Start()
     {
         EnableCanvasObjects();
@@ -100,10 +97,9 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
             }
         }
     }
-    #endregion
 
 
-    #region MonoBehaviourPun Callbacks
+    /*--- MonoBehaviourPun Callbacks ---*/
     public override void OnJoinRandomFailed( short returnCode, string message )
     {
         base.OnJoinRandomFailed( returnCode, message );
@@ -133,10 +129,9 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
         base.OnJoinRoomFailed( returnCode, message );
         Debug.Log( "OnJoinRoomFailed Called " + message );
     }
-    #endregion
 
 
-    #region Public Methods
+    /*--- Public Methods ---*/
     public void EnableCharacterSelectCanvas( string roleName )
     {
         DisableCanvasesAll();
@@ -162,9 +157,8 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
             break;
         }
     }
-    #endregion
 
-    #region Private Methods
+    /*--- Private Methods ---*/
     void LoadRoomScene()
     {
         cancelButtonObj.SetActive( false );
@@ -275,13 +269,11 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
         isJoinedRoom = false;
         EnableMainLobbyCanvas();
     }
-    #endregion
 
 
-    #region Debug Only
+    /*--- Debug Methods ---*/
     void OnSkipButtonClicked()
     {
         LoadRoomScene();
     }
-    #endregion
 }
