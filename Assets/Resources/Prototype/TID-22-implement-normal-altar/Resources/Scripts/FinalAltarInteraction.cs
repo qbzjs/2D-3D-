@@ -17,14 +17,9 @@ namespace LSH_Lib{
             StateCheck();
             
         }
-
         public override void Interact(string tag, Character character)
         {
-            if (tag == "Exorcist")
-            {
-                AutoCasting(2.0f);
-            }
-            else if (tag == "Doll")
+            if (tag == "Doll")
             {
                 Casting(character);
             }
