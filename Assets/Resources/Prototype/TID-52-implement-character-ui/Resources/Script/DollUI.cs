@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace GHJ_Lib
 { 
-    public class DollUI : MonoBehaviour
+    public class DollUI : InGameUI
     {
         #region Public Fields
         [Header("PlayerHP")]
@@ -26,36 +26,36 @@ namespace GHJ_Lib
         #endregion
 
         #region Private Fields
-        private DollStatus PlayerStatus = null;
-        private List<DollStatus> FriendsStatus = new List<DollStatus>();
-        private List<Image> FriendDollHP=new List<Image>();
-        private List<Image> FriendDevilHP = new List<Image>();
+        private DollStatus playerStatus = null;
+        private List<DollStatus> friendsStatus = new List<DollStatus>();
+        private List<Image> friendDollHP=new List<Image>();
+        private List<Image> friendDevilHP = new List<Image>();
         #endregion
 
         #region MonoBehaviour CallBacks
         void Start()
         {
-            FriendDollHP.Add(Friend1DollHP);
-            FriendDollHP.Add(Friend2DollHP);
-            FriendDollHP.Add(Friend3DollHP);
+            friendDollHP.Add(Friend1DollHP);
+            friendDollHP.Add(Friend2DollHP);
+            friendDollHP.Add(Friend3DollHP);
 
-            FriendDevilHP.Add(Friend1DevilHP);
-            FriendDevilHP.Add(Friend2DevilHP);
-            FriendDevilHP.Add(Friend3DevilHP);
+            friendDevilHP.Add(Friend1DevilHP);
+            friendDevilHP.Add(Friend2DevilHP);
+            friendDevilHP.Add(Friend3DevilHP);
 
         }
 
         private void Update()
         {
-            if (PlayerStatus == null)
+            if (playerStatus == null)
             {
                 return;
             }
             
-            ApplyStatusHPToHPUI(PlayerStatus, PlayerDollHP, PlayerDevilHP);
-            for (int i = 0; i < FriendsStatus.Count; ++i)
+            ApplyStatusHPToHPUI(playerStatus, PlayerDollHP, PlayerDevilHP);
+            for (int i = 0; i < friendsStatus.Count; ++i)
             { 
-                ApplyStatusHPToHPUI(FriendsStatus[i], FriendDollHP[i], FriendDevilHP[i]);
+                ApplyStatusHPToHPUI(friendsStatus[i], friendDollHP[i], friendDevilHP[i]);
             }
 
 
@@ -65,29 +65,15 @@ namespace GHJ_Lib
         #region Public Methods
         public void SetStatus(DollStatus dollStatus)
         {
-            this.PlayerStatus = dollStatus;
+            this.playerStatus = dollStatus;
         }
 
         public void SetFriendStatus(DollStatus dollStatus)
         {
-            FriendsStatus.Add(dollStatus);
+            friendsStatus.Add(dollStatus);
         }
 
         #endregion	
 
-        #region Private Methods
-        private void ApplyStatusHPToHPUI(DollStatus dollStatus, Image DollHPImage,Image DevilHPImage)
-        {
-            if (dollStatus == null)
-            {
-                Debug.LogError("Missing status");
-                return;
-            }
-
-            Debug.Log("CurrentHP:" + dollStatus.CurrentRateOfDollHP);
-            DollHPImage.fillAmount = dollStatus.CurrentRateOfDollHP;
-            DevilHPImage.fillAmount = dollStatus.CurrentRateOfDevilHP; 
-        }
-        #endregion	
     }
 }

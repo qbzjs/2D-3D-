@@ -57,22 +57,41 @@ namespace GHJ_Lib
 
         public void Start()
         {
-            GameObject UIobj = GameObject.Find("DollUI");
-            if (UIobj == null)
+            if (GameManager.Instance.Data.Role == DEM.RoleType.Doll)
             {
-                Debug.LogError("Missin UI");
-                return;
-            }
-            DollUI dollUI = UIobj.GetComponent<DollUI>();
+                GameObject UIobj = GameObject.Find("DollUI");
+                if (UIobj == null)
+                {
+                    Debug.LogError("Missin DollUI");
+                    return;
+                }
+                DollUI dollUI = UIobj.GetComponent<DollUI>();
 
-            if (photonView.IsMine)
-            {
-                dollUI.SetStatus(this);
+            
+                if (photonView.IsMine)
+                {
+                    dollUI.SetStatus(this);
+                }
+                else
+                {
+                    dollUI.SetFriendStatus(this);
+                }
             }
             else
             {
-                dollUI.SetFriendStatus(this);
+                GameObject UIobj = GameObject.Find("ExorcistUI");
+                if (UIobj == null)
+                {
+                    Debug.LogError("Missin ExorcistUI");
+                    return;
+                }
+                ExorcistUI exorcistUI = UIobj.GetComponent<ExorcistUI>();
+
+                exorcistUI.SetDollStatus(this);
+
             }
+
+
         }
 
         #region Public Methods
