@@ -9,7 +9,7 @@ namespace LSH_Lib{
         public int playerCount = 0;
         private void Start()
         {
-            curGauge = 0;
+            curGauge = 0.0f;
             canActiveTo = false;
         }
         void Update()
@@ -20,13 +20,12 @@ namespace LSH_Lib{
         {
             if (tag == "Doll")
             {
-                AutoCasting(3.0f);
+                Casting(character);
             }
         }
-        protected override void AutoCasting(float chargeTime)
+        protected override void Casting(Character character)
         {
-            Debug.Log("AutoCasting");
-            SceneManager.Instance.EnableAutoCastingBar(chargeTime);
+            curGauge += character.CastingVelocity * Time.deltaTime;
         }
         private void CheckPlayerCount()
         {
