@@ -6,13 +6,6 @@ namespace TID22
 {
     public class AltarInteraction : interaction
     {
-        #region Public Fields
-        #endregion
-
-        #region Private Fields
-
-        #endregion
-
         #region MonoBehaviour CallBacks
         void Start()
         {
@@ -25,7 +18,6 @@ namespace TID22
             if (GetGaugeRate >= 1.0f && canActiveTo)
             {
                 canActiveTo = false;
-                AddCount();
             }
 
             if (canActiveTo)
@@ -75,13 +67,6 @@ namespace TID22
         public void initialValue()
         {
             curGauge = 0.0f;
-        }
-        #endregion
-
-        #region Private Methods
-        private void AddCount()
-        {
-            AltarManager.instance.AddCount();
         }
         #endregion
 
