@@ -1,19 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GHJ_Lib;
 
-namespace GHJ_Lib
+namespace LSH_Lib
 {
     public class AltarInteraction : interaction
     {
-        #region Public Fields
-        #endregion
-
-        #region Private Fields
-
-        #endregion
-
-        #region MonoBehaviour CallBacks
         void Start()
         {
             initialValue();
@@ -25,6 +18,7 @@ namespace GHJ_Lib
             if (GetGaugeRate >= 1.0f && canActiveTo)
             {
                 canActiveTo = false;
+                FinalAltarInteraction.AddCount();
             }
 
             if (canActiveTo)
@@ -42,9 +36,6 @@ namespace GHJ_Lib
                 }
             }
         }
-        #endregion
-
-        #region Public Methods   
 
         public override void Interact(string tag, Character character)
         {
@@ -66,19 +57,13 @@ namespace GHJ_Lib
         protected override void AutoCasting(float chargeTime)
         {
             Debug.Log("AutoCasting");
-            SceneManger.Instance.EnableAutoCastingBar(chargeTime);
+            SceneManager.Instance.EnableAutoCastingBar(chargeTime);
         }
-
-
 
         public void initialValue()
         {
             curGauge = 0.0f;
         }
-        #endregion
-
-        #region Private Methods
-        #endregion
 
     }
 }

@@ -2,23 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GHJ_Lib
+namespace LSH_Lib
 {
     public class Character : MonoBehaviour
     {
-
-        #region Public Fields
         public float CastingVelocity
         {
             get { return castingVelocity; }
         }
-        #endregion
 
-        #region Private Fields
-
-        #endregion
-
-        #region Protected Fields
         [SerializeField]
         protected float castingVelocity = 2.0f;
 
@@ -28,10 +20,7 @@ namespace GHJ_Lib
         protected bool isInteract = false;
         protected bool canInteract = false;
         protected bool isActiveBar = false;
-        #endregion
 
-
-        #region MonoBehaviour CallBacks
         void Start()
         {
 
@@ -47,26 +36,22 @@ namespace GHJ_Lib
         private void OnTriggerStay(Collider other)
         {
             interaction obj = other.GetComponent<interaction>();
-
-
             if (Vector3.Angle(obj.transform.position - this.transform.position, this.transform.forward) < 30.0f
                 && obj.canActiveTo)
             {
                 canInteract = true;
                 if (!isActiveBar)
                 {
-                    SceneManger.Instance.EnableInteractionText();
+                    SceneManager.Instance.EnableInteractionText();
                 }
             }
             else
             {
                 canInteract = false;
-                SceneManger.Instance.DisableInteractionText();
-                SceneManger.Instance.DisableCastingBar();
+                SceneManager.Instance.DisableInteractionText();
+                SceneManager.Instance.DisableCastingBar();
                 return;
             }
-
-
             if (isInteract)
             {
                 if (isActiveBar)
@@ -76,38 +61,29 @@ namespace GHJ_Lib
                 }
                 else
                 {
-                    SceneManger sceneManger = SceneManger.Instance;
-                    sceneManger.DisableInteractionText();
+                    SceneManager sceneManager = SceneManager.Instance;
+                    sceneManager.DisableInteractionText();
                     Debug.Log("isSetUI" + isActiveBar);
-                    sceneManger.EnableCastingBar(other.gameObject);
+                    sceneManager.EnableCastingBar(other.gameObject);
                     isActiveBar = true;
                 }
             }
             else
             {
 
-                SceneManger.Instance.EnableInteractionText();
-                SceneManger.Instance.DisableCastingBar();
+                SceneManager.Instance.EnableInteractionText();
+                SceneManager.Instance.DisableCastingBar();
                 isActiveBar = false;
             }
-
-
         }
-        #endregion
 
-        #region Public Methods
-        #endregion
-
-        #region Private Methods
         void ProcessInput()
         {
-            if (SceneManger.Instance.IsCoroutine)
+            if (SceneManager.Instance.IsCoroutine)
             {
                 isInteract = false;
                 return;
             }
-
-
             if (Input.GetKeyDown(KeyCode.G) && canInteract)
             {
                 isInteract = true;
@@ -120,30 +96,6 @@ namespace GHJ_Lib
             {
                 isInteract = false;
             }
-
-
-            if (Input.GetKey(KeyCode.W))
-            {
-                transform.position += transform.forward * 10.0f * Time.deltaTime;
-            }
-
-            if (Input.GetKey(KeyCode.D))
-            {
-                transform.Rotate(Vector3.up, 50.0f * Time.deltaTime);
-            }
-
-            if (Input.GetKey(KeyCode.A))
-            {
-                transform.Rotate(Vector3.down, 50.0f * Time.deltaTime);
-            }
-
-
-
         }
-        #endregion
-
-
-
-
     }
 }
