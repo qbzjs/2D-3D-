@@ -1,106 +1,115 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using Cinemachine;
 
 namespace KSH_Lib
 {
-    public class CG_TPV_CameraController : MonoBehaviour
+    public class BaseCameraController : MonoBehaviour
     {
-        #region Private Fields
+        /*--- Public Fields ---*/
+        public bool canUpdate = false;
+
+
+        /*--- Protected Fields ---*/
         [Header( "Object Setting" )]
+        [Tooltip("This controls Camera and player's Direction. If Player Character doesn't have camTarget Object, You need to create Empty Object for camTarget")]
         [SerializeField]
         protected GameObject camTarget;
+
+        [Tooltip("This script run with Cinemachine. Register your virtual camera to here")]
         [SerializeField]
         protected CinemachineVirtualCamera virtualCam;
 
+
+        /*--- Private Fields ---*/
         [Header( "Camera Speed Setting" )]
         [SerializeField]
         float mouseSpeed = 0.3f;
         [SerializeField]
         float mouseAccel = 0.1f;
-        [SerializeField]
-        float zoomSpeed = 0.001f;
-        [SerializeField]
-        float zoomAccel = 0.15f;
 
         [Header( "Limit Setting" )]
         [SerializeField]
         float minAngleY = -40.0f;
         [SerializeField]
         float maxAngleY = 40.0f;
-        [SerializeField]
-        float minZoomLength = 2.0f;
-        [SerializeField]
-        float maxZoomLength = 5.0f;
 
         [Header( "Invert Setting" )]
         [SerializeField]
         bool isInvertHorizontal = false;
         [SerializeField]
         bool isInvertVertical = true;
-        [SerializeField]
-        bool isInvertZoom = false;
 
         Vector2 camAxisRaw;
-        float zoomValRaw;
         Vector2 camAxis;
-        float zoomVal;
         Vector3 angles;
 
-        Cinemachine3rdPersonFollow cm3rdPersonFollow;
 
-        #endregion
-
-
-        #region MonoBehaviour Callbacks
-        private void Start()
+        /*--- MonoBehaviour Callbacks ---*/
+        protected virtual void Start()
         {
-            cm3rdPersonFollow = virtualCam.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
-            if ( cm3rdPersonFollow == null )
+            if( camTarget == null )
             {
-                Debug.LogError( "BaseCameraController: Can not find Cinemachine3rdPersonFollow" );
+                Debug.LogError("BaseCameraController: No Camera Target Set");
+            }
+            if( virtualCam == null )
+            {
+                virtualCam = GetComponent<CinemachineVirtualCamera>();
+                if(virtualCam == null)
+                {
+                    Debug.LogError( "BaseCameraController: No virtual Camera set" );
+                }
             }
         }
-
-        private void LateUpdate()
+        protected virtual void LateUpdate()
         {
             GetDataFromInputManager();
             SmoothInputData();
             RotateCamera();
-            ZoomCamera();
         }
-        #endregion
+
+        /*--- Public Methods ---*/
+        public virtual void InitCam( GameObject camTarget )
+        {
+            if ( camTarget == null )
+            {
+                Debug.LogError( "BaseCameraController.InitCam(): No camTarget Inited" );
+                return;
+            }
+
+            this.camTarget = camTarget;
+
+            virtualCam.AddCinemachineComponent<Cinemachine3rdPersonFollow>();
+            virtualCam.AddCinemachineComponent<CinemachineSameAsFollowTarget>();
+            virtualCam.Follow = this.camTarget.transform;
+
+            canUpdate = true;
+        }
 
 
-        #region Private Methods
-        void GetDataFromInputManager()
+        /*--- Protected Methods ---*/
+        protected virtual void GetDataFromInputManager()
         {
             camAxisRaw = mouseSpeed * BasePlayerInputManager.Instance.GetCameraLook();
-            if( isInvertHorizontal )
+            if ( isInvertHorizontal )
             {
                 camAxisRaw.x = -camAxisRaw.x;
             }
-            if(isInvertVertical)
+            if ( isInvertVertical )
             {
                 camAxisRaw.y = -camAxisRaw.y;
             }
-
-            zoomValRaw = zoomSpeed * BasePlayerInputManager.Instance.GetCameraZoom();
-            if(isInvertZoom)
-            {
-                zoomValRaw = -zoomValRaw;
-            }
         }
 
-        void SmoothInputData()
+        protected virtual void SmoothInputData()
         {
             camAxis.x = Mathf.SmoothStep( camAxis.x, camAxisRaw.x, mouseAccel );
             camAxis.y = Mathf.SmoothStep( camAxis.y, camAxisRaw.y, mouseAccel );
-            zoomVal = Mathf.SmoothStep( zoomVal, zoomValRaw, zoomAccel );
         }
 
+
+        /*--- Private Methods ---*/
         void RotateCamera()
         {
             camTarget.transform.Rotate( Vector3.up, camAxis.x * mouseSpeed, Space.World );
@@ -117,19 +126,5 @@ namespace KSH_Lib
                 camTarget.transform.eulerAngles = new Vector3( 360.0f + minAngleY, angles.y, angles.z );
             }
         }
-        void ZoomCamera()
-        {
-            cm3rdPersonFollow.CameraDistance += zoomVal;
-            if ( cm3rdPersonFollow.CameraDistance <= minZoomLength )
-            {
-                cm3rdPersonFollow.CameraDistance = minZoomLength;
-            }
-            else if ( cm3rdPersonFollow.CameraDistance >= maxZoomLength )
-            {
-                cm3rdPersonFollow.CameraDistance = maxZoomLength;
-            }
-        }
-        #endregion
     }
 }
-

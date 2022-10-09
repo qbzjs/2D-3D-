@@ -6,33 +6,19 @@ namespace DEM
 {
     public struct PlayerData
     {
-        #region Public Fields
-        public ulong Score { get { return score; } }
-        public RoleType Role { get { return roleType; } }
-        #endregion
+        /*--- Public Fields ---*/
+        public ulong Score { get; private set; }
+        public RoleType Role { get; private set; }
 
 
-        #region Private Fields
-        RoleType roleType;
-        ulong score;
-        #endregion
-
-
-        #region Public Methods
+        /*--- Public Methods ---*/
         public void AddScore( ulong score_in )
         {
-            score += score_in;
+            Score += score_in;
         }
-        public void ChangeRole(RoleType roleType_in)
+        public void ChangeRole(RoleType roleType)
         {
-            roleType = roleType_in;
+            Role = roleType;
         }
-        #endregion
-
-
-        #region Private Methods
-
-        #endregion
-
     }
 }
