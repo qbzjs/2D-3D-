@@ -32,11 +32,11 @@ namespace LSH_Lib{
             if(playerCount == 2)
             {
                 canActiveTo = true;
-                Active();
+                GuageCheck();
             }
             
         }
-        private void Active()
+        private void GuageCheck()
         {
             if (GetGaugeRate >= 1.0f && canActiveTo)
             {
