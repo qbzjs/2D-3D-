@@ -14,6 +14,7 @@ namespace GHJ_Lib
         #region Public Fields
         #endregion
 
+
         #region Private Fields
         RoleType role;
         [Header("Generate Setting")]
@@ -28,6 +29,8 @@ namespace GHJ_Lib
         [Header("UI Setting")]
         [SerializeField]
         private DollUI dollUI;
+        [SerializeField]
+        private ExorcistUI exorcistUI;
         #endregion
 
         #region MonoBehaviour CallBacks
@@ -43,12 +46,13 @@ namespace GHJ_Lib
             {
                 Debug.LogError("Missing TPV_CameraController");
             }
-
+            /*
             dollUI = GameObject.Find("DollUI").GetComponent<DollUI>();
             if (dollUI == null)
             {
                 Debug.LogError("Missing DollUI");
             }
+            */
 
         }
         void Start()
@@ -58,7 +62,7 @@ namespace GHJ_Lib
             {
                 camControllerFPV.enabled = false;
                 camControllerTPV.enabled = true;
-                dollUI.gameObject.SetActive(true);
+                exorcistUI.gameObject.SetActive(false);
 
                 InstantiateDoll();
                 //dollUI.SetStatus(localPlayerObj.GetComponent<DollStatus>());
