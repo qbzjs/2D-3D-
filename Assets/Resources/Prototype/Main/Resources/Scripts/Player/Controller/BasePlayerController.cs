@@ -8,9 +8,8 @@ namespace KSH_Lib
 {
 	public class BasePlayerController : MonoBehaviourPunCallbacks
 	{
-		#region Public Fields
+		/*--- Public Fields ---*/
 		[Header( "Character Object Setting" )]
-
 		[Tooltip( "The Object has CharacterController Component" )]
 		[SerializeField]
 		GameObject characterObj;
@@ -23,35 +22,29 @@ namespace KSH_Lib
 		[SerializeField]
 		GameObject camTarget;
 
-
 		[Header( "Character Status Setting" )]
 		[SerializeField]
 		protected float rotateSpeed = 600.0f;
 		[SerializeField]
 		protected float moveSpeed = 6.0f;
-		#endregion
 
 
-		#region Protected Fields
-		/*---- Player Movement Factors ----*/
+		/*--- Protected Fields ---*/
+
+		/*--- Player Movement Factors ---*/
 		protected CharacterController controller;
 		protected Vector2 inputDir;
 		protected Vector3 forward;
 		protected Vector3 direction;
 
 
-		/*---- Camera Vectors ----*/
+		/*--- Camera Vectors ---*/
 		protected Vector3 camForward;
 		protected Vector3 camProjToPlane;
 		protected Vector3 camRight;
-		#endregion
 
 
-		#region Private Fields
-		#endregion
-
-
-		#region MonoBehaviour Callbacks
+		/*--- MonoBehaviour Callbacks ---*/
 		protected virtual void Awake()
         {
 			Cursor.lockState = CursorLockMode.Locked;
@@ -71,15 +64,10 @@ namespace KSH_Lib
 			RotateToDirection();
 			MoveCharacter();
 		}
-		#endregion
 
 
-		#region Public Methods
-        #endregion
-
-
-        #region Protected Methods
-        protected virtual void SetDirection()
+		/*--- Protected Methods ---*/
+		protected virtual void SetDirection()
 		{
 			inputDir = BasePlayerInputManager.Instance.GetPlayerMove();
 
@@ -101,6 +89,5 @@ namespace KSH_Lib
 		{
 			controller.Move( moveSpeed * Time.deltaTime * direction );
 		}
-		#endregion
 	}
 }
