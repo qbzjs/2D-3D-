@@ -26,7 +26,7 @@ namespace GHJ_Lib
             }
 
         }
-
+        /*
         public void HitDoll(int offensePower)
         {
 
@@ -34,6 +34,7 @@ namespace GHJ_Lib
             dollanimator.PlayHitAnimation();
 
         }
+        */
         #endregion
 
         #region Public Methods

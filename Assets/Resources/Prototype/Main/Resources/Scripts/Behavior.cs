@@ -20,7 +20,7 @@ namespace KSH_Lib
 
 
         /*--- Public Methods---*/
-        public virtual void Update( in T actor, ref Behavior<T> state )
+        public virtual void Update( in T actor, Behavior<T> state )
         {
             Behavior<T> newState = DoBehavior( actor );
             if ( newState != null )
@@ -58,7 +58,7 @@ namespace KSH_Lib
         protected virtual void Activate( in T actor ) { }
         protected virtual Behavior<T> DoBehavior( in T actor )
         {
-            if ( HasSuccessors() )
+            if (HasSuccessors() )
             {
                 return PassState();
             }

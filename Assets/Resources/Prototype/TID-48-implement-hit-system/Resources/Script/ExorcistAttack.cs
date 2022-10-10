@@ -77,7 +77,7 @@ namespace GHJ_Lib
             if (other.CompareTag("Doll"))
             {
                 Debug.Log("Attack Doll");
-                other.GetComponent<DollHit>().HitDoll(FPV_characterController1.exorcistStatus.offensePower);
+                other.GetComponent<NetworkTPV_CharacterController>().Hit(FPV_characterController1.exorcistStatus.offensePower);
                 DisableAttackBoxArea();
             }
         }

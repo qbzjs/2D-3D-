@@ -39,10 +39,6 @@ namespace GHJ_Lib
 
         void Update()
         {
-            if (dollsStatus[0] == null)
-            {
-                return;
-            }
 
             for (int i = 0; i < dollsStatus.Count; ++i)
             {
