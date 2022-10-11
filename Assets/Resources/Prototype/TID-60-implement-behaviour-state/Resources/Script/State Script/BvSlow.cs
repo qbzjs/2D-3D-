@@ -7,15 +7,15 @@ namespace GHJ_Lib
 {
     public class BvSlow : Behavior<NetworkTPV_CharacterController>
     {
+
         protected override void Activate(in NetworkTPV_CharacterController actor)
         {
             actor.StartCoroutineSlow();
-            
         }
 
         protected override Behavior<NetworkTPV_CharacterController> DoBehavior(in NetworkTPV_CharacterController actor)
         {
-            return null;
+            return base.DoBehavior(actor);
         }
 
 

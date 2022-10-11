@@ -60,6 +60,7 @@ public class PFV_CharacterAnimation : MonoBehaviour
     public void Skill(bool isSkill)
     {
         animator.SetBool("isSkill", isSkill);
+        
     }
 
 

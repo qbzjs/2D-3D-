@@ -186,8 +186,9 @@ MonoBehaviour:
   camTarget: {fileID: 8865846721793731939}
   rotateSpeed: 600
   moveSpeed: 6
-  dollStatus: {fileID: -156942102994756814}
   dollAnimationController: {fileID: 4386333914453595254}
+  skinnedMeshRenderer: {fileID: 8865846721045912433}
+  dollStatus: {fileID: -156942102994756814}
 --- !u!114 &4386333914453595254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +321,12 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 05ad966a6b3793d4290e515b2afb318a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19fbc6433c996574eb80fb6d445e9968, type: 3}
+--- !u!137 &8865846721045912433 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 13700000, guid: 19fbc6433c996574eb80fb6d445e9968,
+    type: 3}
+  m_PrefabInstance: {fileID: 8865846721059606737}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8865846721059509857 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100016, guid: 19fbc6433c996574eb80fb6d445e9968,

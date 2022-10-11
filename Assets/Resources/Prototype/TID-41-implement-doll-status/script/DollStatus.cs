@@ -55,7 +55,7 @@ namespace GHJ_Lib
          
         }
 
-        public void Start()
+        public override void OnEnable()
         {
             if (GameManager.Instance.Data.Role == DEM.RoleType.Doll)
             {

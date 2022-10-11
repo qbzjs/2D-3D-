@@ -15,7 +15,7 @@ namespace GHJ_Lib
         #endregion
 
         #region MonoBehaviour CallBacks
-        void Start()
+        public void OnEnable()
         {
             dollanimator = GetComponent<DollAnimationController>();
             dollStatus = GetComponent<DollStatus>();
