@@ -58,7 +58,7 @@ namespace KSH_Lib
         protected virtual void Activate( in T actor ) { }
         protected virtual Behavior<T> DoBehavior( in T actor )
         {
-            if ( HasSuccessors() )
+            if (HasSuccessors() )
             {
                 return PassState();
             }

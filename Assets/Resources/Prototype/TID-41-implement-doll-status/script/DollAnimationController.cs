@@ -30,7 +30,7 @@ namespace GHJ_Lib
         #endregion
 
         #region MonoBehaviour CallBacks
-        void Start()
+        public override void OnEnable()
         {
             animator = GetComponent<Animator>();
             dollStatus = GetComponent<DollStatus>();

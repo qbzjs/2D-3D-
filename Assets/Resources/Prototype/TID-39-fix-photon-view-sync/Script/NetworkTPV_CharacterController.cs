@@ -3,35 +3,54 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using KSH_Lib;
 using GHJ_Lib;
+
 public class NetworkTPV_CharacterController : TestPlayerController,IPunObservable
 {
-    #region Private Fields
+    #region Public Fields
+    public DollAnimationController dollAnimationController;
+    public DollStatus dollStatus;
+    #endregion
+
+    #region Private Fieldss
     protected streamVector3 sVector3;
+    protected Behavior<NetworkTPV_CharacterController> curBehavior = new Behavior<NetworkTPV_CharacterController>();
+    protected BvNormal bvNormal = new BvNormal();
+    protected BvSlow bvSlow = new BvSlow();
+    protected BvBlind bvBlind = new BvBlind();
+    protected BvExpose bvExpose = new BvExpose();
+    protected BvGhost bvGhost = new BvGhost();
+    [SerializeField]
+    protected SkinnedMeshRenderer skinnedMeshRenderer;
+    protected Material originMaterial;
     #endregion
 
     #region Protected Fields
-    protected DollStatus dollStatus=null;
     #endregion
 
 
-    #region Public Fields
-    public DollAnimationController dollAnimationController;
-    #endregion
 
     #region MonoBehaviour CallBacks
-    protected void Strat()
+    public override void OnEnable()
     {
-        dollStatus = GetComponent<DollStatus>();
-       
+        //dollStatus = GetComponent<DollStatus>();
+        if (dollStatus==null)
+        {
+            Debug.LogError("Missing DollStatus");
+        }
         if (dollAnimationController == null)
         {
             Debug.LogError("MIssing DollAnimationController");
         }
         //dollAnimationController.SetStatus(dollStatus);
-        
+
+
         moveSpeed = dollStatus.MoveSpeed; //최종 스피드는 이동속도*상태*디버프 
-        base.Start();   
+
+
+        curBehavior.PushSuccessorState(bvNormal);
+        base.Start();
     }
 
 
@@ -44,12 +63,72 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
         }
             RotateToDirection();
             MoveCharacter();
+        Debug.Log("MoveSpeed : " + moveSpeed);
+
+        curBehavior.Update(this, ref curBehavior);
+
     }
     #endregion
 
-    #region Private Methods
-    #endregion
+    #region Public Methods
+    public DollStatus GetStatus()
+    {
+        if (dollStatus == null)
+        {
+            return null;
+        }
+        else
+        {
+            return dollStatus;
+        }
+    }
 
+    public void Hit(float Power)
+    {
+        curBehavior.PushSuccessorState(bvSlow);
+        dollAnimationController.PlayHitAnimation();
+        dollStatus.HitDollHP(Power);
+        if (dollStatus.DollHealthPoint <= 0)
+        {
+            curBehavior = bvGhost;
+        }
+    }
+   
+    public void ExposedByExorcist()
+    {
+        if (curBehavior == bvNormal)
+        { 
+            curBehavior.PushSuccessorState(bvExpose);
+            dollAnimationController.PlayHitAnimation();
+        }
+    }
+    public void StartCoroutineSlow()
+    {
+        StartCoroutine("Slow", 5);
+    }
+
+    public void StartCoroutineExpose()
+    {
+        if (GameManager.Instance.Data.Role == DEM.RoleType.Exorcist)
+        {
+            StartCoroutine("Expose", 5);
+        }
+    }
+
+    public void BecomeGhost()
+    {
+        if (GameManager.Instance.Data.Role == DEM.RoleType.Doll)
+        {
+            skinnedMeshRenderer.material = Resources.Load<Material>("Materials/Ghost");
+        }
+        else
+        {
+            skinnedMeshRenderer.material = Resources.Load<Material>("Materials/Invisible");
+        }
+
+    }
+
+    #endregion
     #region Protected Methods
     protected override void PlayerInput()
     {
@@ -70,7 +149,7 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
 
-        if (vertical != 0||horizontal!=0)
+        if (vertical != 0 || horizontal != 0)
         {
             dollAnimationController.IsMove = true;
         }
@@ -79,9 +158,9 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
             dollAnimationController.IsMove = false;
         }
 
-        
 
-        if(Input.GetKeyDown(KeyCode.LeftShift))
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             dollAnimationController.IsRoll = true;
         }
@@ -93,23 +172,15 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
 
     protected override void MoveCharacter()
     {
-        controller.SimpleMove(direction*moveSpeed);
+
+        controller.SimpleMove(direction * moveSpeed);
 
     }
+
     #endregion
 
-    #region Public Methods
-    public DollStatus GetStatus()
-    {
-        if (dollStatus == null)
-        {
-            return null;
-        }
-        else
-        {
-            return dollStatus;
-        }
-    }
+
+    #region Private Methods
     #endregion
 
     #region IPunObservable
@@ -135,5 +206,43 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
         
     }
     #endregion
+
+
+
+    IEnumerator Slow(float slowTime)
+    {
+        
+        float curTime = Time.time;
+        while (true)
+        {
+            moveSpeed *= 0.8f;
+            yield return new WaitForSeconds(slowTime);
+            if (Time.time - curTime >= slowTime)
+            {
+                moveSpeed = dollStatus.MoveSpeed;
+                curBehavior.PushSuccessorState(bvNormal);
+                break;
+            }
+        }
+    }
+
+    IEnumerator Expose(float ExposeTime)
+    {
+        float curTime = Time.time;
+        while (true)
+        {
+            originMaterial = skinnedMeshRenderer.material;
+            skinnedMeshRenderer.material= Resources.Load<Material>("Materials/Always Visible");
+            yield return new WaitForSeconds(ExposeTime);
+            if (Time.time - curTime >= ExposeTime)
+            {
+                skinnedMeshRenderer.material = originMaterial;
+                skinnedMeshRenderer.material.shader.name = "Universal Render Pipeline/Lit";
+                curBehavior.PushSuccessorState(bvNormal);
+                break;
+            }
+        }
+        
+    }
 
 }

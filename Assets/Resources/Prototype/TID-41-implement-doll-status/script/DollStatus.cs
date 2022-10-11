@@ -11,12 +11,12 @@ namespace GHJ_Lib
         public float MoveSpeed{get;private set;}
         public float InteractionSpeed { get; private set; }
         public float ProjectileSpeed { get; private set; }
-        public float DollHitPoint { get; private set; }
-        public float DevilHitPoint { get; private set; }
+        public float DollHealthPoint { get; private set; }
+        public float DevilHealthPoint { get; private set; }
         public float MaxDollHitPoint { get; private set; }
         public float MaxDevilHitPoint { get; private set; }
-        public float CurrentRateOfDollHP { get { return DollHitPoint / MaxDollHitPoint; } }
-        public float CurrentRateOfDevilHP { get { return DevilHitPoint / MaxDevilHitPoint; } }
+        public float CurrentRateOfDollHP { get { return DollHealthPoint / MaxDollHitPoint; } }
+        public float CurrentRateOfDevilHP { get { return DevilHealthPoint / MaxDevilHitPoint; } }
         #endregion	
 
         #region Private Fields
@@ -33,10 +33,10 @@ namespace GHJ_Lib
                         this.MoveSpeed = 6.0f;
                         this.InteractionSpeed = 2.0f;
                         this.ProjectileSpeed = 10.0f;
-                        this.DollHitPoint = 40;
-                        this.DevilHitPoint = 50;
-                        MaxDollHitPoint = DollHitPoint;
-                        MaxDevilHitPoint = DevilHitPoint;
+                        this.DollHealthPoint = 40;
+                        this.DevilHealthPoint = 50;
+                        MaxDollHitPoint = DollHealthPoint;
+                        MaxDevilHitPoint = DevilHealthPoint;
                     }
                     break;
                 default:
@@ -44,10 +44,10 @@ namespace GHJ_Lib
                         this.MoveSpeed = 10.0f;
                         this.InteractionSpeed = 1.0f;
                         this.ProjectileSpeed = 10.0f;
-                        this.DollHitPoint = 50;
-                        this.DevilHitPoint = 50;
-                        MaxDollHitPoint = DollHitPoint;
-                        MaxDevilHitPoint = DevilHitPoint;
+                        this.DollHealthPoint = 50;
+                        this.DevilHealthPoint = 50;
+                        MaxDollHitPoint = DollHealthPoint;
+                        MaxDevilHitPoint = DevilHealthPoint;
                     }
                     break;
             }
@@ -55,8 +55,9 @@ namespace GHJ_Lib
          
         }
 
-        public void Start()
+        public override void OnEnable()
         {
+
             if (GameManager.Instance.Data.Role == DEM.RoleType.Doll)
             {
                 GameObject UIobj = GameObject.Find("DollUI");
@@ -86,8 +87,8 @@ namespace GHJ_Lib
                     return;
                 }
                 ExorcistUI exorcistUI = UIobj.GetComponent<ExorcistUI>();
-
                 exorcistUI.SetDollStatus(this);
+
 
             }
 
@@ -101,9 +102,9 @@ namespace GHJ_Lib
             this.MoveSpeed=moveSpeed;
         }
 
-        public void HitDollHP(int Damage)
+        public void HitDollHP(float Damage)
         {
-            DollHitPoint -= Damage;
+            DollHealthPoint -= Damage;
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -113,8 +114,8 @@ namespace GHJ_Lib
                 stream.SendNext(MoveSpeed);
                 stream.SendNext(InteractionSpeed);
                 stream.SendNext(ProjectileSpeed);
-                stream.SendNext(DollHitPoint);
-                stream.SendNext(DevilHitPoint);
+                stream.SendNext(DollHealthPoint);
+                stream.SendNext(DevilHealthPoint);
                 stream.SendNext(MaxDollHitPoint);
                 stream.SendNext(MaxDevilHitPoint);
             }
@@ -123,8 +124,8 @@ namespace GHJ_Lib
                 this.MoveSpeed =(float)stream.ReceiveNext();
                 this.InteractionSpeed = (float)stream.ReceiveNext();
                 this.ProjectileSpeed = (float)stream.ReceiveNext();
-                this.DollHitPoint = (float)stream.ReceiveNext();
-                this.DevilHitPoint = (float)stream.ReceiveNext();
+                this.DollHealthPoint = (float)stream.ReceiveNext();
+                this.DevilHealthPoint = (float)stream.ReceiveNext();
                 this.MaxDollHitPoint = (float)stream.ReceiveNext();
                 this.MaxDevilHitPoint = (float)stream.ReceiveNext();
 

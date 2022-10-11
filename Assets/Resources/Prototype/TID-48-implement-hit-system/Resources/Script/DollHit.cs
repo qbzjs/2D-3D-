@@ -15,7 +15,7 @@ namespace GHJ_Lib
         #endregion
 
         #region MonoBehaviour CallBacks
-        void Start()
+        public void OnEnable()
         {
             dollanimator = GetComponent<DollAnimationController>();
             dollStatus = GetComponent<DollStatus>();
@@ -26,7 +26,7 @@ namespace GHJ_Lib
             }
 
         }
-
+        /*
         public void HitDoll(int offensePower)
         {
 
@@ -34,6 +34,7 @@ namespace GHJ_Lib
             dollanimator.PlayHitAnimation();
 
         }
+        */
         #endregion
 
         #region Public Methods

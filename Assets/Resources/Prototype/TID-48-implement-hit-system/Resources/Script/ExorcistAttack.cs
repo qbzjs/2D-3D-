@@ -60,6 +60,16 @@ namespace GHJ_Lib
             AttackArea[2].SetActive(false);
         }
 
+        public void EnableAttackSkillArea()
+        {
+            AttackArea[3].SetActive(true);
+        }
+        public void DisableAttackSkillArea()
+        {
+            AttackArea[3].SetActive(false);
+        }
+
+
         public bool GetIsAttack()
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
@@ -76,9 +86,18 @@ namespace GHJ_Lib
         {
             if (other.CompareTag("Doll"))
             {
+                if (AttackArea[2].gameObject.activeInHierarchy)
+                { 
                 Debug.Log("Attack Doll");
-                other.GetComponent<DollHit>().HitDoll(FPV_characterController1.exorcistStatus.offensePower);
+                other.GetComponent<NetworkTPV_CharacterController>().Hit(FPV_characterController1.exorcistStatus.offensePower);
                 DisableAttackBoxArea();
+                }
+
+                if (AttackArea[3].gameObject.activeInHierarchy)
+                {
+                    Debug.Log("Use Skill Expose");
+                    other.GetComponent<NetworkTPV_CharacterController>().ExposedByExorcist();
+                }
             }
         }
         #endregion
