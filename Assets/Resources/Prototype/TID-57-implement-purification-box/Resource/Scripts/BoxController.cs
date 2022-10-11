@@ -9,10 +9,11 @@ namespace LSH_Lib{
     {
         public TMP_Text interactText;
         public GameObject slider;
+        public GameObject sliderControll;
         [SerializeField]
         bool canInteract = true;
         [SerializeField]
-        bool hasDoll = false;
+        bool isEmpty = true;
         bool isclick;
 
         private void Start()
@@ -24,9 +25,9 @@ namespace LSH_Lib{
         {
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
+                sliderControll.GetComponent<SliderControll>().Initialized();
                 isclick = false;
                 slider.SetActive(false);
-                interactText.enabled = true;
             }
         }
         private void OnTriggerStay(Collider other)
@@ -34,17 +35,17 @@ namespace LSH_Lib{
 
             if (other.CompareTag("Exorcist"))
             {
-                if (canInteract && !hasDoll)
+                if (isEmpty)
                 {
-                    DoInteraction(true, false);
+                    DoInteraction(false);
                 }
             }
 
             if (other.CompareTag("Doll"))
             {
-                if (hasDoll && !canInteract)
+                if (!isEmpty)
                 {
-                    DoInteraction(false, true);
+                    DoInteraction(true);
                 }
             } 
             
@@ -57,18 +58,33 @@ namespace LSH_Lib{
         private void OnGUI()
         {
             GUI.Box(new Rect(0, 0, 150, 30), isclick.ToString());
+            GUI.Box(new Rect(0, 60, 150, 30), "BoxEmpty : " + isEmpty.ToString());
         }
 
-        void DoInteraction(bool hasDoll, bool canInteract)
+        void DoInteraction(bool hasDoll)
         {
-            interactText.enabled = true;
+            //interactText.enabled = true;
             if (Input.GetKey(KeyCode.Mouse0))
             {
                 isclick = true;
                 slider.SetActive(true);
                 interactText.enabled = false;
-                this.hasDoll = hasDoll;
-                this.canInteract = canInteract;
+                if (!hasDoll)
+                {
+                    sliderControll.GetComponent<SliderControll>().AutoCasting(2.0f);
+                }
+                else if(hasDoll)
+                {
+                    sliderControll.GetComponent<SliderControll>().Casting(1.0f);
+                }
+                if (sliderControll.GetComponentInChildren<Slider>().value == 1.0f)
+                {
+                    this.isEmpty = hasDoll;
+                }
+            }
+            else
+            {
+                interactText.enabled = true;
             }
         }
     }

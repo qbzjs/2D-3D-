@@ -6,36 +6,32 @@ namespace LSH_Lib{
     public class SliderControll : MonoBehaviour
     {
         public Slider slider;
+        bool isclick;
         private void Start()
         {
             slider = GetComponentInChildren<Slider>();
         }
-        private void Update()
+
+        private void OnGUI()
         {
-            Casting();
+            GUI.Box(new Rect(0, 30, 150, 30), "casting"+isclick.ToString());
         }
-        public void initializationGauge()
-        {
-            slider.value = 0.0f;
-        }
-        public void addValue(float speed)
+        public void Casting(float speed)
         {
             slider.value += speed * Time.deltaTime;
         }
-        private void Casting()
+        public void AutoCasting(float speed)
         {
-            if(Input.GetKey(KeyCode.Mouse0))
-            {
-                slider.value += 0.1f * Time.deltaTime;
-            }
-            if(Input.GetKeyUp(KeyCode.Mouse0))
-            {
-                slider.value = 0.0f;
-            }
+            StartCoroutine("Cast", speed);
         }
-        private void AutoCasting()
+        IEnumerator Cast(float speed)
         {
-            
+            yield return new WaitForSeconds(10.0f);
+            slider.value += speed;
+        }
+        public void Initialized()
+        {
+            slider.value = 0.0f;
         }
     }
 }
