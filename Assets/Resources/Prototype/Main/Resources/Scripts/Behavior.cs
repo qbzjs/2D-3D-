@@ -20,7 +20,7 @@ namespace KSH_Lib
 
 
         /*--- Public Methods---*/
-        public virtual void Update( in T actor, Behavior<T> state )
+        public virtual void Update( in T actor, ref Behavior<T> state )
         {
             Behavior<T> newState = DoBehavior( actor );
             if ( newState != null )

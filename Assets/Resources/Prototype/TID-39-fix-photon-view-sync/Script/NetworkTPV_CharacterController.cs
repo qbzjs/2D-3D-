@@ -8,13 +8,13 @@ using GHJ_Lib;
 
 public class NetworkTPV_CharacterController : TestPlayerController,IPunObservable
 {
-    #region Private Fields
+    #region Public Fields
+    public DollAnimationController dollAnimationController;
+    #endregion
+
+    #region Private Fieldss
     protected streamVector3 sVector3;
-    //protected Behavior<NetworkTPV_CharacterController> behavior = new Behavior<NetworkTPV_CharacterController>();
-    public BvStatus<NetworkTPV_CharacterController> IdleBehavior = new BvStatus<NetworkTPV_CharacterController>();
-    protected BvSlow<NetworkTPV_CharacterController> bvSlow = new BvSlow<NetworkTPV_CharacterController>();
-    protected BvBlind<NetworkTPV_CharacterController> bvBlind = new BvBlind<NetworkTPV_CharacterController>();
-    protected BvExpose<NetworkTPV_CharacterController> bvExpose = new BvExpose<NetworkTPV_CharacterController>();
+    protected Behavior<NetworkTPV_CharacterController> curBehavior;
     #endregion
 
     #region Protected Fields
@@ -22,12 +22,9 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     #endregion
 
 
-    #region Public Fields
-    public DollAnimationController dollAnimationController;
-    #endregion
 
     #region MonoBehaviour CallBacks
-    protected void Strat()
+    protected void OnEnable()
     {
         dollStatus = GetComponent<DollStatus>();
         if (dollStatus==null)
@@ -41,8 +38,10 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
         //dollAnimationController.SetStatus(dollStatus);
         
         moveSpeed = dollStatus.MoveSpeed; //최종 스피드는 이동속도*상태*디버프 
-        base.Start();
 
+
+        curBehavior = new Behavior<NetworkTPV_CharacterController>();
+        base.Start();
     }
 
 
@@ -56,8 +55,9 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
             RotateToDirection();
             MoveCharacter();
         Debug.Log("MoveSpeed : " + moveSpeed);
-        IdleBehavior.Update(this, IdleBehavior);
-        
+
+        curBehavior.Update(this, ref curBehavior);
+
     }
     #endregion
 
@@ -107,6 +107,7 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
 
     protected override void MoveCharacter()
     {
+       
         controller.SimpleMove(direction*moveSpeed);
 
     }
@@ -127,7 +128,7 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
 
     public void Hit(float Power)
     {
-        IdleBehavior.PushSuccessorState(bvSlow);
+        curBehavior.PushSuccessorState(new BvSlow());
         dollAnimationController.PlayHitAnimation();
     }
     #endregion
@@ -167,7 +168,6 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     {
         
         float curTime = Time.time;
-
         while (true)
         {
             moveSpeed *= 0.8f;
@@ -175,6 +175,7 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
             if (Time.time - curTime >= slowTime)
             {
                 moveSpeed = dollStatus.MoveSpeed;
+                curBehavior.PushSuccessorState();
                 break;
             }
         }
