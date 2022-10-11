@@ -13,7 +13,6 @@ namespace KSH_Lib
 			Doll,
 			Exorcist
 		}
-
 		public enum ExorcistType
         {
 			Photographer,
@@ -118,21 +117,5 @@ namespace KSH_Lib
 		public float DevilHP;
 
 		public float attackPower;
-
-
-
-		/*--- Protected Fields ---*/
-
-
-		/*--- Private Fields ---*/
-
-
-		/*--- Public Methods ---*/
-
-
-		/*--- Protected Methods ---*/
-
-
-		/*--- Private Methods ---*/
 	}
 }

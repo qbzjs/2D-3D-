@@ -2,44 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataManager : MonoBehaviour
+namespace KSH_Lib
 {
-	/*--- Singleton ---*/
-	public DataManager Instance
-    {
-		get
-        {
-			if(instance == null)
-            {
-				GameObject obj = new GameObject( "_DataManager" );
-				instance = obj.AddComponent<DataManager>();
-            }
-			return instance;
-        }
-    }
-	private DataManager instance;	
-
-	/*--- Public Fields ---*/
-
-
-	/*--- Protected Fields ---*/
-
-
-	/*--- Private Fields ---*/
-
-
-	/*--- MonoBehaviour Callbacks ---*/
-	void Start()
+	public class DataManager : MonoBehaviour
 	{
+		/*--- Singleton ---*/
+		public DataManager Instance
+		{
+			get
+			{
+				if ( instance == null )
+				{
+					GameObject obj = new GameObject( "_DataManager" );
+					instance = obj.AddComponent<DataManager>();
+				}
+				return instance;
+			}
+		}
+		private DataManager instance;
+
+		/*--- Public Fields ---*/
 		
+
+		/*--- Protected Fields ---*/
+
+
+		/*--- Private Fields ---*/
+
+
+		/*--- MonoBehaviour Callbacks ---*/
+		void Start()
+		{
+
+		}
+
+
+		/*--- Public Methods ---*/
+
+
+		/*--- Protected Methods ---*/
+
+
+		/*--- Private Methods ---*/
 	}
-
-
-	/*--- Public Methods ---*/
-
-
-	/*--- Protected Methods ---*/
-
-
-	/*--- Private Methods ---*/
 }
