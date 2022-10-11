@@ -26,8 +26,9 @@ namespace LSH_Lib{
         }
         IEnumerator Cast(float speed)
         {
-            yield return new WaitForSeconds(10.0f);
-            slider.value += speed;
+            slider.value += speed * Time.deltaTime;
+            yield return new WaitForSeconds(1.0f);
+            
         }
         public void Initialized()
         {

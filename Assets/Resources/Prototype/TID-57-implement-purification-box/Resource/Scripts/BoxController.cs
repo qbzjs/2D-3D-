@@ -71,7 +71,7 @@ namespace LSH_Lib{
                 interactText.enabled = false;
                 if (!hasDoll)
                 {
-                    sliderControll.GetComponent<SliderControll>().AutoCasting(2.0f);
+                    StartCoroutine("AutoCasting");
                 }
                 else if(hasDoll)
                 {
@@ -86,6 +86,11 @@ namespace LSH_Lib{
             {
                 interactText.enabled = true;
             }
+        }
+        IEnumerator AutoCasting()
+        {
+            sliderControll.GetComponent<SliderControll>().AutoCasting(1.0f);
+            yield return new WaitForSeconds(5.0f);
         }
     }
 }
