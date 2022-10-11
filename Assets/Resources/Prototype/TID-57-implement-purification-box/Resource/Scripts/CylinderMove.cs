@@ -6,6 +6,7 @@ using UnityEngine;
 public struct ExorcistStates
 {
     public bool hasDoll;
+    public float castingSpeed;
 }
 namespace LSH_Lib{
     
@@ -15,6 +16,7 @@ namespace LSH_Lib{
         private void Start()
         {
             states.hasDoll = false;
+            states.castingSpeed = 1.0f;
         }
         private void Update()
         {
@@ -36,10 +38,6 @@ namespace LSH_Lib{
             {
                 transform.Rotate(Vector3.down, 50.0f * Time.deltaTime);
             }
-        }
-        public bool GethasDoll()
-        {
-            return states.hasDoll;
         }
     }
 }
