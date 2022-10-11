@@ -20,6 +20,7 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     protected BvSlow bvSlow = new BvSlow();
     protected BvBlind bvBlind = new BvBlind();
     protected BvExpose bvExpose = new BvExpose();
+    protected BvGhost bvGhost = new BvGhost();
     [SerializeField]
     protected SkinnedMeshRenderer skinnedMeshRenderer;
     protected Material originMaterial;
@@ -86,8 +87,13 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     {
         curBehavior.PushSuccessorState(bvSlow);
         dollAnimationController.PlayHitAnimation();
+        dollStatus.HitDollHP(Power);
+        if (dollStatus.DollHealthPoint <= 0)
+        {
+            curBehavior = bvGhost;
+        }
     }
-    #endregion
+   
     public void ExposedByExorcist()
     {
         if (curBehavior == bvNormal)
@@ -105,10 +111,24 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     {
         if (GameManager.Instance.Data.Role == DEM.RoleType.Exorcist)
         {
-            StartCoroutine("Expose", 10);
+            StartCoroutine("Expose", 5);
         }
     }
 
+    public void BecomeGhost()
+    {
+        if (GameManager.Instance.Data.Role == DEM.RoleType.Doll)
+        {
+            skinnedMeshRenderer.material = Resources.Load<Material>("Materials/Ghost");
+        }
+        else
+        {
+            skinnedMeshRenderer.material = Resources.Load<Material>("Materials/Invisible");
+        }
+
+    }
+
+    #endregion
     #region Protected Methods
     protected override void PlayerInput()
     {

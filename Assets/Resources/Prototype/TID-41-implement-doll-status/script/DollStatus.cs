@@ -57,6 +57,7 @@ namespace GHJ_Lib
 
         public override void OnEnable()
         {
+
             if (GameManager.Instance.Data.Role == DEM.RoleType.Doll)
             {
                 GameObject UIobj = GameObject.Find("DollUI");
@@ -101,7 +102,7 @@ namespace GHJ_Lib
             this.MoveSpeed=moveSpeed;
         }
 
-        public void HitDollHP(int Damage)
+        public void HitDollHP(float Damage)
         {
             DollHealthPoint -= Damage;
         }
