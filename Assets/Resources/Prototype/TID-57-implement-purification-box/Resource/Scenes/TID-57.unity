@@ -158,8 +158,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
+  m_AnchoredPosition: {x: 4.594987, y: 0}
+  m_SizeDelta: {x: 19.190025, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &102926625
 MonoBehaviour:
@@ -279,6 +279,7 @@ GameObject:
   - component: {fileID: 325996807}
   - component: {fileID: 325996806}
   - component: {fileID: 325996805}
+  - component: {fileID: 325996809}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -369,6 +370,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &325996809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 325996804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d850773010305894998970ba1d6e2b55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 1950254769}
 --- !u!1 &387659347
 GameObject:
   m_ObjectHideFlags: 0
@@ -976,6 +990,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   states:
     hasDoll: 0
+    castingSpeed: 0
 --- !u!136 &1095206902
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1477,7 +1492,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 102926625}
   m_FillRect: {fileID: 102926624}
   m_HandleRect: {fileID: 0}
   m_Direction: 0
