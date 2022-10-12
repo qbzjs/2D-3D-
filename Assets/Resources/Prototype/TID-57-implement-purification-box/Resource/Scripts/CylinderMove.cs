@@ -21,6 +21,7 @@ namespace LSH_Lib{
         private void Update()
         {
             Move();
+            hasDoll();
         }
         void Move()
         {
@@ -37,6 +38,13 @@ namespace LSH_Lib{
             if (Input.GetKey(KeyCode.A))
             {
                 transform.Rotate(Vector3.down, 50.0f * Time.deltaTime);
+            }
+        }
+        void hasDoll()
+        {
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                states.hasDoll = true;
             }
         }
     }

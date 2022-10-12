@@ -5,8 +5,9 @@ using UnityEngine.UI;
 namespace LSH_Lib{
     public class SliderControll : MonoBehaviour
     {
-        public Slider slider;
+        public GameObject sliderUI;
         bool isclick;
+        public Slider slider;
         private void Start()
         {
             slider = GetComponentInChildren<Slider>();
@@ -26,13 +27,29 @@ namespace LSH_Lib{
         }
         IEnumerator Cast(float speed)
         {
-            slider.value += speed * Time.deltaTime;
-            yield return new WaitForSeconds(1.0f);
-            
+            slider.value = 0.0f;
+            float value = 0.0f;
+
+            while (value <= 100.0f)
+            {
+                yield return new WaitForSeconds(1.0f);
+                slider.value += value * Time.deltaTime;
+                value += 10.0f;
+            }
+            Initialized();
+            Invisible();
         }
         public void Initialized()
         {
             slider.value = 0.0f;
+        }
+        public void visible()
+        {
+            sliderUI.SetActive(true);
+        }
+        public void Invisible()
+        {
+            sliderUI.SetActive(false);
         }
     }
 }

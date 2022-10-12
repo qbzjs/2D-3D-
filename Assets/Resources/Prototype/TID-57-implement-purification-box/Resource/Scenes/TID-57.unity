@@ -1220,8 +1220,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: {fileID: 2082283909}
-  slider: {fileID: 1950254767}
-  sliderControll: {fileID: 1950254767}
+  sliderControll: {fileID: 1950254770}
+  Exorcist: {fileID: 1095206901}
   canInteract: 1
   isEmpty: 1
 --- !u!1 &1095206900
@@ -1258,7 +1258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   states:
-    hasDoll: 0
+    hasDoll: 1
     castingSpeed: 0
 --- !u!136 &1095206902
 CapsuleCollider:
@@ -2131,6 +2131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d850773010305894998970ba1d6e2b55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sliderUI: {fileID: 1950254767}
   slider: {fileID: 1950254769}
 --- !u!1 &2082283907
 GameObject:
