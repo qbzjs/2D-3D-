@@ -57,6 +57,10 @@ public class GameManager : MonoBehaviour
         NextSceneName = sceneName;
         SceneManager.LoadScene( LoadingSceneName );
     }
+    public void LoadSceneImmediately(string sceneName)
+    {
+        SceneManager.LoadScene( sceneName );
+    }
 
     public void LoadPhotonScene( string sceneName )
     {
