@@ -8,34 +8,32 @@ namespace LSH_Lib{
     public class BoxController : MonoBehaviour
     {
         public TMP_Text interactText;
-        public GameObject slider;
-        public GameObject sliderControll;
+        public SliderControll sliderControll;
+        public CylinderMove Exorcist;
+        
         [SerializeField]
         bool canInteract = true;
         [SerializeField]
         bool isEmpty = true;
         bool isclick;
+        string PlayerTag;
 
         private void Start()
         {
             interactText.enabled = false;
-            slider.SetActive(false);
+            sliderControll.Invisible();
         }
         private void Update()
         {
-            if (Input.GetKeyUp(KeyCode.Mouse0))
-            {
-                sliderControll.GetComponent<SliderControll>().Initialized();
-                isclick = false;
-                slider.SetActive(false);
-            }
+            KeyUp();
         }
         private void OnTriggerStay(Collider other)
         {
-
+            
             if (other.CompareTag("Exorcist"))
             {
-                if (isEmpty)
+                PlayerTag = "Exorcist";
+                if (isEmpty && Exorcist.states.hasDoll)
                 {
                     DoInteraction(false);
                 }
@@ -43,6 +41,7 @@ namespace LSH_Lib{
 
             if (other.CompareTag("Doll"))
             {
+                PlayerTag = "Doll";
                 if (!isEmpty)
                 {
                     DoInteraction(true);
@@ -63,23 +62,29 @@ namespace LSH_Lib{
 
         void DoInteraction(bool hasDoll)
         {
-            //interactText.enabled = true;
+            
             if (Input.GetKey(KeyCode.Mouse0))
             {
-                isclick = true;
-                slider.SetActive(true);
+                isclick = true; 
+
+                sliderControll.visible();
                 interactText.enabled = false;
-                if (!hasDoll)
+
+                if (PlayerTag == "Exorcist")
                 {
-                    StartCoroutine("AutoCasting");
-                }
-                else if(hasDoll)
-                {
-                    sliderControll.GetComponent<SliderControll>().Casting(1.0f);
-                }
-                if (sliderControll.GetComponentInChildren<Slider>().value == 1.0f)
-                {
+                    sliderControll.AutoCasting(10.0f);
                     this.isEmpty = hasDoll;
+                    Exorcist.states.hasDoll = false;
+                }
+                if(PlayerTag == "Doll")
+                {
+                    sliderControll.Casting(1.0f);
+                    if(sliderControll.slider.value.Equals(1.0f))
+                    {
+                        this.isEmpty = true;
+                        sliderControll.Invisible();
+                        interactText.enabled = false;
+                    }
                 }
             }
             else
@@ -87,10 +92,21 @@ namespace LSH_Lib{
                 interactText.enabled = true;
             }
         }
-        IEnumerator AutoCasting()
+
+        void KeyUp()
         {
-            sliderControll.GetComponent<SliderControll>().AutoCasting(1.0f);
-            yield return new WaitForSeconds(5.0f);
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                if(PlayerTag == "Doll")
+                {
+                    isclick = false;
+                    sliderControll.Initialized();
+                }
+                if(PlayerTag == "Exorcist")
+                {   
+                    sliderControll.visible();
+                }
+            }
         }
     }
 }
