@@ -42,23 +42,16 @@ namespace TID42
         {
             if (photonView.IsMine)
             {
+                Movement();
                 Attack();
                 Skill();
             }
 
             animator.Attack(exorcistStatus.isAttack);
             animator.Skill(exorcistStatus.isSkill);
-        }
-        protected virtual void FixedUpdate()
-        {
-            if (photonView.IsMine)
-            { 
-                Movement();
-            }
-            controller.SimpleMove(moveVector * exorcistStatus.moveSpeed);
             animator.Move(moveVector.magnitude);
+            controller.SimpleMove(moveVector * exorcistStatus.moveSpeed);
         }
-
 
         #endregion
 

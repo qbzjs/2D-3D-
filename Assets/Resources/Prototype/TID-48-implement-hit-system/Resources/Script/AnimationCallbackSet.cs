@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TID42;
-using Photon.Pun;
 
 namespace GHJ_Lib
 { 
-    public class ExorcistAttack : MonoBehaviour,IPunObservable
+    public class AnimationCallbackSet : MonoBehaviour
     {
         #region Public Fields
         public GameObject[] AttackArea;
@@ -14,7 +13,6 @@ namespace GHJ_Lib
         #endregion
 
         #region Protected Fields
-        protected bool isAttacking=false;
         protected Animator animator;
         #endregion
 
@@ -30,11 +28,6 @@ namespace GHJ_Lib
         {
             animator = GetComponent<Animator>();
             FPV_characterController1 = GetComponent<FPV_CharacterController1>();
-        }
-        void Update()
-        {
-            isAttacking=GetIsAttack();
-
         }
 
         #endregion
@@ -69,19 +62,6 @@ namespace GHJ_Lib
             AttackArea[3].SetActive(false);
         }
 
-
-        public bool GetIsAttack()
-        {
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         private void OnTriggerStay(Collider other)
         {
             if (other.CompareTag("Doll"))
@@ -109,18 +89,5 @@ namespace GHJ_Lib
 
         #endregion
 
-        #region IPunObservable
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-            if (stream.IsWriting)
-            {
-                stream.SendNext(isAttacking);
-            }
-            if (stream.IsReading)
-            {
-                this.isAttacking = (bool)stream.ReceiveNext();
-            }
-        }
-        #endregion
     }
 }
