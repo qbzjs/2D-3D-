@@ -20,21 +20,25 @@ namespace LSH_Lib{
         public void AutoCasting(float speed)
         {
             StartCoroutine("Cast", speed);
-            
+            //Initialized();
+            //Invisible();
         }
         IEnumerator Cast(float speed)
         {
            slider.value = 0.0f;
            float value = 0.0f;
-
-            while (value <= 100.0f)
+            float time = speed * Time.deltaTime;
+            while (value <= 1.0f)
             {
-                yield return new WaitForSeconds(speed * Time.deltaTime);
-                Casting(speed);
-                value += 10.0f;
+                yield return new WaitForSeconds(0.1f);
+                slider.value += time;
+                value += time;
             }
+            //yield return new WaitForSeconds(time);
             Initialized();
             Invisible();
+            
+            //Casting(speed);
         }
         public void Initialized()
         {
