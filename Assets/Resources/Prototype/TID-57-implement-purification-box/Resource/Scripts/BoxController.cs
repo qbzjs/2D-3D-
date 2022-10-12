@@ -34,6 +34,7 @@ namespace LSH_Lib{
             {
                 PlayerTag = "Exorcist";
                 if (isEmpty && Exorcist.states.hasDoll)
+                //if (isEmpty)
                 {
                     DoInteraction(false);
                 }
