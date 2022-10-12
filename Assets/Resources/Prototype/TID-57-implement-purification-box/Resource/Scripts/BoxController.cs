@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon;
+using Photon.Pun;
+using Photon.Realtime;
 using TMPro;
 
 namespace LSH_Lib{
-    public class BoxController : MonoBehaviour
+    public class BoxController : MonoBehaviourPunCallbacks, IPunObservable
     {
         public TMP_Text interactText;
         public SliderControll sliderControll;
@@ -13,8 +16,8 @@ namespace LSH_Lib{
         
         [SerializeField]
         bool canInteract = true;
-        [SerializeField]
-        bool isEmpty = true;
+        
+        public bool isEmpty = true;
         bool isclick;
         string PlayerTag;
 
@@ -27,6 +30,7 @@ namespace LSH_Lib{
         {
             KeyUp();
         }
+        [PunRPC]
         private void OnTriggerStay(Collider other)
         {
             
@@ -50,6 +54,7 @@ namespace LSH_Lib{
             } 
             
         }
+        [PunRPC]
         private void OnTriggerExit(Collider other)
         {
             interactText.enabled = false;
@@ -60,7 +65,7 @@ namespace LSH_Lib{
             GUI.Box(new Rect(0, 0, 150, 30), isclick.ToString());
             GUI.Box(new Rect(0, 60, 150, 30), "BoxEmpty : " + isEmpty.ToString());
         }
-
+        [PunRPC]
         void DoInteraction(bool hasDoll)
         {
             
@@ -75,7 +80,7 @@ namespace LSH_Lib{
                 {
                     sliderControll.AutoCasting(10.0f);
                     this.isEmpty = hasDoll;
-                    Exorcist.states.hasDoll = false;
+                    //Exorcist.states.hasDoll = false;
                 }
                 if(PlayerTag == "Doll")
                 {
@@ -94,7 +99,7 @@ namespace LSH_Lib{
                 sliderControll.Invisible();
             }
         }
-
+        [PunRPC]
         void KeyUp()
         {
             if (Input.GetKeyUp(KeyCode.Mouse0))
@@ -108,6 +113,21 @@ namespace LSH_Lib{
                 {   
                     sliderControll.visible();
                 }
+            }
+        }
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+            {
+                // We own this player: send the others our data
+                stream.SendNext(isEmpty);
+                
+            }
+            else
+            {
+                // Network player, receive data
+                this.isEmpty = (bool)stream.ReceiveNext();
+                
             }
         }
     }

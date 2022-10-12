@@ -7,7 +7,7 @@ namespace LSH_Lib{
     {
         private void Update()
         {
-            Move();
+            //Move();
         }
         private void Move()
         {

@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon;
 namespace LSH_Lib{
-    public class SliderControll : MonoBehaviour
+    public class SliderControll : MonoBehaviourPun
     {
         public GameObject sliderUI;
         bool isclick;
@@ -12,17 +14,19 @@ namespace LSH_Lib{
         {
             slider = GetComponentInChildren<Slider>();
         }
-
+        [PunRPC]
         public void Casting(float speed)
         {
             slider.value += speed * Time.deltaTime;
         }
+        [PunRPC]
         public void AutoCasting(float speed)
         {
             StartCoroutine("Cast", speed);
             //Initialized();
             //Invisible();
         }
+        [PunRPC]
         IEnumerator Cast(float speed)
         {
            slider.value = 0.0f;
@@ -40,14 +44,17 @@ namespace LSH_Lib{
             
             //Casting(speed);
         }
+        [PunRPC]
         public void Initialized()
         {
             slider.value = 0.0f;
         }
+        [PunRPC]
         public void visible()
         {
             sliderUI.SetActive(true);
         }
+        [PunRPC]
         public void Invisible()
         {
             sliderUI.SetActive(false);
