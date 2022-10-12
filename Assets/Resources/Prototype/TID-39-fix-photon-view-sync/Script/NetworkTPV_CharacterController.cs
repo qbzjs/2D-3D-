@@ -66,7 +66,7 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
         Debug.Log("MoveSpeed : " + moveSpeed);
 
         curBehavior.Update(this, ref curBehavior);
-
+        dollAnimationController.UpdateHP_Rate();
     }
     #endregion
 

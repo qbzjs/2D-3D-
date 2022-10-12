@@ -6,7 +6,6 @@ using Photon.Pun;
 using Photon.Realtime;
 using GHJ_Lib;
 using KSH_Lib;
-
 namespace TID42
 {
     public class FPV_CharacterController1 : MonoBehaviourPunCallbacks,IPunObservable
@@ -22,6 +21,7 @@ namespace TID42
         protected float finalAttackSpeed;
         public ExorcistStatus exorcistStatus = new ExorcistStatus();
         public GameObject target;
+        public ParticleSystem Ayra;
         #endregion
 
         #region Protected Fields
@@ -30,10 +30,12 @@ namespace TID42
         protected CharacterController controller;
         protected PFV_CharacterAnimation animator;
         protected streamVector3 sVector3;
-
+        protected ExorcistUI exorcistUI;
+        protected float rageTime = 40.0f;
         //----BvState----//
         protected Behavior<FPV_CharacterController1> curBehavior = new Behavior<FPV_CharacterController1>();
         protected BvNormalExorcist bvNormalExorcist = new BvNormalExorcist();
+        protected BvRage bvRage = new BvRage();
         protected BvFastExorcist bvFast = new BvFastExorcist();
         protected BvSlowExorcist bvSlow  = new BvSlowExorcist();
         protected BvAttackSpeedUp bvAttackSpeedUp = new BvAttackSpeedUp();
@@ -56,6 +58,16 @@ namespace TID42
             animator = GetComponent<PFV_CharacterAnimation>();
             curBehavior.PushSuccessorState(bvNormalExorcist);
             finalMoveSpeed = exorcistStatus.moveSpeed;
+            GameObject exUI = GameObject.Find("ExorcistUI");
+            if (exUI == null)
+            {
+                return;
+            }
+            exorcistUI = exUI.GetComponent<ExorcistUI>();
+            if (exorcistUI == null)
+            {
+                Debug.LogError("Missing ExorcistUI");
+            }
         }
         protected virtual void Update()
         {
@@ -71,6 +83,13 @@ namespace TID42
             animator.Move(moveVector.magnitude);
             controller.SimpleMove(moveVector * finalMoveSpeed);
             curBehavior.Update(this, ref curBehavior);
+
+            if (curBehavior == bvRage)
+            {
+                bvRage.RageDuration -= Time.deltaTime;
+                exorcistUI.CoolTime(bvRage.RageDuration/rageTime);
+            }
+
         }
 
         #endregion
@@ -81,12 +100,21 @@ namespace TID42
             bvFast.Ratio = fastRatio;
             curBehavior.PushSuccessorState(bvFast);
         }
-
         public void Slow(float slowRatio)
         {
             bvSlow.Ratio = slowRatio;
             curBehavior.PushSuccessorState(bvSlow);
         }
+        public void Rage()
+        {
+            if (curBehavior == bvRage)
+            {
+                 return;
+            }
+            
+            curBehavior.PushSuccessorState(bvRage);
+        }
+
 
         public void StartCoroutineMoveFast(float duration, float fastRatio)
         {
@@ -96,6 +124,12 @@ namespace TID42
         {
             StartCoroutine(MoveSlow(duration, fastRatio));
         }
+        public void StartCoroutineOnRage()
+        {
+            StartCoroutine(OnRage());
+        }
+
+
         public void StartCoroutineAttackSpeedUp()
         {
             StartCoroutine("AttackSpeedUp", 5);
@@ -128,13 +162,21 @@ namespace TID42
             }
             else
             {
+            
                 exorcistStatus.isAttack = false;
             }
+
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                Rage();
+            }
+
         }
         protected virtual void Skill()
         {
             if (Input.GetKey(KeyCode.F))
             {
+
                 exorcistStatus.isSkill = true;
             }
             else
@@ -203,6 +245,21 @@ namespace TID42
             finalAttackSpeed -= exorcistStatus.attackSpeed * 0.2f;
             yield return new WaitForSeconds(duration);
             finalAttackSpeed += exorcistStatus.attackSpeed * 0.2f;
+            curBehavior.PushSuccessorState(bvNormalExorcist);
+        }
+
+        IEnumerator OnRage()
+        {
+            Ayra.Play();
+            animator.Rage(true);
+            finalAttackSpeed += exorcistStatus.attackSpeed * 0.5f;
+            finalMoveSpeed += exorcistStatus.moveSpeed * 0.5f;
+            bvRage.RageDuration = rageTime;
+            yield return new WaitForSeconds(rageTime);
+            Ayra.Stop();
+            animator.Rage(false);
+            finalAttackSpeed -= exorcistStatus.attackSpeed * 0.5f;
+            finalMoveSpeed -= exorcistStatus.moveSpeed * 0.5f;
             curBehavior.PushSuccessorState(bvNormalExorcist);
         }
 

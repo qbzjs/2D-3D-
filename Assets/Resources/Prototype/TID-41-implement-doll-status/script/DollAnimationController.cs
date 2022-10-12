@@ -74,6 +74,12 @@ namespace GHJ_Lib
         {
             animator.Play("Hit");
         }
+
+        public void UpdateHP_Rate()
+        {
+            float HP_Rate = dollStatus.DollHealthPoint / dollStatus.DevilHealthPoint;
+            animator.SetFloat("HPrate", HP_Rate);  
+        }
         #endregion
 
         #region Private Methods

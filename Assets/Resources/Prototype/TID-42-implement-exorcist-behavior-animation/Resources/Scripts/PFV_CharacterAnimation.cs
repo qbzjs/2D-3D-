@@ -67,7 +67,10 @@ public class PFV_CharacterAnimation : MonoBehaviour
         animator.SetBool("isSkill", isSkill);
         
     }
-
+    public void Rage(bool isRage)
+    {
+        animator.SetBool("isRage", isRage);
+    }
 
     #endregion
 

@@ -123,6 +123,95 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &91593735
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 455268536397400467, guid: b58e2493f0c56954f8a5616081108179,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3615976796478522397, guid: b58e2493f0c56954f8a5616081108179,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3625430952353119593, guid: b58e2493f0c56954f8a5616081108179,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3625916634874544261, guid: b58e2493f0c56954f8a5616081108179,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023530114998782608, guid: b58e2493f0c56954f8a5616081108179,
+        type: 3}
+      propertyPath: m_Name
+      value: Exorcist
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023530114998782611, guid: b58e2493f0c56954f8a5616081108179,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023530114998782611, guid: b58e2493f0c56954f8a5616081108179,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.100247
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023530114998782611, guid: b58e2493f0c56954f8a5616081108179,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.19131446
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023530114998782611, guid: b58e2493f0c56954f8a5616081108179,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.63762283
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023530114998782611, guid: b58e2493f0c56954f8a5616081108179,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023530114998782611, guid: b58e2493f0c56954f8a5616081108179,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023530114998782611, guid: b58e2493f0c56954f8a5616081108179,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023530114998782611, guid: b58e2493f0c56954f8a5616081108179,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023530114998782611, guid: b58e2493f0c56954f8a5616081108179,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023530114998782611, guid: b58e2493f0c56954f8a5616081108179,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023530114998782611, guid: b58e2493f0c56954f8a5616081108179,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b58e2493f0c56954f8a5616081108179, type: 3}
 --- !u!1 &503868408
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +308,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &806922955
 GameObject:
@@ -325,7 +414,7 @@ PrefabInstance:
     - target: {fileID: 8865846720936348899, guid: 92dfdfef7eed00e4d8c5ead785513caa,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8865846720936348899, guid: 92dfdfef7eed00e4d8c5ead785513caa,
         type: 3}
@@ -477,7 +566,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &823648872
 MonoBehaviour:
