@@ -33,8 +33,8 @@ namespace LSH_Lib{
             if (other.CompareTag("Exorcist"))
             {
                 PlayerTag = "Exorcist";
-                if (isEmpty && Exorcist.states.hasDoll)
-                //if (isEmpty)
+                //if (isEmpty && Exorcist.states.hasDoll)
+                if (isEmpty)
                 {
                     DoInteraction(false);
                 }

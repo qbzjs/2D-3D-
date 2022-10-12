@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[System.Serializable]
+public struct ExorcistStates
+{
+    public bool hasDoll;
+    public float castingSpeed;
+}
 namespace LSH_Lib{
-    [System.Serializable]
-    public struct ExorcistStates
-    {
-        public bool hasDoll;
-        public float castingSpeed;
-    }
-    public class CylinderMove : MonoBehaviour
+    
+    public class TestStatus : MonoBehaviour
     {
         public ExorcistStates states;
         private void Start()
@@ -20,7 +20,7 @@ namespace LSH_Lib{
         }
         private void Update()
         {
-            //Move();
+            Move();
             hasDoll();
         }
         private void OnGUI()
