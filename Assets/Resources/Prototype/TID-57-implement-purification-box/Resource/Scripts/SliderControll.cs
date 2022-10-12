@@ -13,10 +13,6 @@ namespace LSH_Lib{
             slider = GetComponentInChildren<Slider>();
         }
 
-        private void OnGUI()
-        {
-            GUI.Box(new Rect(0, 30, 150, 30), "casting"+isclick.ToString());
-        }
         public void Casting(float speed)
         {
             slider.value += speed * Time.deltaTime;
@@ -24,16 +20,17 @@ namespace LSH_Lib{
         public void AutoCasting(float speed)
         {
             StartCoroutine("Cast", speed);
+            
         }
         IEnumerator Cast(float speed)
         {
-            slider.value = 0.0f;
-            float value = 0.0f;
+           slider.value = 0.0f;
+           float value = 0.0f;
 
             while (value <= 100.0f)
             {
-                yield return new WaitForSeconds(1.0f);
-                slider.value += value * Time.deltaTime;
+                yield return new WaitForSeconds(speed * Time.deltaTime);
+                Casting(speed);
                 value += 10.0f;
             }
             Initialized();
