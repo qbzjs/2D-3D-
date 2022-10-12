@@ -10,11 +10,17 @@ public class PFV_CharacterAnimation : MonoBehaviour
     [SerializeField]
     private Animator animator;
     public static PFV_CharacterAnimation instance { get { return _instance; } }
+    public float AttackSpeed
+    {
+        get;
+        set;
+    }
     #endregion
 
     #region Private Fields
     private static PFV_CharacterAnimation _instance;
     private Rigidbody rid;
+    private bool isAttack = false;
     #endregion
 
     #region MonoBehaviour Callbacks
@@ -35,20 +41,18 @@ public class PFV_CharacterAnimation : MonoBehaviour
         animator = GetComponent<Animator>();
         rid = GetComponent<Rigidbody>();
     }
+
     void Update()
     {
-        
+        if (isAttack)
+        { 
+            ApplyAttackSpeed();
+        }
     }
     #endregion
     #region Public Methods
-    public void OnEnable()
-    {
-        
-    }
-    public void OnDisable()
-    {
-        
-    }
+
+
     public void Move(float speed)
     {
         animator.SetFloat("MoveSpeed", speed);
@@ -56,6 +60,7 @@ public class PFV_CharacterAnimation : MonoBehaviour
     public void Attack(bool isAttack)
     {
         animator.SetBool("isAttack", isAttack);
+        isAttack = true;
     }
     public void Skill(bool isSkill)
     {
@@ -67,7 +72,18 @@ public class PFV_CharacterAnimation : MonoBehaviour
     #endregion
 
     #region Private Methods
-
+    void ApplyAttackSpeed()
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        {
+            animator.speed = AttackSpeed;
+        }
+        else
+        {
+            animator.speed = 1;
+            isAttack = false;
+        }
+    }
 
     #endregion
 

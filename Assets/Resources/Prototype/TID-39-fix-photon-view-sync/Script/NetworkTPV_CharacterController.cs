@@ -211,38 +211,19 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
 
     IEnumerator Slow(float slowTime)
     {
-        
-        float curTime = Time.time;
-        while (true)
-        {
-            moveSpeed *= 0.8f;
-            yield return new WaitForSeconds(slowTime);
-            if (Time.time - curTime >= slowTime)
-            {
-                moveSpeed = dollStatus.MoveSpeed;
-                curBehavior.PushSuccessorState(bvNormal);
-                break;
-            }
-        }
+        moveSpeed *= 0.8f;
+        yield return new WaitForSeconds(slowTime);
+        moveSpeed = dollStatus.MoveSpeed;
+        curBehavior.PushSuccessorState(bvNormal);
     }
 
     IEnumerator Expose(float ExposeTime)
     {
-        float curTime = Time.time;
-        while (true)
-        {
-            originMaterial = skinnedMeshRenderer.material;
-            skinnedMeshRenderer.material= Resources.Load<Material>("Materials/Always Visible");
-            yield return new WaitForSeconds(ExposeTime);
-            if (Time.time - curTime >= ExposeTime)
-            {
-                skinnedMeshRenderer.material = originMaterial;
-                skinnedMeshRenderer.material.shader.name = "Universal Render Pipeline/Lit";
-                curBehavior.PushSuccessorState(bvNormal);
-                break;
-            }
-        }
-        
+        originMaterial = skinnedMeshRenderer.material;
+        skinnedMeshRenderer.material= Resources.Load<Material>("Materials/Always Visible");
+        yield return new WaitForSeconds(ExposeTime);
+        skinnedMeshRenderer.material = originMaterial;
+        curBehavior.PushSuccessorState(bvNormal);
     }
 
 }
