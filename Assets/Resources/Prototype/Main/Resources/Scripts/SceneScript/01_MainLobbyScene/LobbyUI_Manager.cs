@@ -58,6 +58,9 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
     [SerializeField]
     TextMeshProUGUI actionButtonTMP;
 
+    [Header( "Debug Only" )]
+    [SerializeField]
+    string lshSceneName = "";
 
     /*--- Private Fields ---*/
     int curPlayerCnt = 0;
@@ -275,5 +278,10 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
     void OnSkipButtonClicked()
     {
         LoadRoomScene();
+    }
+    void OnLSHButtonClicked()
+    {
+        loadSceneName = lshSceneName;
+        OnSkipButtonClicked();
     }
 }
