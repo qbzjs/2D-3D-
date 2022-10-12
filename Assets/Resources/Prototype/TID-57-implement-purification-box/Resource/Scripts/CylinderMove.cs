@@ -23,6 +23,10 @@ namespace LSH_Lib{
             Move();
             hasDoll();
         }
+        private void OnGUI()
+        {
+            GUI.Box(new Rect(0,30, 150,30), "Exorcist has Doll :" + states.hasDoll.ToString());
+        }
         void Move()
         {
             if (Input.GetKey(KeyCode.W))
