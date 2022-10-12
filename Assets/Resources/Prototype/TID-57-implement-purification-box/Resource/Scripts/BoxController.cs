@@ -90,6 +90,7 @@ namespace LSH_Lib{
             else
             {
                 interactText.enabled = true;
+                sliderControll.Invisible();
             }
         }
 
