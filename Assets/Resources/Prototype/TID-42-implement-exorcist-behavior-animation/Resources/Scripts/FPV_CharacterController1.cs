@@ -8,7 +8,7 @@ using GHJ_Lib;
 using KSH_Lib;
 namespace TID42
 {
-    public class FPV_CharacterController1 : MonoBehaviourPunCallbacks,IPunObservable
+    public class FPV_CharacterController1 : MonoBehaviourPunCallbacks, IPunObservable
     {
         #region Public Field
         //[SerializeField]
@@ -34,12 +34,13 @@ namespace TID42
         protected ExorcistUI exorcistUI;
         protected float rageTime = 40.0f;
         protected bool isRage = false;
+        protected List<GameObject> PickUpList = new List<GameObject>();
         //----BvState----//
         protected Behavior<FPV_CharacterController1> curBehavior = new Behavior<FPV_CharacterController1>();
         protected BvNormalExorcist bvNormalExorcist = new BvNormalExorcist();
         protected BvRage bvRage = new BvRage();
         protected BvFastExorcist bvFast = new BvFastExorcist();
-        protected BvSlowExorcist bvSlow  = new BvSlowExorcist();
+        protected BvSlowExorcist bvSlow = new BvSlowExorcist();
         protected BvAttackSpeedUp bvAttackSpeedUp = new BvAttackSpeedUp();
         protected BvAttackSpeedDown bvAttackSpeedDown = new BvAttackSpeedDown();
         protected BvInvisibleExorcist bvInvisibleExorcist = new BvInvisibleExorcist();
@@ -91,7 +92,7 @@ namespace TID42
             controller.SimpleMove(moveVector * finalMoveSpeed);
             curBehavior.Update(this, ref curBehavior);
 
-           
+
 
         }
 
@@ -114,16 +115,16 @@ namespace TID42
         {
             if (curBehavior == bvRage)
             {
-                 return;
+                return;
             }
-            
+
             curBehavior.PushSuccessorState(bvRage);
         }
 
 
         public void StartCoroutineMoveFast(float duration, float fastRatio)
         {
-            StartCoroutine(MoveFast(duration,fastRatio));
+            StartCoroutine(MoveFast(duration, fastRatio));
         }
         public void StartCoroutineMoveSlow(float duration, float fastRatio)
         {
@@ -138,7 +139,7 @@ namespace TID42
         public void StartCoroutineAttackSpeedUp()
         {
             StartCoroutine("AttackSpeedUp", 5);
-            
+
         }
         public void StartCoroutineAttackSpeedDown()
         {
@@ -146,28 +147,45 @@ namespace TID42
         }
         public void StartCoroutineInvisibleExorcist()
         { }
+
+        public void AddPickUpList(GameObject doll)
+        {
+            if (PickUpList.Contains(doll))
+            {
+                return;
+            }
+            Debug.Log("Add " + doll);
+            PickUpList.Add(doll);
+        }
+
+        public void PopPickUpList(GameObject doll)
+        {
+            Debug.Log("Remove " + doll);
+            PickUpList.Remove(doll);
+        }
+
         #endregion
 
         #region Protected Methods
         protected virtual void Movement()
         {
             Vector2 currentInput = FPV_InputManager.instance.GetPlayerMove();
-            Vector3 dir = new Vector3(-Camera.main.transform.right.z, 0f,Camera.main.transform.right.x);
-            Vector3 movement = (dir * currentInput.y + Camera.main.transform.right * currentInput.x );
+            Vector3 dir = new Vector3(-Camera.main.transform.right.z, 0f, Camera.main.transform.right.x);
+            Vector3 movement = (dir * currentInput.y + Camera.main.transform.right * currentInput.x);
             transform.rotation = Quaternion.Euler(0, target.transform.rotation.eulerAngles.y, 0);
             moveVector = movement.normalized;
-            
-            
+
+
         }
         protected virtual void Attack()
         {
-            if(Input.GetKey(KeyCode.Mouse0))
+            if (Input.GetKey(KeyCode.Mouse0))
             {
                 exorcistStatus.isAttack = true;
             }
             else
             {
-            
+
                 exorcistStatus.isAttack = false;
             }
 
@@ -177,17 +195,49 @@ namespace TID42
             }
 
         }
-        protected virtual void Skill()
+        protected virtual void Skill() //스킬 x 들어올리기 행동
         {
+            if (PickUpList.Count == 0)
+            {
+                return;
+            }
+
             if (Input.GetKey(KeyCode.F))
             {
-
+                photonView.RPC("SetPickUpDoll", RpcTarget.All);
                 exorcistStatus.isSkill = true;
             }
             else
             {
                 exorcistStatus.isSkill = false;
             }
+        }
+        [PunRPC]
+        protected void SetPickUpDoll()
+        {
+            animationCallbackSet.PickUpDoll = FindNearestFallDownDoll();
+        }
+        protected GameObject FindNearestFallDownDoll()
+        {
+            GameObject pickUpDoll = null;
+            foreach (GameObject FallDoll in PickUpList)
+            {
+                if (pickUpDoll == null)
+                {
+                    pickUpDoll = FallDoll;
+                }
+                else
+                {
+                    if((this.transform.position - pickUpDoll.transform.position).sqrMagnitude > 
+                        (this.transform.position - FallDoll.transform.position).sqrMagnitude)
+                    {
+                        pickUpDoll = FallDoll;
+                    }
+                
+                }
+            }
+
+            return pickUpDoll;
         }
 
         #endregion

@@ -10,6 +10,13 @@ namespace GHJ_Lib
         #region Public Fields
         public GameObject[] AttackArea;
         public FPV_CharacterController1 FPV_characterController1;
+        public GameObject Grab;
+        public GameObject CamTarget;
+        public GameObject PickUpDoll
+        {
+            get;
+            set;
+        }
         #endregion
 
         #region Protected Fields
@@ -60,6 +67,17 @@ namespace GHJ_Lib
         public void DisableAttackSkillArea()
         {
             AttackArea[3].SetActive(false);
+        }
+
+        public void PickUp()
+        {
+            if (PickUpDoll != null)
+            {
+                PickUpDoll.GetComponent<NetworkTPV_CharacterController>().ReleasePhotonTransform(CamTarget);
+                PickUpDoll.transform.SetParent(Grab.transform);
+                PickUpDoll.transform.localPosition = Vector3.zero;
+                PickUpDoll = null;
+            }
         }
 
         private void OnTriggerStay(Collider other)

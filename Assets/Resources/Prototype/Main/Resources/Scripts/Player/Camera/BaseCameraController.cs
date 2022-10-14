@@ -32,7 +32,7 @@ namespace KSH_Lib
         [Header( "Limit Setting" )]
         [SerializeField]
         float minAngleY = -40.0f;
-        [SerializeField]
+        [SerializeField]    
         float maxAngleY = 40.0f;
 
         [Header( "Invert Setting" )]

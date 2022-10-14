@@ -5,12 +5,15 @@ using Photon.Pun;
 using Photon.Realtime;
 using KSH_Lib;
 using GHJ_Lib;
-
+using Cinemachine;
 public class NetworkTPV_CharacterController : TestPlayerController,IPunObservable
 {
     #region Public Fields
     public DollAnimationController dollAnimationController;
     public DollStatus dollStatus;
+    public PhotonTransformView photonTransform;
+    public CinemachineVirtualCamera cinemachineVirtual;
+    public Behavior<NetworkTPV_CharacterController> CurBehavior { get { return curBehavior; } }
     #endregion
 
     #region Private Fieldss
@@ -47,7 +50,11 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
             Debug.LogError("MIssing DollAnimationController");
         }
         //dollAnimationController.SetStatus(dollStatus);
-
+        cinemachineVirtual = GameObject.Find("VirtualPlayerCamera").gameObject.GetComponent<CinemachineVirtualCamera>();
+        if (cinemachineVirtual == null)
+        {
+            Debug.LogError("MIssing cinemachineVirtual");
+        }
 
         moveSpeed = dollStatus.MoveSpeed; //최종 스피드는 이동속도*상태*디버프 
 
@@ -88,7 +95,13 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
 
     public void Hit(float Power)
     {
-        curBehavior.PushSuccessorState(bvSlow);
+        //curBehavior.PushSuccessorState(bvSlow);
+
+        if (curBehavior is BvFall)
+        {
+            return;
+        }
+
         dollAnimationController.PlayHitAnimation();
         dollStatus.HitDollHP(Power);
 
@@ -100,12 +113,14 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
         if (dollStatus.DevilHealthPoint <= 0)
         {
             curBehavior = bvGhost;
-        }
+        }   
+
     }
    
     public void ExposedByExorcist()
     {
-        if (curBehavior == bvNormal)
+
+        if (curBehavior is BvNormal)
         { 
             curBehavior.PushSuccessorState(bvExpose);
             dollAnimationController.PlayHitAnimation();
@@ -141,6 +156,13 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     {
         isCanMove = false;
         dollAnimationController.PlayFallDownAnimation();
+    }
+
+    public void ReleasePhotonTransform(GameObject exorcistCamTarget)
+    {
+        photonView.ObservedComponents.Remove(photonTransform);
+        controller.enabled = false;
+        cinemachineVirtual.Follow = exorcistCamTarget.transform;
     }
 
     #endregion
@@ -187,11 +209,15 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
 
     protected override void MoveCharacter()
     {
-
+        if (controller.enabled == false)
+        {
+            return;
+        }
         controller.SimpleMove(direction * moveSpeed);
 
     }
 
+   
     #endregion
 
 
