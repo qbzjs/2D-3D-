@@ -39,6 +39,7 @@ namespace LSH_Lib{
         }
         public void OnExitButton()
         {
+            GameEndManager.Instance.DollCountDecrease();
             GameManager.Instance.LoadScene("99_GameResultScene");
         }
     }
