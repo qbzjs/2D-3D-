@@ -39,7 +39,7 @@ namespace LSH_Lib{
         }
         public void OnExitButton()
         {
-            GameManager.Instance.LoadScene("01_MainLobbyScene");
+            GameManager.Instance.LoadScene("99_GameResultScene");
         }
     }
 }
