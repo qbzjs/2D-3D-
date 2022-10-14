@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using KSH_Lib;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -9,7 +10,7 @@ namespace LSH_Lib{
     {
         public GameObject ExitButton;
         public GameObject OptionUIPanel;
-        public bool isInputKey = false;
+        private bool isInputKey = false;
         private void Update()
         {
             EscButtonInput();
@@ -38,7 +39,7 @@ namespace LSH_Lib{
         }
         public void OnExitButton()
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("01Game");
+            GameManager.Instance.LoadScene("01_MainLobbyScene");
         }
     }
 }
