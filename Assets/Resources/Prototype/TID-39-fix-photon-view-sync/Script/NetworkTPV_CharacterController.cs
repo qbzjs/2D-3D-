@@ -21,9 +21,12 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     protected BvBlind bvBlind = new BvBlind();
     protected BvExpose bvExpose = new BvExpose();
     protected BvGhost bvGhost = new BvGhost();
+    protected BvFall bvFall = new BvFall();
     [SerializeField]
     protected SkinnedMeshRenderer skinnedMeshRenderer;
     protected Material originMaterial;
+
+    protected bool isCanMove = true;
     #endregion
 
     #region Protected Fields
@@ -56,7 +59,7 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
 
     protected override void Update()
     {
-        if (photonView.IsMine)
+        if (photonView.IsMine&&isCanMove)
         {
             PlayerInput();
             SetDirection();
@@ -66,7 +69,7 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
         Debug.Log("MoveSpeed : " + moveSpeed);
 
         curBehavior.Update(this, ref curBehavior);
-
+        dollAnimationController.UpdateHP_Rate();
     }
     #endregion
 
@@ -88,7 +91,13 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
         curBehavior.PushSuccessorState(bvSlow);
         dollAnimationController.PlayHitAnimation();
         dollStatus.HitDollHP(Power);
+
         if (dollStatus.DollHealthPoint <= 0)
+        {
+            curBehavior.PushSuccessorState(bvFall);
+        }
+
+        if (dollStatus.DevilHealthPoint <= 0)
         {
             curBehavior = bvGhost;
         }
@@ -111,7 +120,7 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     {
         if (GameManager.Instance.Data.Role == DEM.RoleType.Exorcist)
         {
-            StartCoroutine("Expose", 5);
+            StartCoroutine("Expose", 40);
         }
     }
 
@@ -126,6 +135,12 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
             skinnedMeshRenderer.material = Resources.Load<Material>("Materials/Invisible");
         }
 
+    }
+
+    public void FallDown()
+    {
+        isCanMove = false;
+        dollAnimationController.PlayFallDownAnimation();
     }
 
     #endregion
@@ -211,38 +226,19 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
 
     IEnumerator Slow(float slowTime)
     {
-        
-        float curTime = Time.time;
-        while (true)
-        {
-            moveSpeed *= 0.8f;
-            yield return new WaitForSeconds(slowTime);
-            if (Time.time - curTime >= slowTime)
-            {
-                moveSpeed = dollStatus.MoveSpeed;
-                curBehavior.PushSuccessorState(bvNormal);
-                break;
-            }
-        }
+        moveSpeed *= 0.8f;
+        yield return new WaitForSeconds(slowTime);
+        moveSpeed = dollStatus.MoveSpeed;
+        curBehavior.PushSuccessorState(bvNormal);
     }
 
     IEnumerator Expose(float ExposeTime)
     {
-        float curTime = Time.time;
-        while (true)
-        {
-            originMaterial = skinnedMeshRenderer.material;
-            skinnedMeshRenderer.material= Resources.Load<Material>("Materials/Always Visible");
-            yield return new WaitForSeconds(ExposeTime);
-            if (Time.time - curTime >= ExposeTime)
-            {
-                skinnedMeshRenderer.material = originMaterial;
-                skinnedMeshRenderer.material.shader.name = "Universal Render Pipeline/Lit";
-                curBehavior.PushSuccessorState(bvNormal);
-                break;
-            }
-        }
-        
+        originMaterial = skinnedMeshRenderer.material;
+        skinnedMeshRenderer.material= Resources.Load<Material>("Materials/Always Visible");
+        yield return new WaitForSeconds(ExposeTime);
+        skinnedMeshRenderer.material = originMaterial;
+        curBehavior.PushSuccessorState(bvNormal);
     }
 
 }

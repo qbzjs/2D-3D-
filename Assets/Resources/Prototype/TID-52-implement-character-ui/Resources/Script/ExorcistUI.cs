@@ -20,6 +20,9 @@ namespace GHJ_Lib
         public Image Doll4HP;
         public Image Devil4HP;
 
+        [Header("Passive Skill")]
+        public Image PassiveCoolTime;
+
         private List<DollStatus> dollsStatus = new List<DollStatus>();
         private List<Image> dollHP = new List<Image>();
         private List<Image> devilHP = new List<Image>();
@@ -44,11 +47,17 @@ namespace GHJ_Lib
             {
                 ApplyStatusHPToHPUI(dollsStatus[i], dollHP[i], devilHP[i]);
             }
+
         }
 
         public void SetDollStatus(DollStatus dollStatus)
         {
             dollsStatus.Add(dollStatus);
+        }
+
+        public void CoolTime(float durationValue)
+        {
+            PassiveCoolTime.fillAmount = durationValue;
         }
     }
 }
