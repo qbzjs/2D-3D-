@@ -28,7 +28,14 @@ namespace GHJ_Lib
 			NetworkTPV_CharacterController doll = other.GetComponent<NetworkTPV_CharacterController>();
 			if (doll.CurBehavior is BvFall)
 			{
-				Exorcist.AddPickUpList(other.gameObject);
+				if (doll.CurBehavior is BvGrabbed)
+				{
+					Exorcist.PopPickUpList(other.gameObject);
+				}
+				else
+				{ 
+					Exorcist.AddPickUpList(other.gameObject);
+				}
 
 			}
 

@@ -23,6 +23,7 @@ namespace TID42
         public GameObject target;
         public ParticleSystem Ayra;
         public AnimationCallbackSet animationCallbackSet;
+        public GameObject[] GrabObj;
         #endregion
 
         #region Protected Fields
@@ -44,6 +45,7 @@ namespace TID42
         protected BvAttackSpeedUp bvAttackSpeedUp = new BvAttackSpeedUp();
         protected BvAttackSpeedDown bvAttackSpeedDown = new BvAttackSpeedDown();
         protected BvInvisibleExorcist bvInvisibleExorcist = new BvInvisibleExorcist();
+        protected BvGrab bvGrab = new BvGrab();
         //---------------//
 
         #endregion
@@ -76,6 +78,8 @@ namespace TID42
         {
             if (photonView.IsMine)
             {
+              
+
                 Movement();
                 Attack();
                 Skill();
@@ -86,6 +90,7 @@ namespace TID42
                 }
             }
 
+         
             animator.Attack(exorcistStatus.isAttack);
             animator.Skill(exorcistStatus.isSkill);
             animator.Move(moveVector.magnitude);
@@ -157,11 +162,17 @@ namespace TID42
             Debug.Log("Add " + doll);
             PickUpList.Add(doll);
         }
-
+        
         public void PopPickUpList(GameObject doll)
         {
+            
             Debug.Log("Remove " + doll);
             PickUpList.Remove(doll);
+        }
+
+        public void ActiveGrabObj(int i)
+        {
+            GrabObj[i].SetActive(true);
         }
 
         #endregion
@@ -216,6 +227,7 @@ namespace TID42
         protected void SetPickUpDoll()
         {
             animationCallbackSet.PickUpDoll = FindNearestFallDownDoll();
+            curBehavior.PushSuccessorState(bvGrab);
         }
         protected GameObject FindNearestFallDownDoll()
         {

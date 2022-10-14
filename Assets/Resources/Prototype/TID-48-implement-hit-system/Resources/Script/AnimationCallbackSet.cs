@@ -73,9 +73,29 @@ namespace GHJ_Lib
         {
             if (PickUpDoll != null)
             {
-                PickUpDoll.GetComponent<NetworkTPV_CharacterController>().ReleasePhotonTransform(CamTarget);
-                PickUpDoll.transform.SetParent(Grab.transform);
-                PickUpDoll.transform.localPosition = Vector3.zero;
+                NetworkTPV_CharacterController baseController = PickUpDoll.GetComponent<NetworkTPV_CharacterController>();
+
+                if (baseController == null)
+                {
+                    Debug.LogError("Missing baseController");
+                    return;
+                }
+                if (CamTarget == null)
+                {
+                    Debug.LogError("Missing CamTarget "+ CamTarget);
+                    return;
+                }
+
+                Debug.LogWarning("CamTarget: "+ CamTarget);
+                baseController.Grabbed(CamTarget);
+
+                if (baseController is NetworkTPV_CharacterController)
+                {
+                    FPV_characterController1.ActiveGrabObj(0);
+                }
+
+                //PickUpDoll.transform.SetParent(Grab.transform);
+                //PickUpDoll.transform.localPosition = Vector3.zero;
                 PickUpDoll = null;
             }
         }
