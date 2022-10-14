@@ -14,7 +14,7 @@ namespace LSH_Lib{
         }
         private bool InstantiateExorcist()
         {
-            box = PhotonNetwork.Instantiate("Assets/Resources/Prototype/TID-57-implement-purification-box/Resource/Prefabs/PurificationBox (6)", new Vector3(Vector3(-0.043333333, 1.5, 0.123333342)), Quaternion.identity, 0);
+            box = PhotonNetwork.Instantiate("Assets/Resources/Prototype/TID-57-implement-purification-box/Resource/Prefabs/PurificationBox (6)", new Vector3(-0.043333333f, 1.5f, 0.123333342f), Quaternion.identity, 0);
             if (box)
             {
                 return true;
