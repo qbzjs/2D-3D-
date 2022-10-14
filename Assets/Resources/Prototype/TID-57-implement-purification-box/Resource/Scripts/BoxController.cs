@@ -6,31 +6,36 @@ using Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
-
+using GHJ_Lib;
 namespace LSH_Lib{
     public class BoxController : MonoBehaviourPunCallbacks, IPunObservable
     {
-        public TMP_Text interactText;
-        public SliderControll sliderControll;
-        public CylinderMove Exorcist;
         
-        [SerializeField]
+        BoxUIController UIControll;
+        PhotonView pv;
         bool canInteract = true;
-        
         public bool isEmpty = true;
         bool isclick;
         string PlayerTag;
 
         private void Start()
         {
-            interactText.enabled = false;
-            sliderControll.Invisible();
+            UIControll = GameObject.Find("BoxUI").GetComponent<BoxUIController>();
+            if(UIControll == null)
+            {
+                Debug.LogError("In BoxController : UIController is null");
+            }
+
+            UIControll.UIInvisible();
+
+            pv = PhotonView.Get(this);
+            pv.RPC("DoInteraction", RpcTarget.MasterClient, "RPC success");
+            pv.RPC("DoInteraction", RpcTarget.Others, "RPC success");
         }
         private void Update()
         {
             KeyUp();
         }
-        [PunRPC]
         private void OnTriggerStay(Collider other)
         {
             
@@ -54,10 +59,9 @@ namespace LSH_Lib{
             } 
             
         }
-        [PunRPC]
         private void OnTriggerExit(Collider other)
         {
-            interactText.enabled = false;
+            UIControll.TextInvisible();
         }
 
         private void OnGUI()
@@ -71,35 +75,34 @@ namespace LSH_Lib{
             
             if (Input.GetKey(KeyCode.Mouse0))
             {
-                isclick = true; 
+                isclick = true;
 
-                sliderControll.visible();
-                interactText.enabled = false;
+                UIControll.Slidervisible();
+                UIControll.TextInvisible();
 
                 if (PlayerTag == "Exorcist")
                 {
-                    sliderControll.AutoCasting(10.0f);
+                    UIControll.AutoCasting(10.0f);
                     this.isEmpty = hasDoll;
                     //Exorcist.states.hasDoll = false;
                 }
                 if(PlayerTag == "Doll")
                 {
-                    sliderControll.Casting(1.0f);
-                    if(sliderControll.slider.value.Equals(1.0f))
+                    UIControll.Casting(1.0f);
+                    if(UIControll.slider.value.Equals(1.0f))
                     {
                         this.isEmpty = true;
-                        sliderControll.Invisible();
-                        interactText.enabled = false;
+                        UIControll.SliderInvisible();
+                        UIControll.TextInvisible();
                     }
                 }
             }
             else
             {
-                interactText.enabled = true;
-                sliderControll.Invisible();
+                UIControll.TextVisible();
+                UIControll.SliderInvisible();
             }
         }
-        [PunRPC]
         void KeyUp()
         {
             if (Input.GetKeyUp(KeyCode.Mouse0))
@@ -107,11 +110,11 @@ namespace LSH_Lib{
                 if(PlayerTag == "Doll")
                 {
                     isclick = false;
-                    sliderControll.Initialized();
+                    UIControll.Initialized();
                 }
                 if(PlayerTag == "Exorcist")
-                {   
-                    sliderControll.visible();
+                {
+                    UIControll.Slidervisible();
                 }
             }
         }

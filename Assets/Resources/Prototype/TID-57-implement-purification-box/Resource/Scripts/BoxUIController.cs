@@ -2,35 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using GHJ_Lib;
 using Photon.Pun;
 using Photon;
+using TMPro;
 namespace LSH_Lib{
-    public class SliderControll : MonoBehaviourPun
+    public class BoxUIController : MonoBehaviourPun
     {
         public GameObject sliderUI;
-        bool isclick;
+        public TMP_Text interactText;
         public Slider slider;
+        
+        bool isclick;
+        ObjGenerator target;
+        
         private void Start()
         {
             slider = GetComponentInChildren<Slider>();
         }
-        [PunRPC]
+        
         public void Casting(float speed)
         {
             slider.value += speed * Time.deltaTime;
         }
-        [PunRPC]
+        
         public void AutoCasting(float speed)
         {
             StartCoroutine("Cast", speed);
-            //Initialized();
-            //Invisible();
         }
-        [PunRPC]
+        
         IEnumerator Cast(float speed)
         {
-           slider.value = 0.0f;
-           float value = 0.0f;
+            slider.value = 0.0f;
+            float value = 0.0f;
             float time = speed * Time.deltaTime;
             while (value <= 1.0f)
             {
@@ -40,24 +44,44 @@ namespace LSH_Lib{
             }
             //yield return new WaitForSeconds(time);
             Initialized();
-            Invisible();
-            
+            SliderInvisible();
+
             //Casting(speed);
         }
-        [PunRPC]
         public void Initialized()
         {
             slider.value = 0.0f;
         }
-        [PunRPC]
-        public void visible()
+        public void SetTarget(ObjGenerator target)
+        {
+            if(target == null)
+            {
+                Debug.LogError("BoxUIController's target is null");
+                return;
+            }
+            this.target = target;
+        }
+        public void UIInvisible()
+        {
+            TextInvisible();
+            SliderInvisible();
+        }
+        public void Slidervisible()
         {
             sliderUI.SetActive(true);
         }
-        [PunRPC]
-        public void Invisible()
+        
+        public void SliderInvisible()
         {
             sliderUI.SetActive(false);
+        }
+        public void TextInvisible()
+        {
+            interactText.enabled = false;
+        }
+        public void TextVisible()
+        {
+            interactText.enabled = true;
         }
     }
 }
