@@ -22,6 +22,7 @@ namespace TID42
         public ExorcistStatus exorcistStatus = new ExorcistStatus();
         public GameObject target;
         public ParticleSystem Ayra;
+        public AnimationCallbackSet animationCallbackSet;
         #endregion
 
         #region Protected Fields
@@ -77,6 +78,11 @@ namespace TID42
                 Movement();
                 Attack();
                 Skill();
+                if (isRage)
+                {
+                    bvRage.RageDuration -= Time.deltaTime;
+                    exorcistUI.CoolTime(bvRage.RageDuration / rageTime);
+                }
             }
 
             animator.Attack(exorcistStatus.isAttack);
@@ -85,11 +91,7 @@ namespace TID42
             controller.SimpleMove(moveVector * finalMoveSpeed);
             curBehavior.Update(this, ref curBehavior);
 
-            if (isRage)
-            {
-                bvRage.RageDuration -= Time.deltaTime;
-                exorcistUI.CoolTime(bvRage.RageDuration/rageTime);
-            }
+           
 
         }
 
@@ -106,6 +108,8 @@ namespace TID42
             bvSlow.Ratio = slowRatio;
             curBehavior.PushSuccessorState(bvSlow);
         }
+
+        [PunRPC]
         public void Rage()
         {
             if (curBehavior == bvRage)
@@ -169,7 +173,7 @@ namespace TID42
 
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                Rage();
+                photonView.RPC("Rage", RpcTarget.All);
             }
 
         }
@@ -257,7 +261,10 @@ namespace TID42
             finalMoveSpeed += exorcistStatus.moveSpeed * 0.5f;
             bvRage.RageDuration = rageTime;
             isRage = true;
-            yield return new WaitForSeconds(rageTime);
+            animationCallbackSet.EnableAttackSkillArea();
+            yield return new WaitForSeconds(5.0f);
+            animationCallbackSet.DisableAttackSkillArea();
+            yield return new WaitForSeconds(rageTime-5.0f);
             Ayra.Stop();
             animator.Rage(false);
             finalAttackSpeed -= exorcistStatus.attackSpeed * 0.5f;

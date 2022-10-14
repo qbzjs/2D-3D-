@@ -120,7 +120,7 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     {
         if (GameManager.Instance.Data.Role == DEM.RoleType.Exorcist)
         {
-            StartCoroutine("Expose", 5);
+            StartCoroutine("Expose", 40);
         }
     }
 
