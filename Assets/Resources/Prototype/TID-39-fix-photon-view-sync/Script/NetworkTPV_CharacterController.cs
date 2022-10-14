@@ -21,9 +21,12 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     protected BvBlind bvBlind = new BvBlind();
     protected BvExpose bvExpose = new BvExpose();
     protected BvGhost bvGhost = new BvGhost();
+    protected BvFall bvFall = new BvFall();
     [SerializeField]
     protected SkinnedMeshRenderer skinnedMeshRenderer;
     protected Material originMaterial;
+
+    protected bool isCanMove = true;
     #endregion
 
     #region Protected Fields
@@ -56,7 +59,7 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
 
     protected override void Update()
     {
-        if (photonView.IsMine)
+        if (photonView.IsMine&&isCanMove)
         {
             PlayerInput();
             SetDirection();
@@ -88,7 +91,13 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
         curBehavior.PushSuccessorState(bvSlow);
         dollAnimationController.PlayHitAnimation();
         dollStatus.HitDollHP(Power);
+
         if (dollStatus.DollHealthPoint <= 0)
+        {
+            curBehavior.PushSuccessorState(bvFall);
+        }
+
+        if (dollStatus.DevilHealthPoint <= 0)
         {
             curBehavior = bvGhost;
         }
@@ -126,6 +135,12 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
             skinnedMeshRenderer.material = Resources.Load<Material>("Materials/Invisible");
         }
 
+    }
+
+    public void FallDown()
+    {
+        isCanMove = false;
+        dollAnimationController.PlayFallDownAnimation();
     }
 
     #endregion
