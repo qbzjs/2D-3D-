@@ -32,6 +32,7 @@ namespace TID42
         protected streamVector3 sVector3;
         protected ExorcistUI exorcistUI;
         protected float rageTime = 40.0f;
+        protected bool isRage = false;
         //----BvState----//
         protected Behavior<FPV_CharacterController1> curBehavior = new Behavior<FPV_CharacterController1>();
         protected BvNormalExorcist bvNormalExorcist = new BvNormalExorcist();
@@ -84,7 +85,7 @@ namespace TID42
             controller.SimpleMove(moveVector * finalMoveSpeed);
             curBehavior.Update(this, ref curBehavior);
 
-            if (curBehavior == bvRage)
+            if (isRage)
             {
                 bvRage.RageDuration -= Time.deltaTime;
                 exorcistUI.CoolTime(bvRage.RageDuration/rageTime);
@@ -255,12 +256,14 @@ namespace TID42
             finalAttackSpeed += exorcistStatus.attackSpeed * 0.5f;
             finalMoveSpeed += exorcistStatus.moveSpeed * 0.5f;
             bvRage.RageDuration = rageTime;
+            isRage = true;
             yield return new WaitForSeconds(rageTime);
             Ayra.Stop();
             animator.Rage(false);
             finalAttackSpeed -= exorcistStatus.attackSpeed * 0.5f;
             finalMoveSpeed -= exorcistStatus.moveSpeed * 0.5f;
             curBehavior.PushSuccessorState(bvNormalExorcist);
+            isRage = false;
         }
 
         #endregion
