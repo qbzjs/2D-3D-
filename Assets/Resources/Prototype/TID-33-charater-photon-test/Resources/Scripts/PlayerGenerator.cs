@@ -102,7 +102,7 @@ namespace GHJ_Lib
             {
                 if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[i])
                 {
-                    localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-53-apply-charater-animation/Resources/Prefabs/Doll", genPos[i], Quaternion.identity, 0);
+                    localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-71-merge-character-and-object/Resources/Prefabs/Doll", genPos[i], Quaternion.identity, 0);
                     return true;
                 }
         
@@ -113,7 +113,7 @@ namespace GHJ_Lib
 
         private bool InstantiateExorcist()
         {
-            localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-53-apply-charater-animation/Resources/Prefabs/Exorcist", genPos[0], Quaternion.identity, 0);
+            localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-71-merge-character-and-object/Resources/Prefabs/Exorcist", genPos[0], Quaternion.identity, 0);
             if (localPlayerObj)
             {
                 return true;

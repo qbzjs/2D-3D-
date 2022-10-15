@@ -35,6 +35,11 @@ namespace LSH_Lib
 
         private void OnTriggerStay(Collider other)
         {
+            if (!other.CompareTag("interactObj"))
+            {
+                return;
+            }
+
             interaction obj = other.GetComponent<interaction>();
             if (Vector3.Angle(obj.transform.position - this.transform.position, this.transform.forward) < 30.0f
                 && obj.canActiveTo)
