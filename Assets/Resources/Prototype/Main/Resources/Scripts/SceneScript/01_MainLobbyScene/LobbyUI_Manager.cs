@@ -284,4 +284,16 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
         loadSceneName = lshSceneName;
         OnSkipButtonClicked();
     }
+
+    /*---Debug Server ---*/
+    void CreateDebugServer()
+    {
+        PhotonNetwork.CreateRoom("DebugServer1", new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
+        GameManager.Instance.Data.ChangeRole(RoleType.Exorcist);
+    }
+    void JoinDebugServer()
+    {
+        PhotonNetwork.JoinRoom("DebugServer1");
+        GameManager.Instance.Data.ChangeRole(RoleType.Doll);
+    }
 }
