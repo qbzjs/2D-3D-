@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using GHJ_Lib;
-using Photon.Pun;
 using Photon;
+using Photon.Pun;
 using TMPro;
 namespace LSH_Lib{
     public class BoxUIController : MonoBehaviourPun
@@ -30,7 +29,6 @@ namespace LSH_Lib{
         {
             StartCoroutine("Cast", speed);
         }
-        
         IEnumerator Cast(float speed)
         {
             slider.value = 0.0f;
@@ -42,11 +40,21 @@ namespace LSH_Lib{
                 slider.value += time;
                 value += time;
             }
-            //yield return new WaitForSeconds(time);
+            
             Initialized();
             SliderInvisible();
 
-            //Casting(speed);
+        }
+        public bool CheckValue()
+        {
+            if (slider.value.Equals(1.0f))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         public void Initialized()
         {

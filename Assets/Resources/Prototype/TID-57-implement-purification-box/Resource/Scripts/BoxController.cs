@@ -29,8 +29,8 @@ namespace LSH_Lib{
             UIControll.UIInvisible();
 
             pv = PhotonView.Get(this);
-            pv.RPC("DoInteraction", RpcTarget.MasterClient, "RPC success");
-            pv.RPC("DoInteraction", RpcTarget.Others, "RPC success");
+            
+            
         }
         private void Update()
         {
@@ -38,14 +38,16 @@ namespace LSH_Lib{
         }
         private void OnTriggerStay(Collider other)
         {
-            
             if (other.CompareTag("Exorcist"))
             {
                 PlayerTag = "Exorcist";
-                //if (isEmpty && Exorcist.states.hasDoll)
                 if (isEmpty)
                 {
-                    DoInteraction(false);
+                    if (Input.GetKey(KeyCode.Mouse0))
+                    {
+                        DoInteraction();
+                    }
+                    
                 }
             }
 
@@ -54,7 +56,17 @@ namespace LSH_Lib{
                 PlayerTag = "Doll";
                 if (!isEmpty)
                 {
-                    DoInteraction(true);
+                    if (Input.GetKey(KeyCode.Mouse0)) 
+                    {
+                        //isclick = true;
+                        pv.RPC("DoInteraction", RpcTarget.All, "RPC success");
+                    }
+                    //else
+                    //{
+                    //    UIControll.TextVisible();
+                    //    UIControll.SliderInvisible();
+                    //}
+
                 }
             } 
             
@@ -69,27 +81,46 @@ namespace LSH_Lib{
             GUI.Box(new Rect(0, 0, 150, 30), isclick.ToString());
             GUI.Box(new Rect(0, 60, 150, 30), "BoxEmpty : " + isEmpty.ToString());
         }
+
+        //void ExorcistInteraction()
+        //{
+        //    if (Input.GetKey(KeyCode.Mouse0))
+        //    {
+        //        isclick = true;
+
+        //        UIControll.Slidervisible();
+        //        UIControll.TextInvisible();
+
+        //        if (PlayerTag == "Exorcist")
+        //        {
+        //            UIControll.AutoCasting(10.0f);
+        //            this.isEmpty = false;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        UIControll.TextVisible();
+        //        UIControll.SliderInvisible();
+        //    }
+        //}
+
         [PunRPC]
-        void DoInteraction(bool hasDoll)
-        {
-            
-            if (Input.GetKey(KeyCode.Mouse0))
+        void DoInteraction()
+        {   
+            //if (Input.GetKey(KeyCode.Mouse0))
             {
                 isclick = true;
-
                 UIControll.Slidervisible();
                 UIControll.TextInvisible();
-
                 if (PlayerTag == "Exorcist")
                 {
                     UIControll.AutoCasting(10.0f);
-                    this.isEmpty = hasDoll;
-                    //Exorcist.states.hasDoll = false;
                 }
-                if(PlayerTag == "Doll")
+
+                if (PlayerTag == "Doll")
                 {
                     UIControll.Casting(1.0f);
-                    if(UIControll.slider.value.Equals(1.0f))
+                    if (UIControll.CheckValue())
                     {
                         this.isEmpty = true;
                         UIControll.SliderInvisible();
@@ -97,25 +128,14 @@ namespace LSH_Lib{
                     }
                 }
             }
-            else
-            {
-                UIControll.TextVisible();
-                UIControll.SliderInvisible();
-            }
         }
         void KeyUp()
         {
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
-                if(PlayerTag == "Doll")
-                {
-                    isclick = false;
-                    UIControll.Initialized();
-                }
-                if(PlayerTag == "Exorcist")
-                {
-                    UIControll.Slidervisible();
-                }
+                isclick = false;
+                UIControll.Initialized();
+                UIControll.Slidervisible();
             }
         }
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
