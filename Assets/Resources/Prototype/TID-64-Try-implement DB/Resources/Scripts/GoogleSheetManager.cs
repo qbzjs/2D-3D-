@@ -7,13 +7,21 @@ using TMPro;
 
 public class GoogleSheetManager : MonoBehaviour
 {
+    [System.Serializable]
+    public struct Response
+    {
+        public string order;
+        public string result;
+        public string msg;
+    }
+
     /*--- Public Fields ---*/
     public TMP_InputField idField;
     public TMP_InputField passwordField;
 
 
 	/*--- Private Fields ---*/
-	const string URL = "https://script.google.com/macros/s/AKfycbx0pExVqs7A5El7UQgNHZkNpkEt05rGryBuxvFWdnPta6o19EhJjVPc3tW_CHe1kaxT/exec";
+	const string URL = "https://script.google.com/macros/s/AKfycbzyCkVWAbzoIjrM5wSKB-yKaAe93qwKIEJJsDOjX04Ghmt5Uac55V_S-u3tibRVSfE/exec";
     string id;
     string password;
 
@@ -28,8 +36,7 @@ public class GoogleSheetManager : MonoBehaviour
             Debug.Log( "ID ¹× Password °ø¶õ" );
             return;
         }
-
-        DoPost( "register" );
+        DoAccountPost( "register" );
     }
     public void Login()
     {
@@ -39,7 +46,13 @@ public class GoogleSheetManager : MonoBehaviour
             return;
         }
 
-        DoPost( "login" );
+        DoAccountPost( "login" );
+    }
+    public void Logout()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("order", "logout");
+        StartCoroutine(Post(form));
     }
 
     /*--- Private Methods ---*/
@@ -54,6 +67,19 @@ public class GoogleSheetManager : MonoBehaviour
         }
         return true;
     }
+    void DoAccountPost(in string orderName)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("order", orderName);
+        form.AddField("id", id);
+        form.AddField("password", password);
+
+        StartCoroutine(Post(form));
+    }
+    void HandleResponse(in string response)
+    {
+        Response data = JsonUtility.FromJson<Response>(response);
+    }
 
     IEnumerator Post(WWWForm form)
     {
@@ -63,7 +89,9 @@ public class GoogleSheetManager : MonoBehaviour
 
             if(www.isDone)
             {
-                print( www.downloadHandler.text );  
+                string response = www.downloadHandler.text;
+                Debug.Log(response);
+                HandleResponse(response);
             }
             else
             {
@@ -72,14 +100,5 @@ public class GoogleSheetManager : MonoBehaviour
         }
     }
 
-    void DoPost(in string orderName)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField( "order", orderName );
-        form.AddField( "id", id );
-        form.AddField( "password", password );
-
-        StartCoroutine( Post( form ) );
-    }
 
 }
