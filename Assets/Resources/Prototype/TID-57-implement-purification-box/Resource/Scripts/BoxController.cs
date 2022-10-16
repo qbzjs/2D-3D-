@@ -58,8 +58,8 @@ namespace LSH_Lib{
                 {
                     if (Input.GetKey(KeyCode.Mouse0)) 
                     {
-                        //isclick = true;
-                        pv.RPC("DoInteraction", RpcTarget.All, "RPC success");
+                        DoInteraction();
+                        //pv.RPC("DoInteraction", RpcTarget.All, "RPC success");
                     }
                     //else
                     //{
@@ -115,6 +115,7 @@ namespace LSH_Lib{
                 if (PlayerTag == "Exorcist")
                 {
                     UIControll.AutoCasting(10.0f);
+                    this.isEmpty = false;
                 }
 
                 if (PlayerTag == "Doll")
