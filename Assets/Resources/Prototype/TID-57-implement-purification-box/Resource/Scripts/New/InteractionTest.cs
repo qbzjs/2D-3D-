@@ -18,7 +18,7 @@ namespace LSH_Lib{
         {
             if(Input.GetKey(KeyCode.Mouse0))
             {
-                if(photonView.IsMine)
+                if(pv.IsMine)
                 {
                     AddFive();
                 }
@@ -32,6 +32,7 @@ namespace LSH_Lib{
         {
             GUI.Box(new Rect(0, 0, 300, 60), number.ToString());
         }
+        [PunRPC]
         void AddFive()
         {
             number += 5;

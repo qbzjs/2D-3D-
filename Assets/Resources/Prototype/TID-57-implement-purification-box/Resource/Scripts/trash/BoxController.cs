@@ -28,7 +28,7 @@ namespace LSH_Lib{
 
             UIControll.UIInvisible();
 
-            pv = PhotonView.Get(this);
+            pv = GetComponent<PhotonView>();
             
             
         }
@@ -45,7 +45,10 @@ namespace LSH_Lib{
                 {
                     if (Input.GetKey(KeyCode.Mouse0))
                     {
-                        DoInteraction(PlayerTag);
+                        if(pv.IsMine)
+                        {
+                            DoInteraction(PlayerTag);
+                        }
                     }
                     
                 }
@@ -59,9 +62,9 @@ namespace LSH_Lib{
                     if (Input.GetKey(KeyCode.Mouse0))
                     {
                         //DoInteraction(PlayerTag);
-                        //if(!photonView.IsMine)
+                        if(!pv.IsMine)
                         {
-                            pv.RPC("DollInteraction", RpcTarget.MasterClient);
+                            pv.RPC("DollInteraction", RpcTarget.MasterClient,"Doll");
                         }
                     }
                     //else
