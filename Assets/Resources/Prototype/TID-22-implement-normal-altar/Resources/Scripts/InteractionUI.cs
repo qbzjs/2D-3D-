@@ -58,22 +58,38 @@ namespace LSH_Lib
         #region Public Methods
         public void ActiveInteractionText()
         {
+            if (interactionText.gameObject.activeInHierarchy)
+            {
+                return;
+            }
             interactionText.gameObject.SetActive(true);
         }
 
         public void DeactiveInteractionText()
         {
+            if (!interactionText.gameObject.activeInHierarchy)
+            {
+                return;
+            }
             interactionText.gameObject.SetActive(false);
         }
 
         public void ActiveCastingBar(GameObject _obj)
         {
+            if (bar.gameObject.activeInHierarchy)
+            {
+                return;
+            }
             SetTargetObj(_obj);
             bar.gameObject.SetActive(true);
         }
 
         public void DeactiveCastingBar()
         {
+            if (!bar.gameObject.activeInHierarchy)
+            {
+                return;
+            }
             SetTargetObjToNull();
             bar.gameObject.SetActive(false);
         }
@@ -94,6 +110,10 @@ namespace LSH_Lib
         #region Private Methods
         private void SetTargetObj(GameObject _obj)
         {
+            if (targetObj == _obj)
+            {
+                return;
+            }
             targetObj = _obj;
         }
 

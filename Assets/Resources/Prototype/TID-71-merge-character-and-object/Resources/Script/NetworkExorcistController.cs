@@ -4,31 +4,28 @@ using UnityEngine;
 using Cinemachine;
 using Photon.Pun;
 using Photon.Realtime;
-using GHJ_Lib;
 using KSH_Lib;
-/*
-namespace TID42
+
+namespace GHJ_Lib
 {
-    public class FPV_CharacterController1 : MonoBehaviourPunCallbacks, IPunObservable
+	public class NetworkExorcistController: MonoBehaviourPunCallbacks, IPunObservable
     {
-        #region Public Field
-        //[SerializeField]
-        //private float walkSpeed = 3.0f;
+
+
+        /*--- Public Fields ---*/
+        public ExorcistStatus exorcistStatus = new ExorcistStatus();
+        public GameObject target;
+        public ParticleSystem Ayra;
+        public AnimationCallbackSet animationCallbackSet;
+        public GameObject[] GrabObj;
+
+        /*--- Protected Fields ---*/
         [SerializeField]
         protected float rotSpeed;
         [SerializeField]
         protected float finalMoveSpeed;
         [SerializeField]
         protected float finalAttackSpeed;
-        public ExorcistStatus exorcistStatus = new ExorcistStatus();
-        public GameObject target;
-        public ParticleSystem Ayra;
-        public AnimationCallbackSet animationCallbackSet;
-        public GameObject[] GrabObj;
-        #endregion
-
-        #region Protected Fields
-        //Rigidbody rd;
         protected Vector3 moveVector;
         protected CharacterController controller;
         protected PFV_CharacterAnimation animator;
@@ -38,7 +35,7 @@ namespace TID42
         protected bool isRage = false;
         protected List<GameObject> PickUpList = new List<GameObject>();
         //----BvState----//
-        protected Behavior<FPV_CharacterController1> curBehavior = new Behavior<FPV_CharacterController1>();
+        protected Behavior<NetworkExorcistController> curBehavior = new Behavior<NetworkExorcistController>();
         protected BvNormalExorcist bvNormalExorcist = new BvNormalExorcist();
         protected BvRage bvRage = new BvRage();
         protected BvFastExorcist bvFast = new BvFastExorcist();
@@ -47,11 +44,10 @@ namespace TID42
         protected BvAttackSpeedDown bvAttackSpeedDown = new BvAttackSpeedDown();
         protected BvInvisibleExorcist bvInvisibleExorcist = new BvInvisibleExorcist();
         protected BvGrab bvGrab = new BvGrab();
-        //---------------//
+        /*--- Private Fields ---*/
 
-        #endregion
 
-        #region MonoBehaviour Callbacks
+        /*--- MonoBehaviour Callbacks ---*/
         protected virtual void Awake()
         {
             //rd = GetComponent<Rigidbody>();
@@ -79,7 +75,7 @@ namespace TID42
         {
             if (photonView.IsMine)
             {
-              
+
 
                 Movement();
                 Attack();
@@ -91,7 +87,7 @@ namespace TID42
                 }
             }
 
-         
+
             animator.Attack(exorcistStatus.isAttack);
             animator.Skill(exorcistStatus.isSkill);
             animator.Move(moveVector.magnitude);
@@ -102,9 +98,8 @@ namespace TID42
 
         }
 
-        #endregion
 
-        #region Public Methods
+        /*--- Public Methods ---*/
         public void Fast(float fastRatio)
         {
             bvFast.Ratio = fastRatio;
@@ -115,18 +110,6 @@ namespace TID42
             bvSlow.Ratio = slowRatio;
             curBehavior.PushSuccessorState(bvSlow);
         }
-
-        [PunRPC]
-        public void Rage()
-        {
-            if (curBehavior == bvRage)
-            {
-                return;
-            }
-
-            curBehavior.PushSuccessorState(bvRage);
-        }
-
 
         public void StartCoroutineMoveFast(float duration, float fastRatio)
         {
@@ -140,8 +123,6 @@ namespace TID42
         {
             StartCoroutine(OnRage());
         }
-
-
         public void StartCoroutineAttackSpeedUp()
         {
             StartCoroutine("AttackSpeedUp", 5);
@@ -153,7 +134,6 @@ namespace TID42
         }
         public void StartCoroutineInvisibleExorcist()
         { }
-
         public void AddPickUpList(GameObject doll)
         {
             if (PickUpList.Contains(doll))
@@ -163,10 +143,10 @@ namespace TID42
             Debug.Log("Add " + doll);
             PickUpList.Add(doll);
         }
-        
+
         public void PopPickUpList(GameObject doll)
         {
-            
+
             Debug.Log("Remove " + doll);
             PickUpList.Remove(doll);
         }
@@ -176,9 +156,36 @@ namespace TID42
             GrabObj[i].SetActive(true);
         }
 
-        #endregion
+            /*---IPunObseve---*/
+            public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+            {
+                if (stream.IsWriting)
+                {
+                    stream.SendNext(exorcistStatus.isSkill);
+                    stream.SendNext(exorcistStatus.isAttack);
 
-        #region Protected Methods
+                    sVector3.x = moveVector.x;
+                    sVector3.y = moveVector.y;
+                    sVector3.z = moveVector.z;
+                    stream.SendNext(sVector3.x);
+                    stream.SendNext(sVector3.y);
+                    stream.SendNext(sVector3.z);
+                }
+
+                if (stream.IsReading)
+                {
+                    this.exorcistStatus.isSkill = (bool)stream.ReceiveNext();
+                    this.exorcistStatus.isAttack = (bool)stream.ReceiveNext();
+                    this.sVector3.x = (float)stream.ReceiveNext();
+                    this.sVector3.y = (float)stream.ReceiveNext();
+                    this.sVector3.z = (float)stream.ReceiveNext();
+                    this.moveVector = new Vector3(sVector3.x, sVector3.y, sVector3.z);
+
+                }
+            }
+
+
+        /*--- Protected Methods ---*/
         protected virtual void Movement()
         {
             Vector2 currentInput = FPV_InputManager.instance.GetPlayerMove();
@@ -241,54 +248,24 @@ namespace TID42
                 }
                 else
                 {
-                    if((this.transform.position - pickUpDoll.transform.position).sqrMagnitude > 
+                    if ((this.transform.position - pickUpDoll.transform.position).sqrMagnitude >
                         (this.transform.position - FallDoll.transform.position).sqrMagnitude)
                     {
                         pickUpDoll = FallDoll;
                     }
-                
+
                 }
             }
 
             return pickUpDoll;
         }
 
-        #endregion
+        /*--- Private Methods ---*/
 
-        #region IPunObservable
-        public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        /*---Enumerator---*/
+        IEnumerator MoveSlow(float duration, float slowRatio)
         {
-            if (stream.IsWriting)
-            {
-                stream.SendNext(exorcistStatus.isSkill);
-                stream.SendNext(exorcistStatus.isAttack);
-
-                sVector3.x = moveVector.x;
-                sVector3.y = moveVector.y;
-                sVector3.z = moveVector.z;
-                stream.SendNext(sVector3.x);
-                stream.SendNext(sVector3.y);
-                stream.SendNext(sVector3.z);
-            }
-
-            if (stream.IsReading)
-            {
-                this.exorcistStatus.isSkill = (bool)stream.ReceiveNext();
-                this.exorcistStatus.isAttack = (bool)stream.ReceiveNext();
-                this.sVector3.x = (float)stream.ReceiveNext();
-                this.sVector3.y = (float)stream.ReceiveNext();
-                this.sVector3.z = (float)stream.ReceiveNext();
-                this.moveVector = new Vector3(sVector3.x, sVector3.y, sVector3.z);
-
-            }
-        }
-
-        #endregion
-
-        #region IEnumrator
-        IEnumerator MoveSlow(float duration,float slowRatio)
-        {
-            finalMoveSpeed -= exorcistStatus.moveSpeed * slowRatio; 
+            finalMoveSpeed -= exorcistStatus.moveSpeed * slowRatio;
 
             yield return new WaitForSeconds(duration);
             finalMoveSpeed += exorcistStatus.moveSpeed * slowRatio;
@@ -327,7 +304,7 @@ namespace TID42
             animationCallbackSet.EnableAttackSkillArea();
             yield return new WaitForSeconds(5.0f);
             animationCallbackSet.DisableAttackSkillArea();
-            yield return new WaitForSeconds(rageTime-5.0f);
+            yield return new WaitForSeconds(rageTime - 5.0f);
             Ayra.Stop();
             animator.Rage(false);
             finalAttackSpeed -= exorcistStatus.attackSpeed * 0.5f;
@@ -335,8 +312,5 @@ namespace TID42
             curBehavior.PushSuccessorState(bvNormalExorcist);
             isRage = false;
         }
-
-        #endregion
     }
 }
-*/

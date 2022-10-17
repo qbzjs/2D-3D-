@@ -5,7 +5,7 @@ using KSH_Lib;
 
 namespace GHJ_Lib
 {
-    public class BvBlind : Behavior<NetworkTPV_CharacterController>
+    public class BvBlind : Behavior<NetworkDollController>
     {
   
     }

@@ -5,14 +5,14 @@ using KSH_Lib;
 
 namespace GHJ_Lib
 {
-    public class BvExpose : Behavior<NetworkTPV_CharacterController>
+    public class BvExpose : Behavior<NetworkDollController>
     {
-        protected override void Activate(in NetworkTPV_CharacterController actor)
+        protected override void Activate(in NetworkDollController actor)
         {
             actor.StartCoroutineExpose();
         }
 
-        protected override Behavior<NetworkTPV_CharacterController> DoBehavior(in NetworkTPV_CharacterController actor)
+        protected override Behavior<NetworkDollController> DoBehavior(in NetworkDollController actor)
         {
             return base.DoBehavior(actor);
         }

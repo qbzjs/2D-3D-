@@ -1,15 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TID42;
-
+using KSH_Lib;
 namespace GHJ_Lib
 { 
     public class AnimationCallbackSet : MonoBehaviour
     {
         #region Public Fields
         public GameObject[] AttackArea;
-        public FPV_CharacterController1 FPV_characterController1;
+        public NetworkExorcistController FPV_characterController1;
         public GameObject Grab;
         public GameObject CamTarget;
         public GameObject PickUpDoll
@@ -34,7 +33,7 @@ namespace GHJ_Lib
         void Awake()
         {
             animator = GetComponent<Animator>();
-            FPV_characterController1 = GetComponent<FPV_CharacterController1>();
+            FPV_characterController1 = GetComponent<NetworkExorcistController>();
         }
 
         #endregion
@@ -73,7 +72,7 @@ namespace GHJ_Lib
         {
             if (PickUpDoll != null)
             {
-                NetworkTPV_CharacterController baseController = PickUpDoll.GetComponent<NetworkTPV_CharacterController>();
+                NetworkDollController baseController = PickUpDoll.GetComponent<NetworkDollController>();
 
                 if (baseController == null)
                 {
@@ -89,7 +88,7 @@ namespace GHJ_Lib
                 Debug.LogWarning("CamTarget: "+ CamTarget);
                 baseController.Grabbed(CamTarget);
 
-                if (baseController is NetworkTPV_CharacterController)
+                if (baseController is NetworkDollController)
                 {
                     FPV_characterController1.ActiveGrabObj(0);
                 }
@@ -107,14 +106,14 @@ namespace GHJ_Lib
                 if (AttackArea[2].gameObject.activeInHierarchy)
                 { 
                 Debug.Log("Attack Doll");
-                other.GetComponent<NetworkTPV_CharacterController>().Hit(FPV_characterController1.exorcistStatus.offensePower);
+                other.GetComponent<NetworkDollController>().Hit(FPV_characterController1.exorcistStatus.offensePower);
                 DisableAttackBoxArea();
                 }
 
                 if (AttackArea[3].gameObject.activeInHierarchy)
                 {
                     Debug.Log("Use Skill Expose");
-                    other.GetComponent<NetworkTPV_CharacterController>().ExposedByExorcist();
+                    other.GetComponent<NetworkDollController>().ExposedByExorcist();
                 }
             }
         }

@@ -5,15 +5,15 @@ using KSH_Lib;
 
 namespace GHJ_Lib
 {
-    public class BvSlow : Behavior<NetworkTPV_CharacterController>
+    public class BvSlow : Behavior<NetworkDollController>
     {
 
-        protected override void Activate(in NetworkTPV_CharacterController actor)
+        protected override void Activate(in NetworkDollController actor)
         {
             actor.StartCoroutineSlow();
         }
 
-        protected override Behavior<NetworkTPV_CharacterController> DoBehavior(in NetworkTPV_CharacterController actor)
+        protected override Behavior<NetworkDollController> DoBehavior(in NetworkDollController actor)
         {
             return base.DoBehavior(actor);
         }
