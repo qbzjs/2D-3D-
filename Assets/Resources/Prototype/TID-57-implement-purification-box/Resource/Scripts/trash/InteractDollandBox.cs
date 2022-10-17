@@ -18,7 +18,7 @@ namespace LSH_Lib{
             {
                 if(Input.GetKey(KeyCode.Mouse0))
                 {
-                    boxController.DoInteraction();
+                    boxController.DoInteraction(playerTag);
                 }
             }
         }

@@ -33,6 +33,7 @@ namespace LSH_Lib{
             box = PhotonNetwork.Instantiate("Prototype/TID-57-implement-purification-box/Resource/Prefabs/PurificationBox (6)", new Vector3(-0.043333333f, 1.5f, 0.123333342f), Quaternion.identity, 0);
             if (box)
             {
+                
                 return true;
             }
             else

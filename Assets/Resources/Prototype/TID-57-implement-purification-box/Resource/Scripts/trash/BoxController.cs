@@ -45,22 +45,39 @@ namespace LSH_Lib{
                 {
                     if (Input.GetKey(KeyCode.Mouse0))
                     {
-                        if(photonView.IsMine)
-                        {
-                            DoInteraction();
-                        }
-                        
+                        DoInteraction(PlayerTag);
                     }
                     
                 }
             }
 
-            
-            
+            if (other.CompareTag("Doll"))
+            {
+                PlayerTag = "Doll";
+                if (!isEmpty)
+                {
+                    if (Input.GetKey(KeyCode.Mouse0))
+                    {
+                        //DoInteraction(PlayerTag);
+                        //if(!photonView.IsMine)
+                        {
+                            pv.RPC("DollInteraction", RpcTarget.MasterClient);
+                        }
+                    }
+                    //else
+                    //{
+                    //    UIControll.TextVisible();
+                    //    UIControll.SliderInvisible();
+                    //}
+
+                }
+            }
+
         }
         private void OnTriggerExit(Collider other)
         {
             UIControll.TextInvisible();
+            UIControll.SliderInvisible();
         }
 
         private void OnGUI()
@@ -71,21 +88,24 @@ namespace LSH_Lib{
         
 
         [PunRPC]
-        public void DoInteraction()
+        public void DoInteraction(string PlayerTag)
         {   
             //if (Input.GetKey(KeyCode.Mouse0))
             {
                 isclick = true;
-                UIControll.Slidervisible();
-                UIControll.TextInvisible();
+                
                 if (PlayerTag == "Exorcist")
                 {
+                    UIControll.Slidervisible();
+                    UIControll.TextInvisible();
                     UIControll.AutoCasting(10.0f);
                     this.isEmpty = false;
                 }
 
                 if (PlayerTag == "Doll")
                 {
+                    UIControll.Slidervisible();
+                    UIControll.TextInvisible();
                     UIControll.Casting(1.0f);
                     if (UIControll.CheckValue())
                     {
