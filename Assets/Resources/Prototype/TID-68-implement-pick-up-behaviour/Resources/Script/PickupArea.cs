@@ -24,7 +24,7 @@ namespace GHJ_Lib
 				return;
 			}
 
-			NetworkTPV_CharacterController doll = other.GetComponent<NetworkTPV_CharacterController>();
+			NetworkDollController doll = other.GetComponent<NetworkDollController>();
 			if (doll.CurBehavior is BvFall)
 			{
 				if (doll.CurBehavior is BvGrabbed)

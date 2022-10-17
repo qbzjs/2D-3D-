@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4163adfc388d8024fb2dced50a8c59b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Exorcist: {fileID: -1752897742865028146}
+  Exorcist: {fileID: 7352917782144371853}
 --- !u!1 &3021153679058623732
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,9 +374,8 @@ GameObject:
   - component: {fileID: 455268536397400467}
   - component: {fileID: 4430563716704696487}
   - component: {fileID: 1410060564037407499}
-  - component: {fileID: -1752897742865028146}
+  - component: {fileID: 7352917782144371853}
   - component: {fileID: -665657466991628406}
-  - component: {fileID: 1851270441738565404}
   m_Layer: 0
   m_Name: Exorcist
   m_TagString: Exorcist
@@ -461,7 +460,7 @@ MonoBehaviour:
   - {fileID: 6374633949899727702}
   - {fileID: 3021153679058623732}
   - {fileID: 102432981751865916}
-  FPV_characterController1: {fileID: -1752897742865028146}
+  networkExorcistController: {fileID: 7352917782144371853}
   Grab: {fileID: 3150440021692976751}
   CamTarget: {fileID: 6023530114879361924}
 --- !u!114 &3160579518073727552
@@ -498,7 +497,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 4430563716704696487}
   - {fileID: 1410060564037407499}
-  - {fileID: -1752897742865028146}
+  - {fileID: 7352917782144371853}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -548,7 +547,7 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &-1752897742865028146
+--- !u!114 &7352917782144371853
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -557,25 +556,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 6023530114998782608}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d0c3ce89477a2c469849fdc19a3ec60, type: 3}
+  m_Script: {fileID: 11500000, guid: e3eabaeaf2faa01498f5bb2b544c2a40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotSpeed: 5
-  finalMoveSpeed: 0
-  finalAttackSpeed: 0
   exorcistStatus:
-    moveSpeed: 3
+    moveSpeed: 5
     isAttack: 0
     isSkill: 0
     attackSpeed: 1
     offensePower: 10
     interactionSpeed: 1
     projectileSpeed: 1
-  target: {fileID: 0}
+  target: {fileID: 6023530114879361924}
   Ayra: {fileID: 3615976796478522397}
   animationCallbackSet: {fileID: 8650640184749938122}
   GrabObj:
-  - {fileID: 4473424413195934546}
+  - {fileID: 3150440021692976751}
 --- !u!54 &-665657466991628406
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -592,19 +588,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1851270441738565404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6023530114998782608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2215e5a7a7741a469e2c38f46b781ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  castingVelocity: 2
 --- !u!1 &6374633949899727702
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,12 +975,6 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 05ad966a6b3793d4290e515b2afb318a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19fbc6433c996574eb80fb6d445e9968, type: 3}
---- !u!1 &4473424413195934546 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100016, guid: 19fbc6433c996574eb80fb6d445e9968,
-    type: 3}
-  m_PrefabInstance: {fileID: 4473424413195967970}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4473424413196093298 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400016, guid: 19fbc6433c996574eb80fb6d445e9968,

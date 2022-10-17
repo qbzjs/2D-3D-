@@ -1,15 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GHJ_Lib;
+using KSH_Lib;
+
+using Photon.Pun;
+using Photon.Realtime;
 
 namespace LSH_Lib{
     public class FinalAltarInteraction : interaction
     {
         public static int altarCount = 0;
-        void Start()
+        public override void OnEnable()
         {
             initialValue();
-            canActiveTo = false;
+            canActiveToExorcist = false;
+            canActiveToDoll = true;
         }
 
         void Update()
@@ -17,12 +23,9 @@ namespace LSH_Lib{
             StateCheck();
             
         }
-        public override void Interact(string tag, Character character)
+        public override void Interact(string tag, NetworkDollController character)
         {
-            if (tag == "Doll")
-            {
-                Casting(character);
-            }
+            Casting(character);
         }
 
         public void initialValue()
@@ -35,34 +38,35 @@ namespace LSH_Lib{
             altarCount++;
         }
 
-        protected override void Casting(Character character)
+        protected override void Casting(NetworkDollController character)
         {
             curGauge += character.CastingVelocity * Time.deltaTime;
+            photonView.RPC("SendGauge", RpcTarget.All, curGauge);
         }
 
         protected override void AutoCasting(float chargeTime)
         {
-            Debug.Log("AutoCasting");
-            SceneManager.Instance.EnableAutoCastingBar(chargeTime);
+            SceneManager.Instance.EnableAutoCastingBar(this.gameObject,chargeTime);
         }
         
         private void StateCheck()
         {
             if (altarCount == 4)
             {
-                canActiveTo = true;
+                canActiveToDoll = true;
                 Active();
             }
         }
         private void Active()
         {
-            Debug.Log("isActive");
-            if (GetGaugeRate >= 1.0f && canActiveTo)
+            //Debug.Log("isActive");
+            if (GetGaugeRate >= 1.0f && canActiveToDoll)
             {
-                canActiveTo = false;
+                canActiveToDoll = false;
+                //open Door
             }
 
-            if (canActiveTo)
+            if (canActiveToDoll)
             {
                 if (curGauge > 0)
                 {

@@ -17,6 +17,7 @@ namespace GHJ_Lib
 		public CinemachineVirtualCamera cinemachineVirtual;
 		public Network_TPV_CameraController network_TPV_CameraController;
 		public Behavior<NetworkDollController> CurBehavior { get { return curBehavior; } }
+
 		public GameObject CamTarget;
 		public GameObject CharacterModel;
 
@@ -35,6 +36,7 @@ namespace GHJ_Lib
 		protected Material originMaterial;
 		protected bool isCanMove = true;
 		/*--- Private Fields ---*/
+
 
 		//---interaction Fields---//
 		public float CastingVelocity
@@ -102,12 +104,18 @@ namespace GHJ_Lib
 		// >> interaction 
 		private void OnTriggerStay(Collider other)
 		{
+			if (!photonView.IsMine)
+			{
+				return;
+			}
+
 			if (other.CompareTag("interactObj"))
 			{
 				LSH_Lib.interaction obj = other.GetComponent<LSH_Lib.interaction>();
-				if (Vector3.Angle(obj.transform.position - this.transform.position, this.transform.forward) < 30.0f
-					&& obj.canActiveTo)
+				if (Vector3.Dot(Vector3.ProjectOnPlane(obj.transform.position - this.transform.position, Vector3.up), this.transform.forward) < 90.0f
+					&& obj.canActiveToDoll)
 				{
+					Debug.Log("CanInteract");
 					canInteract = true;
 					SceneManager.Instance.EnableInteractionText();
 					SceneManager.Instance.DisableCastingBar();
@@ -122,6 +130,7 @@ namespace GHJ_Lib
 
 				if (isInteract)
 				{
+					Debug.Log("isInteract");
 					SceneManager.Instance.DisableInteractionText();
 					SceneManager.Instance.EnableCastingBar(other.gameObject);
 					obj.Interact(gameObject.tag, this);
@@ -320,5 +329,23 @@ namespace GHJ_Lib
 
 		}
 		/*--- Private Methods ---*/
+
+		/*------*/
+		IEnumerator Slow(float slowTime)
+		{
+			moveSpeed *= 0.8f;
+			yield return new WaitForSeconds(slowTime);
+			moveSpeed = dollStatus.MoveSpeed;
+			curBehavior.PushSuccessorState(bvNormal);
+		}
+
+		IEnumerator Expose(float ExposeTime)
+		{
+			originMaterial = skinnedMeshRenderer.material;
+			skinnedMeshRenderer.material = Resources.Load<Material>("Materials/Always Visible");
+			yield return new WaitForSeconds(ExposeTime);
+			skinnedMeshRenderer.material = originMaterial;
+			curBehavior.PushSuccessorState(bvNormal);
+		}
 	}
 }

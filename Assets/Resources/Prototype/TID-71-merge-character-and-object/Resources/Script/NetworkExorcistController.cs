@@ -5,6 +5,7 @@ using Cinemachine;
 using Photon.Pun;
 using Photon.Realtime;
 using KSH_Lib;
+using LSH_Lib;
 
 namespace GHJ_Lib
 {
@@ -20,11 +21,8 @@ namespace GHJ_Lib
         public GameObject[] GrabObj;
 
         /*--- Protected Fields ---*/
-        [SerializeField]
         protected float rotSpeed;
-        [SerializeField]
         protected float finalMoveSpeed;
-        [SerializeField]
         protected float finalAttackSpeed;
         protected Vector3 moveVector;
         protected CharacterController controller;
@@ -46,6 +44,17 @@ namespace GHJ_Lib
         protected BvGrab bvGrab = new BvGrab();
         /*--- Private Fields ---*/
 
+
+        //---interaction Fields---//
+        public float CastingVelocity
+        {
+            get { return castingVelocity; }
+        }
+        protected float castingVelocity = 2.0f;
+        protected bool isInteract_ = false;
+        protected bool canInteract = false;
+        protected bool isInteract = false;
+        //
 
         /*--- MonoBehaviour Callbacks ---*/
         protected virtual void Awake()
@@ -75,8 +84,7 @@ namespace GHJ_Lib
         {
             if (photonView.IsMine)
             {
-
-
+                InteractObj();
                 Movement();
                 Attack();
                 Skill();
@@ -98,6 +106,54 @@ namespace GHJ_Lib
 
         }
 
+        // >> interaction 
+        private void OnTriggerStay(Collider other)
+        {
+            if (!photonView.IsMine)
+            {
+                return;
+            }
+
+            if (other.CompareTag("interactObj"))
+            {
+                if (SceneManager.Instance.IsCoroutine)
+                {
+                    return;
+                }
+
+                LSH_Lib.interaction obj = other.GetComponent<LSH_Lib.interaction>();
+                if (Vector3.Dot(Vector3.ProjectOnPlane(obj.transform.position - this.transform.position,Vector3.up), this.transform.forward) < 90.0f
+                    && obj.canActiveToExorcist)
+                {
+                    canInteract = true;
+                    Debug.Log("canInteract: "+ canInteract);
+                    SceneManager.Instance.EnableInteractionText();
+                    SceneManager.Instance.DisableCastingBar();
+                }
+                else
+                {
+                    canInteract = false;
+                    Debug.Log("canInteract: " + canInteract);
+                    SceneManager.Instance.DisableInteractionText();
+                    SceneManager.Instance.DisableCastingBar();
+                    return;
+                }
+
+                if (isInteract)
+                {
+                    SceneManager.Instance.DisableInteractionText();
+                    SceneManager.Instance.EnableCastingBar(other.gameObject);
+                    obj.Interact(gameObject.tag, this);
+                }
+                else
+                {
+                    
+                    SceneManager.Instance.EnableInteractionText();
+                    SceneManager.Instance.DisableCastingBar();
+                }
+            }
+        }
+        // <<
 
         /*--- Public Methods ---*/
         public void Fast(float fastRatio)
@@ -110,7 +166,16 @@ namespace GHJ_Lib
             bvSlow.Ratio = slowRatio;
             curBehavior.PushSuccessorState(bvSlow);
         }
+        [PunRPC]
+        public void Rage()
+        {
+            if (curBehavior == bvRage)
+            {
+                return;
+            }
 
+            curBehavior.PushSuccessorState(bvRage);
+        }
         public void StartCoroutineMoveFast(float duration, float fastRatio)
         {
             StartCoroutine(MoveFast(duration, fastRatio));
@@ -231,6 +296,21 @@ namespace GHJ_Lib
                 exorcistStatus.isSkill = false;
             }
         }
+
+        protected virtual void InteractObj()
+        {
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                isInteract = true;// << interaction
+                return;
+            }
+            if (Input.GetKeyUp(KeyCode.G))
+            {
+                isInteract = false; // << interaction
+                return;
+            }
+        }
+
         [PunRPC]
         protected void SetPickUpDoll()
         {

@@ -8,7 +8,7 @@ namespace GHJ_Lib
     {
         #region Public Fields
         public GameObject[] AttackArea;
-        public NetworkExorcistController FPV_characterController1;
+        public NetworkExorcistController networkExorcistController;
         public GameObject Grab;
         public GameObject CamTarget;
         public GameObject PickUpDoll
@@ -33,7 +33,7 @@ namespace GHJ_Lib
         void Awake()
         {
             animator = GetComponent<Animator>();
-            FPV_characterController1 = GetComponent<NetworkExorcistController>();
+            networkExorcistController = GetComponent<NetworkExorcistController>();
         }
 
         #endregion
@@ -90,7 +90,7 @@ namespace GHJ_Lib
 
                 if (baseController is NetworkDollController)
                 {
-                    FPV_characterController1.ActiveGrabObj(0);
+                    networkExorcistController.ActiveGrabObj(0);
                 }
 
                 //PickUpDoll.transform.SetParent(Grab.transform);
@@ -106,7 +106,7 @@ namespace GHJ_Lib
                 if (AttackArea[2].gameObject.activeInHierarchy)
                 { 
                 Debug.Log("Attack Doll");
-                other.GetComponent<NetworkDollController>().Hit(FPV_characterController1.exorcistStatus.offensePower);
+                other.GetComponent<NetworkDollController>().Hit(networkExorcistController.exorcistStatus.offensePower);
                 DisableAttackBoxArea();
                 }
 

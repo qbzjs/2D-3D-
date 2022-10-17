@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 namespace LSH_Lib
 {
     public class Exorcist : Character
@@ -71,3 +71,4 @@ namespace LSH_Lib
         }
     }
 }
+*/

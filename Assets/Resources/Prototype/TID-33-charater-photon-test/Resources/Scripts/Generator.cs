@@ -9,17 +9,22 @@ using LSH_Lib;
 namespace GHJ_Lib
 { 
 
-    public class PlayerGenerator : MonoBehaviour
+    public class Generator : MonoBehaviour
     {
         #region Public Fields
         #endregion
-
 
         #region Private Fields
         RoleType role;
         [Header("Generate Setting")]
         [SerializeField]
-        private Vector3[] genPos;
+        private Vector3[] PlayerGenPos;
+        [SerializeField]
+        private GameObject[] NormalAltarGenPos;
+        [SerializeField]
+        private GameObject[] ExitAltarGenPos;
+        [SerializeField]
+        private GameObject FinalAltarGenPos;
         [Header("Camera Setting")]
         [SerializeField]
         private GameObject virtualCamera;
@@ -82,7 +87,9 @@ namespace GHJ_Lib
                     Debug.LogError("can't find head");
                 }
                 camControllerFPV.SendMessage("SetModeFPV", head);
-                
+
+                InstantiateNormalAltar(8);
+
             }
         }
 
@@ -102,7 +109,7 @@ namespace GHJ_Lib
             {
                 if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[i])
                 {
-                    localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-71-merge-character-and-object/Resources/Prefabs/Doll", genPos[i], Quaternion.identity, 0);
+                    localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-71-merge-character-and-object/Resources/Prefabs/Doll", PlayerGenPos[i], Quaternion.identity, 0);
                     return true;
                 }
         
@@ -113,7 +120,7 @@ namespace GHJ_Lib
 
         private bool InstantiateExorcist()
         {
-            localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-71-merge-character-and-object/Resources/Prefabs/Exorcist", genPos[0], Quaternion.identity, 0);
+            localPlayerObj = PhotonNetwork.Instantiate("Prototype/TID-71-merge-character-and-object/Resources/Prefabs/Exorcist", PlayerGenPos[0], Quaternion.identity, 0);
             if (localPlayerObj)
             {
                 return true;
@@ -121,6 +128,20 @@ namespace GHJ_Lib
             else
             {
                 Debug.LogError("can't instantiate Exorcist character");
+                return false;
+            }
+        }
+
+        private bool InstantiateNormalAltar(int i)
+        {
+            GameObject NormalAltar = PhotonNetwork.Instantiate("Prototype/TID-71-merge-character-and-object/Resources/Prefabs/NormalAltar", NormalAltarGenPos[i].transform.position, Quaternion.Euler(NormalAltarGenPos[i].transform.rotation.eulerAngles), 0);
+            if (NormalAltar)
+            {
+                return true;
+            }
+            else
+            {
+                Debug.LogError("can't instantiate NormalAltar");
                 return false;
             }
         }

@@ -26,8 +26,9 @@ namespace LSH_Lib
         #endregion
 
         #region MonoBehaviour CallBacks
-        void Start()
+         void Start()
         {
+            Debug.Log("Start");
             bar = GetComponentInChildren<Slider>();
             bar.gameObject.SetActive(false);
             interactionText = GetComponentInChildren<Text>();
@@ -48,10 +49,9 @@ namespace LSH_Lib
 
             if (isAutoCasting)
             {
-                bar.gameObject.SetActive(true);
-                interactionText.gameObject.SetActive(false);
                 bar.value += autoCastingTime * Time.deltaTime;
             }
+
         }
         #endregion
 
@@ -71,6 +71,7 @@ namespace LSH_Lib
             {
                 return;
             }
+            Debug.Log("active Text : "+ interactionText.gameObject.activeInHierarchy);
             interactionText.gameObject.SetActive(false);
         }
 
@@ -94,7 +95,17 @@ namespace LSH_Lib
             bar.gameObject.SetActive(false);
         }
 
-        public void ActiveAutoCastingBar(float chargeTime)
+        public void ActiveAutoCastingBar(GameObject _obj, float chargeTime)
+        {
+            if (!isAutoCasting)
+            {
+                SetTargetObj(_obj);
+                bar.value = 0;
+                StartCoroutine("AutoCasting", chargeTime);
+            }
+        }
+        
+        public void ActiveAutoCastingNullBar(float chargeTime)
         {
             if (!isAutoCasting)
             {
@@ -131,6 +142,8 @@ namespace LSH_Lib
                 isAutoCasting = true;
                 autoCastingTime = 1 / chargeTime;
                 SceneManager.Instance.IsCoroutine = true;
+                bar.gameObject.SetActive(true);
+                interactionText.gameObject.SetActive(false);
                 yield return new WaitForSeconds(chargeTime);
 
                 if (bar.value >= 1.0f)
@@ -139,10 +152,11 @@ namespace LSH_Lib
                     autoCastingTime = 0;
                     SceneManager.Instance.IsCoroutine = false;
                     bar.gameObject.SetActive(false);
+                    interactionText.gameObject.SetActive(true);
                     break;
                 }
             }
-
         }
+
     }
 }
