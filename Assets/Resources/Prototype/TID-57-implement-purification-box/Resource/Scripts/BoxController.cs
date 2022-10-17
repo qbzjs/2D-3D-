@@ -45,30 +45,17 @@ namespace LSH_Lib{
                 {
                     if (Input.GetKey(KeyCode.Mouse0))
                     {
-                        DoInteraction();
+                        if(photonView.IsMine)
+                        {
+                            DoInteraction();
+                        }
+                        
                     }
                     
                 }
             }
 
-            if (other.CompareTag("Doll"))
-            {
-                PlayerTag = "Doll";
-                if (!isEmpty)
-                {
-                    if (Input.GetKey(KeyCode.Mouse0)) 
-                    {
-                        DoInteraction();
-                        //pv.RPC("DoInteraction", RpcTarget.All, "RPC success");
-                    }
-                    //else
-                    //{
-                    //    UIControll.TextVisible();
-                    //    UIControll.SliderInvisible();
-                    //}
-
-                }
-            } 
+            
             
         }
         private void OnTriggerExit(Collider other)
@@ -81,31 +68,10 @@ namespace LSH_Lib{
             GUI.Box(new Rect(0, 0, 150, 30), isclick.ToString());
             GUI.Box(new Rect(0, 60, 150, 30), "BoxEmpty : " + isEmpty.ToString());
         }
-
-        //void ExorcistInteraction()
-        //{
-        //    if (Input.GetKey(KeyCode.Mouse0))
-        //    {
-        //        isclick = true;
-
-        //        UIControll.Slidervisible();
-        //        UIControll.TextInvisible();
-
-        //        if (PlayerTag == "Exorcist")
-        //        {
-        //            UIControll.AutoCasting(10.0f);
-        //            this.isEmpty = false;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        UIControll.TextVisible();
-        //        UIControll.SliderInvisible();
-        //    }
-        //}
+        
 
         [PunRPC]
-        void DoInteraction()
+        public void DoInteraction()
         {   
             //if (Input.GetKey(KeyCode.Mouse0))
             {
