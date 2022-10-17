@@ -5038,7 +5038,7 @@ GameObject:
   - component: {fileID: 604994876}
   - component: {fileID: 604994875}
   m_Layer: 0
-  m_Name: Generator
+  m_Name: PhotonGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5074,11 +5074,11 @@ MonoBehaviour:
   - {fileID: 675748063}
   - {fileID: 651376062}
   ExitAltarGenPos:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  FinalAltarGenPos: {fileID: 0}
+  - {fileID: 204333999}
+  - {fileID: 2120205837}
+  - {fileID: 1378718113}
+  - {fileID: 1213057334}
+  FinalAltarGenPos: {fileID: 1364143388}
   virtualCamera: {fileID: 2057589835}
   dollUI: {fileID: 631540010}
   exorcistUI: {fileID: 631540011}
@@ -8863,7 +8863,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1278859314}
-  m_RootOrder: 156
+  m_RootOrder: 108
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1003131778
 PrefabInstance:
@@ -11381,6 +11381,7 @@ Transform:
   - {fileID: 752784370}
   - {fileID: 239609653}
   - {fileID: 1126502392}
+  - {fileID: 995780373}
   - {fileID: 9376045}
   - {fileID: 1702422926}
   - {fileID: 1692743848}
@@ -11429,7 +11430,6 @@ Transform:
   - {fileID: 540188616}
   - {fileID: 1260581807}
   - {fileID: 1699971672}
-  - {fileID: 995780373}
   - {fileID: 1359186013}
   - {fileID: 548833900}
   - {fileID: 1677419502}
@@ -11439,9 +11439,9 @@ Transform:
   - {fileID: 1452892061}
   - {fileID: 675748064}
   - {fileID: 651376063}
+  - {fileID: 1362814547}
   - {fileID: 165978385}
   - {fileID: 1868198261}
-  - {fileID: 1362814547}
   - {fileID: 567318259}
   - {fileID: 1583333648}
   - {fileID: 1089783195}
@@ -12178,7 +12178,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1278859314}
-  m_RootOrder: 168
+  m_RootOrder: 166
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &1362814548
 MonoBehaviour:

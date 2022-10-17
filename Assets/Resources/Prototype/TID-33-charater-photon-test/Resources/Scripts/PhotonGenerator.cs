@@ -9,7 +9,7 @@ using LSH_Lib;
 namespace GHJ_Lib
 { 
 
-    public class Generator : MonoBehaviour
+    public class PhotonGenerator : MonoBehaviour
     {
         #region Public Fields
         #endregion
@@ -89,6 +89,8 @@ namespace GHJ_Lib
                 camControllerFPV.SendMessage("SetModeFPV", head);
 
                 InstantiateNormalAltar(8);
+                InstantiateExitAltar(2);
+                InstantiateFinalAltar();
 
             }
         }
@@ -145,6 +147,35 @@ namespace GHJ_Lib
                 return false;
             }
         }
+
+        private bool InstantiateExitAltar(int i)
+        {
+            GameObject NormalAltar = PhotonNetwork.Instantiate("Prototype/TID-71-merge-character-and-object/Resources/Prefabs/ExitAltar", ExitAltarGenPos[i].transform.position, Quaternion.Euler(ExitAltarGenPos[i].transform.rotation.eulerAngles), 0);
+            if (NormalAltar)
+            {
+                return true;
+            }
+            else
+            {
+                Debug.LogError("can't instantiate ExitAltar");
+                return false;
+            }
+        }
+
+        private bool InstantiateFinalAltar()
+        {
+            GameObject NormalAltar = PhotonNetwork.Instantiate("Prototype/TID-71-merge-character-and-object/Resources/Prefabs/FinalAltar", FinalAltarGenPos.transform.position, Quaternion.Euler(FinalAltarGenPos.transform.rotation.eulerAngles), 0);
+            if (NormalAltar)
+            {
+                return true;
+            }
+            else
+            {
+                Debug.LogError("can't instantiate FinalAltar");
+                return false;
+            }
+        }
+
         #endregion	
 
     }
