@@ -11,7 +11,7 @@ namespace LSH_Lib{
         PhotonView pv;
         PurificationBoxUI boxUI;
         string playerTag;
-        bool number;
+        bool isEmpty = true;
         private void Start()
         {
             pv = GetComponent<PhotonView>();
@@ -31,9 +31,33 @@ namespace LSH_Lib{
         {
             playerTag = other.ToString();
             boxUI.TextVisible();
-            if(Input.GetKey(KeyCode.G))
+            if (Input.GetKey(KeyCode.G))
             {
-                Exorcist();
+                if (other.gameObject.CompareTag("Exorcist"))
+                {
+                    Exorcist();
+                    if (pv.IsMine)
+                    {
+                        Boxinteract(playerTag);
+                    }
+                    //else
+                    //{
+                    //    pv.RPC("Boxinteract", RpcTarget.MasterClient, playerTag);
+                    //}
+                }
+                else
+                {
+                    Doll();
+                    //if (pv.IsMine)
+                    //{
+                    //    Boxinteract(playerTag);
+                    //}
+                    if(!pv.IsMine)
+                    {
+                        pv.RPC("Boxinteract", RpcTarget.MasterClient, playerTag);
+                    }
+                }
+
             }
             //{
             //    if (pv.IsMine)
@@ -46,20 +70,20 @@ namespace LSH_Lib{
             //    }
             //}
         }
-        
+        private void OnGUI()
+        {
+            GUI.Box(new Rect(0, 0, 150, 30), isEmpty.ToString());
+        }
         [PunRPC]
         void Boxinteract(string tag)
         {
             if(tag == "Exorcist")
             {
-                if(Input.GetKey(KeyCode.G))
-                {
-                    Exorcist();
-                }
+                isEmpty = false;
             }
             if(tag == "Doll")
             {
-                Doll();
+                isEmpty = true;
             }
         }
         void Exorcist()
@@ -70,19 +94,21 @@ namespace LSH_Lib{
         }
         void Doll()
         {
-
+            boxUI.TextInvisible();
+            boxUI.Slidervisible();
+            boxUI.Casting(1.0f);
         }
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             if (stream.IsWriting)
             {
                 // We own this player: send the others our data
-                stream.SendNext(number);
+                stream.SendNext(isEmpty);
             }
             else
             {
                 // Network player, receive data
-                this.number = (bool)stream.ReceiveNext();
+                this.isEmpty = (bool)stream.ReceiveNext();
             }
         }
     }
