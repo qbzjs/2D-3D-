@@ -16,6 +16,8 @@ namespace LSH_Lib{
         private void Start()
         {
             slider = GetComponentInChildren<Slider>();
+            SliderInvisible();
+            TextInvisible();
         }
 
         public void Casting(float speed)

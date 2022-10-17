@@ -8,32 +8,22 @@ namespace LSH_Lib{
     public class ObjGenerator : MonoBehaviour
     {
         private GameObject box;
-        //>>LSH
-        [SerializeField]
-        private GameObject BoxUI;
-        //<<LSH
         private void Start()
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                InstantiateExorcist();
-            }
-            if (BoxUI != null)
-            {
-                GameObject boxUI = Instantiate(BoxUI);
-                boxUI.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
+                InstantiateBox();
             }
             else
             {
-                Debug.LogWarning("Is it right?");
+                Debug.LogWarning("I'm not master client");
             }
         }
-        private bool InstantiateExorcist()
+        private bool InstantiateBox()
         {
-            box = PhotonNetwork.Instantiate("Prototype/TID-57-implement-purification-box/Resource/Prefabs/PurificationBox (6)", new Vector3(-0.043333333f, 1.5f, 0.123333342f), Quaternion.identity, 0);
+            box = PhotonNetwork.Instantiate("Prototype/TID-57-implement-purification-box/Resource/Prefabs/PurificationBox", new Vector3(0,1,0), Quaternion.identity, 0);
             if (box)
             {
-                
                 return true;
             }
             else
