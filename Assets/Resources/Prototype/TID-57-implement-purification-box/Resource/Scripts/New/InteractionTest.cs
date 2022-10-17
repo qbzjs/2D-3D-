@@ -9,33 +9,68 @@ namespace LSH_Lib{
     public class InteractionTest : MonoBehaviourPunCallbacks, IPunObservable
     {
         PhotonView pv;
-        int number;
+        PurificationBoxUI boxUI;
+        string playerTag;
+        bool number;
         private void Start()
         {
             pv = GetComponent<PhotonView>();
+            boxUI = GameObject.Find("BoxUI").GetComponent<PurificationBoxUI>();
+            boxUI.TextInvisible();
+            boxUI.SliderInvisible();
+        }
+        private void Update()
+        {
+            //if(Input.GetKeyUp(KeyCode.G))
+            //{
+            //    boxUI.TextInvisible();
+            //    boxUI.SliderInvisible();
+            //}
         }
         private void OnTriggerStay(Collider other)
         {
-            if(Input.GetKey(KeyCode.Mouse0))
+            playerTag = other.ToString();
+            boxUI.TextVisible();
+            if(Input.GetKey(KeyCode.G))
             {
-                if(pv.IsMine)
+                Exorcist();
+            }
+            //{
+            //    if (pv.IsMine)
+            //    {
+            //        Boxinteract(playerTag);
+            //    }
+            //    else
+            //    {
+            //        pv.RPC("Boxinteract", RpcTarget.MasterClient, playerTag);
+            //    }
+            //}
+        }
+        
+        [PunRPC]
+        void Boxinteract(string tag)
+        {
+            if(tag == "Exorcist")
+            {
+                if(Input.GetKey(KeyCode.G))
                 {
-                    AddFive();
-                }
-                else
-                {
-                    pv.RPC("AddFive", RpcTarget.MasterClient);
+                    Exorcist();
                 }
             }
+            if(tag == "Doll")
+            {
+                Doll();
+            }
         }
-        private void OnGUI()
+        void Exorcist()
         {
-            GUI.Box(new Rect(0, 0, 300, 60), number.ToString());
+            boxUI.TextInvisible();
+            boxUI.Slidervisible();
+            boxUI.AutoCasting(1.0f);
         }
-        [PunRPC]
-        void AddFive()
+        void Doll()
         {
-            number += 5;
+
         }
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
@@ -47,7 +82,7 @@ namespace LSH_Lib{
             else
             {
                 // Network player, receive data
-                this.number = (int)stream.ReceiveNext();
+                this.number = (bool)stream.ReceiveNext();
             }
         }
     }

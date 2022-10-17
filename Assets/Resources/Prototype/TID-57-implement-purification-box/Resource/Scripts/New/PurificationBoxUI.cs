@@ -15,9 +15,7 @@ namespace LSH_Lib{
 
         private void Start()
         {
-            slider = GetComponentInChildren<Slider>();
-            SliderInvisible();
-            TextInvisible();
+            slider = sliderUI.GetComponent<Slider>();
         }
 
         public void Casting(float speed)
@@ -28,6 +26,7 @@ namespace LSH_Lib{
         public void AutoCasting(float speed)
         {
             StartCoroutine("Cast", speed);
+            
         }
         IEnumerator Cast(float speed)
         {
@@ -39,11 +38,15 @@ namespace LSH_Lib{
                 yield return new WaitForSeconds(0.1f);
                 slider.value += time;
                 value += time;
+                if(slider.value.Equals(1))
+                {
+                    SliderInvisible();
+                    TextInvisible();
+                    yield break;
+                }
             }
 
-            Initialized();
-            SliderInvisible();
-
+            //SliderInvisible();
         }
         public bool CheckValue()
         {

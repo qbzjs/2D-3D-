@@ -913,6 +913,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &824906473 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7305769815211041767, guid: 0fe31ba4e273e8f4583c8eeb5a97b05d,
+    type: 3}
+  m_PrefabInstance: {fileID: 7305769813263148360}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &824906474 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7305769815211041785, guid: 0fe31ba4e273e8f4583c8eeb5a97b05d,
+    type: 3}
+  m_PrefabInstance: {fileID: 7305769813263148360}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824906473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &967804069
 GameObject:
   m_ObjectHideFlags: 0
@@ -1041,10 +1059,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c9e5e3143687b14ba66f87af338e198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactText: {fileID: 2082283909}
-  sliderControll: {fileID: 1950254770}
-  Exorcist: {fileID: 1095206901}
-  canInteract: 1
   isEmpty: 1
 --- !u!1 &1095206900
 GameObject:
@@ -1737,18 +1751,27 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
---- !u!114 &1950254770 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7305769815211041786, guid: 0fe31ba4e273e8f4583c8eeb5a97b05d,
+--- !u!1 &1800025837 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7305769813513352268, guid: 0fe31ba4e273e8f4583c8eeb5a97b05d,
     type: 3}
   m_PrefabInstance: {fileID: 7305769813263148360}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+--- !u!114 &1800025843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800025837}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d850773010305894998970ba1d6e2b55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sliderUI: {fileID: 824906473}
+  interactText: {fileID: 2082283909}
+  slider: {fileID: 824906474}
 --- !u!114 &2082283909 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7305769815343318221, guid: 0fe31ba4e273e8f4583c8eeb5a97b05d,
@@ -1768,6 +1791,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 56977611911262103, guid: 0fe31ba4e273e8f4583c8eeb5a97b05d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7305769813298703464, guid: 0fe31ba4e273e8f4583c8eeb5a97b05d,
         type: 3}
       propertyPath: m_AnchorMax.y

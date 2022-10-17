@@ -20,7 +20,7 @@ namespace LSH_Lib{
         }
         private void Update()
         {
-            //Move();
+            Move();
             hasDoll();
         }
         private void OnGUI()
