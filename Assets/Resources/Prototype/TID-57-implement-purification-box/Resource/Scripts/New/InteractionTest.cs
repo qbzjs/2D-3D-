@@ -33,7 +33,15 @@ namespace LSH_Lib{
             boxUI.TextVisible();
             if(Input.GetKey(KeyCode.G))
             {
-                Exorcist();
+                if(playerTag == "Exorcist")
+                {
+                    Exorcist();
+                }
+                else
+                {
+                    Doll();
+                }
+                
             }
             //{
             //    if (pv.IsMine)
@@ -50,17 +58,7 @@ namespace LSH_Lib{
         [PunRPC]
         void Boxinteract(string tag)
         {
-            if(tag == "Exorcist")
-            {
-                if(Input.GetKey(KeyCode.G))
-                {
-                    Exorcist();
-                }
-            }
-            if(tag == "Doll")
-            {
-                Doll();
-            }
+            
         }
         void Exorcist()
         {
@@ -70,7 +68,9 @@ namespace LSH_Lib{
         }
         void Doll()
         {
-
+            boxUI.TextInvisible();
+            boxUI.Slidervisible();
+            boxUI.Casting(1.0f);
         }
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
