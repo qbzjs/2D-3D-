@@ -22,8 +22,8 @@ namespace GHJ_Lib
 		public GameObject CharacterModel;
 
 		/*--- Protected Fields ---*/
-		protected streamVector3 sVector3;
 		protected Behavior<NetworkDollController> curBehavior = new Behavior<NetworkDollController>();
+		protected streamVector3 sVector3;
 		protected BvNormal bvNormal = new BvNormal();
 		protected BvSlow bvSlow = new BvSlow();
 		protected BvBlind bvBlind = new BvBlind();

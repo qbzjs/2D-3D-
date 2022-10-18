@@ -25,6 +25,10 @@ namespace GHJ_Lib
         private GameObject[] ExitAltarGenPos;
         [SerializeField]
         private GameObject FinalAltarGenPos;
+        [SerializeField]
+        private Vector3 CenterPosition;
+        [SerializeField]
+        private float CenterDistance;
         [Header("Camera Setting")]
         [SerializeField]
         private GameObject virtualCamera;
@@ -134,46 +138,78 @@ namespace GHJ_Lib
             }
         }
 
-        private bool InstantiateNormalAltar(int i)
+        private GameObject InstantiateNormalAltar(int i)
         {
             GameObject NormalAltar = PhotonNetwork.Instantiate("Prototype/TID-71-merge-character-and-object/Resources/Prefabs/NormalAltar", NormalAltarGenPos[i].transform.position, Quaternion.Euler(NormalAltarGenPos[i].transform.rotation.eulerAngles), 0);
             if (NormalAltar)
             {
-                return true;
+                return NormalAltar;
             }
             else
             {
                 Debug.LogError("can't instantiate NormalAltar");
-                return false;
+                return null;
             }
         }
 
-        private bool InstantiateExitAltar(int i)
+        private GameObject InstantiateExitAltar(int i)
         {
-            GameObject NormalAltar = PhotonNetwork.Instantiate("Prototype/TID-71-merge-character-and-object/Resources/Prefabs/ExitAltar", ExitAltarGenPos[i].transform.position, Quaternion.Euler(ExitAltarGenPos[i].transform.rotation.eulerAngles), 0);
-            if (NormalAltar)
+            GameObject exitAltar = PhotonNetwork.Instantiate("Prototype/TID-71-merge-character-and-object/Resources/Prefabs/ExitAltar", ExitAltarGenPos[i].transform.position, Quaternion.Euler(ExitAltarGenPos[i].transform.rotation.eulerAngles), 0);
+            if (exitAltar)
             {
-                return true;
+                return exitAltar;
             }
             else
             {
                 Debug.LogError("can't instantiate ExitAltar");
-                return false;
+                return null;
             }
         }
 
-        private bool InstantiateFinalAltar()
+        private GameObject InstantiateFinalAltar()
         {
-            GameObject NormalAltar = PhotonNetwork.Instantiate("Prototype/TID-71-merge-character-and-object/Resources/Prefabs/FinalAltar", FinalAltarGenPos.transform.position, Quaternion.Euler(FinalAltarGenPos.transform.rotation.eulerAngles), 0);
-            if (NormalAltar)
+            GameObject finalAltar = PhotonNetwork.Instantiate("Prototype/TID-71-merge-character-and-object/Resources/Prefabs/FinalAltar", FinalAltarGenPos.transform.position, Quaternion.Euler(FinalAltarGenPos.transform.rotation.eulerAngles), 0);
+            if (finalAltar)
             {
-                return true;
+                return finalAltar;
             }
             else
             {
                 Debug.LogError("can't instantiate FinalAltar");
-                return false;
+                return null;
             }
+        }
+
+        void GenerateAltar()
+        {
+            List<GameObject> AltarGenPos = new List<GameObject>();
+            List<int> inCenterAltars = new List<int>();
+            List<int> outCenterAltars = new List<int>();
+            List<GameObject> Altars = new List<GameObject>();
+
+            for (int i = 0; i < NormalAltarGenPos.Length; i++)
+            {
+                AltarGenPos.Add(NormalAltarGenPos[i]);
+                if (CenterDistance > (NormalAltarGenPos[i].gameObject.transform.position - CenterPosition).magnitude)
+                {
+                    inCenterAltars.Add(i);
+                }
+                else 
+                {
+                    outCenterAltars.Add(i);
+                }
+
+            }
+
+            int index = inCenterAltars[Random.Range(0, inCenterAltars.Count)];
+            GameObject A = InstantiateNormalAltar(index);
+            AltarGenPos.Remove(NormalAltarGenPos[index]);
+            Altars.Add(A);
+
+            index = inCenterAltars[Random.Range(0, outCenterAltars.Count)];
+            GameObject B = InstantiateNormalAltar(index);
+            AltarGenPos.Remove(NormalAltarGenPos[index]);
+            Altars.Add(B);
         }
 
         #endregion	

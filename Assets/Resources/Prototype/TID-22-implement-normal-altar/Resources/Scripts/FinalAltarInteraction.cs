@@ -21,7 +21,6 @@ namespace LSH_Lib{
         void Update()
         {
             StateCheck();
-            
         }
         public override void Interact(string tag, NetworkDollController character)
         {

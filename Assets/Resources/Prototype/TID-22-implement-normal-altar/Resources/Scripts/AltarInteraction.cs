@@ -29,6 +29,7 @@ namespace LSH_Lib
             if (GetGaugeRate >= 1.0f && canActiveToDoll)
             {
                 canActiveToDoll = false;
+                canActiveToExorcist = false;
                 FinalAltarInteraction.AddCount();
             }
 

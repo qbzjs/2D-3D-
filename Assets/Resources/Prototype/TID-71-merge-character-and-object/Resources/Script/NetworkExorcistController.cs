@@ -19,7 +19,7 @@ namespace GHJ_Lib
         public ParticleSystem Ayra;
         public AnimationCallbackSet animationCallbackSet;
         public GameObject[] GrabObj;
-
+        public Behavior<NetworkExorcistController> CurBehavior { get { return curBehavior; } }
         /*--- Protected Fields ---*/
         protected float rotSpeed;
         protected float finalMoveSpeed;
