@@ -6,6 +6,8 @@ using Photon.Realtime;
 using KSH_Lib;
 using GHJ_Lib;
 using Cinemachine;
+using LSH_Lib;
+/*
 public class NetworkTPV_CharacterController : TestPlayerController,IPunObservable
 {
     #region Public Fields
@@ -38,6 +40,16 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     #region Protected Fields
     #endregion
 
+    //---interaction---//
+    public float CastingVelocity
+    {
+        get { return castingVelocity; }
+    }
+    protected float castingVelocity = 2.0f;
+    protected bool isInteract_ = false;
+    protected bool canInteract = false;
+    protected bool isInteract = false;
+    //
 
 
     #region MonoBehaviour CallBacks
@@ -92,6 +104,42 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
         curBehavior.Update(this, ref curBehavior);
         dollAnimationController.UpdateHP_Rate();
     }
+
+    // >> interaction 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("interactObj"))
+        {
+            LSH_Lib.interaction obj = other.GetComponent<LSH_Lib.interaction>();
+            if (Vector3.Angle(obj.transform.position - this.transform.position, this.transform.forward) < 30.0f
+                && obj.canActiveTo)
+            {
+                canInteract = true;
+                SceneManager.Instance.EnableInteractionText();
+                SceneManager.Instance.DisableCastingBar();
+            }
+            else
+            {
+                canInteract = false;
+                SceneManager.Instance.DisableInteractionText();
+                SceneManager.Instance.DisableCastingBar();
+                return;
+            }
+
+            if (isInteract)
+            {
+                SceneManager.Instance.DisableInteractionText();
+                SceneManager.Instance.EnableCastingBar(other.gameObject);
+                obj.Interact(gameObject.tag, this);
+            }
+            else
+            {
+                SceneManager.Instance.EnableInteractionText();
+                SceneManager.Instance.DisableCastingBar();
+            }
+        }
+    }
+    // <<
     #endregion
 
     #region Public Methods
@@ -187,6 +235,8 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     }
 
     #endregion
+
+
     #region Protected Methods
     protected override void PlayerInput()
     {
@@ -194,12 +244,14 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
         {
             //interact button in 
             dollAnimationController.PlayInteractAnimation();
+            isInteract = true;// << interaction
             return;
         }
         if (Input.GetKeyUp(KeyCode.G))
         {
             //interact button out
             dollAnimationController.CancelAnimation();
+            isInteract = false; // << interaction
             return;
         }
 
@@ -226,6 +278,7 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
         {
             dollAnimationController.IsRoll = false;
         }
+
     }
 
     protected override void MoveCharacter()
@@ -303,3 +356,4 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     }
 
 }
+*/

@@ -5,7 +5,7 @@ using KSH_Lib;
 
 namespace GHJ_Lib
 {
-	public class BvGhost : Behavior<NetworkTPV_CharacterController>
+	public class BvGhost : Behavior<NetworkDollController>
 	{
 		/*--- Public Fields ---*/
 
@@ -23,7 +23,7 @@ namespace GHJ_Lib
 
 		/*--- Protected Methods ---*/
 
-		protected override Behavior<NetworkTPV_CharacterController> DoBehavior(in NetworkTPV_CharacterController actor)
+		protected override Behavior<NetworkDollController> DoBehavior(in NetworkDollController actor)
 		{
 			if (!isActive)
 			{
@@ -34,7 +34,7 @@ namespace GHJ_Lib
 
 		/*--- Private Methods ---*/
 
-		void DoOnce(in NetworkTPV_CharacterController actor)
+		void DoOnce(in NetworkDollController actor)
         {
 			actor.BecomeGhost();
 			isActive = true;

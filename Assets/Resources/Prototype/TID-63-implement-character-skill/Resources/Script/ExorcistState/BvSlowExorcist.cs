@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
-using TID42;
 namespace GHJ_Lib
 {
-	public class BvSlowExorcist : Behavior<FPV_CharacterController1>
+	public class BvSlowExorcist : Behavior<NetworkExorcistController>
 	{
 		/*--- Public Fields ---*/
 		public float Ratio
@@ -24,7 +23,7 @@ namespace GHJ_Lib
 
 
         /*--- Protected Methods ---*/
-        protected override void Activate(in FPV_CharacterController1 actor)
+        protected override void Activate(in NetworkExorcistController actor)
         {
             actor.StartCoroutineMoveSlow(5, Ratio);
         }

@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using KSH_Lib;
+using GHJ_Lib;
 namespace LSH_Lib
 {
     public class ItemInteraction : interaction
@@ -11,23 +12,24 @@ namespace LSH_Lib
             initialValue();
         }
 
-        public override void Interact(string tag, Character character)
+        public override void Interact(string tag, NetworkExorcistController character)
         {
-            if (tag == "Exorcist")
-            {
 
-            }
-            else if (tag == "Doll")
-            {
-                Immediate(character);
-            }
         }
+
+        public override void Interact(string tag, NetworkDollController character)
+        {
+            Immediate(character);
+        }
+
+
+
 
         protected override void Casting(float chargeVelocity)
         {
             curGauge += chargeVelocity * Time.deltaTime;
         }
-        protected override void Immediate(Character character)
+        protected override void Immediate(NetworkDollController character)
         {
             // 플레이어 소지품에 자기자신을 추가하는 코드 ex) Doll.PushList(this.name)
             this.gameObject.transform.SetParent(character.transform);

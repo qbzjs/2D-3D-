@@ -45,9 +45,15 @@ namespace LSH_Lib
             playerUI.DeactiveCastingBar();
         }
 
-        public void EnableAutoCastingBar(float chargeTime)
+        public void EnableAutoCastingNullBar(float chargeTime)
         {
-            playerUI.ActiveAutoCastingBar(chargeTime);
+            playerUI.ActiveAutoCastingNullBar(chargeTime);
         }
+
+        public void EnableAutoCastingBar(GameObject obj, float chargeTime)
+        {
+            playerUI.ActiveAutoCastingBar(obj,chargeTime);
+        }
+
     }
 }

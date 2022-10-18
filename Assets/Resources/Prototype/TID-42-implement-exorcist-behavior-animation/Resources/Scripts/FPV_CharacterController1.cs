@@ -6,6 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using GHJ_Lib;
 using KSH_Lib;
+/*
 namespace TID42
 {
     public class FPV_CharacterController1 : MonoBehaviourPunCallbacks, IPunObservable
@@ -338,3 +339,4 @@ namespace TID42
         #endregion
     }
 }
+*/

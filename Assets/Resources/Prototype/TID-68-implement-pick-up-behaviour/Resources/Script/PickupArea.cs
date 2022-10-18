@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
-using TID42;
 namespace GHJ_Lib
 {
 	public class PickupArea: MonoBehaviour
 	{
 		/*--- Public Fields ---*/
-		public FPV_CharacterController1 Exorcist;
+		public NetworkExorcistController Exorcist;
 
 		/*--- Protected Fields ---*/
 
@@ -25,7 +24,7 @@ namespace GHJ_Lib
 				return;
 			}
 
-			NetworkTPV_CharacterController doll = other.GetComponent<NetworkTPV_CharacterController>();
+			NetworkDollController doll = other.GetComponent<NetworkDollController>();
 			if (doll.CurBehavior is BvFall)
 			{
 				if (doll.CurBehavior is BvGrabbed)

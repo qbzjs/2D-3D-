@@ -26,8 +26,9 @@ namespace LSH_Lib
         #endregion
 
         #region MonoBehaviour CallBacks
-        void Start()
+         void Start()
         {
+            Debug.Log("Start");
             bar = GetComponentInChildren<Slider>();
             bar.gameObject.SetActive(false);
             interactionText = GetComponentInChildren<Text>();
@@ -48,37 +49,62 @@ namespace LSH_Lib
 
             if (isAutoCasting)
             {
-                bar.gameObject.SetActive(true);
-                interactionText.gameObject.SetActive(false);
                 bar.value += autoCastingTime * Time.deltaTime;
             }
+
         }
         #endregion
 
         #region Public Methods
         public void ActiveInteractionText()
         {
+            if (interactionText.gameObject.activeInHierarchy)
+            {
+                return;
+            }
             interactionText.gameObject.SetActive(true);
         }
 
         public void DeactiveInteractionText()
         {
+            if (!interactionText.gameObject.activeInHierarchy)
+            {
+                return;
+            }
             interactionText.gameObject.SetActive(false);
         }
 
         public void ActiveCastingBar(GameObject _obj)
         {
+            if (bar.gameObject.activeInHierarchy)
+            {
+                return;
+            }
             SetTargetObj(_obj);
             bar.gameObject.SetActive(true);
         }
 
         public void DeactiveCastingBar()
         {
+            if (!bar.gameObject.activeInHierarchy)
+            {
+                return;
+            }
             SetTargetObjToNull();
             bar.gameObject.SetActive(false);
         }
 
-        public void ActiveAutoCastingBar(float chargeTime)
+        public void ActiveAutoCastingBar(GameObject _obj, float chargeTime)
+        {
+            if (!isAutoCasting)
+            {
+                SetTargetObj(_obj);
+                bar.value = 0;
+                StartCoroutine("AutoCasting", chargeTime);
+            }
+        }
+        
+        public void ActiveAutoCastingNullBar(float chargeTime)
         {
             if (!isAutoCasting)
             {
@@ -94,6 +120,10 @@ namespace LSH_Lib
         #region Private Methods
         private void SetTargetObj(GameObject _obj)
         {
+            if (targetObj == _obj)
+            {
+                return;
+            }
             targetObj = _obj;
         }
 
@@ -111,6 +141,8 @@ namespace LSH_Lib
                 isAutoCasting = true;
                 autoCastingTime = 1 / chargeTime;
                 SceneManager.Instance.IsCoroutine = true;
+                bar.gameObject.SetActive(true);
+                interactionText.gameObject.SetActive(false);
                 yield return new WaitForSeconds(chargeTime);
 
                 if (bar.value >= 1.0f)
@@ -119,10 +151,11 @@ namespace LSH_Lib
                     autoCastingTime = 0;
                     SceneManager.Instance.IsCoroutine = false;
                     bar.gameObject.SetActive(false);
+                    interactionText.gameObject.SetActive(true);
                     break;
                 }
             }
-
         }
+
     }
 }

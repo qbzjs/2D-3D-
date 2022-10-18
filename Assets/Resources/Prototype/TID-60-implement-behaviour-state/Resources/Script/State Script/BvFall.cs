@@ -5,7 +5,7 @@ using KSH_Lib;
 
 namespace GHJ_Lib
 {
-	public class BvFall : Behavior<NetworkTPV_CharacterController>
+	public class BvFall : Behavior<NetworkDollController>
 	{
         /*--- Public Fields ---*/
 
@@ -20,7 +20,7 @@ namespace GHJ_Lib
 
 
         /*--- Protected Methods ---*/
-        protected override void Activate(in NetworkTPV_CharacterController actor)
+        protected override void Activate(in NetworkDollController actor)
         {
             actor.FallDown();
         }

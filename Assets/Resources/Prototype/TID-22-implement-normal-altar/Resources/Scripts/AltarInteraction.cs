@@ -2,26 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GHJ_Lib;
-
+using Cinemachine;
+using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
 namespace LSH_Lib
 {
     public class AltarInteraction : interaction
     {
-        void Start()
+        public Image image;
+        protected bool isCoolTime = false; 
+        public override void OnEnable()
         {
             initialValue();
+            canActiveToExorcist = false;
+            canActiveToDoll = true;
         }
 
         void Update()
         {
-
-            if (GetGaugeRate >= 1.0f && canActiveTo)
-            {
-                canActiveTo = false;
-                FinalAltarInteraction.AddCount();
+            if (image != null)
+            { 
+                image.fillAmount = GetGaugeRate;
             }
 
-            if (canActiveTo)
+            if (GetGaugeRate >= 1.0f && canActiveToDoll)
+            {
+                canActiveToDoll = false;
+                canActiveToExorcist = false;
+                FinalAltarInteraction.AddCount();
+                return;
+            }
+
+            if (GetGaugeRate >= 0.3f && GetGaugeRate <1.0f)
+            {
+                canActiveToExorcist = true;
+            }
+            else
+            {
+                canActiveToExorcist = false;
+            }
+
+            if (canActiveToDoll)
             {
 
                 if (curGauge > 0)
@@ -37,26 +59,24 @@ namespace LSH_Lib
             }
         }
 
-        public override void Interact(string tag, Character character)
+        public override void Interact(string tag, NetworkExorcistController character)
         {
-            if (tag == "Exorcist")
-            {
-                AutoCasting(2.0f);
-            }
-            else if (tag == "Doll")
-            {
-                Casting(character);
-            }
+            AutoCasting(2.0f);
+        }
+        public override void Interact(string tag, NetworkDollController character)
+        {
+            Casting(character);
         }
 
-        protected override void Casting(Character character)
+        protected override void Casting(NetworkDollController character)
         {
             curGauge += character.CastingVelocity * Time.deltaTime;
+            photonView.RPC("SendGauge", RpcTarget.All, curGauge);
         }
         protected override void AutoCasting(float chargeTime)
         {
-            Debug.Log("AutoCasting");
-            SceneManager.Instance.EnableAutoCastingBar(chargeTime);
+            photonView.RPC("GaugeDown", RpcTarget.All, maxGauge/10);
+            SceneManager.Instance.EnableAutoCastingNullBar(chargeTime);
         }
 
         public void initialValue()
@@ -64,5 +84,24 @@ namespace LSH_Lib
             curGauge = 0.0f;
         }
 
+        [PunRPC]
+        public void GaugeDown(float downGauge)
+        {
+            if (isCoolTime)
+            {
+                return;
+            }
+            curGauge -= downGauge;
+            StartCoroutine(StartExorcistCoolTime());
+        }
+
+
+        IEnumerator StartExorcistCoolTime()
+        {
+            isCoolTime = true;
+            yield return new WaitForSeconds(2);
+            isCoolTime = false;
+            
+        }
     }
 }

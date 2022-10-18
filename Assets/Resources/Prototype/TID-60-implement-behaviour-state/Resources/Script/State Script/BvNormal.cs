@@ -5,9 +5,9 @@ using KSH_Lib;
 
 namespace GHJ_Lib
 {
-    public class BvNormal : Behavior<NetworkTPV_CharacterController>
+    public class BvNormal : Behavior<NetworkDollController>
     {
-        protected override void Activate(in NetworkTPV_CharacterController actor)
+        protected override void Activate(in NetworkDollController actor)
         {
             Debug.Log("become normal");
         }

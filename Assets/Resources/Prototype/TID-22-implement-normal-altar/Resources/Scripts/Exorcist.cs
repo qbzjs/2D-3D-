@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 namespace LSH_Lib
 {
     public class Exorcist : Character
@@ -29,9 +29,9 @@ namespace LSH_Lib
                 SceneManager.Instance.DisableInteractionText();
                 return;
             }
-            if (isInteract)
+            if (isInteract_)
             {
-                if (isActiveBar)
+                if (isInteract)
                 {
 
                 }
@@ -40,14 +40,14 @@ namespace LSH_Lib
                     SceneManager sceneManger = SceneManager.Instance;
                     sceneManger.DisableInteractionText();
                     sceneManger.EnableCastingBar(other.gameObject);
-                    isActiveBar = true;
+                    isInteract = true;
                 }
             }
             else
             {
                 SceneManager.Instance.DisableCastingBar();
                 SceneManager.Instance.EnableInteractionText();
-                isActiveBar = false;
+                isInteract = false;
             }
         }
 
@@ -57,7 +57,7 @@ namespace LSH_Lib
             {
                 if (Input.GetKeyDown(KeyCode.G))
                 {
-                    isInteract = true;
+                    isInteract_ = true;
                 }
                 if (Input.GetKey(KeyCode.G))
                 {
@@ -65,9 +65,10 @@ namespace LSH_Lib
                 }
                 if (Input.GetKeyUp(KeyCode.G))
                 {
-                    isInteract = false;
+                    isInteract_ = false;
                 }
             }
         }
     }
 }
+*/
