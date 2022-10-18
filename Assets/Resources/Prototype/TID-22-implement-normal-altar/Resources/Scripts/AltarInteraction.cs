@@ -31,9 +31,10 @@ namespace LSH_Lib
                 canActiveToDoll = false;
                 canActiveToExorcist = false;
                 FinalAltarInteraction.AddCount();
+                return;
             }
 
-            if (GetGaugeRate >= 0.3f)
+            if (GetGaugeRate >= 0.3f && GetGaugeRate <1.0f)
             {
                 canActiveToExorcist = true;
             }
@@ -60,15 +61,11 @@ namespace LSH_Lib
 
         public override void Interact(string tag, NetworkExorcistController character)
         {
-
             AutoCasting(2.0f);
-            
         }
         public override void Interact(string tag, NetworkDollController character)
         {
-
             Casting(character);
-            
         }
 
         protected override void Casting(NetworkDollController character)
@@ -78,7 +75,6 @@ namespace LSH_Lib
         }
         protected override void AutoCasting(float chargeTime)
         {
-            Debug.Log("AutoCastingNull");
             photonView.RPC("GaugeDown", RpcTarget.All, maxGauge/10);
             SceneManager.Instance.EnableAutoCastingNullBar(chargeTime);
         }

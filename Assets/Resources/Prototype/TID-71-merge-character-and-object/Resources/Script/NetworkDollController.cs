@@ -120,7 +120,6 @@ namespace GHJ_Lib
 				if (Vector3.Dot(Vector3.ProjectOnPlane(obj.transform.position - this.transform.position, Vector3.up), this.transform.forward) < 90.0f
 					&& obj.canActiveToDoll)
 				{
-					Debug.Log("CanInteract");
 					canInteract = true;
 					SceneManager.Instance.EnableInteractionText();
 					SceneManager.Instance.DisableCastingBar();
@@ -135,7 +134,6 @@ namespace GHJ_Lib
 
 				if (isInteract)
 				{
-					Debug.Log("isInteract");
 					SceneManager.Instance.DisableInteractionText();
 					SceneManager.Instance.EnableCastingBar(other.gameObject);
 					obj.Interact(gameObject.tag, this);

@@ -71,7 +71,6 @@ namespace LSH_Lib
             {
                 return;
             }
-            Debug.Log("active Text : "+ interactionText.gameObject.activeInHierarchy);
             interactionText.gameObject.SetActive(false);
         }
 

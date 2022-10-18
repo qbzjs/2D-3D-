@@ -58,23 +58,19 @@ namespace LSH_Lib{
         }
         private void Active()
         {
-            //Debug.Log("isActive");
+
             if (GetGaugeRate >= 1.0f && canActiveToDoll)
             {
                 canActiveToDoll = false;
+                StartCoroutine("OpenDoor");
             }
 
-            if (GetGaugeRate >= 1.0f && !canActiveToDoll)
-            {
-                OpenDoor();
-            }
 
             if (canActiveToDoll)
             {
                 if (curGauge > 0)
                 {
                     curGauge -= reduction * Time.deltaTime;
-
                 }
                 if (curGauge < 0)
                 {
@@ -84,13 +80,19 @@ namespace LSH_Lib{
             }
         }
 
-        private void OpenDoor()
+        
+        IEnumerator OpenDoor()
         {
-            if (transform.position.y < -transform.localScale.y / 2)
+            while (true)
             {
-                return;
+                transform.position = transform.position - new Vector3(0.0f, 2.0f * Time.deltaTime, 0.0f);
+                yield return new WaitForSeconds(0.2f);
+                if (transform.position.y < -transform.localScale.y / 2)
+                {
+                    yield break;
+                }
             }
-            transform.position = transform.position - new Vector3(0.0f, 2.0f * Time.deltaTime, 0.0f);
+            
         }
     }
 }
