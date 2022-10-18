@@ -9,9 +9,10 @@ using KSH_Lib;
 namespace LSH_Lib{
     public class ExitAltarInteraction : interaction
     {
-        public int playerCount = 0;
+        public GameObject ExitAltarModel;
         public override void OnEnable()
         {
+            ExitAltarModel.SetActive(false);
             canActiveToExorcist = false;
             canActiveToDoll = false;
         }
@@ -45,8 +46,9 @@ namespace LSH_Lib{
 
         private void CheckPlayerCount()
         {
-            if(playerCount == 2)
+            if(GameEndManager.Instance.DollCount == 2)
             {
+                ExitAltarModel.SetActive(true);
                 canActiveToExorcist = true;
                 canActiveToDoll = true;
                 GuageCheck();

@@ -7,8 +7,12 @@ namespace LSH_Lib{
     public class GameEndManager : MonoBehaviour
     {
         public static GameEndManager Instance { get { return instance; } }
+        public int DollCount
+        {
+            get { return dollCount; }
+        }
 
-        private static GameEndManager instance;
+        private static GameEndManager instance;   
         int dollCount;
 
         private void Start()
