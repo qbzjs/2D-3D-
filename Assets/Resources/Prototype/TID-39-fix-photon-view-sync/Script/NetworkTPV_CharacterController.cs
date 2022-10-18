@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using KSH_Lib;
 using GHJ_Lib;
+using LSH_Lib;
 using Cinemachine;
 public class NetworkTPV_CharacterController : TestPlayerController,IPunObservable
 {
@@ -28,6 +29,7 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     protected BvGhost bvGhost = new BvGhost();
     protected BvFall bvFall = new BvFall();
     protected BvGrabbed bvGrabbed = new BvGrabbed();
+    protected BvImprison bvImplement = new BvImprison();
     [SerializeField]
     protected SkinnedMeshRenderer skinnedMeshRenderer;
     protected Material originMaterial;
@@ -185,7 +187,28 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
         CharacterModel.SetActive(false);
         curBehavior.PushSuccessorState(bvGrabbed);
     }
+    public void Imprison()
+    {
+        Debug.Log("The doll imprisons");
+        isCanMove = false;
+        float Power = 5.0f;
+        CharacterModel.SetActive(true);
 
+        if (GameManager.Instance.Data.Role == DEM.RoleType.Doll)
+        {
+            cinemachineVirtual.Follow = CamTarget.transform;
+            network_TPV_CameraController.SetCamTarget(CamTarget);
+        }
+
+        dollAnimationController.PlayHitAnimation();
+        dollStatus.HitDollHP(Power);
+
+        curBehavior.PushSuccessorState(bvImplement);
+    }
+    public void SetPosition(Vector3 position)
+    {
+        this.gameObject.transform.position = position;
+    }
     #endregion
     #region Protected Methods
     protected override void PlayerInput()

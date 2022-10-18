@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GHJ_Lib;
+using TID42;
 using Photon;
 using Photon.Pun;
 using Photon.Realtime;
@@ -10,69 +12,52 @@ namespace LSH_Lib{
     {
         PhotonView pv;
         PurificationBoxUI boxUI;
+        BoxManager boxManager;
         string playerTag;
         bool isEmpty = true;
+
         private void Start()
         {
             pv = GetComponent<PhotonView>();
             boxUI = GameObject.Find("BoxUI").GetComponent<PurificationBoxUI>();
+            boxManager = GameObject.Find("BoxManager").GetComponent<BoxManager>();
             boxUI.TextInvisible();
             boxUI.SliderInvisible();
         }
+
         private void Update()
         {
-            //if(Input.GetKeyUp(KeyCode.G))
-            //{
-            //    boxUI.TextInvisible();
-            //    boxUI.SliderInvisible();
-            //}
+            
         }
+
         private void OnTriggerStay(Collider other)
         {
-            playerTag = other.ToString();
-            boxUI.TextVisible();
-            if (Input.GetKey(KeyCode.G))
+            if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse0))
             {
                 if (other.gameObject.CompareTag("Exorcist"))
                 {
-                    Exorcist();
-                    if (pv.IsMine)
-                    {
-                        Boxinteract(playerTag);
+                    boxUI.TextVisible();
+                    playerTag = other.gameObject.tag;
+                    if(boxManager.Doll.CurBehavior is BvGrabbed)
+                    { 
+                        Exorcist();
                     }
-                    //else
-                    //{
-                    //    pv.RPC("Boxinteract", RpcTarget.MasterClient, playerTag);
-                    //}
+                    pv.RPC("Boxinteract", RpcTarget.All, playerTag);
                 }
-                else
+                if(other.gameObject.CompareTag("Doll"))
                 {
+                    boxUI.TextVisible();
+                    playerTag = other.gameObject.tag;
                     Doll();
-                    //if (pv.IsMine)
-                    //{
-                    //    Boxinteract(playerTag);
-                    //}
-                    if(!pv.IsMine)
-                    {
-                        pv.RPC("Boxinteract", RpcTarget.MasterClient, playerTag);
-                    }
+                    pv.RPC("Boxinteract", RpcTarget.All, playerTag);
                 }
 
             }
-            //{
-            //    if (pv.IsMine)
-            //    {
-            //        Boxinteract(playerTag);
-            //    }
-            //    else
-            //    {
-            //        pv.RPC("Boxinteract", RpcTarget.MasterClient, playerTag);
-            //    }
-            //}
         }
+
         private void OnGUI()
         {
-            GUI.Box(new Rect(0, 0, 150, 30), isEmpty.ToString());
+            GUI.Box(new Rect(0, 0, 150, 30), "isEmpty" + isEmpty.ToString());
         }
         [PunRPC]
         void Boxinteract(string tag)
@@ -80,6 +65,8 @@ namespace LSH_Lib{
             if(tag == "Exorcist")
             {
                 isEmpty = false;
+                boxManager.Doll.Imprison();
+                boxManager.Doll.SetPosition(this.gameObject.transform.position);
             }
             if(tag == "Doll")
             {

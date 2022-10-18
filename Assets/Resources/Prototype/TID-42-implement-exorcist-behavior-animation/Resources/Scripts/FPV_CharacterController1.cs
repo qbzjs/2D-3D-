@@ -37,6 +37,7 @@ namespace TID42
         protected bool isRage = false;
         protected List<GameObject> PickUpList = new List<GameObject>();
         //----BvState----//
+        public Behavior<FPV_CharacterController1> CurBehavior { get { return curBehavior; } }
         protected Behavior<FPV_CharacterController1> curBehavior = new Behavior<FPV_CharacterController1>();
         protected BvNormalExorcist bvNormalExorcist = new BvNormalExorcist();
         protected BvRage bvRage = new BvRage();
