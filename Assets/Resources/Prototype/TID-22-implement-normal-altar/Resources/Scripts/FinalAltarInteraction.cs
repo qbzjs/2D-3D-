@@ -15,7 +15,7 @@ namespace LSH_Lib{
         {
             initialValue();
             canActiveToExorcist = false;
-            canActiveToDoll = true;
+            canActiveToDoll = false;
         }
 
         void Update()
@@ -62,7 +62,11 @@ namespace LSH_Lib{
             if (GetGaugeRate >= 1.0f && canActiveToDoll)
             {
                 canActiveToDoll = false;
-                //open Door
+            }
+
+            if (GetGaugeRate >= 1.0f && !canActiveToDoll)
+            {
+                OpenDoor();
             }
 
             if (canActiveToDoll)
@@ -78,6 +82,15 @@ namespace LSH_Lib{
 
                 }
             }
+        }
+
+        private void OpenDoor()
+        {
+            if (transform.position.y < -transform.localScale.y / 2)
+            {
+                return;
+            }
+            transform.position = transform.position - new Vector3(0.0f, 2.0f * Time.deltaTime, 0.0f);
         }
     }
 }

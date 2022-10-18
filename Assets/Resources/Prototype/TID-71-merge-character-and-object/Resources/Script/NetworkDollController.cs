@@ -311,10 +311,12 @@ namespace GHJ_Lib
 			if (Input.GetKeyDown(KeyCode.LeftShift))
 			{
 				dollAnimationController.IsRoll = true;
+				moveSpeed = dollStatus.MoveSpeed * 3;
 			}
 			if (Input.GetKeyUp(KeyCode.LeftShift))
 			{
 				dollAnimationController.IsRoll = false;
+				moveSpeed = dollStatus.MoveSpeed;
 			}
 
 		}

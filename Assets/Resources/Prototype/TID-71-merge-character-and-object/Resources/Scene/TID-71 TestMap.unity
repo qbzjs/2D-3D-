@@ -8725,6 +8725,7 @@ GameObject:
   m_Component:
   - component: {fileID: 978528016}
   - component: {fileID: 978528015}
+  - component: {fileID: 978528017}
   m_Layer: 0
   m_Name: GameEndManager
   m_TagString: Untagged
@@ -8752,13 +8753,26 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 978528014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.125927, y: 10.006674, z: 24.965494}
+  m_LocalPosition: {x: -45.84, y: 0, z: 64.47}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &978528017
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978528014}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 10, z: 20}
+  m_Center: {x: 0, y: 5, z: 0}
 --- !u!1 &995780372
 GameObject:
   m_ObjectHideFlags: 0

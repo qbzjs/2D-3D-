@@ -46,7 +46,7 @@ namespace LSH_Lib{
 
         private void CheckPlayerCount()
         {
-            if(GameEndManager.Instance.DollCount == 2)
+            if(GameEndManager.Instance.DollCount <= 2)
             {
                 ExitAltarModel.SetActive(true);
                 canActiveToExorcist = true;
