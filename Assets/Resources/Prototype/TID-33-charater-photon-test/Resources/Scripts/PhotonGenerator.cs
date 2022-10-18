@@ -29,6 +29,8 @@ namespace GHJ_Lib
         private Vector3 CenterPosition;
         [SerializeField]
         private float CenterDistance;
+        [SerializeField]
+        private int NoramlAltarCount;
         [Header("Camera Setting")]
         [SerializeField]
         private GameObject virtualCamera;
@@ -92,7 +94,7 @@ namespace GHJ_Lib
                 }
                 camControllerFPV.SendMessage("SetModeFPV", head);
 
-                InstantiateNormalAltar(8);
+                GenerateNormalAltar(NoramlAltarCount);
                 InstantiateExitAltar(2);
                 InstantiateFinalAltar();
 
@@ -151,6 +153,21 @@ namespace GHJ_Lib
                 return null;
             }
         }
+        private GameObject InstantiateNormalAltar(GameObject gen)
+        {
+
+            GameObject NormalAltar = PhotonNetwork.Instantiate("Prototype/TID-71-merge-character-and-object/Resources/Prefabs/NormalAltar", gen.transform.position, Quaternion.Euler(gen.transform.rotation.eulerAngles), 0);
+            if (NormalAltar)
+            {
+                return NormalAltar;
+            }
+            else
+            {
+                Debug.LogError("can't instantiate NormalAltar");
+                return null;
+            }
+        }
+
 
         private GameObject InstantiateExitAltar(int i)
         {
@@ -180,7 +197,7 @@ namespace GHJ_Lib
             }
         }
 
-        void GenerateAltar()
+        void GenerateNormalAltar(int AltarCount)
         {
             List<GameObject> AltarGenPos = new List<GameObject>();
             List<int> inCenterAltars = new List<int>();
@@ -210,9 +227,40 @@ namespace GHJ_Lib
             GameObject B = InstantiateNormalAltar(index);
             AltarGenPos.Remove(NormalAltarGenPos[index]);
             Altars.Add(B);
+
+            for (int i = 0; i < AltarCount - 2; ++i)
+            {
+                GameObject GenPos = GetMaxDistancePos(AltarGenPos, Altars);
+                GameObject C = InstantiateNormalAltar(GenPos);
+                AltarGenPos.Remove(GenPos);
+                Altars.Add(C);
+            }
         }
 
-        #endregion	
+
+        GameObject GetMaxDistancePos(List<GameObject> altarGenPos, List<GameObject> altars)
+        {
+            float maxDistance = 0;
+            float curDistance = 0;
+            int MaxIndex = 0;
+            for (int i = 0;i< altarGenPos.Count;++i)
+            {
+                curDistance = 0;
+                for (int j = 0; j < altars.Count; ++j)
+                {
+                    curDistance += (altarGenPos[i].transform.position - altars[j].transform.position).magnitude;
+                }
+
+                if (curDistance > maxDistance)
+                {
+                    MaxIndex = i;
+                    maxDistance = curDistance;
+                }
+            }
+
+            return altarGenPos[MaxIndex];
+        }
+        #endregion
 
     }
 }
