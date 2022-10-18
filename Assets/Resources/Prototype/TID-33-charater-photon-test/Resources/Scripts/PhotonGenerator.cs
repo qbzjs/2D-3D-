@@ -159,6 +159,7 @@ namespace GHJ_Lib
             GameObject NormalAltar = PhotonNetwork.Instantiate("Prototype/TID-71-merge-character-and-object/Resources/Prefabs/NormalAltar", gen.transform.position, Quaternion.Euler(gen.transform.rotation.eulerAngles), 0);
             if (NormalAltar)
             {
+                Debug.Log("instantiate NormalAltar");
                 return NormalAltar;
             }
             else
@@ -223,7 +224,7 @@ namespace GHJ_Lib
             AltarGenPos.Remove(NormalAltarGenPos[index]);
             Altars.Add(A);
 
-            index = inCenterAltars[Random.Range(0, outCenterAltars.Count)];
+            index = outCenterAltars[Random.Range(0, outCenterAltars.Count)];
             GameObject B = InstantiateNormalAltar(index);
             AltarGenPos.Remove(NormalAltarGenPos[index]);
             Altars.Add(B);
