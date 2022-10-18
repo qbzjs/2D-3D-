@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 4386333914453595254}
   m_Layer: 0
   m_Name: Doll
-  m_TagString: Player
+  m_TagString: Doll
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -122,6 +122,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: Roll
+  - Type: 1
+    SynchronizeType: 0
+    Name: Blend
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -180,6 +183,9 @@ MonoBehaviour:
   camTarget: {fileID: 8865846721793731939}
   rotateSpeed: 600
   moveSpeed: 6
+  dollAnimationController: {fileID: 0}
+  dollStatus: {fileID: 0}
+  skinnedMeshRenderer: {fileID: 0}
 --- !u!114 &4386333914453595254
 MonoBehaviour:
   m_ObjectHideFlags: 0

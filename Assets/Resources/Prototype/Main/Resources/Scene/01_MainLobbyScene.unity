@@ -719,7 +719,7 @@ MonoBehaviour:
   skipButtonObj: {fileID: 1767312898}
   customRoomTypeTMP: {fileID: 0}
   actionButtonTMP: {fileID: 0}
-  lshSceneName: 
+  lshSceneName: TID-57 Test
 --- !u!1 &1278507007
 GameObject:
   m_ObjectHideFlags: 0
@@ -1952,6 +1952,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1775178027}
     m_Modifications:
+    - target: {fileID: 1685225019544197748, guid: b244aeb317ce81d4fa49f502414e8b2e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685225019544197748, guid: b244aeb317ce81d4fa49f502414e8b2e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685225019544197748, guid: b244aeb317ce81d4fa49f502414e8b2e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1137325631}
+    - target: {fileID: 1685225019544197748, guid: b244aeb317ce81d4fa49f502414e8b2e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685225019544197748, guid: b244aeb317ce81d4fa49f502414e8b2e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: JoinDebugServer
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685225019544197748, guid: b244aeb317ce81d4fa49f502414e8b2e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LobbyUI_Manager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685225019544197748, guid: b244aeb317ce81d4fa49f502414e8b2e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1685225019740500504, guid: b244aeb317ce81d4fa49f502414e8b2e,
         type: 3}
       propertyPath: m_Name
@@ -2303,6 +2338,41 @@ PrefabInstance:
       value: Doll
       objectReference: {fileID: 0}
     - target: {fileID: 1685225021128550608, guid: b244aeb317ce81d4fa49f502414e8b2e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685225021465134961, guid: b244aeb317ce81d4fa49f502414e8b2e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685225021465134961, guid: b244aeb317ce81d4fa49f502414e8b2e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685225021465134961, guid: b244aeb317ce81d4fa49f502414e8b2e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1137325631}
+    - target: {fileID: 1685225021465134961, guid: b244aeb317ce81d4fa49f502414e8b2e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685225021465134961, guid: b244aeb317ce81d4fa49f502414e8b2e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CreateDebugServer
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685225021465134961, guid: b244aeb317ce81d4fa49f502414e8b2e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LobbyUI_Manager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685225021465134961, guid: b244aeb317ce81d4fa49f502414e8b2e,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
@@ -2996,7 +3066,7 @@ PrefabInstance:
     - target: {fileID: 4050852882391015269, guid: 04fce2ced45700d448c0765b74482037,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000061035156
+      value: -0.000061035156
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04fce2ced45700d448c0765b74482037, type: 3}
