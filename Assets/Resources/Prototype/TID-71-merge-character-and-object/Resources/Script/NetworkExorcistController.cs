@@ -51,7 +51,7 @@ namespace GHJ_Lib
             get { return castingVelocity; }
         }
         protected float castingVelocity = 2.0f;
-        protected bool isInteract_ = false;
+        
         protected bool canInteract = false;
         protected bool isInteract = false;
         //
@@ -195,9 +195,9 @@ namespace GHJ_Lib
         {
             StartCoroutine(MoveFast(duration, fastRatio));
         }
-        public void StartCoroutineMoveSlow(float duration, float fastRatio)
+        public void StartCoroutineMoveSlow(float duration, float slowRatio)
         {
-            StartCoroutine(MoveSlow(duration, fastRatio));
+            StartCoroutine(MoveSlow(duration, slowRatio));
         }
         public void StartCoroutineOnRage()
         {

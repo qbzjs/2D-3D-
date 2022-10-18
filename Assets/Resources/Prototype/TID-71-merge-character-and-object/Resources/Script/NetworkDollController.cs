@@ -44,7 +44,7 @@ namespace GHJ_Lib
 			get { return castingVelocity; }
 		}
 		protected float castingVelocity = 2.0f;
-		protected bool isInteract_ = false;
+
 		protected bool canInteract = false;
 		protected bool isInteract = false;
 		//
