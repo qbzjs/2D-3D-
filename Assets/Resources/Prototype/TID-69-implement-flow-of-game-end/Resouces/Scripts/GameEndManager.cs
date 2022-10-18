@@ -47,7 +47,7 @@ namespace LSH_Lib{
         }
 
 
-        private void OnTriggerEnter(Collider other)
+        public void EndGame(GameObject other)
         {
             if (!other.CompareTag("Doll"))
             {
@@ -57,6 +57,7 @@ namespace LSH_Lib{
             if (other.GetComponent<PhotonView>().IsMine)
             {
                 PhotonNetwork.LeaveRoom();
+                GameManager.Instance.LoadScene("99_GameResultScene");
             }
             else
             {
@@ -64,5 +65,12 @@ namespace LSH_Lib{
             }
 
         }
+
+        public void EndGame(Collider other)
+        {
+            EndGame(other.gameObject);
+
+        }
+
     }
 }

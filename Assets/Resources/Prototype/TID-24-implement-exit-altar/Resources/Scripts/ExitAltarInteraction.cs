@@ -16,6 +16,8 @@ namespace LSH_Lib{
             canActiveToExorcist = false;
             canActiveToDoll = false;
         }
+
+        protected GameObject doll;
         void Update()
         {
             CheckPlayerCount();
@@ -24,10 +26,12 @@ namespace LSH_Lib{
         public override void Interact(string tag, NetworkExorcistController character)
         {
             AutoCasting(this.gameObject, 2.0f);
+            //doll=null 을 넣으면 인형이 탈출도중 퇴마사가 막을수 있음. 안넣으면 인형이 탈출버튼 누른후 퇴마사가 막을수없음
         }
         public override void Interact(string tag, NetworkDollController character)
         {
             AutoCasting(2.0f);
+            doll = character.gameObject;
         }
 
         protected override void Casting(NetworkExorcistController character)
@@ -38,10 +42,12 @@ namespace LSH_Lib{
         protected override void AutoCasting(float chargeTime)
         {
             SceneManager.Instance.EnableAutoCastingNullBar(chargeTime);
+            StartCoroutine("Cast", chargeTime);
         }
         protected override void AutoCasting(GameObject obj,float chargeTime)
         {
             SceneManager.Instance.EnableAutoCastingBar(obj,chargeTime);
+            StartCoroutine("Cast", chargeTime);
         }
 
         private void CheckPlayerCount()
@@ -63,5 +69,24 @@ namespace LSH_Lib{
                 canActiveToDoll = false;
             }
         }
+
+        IEnumerator Cast(float time)
+        {
+            while (true)
+            {
+                photonView.RPC("SendGauge", RpcTarget.All, curGauge);
+                yield return new WaitForEndOfFrame();
+                if (!SceneManager.Instance.IsCoroutine)
+                {
+                    if (doll != null)
+                    { 
+                        GameEndManager.Instance.EndGame(doll);
+                        doll = null;
+                    }
+                    break;
+                }
+            }
+        }
+
     }
 }

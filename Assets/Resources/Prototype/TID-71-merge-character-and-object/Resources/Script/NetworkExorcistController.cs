@@ -153,6 +153,21 @@ namespace GHJ_Lib
                 }
             }
         }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (!photonView.IsMine)
+            {
+                return;
+            }
+
+            if (other.CompareTag("interactObj"))
+            {
+                canInteract = false;
+                SceneManager.Instance.DisableInteractionText();
+                SceneManager.Instance.DisableCastingBar();
+            }
+        }
         // <<
 
         /*--- Public Methods ---*/
