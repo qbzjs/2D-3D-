@@ -42,12 +42,12 @@ namespace LSH_Lib{
         protected override void AutoCasting(float chargeTime)
         {
             SceneManager.Instance.EnableAutoCastingNullBar(chargeTime);
-            StartCoroutine("Cast", chargeTime);
+            StartCoroutine("AutoCast");
         }
         protected override void AutoCasting(GameObject obj,float chargeTime)
         {
             SceneManager.Instance.EnableAutoCastingBar(obj,chargeTime);
-            StartCoroutine("Cast", chargeTime);
+            StartCoroutine("AutoCast");
         }
 
         private void CheckPlayerCount()
@@ -70,7 +70,7 @@ namespace LSH_Lib{
             }
         }
 
-        IEnumerator Cast(float time)
+        protected override IEnumerator AutoCast()
         {
             while (true)
             {

@@ -54,10 +54,12 @@ namespace LSH_Lib
         virtual protected void AutoCasting(float chargeTime)
         {
             SceneManager.Instance.EnableAutoCastingNullBar(chargeTime);
+            StartCoroutine("AutoCast");
         }
         virtual protected void AutoCasting(GameObject obj,float chargeTime)
         {
             SceneManager.Instance.EnableAutoCastingBar(obj,chargeTime);
+            StartCoroutine("AutoCast");
         }
         virtual protected void Immediate(NetworkExorcistController character)
         {
@@ -72,6 +74,19 @@ namespace LSH_Lib
         public void SendGauge(float gauge)
         {
             curGauge = gauge;
+        }
+
+        protected virtual IEnumerator AutoCast()
+        {
+            while (true)
+            {
+                photonView.RPC("SendGauge", RpcTarget.All, curGauge);
+                yield return new WaitForEndOfFrame();
+                if (!SceneManager.Instance.IsCoroutine)
+                {
+                    break;
+                }
+            }
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
