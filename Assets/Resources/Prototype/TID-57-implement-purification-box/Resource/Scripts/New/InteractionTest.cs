@@ -32,11 +32,11 @@ namespace LSH_Lib{
 
         private void OnTriggerStay(Collider other)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse0))
-            {
-                if (other.gameObject.CompareTag("Exorcist"))
+            if (other.gameObject.CompareTag("Exorcist"))
+            {   boxUI.TextVisible();
+                if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse0))
                 {
-                    boxUI.TextVisible();
+                    
                     playerTag = other.gameObject.tag;
                     if(boxManager.Doll.CurBehavior is BvGrabbed)
                     { 
@@ -44,15 +44,19 @@ namespace LSH_Lib{
                     }
                     pv.RPC("Boxinteract", RpcTarget.All, playerTag);
                 }
-                if(other.gameObject.CompareTag("Doll"))
+            }
+            if(other.gameObject.CompareTag("Doll"))
+            {   boxUI.TextVisible();
+                if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse0))
                 {
-                    boxUI.TextVisible();
+                    
                     playerTag = other.gameObject.tag;
                     Doll();
                     pv.RPC("Boxinteract", RpcTarget.All, playerTag);
                 }
-
             }
+
+            
         }
 
         private void OnGUI()
