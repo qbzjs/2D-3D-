@@ -8,7 +8,7 @@ using Photon.Pun;
 using Photon.Realtime;
 namespace LSH_Lib{
  //Is it for only test. do not use main game scene
-    public class InteractionTest : MonoBehaviourPunCallbacks, IPunObservable
+    public class PurificationBox : MonoBehaviourPunCallbacks, IPunObservable
     {
         PhotonView pv;
         PurificationBoxUI boxUI;
@@ -34,31 +34,34 @@ namespace LSH_Lib{
         {
             if (other.gameObject.CompareTag("Exorcist"))
             {   boxUI.TextVisible();
-                if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse0))
+                if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    
                     playerTag = other.gameObject.tag;
                     if(boxManager.Doll.CurBehavior is BvGrabbed)
                     { 
                         Exorcist();
                     }
-                    pv.RPC("Boxinteract", RpcTarget.All, playerTag);
+                    //pv.RPC("Boxinteract", RpcTarget.All, playerTag);
                 }
             }
             if(other.gameObject.CompareTag("Doll"))
-            {   boxUI.TextVisible();
-                if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse0))
+            {   
+                playerTag = other.gameObject.tag;
+                //if (boxManager.Doll.CurBehavior is BvGrabbed)
                 {
-                    
-                    playerTag = other.gameObject.tag;
-                    Doll();
-                    pv.RPC("Boxinteract", RpcTarget.All, playerTag);
+                    boxUI.TextVisible();
+                    if (Input.GetKey(KeyCode.Mouse0))
+                    {
+                        Doll();
+                    }
                 }
             }
-
-            
         }
 
+        private void OnTriggerExit(Collider other)
+        {
+            boxUI.TextInvisible();
+        }
         private void OnGUI()
         {
             GUI.Box(new Rect(0, 0, 150, 30), "isEmpty" + isEmpty.ToString());
@@ -70,24 +73,32 @@ namespace LSH_Lib{
             {
                 isEmpty = false;
                 boxManager.Doll.Imprison();
-                boxManager.Doll.SetPosition(this.gameObject.transform.position);
+                SetPosition(this.gameObject.transform.position);
             }
             if(tag == "Doll")
             {
                 isEmpty = true;
+                boxManager.Doll.Released();
             }
+        }
+        
+        void SetPosition(Vector3 position)
+        {
+            boxManager.Doll.SetPosition(position);
         }
         void Exorcist()
         {
             boxUI.TextInvisible();
             boxUI.Slidervisible();
             boxUI.AutoCasting(1.0f);
+            pv.RPC("Boxinteract", RpcTarget.All, playerTag);
         }
         void Doll()
         {
             boxUI.TextInvisible();
             boxUI.Slidervisible();
             boxUI.Casting(1.0f);
+            pv.RPC("Boxinteract", RpcTarget.All, playerTag);
         }
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {

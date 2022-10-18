@@ -10,7 +10,6 @@ namespace LSH_Lib{
         public TMP_Text interactText;
         public Slider slider;
 
-        bool isclick;
         ObjGenerator target;
 
         private void Start()
@@ -45,8 +44,6 @@ namespace LSH_Lib{
                     yield break;
                 }
             }
-
-            //SliderInvisible();
         }
         public bool CheckValue()
         {

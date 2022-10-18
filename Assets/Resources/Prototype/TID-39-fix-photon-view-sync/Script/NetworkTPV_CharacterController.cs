@@ -30,6 +30,7 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     protected BvFall bvFall = new BvFall();
     protected BvGrabbed bvGrabbed = new BvGrabbed();
     protected BvImprison bvImplement = new BvImprison();
+    protected BvReleased bvReleased = new BvReleased();
     [SerializeField]
     protected SkinnedMeshRenderer skinnedMeshRenderer;
     protected Material originMaterial;
@@ -191,20 +192,34 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     {
         Debug.Log("The doll imprisons");
         isCanMove = false;
+        
         float Power = 5.0f;
-        CharacterModel.SetActive(true);
 
         if (GameManager.Instance.Data.Role == DEM.RoleType.Doll)
         {
             cinemachineVirtual.Follow = CamTarget.transform;
             network_TPV_CameraController.SetCamTarget(CamTarget);
         }
-
+        
+        CharacterModel.SetActive(true);
         dollAnimationController.PlayHitAnimation();
-        dollStatus.HitDollHP(Power);
+        dollStatus.HitDevilHP(Power);
+
+        if (dollStatus.DevilHealthPoint.Equals(0.0f))
+        {
+            curBehavior = bvGhost;
+            isCanMove = true;
+        }
 
         curBehavior.PushSuccessorState(bvImplement);
     }
+    public void Released()
+    {
+        isCanMove = true;
+        dollAnimationController.CancelAnimation();
+        curBehavior.PushSuccessorState(bvReleased);
+    }
+    [PunRPC]
     public void SetPosition(Vector3 position)
     {
         this.gameObject.transform.position = position;

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using GHJ_Lib;
 using KSH_Lib;
+using Photon;
+using Photon.Pun;
+using Photon.Realtime;
 namespace LSH_Lib{
     public class GameEndManager : MonoBehaviour
     {
