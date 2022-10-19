@@ -25,18 +25,18 @@ namespace KSH_Lib
 
 
 
-		/*--- Protected Fields ---*/
+        /*--- Protected Fields ---*/
 
 
-		/*--- Private Fields ---*/
+        /*--- Private Fields ---*/
 
 
-		/*--- Public Methods ---*/
+        /*--- Public Methods ---*/
 
 
-		/*--- Protected Methods ---*/
+        /*--- Protected Methods ---*/
 
 
-		/*--- Private Methods ---*/
-	}
+        /*--- Private Methods ---*/
+    }
 }

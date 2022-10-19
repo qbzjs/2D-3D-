@@ -21,19 +21,19 @@ namespace KSH_Lib
 		public float AttackPower = 90;
 		public float AttackSpeed = 1.0f;
 
-		/*--- Protected Fields ---*/
+        /*--- Protected Fields ---*/
 
 
-		/*--- Private Fields ---*/
+        /*--- Private Fields ---*/
 
 
 
-		/*--- Public Methods ---*/
+        /*--- Public Methods ---*/
 
 
-		/*--- Protected Methods ---*/
+        /*--- Protected Methods ---*/
 
 
-		/*--- Private Methods ---*/
-	}
+        /*--- Private Methods ---*/
+    }
 }

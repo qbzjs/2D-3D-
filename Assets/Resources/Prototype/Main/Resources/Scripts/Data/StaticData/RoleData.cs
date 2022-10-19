@@ -30,7 +30,7 @@ namespace KSH_Lib
 
 		public int Score
         {
-			get { return GetCharacterScore() + roleScore.GetRoleScore()  };
+			get { return GetCharacterScore() + roleScore.GetRoleScore();  }
         }
 
 		/*--- Protected Fields ---*/
