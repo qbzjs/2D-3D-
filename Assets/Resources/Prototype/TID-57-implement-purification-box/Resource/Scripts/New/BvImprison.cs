@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
+using GHJ_Lib;
 
 namespace LSH_Lib{
-    public class BvImprison : Behavior<NetworkTPV_CharacterController>
+    public class BvImprison : Behavior<NetworkDollController>
     {
-        protected override void Activate(in NetworkTPV_CharacterController actor)
+        protected override void Activate(in NetworkDollController actor)
         {
             actor.Imprison();
         }

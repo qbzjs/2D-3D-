@@ -1,26 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TID42;
 using GHJ_Lib;
 
 namespace LSH_Lib
 {
     public class BoxManager : MonoBehaviour
     {
-        public FPV_CharacterController1 Exorcist
+        public NetworkExorcistController Exorcist
         {
             get
             {
                 if( exorcist == null)
                 {
                     GameObject exor = GameObject.FindGameObjectWithTag("Exorcist");
-                    exorcist = exor.GetComponent<FPV_CharacterController1>();
+                    exorcist = exor.GetComponent<NetworkExorcistController>();
                 }
                 return exorcist;
             }
         }
-        public NetworkTPV_CharacterController Doll
+        public NetworkDollController Doll
         {
             get
             {
@@ -29,7 +28,7 @@ namespace LSH_Lib
                     GameObject[] dolls = GameObject.FindGameObjectsWithTag("Doll");
                     foreach(var d in dolls)
                     {
-                        NetworkTPV_CharacterController controller = d.GetComponent<NetworkTPV_CharacterController>();
+                        NetworkDollController controller = d.GetComponent<NetworkDollController>();
                         if(controller.CurBehavior is BvGrabbed)
                         {
                             doll = controller;
@@ -40,8 +39,8 @@ namespace LSH_Lib
                 return doll;
             }
         }
-        FPV_CharacterController1 exorcist;
-        NetworkTPV_CharacterController doll;
+        NetworkExorcistController exorcist;
+        NetworkDollController doll;
 
 
     }
