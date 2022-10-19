@@ -4,12 +4,11 @@ using UnityEngine;
 
 namespace LSH_Lib
 {
-	struct ItemType
-    {
-
-    }
 	public class Item : MonoBehaviour
 	{
+        protected virtual void OnTriggerEnter(Collider other)
+        {
 
+        }
     }
 }
