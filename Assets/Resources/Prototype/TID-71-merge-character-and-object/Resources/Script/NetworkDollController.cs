@@ -88,7 +88,8 @@ namespace GHJ_Lib
 			{
 				if (Input.GetKeyDown(KeyCode.K))
 				{
-					photonView.RPC("EscapeGrab", RpcTarget.All, cinemachineVirtual.transform);
+					photonView.RPC("EscapeGrab", RpcTarget.All);
+					escapeTransform = cinemachineVirtual.Follow.transform;
 				}
 			}
 
@@ -272,14 +273,16 @@ namespace GHJ_Lib
 			float Power = 5.0f;
 
 			dollStatus.HitDevilHP(Power);
-
-			if (dollStatus.DevilHealthPoint.Equals(0.0f))
+			Debug.Log("DevilHP: "+dollStatus.DevilHealthPoint); 
+			if (dollStatus.DevilHealthPoint<=0.0f)
 			{
+				Debug.Log("becomeGhost");
 				curBehavior = bvGhost;
 			}
 
 			if (curBehavior is BvGhost)
 			{
+				escapeTransform = cinemachineVirtual.Follow.transform;
 				return;
 			}
 			curBehavior.PushSuccessorState(bvImplement);
@@ -300,13 +303,14 @@ namespace GHJ_Lib
 
 			dollStatus.HitDevilHP(Power);
 
-			if (dollStatus.DevilHealthPoint.Equals(0.0f))
+			if (dollStatus.DevilHealthPoint <= 0.0f)
 			{
 				curBehavior = bvGhost;
 			}
 
 			if (curBehavior is BvGhost)
 			{
+				escapeTransform = cinemachineVirtual.Follow.transform;
 				return;
 			}
 			curBehavior.PushSuccessorState(bvImplement);
@@ -413,7 +417,7 @@ namespace GHJ_Lib
 
 		}
 
-		[PunRPC]
+		
 		protected void EscapeGrab(Transform transform)
 		{
 			isCanMove = true;
@@ -426,6 +430,18 @@ namespace GHJ_Lib
 			this.transform.rotation = transform.rotation;
 			CharacterModel.SetActive(true);
 			curBehavior.PushSuccessorState(bvNormal);
+
+		}
+
+		public Transform escapeTransform;
+		
+		[PunRPC]
+		public void EscapeGrab()
+		{
+			if (escapeTransform)
+			{ 
+				EscapeGrab(escapeTransform);
+			}
 
 		}
 
