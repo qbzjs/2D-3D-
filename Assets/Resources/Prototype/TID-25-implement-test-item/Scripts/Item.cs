@@ -6,9 +6,6 @@ namespace LSH_Lib
 {
 	public class Item : MonoBehaviour
 	{
-        protected virtual void OnTriggerEnter(Collider other)
-        {
-
-        }
+        virtual protected void OnTriggerEnter(Collider other){}
     }
 }
