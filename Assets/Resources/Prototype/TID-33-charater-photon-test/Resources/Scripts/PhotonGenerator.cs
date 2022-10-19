@@ -26,6 +26,8 @@ namespace GHJ_Lib
         [SerializeField]
         private GameObject FinalAltarGenPos;
         [SerializeField]
+        private GameObject[] PurificationBoxGenPos;
+        [SerializeField]
         private Vector3 CenterPosition;
         [SerializeField]
         private float CenterDistance;
@@ -42,6 +44,9 @@ namespace GHJ_Lib
         private DollUI dollUI;
         [SerializeField]
         private ExorcistUI exorcistUI;
+        [Header("PhotonNetwork.RegisterPrefab")]
+        [SerializeField]
+        private GameObject puricationBoxModel;
         #endregion
 
         #region MonoBehaviour CallBacks
@@ -97,6 +102,7 @@ namespace GHJ_Lib
                 GenerateNormalAltar(NormalAltarCount);
                 InstantiateExitAltar(2);
                 InstantiateFinalAltar();
+                InstantiatePurificationBox();
             }
         }
 
@@ -193,6 +199,24 @@ namespace GHJ_Lib
             }
         }
 
+        private bool InstantiatePurificationBox()
+        {
+            PhotonNetwork.PrefabPool.RegisterPrefab("purificationBoxModel", puricationBoxModel);
+            for (int i = 0;i< PurificationBoxGenPos.Length;++i)
+            {
+                GameObject purificationBox = PhotonNetwork.Instantiate("purificationBoxModel", PurificationBoxGenPos[i].transform.position, Quaternion.Euler(PurificationBoxGenPos[i].transform.rotation.eulerAngles), 0);
+
+                if (!purificationBox)
+                {
+                    Debug.LogError("can't instantiate");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+
         void GenerateNormalAltar(int AltarCount)
         {
             List<GameObject> AltarGenPos = new List<GameObject>();
@@ -256,21 +280,10 @@ namespace GHJ_Lib
 
             return altarGenPos[MaxIndex];
         }
-        /*
-        private bool InstantiatePurificationBox()
-        {
-            GameObject purifictionBox = PhotonNetwork.Instantiate("Prototype/TID-57-implement-purification-box/Resource/Prefabs/PurificationBox", new Vector3(0, 1, 0), Quaternion.identity, 0);
-            if (purifictionBox)
-            {
-                return true;
-            }
-            else
-            {
-                Debug.LogError("can't instantiate");
-                return false;
-            }
-        }
-        */
+        
+    
+
+        
         #endregion
 
     }
