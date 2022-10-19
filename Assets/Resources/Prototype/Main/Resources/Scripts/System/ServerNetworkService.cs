@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace KSH_Lib
+namespace KSH_Lib.Util
 {
 	public abstract class ServerNetworkService : MonoBehaviour
 	{
 		/*--- Inner Classes---*/
 		[System.Serializable]
-		protected struct Response
+		public class Response
 		{
 			public string order;
 			public string result;
@@ -18,7 +18,7 @@ namespace KSH_Lib
 
 
 		/*--- Protected Fields ---*/
-		protected const string URL = "https://script.google.com/macros/s/AKfycbzyCkVWAbzoIjrM5wSKB-yKaAe93qwKIEJJsDOjX04Ghmt5Uac55V_S-u3tibRVSfE/exec";
+		protected const string URL = "https://script.google.com/macros/s/AKfycbwi9as1-v5q_l3Gd1grs23FFsxLh2Iz13XQEYqU2MmMSr-v8tLLJoy0AQZMQeo9MoGe/exec";
 
 
 		/*--- Protected Methods ---*/
@@ -28,17 +28,17 @@ namespace KSH_Lib
 			form.AddField("order", order);
 			return form;
 		}
-		protected virtual void DoPost(in string order)
+		protected virtual void DoPost(in string order, System.Action<string> HandleResponse)
 		{
 			WWWForm form = InitForm(order);
-			StartCoroutine(Post(form));
+			StartCoroutine(Post(form, HandleResponse ) );
 		}
 		protected virtual void DoGet()
 		{
 			StartCoroutine(Get());
 		}
 
-		protected abstract void HandleResponse(in string response);
+		//protected abstract void HandleResponse(in string response);
 
 		protected virtual IEnumerator Get()
 		{
@@ -50,7 +50,6 @@ namespace KSH_Lib
 				{
 					string response = www.downloadHandler.text;
 					Debug.Log(response);
-					HandleResponse(response);
 				}
 				else
 				{
@@ -58,7 +57,7 @@ namespace KSH_Lib
 				}
 			}
 		}
-		protected virtual IEnumerator Post(WWWForm form)
+		protected virtual IEnumerator Post(WWWForm form, System.Action<string> HandleResponse)
 		{
 			using (UnityWebRequest www = UnityWebRequest.Post(URL, form))
 			{
