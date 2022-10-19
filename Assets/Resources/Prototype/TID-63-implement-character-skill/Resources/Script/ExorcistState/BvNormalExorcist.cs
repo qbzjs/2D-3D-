@@ -6,32 +6,23 @@ namespace GHJ_Lib
 {
 	public class BvNormalExorcist: Behavior<NetworkExorcistController>
 	{
-		/*--- Public Fields ---*/
+        /*--- Public Fields ---*/
 
 
-		/*--- Protected Fields ---*/
+        /*--- Protected Fields ---*/
 
 
-		/*--- Private Fields ---*/
+        /*--- Private Fields ---*/
 
 
-		/*--- MonoBehaviour Callbacks ---*/
-		void Start()
-		{
-		
-		}
-		void Update()
-		{
-		
-		}
+        /*--- Public Methods ---*/
 
-
-		/*--- Public Methods ---*/
-
-
-		/*--- Protected Methods ---*/
-
-
-		/*--- Private Methods ---*/
-	}
+        
+        /*--- Protected Methods ---*/
+        protected override void Activate(in NetworkExorcistController actor)
+        {
+            actor.InActive();
+        }
+        /*--- Private Methods ---*/
+    }
 }

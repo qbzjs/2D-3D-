@@ -73,6 +73,7 @@ namespace GHJ_Lib
         }
         void Start()
         {
+            PhotonNetwork.PrefabPool.RegisterPrefab("purificationBoxModel", puricationBoxModel);
             role = GameManager.Instance.Data.Role;
             if (role == RoleType.Doll)
             {
@@ -201,7 +202,7 @@ namespace GHJ_Lib
 
         private bool InstantiatePurificationBox()
         {
-            PhotonNetwork.PrefabPool.RegisterPrefab("purificationBoxModel", puricationBoxModel);
+
             for (int i = 0;i< PurificationBoxGenPos.Length;++i)
             {
                 GameObject purificationBox = PhotonNetwork.Instantiate("purificationBoxModel", PurificationBoxGenPos[i].transform.position, Quaternion.Euler(PurificationBoxGenPos[i].transform.rotation.eulerAngles), 0);

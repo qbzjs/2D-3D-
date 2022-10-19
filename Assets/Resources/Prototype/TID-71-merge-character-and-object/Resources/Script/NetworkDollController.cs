@@ -31,12 +31,12 @@ namespace GHJ_Lib
 		protected BvGhost bvGhost = new BvGhost();
 		protected BvFall bvFall = new BvFall();
 		protected BvGrabbed bvGrabbed = new BvGrabbed();
-		protected BvReleased bvReleased = new BvReleased();
 		protected BvImprison bvImplement = new BvImprison();
 		[SerializeField]
 		protected SkinnedMeshRenderer skinnedMeshRenderer;
 		protected Material originMaterial;
 		protected bool isCanMove = true;
+		protected PhotonTransformViewClassic photonTransformView;
 		/*--- Private Fields ---*/
 
 
@@ -54,6 +54,7 @@ namespace GHJ_Lib
 		/*---MonoBehaviorCallbacks---*/
 		public override void OnEnable()
 		{
+			photonTransformView = GetComponent<PhotonTransformViewClassic>();
 			//dollStatus = GetComponent<DollStatus>();
 			if (dollStatus == null)
 			{
@@ -82,11 +83,12 @@ namespace GHJ_Lib
 
 		protected override void Update()
 		{
+
 			if (curBehavior is BvGrabbed)
 			{
 				if (Input.GetKeyDown(KeyCode.K))
 				{
-					photonView.RPC("EscapeGrab", RpcTarget.All);
+					photonView.RPC("EscapeGrab", RpcTarget.All, cinemachineVirtual.transform);
 				}
 			}
 
@@ -94,6 +96,9 @@ namespace GHJ_Lib
 			{
 				PlayerInput();
 				SetDirection();
+				var velocity = controller.velocity;
+				var turnSpeed = rotateSpeed;
+				photonTransformView.SetSynchronizedValues(velocity, turnSpeed);
 			}
 			RotateToDirection();
 			MoveCharacter();
@@ -244,14 +249,17 @@ namespace GHJ_Lib
 
 		public void Grabbed(GameObject exorcistCamTarget)
 		{
+			
 			Debug.Log("Grabbed");
 			//photonView.ObservedComponents.Remove(photonTransform);
 			//controller.enabled = false;
-			if (GameManager.Instance.Data.Role == DEM.RoleType.Doll)
-			{
+
+			if (photonView.IsMine)
+			{ 
 				cinemachineVirtual.Follow = exorcistCamTarget.transform;
 				network_TPV_CameraController.SetCamTarget(exorcistCamTarget);
 			}
+			
 
 			CharacterModel.SetActive(false);
 			curBehavior.PushSuccessorState(bvGrabbed);
@@ -260,18 +268,9 @@ namespace GHJ_Lib
 		public void Imprison()
 		{
 			Debug.Log("The doll imprisons");
-			isCanMove = false;
 
 			float Power = 5.0f;
 
-			if (GameManager.Instance.Data.Role == DEM.RoleType.Doll)
-			{
-				cinemachineVirtual.Follow = CamTarget.transform;
-				network_TPV_CameraController.SetCamTarget(CamTarget);
-			}
-
-			CharacterModel.SetActive(true);
-			dollAnimationController.PlayHitAnimation();
 			dollStatus.HitDevilHP(Power);
 
 			if (dollStatus.DevilHealthPoint.Equals(0.0f))
@@ -279,15 +278,54 @@ namespace GHJ_Lib
 				curBehavior = bvGhost;
 			}
 
+			if (curBehavior is BvGhost)
+			{
+				return;
+			}
 			curBehavior.PushSuccessorState(bvImplement);
 		}
 
-		public void Released()
+		public void Imprison(GameObject purificatinBoxPos)
+		{
+
+			Debug.Log("The doll imprisons");
+
+			float Power = 5.0f;
+
+			if (photonView.IsMine)
+			{
+				cinemachineVirtual.Follow = purificatinBoxPos.transform;
+				network_TPV_CameraController.SetCamTarget(purificatinBoxPos);
+			}
+
+			dollStatus.HitDevilHP(Power);
+
+			if (dollStatus.DevilHealthPoint.Equals(0.0f))
+			{
+				curBehavior = bvGhost;
+			}
+
+			if (curBehavior is BvGhost)
+			{
+				return;
+			}
+			curBehavior.PushSuccessorState(bvImplement);
+		}
+
+
+
+
+		public void BecomeNormal()
+		{
+			dollAnimationController.CancelAnimation();
+		}
+
+		public void Released(Transform transform)
 		{
 			//isCanMove = true;
 			//dollAnimationController.CancelAnimation();
 			//curBehavior.PushSuccessorState(bvReleased);
-			EscapeGrab();
+			EscapeGrab(transform);
 		}
 
 		[PunRPC]
@@ -376,19 +414,21 @@ namespace GHJ_Lib
 		}
 
 		[PunRPC]
-		protected void EscapeGrab()
+		protected void EscapeGrab(Transform transform)
 		{
-
 			isCanMove = true;
-			if (GameManager.Instance.Data.Role == DEM.RoleType.Doll)
+			if (photonView.IsMine)
 			{
 				cinemachineVirtual.Follow = CamTarget.transform;
 				network_TPV_CameraController.SetCamTarget(CamTarget);
 			}
+			this.transform.position = transform.position;
+			this.transform.rotation = transform.rotation;
 			CharacterModel.SetActive(true);
 			curBehavior.PushSuccessorState(bvNormal);
 
 		}
+
 		/*--- Private Methods ---*/
 
 		/*------*/
