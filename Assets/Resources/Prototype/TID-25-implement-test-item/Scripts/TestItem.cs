@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace LSH_Lib
 {
-	public class TestItem : MonoBehaviour
+	public class TestItem : Item
 	{
 		public AudioSource audio;
         MeshRenderer mesh;
@@ -13,7 +13,7 @@ namespace LSH_Lib
             audio.enabled = false;
             mesh = this.gameObject.GetComponent<MeshRenderer>();
         }
-        private void OnTriggerEnter(Collider other)
+        protected override void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Exorcist"))
             {
