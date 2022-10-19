@@ -13,8 +13,8 @@ namespace LSH_Lib{
         public override void OnEnable()
         {
             ExitAltarModel.SetActive(false);
-            canActiveToExorcist = false;
-            canActiveToDoll = false;
+            CanActiveToExorcist = false;
+            CanActiveToDoll = false;
         }
 
         protected GameObject doll;
@@ -55,8 +55,8 @@ namespace LSH_Lib{
             if(GameEndManager.Instance.DollCount <= 2)
             {
                 ExitAltarModel.SetActive(true);
-                canActiveToExorcist = true;
-                canActiveToDoll = true;
+                CanActiveToExorcist = true;
+                CanActiveToDoll = true;
                 GuageCheck();
             }
             
@@ -65,8 +65,8 @@ namespace LSH_Lib{
         {
             if (GetGaugeRate >= 1.0f)
             {
-                canActiveToExorcist = false;
-                canActiveToDoll = false;
+                CanActiveToExorcist = false;
+                CanActiveToDoll = false;
             }
         }
 

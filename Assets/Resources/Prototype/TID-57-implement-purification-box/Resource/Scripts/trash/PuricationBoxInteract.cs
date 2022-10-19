@@ -74,13 +74,13 @@ namespace LSH_Lib{
         
         private void Active()
         {
-            if (GetGaugeRate >= 1.0f && canActiveToExorcist)
+            if (GetGaugeRate >= 1.0f && CanActiveToExorcist)
             {
-                canActiveToExorcist = false;
+                CanActiveToExorcist = false;
                 hasDoll = true;
             }
 
-            if (canActiveToExorcist)
+            if (CanActiveToExorcist)
             {
                 if (curGauge < 0)
                 {

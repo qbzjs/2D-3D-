@@ -14,8 +14,8 @@ namespace LSH_Lib{
         public override void OnEnable()
         {
             initialValue();
-            canActiveToExorcist = false;
-            canActiveToDoll = false;
+            CanActiveToExorcist = false;
+            CanActiveToDoll = false;
         }
 
         void Update()
@@ -52,21 +52,21 @@ namespace LSH_Lib{
         {
             if (altarCount == 4)
             {
-                canActiveToDoll = true;
+                CanActiveToDoll = true;
                 Active();
             }
         }
         private void Active()
         {
 
-            if (GetGaugeRate >= 1.0f && canActiveToDoll)
+            if (GetGaugeRate >= 1.0f && CanActiveToDoll)
             {
-                canActiveToDoll = false;
+                CanActiveToDoll = false;
                 StartCoroutine("OpenDoor");
             }
 
 
-            if (canActiveToDoll)
+            if (CanActiveToDoll)
             {
                 if (curGauge > 0)
                 {

@@ -30,7 +30,7 @@ namespace GHJ_Lib
         [SerializeField]
         private float CenterDistance;
         [SerializeField]
-        private int NoramlAltarCount;
+        private int NormalAltarCount;
         [Header("Camera Setting")]
         [SerializeField]
         private GameObject virtualCamera;
@@ -94,17 +94,13 @@ namespace GHJ_Lib
                 }
                 camControllerFPV.SendMessage("SetModeFPV", head);
 
-                GenerateNormalAltar(NoramlAltarCount);
+                GenerateNormalAltar(NormalAltarCount);
                 InstantiateExitAltar(2);
                 InstantiateFinalAltar();
 
             }
         }
 
-        void Update()
-        {
-
-        }
         #endregion	
 
         #region Public Methods

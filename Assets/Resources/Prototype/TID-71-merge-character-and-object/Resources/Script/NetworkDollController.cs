@@ -118,7 +118,7 @@ namespace GHJ_Lib
 
 				LSH_Lib.interaction obj = other.GetComponent<LSH_Lib.interaction>();
 				if (Vector3.Dot(Vector3.ProjectOnPlane(obj.transform.position - this.transform.position, Vector3.up), this.transform.forward) < 90.0f
-					&& obj.canActiveToDoll)
+					&& obj.CanActiveToDoll)
 				{
 					canInteract = true;
 					SceneManager.Instance.EnableInteractionText();

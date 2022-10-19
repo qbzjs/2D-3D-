@@ -57,7 +57,7 @@ namespace LSH_Lib{
             if (other.GetComponent<PhotonView>().IsMine)
             {
                 PhotonNetwork.LeaveRoom();
-                GameManager.Instance.LoadScene("99_GameResultScene");
+                DoGameEnd();
             }
             else
             {

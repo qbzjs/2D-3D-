@@ -15,8 +15,8 @@ namespace LSH_Lib
         public override void OnEnable()
         {
             initialValue();
-            canActiveToExorcist = false;
-            canActiveToDoll = true;
+            CanActiveToExorcist = false;
+            CanActiveToDoll = true;
         }
 
         void Update()
@@ -26,24 +26,24 @@ namespace LSH_Lib
                 image.fillAmount = GetGaugeRate;
             }
 
-            if (GetGaugeRate >= 1.0f && canActiveToDoll)
+            if (GetGaugeRate >= 1.0f && CanActiveToDoll)
             {
-                canActiveToDoll = false;
-                canActiveToExorcist = false;
+                CanActiveToDoll = false;
+                CanActiveToExorcist = false;
                 FinalAltarInteraction.AddCount();
                 return;
             }
 
             if (GetGaugeRate >= 0.3f && GetGaugeRate <1.0f)
             {
-                canActiveToExorcist = true;
+                CanActiveToExorcist = true;
             }
             else
             {
-                canActiveToExorcist = false;
+                CanActiveToExorcist = false;
             }
 
-            if (canActiveToDoll)
+            if (CanActiveToDoll)
             {
 
                 if (curGauge > 0)

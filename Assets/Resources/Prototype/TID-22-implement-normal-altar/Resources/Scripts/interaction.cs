@@ -9,8 +9,8 @@ namespace LSH_Lib
 {
     public class interaction : MonoBehaviourPunCallbacks, IPunObservable
     {
-        public bool canActiveToExorcist = true;
-        public bool canActiveToDoll = true;
+        public bool CanActiveToExorcist = true;
+        public bool CanActiveToDoll = true;
         public float GetGaugeRate
         {
             get { return curGauge / maxGauge; }
