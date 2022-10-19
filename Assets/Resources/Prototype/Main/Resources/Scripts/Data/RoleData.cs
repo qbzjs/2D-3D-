@@ -28,9 +28,6 @@ namespace KSH_Lib.Data
 			Tortoise,
 		}
 
-        public static readonly string[] RoleDataClassify =
-			{ "RoleType", "RoleName", "MoveSpeed", "InteractionSpeed", "ProjectileSpeed", "AttackSpeed", "AttackPower", "DollHP", "DevilHP" };
-
 		/*--- Constructor ---*/
 		public RoleData() { }
 		public RoleData(float moveSpeed, float interactionSpeed, float projectileSpeed, RoleType type, string roleName)
