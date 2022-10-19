@@ -2,12 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using DEM;
 
-namespace KSH_Lib
+namespace KSH_Lib.Data
 {
-	public abstract class RoleData
-	{
+    public abstract class RoleData
+    {
+		public enum RoleType
+		{
+			Exorcist,
+			Doll
+		}
+
+		public enum RoleTypeOrder
+        {
+			Photographer,
+			Bishop,
+			Dokkaebi,
+			Priest,
+			Hunter,
+
+			Monkey,
+			Penguin,
+			Rabbit,
+			Wolf,
+			Tortoise,
+		}
+
+        public static readonly string[] RoleDataClassify =
+			{ "RoleType", "RoleName", "MoveSpeed", "InteractionSpeed", "ProjectileSpeed", "AttackSpeed", "AttackPower", "DollHP", "DevilHP" };
+
 		/*--- Constructor ---*/
 		public RoleData() { }
 		public RoleData(float moveSpeed, float interactionSpeed, float projectileSpeed, RoleType type, string roleName)
@@ -30,7 +53,7 @@ namespace KSH_Lib
 
 		public int Score
         {
-			get { return GetCharacterScore() + roleScore.GetRoleScore();  }
+			get { return roleScore.GetRoleScore();  }
         }
 
 		/*--- Protected Fields ---*/
@@ -40,7 +63,7 @@ namespace KSH_Lib
 
 			
 		/*--- Public Methods ---*/
-		public abstract int GetCharacterScore();
+		//public abstract int GetCharacterScore();
 
 		/*--- Protected Methods ---*/
 

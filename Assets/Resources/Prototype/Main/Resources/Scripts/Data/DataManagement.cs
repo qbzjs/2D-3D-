@@ -22,7 +22,7 @@ namespace KSH_Lib.Util
 
 
 		/*--- Public Methods ---*/
-		public void SaveToPref_Binary<T>(in string name, in T data)
+		public static void SaveToPref_Binary<T>(in string name, in T data)
         {
 			BinaryFormatter formatter = new BinaryFormatter();
 			MemoryStream memoryStream = new MemoryStream();
@@ -33,7 +33,7 @@ namespace KSH_Lib.Util
 
 			PlayerPrefs.SetString( name, memStr );
         }
-		public bool LoadFromPref_Binary<T>(in string name, out T data)
+		public static bool LoadFromPref_Binary<T>(in string name, out T data)
         {
 			data = default;
 
@@ -56,12 +56,12 @@ namespace KSH_Lib.Util
 			return true;
 		}
 
-		public void SaveAsJson<T>( in string path, in T data )
+		public static void SaveAsJson<T>( in string path, in T data )
 		{
 			JsonData jsonData = JsonMapper.ToJson( data );
 			File.WriteAllText( Application.dataPath + path, jsonData.ToString() );
 		}
-		public bool LoadFromJson<T>( in string path, Action<JsonData> ParsingJson )
+		public static bool LoadFromJson<T>( in string path, Action<JsonData> ParsingJson )
 		{
 			string fullPath = Application.dataPath + path;
 			if ( !File.Exists( fullPath ) )

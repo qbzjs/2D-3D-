@@ -8,7 +8,7 @@ using System.IO;
 
 namespace KSH_Lib.Util
 {
-	public class CSVWriter
+	public class CSVWriter : IDisposable
 	{
 		/*--- Constructor ---*/
 		public CSVWriter( Stream stream )

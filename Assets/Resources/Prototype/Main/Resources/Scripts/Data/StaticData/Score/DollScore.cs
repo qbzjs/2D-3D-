@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace KSH_Lib
+namespace KSH_Lib.Data
 {
 	[Serializable]
 	public struct CoopScore
