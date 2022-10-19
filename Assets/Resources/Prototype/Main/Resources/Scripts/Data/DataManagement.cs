@@ -6,6 +6,8 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
 
+using LitJson;
+
 namespace KSH_Lib
 {
 	public class DataManagement
@@ -56,7 +58,22 @@ namespace KSH_Lib
 
 		public void SaveAsJson<T>(in string path, in T data)
         {
+			JsonData jsonData = JsonMapper.ToJson( data );
+			File.WriteAllText( Application.dataPath + path, jsonData.ToString() );
+        }
+		public bool LoadFromJson<T>(in string path, Action<JsonData> ParsingJson)
+        {
+			string fullPath = Application.dataPath + path;
+			if ( !File.Exists( fullPath ) ) 
+            {
+				return false;
+            }
 
+			string jsonStr = File.ReadAllText( fullPath );
+			JsonData jsonData = JsonMapper.ToObject( jsonStr );
+
+			ParsingJson( jsonData );
+			return true;
         }
 
 		/*--- Protected Methods ---*/
