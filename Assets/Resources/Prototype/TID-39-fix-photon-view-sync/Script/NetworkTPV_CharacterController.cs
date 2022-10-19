@@ -215,9 +215,10 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     }
     public void Released()
     {
-        isCanMove = true;
-        dollAnimationController.CancelAnimation();
-        curBehavior.PushSuccessorState(bvReleased);
+        //isCanMove = true;
+        //dollAnimationController.CancelAnimation();
+        //curBehavior.PushSuccessorState(bvReleased);
+        EscapeGrab();
     }
     [PunRPC]
     public void SetPosition(Vector3 position)

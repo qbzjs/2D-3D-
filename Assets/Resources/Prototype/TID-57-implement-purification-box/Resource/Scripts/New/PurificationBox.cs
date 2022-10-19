@@ -25,11 +25,6 @@ namespace LSH_Lib{
             boxUI.SliderInvisible();
         }
 
-        private void Update()
-        {
-            
-        }
-
         private void OnTriggerStay(Collider other)
         {
             if (other.gameObject.CompareTag("Exorcist"))
@@ -37,35 +32,39 @@ namespace LSH_Lib{
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     playerTag = other.gameObject.tag;
-                    if(boxManager.Doll.CurBehavior is BvGrabbed)
+                    if(boxManager.Doll.CurBehavior is BvGrabbed && 
+                        boxManager.Exorcist.CurBehavior is BvGrab)
                     { 
-                        Exorcist();
+                        ExorcistInteract();
                     }
-                    //pv.RPC("Boxinteract", RpcTarget.All, playerTag);
                 }
             }
+
             if(other.gameObject.CompareTag("Doll"))
             {   
                 playerTag = other.gameObject.tag;
-                //if (boxManager.Doll.CurBehavior is BvGrabbed)
+                //if(boxManager.Doll.CurBehavior is BvNormal)
                 {
                     boxUI.TextVisible();
                     if (Input.GetKey(KeyCode.Mouse0))
                     {
-                        Doll();
+                        DollInteract();
                     }
                 }
             }
+
         }
 
         private void OnTriggerExit(Collider other)
         {
             boxUI.TextInvisible();
         }
+
         private void OnGUI()
         {
-            GUI.Box(new Rect(0, 0, 150, 30), "isEmpty" + isEmpty.ToString());
+            GUI.Box(new Rect(0, 0, 150, 30), "box is empty : " + isEmpty.ToString());
         }
+
         [PunRPC]
         void Boxinteract(string tag)
         {
@@ -86,20 +85,23 @@ namespace LSH_Lib{
         {
             boxManager.Doll.SetPosition(position);
         }
-        void Exorcist()
+
+        void ExorcistInteract()
         {
             boxUI.TextInvisible();
             boxUI.Slidervisible();
             boxUI.AutoCasting(1.0f);
             pv.RPC("Boxinteract", RpcTarget.All, playerTag);
         }
-        void Doll()
+
+        void DollInteract()
         {
             boxUI.TextInvisible();
             boxUI.Slidervisible();
             boxUI.Casting(1.0f);
             pv.RPC("Boxinteract", RpcTarget.All, playerTag);
         }
+
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             if (stream.IsWriting)

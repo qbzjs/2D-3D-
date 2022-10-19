@@ -14,7 +14,8 @@ namespace LSH_Lib
             {
                 if( exorcist == null)
                 {
-                    exorcist = GameObject.Find("Exorcist").GetComponent<FPV_CharacterController1>();          
+                    GameObject exor = GameObject.FindGameObjectWithTag("Exorcist");
+                    exorcist = exor.GetComponent<FPV_CharacterController1>();
                 }
                 return exorcist;
             }
