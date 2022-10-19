@@ -5,8 +5,8 @@ using Photon.Pun;
 using Photon.Realtime;
 using KSH_Lib;
 using GHJ_Lib;
-using Cinemachine;
 using LSH_Lib;
+using Cinemachine;
 /*
 public class NetworkTPV_CharacterController : TestPlayerController,IPunObservable
 {
@@ -30,6 +30,8 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
     protected BvGhost bvGhost = new BvGhost();
     protected BvFall bvFall = new BvFall();
     protected BvGrabbed bvGrabbed = new BvGrabbed();
+    protected BvImprison bvImplement = new BvImprison();
+    protected BvReleased bvReleased = new BvReleased();
     [SerializeField]
     protected SkinnedMeshRenderer skinnedMeshRenderer;
     protected Material originMaterial;
@@ -233,7 +235,43 @@ public class NetworkTPV_CharacterController : TestPlayerController,IPunObservabl
         CharacterModel.SetActive(false);
         curBehavior.PushSuccessorState(bvGrabbed);
     }
+    public void Imprison()
+    {
+        Debug.Log("The doll imprisons");
+        isCanMove = false;
+        
+        float Power = 5.0f;
 
+        if (GameManager.Instance.Data.Role == DEM.RoleType.Doll)
+        {
+            cinemachineVirtual.Follow = CamTarget.transform;
+            network_TPV_CameraController.SetCamTarget(CamTarget);
+        }
+        
+        CharacterModel.SetActive(true);
+        dollAnimationController.PlayHitAnimation();
+        dollStatus.HitDevilHP(Power);
+
+        if (dollStatus.DevilHealthPoint.Equals(0.0f))
+        {
+            curBehavior = bvGhost;
+            isCanMove = true;
+        }
+
+        curBehavior.PushSuccessorState(bvImplement);
+    }
+    public void Released()
+    {
+        //isCanMove = true;
+        //dollAnimationController.CancelAnimation();
+        //curBehavior.PushSuccessorState(bvReleased);
+        EscapeGrab();
+    }
+    [PunRPC]
+    public void SetPosition(Vector3 position)
+    {
+        this.gameObject.transform.position = position;
+    }
     #endregion
 
 

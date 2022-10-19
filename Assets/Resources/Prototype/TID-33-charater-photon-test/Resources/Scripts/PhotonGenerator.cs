@@ -97,7 +97,6 @@ namespace GHJ_Lib
                 GenerateNormalAltar(NormalAltarCount);
                 InstantiateExitAltar(2);
                 InstantiateFinalAltar();
-
             }
         }
 
@@ -257,6 +256,21 @@ namespace GHJ_Lib
 
             return altarGenPos[MaxIndex];
         }
+        /*
+        private bool InstantiatePurificationBox()
+        {
+            GameObject purifictionBox = PhotonNetwork.Instantiate("Prototype/TID-57-implement-purification-box/Resource/Prefabs/PurificationBox", new Vector3(0, 1, 0), Quaternion.identity, 0);
+            if (purifictionBox)
+            {
+                return true;
+            }
+            else
+            {
+                Debug.LogError("can't instantiate");
+                return false;
+            }
+        }
+        */
         #endregion
 
     }

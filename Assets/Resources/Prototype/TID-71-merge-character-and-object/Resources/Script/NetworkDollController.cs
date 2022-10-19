@@ -31,6 +31,8 @@ namespace GHJ_Lib
 		protected BvGhost bvGhost = new BvGhost();
 		protected BvFall bvFall = new BvFall();
 		protected BvGrabbed bvGrabbed = new BvGrabbed();
+		protected BvReleased bvReleased = new BvReleased();
+		protected BvImprison bvImplement = new BvImprison();
 		[SerializeField]
 		protected SkinnedMeshRenderer skinnedMeshRenderer;
 		protected Material originMaterial;
@@ -255,8 +257,47 @@ namespace GHJ_Lib
 			curBehavior.PushSuccessorState(bvGrabbed);
 		}
 
-			/*---IPunObserve---*/
-			public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+		public void Imprison()
+		{
+			Debug.Log("The doll imprisons");
+			isCanMove = false;
+
+			float Power = 5.0f;
+
+			if (GameManager.Instance.Data.Role == DEM.RoleType.Doll)
+			{
+				cinemachineVirtual.Follow = CamTarget.transform;
+				network_TPV_CameraController.SetCamTarget(CamTarget);
+			}
+
+			CharacterModel.SetActive(true);
+			dollAnimationController.PlayHitAnimation();
+			dollStatus.HitDevilHP(Power);
+
+			if (dollStatus.DevilHealthPoint.Equals(0.0f))
+			{
+				curBehavior = bvGhost;
+			}
+
+			curBehavior.PushSuccessorState(bvImplement);
+		}
+
+		public void Released()
+		{
+			//isCanMove = true;
+			//dollAnimationController.CancelAnimation();
+			//curBehavior.PushSuccessorState(bvReleased);
+			EscapeGrab();
+		}
+
+		[PunRPC]
+		public void SetPosition(Vector3 position)
+		{
+			this.gameObject.transform.position = position;
+		}
+
+		/*---IPunObserve---*/
+		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 			{
 
 				if (stream.IsWriting)

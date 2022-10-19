@@ -107,6 +107,15 @@ namespace GHJ_Lib
             DollHealthPoint -= Damage;
         }
 
+        public void HitDevilHP(float Demage)
+        {
+            StartCoroutine("HitDevil", Demage);
+        }
+        IEnumerator HitDevil(float Demage)
+        {
+            yield return new WaitForSeconds(1.0f);
+            DevilHealthPoint -= Demage * Time.deltaTime;
+        }
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             if (stream.IsWriting)

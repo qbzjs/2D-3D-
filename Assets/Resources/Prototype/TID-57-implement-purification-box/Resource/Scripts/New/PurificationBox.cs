@@ -1,103 +1,106 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GHJ_Lib;
 using Photon;
 using Photon.Pun;
 using Photon.Realtime;
 namespace LSH_Lib{
  //Is it for only test. do not use main game scene
-    public class InteractionTest : MonoBehaviourPunCallbacks, IPunObservable
+    public class PurificationBox : MonoBehaviourPunCallbacks, IPunObservable
     {
         PhotonView pv;
         PurificationBoxUI boxUI;
+        BoxManager boxManager;
         string playerTag;
         bool isEmpty = true;
+
         private void Start()
         {
             pv = GetComponent<PhotonView>();
             boxUI = GameObject.Find("BoxUI").GetComponent<PurificationBoxUI>();
+            boxManager = GameObject.Find("BoxManager").GetComponent<BoxManager>();
             boxUI.TextInvisible();
             boxUI.SliderInvisible();
         }
-        private void Update()
-        {
-            //if(Input.GetKeyUp(KeyCode.G))
-            //{
-            //    boxUI.TextInvisible();
-            //    boxUI.SliderInvisible();
-            //}
-        }
+
         private void OnTriggerStay(Collider other)
         {
-            playerTag = other.ToString();
-            boxUI.TextVisible();
-            if (Input.GetKey(KeyCode.G))
-            {
-                if (other.gameObject.CompareTag("Exorcist"))
+            if (other.gameObject.CompareTag("Exorcist"))
+            {   boxUI.TextVisible();
+                if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    Exorcist();
-                    if (pv.IsMine)
-                    {
-                        Boxinteract(playerTag);
-                    }
-                    //else
-                    //{
-                    //    pv.RPC("Boxinteract", RpcTarget.MasterClient, playerTag);
-                    //}
-                }
-                else
-                {
-                    Doll();
-                    //if (pv.IsMine)
-                    //{
-                    //    Boxinteract(playerTag);
-                    //}
-                    if(!pv.IsMine)
-                    {
-                        pv.RPC("Boxinteract", RpcTarget.MasterClient, playerTag);
+                    playerTag = other.gameObject.tag;
+                    if(boxManager.Doll.CurBehavior is BvGrabbed && 
+                        boxManager.Exorcist.CurBehavior is BvGrab)
+                    { 
+                        ExorcistInteract();
                     }
                 }
-
             }
-            //{
-            //    if (pv.IsMine)
-            //    {
-            //        Boxinteract(playerTag);
-            //    }
-            //    else
-            //    {
-            //        pv.RPC("Boxinteract", RpcTarget.MasterClient, playerTag);
-            //    }
-            //}
+
+            if(other.gameObject.CompareTag("Doll"))
+            {   
+                playerTag = other.gameObject.tag;
+                //if(boxManager.Doll.CurBehavior is BvNormal)
+                {
+                    boxUI.TextVisible();
+                    if (Input.GetKey(KeyCode.Mouse0))
+                    {
+                        DollInteract();
+                    }
+                }
+            }
+
         }
+
+        private void OnTriggerExit(Collider other)
+        {
+            boxUI.TextInvisible();
+        }
+
         private void OnGUI()
         {
-            GUI.Box(new Rect(0, 0, 150, 30), isEmpty.ToString());
+            GUI.Box(new Rect(0, 0, 150, 30), "box is empty : " + isEmpty.ToString());
         }
+
         [PunRPC]
         void Boxinteract(string tag)
         {
             if(tag == "Exorcist")
             {
                 isEmpty = false;
+                boxManager.Doll.Imprison();
+                SetPosition(this.gameObject.transform.position);
             }
             if(tag == "Doll")
             {
                 isEmpty = true;
+                boxManager.Doll.Released();
             }
         }
-        void Exorcist()
+        
+        void SetPosition(Vector3 position)
+        {
+            boxManager.Doll.SetPosition(position);
+        }
+
+        void ExorcistInteract()
         {
             boxUI.TextInvisible();
             boxUI.Slidervisible();
             boxUI.AutoCasting(1.0f);
+            pv.RPC("Boxinteract", RpcTarget.All, playerTag);
         }
-        void Doll()
+
+        void DollInteract()
         {
             boxUI.TextInvisible();
             boxUI.Slidervisible();
             boxUI.Casting(1.0f);
+            pv.RPC("Boxinteract", RpcTarget.All, playerTag);
         }
+
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             if (stream.IsWriting)
