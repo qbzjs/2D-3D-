@@ -21,6 +21,7 @@ namespace GHJ_Lib
 		public GameObject CamTarget;
 		public GameObject CharacterModel;
 
+		public Transform escapeTransform;
 		/*--- Protected Fields ---*/
 		protected Behavior<NetworkDollController> curBehavior = new Behavior<NetworkDollController>();
 		protected streamVector3 sVector3;
@@ -39,7 +40,7 @@ namespace GHJ_Lib
 		protected PhotonTransformViewClassic photonTransformView;
 		/*--- Private Fields ---*/
 
-
+		PurificationBox purificatinBox;
 		//---interaction Fields---//
 		public float CastingVelocity
 		{
@@ -283,43 +284,29 @@ namespace GHJ_Lib
 			if (curBehavior is BvGhost)
 			{
 				escapeTransform = cinemachineVirtual.Follow.transform;
+				purificatinBox.DieToGhost();
 				return;
 			}
 			curBehavior.PushSuccessorState(bvImplement);
 		}
 
-		public void Imprison(GameObject purificatinBoxPos)
+		public void Imprison(GameObject purificatinBox)
 		{
-
-			Debug.Log("The doll imprisons");
-
-			float Power = 5.0f;
-
+			this.purificatinBox = purificatinBox.GetComponent<PurificationBox>();
+			Transform camTarget = purificatinBox.transform.GetChild(2);
 			if (photonView.IsMine)
 			{
-				cinemachineVirtual.Follow = purificatinBoxPos.transform;
-				network_TPV_CameraController.SetCamTarget(purificatinBoxPos);
+				cinemachineVirtual.Follow = camTarget;
+				network_TPV_CameraController.SetCamTarget(camTarget.gameObject);
 			}
 
-			dollStatus.HitDevilHP(Power);
-
-			if (dollStatus.DevilHealthPoint <= 0.0f)
-			{
-				curBehavior = bvGhost;
-			}
-
-			if (curBehavior is BvGhost)
-			{
-				escapeTransform = cinemachineVirtual.Follow.transform;
-				return;
-			}
-			curBehavior.PushSuccessorState(bvImplement);
+			Imprison();
 		}
 
 
 
 
-		public void BecomeNormal()
+		public void BecomeIdle()
 		{
 			dollAnimationController.CancelAnimation();
 		}
@@ -429,11 +416,11 @@ namespace GHJ_Lib
 			this.transform.position = transform.position;
 			this.transform.rotation = transform.rotation;
 			CharacterModel.SetActive(true);
-			curBehavior.PushSuccessorState(bvNormal);
+			BecomeIdle();
 
 		}
 
-		public Transform escapeTransform;
+		
 		
 		[PunRPC]
 		public void EscapeGrab()
@@ -443,6 +430,11 @@ namespace GHJ_Lib
 				EscapeGrab(escapeTransform);
 			}
 
+		}
+
+		public void GhostEscape()
+		{
+			photonView.RPC("EscapeGrab", RpcTarget.All);
 		}
 
 		/*--- Private Methods ---*/

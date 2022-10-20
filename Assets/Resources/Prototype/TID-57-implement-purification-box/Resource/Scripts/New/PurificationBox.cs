@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GHJ_Lib;
+using KSH_Lib;
 using Photon;
 using Photon.Pun;
 using Photon.Realtime;
@@ -25,11 +26,13 @@ namespace LSH_Lib{
             boxUI.UIInvisible();
         }
 
+        
+
         private void OnTriggerStay(Collider other)
         {
             if (other.gameObject.CompareTag("Exorcist"))
             {
-                if (ImprisonDoll )
+                if (ImprisonDoll)
                 {
                     return;
                 }
@@ -95,7 +98,7 @@ namespace LSH_Lib{
             if(tag == "Exorcist")
             {
                 isEmpty = false;
-                boxManager.Doll.Imprison();
+                boxManager.Doll.Imprison(this.gameObject);
                 DollModels[0].SetActive(true);
                 ImprisonDoll = DollModels[0];
                 Animator animator = ImprisonDoll.GetComponent<Animator>();
@@ -136,6 +139,17 @@ namespace LSH_Lib{
                 boxUI.SliderInvisible();
                 pv.RPC("Boxinteract", RpcTarget.All, playerTag);
             }
+        }
+
+        public void DieToGhost()
+        {
+            if (!ImprisonDoll)
+            {
+                return;
+            }
+            GameEndManager.Instance.DollCountDecrease();
+            string tag = "Doll";
+            pv.RPC("Boxinteract", RpcTarget.All, tag);
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
