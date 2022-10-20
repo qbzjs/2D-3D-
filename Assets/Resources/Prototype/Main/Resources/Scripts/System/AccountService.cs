@@ -6,11 +6,21 @@ using UnityEngine.Networking;
 
 namespace KSH_Lib.Util
 {
-
     public class AccountService : ServerNetworkService
     {
-        AccountService instance;
-
+        public static AccountService Instance
+        {
+            get
+            {
+                if(instance == null)
+                {
+                    GameObject obj = new GameObject("_AccountService");
+                    instance = obj.AddComponent<AccountService>();
+                }
+                return instance;
+            }
+        }
+        static AccountService instance;
 
 
 

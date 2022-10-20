@@ -10,6 +10,7 @@ namespace KSH_Lib.UI
 	public class AccountUI_Manager : MonoBehaviour
 	{
 		/*--- Public Fields ---*/
+		[Header("UI Init")]
 		public GameObject IdFieldObj;
 		public GameObject PasswordFieldObj;
 		public GameObject NicknameFieldObj;
@@ -17,8 +18,20 @@ namespace KSH_Lib.UI
 		public GameObject RegisterButtonObj;
 		public GameObject BackButtonObj;
 
-		public CanvasGroup ErrorMsg;
-		public float FadeInTime = 1.0f;
+		public GameObject ErrorMsgObj;
+
+		[Header("PopUp Time")]
+		public float FadeInTime = 0.2f;
+		public float WaitTime = 0.5f;
+		public float FadeOutTime = 0.2f;
+
+		[Header("Error Message Setting")]
+		[SerializeField]
+		string noLoginFieldStr = "No Id Input";
+		[SerializeField]
+		string noPasswordFieldStr = "No Id Input";
+		[SerializeField]
+		string noNickNameFieldStr = "No NickName Input";
 
 		/*--- Private Fields ---*/
 		enum UI_State { Login, Register}
@@ -32,8 +45,9 @@ namespace KSH_Lib.UI
 		TMP_InputField passwordField;
 		TMP_InputField nicknameField;
 
-		AccountService accountService;
 
+		CanvasGroup errorMsgCanvasGroup;
+		TextMeshProUGUI errorMsgText;
 		UI_Effect uiEffect;
 
 
@@ -43,6 +57,8 @@ namespace KSH_Lib.UI
 			idField = IdFieldObj.GetComponent<TMP_InputField>();
 			passwordField = PasswordFieldObj.GetComponent<TMP_InputField>();
 			nicknameField = NicknameFieldObj.GetComponent<TMP_InputField>();
+			errorMsgCanvasGroup = ErrorMsgObj.GetComponent<CanvasGroup>();
+			errorMsgText = ErrorMsgObj.GetComponent<TextMeshProUGUI>();
 			if ( idField == null || passwordField == null || nicknameField == null )
 			{
 				Debug.LogError( "AccountService.Awake(): null Refrence" );
@@ -51,16 +67,9 @@ namespace KSH_Lib.UI
 		private void Start()
 		{
 			ActiveLoginScreen();
-			uiEffect = new UI_Effect(ErrorMsg);
+			uiEffect = new UI_Effect(errorMsgCanvasGroup);
 		}
 
-        private void Update()
-        {
-            if(Input.GetKeyDown(KeyCode.Alpha1))
-            {
-				StartCoroutine(uiEffect.PopUp(0.5f,1.0f,0.5f));
-            }
-        }
 
         /*--- Public Methods ---*/
         public void ActiveLoginScreen()
@@ -72,7 +81,7 @@ namespace KSH_Lib.UI
 			RegisterButtonObj.SetActive( true );
 			BackButtonObj.SetActive( false );
 
-			ErrorMsg.alpha = 0.0f;
+			errorMsgCanvasGroup.alpha = 0.0f;
 
 			ResetInputFields();
 
@@ -98,7 +107,7 @@ namespace KSH_Lib.UI
 
 		public void OnLoginClicked()
         {
-			accountService.Login( CheckField, HandleResponse );
+			AccountService.Instance.Login( CheckLoginField, HandleResponse );
         }
 		public void OnRegisterClicked()
         {
@@ -109,7 +118,7 @@ namespace KSH_Lib.UI
             }
 			else if(curState == UI_State.Register)
             {
-				accountService.Register( CheckField, HandleResponse );
+				AccountService.Instance.Register( CheckRegisterField, HandleResponse );
 				ActiveLoginScreen();
             }
 
@@ -120,25 +129,36 @@ namespace KSH_Lib.UI
         }
 
 		/*--- Private Methods ---*/
-		bool CheckField()
+		bool CheckRegisterField()
 		{
+			if(CheckLoginField())
+			{
+				nickname = nicknameField.text.Trim();
+				if (nickname == "")
+				{
+					Debug.Log("AccountService.CheckField: No nickname Input");
+					PopUpErrorMsg(noNickNameFieldStr);
+					return false;
+				}
+				return true;
+			}
+			return false;
+		}
+		bool CheckLoginField()
+        {
 			id = idField.text.Trim();
 			password = passwordField.text.Trim();
-			nickname = nicknameField.text.Trim();
 
-			if ( id == "" )
+			if (id == "")
 			{
-				Debug.Log( "AccountService.CheckField: No Id Input" );
+				Debug.Log("AccountService.CheckField: No Id Input");
+				PopUpErrorMsg(noLoginFieldStr);
 				return false;
 			}
-			else if ( password == "" )
+			else if (password == "")
 			{
-				Debug.Log( "AccountService.CheckField: No password Input" );
-				return false;
-			}
-			else if ( nickname == "" )
-			{
-				Debug.Log( "AccountService.CheckField: No nickname Input" );
+				Debug.Log("AccountService.CheckField: No password Input");
+				PopUpErrorMsg(noPasswordFieldStr);
 				return false;
 			}
 			else
@@ -155,10 +175,15 @@ namespace KSH_Lib.UI
 
 			if(data.result == "ERROR")
             {
-				Debug.Log( "AccountUI_Manager: Response Error" );
-
+				PopUpErrorMsg(data.msg);
 				return;
             }
+		}
+
+		void PopUpErrorMsg(in string msg)
+        {
+			errorMsgText.text = msg;
+			uiEffect.PopUp(FadeInTime, WaitTime, FadeOutTime);
 		}
 	}
 }
