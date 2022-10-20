@@ -139,15 +139,12 @@ namespace KSH_Lib.UI
 			Debug.Log( response );
 			AccountService.AccountResponse data = JsonUtility.FromJson<AccountService.AccountResponse>( response );
 
-
 			if(data.result == "ERROR")
             {
-				Debug.Log( "Response Error" );
+				Debug.Log( "AccountUI_Manager: Response Error" );
+
 				return;
             }
-
-
 		}
-
 	}
 }
