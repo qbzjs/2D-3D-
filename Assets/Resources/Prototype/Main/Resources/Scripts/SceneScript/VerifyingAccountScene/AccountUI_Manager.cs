@@ -17,6 +17,8 @@ namespace KSH_Lib.UI
 		public GameObject RegisterButtonObj;
 		public GameObject BackButtonObj;
 
+		public CanvasGroup ErrorMsg;
+		public float FadeInTime = 1.0f;
 
 		/*--- Private Fields ---*/
 		enum UI_State { Login, Register}
@@ -32,6 +34,8 @@ namespace KSH_Lib.UI
 
 		AccountService accountService;
 
+		UI_Effect uiEffect;
+
 
 		/*--- MonoBehaviour Callbacks ---*/
 		private void Awake()
@@ -44,11 +48,19 @@ namespace KSH_Lib.UI
 				Debug.LogError( "AccountService.Awake(): null Refrence" );
 			}
 		}
-        private void Start()
-        {
+		private void Start()
+		{
 			ActiveLoginScreen();
+			uiEffect = new UI_Effect(ErrorMsg);
 		}
 
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.Alpha1))
+            {
+				StartCoroutine(uiEffect.PopUp(0.5f,1.0f,0.5f));
+            }
+        }
 
         /*--- Public Methods ---*/
         public void ActiveLoginScreen()
@@ -59,6 +71,8 @@ namespace KSH_Lib.UI
 			LoginButtonObj.SetActive( true );
 			RegisterButtonObj.SetActive( true );
 			BackButtonObj.SetActive( false );
+
+			ErrorMsg.alpha = 0.0f;
 
 			ResetInputFields();
 
