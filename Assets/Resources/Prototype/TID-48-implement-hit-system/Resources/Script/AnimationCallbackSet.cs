@@ -90,6 +90,7 @@ namespace GHJ_Lib
 
                 if (baseController is NetworkDollController)
                 {
+                    Debug.Log("GrabOn");
                     networkExorcistController.ActiveGrabObj(0);
                 }
 

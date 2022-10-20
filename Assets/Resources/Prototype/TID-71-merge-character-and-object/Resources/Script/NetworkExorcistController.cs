@@ -32,6 +32,8 @@ namespace GHJ_Lib
         protected float rageTime = 40.0f;
         protected bool isRage = false;
         protected List<GameObject> PickUpList = new List<GameObject>();
+        protected PhotonTransformViewClassic photonTransformView;
+        protected GameObject inHandDoll = null;
         //----BvState----//
         protected Behavior<NetworkExorcistController> curBehavior = new Behavior<NetworkExorcistController>();
         protected BvNormalExorcist bvNormalExorcist = new BvNormalExorcist();
@@ -69,6 +71,7 @@ namespace GHJ_Lib
             animator = GetComponent<PFV_CharacterAnimation>();
             curBehavior.PushSuccessorState(bvNormalExorcist);
             finalMoveSpeed = exorcistStatus.moveSpeed;
+            photonTransformView = GetComponent<PhotonTransformViewClassic>();
             GameObject exUI = GameObject.Find("ExorcistUI");
             if (exUI == null)
             {
@@ -93,6 +96,9 @@ namespace GHJ_Lib
                     bvRage.RageDuration -= Time.deltaTime;
                     exorcistUI.CoolTime(bvRage.RageDuration / rageTime);
                 }
+                var velocity = controller.velocity;
+                var turnSpeed = rotSpeed;
+                photonTransformView.SetSynchronizedValues(velocity, turnSpeed);
             }
 
 
@@ -102,7 +108,7 @@ namespace GHJ_Lib
             controller.SimpleMove(moveVector * finalMoveSpeed);
             curBehavior.Update(this, ref curBehavior);
 
-
+            
 
         }
 
@@ -230,12 +236,26 @@ namespace GHJ_Lib
             Debug.Log("Remove " + doll);
             PickUpList.Remove(doll);
         }
+        public void MissDoll()
+        {
+            photonView.RPC("BecomeNormal", RpcTarget.All);
+        }
+
 
         public void ActiveGrabObj(int i)
         {
             GrabObj[i].SetActive(true);
+            inHandDoll = GrabObj[i];
         }
 
+        public void InActive()
+        {
+            if (inHandDoll)
+            {
+                inHandDoll.SetActive(false);
+                inHandDoll = null;
+            }
+        }
             /*---IPunObseve---*/
             public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
             {
@@ -324,6 +344,12 @@ namespace GHJ_Lib
                 isInteract = false; // << interaction
                 return;
             }
+        }
+
+        [PunRPC]
+        protected void BecomeNormal()
+        {
+            curBehavior.PushSuccessorState(bvNormalExorcist);
         }
 
         [PunRPC]

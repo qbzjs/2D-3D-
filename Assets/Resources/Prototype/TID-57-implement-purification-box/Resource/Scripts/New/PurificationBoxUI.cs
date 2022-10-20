@@ -9,7 +9,7 @@ namespace LSH_Lib{
         public GameObject sliderUI;
         public TMP_Text interactText;
         public Slider slider;
-
+        public bool IsMine=false;
         ObjGenerator target;
 
         private void Start()
@@ -71,25 +71,39 @@ namespace LSH_Lib{
         }
         public void UIInvisible()
         {
-            TextInvisible();
-            SliderInvisible();
+            sliderUI.SetActive(false);
+            interactText.enabled = false;
         }
         public void Slidervisible()
         {
-            sliderUI.SetActive(true);
+            if (IsMine)
+            {
+                sliderUI.SetActive(true);
+            }
         }
 
         public void SliderInvisible()
         {
-            sliderUI.SetActive(false);
+            if (IsMine)
+            {
+                sliderUI.SetActive(false);
+            }
         }
         public void TextInvisible()
         {
-            interactText.enabled = false;
+            if (IsMine)
+            {
+                interactText.enabled = false;
+            }
         }
         public void TextVisible()
         {
-            interactText.enabled = true;
+            if (IsMine)
+            {
+                interactText.enabled = true;
+            }
         }
+     
+
     }
 }

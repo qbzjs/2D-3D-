@@ -52,6 +52,7 @@ namespace LSH_Lib{
 
         private void CheckPlayerCount()
         {
+            Debug.Log(GameEndManager.Instance.DollCount);
             if(GameEndManager.Instance.DollCount <= 2)
             {
                 ExitAltarModel.SetActive(true);

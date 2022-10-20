@@ -137,5 +137,6 @@ namespace Photon.Pun
         /// </remarks>
         /// <param name="gameObject">The instance to destroy.</param>
         void Destroy(GameObject gameObject);
+        void RegisterPrefab(string prefabID, GameObject prefab);
     }
 }

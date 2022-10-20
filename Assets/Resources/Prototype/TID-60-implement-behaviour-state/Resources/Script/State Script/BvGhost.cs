@@ -36,6 +36,8 @@ namespace GHJ_Lib
 
 		void DoOnce(in NetworkDollController actor)
         {
+			
+			actor.GhostEscape();
 			actor.BecomeGhost();
 			isActive = true;
         }

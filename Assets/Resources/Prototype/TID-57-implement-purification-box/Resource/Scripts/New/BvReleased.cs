@@ -9,7 +9,7 @@ namespace LSH_Lib{
     {
         protected override void Activate(in NetworkDollController actor)
         {
-            actor.Released();
+           //actor.Released();
         }
     }
 }

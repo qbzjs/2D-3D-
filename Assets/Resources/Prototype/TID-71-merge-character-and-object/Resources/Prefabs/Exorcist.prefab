@@ -376,6 +376,7 @@ GameObject:
   - component: {fileID: 1410060564037407499}
   - component: {fileID: 7352917782144371853}
   - component: {fileID: -665657466991628406}
+  - component: {fileID: 6111092814766441182}
   m_Layer: 0
   m_Name: Exorcist
   m_TagString: Exorcist
@@ -491,13 +492,14 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 1
+  Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
   - {fileID: 4430563716704696487}
   - {fileID: 1410060564037407499}
   - {fileID: 7352917782144371853}
+  - {fileID: 6111092814766441182}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -571,7 +573,7 @@ MonoBehaviour:
   Ayra: {fileID: 3615976796478522397}
   animationCallbackSet: {fileID: 8650640184749938122}
   GrabObj:
-  - {fileID: 3150440021692976751}
+  - {fileID: 4473424413195934546}
 --- !u!54 &-665657466991628406
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -588,6 +590,39 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6111092814766441182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6023530114998782608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PositionModel:
+    SynchronizeEnabled: 1
+    TeleportEnabled: 1
+    TeleportIfDistanceGreaterThan: 3
+    InterpolateOption: 3
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 1
+    ExtrapolateOption: 0
+    ExtrapolateSpeed: 1
+    ExtrapolateIncludingRoundTripTime: 1
+    ExtrapolateNumberOfStoredPositions: 1
+  m_RotationModel:
+    SynchronizeEnabled: 1
+    InterpolateOption: 1
+    InterpolateRotateTowardsSpeed: 180
+    InterpolateLerpSpeed: 5
+  m_ScaleModel:
+    SynchronizeEnabled: 0
+    InterpolateOption: 0
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 0
 --- !u!1 &6374633949899727702
 GameObject:
   m_ObjectHideFlags: 0
@@ -975,6 +1010,12 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 05ad966a6b3793d4290e515b2afb318a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19fbc6433c996574eb80fb6d445e9968, type: 3}
+--- !u!1 &4473424413195934546 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100016, guid: 19fbc6433c996574eb80fb6d445e9968,
+    type: 3}
+  m_PrefabInstance: {fileID: 4473424413195967970}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4473424413196093298 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400016, guid: 19fbc6433c996574eb80fb6d445e9968,

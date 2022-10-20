@@ -21,6 +21,7 @@ namespace GHJ_Lib
 		public GameObject CamTarget;
 		public GameObject CharacterModel;
 
+		public Transform escapeTransform;
 		/*--- Protected Fields ---*/
 		protected Behavior<NetworkDollController> curBehavior = new Behavior<NetworkDollController>();
 		protected streamVector3 sVector3;
@@ -31,15 +32,15 @@ namespace GHJ_Lib
 		protected BvGhost bvGhost = new BvGhost();
 		protected BvFall bvFall = new BvFall();
 		protected BvGrabbed bvGrabbed = new BvGrabbed();
-		protected BvReleased bvReleased = new BvReleased();
 		protected BvImprison bvImplement = new BvImprison();
 		[SerializeField]
 		protected SkinnedMeshRenderer skinnedMeshRenderer;
 		protected Material originMaterial;
 		protected bool isCanMove = true;
+		protected PhotonTransformViewClassic photonTransformView;
 		/*--- Private Fields ---*/
 
-
+		PurificationBox purificatinBox;
 		//---interaction Fields---//
 		public float CastingVelocity
 		{
@@ -54,6 +55,7 @@ namespace GHJ_Lib
 		/*---MonoBehaviorCallbacks---*/
 		public override void OnEnable()
 		{
+			photonTransformView = GetComponent<PhotonTransformViewClassic>();
 			//dollStatus = GetComponent<DollStatus>();
 			if (dollStatus == null)
 			{
@@ -82,11 +84,13 @@ namespace GHJ_Lib
 
 		protected override void Update()
 		{
+
 			if (curBehavior is BvGrabbed)
 			{
 				if (Input.GetKeyDown(KeyCode.K))
 				{
 					photonView.RPC("EscapeGrab", RpcTarget.All);
+					escapeTransform = cinemachineVirtual.Follow.transform;
 				}
 			}
 
@@ -94,6 +98,9 @@ namespace GHJ_Lib
 			{
 				PlayerInput();
 				SetDirection();
+				var velocity = controller.velocity;
+				var turnSpeed = rotateSpeed;
+				photonTransformView.SetSynchronizedValues(velocity, turnSpeed);
 			}
 			RotateToDirection();
 			MoveCharacter();
@@ -244,14 +251,17 @@ namespace GHJ_Lib
 
 		public void Grabbed(GameObject exorcistCamTarget)
 		{
+			
 			Debug.Log("Grabbed");
 			//photonView.ObservedComponents.Remove(photonTransform);
 			//controller.enabled = false;
-			if (GameManager.Instance.Data.Role == DEM.RoleType.Doll)
-			{
+
+			if (photonView.IsMine)
+			{ 
 				cinemachineVirtual.Follow = exorcistCamTarget.transform;
 				network_TPV_CameraController.SetCamTarget(exorcistCamTarget);
 			}
+			
 
 			CharacterModel.SetActive(false);
 			curBehavior.PushSuccessorState(bvGrabbed);
@@ -260,34 +270,53 @@ namespace GHJ_Lib
 		public void Imprison()
 		{
 			Debug.Log("The doll imprisons");
-			isCanMove = false;
 
 			float Power = 5.0f;
 
-			if (GameManager.Instance.Data.Role == DEM.RoleType.Doll)
-			{
-				cinemachineVirtual.Follow = CamTarget.transform;
-				network_TPV_CameraController.SetCamTarget(CamTarget);
-			}
-
-			CharacterModel.SetActive(true);
-			dollAnimationController.PlayHitAnimation();
 			dollStatus.HitDevilHP(Power);
-
-			if (dollStatus.DevilHealthPoint.Equals(0.0f))
+			Debug.Log("DevilHP: "+dollStatus.DevilHealthPoint); 
+			if (dollStatus.DevilHealthPoint<=0.0f)
 			{
+				Debug.Log("becomeGhost");
 				curBehavior = bvGhost;
 			}
 
+			if (curBehavior is BvGhost)
+			{
+				escapeTransform = cinemachineVirtual.Follow.transform;
+				purificatinBox.DieToGhost();
+				return;
+			}
 			curBehavior.PushSuccessorState(bvImplement);
 		}
 
-		public void Released()
+		public void Imprison(GameObject purificatinBox)
+		{
+			this.purificatinBox = purificatinBox.GetComponent<PurificationBox>();
+			Transform camTarget = purificatinBox.transform.GetChild(2);
+			if (photonView.IsMine)
+			{
+				cinemachineVirtual.Follow = camTarget;
+				network_TPV_CameraController.SetCamTarget(camTarget.gameObject);
+			}
+
+			Imprison();
+		}
+
+
+
+
+		public void BecomeIdle()
+		{
+			dollAnimationController.CancelAnimation();
+		}
+
+		public void Released(Transform transform)
 		{
 			//isCanMove = true;
 			//dollAnimationController.CancelAnimation();
 			//curBehavior.PushSuccessorState(bvReleased);
-			EscapeGrab();
+			EscapeGrab(transform);
 		}
 
 		[PunRPC]
@@ -375,20 +404,39 @@ namespace GHJ_Lib
 
 		}
 
-		[PunRPC]
-		protected void EscapeGrab()
+		
+		protected void EscapeGrab(Transform transform)
 		{
-
 			isCanMove = true;
-			if (GameManager.Instance.Data.Role == DEM.RoleType.Doll)
+			if (photonView.IsMine)
 			{
 				cinemachineVirtual.Follow = CamTarget.transform;
 				network_TPV_CameraController.SetCamTarget(CamTarget);
 			}
+			this.transform.position = transform.position;
+			this.transform.rotation = transform.rotation;
 			CharacterModel.SetActive(true);
-			curBehavior.PushSuccessorState(bvNormal);
+			BecomeIdle();
 
 		}
+
+		
+		
+		[PunRPC]
+		public void EscapeGrab()
+		{
+			if (escapeTransform)
+			{ 
+				EscapeGrab(escapeTransform);
+			}
+
+		}
+
+		public void GhostEscape()
+		{
+			photonView.RPC("EscapeGrab", RpcTarget.All);
+		}
+
 		/*--- Private Methods ---*/
 
 		/*------*/
