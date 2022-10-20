@@ -150,6 +150,14 @@ namespace LSH_Lib{
             GameEndManager.Instance.DollCountDecrease();
             string tag = "Doll";
             pv.RPC("Boxinteract", RpcTarget.All, tag);
+
+            if (GameEndManager.Instance.DollCount <= 1)
+            {
+                GameEndManager.Instance.EndAllUser();
+            }
+
+
+            
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

@@ -18,6 +18,7 @@ namespace GHJ_Lib
 
         private void OnTriggerEnter(Collider other)
         {
+            GameEndManager.Instance.DollCountDecrease();
             GameEndManager.Instance.EndGame(other);
         }
 

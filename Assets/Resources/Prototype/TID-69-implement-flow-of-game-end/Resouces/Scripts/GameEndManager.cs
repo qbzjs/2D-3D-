@@ -72,5 +72,11 @@ namespace LSH_Lib{
 
         }
 
+        public void EndAllUser()
+        {
+            PhotonNetwork.LeaveRoom();
+            DoGameEnd();
+        }
+
     }
 }
