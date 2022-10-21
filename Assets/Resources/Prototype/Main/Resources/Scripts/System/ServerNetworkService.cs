@@ -18,7 +18,7 @@ namespace KSH_Lib.Util
 
 
 		/*--- Protected Fields ---*/
-		protected const string URL = "https://script.google.com/macros/s/AKfycbybqc0jlupg4-mjdgvAhz_yaoRGO3fFrZIeQgYvGLXAFbEQGkkFC4W58ykxZp4vf0lF/exec";
+		protected const string URL = "https://script.google.com/macros/s/AKfycbybqc0jlupg4-mjdgvAhz_yaoRGO3fFrZIeQgYvGLXAFbEQGkkFC4W58ykxZp4vf0lF/exec	";
 
 
 		/*--- Protected Methods ---*/
