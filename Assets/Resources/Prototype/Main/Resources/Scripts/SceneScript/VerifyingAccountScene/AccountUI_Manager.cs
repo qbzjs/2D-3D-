@@ -18,8 +18,8 @@ namespace KSH_Lib.UI
 		public GameObject LoginButtonObj;
 		public GameObject RegisterButtonObj;
 		public GameObject BackButtonObj;
-
-		public GameObject ErrorMsgObj;
+		public GameObject MessageObj;
+		public GameObject LoadingPanelObj;
 
 		[Header("PopUp Time")]
 		public float FadeInTime = 0.2f;
@@ -59,8 +59,8 @@ namespace KSH_Lib.UI
 			idField = IdFieldObj.GetComponent<TMP_InputField>();
 			passwordField = PasswordFieldObj.GetComponent<TMP_InputField>();
 			nicknameField = NicknameFieldObj.GetComponent<TMP_InputField>();
-			errorMsgCanvasGroup = ErrorMsgObj.GetComponent<CanvasGroup>();
-			errorMsgText = ErrorMsgObj.GetComponent<TextMeshProUGUI>();
+			errorMsgCanvasGroup = MessageObj.GetComponent<CanvasGroup>();
+			errorMsgText = MessageObj.GetComponent<TextMeshProUGUI>();
 			if ( idField == null || passwordField == null || nicknameField == null )
 			{
 				Debug.LogError( "AccountService.Awake(): null Refrence" );
@@ -69,6 +69,7 @@ namespace KSH_Lib.UI
 		private void Start()
 		{
 			ActiveLoginScreen();
+			LoadingPanelObj.SetActive( false );
 			uiEffect = new UI_Effect(errorMsgCanvasGroup);
 		}
 
@@ -111,17 +112,18 @@ namespace KSH_Lib.UI
 
 		public void OnLoginClicked()
         {
+			LoadingPanelObj.SetActive( true );
 			AccountService.Instance.Login( CheckLoginField, InitLoginForm, HandleResponse );
         }
 		public void OnRegisterClicked()
         {
-
-			if(curState == UI_State.Login)
+			if (curState == UI_State.Login)
             {
 				ActiveRegisterScreen();
             }
 			else if(curState == UI_State.Register)
-            {
+			{
+				LoadingPanelObj.SetActive( true );
 				AccountService.Instance.Register( CheckRegisterField, InitRegisterForm, HandleResponse );
             }
 
@@ -140,7 +142,7 @@ namespace KSH_Lib.UI
 				if (nickname == "")
 				{
 					Debug.Log("AccountService.CheckField: No nickname Input");
-					PopUpErrorMsg(noNickNameFieldStr);
+					PopUpMessage( noNickNameFieldStr);
 					return false;
 				}
 				return true;
@@ -155,13 +157,13 @@ namespace KSH_Lib.UI
             if ( id == "" )
             {
                 Debug.Log( "AccountService.CheckField: No Id Input" );
-                PopUpErrorMsg( noLoginFieldStr );
+				PopUpMessage( noLoginFieldStr );
                 return false;
             }
             else if ( password == "" )
             {
                 Debug.Log( "AccountService.CheckField: No password Input" );
-                PopUpErrorMsg( noPasswordFieldStr );
+				PopUpMessage( noPasswordFieldStr );
                 return false;
             }
             else
@@ -175,23 +177,25 @@ namespace KSH_Lib.UI
 		{
 			AccountService.AccountResponse data = JsonUtility.FromJson<AccountService.AccountResponse>( response );
 
-			if(data.result == "ERROR")
-            {
-				PopUpErrorMsg(data.message);
-				return;
-            }
+			PopUpMessage( data.message);
 
-			if(data.order == "register")
+			if(data.result == "OK")
             {
-				if(data.result == "OK")
-                {
+				if(data.order == "Register")
+				{
 					ActiveLoginScreen();
 				}
+				else if( data.order == "Login")
+                {
+					//Load Lobby;
+                }
             }
+
 		}
 
-		void PopUpErrorMsg(in string msg)
-        {
+		void PopUpMessage(in string msg)
+		{
+			LoadingPanelObj.SetActive( false );
 			errorMsgText.text = msg;
 			StartCoroutine(uiEffect.PopUp(FadeInTime, WaitTime, FadeOutTime));
 		}
