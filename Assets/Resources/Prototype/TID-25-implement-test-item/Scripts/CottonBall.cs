@@ -14,7 +14,13 @@ namespace LSH_Lib
             if(other.gameObject.CompareTag("Doll"))
             {
                 mesh.enabled = false;
+                DoAction();
             }
+        }
+        protected override void DoAction()
+        {
+            boxManager.Doll.dollStatus.CottonBall();
+            this.gameObject.SetActive(false);
         }
     }
 }
