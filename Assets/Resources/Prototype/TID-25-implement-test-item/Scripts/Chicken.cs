@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace LSH_Lib
 {
-	public class TestItem : Item
+	public class Chicken : Item
 	{
 		public AudioSource audio;
         MeshRenderer mesh;

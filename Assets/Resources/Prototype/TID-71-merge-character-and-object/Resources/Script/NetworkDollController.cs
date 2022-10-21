@@ -343,6 +343,10 @@ namespace GHJ_Lib
 			//curBehavior.PushSuccessorState(bvReleased);
 			EscapeGrab(transform);
 		}
+		public void CottonBall()
+        {
+			dollStatus.CottonBall();
+        }
 
 		[PunRPC]
 		public void SetPosition(Vector3 position)
