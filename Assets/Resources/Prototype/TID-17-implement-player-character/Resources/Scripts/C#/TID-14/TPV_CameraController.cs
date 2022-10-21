@@ -69,6 +69,11 @@ namespace LSH_Lib
         }
         protected virtual void Update()
         {
+            if (!TPV_PlayerInputManager.instance.enabled)
+            {
+                return;
+            }
+
             MouseInput();
             RotateCamera();
             ZoomCamera();
@@ -83,6 +88,8 @@ namespace LSH_Lib
         #region Private Methods
         void MouseInput()
         {
+            
+                
             xAxis = (InvertHorizontal ? -Input.GetAxis( "Mouse X" ) : Input.GetAxis( "Mouse X" )) * mouseSpeed;
             yAxis = (InvertVertical ? -Input.GetAxis( "Mouse Y" ) : Input.GetAxis( "Mouse Y" )) * mouseSpeed;
             wheelValRaw = (InvertZoom ? Input.GetAxis( "Mouse ScrollWheel" ) : -Input.GetAxis( "Mouse ScrollWheel" )) * zoomSpeed;
@@ -93,6 +100,7 @@ namespace LSH_Lib
         }
         void RotateCamera()
         {
+
             camTarget.transform.Rotate( Vector3.up, horizontal * mouseSpeed, Space.World );
 
             camTarget.transform.Rotate( Vector3.right, vertical * mouseSpeed, Space.Self );

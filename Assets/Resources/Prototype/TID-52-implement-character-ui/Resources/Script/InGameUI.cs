@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Photon.Pun;
 namespace GHJ_Lib
 { 
     public class InGameUI : MonoBehaviour
@@ -20,7 +20,10 @@ namespace GHJ_Lib
             DevilHPImage.fillAmount = dollStatus.CurrentRateOfDevilHP;
         }
 
-
+        private void OnGUI()
+        {
+            GUI.Box(new Rect(Screen.width - 30, 0, Screen.width, 30), PhotonNetwork.CurrentRoom.PlayerCount.ToString());
+        }
 
     }
 }

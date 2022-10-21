@@ -33,6 +33,7 @@ public class PlayerInputManager : MonoBehaviour
     {
         return playerControll.Player.Move.ReadValue<Vector2>();
     }
+ 
     #endregion
 
     #region Private Methods

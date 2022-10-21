@@ -165,6 +165,7 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
     void LoadRoomScene()
     {
         cancelButtonObj.SetActive( false );
+        PhotonNetwork.CurrentRoom.IsOpen = false;
         GameManager.Instance.LoadPhotonScene( loadSceneName  );
     }
     void EnableCanvasObjects()

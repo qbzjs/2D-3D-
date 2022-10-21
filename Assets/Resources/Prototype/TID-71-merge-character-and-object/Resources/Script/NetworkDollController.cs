@@ -450,11 +450,32 @@ namespace GHJ_Lib
 
 		IEnumerator Expose(float ExposeTime)
 		{
-			originMaterial = skinnedMeshRenderer.material;
-			skinnedMeshRenderer.material = Resources.Load<Material>("Materials/Always Visible");
+			CharacterLayerChange(CharacterModel, 6);
+			//originMaterial = skinnedMeshRenderer.material;
+			//skinnedMeshRenderer.material = Resources.Load<Material>("Materials/Always Visible");
 			yield return new WaitForSeconds(ExposeTime);
-			skinnedMeshRenderer.material = originMaterial;
+			CharacterLayerChange(CharacterModel, 0);
+			//skinnedMeshRenderer.material = originMaterial;
 			curBehavior.PushSuccessorState(bvNormal);
 		}
+
+		void CharacterLayerChange(GameObject Model,int layer)
+		{
+			Model.layer = layer;
+			int count = Model.transform.childCount;
+			Debug.Log("count : " + count);
+			if (count != 0)
+			{
+				for (int i = 0; i < count; ++i)
+				{
+					CharacterLayerChange(Model.transform.GetChild(i).gameObject, layer);
+				}
+			}
+			else
+			{
+				return;
+			}
+		}
+
 	}
 }

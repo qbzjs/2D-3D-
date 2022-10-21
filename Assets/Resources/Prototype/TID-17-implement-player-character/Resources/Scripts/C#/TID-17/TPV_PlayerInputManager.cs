@@ -38,6 +38,7 @@ public class TPV_PlayerInputManager : MonoBehaviour
     {
         return tpvcontroller.TPVPlayer.Look.ReadValue<Vector2>();
     }
+
     #endregion
 
     #region Private Methods
