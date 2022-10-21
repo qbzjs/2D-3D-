@@ -29,7 +29,7 @@ namespace KSH_Lib.UI
 		[SerializeField]
 		string noLoginFieldStr = "No Id Input";
 		[SerializeField]
-		string noPasswordFieldStr = "No Id Input";
+		string noPasswordFieldStr = "No Password Input";
 		[SerializeField]
 		string noNickNameFieldStr = "No NickName Input";
 
@@ -101,13 +101,13 @@ namespace KSH_Lib.UI
 		public void ResetInputFields()
         {
 			idField.text = null;
-			passwordField = null;
-			nicknameField = null;
+			passwordField.text = null;
+			nicknameField.text = null;
 		}
 
 		public void OnLoginClicked()
         {
-			AccountService.Instance.Login( CheckLoginField, HandleResponse );
+			AccountService.Instance.Login( CheckLoginField, InitLoginForm, HandleResponse );
         }
 		public void OnRegisterClicked()
         {
@@ -118,7 +118,7 @@ namespace KSH_Lib.UI
             }
 			else if(curState == UI_State.Register)
             {
-				AccountService.Instance.Register( CheckRegisterField, HandleResponse );
+				AccountService.Instance.Register( CheckRegisterField, InitRegisterForm, HandleResponse );
 				ActiveLoginScreen();
             }
 
@@ -146,26 +146,26 @@ namespace KSH_Lib.UI
 		}
 		bool CheckLoginField()
         {
-			id = idField.text.Trim();
-			password = passwordField.text.Trim();
+            id = idField.text.Trim();
+            password = passwordField.text.Trim();
 
-			if (id == "")
-			{
-				Debug.Log("AccountService.CheckField: No Id Input");
-				PopUpErrorMsg(noLoginFieldStr);
-				return false;
-			}
-			else if (password == "")
-			{
-				Debug.Log("AccountService.CheckField: No password Input");
-				PopUpErrorMsg(noPasswordFieldStr);
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-		}
+            if ( id == "" )
+            {
+                Debug.Log( "AccountService.CheckField: No Id Input" );
+                PopUpErrorMsg( noLoginFieldStr );
+                return false;
+            }
+            else if ( password == "" )
+            {
+                Debug.Log( "AccountService.CheckField: No password Input" );
+                PopUpErrorMsg( noPasswordFieldStr );
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
 
 		void HandleResponse(string response)
@@ -183,7 +183,22 @@ namespace KSH_Lib.UI
 		void PopUpErrorMsg(in string msg)
         {
 			errorMsgText.text = msg;
-			uiEffect.PopUp(FadeInTime, WaitTime, FadeOutTime);
+			StartCoroutine(uiEffect.PopUp(FadeInTime, WaitTime, FadeOutTime));
 		}
+
+		WWWForm InitLoginForm()
+        {
+			WWWForm form = new WWWForm();
+			form.AddField( "id", id );
+			form.AddField( "password", password );
+			return form;
+        }
+		WWWForm InitRegisterForm()
+        {
+			WWWForm form = InitLoginForm();
+			form.AddField( "nickname", nickname );
+			return form;
+        }
+
 	}
 }

@@ -18,19 +18,13 @@ namespace KSH_Lib.Util
 
 
 		/*--- Protected Fields ---*/
-		protected const string URL = "https://script.google.com/macros/s/AKfycbwi9as1-v5q_l3Gd1grs23FFsxLh2Iz13XQEYqU2MmMSr-v8tLLJoy0AQZMQeo9MoGe/exec";
+		protected const string URL = "https://script.google.com/macros/s/AKfycbzyCkVWAbzoIjrM5wSKB-yKaAe93qwKIEJJsDOjX04Ghmt5Uac55V_S-u3tibRVSfE/exec";
 
 
 		/*--- Protected Methods ---*/
-		protected virtual WWWForm InitForm(in string order)
+		protected virtual void DoPost(in string order, System.Func<WWWForm> InitForm,  System.Action<string> HandleResponse)
 		{
-			WWWForm form = new WWWForm();
-			form.AddField("order", order);
-			return form;
-		}
-		protected virtual void DoPost(in string order, System.Action<string> HandleResponse)
-		{
-			WWWForm form = InitForm(order);
+			WWWForm form = InitForm();
 			StartCoroutine(Post(form, HandleResponse ) );
 		}
 		protected virtual void DoGet()
@@ -38,7 +32,6 @@ namespace KSH_Lib.Util
 			StartCoroutine(Get());
 		}
 
-		//protected abstract void HandleResponse(in string response);
 
 		protected virtual IEnumerator Get()
 		{
