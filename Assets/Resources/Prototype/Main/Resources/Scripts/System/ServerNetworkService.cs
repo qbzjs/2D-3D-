@@ -18,10 +18,10 @@ namespace KSH_Lib.Util
 
 
 		/*--- Protected Fields ---*/
-		protected const string URL = "https://script.google.com/macros/s/AKfycbybqc0jlupg4-mjdgvAhz_yaoRGO3fFrZIeQgYvGLXAFbEQGkkFC4W58ykxZp4vf0lF/exec";
+		protected const string URL = "https://script.google.com/macros/s/AKfycbx7wpwYhVpmObGomU0ZY4hHnDR_pHfsVs2sCfygVgeDM4NmLLMZQ91lKJn0T1OSvSW7/exec";
 
 
-		/*--- Protected Methods ---*/
+		/*--- Protected Methods ---*/	
 		protected virtual void DoPost(in string order, System.Func<WWWForm> InitForm,  System.Action<string> HandleResponse)
 		{
 			WWWForm form = InitForm();

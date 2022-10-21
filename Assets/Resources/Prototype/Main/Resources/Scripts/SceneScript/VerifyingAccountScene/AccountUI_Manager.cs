@@ -51,6 +51,7 @@ namespace KSH_Lib.UI
 		TextMeshProUGUI errorMsgText;
 		UI_Effect uiEffect;
 
+		bool isResponsed = false;
 
 		/*--- MonoBehaviour Callbacks ---*/
 		private void Awake()
@@ -90,12 +91,14 @@ namespace KSH_Lib.UI
 		}
 		public void ActiveRegisterScreen()
 		{
+			ResetInputFields();
 			IdFieldObj.SetActive( true );
 			PasswordFieldObj.SetActive( true );
 			NicknameFieldObj.SetActive( true );
 			LoginButtonObj.SetActive( false );
 			RegisterButtonObj.SetActive( true );
 			BackButtonObj.SetActive( true );
+
 			curState = UI_State.Register;
 		}
 
@@ -120,7 +123,6 @@ namespace KSH_Lib.UI
 			else if(curState == UI_State.Register)
             {
 				AccountService.Instance.Register( CheckRegisterField, InitRegisterForm, HandleResponse );
-				ActiveLoginScreen();
             }
 
         }
@@ -177,6 +179,14 @@ namespace KSH_Lib.UI
             {
 				PopUpErrorMsg(data.message);
 				return;
+            }
+
+			if(data.order == "register")
+            {
+				if(data.result == "OK")
+                {
+					ActiveLoginScreen();
+				}
             }
 		}
 
