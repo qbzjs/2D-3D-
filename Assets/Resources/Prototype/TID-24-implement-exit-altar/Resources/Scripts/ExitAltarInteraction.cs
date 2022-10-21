@@ -52,7 +52,7 @@ namespace LSH_Lib{
 
         private void CheckPlayerCount()
         {
-            Debug.Log(GameEndManager.Instance.DollCount);
+            //Debug.Log(GameEndManager.Instance.DollCount);
             if(GameEndManager.Instance.DollCount <= 2)
             {
                 ExitAltarModel.SetActive(true);
@@ -75,8 +75,10 @@ namespace LSH_Lib{
         {
             while (true)
             {
+                Debug.Log("curGauge : "+ curGauge);
                 photonView.RPC("SendGauge", RpcTarget.All, curGauge);
                 yield return new WaitForEndOfFrame();
+                Debug.Log("SceneManager.Instance.IsCoroutine : " + SceneManager.Instance.IsCoroutine);
                 if (!SceneManager.Instance.IsCoroutine)
                 {
                     if (doll != null)

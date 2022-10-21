@@ -104,7 +104,7 @@ namespace GHJ_Lib
 			}
 			RotateToDirection();
 			MoveCharacter();
-			Debug.Log("MoveSpeed : " + moveSpeed);
+			//Debug.Log("MoveSpeed : " + moveSpeed);
 
 			curBehavior.Update(this, ref curBehavior);
 			dollAnimationController.UpdateHP_Rate();

@@ -28,7 +28,7 @@ namespace LSH_Lib
         #region MonoBehaviour CallBacks
          void Start()
         {
-            Debug.Log("Start");
+            //Debug.Log("Start");
             bar = GetComponentInChildren<Slider>();
             bar.gameObject.SetActive(false);
             interactionText = GetComponentInChildren<Text>();
@@ -45,12 +45,19 @@ namespace LSH_Lib
             if (targetObj)
             {
                 bar.value = targetObj.GetComponent<interaction>().GetGaugeRate;
+                if (isAutoCasting)
+                {
+                    targetObj.GetComponent<interaction>().IncreaseGauge(autoCastingTime);
+                }
             }
-
-            if (isAutoCasting)
+            else
             {
-                bar.value += autoCastingTime * Time.deltaTime;
+                if (isAutoCasting)
+                {
+                    bar.value += autoCastingTime * Time.deltaTime;
+                }
             }
+            
 
         }
         #endregion
@@ -98,6 +105,7 @@ namespace LSH_Lib
         {
             if (!isAutoCasting)
             {
+                Debug.Log("obj : " + _obj);
                 SetTargetObj(_obj);
                 bar.value = 0;
                 StartCoroutine("AutoCasting", chargeTime);
@@ -143,7 +151,7 @@ namespace LSH_Lib
                 SceneManager.Instance.IsCoroutine = true;
                 bar.gameObject.SetActive(true);
                 interactionText.gameObject.SetActive(false);
-                yield return new WaitForSeconds(chargeTime);
+                yield return new WaitForEndOfFrame();
 
                 if (bar.value >= 1.0f)
                 {
