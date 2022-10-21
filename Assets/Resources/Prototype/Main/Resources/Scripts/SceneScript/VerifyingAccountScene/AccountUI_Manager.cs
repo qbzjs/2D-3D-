@@ -4,6 +4,7 @@ using UnityEngine;
 
 using KSH_Lib.Util;
 using TMPro;
+using UnityEngine.Networking;
 
 namespace KSH_Lib.UI
 {
@@ -170,12 +171,11 @@ namespace KSH_Lib.UI
 
 		void HandleResponse(string response)
 		{
-			Debug.Log( response );
 			AccountService.AccountResponse data = JsonUtility.FromJson<AccountService.AccountResponse>( response );
 
 			if(data.result == "ERROR")
             {
-				PopUpErrorMsg(data.msg);
+				PopUpErrorMsg(data.message);
 				return;
             }
 		}
@@ -189,16 +189,19 @@ namespace KSH_Lib.UI
 		WWWForm InitLoginForm()
         {
 			WWWForm form = new WWWForm();
+			form.AddField( "order", "login" );
 			form.AddField( "id", id );
 			form.AddField( "password", password );
 			return form;
         }
 		WWWForm InitRegisterForm()
-        {
-			WWWForm form = InitLoginForm();
+		{
+			WWWForm form = new WWWForm();
+			form.AddField( "order", "register" );
+			form.AddField( "id", id );
+			form.AddField( "password", password );
 			form.AddField( "nickname", nickname );
 			return form;
         }
-
 	}
 }

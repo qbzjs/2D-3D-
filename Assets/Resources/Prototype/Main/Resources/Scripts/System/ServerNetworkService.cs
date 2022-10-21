@@ -13,12 +13,12 @@ namespace KSH_Lib.Util
 		{
 			public string order;
 			public string result;
-			public string msg;
+			public string message;
 		}
 
 
 		/*--- Protected Fields ---*/
-		protected const string URL = "https://script.google.com/macros/s/AKfycbzyCkVWAbzoIjrM5wSKB-yKaAe93qwKIEJJsDOjX04Ghmt5Uac55V_S-u3tibRVSfE/exec";
+		protected const string URL = "https://script.google.com/macros/s/AKfycbybqc0jlupg4-mjdgvAhz_yaoRGO3fFrZIeQgYvGLXAFbEQGkkFC4W58ykxZp4vf0lF/exec";
 
 
 		/*--- Protected Methods ---*/
