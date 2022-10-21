@@ -36,18 +36,21 @@ namespace LSH_Lib{
             {
                 --dollCount;
             }
-            else if(dollCount == 0)
+
+            if(dollCount == 1)
             {
-                DoGameEnd();
+                EndGameAlone();
             }
         }
-        private void DoGameEnd()
+
+        private void EndGameAlone()
         {
-            GameManager.Instance.LoadPhotonScene("99_GameResultScene");
+            PhotonNetwork.LeaveRoom();
+            GameManager.Instance.LoadScene("99_GameResultScene");  
         }
 
 
-        public void EndGame(GameObject other)
+        public void EndGameDoll(GameObject other)
         {
             if (!other.CompareTag("Doll"))
             {
@@ -56,8 +59,7 @@ namespace LSH_Lib{
 
             if (other.GetComponent<PhotonView>().IsMine)
             {
-                PhotonNetwork.LeaveRoom();
-                DoGameEnd();
+                EndGameAlone();
             }
             else
             {
@@ -66,17 +68,12 @@ namespace LSH_Lib{
 
         }
 
-        public void EndGame(Collider other)
+        public void EndGameDoll(Collider other)
         {
-            EndGame(other.gameObject);
+            EndGameDoll(other.gameObject);
 
         }
 
-        public void EndAllUser()
-        {
-            PhotonNetwork.LeaveRoom();
-            DoGameEnd();
-        }
 
     }
 }

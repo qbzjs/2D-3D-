@@ -83,7 +83,7 @@ namespace LSH_Lib{
                 {
                     if (doll != null)
                     { 
-                        GameEndManager.Instance.EndGame(doll);
+                        GameEndManager.Instance.EndGameDoll(doll);
                         doll = null;
                     }
                     break;

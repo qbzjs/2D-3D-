@@ -11,6 +11,8 @@ namespace LSH_Lib{
         public GameObject ExitButton;
         public GameObject OptionUIPanel;
         private bool isInputKey = false;
+
+
         private void Update()
         {
             EscButtonInput();
@@ -21,12 +23,31 @@ namespace LSH_Lib{
             {
                 if (!isInputKey)
                 {
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+
+
+                    TPV_PlayerInputManager.instance.enabled = false;
+                   
+                    FPV_InputManager.instance.enabled = false;
+
+                    PlayerInputManager.instance.enabled = false;
+
                     isInputKey = true;
                     OnSetActive(isInputKey);
 
                 }
                 else
                 {
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+
+                    TPV_PlayerInputManager.instance.enabled = true;
+
+                    FPV_InputManager.instance.enabled = true;
+
+                    PlayerInputManager.instance.enabled = true;
+
                     isInputKey = false;
                     OnSetActive(isInputKey);
                 }

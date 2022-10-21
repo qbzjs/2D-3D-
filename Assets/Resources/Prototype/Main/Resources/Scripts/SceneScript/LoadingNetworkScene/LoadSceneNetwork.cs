@@ -11,11 +11,12 @@ public class LoadSceneNetwork : LoadScene
     #region MonoBehaviour Callbacks
     protected override void Start()
     {
-        if ( PhotonNetwork.IsMasterClient )
+        if (PhotonNetwork.IsMasterClient)
         {
-            Invoke( "LoadScene", maxDelayTime );
+            Invoke("LoadScene", maxDelayTime);
         }
     }
+
     protected override void Update()
     {
         base.Update();
