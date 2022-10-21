@@ -264,8 +264,9 @@ namespace GHJ_Lib
                 inHandDoll = null;
             }
         }
-            /*---IPunObseve---*/
-            public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+
+        /*---IPunObseve---*/
+        public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
             {
                 if (stream.IsWriting)
                 {

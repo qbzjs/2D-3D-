@@ -14,7 +14,7 @@ namespace LSH_Lib{
             get { return dollCount; }
         }
 
-        private static GameEndManager instance;   
+        private static GameEndManager instance;
         int dollCount;
 
         private void Start()
@@ -42,6 +42,7 @@ namespace LSH_Lib{
                 EndGameAlone();
             }
         }
+
 
         private void EndGameAlone()
         {
@@ -73,7 +74,6 @@ namespace LSH_Lib{
             EndGameDoll(other.gameObject);
 
         }
-
 
     }
 }

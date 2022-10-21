@@ -4,10 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 namespace GHJ_Lib
-{ 
+{
     public class InGameUI : MonoBehaviour
     {
-
         protected void ApplyStatusHPToHPUI(DollStatus dollStatus, Image DollHPImage, Image DevilHPImage)
         {
             if (dollStatus == null)
@@ -22,8 +21,7 @@ namespace GHJ_Lib
 
         private void OnGUI()
         {
-            GUI.Box(new Rect(Screen.width - 30, 0, Screen.width, 30), PhotonNetwork.CurrentRoom.PlayerCount.ToString());
+            GUI.Box(new Rect(Screen.width/2 , 0, 180, 30), "Player Number : " + PhotonNetwork.CurrentRoom.PlayerCount.ToString());
         }
-
     }
 }

@@ -324,29 +324,47 @@ namespace GHJ_Lib
 		{
 			this.gameObject.transform.position = position;
 		}
+		[PunRPC]
+		public void EscapeGrab()
+		{
+			if (escapeTransform)
+			{
+				EscapeGrab(escapeTransform);
+			}
+
+		}
+
+		public void GhostEscape()
+		{
+			photonView.RPC("EscapeGrab", RpcTarget.All);
+		}
+
+
 
 		/*---IPunObserve---*/
 		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+		{
+
+			if (stream.IsWriting)
 			{
-
-				if (stream.IsWriting)
-				{
-					sVector3.x = direction.x;
-					sVector3.y = direction.y;
-					sVector3.z = direction.z;
-					stream.SendNext(sVector3.x);
-					stream.SendNext(sVector3.y);
-					stream.SendNext(sVector3.z);
-				}
-				if (stream.IsReading)
-				{
-					this.sVector3.x = (float)stream.ReceiveNext();
-					this.sVector3.y = (float)stream.ReceiveNext();
-					this.sVector3.z = (float)stream.ReceiveNext();
-					this.direction = new Vector3(sVector3.x, sVector3.y, sVector3.z);
-				}
-
+				sVector3.x = direction.x;
+				sVector3.y = direction.y;
+				sVector3.z = direction.z;
+				stream.SendNext(sVector3.x);
+				stream.SendNext(sVector3.y);
+				stream.SendNext(sVector3.z);
 			}
+			if (stream.IsReading)
+			{
+				this.sVector3.x = (float)stream.ReceiveNext();
+				this.sVector3.y = (float)stream.ReceiveNext();
+				this.sVector3.z = (float)stream.ReceiveNext();
+				this.direction = new Vector3(sVector3.x, sVector3.y, sVector3.z);
+			}
+
+		}
+
+
 		/*--- Protected Methods ---*/
 
 		protected override void PlayerInput()
@@ -412,29 +430,13 @@ namespace GHJ_Lib
 			{
 				cinemachineVirtual.Follow = CamTarget.transform;
 				network_TPV_CameraController.SetCamTarget(CamTarget);
+				CamTarget.transform.rotation = Quaternion.identity;
 			}
 			this.transform.position = transform.position;
 			this.transform.rotation = transform.rotation;
 			CharacterModel.SetActive(true);
 			BecomeIdle();
 
-		}
-
-		
-		
-		[PunRPC]
-		public void EscapeGrab()
-		{
-			if (escapeTransform)
-			{ 
-				EscapeGrab(escapeTransform);
-			}
-
-		}
-
-		public void GhostEscape()
-		{
-			photonView.RPC("EscapeGrab", RpcTarget.All);
 		}
 
 		/*--- Private Methods ---*/

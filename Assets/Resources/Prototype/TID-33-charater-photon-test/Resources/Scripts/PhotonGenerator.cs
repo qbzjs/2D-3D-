@@ -80,7 +80,6 @@ namespace GHJ_Lib
                 camControllerFPV.enabled = false;
                 camControllerTPV.enabled = true;
                 exorcistUI.gameObject.SetActive(false);
-
                 InstantiateDoll();
                 //dollUI.SetStatus(localPlayerObj.GetComponent<DollStatus>());
                 camControllerTPV.SendMessage("SetCamTarget", localPlayerObj.transform.GetChild(1).gameObject);
@@ -91,7 +90,6 @@ namespace GHJ_Lib
                 camControllerFPV.enabled = true;
                 camControllerTPV.enabled = false;
                 dollUI.gameObject.SetActive(false);
-
                 InstantiateExorcist();
                 GameObject head = GameObject.Find("B-head").gameObject;
                 if (head == null)
