@@ -116,6 +116,11 @@ namespace GHJ_Lib
             yield return new WaitForSeconds(1.0f);
             DevilHealthPoint -= Demage * Time.deltaTime;
         }
+        public void CottonBall()
+        {
+            DollHealthPoint += 40;
+            DevilHealthPoint -= 10;
+        }
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             if (stream.IsWriting)
