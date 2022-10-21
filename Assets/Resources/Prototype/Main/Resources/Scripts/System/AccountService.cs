@@ -23,12 +23,12 @@ namespace KSH_Lib.Util
         }
         static AccountService instance;
 
-
+        [Serializable]
         public class AccountResponse : Response
         {
-            public int Row { get; private set; }
-            public string Id { get; private set; }
-            public string Nickname { get; private set; }
+            public int index;
+            public string id;
+            public string nickname;
         }
 
         /*--- Public Methods ---*/
