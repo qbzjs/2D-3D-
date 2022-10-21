@@ -9,7 +9,7 @@ namespace GHJ_Lib
     {
         protected override void Activate(in NetworkDollController actor)
         {
-            Debug.Log("become normal");
+            //Debug.Log("become normal");
             actor.BecomeIdle();
         }
     }

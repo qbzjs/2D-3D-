@@ -108,6 +108,7 @@ namespace LSH_Lib{
             }
             if(tag == "Doll")
             {
+                
                 isEmpty = true;
                 ImprisonDoll.SetActive(false);
                 ImprisonDoll = null;

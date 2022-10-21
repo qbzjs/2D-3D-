@@ -22,6 +22,10 @@ namespace LSH_Lib
         protected float reduction = 0.5f;
         //protected bool canActive = true;
         protected float curGauge = 0;
+        public void IncreaseGauge(float addGauge)
+        {
+            curGauge += addGauge * Time.deltaTime;
+        }
         virtual public void Interact(string tag, NetworkExorcistController character)
         {
             AutoCasting(2.0f);
@@ -78,6 +82,10 @@ namespace LSH_Lib
 
         protected virtual IEnumerator AutoCast()
         {
+            if (SceneManager.Instance.IsCoroutine)
+            {
+                yield break;
+            }
             while (true)
             {
                 photonView.RPC("SendGauge", RpcTarget.All, curGauge);

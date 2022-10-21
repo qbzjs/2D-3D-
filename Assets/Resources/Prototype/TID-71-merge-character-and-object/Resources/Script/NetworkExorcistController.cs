@@ -11,8 +11,6 @@ namespace GHJ_Lib
 {
 	public class NetworkExorcistController: MonoBehaviourPunCallbacks, IPunObservable
     {
-
-
         /*--- Public Fields ---*/
         public ExorcistStatus exorcistStatus = new ExorcistStatus();
         public GameObject target;
@@ -119,9 +117,15 @@ namespace GHJ_Lib
             {
                 return;
             }
+            if (animationCallbackSet.AttackArea[3].activeInHierarchy)
+            {
+                return;
+            }
 
             if (other.CompareTag("interactObj"))
             {
+                
+
                 if (SceneManager.Instance.IsCoroutine)
                 {
                     return;
@@ -132,14 +136,15 @@ namespace GHJ_Lib
                     && obj.CanActiveToExorcist)
                 {
                     canInteract = true;
-                    Debug.Log("canInteract: "+ canInteract);
+                   // Debug.Log(obj.name);
+                    //Debug.Log("canInteract: "+ canInteract);
                     SceneManager.Instance.EnableInteractionText();
                     SceneManager.Instance.DisableCastingBar();
                 }
                 else
                 {
                     canInteract = false;
-                    Debug.Log("canInteract: " + canInteract);
+                    //Debug.Log("canInteract: " + canInteract);
                     SceneManager.Instance.DisableInteractionText();
                     SceneManager.Instance.DisableCastingBar();
                     return;
@@ -169,9 +174,11 @@ namespace GHJ_Lib
 
             if (other.CompareTag("interactObj"))
             {
+
                 canInteract = false;
                 SceneManager.Instance.DisableInteractionText();
                 SceneManager.Instance.DisableCastingBar();
+                
             }
         }
         // <<
@@ -238,6 +245,7 @@ namespace GHJ_Lib
         }
         public void MissDoll()
         {
+
             photonView.RPC("BecomeNormal", RpcTarget.All);
         }
 

@@ -97,7 +97,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5, y: 1, z: 5}
+  m_Size: {x: 3, y: 1, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2552332355293644024
 MonoBehaviour:
@@ -111,11 +111,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6e05d30ac6420d4bb3f2f44d50de6e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canActiveToExorcist: 1
-  canActiveToDoll: 1
+  CanActiveToExorcist: 1
+  CanActiveToDoll: 1
   maxGauge: 10
   reduction: 0.5
-  playerCount: 0
+  ExitAltarModel: {fileID: 0}
 --- !u!114 &542719543514790361
 MonoBehaviour:
   m_ObjectHideFlags: 0

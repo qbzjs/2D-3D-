@@ -102,6 +102,7 @@ namespace GHJ_Lib
 
         private void OnTriggerStay(Collider other)
         {
+
             if (other.CompareTag("Doll"))
             {
                 if (AttackArea[2].gameObject.activeInHierarchy)
@@ -113,7 +114,7 @@ namespace GHJ_Lib
 
                 if (AttackArea[3].gameObject.activeInHierarchy)
                 {
-                    Debug.Log("Use Skill Expose");
+                    //Debug.Log("Use Skill Expose");
                     other.GetComponent<NetworkDollController>().ExposedByExorcist();
                 }
             }
