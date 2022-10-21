@@ -28,11 +28,11 @@ namespace KSH_Lib.UI
 
 		[Header("Error Message Setting")]
 		[SerializeField]
-		string noLoginFieldStr = "No Id Input";
+		string idEmptyMsg = "No Id Input";
 		[SerializeField]
-		string noPasswordFieldStr = "No Password Input";
+		string pwEmptyMsg = "No Password Input";
 		[SerializeField]
-		string noNickNameFieldStr = "No NickName Input";
+		string nicknameEmptyMsg = "No NickName Input";
 
 		/*--- Private Fields ---*/
 		enum UI_State { Login, Register}
@@ -46,12 +46,10 @@ namespace KSH_Lib.UI
 		TMP_InputField passwordField;
 		TMP_InputField nicknameField;
 
-
-		CanvasGroup errorMsgCanvasGroup;
-		TextMeshProUGUI errorMsgText;
+		CanvasGroup errMsgCanvasGroup;
+		TextMeshProUGUI errMsgText;
 		UI_Effect uiEffect;
 
-		bool isResponsed = false;
 
 		/*--- MonoBehaviour Callbacks ---*/
 		private void Awake()
@@ -59,8 +57,8 @@ namespace KSH_Lib.UI
 			idField = IdFieldObj.GetComponent<TMP_InputField>();
 			passwordField = PasswordFieldObj.GetComponent<TMP_InputField>();
 			nicknameField = NicknameFieldObj.GetComponent<TMP_InputField>();
-			errorMsgCanvasGroup = MessageObj.GetComponent<CanvasGroup>();
-			errorMsgText = MessageObj.GetComponent<TextMeshProUGUI>();
+			errMsgCanvasGroup = MessageObj.GetComponent<CanvasGroup>();
+			errMsgText = MessageObj.GetComponent<TextMeshProUGUI>();
 			if ( idField == null || passwordField == null || nicknameField == null )
 			{
 				Debug.LogError( "AccountService.Awake(): null Refrence" );
@@ -70,7 +68,7 @@ namespace KSH_Lib.UI
 		{
 			ActiveLoginScreen();
 			LoadingPanelObj.SetActive( false );
-			uiEffect = new UI_Effect(errorMsgCanvasGroup);
+			uiEffect = new UI_Effect(errMsgCanvasGroup);
 		}
 
 
@@ -84,7 +82,7 @@ namespace KSH_Lib.UI
 			RegisterButtonObj.SetActive( true );
 			BackButtonObj.SetActive( false );
 
-			errorMsgCanvasGroup.alpha = 0.0f;
+			errMsgCanvasGroup.alpha = 0.0f;
 
 			ResetInputFields();
 
@@ -142,7 +140,7 @@ namespace KSH_Lib.UI
 				if (nickname == "")
 				{
 					Debug.Log("AccountService.CheckField: No nickname Input");
-					PopUpMessage( noNickNameFieldStr);
+					PopUpMessage( nicknameEmptyMsg);
 					return false;
 				}
 				return true;
@@ -157,13 +155,13 @@ namespace KSH_Lib.UI
             if ( id == "" )
             {
                 Debug.Log( "AccountService.CheckField: No Id Input" );
-				PopUpMessage( noLoginFieldStr );
+				PopUpMessage( idEmptyMsg );
                 return false;
             }
             else if ( password == "" )
             {
                 Debug.Log( "AccountService.CheckField: No password Input" );
-				PopUpMessage( noPasswordFieldStr );
+				PopUpMessage( pwEmptyMsg );
                 return false;
             }
             else
@@ -196,7 +194,7 @@ namespace KSH_Lib.UI
 		void PopUpMessage(in string msg)
 		{
 			LoadingPanelObj.SetActive( false );
-			errorMsgText.text = msg;
+			errMsgText.text = msg;
 			StartCoroutine(uiEffect.PopUp(FadeInTime, WaitTime, FadeOutTime));
 		}
 

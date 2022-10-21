@@ -1447,9 +1447,9 @@ MonoBehaviour:
   FadeInTime: 0.5
   WaitTime: 1
   FadeOutTime: 0.5
-  noLoginFieldStr: No Id Input
-  noPasswordFieldStr: No Password Input
-  noNickNameFieldStr: No NickName Input
+  idEmptyMsg: No Id Input
+  pwEmptyMsg: No Password Input
+  nicknameEmptyMsg: No NickName Input
 --- !u!4 &1224107739
 Transform:
   m_ObjectHideFlags: 0
@@ -1754,7 +1754,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1396168984
 RectTransform:
   m_ObjectHideFlags: 0
