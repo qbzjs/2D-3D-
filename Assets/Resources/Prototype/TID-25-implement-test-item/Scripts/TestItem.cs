@@ -10,14 +10,13 @@ namespace LSH_Lib
         MeshRenderer mesh;
         private void Start()
         {
-            audio.enabled = false;
             mesh = this.gameObject.GetComponent<MeshRenderer>();
         }
         protected override void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Exorcist"))
             {
-                audio.enabled = true;
+                audio.Play();
                 mesh.enabled = false;
                 StartCoroutine("Audio");
             }
