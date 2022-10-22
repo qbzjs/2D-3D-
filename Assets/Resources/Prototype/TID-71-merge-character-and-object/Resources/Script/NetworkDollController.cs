@@ -95,18 +95,17 @@ namespace GHJ_Lib
 				}
 			}
 
-			if (photonView.IsMine && isCanMove)
+			if (photonView.IsMine)
 			{
-				if (isCheat)
-				{
-
-				}
-
+				InputCheatKey();
+				if (isCanMove)
+				{ 
 				PlayerInput();
 				SetDirection();
 				var velocity = controller.velocity;
 				var turnSpeed = rotateSpeed;
 				photonTransformView.SetSynchronizedValues(velocity, turnSpeed);
+				}
 			}
 			RotateToDirection();
 			MoveCharacter();
