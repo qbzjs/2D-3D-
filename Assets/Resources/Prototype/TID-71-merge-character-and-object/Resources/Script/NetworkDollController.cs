@@ -347,8 +347,11 @@ namespace GHJ_Lib
         {
 			dollStatus.CottonBall();
         }
-
-		[PunRPC]
+        public void CottonPiece()
+        {
+			dollStatus.CottonPiece();
+        }
+        [PunRPC]
 		public void SetPosition(Vector3 position)
 		{
 			this.gameObject.transform.position = position;
