@@ -215,5 +215,10 @@ namespace KSH_Lib.UI
 			form.AddField( "nickname", nickname );
 			return form;
         }
+
+		void LoginProcess()
+        {
+
+        }
 	}
 }

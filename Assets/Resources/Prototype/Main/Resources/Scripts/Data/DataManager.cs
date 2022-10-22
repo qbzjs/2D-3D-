@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Photon.Pun;
+using Photon.Realtime;
+
 using KSH_Lib.Data;
+
 
 namespace KSH_Lib
 {
-	public class DataManager : MonoBehaviour
+	public class DataManager : MonoBehaviourPun
 	{
-		/*--- Singleton
+		/*--- Singleton ---*/
 		public DataManager Instance
         {
 			get
@@ -22,7 +26,7 @@ namespace KSH_Lib
 			}
         }
 		DataManager instance;
-		---*/
+
 
 
 		/*--- Public Fields ---*/
@@ -33,17 +37,28 @@ namespace KSH_Lib
 
 		/*--- Private Fields ---*/
 		List<PlayerData> playerDatas = new List<PlayerData>();
+		PlayerData localPlayerData;
+
+        /*--- MonoBehaviour Callbacks ---*/
+        private void Start()
+        {
+			DontDestroyOnLoad( gameObject );
+        }
+
+        /*--- Public Methods ---*/
+		public void OnVerifyAccount(in string id, in string nickname)
+        {
+			localPlayerData.accountData = new AccountData( id, nickname );
+        }
+		public void AssignAccount(in PlayerData playerData)
+        {
+			playerData.Index = playerDatas.Count;
+			playerDatas.Add( playerData );
+        }
+
+        /*--- Protected Methods ---*/
 
 
-		/*--- MonoBehaviour Callbacks ---*/
-
-
-		/*--- Public Methods ---*/	
-
-
-		/*--- Protected Methods ---*/
-
-
-		/*--- Private Methods ---*/
-	}
+        /*--- Private Methods ---*/
+    }
 }

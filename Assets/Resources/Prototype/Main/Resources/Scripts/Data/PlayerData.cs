@@ -8,6 +8,7 @@ namespace KSH_Lib.Data
 	{
 
 		/*--- Public Fields ---*/
+		public int Index;
 		public RoleData roleData;
 		public AccountData accountData;
 
