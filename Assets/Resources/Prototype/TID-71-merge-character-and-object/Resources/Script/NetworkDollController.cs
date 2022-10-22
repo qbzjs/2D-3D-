@@ -84,6 +84,7 @@ namespace GHJ_Lib
 
 		protected override void Update()
 		{
+			
 
 			if (curBehavior is BvGrabbed)
 			{
@@ -96,6 +97,11 @@ namespace GHJ_Lib
 
 			if (photonView.IsMine && isCanMove)
 			{
+				if (isCheat)
+				{
+
+				}
+
 				PlayerInput();
 				SetDirection();
 				var velocity = controller.velocity;
@@ -153,6 +159,25 @@ namespace GHJ_Lib
 					SceneManager.Instance.DisableCastingBar();
 				}
 			}
+
+			if (curBehavior is BvGhost)
+			{
+				return;
+			}
+
+			if (dollStatus.DollHealthPoint <= 0)
+			{
+				if (!(curBehavior is BvFall))
+				{
+					curBehavior.PushSuccessorState(bvFall);
+				}
+		
+			}
+
+			if (dollStatus.DevilHealthPoint <= 0)
+			{
+				curBehavior = bvGhost;
+			}
 		}
 
         private void OnTriggerExit(Collider other)
@@ -183,6 +208,7 @@ namespace GHJ_Lib
 			{
 				return dollStatus;
 			}
+			
 		}
 
 		public void Hit(float Power)
@@ -206,7 +232,6 @@ namespace GHJ_Lib
 			{
 				curBehavior = bvGhost;
 			}
-
 		}
 
 		public void ExposedByExorcist()
@@ -240,7 +265,7 @@ namespace GHJ_Lib
 			{
 				skinnedMeshRenderer.material = Resources.Load<Material>("Materials/Invisible");
 			}
-
+			CharacterLayerChange(CharacterModel, 8);
 		}
 
 		public void FallDown()
@@ -435,6 +460,7 @@ namespace GHJ_Lib
 			this.transform.position = transform.position;
 			this.transform.rotation = transform.rotation;
 			CharacterModel.SetActive(true);
+			dollStatus.HitDollHP(-dollStatus.MaxDollHitPoint / 2);
 			BecomeIdle();
 
 		}
@@ -479,5 +505,52 @@ namespace GHJ_Lib
 			}
 		}
 
+
+		/*---cheat---*/
+		private bool isCheat = false;
+		private string cheatMethodName;
+		void InputCheatKey()
+		{
+			if (Input.GetKeyDown(KeyCode.Alpha0))
+			{
+				if (isCheat)
+				{
+					isCheat = false;
+				}
+				else
+				{
+					isCheat = true;
+				}
+			}
+
+			if (isCheat)
+			{
+				if (Input.GetKeyDown(KeyCode.Alpha1))
+				{
+					cheatMethodName = "CheatFallDown";
+					photonView.RPC(cheatMethodName,RpcTarget.All);
+				}
+				else if (Input.GetKeyDown(KeyCode.Alpha1))
+				{
+					cheatMethodName = "CheatGhost";
+					photonView.RPC(cheatMethodName, RpcTarget.All);
+				}
+				
+			}
+
+
+		}
+
+		[PunRPC]
+		void CheatFallDown()
+		{
+			dollStatus.HitDollHP(dollStatus.DollHealthPoint);
+		}
+
+		[PunRPC]
+		void CheatGhost()
+		{
+			dollStatus.HitDevilHP(dollStatus.DevilHealthPoint);
+		}
 	}
 }

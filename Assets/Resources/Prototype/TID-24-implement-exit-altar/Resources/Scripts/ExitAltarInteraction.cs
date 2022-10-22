@@ -70,6 +70,11 @@ namespace LSH_Lib{
                 CanActiveToDoll = false;
             }
         }
+        [PunRPC]
+        private void ExitFromGame()
+        {
+            GameEndManager.Instance.DollCountDecrease();
+        }
 
         protected override IEnumerator AutoCast()
         {
@@ -82,7 +87,8 @@ namespace LSH_Lib{
                 if (!SceneManager.Instance.IsCoroutine)
                 {
                     if (doll != null)
-                    { 
+                    {
+                        photonView.RPC("ExitFromGame", RpcTarget.All);
                         GameEndManager.Instance.EndGameDoll(doll);
                         doll = null;
                     }

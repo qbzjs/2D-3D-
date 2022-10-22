@@ -46,6 +46,8 @@ namespace LSH_Lib{
 
         private void EndGameAlone()
         {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             PhotonNetwork.LeaveRoom();
             GameManager.Instance.LoadScene("99_GameResultScene");  
         }
