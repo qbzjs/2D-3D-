@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using LSH_Lib;
 namespace GHJ_Lib
 {
     public class InGameUI : MonoBehaviour
@@ -11,7 +12,7 @@ namespace GHJ_Lib
         {
             if (dollStatus == null)
             {
-                Debug.LogError("Missing status");
+                Debug.LogWarning("Missing status");
                 return;
             }
 
@@ -21,7 +22,7 @@ namespace GHJ_Lib
 
         private void OnGUI()
         {
-            GUI.Box(new Rect(Screen.width/2 , 0, 180, 30), "Player Number : " + PhotonNetwork.CurrentRoom.PlayerCount.ToString());
+            GUI.Box(new Rect(Screen.width/2 , 0, 180, 30), "Player Number(Not Ghost) : " +  GameEndManager.Instance.DollCount);
         }
     }
 }
