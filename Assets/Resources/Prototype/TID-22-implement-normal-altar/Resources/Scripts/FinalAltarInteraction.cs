@@ -37,6 +37,17 @@ namespace LSH_Lib{
             altarCount++;
         }
 
+        public void ExitPlayer()
+        {
+            photonView.RPC("RPC_CallExit", RpcTarget.All);
+        }
+
+        [PunRPC]
+        public void RPC_CallExit()
+        {
+            GameEndManager.Instance.DollCountDecrease();
+        }
+
         protected override void Casting(NetworkDollController character)
         {
             curGauge += character.CastingVelocity * Time.deltaTime;

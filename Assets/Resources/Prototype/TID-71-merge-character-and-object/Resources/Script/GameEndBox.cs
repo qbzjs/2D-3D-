@@ -9,7 +9,7 @@ namespace GHJ_Lib
 	public class GameEndBox: MonoBehaviour
 	{
         /*--- Public Fields ---*/
-
+        public FinalAltarInteraction finalAltar;
 
         /*--- Protected Fields ---*/
 
@@ -18,7 +18,11 @@ namespace GHJ_Lib
 
         private void OnTriggerEnter(Collider other)
         {
-            GameEndManager.Instance.DollCountDecrease();
+            if (!finalAltar)
+            { 
+                finalAltar = GameObject.FindObjectOfType<FinalAltarInteraction>();
+            }
+            finalAltar.ExitPlayer();
             GameEndManager.Instance.EndGameDoll(other);
         }
 

@@ -2047,8 +2047,6 @@ namespace Photon.Pun
             return true;
         }
 
-
-
         /// <summary>
         /// Internally used helper-method to setup an offline room, the numbers for actor and master-client and to do the callbacks.
         /// </summary>

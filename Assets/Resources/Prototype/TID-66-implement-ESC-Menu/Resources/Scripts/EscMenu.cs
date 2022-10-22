@@ -4,14 +4,14 @@ using UnityEngine;
 using KSH_Lib;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+using Photon.Pun;
 namespace LSH_Lib{
     public class EscMenu : MonoBehaviour
     {
         public GameObject ExitButton;
         public GameObject OptionUIPanel;
+        public FinalAltarInteraction finalAltar;
         private bool isInputKey = false;
-
 
         private void Update()
         {
@@ -60,7 +60,12 @@ namespace LSH_Lib{
         }
         public void OnExitButton()
         {
-            GameEndManager.Instance.DollCountDecrease();
+            if (!finalAltar)
+            {
+                finalAltar = GameObject.FindObjectOfType<FinalAltarInteraction>();
+            }
+            finalAltar.ExitPlayer();
+            PhotonNetwork.LeaveRoom();
             GameManager.Instance.LoadScene("99_GameResultScene");
         }
     }

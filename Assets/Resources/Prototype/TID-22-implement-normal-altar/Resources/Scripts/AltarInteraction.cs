@@ -14,6 +14,7 @@ namespace LSH_Lib
         protected bool isCoolTime = false; 
         public override void OnEnable()
         {
+
             initialValue();
             CanActiveToExorcist = false;
             CanActiveToDoll = true;
@@ -30,6 +31,7 @@ namespace LSH_Lib
             {
                 CanActiveToDoll = false;
                 CanActiveToExorcist = false;
+                AltarCount.Instance.DecreaseAltarCount();
                 FinalAltarInteraction.AddCount();
                 return;
             }
