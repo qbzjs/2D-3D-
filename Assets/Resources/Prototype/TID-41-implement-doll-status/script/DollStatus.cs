@@ -118,6 +118,7 @@ namespace GHJ_Lib
         private void OnGUI()
         {
             GUI.Box(new Rect(0, 0, 150, 30), DollTempHealth.ToString());
+            GUI.Box(new Rect(0, 30, 150, 30), InteractionSpeed.ToString());
         }
         #region Public Methods
 
@@ -145,10 +146,20 @@ namespace GHJ_Lib
             DollHealthPoint += 40;
             DevilHealthPoint -= 10;
         }
-
         public void CottonPiece()
         {
             DollTempHealth += 25;
+        }
+        public void CrowFeather()
+        {
+            float originalSpeed = InteractionSpeed;
+            InteractionSpeed += (InteractionSpeed * 0.15f);
+            StartCoroutine("SpeedUp", originalSpeed);
+        }
+        IEnumerator SpeedUp(float interactionSpeed)
+        {
+            yield return new WaitForSeconds(30.0f);
+            InteractionSpeed = interactionSpeed;
         }
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {

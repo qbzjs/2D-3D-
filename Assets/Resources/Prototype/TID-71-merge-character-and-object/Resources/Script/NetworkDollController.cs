@@ -351,6 +351,10 @@ namespace GHJ_Lib
         {
 			dollStatus.CottonPiece();
         }
+		public void CrowFeather()
+        {
+			dollStatus.CrowFeather();
+        }
         [PunRPC]
 		public void SetPosition(Vector3 position)
 		{
