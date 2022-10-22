@@ -28,7 +28,6 @@ namespace KSH_Lib
 		DataManager instance;
 
 
-
 		/*--- Public Fields ---*/
 
 
@@ -39,21 +38,29 @@ namespace KSH_Lib
 		List<PlayerData> playerDatas = new List<PlayerData>();
 		PlayerData localPlayerData;
 
-        /*--- MonoBehaviour Callbacks ---*/
-        private void Start()
+		RoleData curRoleData;
+		
+
+		/*--- MonoBehaviour Callbacks ---*/
+		private void Start()
         {
 			DontDestroyOnLoad( gameObject );
         }
 
         /*--- Public Methods ---*/
-		public void OnVerifyAccount(in string id, in string nickname)
+		public void OnVerifyAccount(int sheetIdx, in string id, in string nickname)
         {
-			localPlayerData.accountData = new AccountData( id, nickname );
+			localPlayerData.accountData = new AccountData( sheetIdx, id, nickname );
         }
 		public void AssignAccount(in PlayerData playerData)
         {
 			playerData.Index = playerDatas.Count;
 			playerDatas.Add( playerData );
+        }
+
+		public void SetRoleDataToLocalPlayer()
+        {
+
         }
 
         /*--- Protected Methods ---*/

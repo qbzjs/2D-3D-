@@ -6,14 +6,16 @@ namespace KSH_Lib.Data
 {
 	public struct AccountData
 	{
-		public AccountData(string id, string nickname)
+		public AccountData(int sheetIdx, string id, string nickname)
         {
+			SheetIdx = sheetIdx;
 			Id = id;
 			Nickname = nickname;
 			IsLogin = true;
         }
 
 		/*--- Public Fields ---*/
+		public int SheetIdx { get; private set; }
 		public string Id { get; private set; }
 		public string Nickname { get; private set; }
 		public bool IsLogin { get; private set; }
