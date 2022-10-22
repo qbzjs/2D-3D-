@@ -4,11 +4,11 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 namespace GHJ_Lib
-{ 
-    public class DollStatus :MonoBehaviourPunCallbacks,IPunObservable
+{
+    public class DollStatus : MonoBehaviourPunCallbacks, IPunObservable
     {
         #region Public Fields
-        public float MoveSpeed{get;private set;}
+        public float MoveSpeed { get; private set; }
         public float InteractionSpeed { get; private set; }
         public float ProjectileSpeed { get; private set; }
         public float DollHealthPoint { get; private set; }
@@ -17,6 +17,9 @@ namespace GHJ_Lib
         public float MaxDevilHitPoint { get; private set; }
         public float CurrentRateOfDollHP { get { return DollHealthPoint / MaxDollHitPoint; } }
         public float CurrentRateOfDevilHP { get { return DevilHealthPoint / MaxDevilHitPoint; } }
+        //>>LSH
+        public float DollTempHealth { get; private set; }
+        //<<
         #endregion	
 
         #region Private Fields
@@ -35,6 +38,7 @@ namespace GHJ_Lib
                         this.ProjectileSpeed = 10.0f;
                         this.DollHealthPoint = 40;
                         this.DevilHealthPoint = 50;
+                        this.DollTempHealth = 0.0f;
                         MaxDollHitPoint = DollHealthPoint;
                         MaxDevilHitPoint = DevilHealthPoint;
                     }
@@ -46,13 +50,14 @@ namespace GHJ_Lib
                         this.ProjectileSpeed = 10.0f;
                         this.DollHealthPoint = 50;
                         this.DevilHealthPoint = 50;
+                        this.DollTempHealth = 0.0f;
                         MaxDollHitPoint = DollHealthPoint;
                         MaxDevilHitPoint = DevilHealthPoint;
                     }
                     break;
             }
 
-         
+
         }
 
         public override void OnEnable()
@@ -68,7 +73,7 @@ namespace GHJ_Lib
                 }
                 DollUI dollUI = UIobj.GetComponent<DollUI>();
 
-            
+
                 if (photonView.IsMine)
                 {
                     dollUI.SetStatus(this);
@@ -94,7 +99,26 @@ namespace GHJ_Lib
 
 
         }
-
+        float DecreaseTempHP(float Damage)
+        {
+            DollTempHealth = DollTempHealth - Damage;
+            if(DollTempHealth < 0)
+            {
+                Damage = -DollTempHealth;
+                DollTempHealth = 0;
+                return Damage;
+            }
+            else
+            {
+                Damage = 0;
+            }
+            return Damage;
+            
+        }
+        private void OnGUI()
+        {
+            GUI.Box(new Rect(0, 0, 150, 30), DollTempHealth.ToString());
+        }
         #region Public Methods
 
         public void Move(float moveSpeed)
@@ -104,7 +128,7 @@ namespace GHJ_Lib
 
         public void HitDollHP(float Damage)
         {
-            DollHealthPoint -= Damage;
+            DollHealthPoint -= DecreaseTempHP(Damage);
         }
 
         public void HitDevilHP(float Demage)
@@ -120,6 +144,11 @@ namespace GHJ_Lib
         {
             DollHealthPoint += 40;
             DevilHealthPoint -= 10;
+        }
+
+        public void CottonPiece()
+        {
+            DollTempHealth += 25;
         }
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
