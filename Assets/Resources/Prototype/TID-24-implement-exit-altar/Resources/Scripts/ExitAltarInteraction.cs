@@ -49,7 +49,13 @@ namespace LSH_Lib{
             SceneManager.Instance.EnableAutoCastingBar(obj,chargeTime);
             StartCoroutine("AutoCast");
         }
-
+        private void OnGUI()
+        {
+            if (ExitAltarModel.activeInHierarchy)
+            { 
+                GUI.Box(new Rect(0, 0, 150, 30), "!!ExitAltar ON!!");
+            }
+        }
         private void CheckPlayerCount()
         {
             Debug.Log(GameEndManager.Instance.DollCount);

@@ -87,11 +87,11 @@ namespace LSH_Lib{
             boxUI.TextInvisible();
         }
 
-        private void OnGUI()
+        /*private void OnGUI()
         {
             GUI.Box(new Rect(0, 0, 150, 30), "box is empty : " + isEmpty.ToString());
         }
-
+        */
         [PunRPC]
         void Boxinteract(string tag)
         {
@@ -115,6 +115,17 @@ namespace LSH_Lib{
                     ImprisonDoll = null;
                 }
                 boxManager.Doll.Released(this.transform);
+            }
+            if (tag == "Ghost")
+            {
+                isEmpty = true;
+                if (ImprisonDoll)
+                {
+                    ImprisonDoll.SetActive(false);
+                    ImprisonDoll = null;
+                }
+                boxManager.Doll.Released(this.transform);
+                this.gameObject.SetActive(false);
             }
         }
         
@@ -151,7 +162,7 @@ namespace LSH_Lib{
                 return;
             }
             GameEndManager.Instance.DollCountDecrease();
-            string tag = "Doll";
+            string tag = "Ghost";
             pv.RPC("Boxinteract", RpcTarget.All, tag);
 
 

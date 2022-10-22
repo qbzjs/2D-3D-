@@ -95,18 +95,17 @@ namespace GHJ_Lib
 				}
 			}
 
-			if (photonView.IsMine && isCanMove)
+			if (photonView.IsMine)
 			{
-				if (isCheat)
-				{
-
-				}
-
+				InputCheatKey();
+				if (isCanMove)
+				{ 
 				PlayerInput();
 				SetDirection();
 				var velocity = controller.velocity;
 				var turnSpeed = rotateSpeed;
 				photonTransformView.SetSynchronizedValues(velocity, turnSpeed);
+				}
 			}
 			RotateToDirection();
 			MoveCharacter();
@@ -265,13 +264,15 @@ namespace GHJ_Lib
 			{
 				skinnedMeshRenderer.material = Resources.Load<Material>("Materials/Invisible");
 			}
-			CharacterLayerChange(CharacterModel, 8);
+
+			CharacterLayerChange(this.gameObject, 8);
 		}
 
 		public void FallDown()
 		{
 			isCanMove = false;
 			dollAnimationController.PlayFallDownAnimation();
+
 		}
 
 		public void Grabbed(GameObject exorcistCamTarget)
@@ -286,9 +287,8 @@ namespace GHJ_Lib
 				cinemachineVirtual.Follow = exorcistCamTarget.transform;
 				network_TPV_CameraController.SetCamTarget(exorcistCamTarget);
 			}
-			
-
 			CharacterModel.SetActive(false);
+			CharacterLayerChange(this.gameObject, 8);
 			curBehavior.PushSuccessorState(bvGrabbed);
 		}
 
@@ -460,8 +460,17 @@ namespace GHJ_Lib
 			this.transform.position = transform.position;
 			this.transform.rotation = transform.rotation;
 			CharacterModel.SetActive(true);
+
 			dollStatus.HitDollHP(-dollStatus.MaxDollHitPoint / 2);
 			BecomeIdle();
+
+			if (curBehavior is BvGhost)
+			{
+				return;
+			}
+ 
+			CharacterLayerChange(this.gameObject, 7);
+			
 
 		}
 
@@ -487,7 +496,7 @@ namespace GHJ_Lib
 			curBehavior.PushSuccessorState(bvNormal);
 		}
 
-		void CharacterLayerChange(GameObject Model,int layer)
+		public void CharacterLayerChange(GameObject Model,int layer)
 		{
 			Model.layer = layer;
 			int count = Model.transform.childCount;
