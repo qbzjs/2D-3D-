@@ -91,13 +91,21 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
                 LoadRoomScene();
             }
 
-            if(PhotonNetwork.IsMasterClient)
+            if (PhotonNetwork.IsMasterClient)
             {
-                if(skipButtonObj.activeInHierarchy==false)
+                if (skipButtonObj.activeInHierarchy == false)
                 {
-                    skipButtonObj.SetActive( true );
+                    skipButtonObj.SetActive(true);
                 }
             }
+            else
+            {
+                if (skipButtonObj.activeInHierarchy == true)
+                {
+                    skipButtonObj.SetActive(false);
+                }
+            }
+
         }
     }
 
@@ -252,21 +260,16 @@ public class LobbyUI_Manager : MonoBehaviourPunCallbacks
         {
             case RoleType.Doll:
             {
-                PhotonNetwork.JoinRandomRoom();
-                if (PhotonNetwork.JoinRoom("Server1"))
-                {
-                    PhotonNetwork.JoinRoom("Server2");
-                }
-
+                //PhotonNetwork.JoinRandomRoom();
+                PhotonNetwork.JoinRoom("Server1");
+                
             }
             break;
             case RoleType.Exorcist:
             {
-                    //PhotonNetwork.CreateRoom( CreateRandomRoomName(), new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
-                if (PhotonNetwork.CreateRoom("Server1", new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount }))
-                {
-                    PhotonNetwork.CreateRoom("Server2", new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
-                }
+                //PhotonNetwork.CreateRoom( CreateRandomRoomName(), new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
+                PhotonNetwork.CreateRoom("Server1", new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
+                
             }
             break;
             default:
