@@ -10,6 +10,10 @@ namespace KSH_Lib.UI
 	public class AccountUI_Manager : MonoBehaviour
 	{
 		/*--- Public Fields ---*/
+		[Header("Next Scene")]
+		[SerializeField]
+		string NextSceneName;
+
 		[Header("UI Init")]
 		public GameObject IdFieldObj;
 		public GameObject PasswordFieldObj;
@@ -185,7 +189,7 @@ namespace KSH_Lib.UI
 				else if( data.order == "Login")
                 {
 					DataManager.Instance.SetLocalAccount(data.index, data.id, data.nickname);
-
+					GameManager.Instance.LoadScene(NextSceneName);
                 }
             }
 
