@@ -13,7 +13,7 @@ namespace KSH_Lib
 	public class DataManager : MonoBehaviourPun
 	{
 		/*--- Singleton ---*/
-		public DataManager Instance
+		public static DataManager Instance
         {
 			get
             {
@@ -25,7 +25,7 @@ namespace KSH_Lib
 				return instance;
 			}
         }
-		DataManager instance;
+		static DataManager instance;
 
 
 		/*--- Public Fields ---*/
@@ -36,9 +36,9 @@ namespace KSH_Lib
 
 		/*--- Private Fields ---*/
 		List<PlayerData> playerDatas = new List<PlayerData>();
-		PlayerData localPlayerData;
 
 		RoleData curRoleData;
+		AccountData curAccount;
 		
 
 		/*--- MonoBehaviour Callbacks ---*/
@@ -48,20 +48,15 @@ namespace KSH_Lib
         }
 
         /*--- Public Methods ---*/
-		public void OnVerifyAccount(int sheetIdx, in string id, in string nickname)
+        public void SetLocalAccount(int sheetIdx, in string id, in string nickname)
         {
-			localPlayerData.accountData = new AccountData( sheetIdx, id, nickname );
+			curAccount = new AccountData( sheetIdx, id, nickname );
         }
-		public void AssignAccount(in PlayerData playerData)
+		public void ResetLocalAccount()
         {
-			playerData.Index = playerDatas.Count;
-			playerDatas.Add( playerData );
+			curAccount = new AccountData();
         }
 
-		public void SetRoleDataToLocalPlayer()
-        {
-
-        }
 
         /*--- Protected Methods ---*/
 

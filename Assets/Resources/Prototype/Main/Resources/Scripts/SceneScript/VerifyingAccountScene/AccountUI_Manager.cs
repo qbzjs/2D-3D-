@@ -4,7 +4,6 @@ using UnityEngine;
 
 using KSH_Lib.Util;
 using TMPro;
-using UnityEngine.Networking;
 
 namespace KSH_Lib.UI
 {
@@ -185,7 +184,8 @@ namespace KSH_Lib.UI
 				}
 				else if( data.order == "Login")
                 {
-					//Load Lobby;
+					DataManager.Instance.SetLocalAccount(data.index, data.id, data.nickname);
+
                 }
             }
 
