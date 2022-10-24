@@ -76,8 +76,8 @@ namespace KSH_Lib
         CharacterSelectCanvasController charaSelectCanvasController;
 
 
-    /*--- MonoBehaviour Callbacks ---*/
-    private void Start()
+        /*--- MonoBehaviour Callbacks ---*/
+        private void Start()
         {
             charaSelectCanvasController = characterSelectCanvas.GetComponent<CharacterSelectCanvasController>();
 
@@ -98,13 +98,13 @@ namespace KSH_Lib
                 ChangePlayerImage();
                 ChangePlayerCountText();
 
-                if ( curPlayerCnt == 5 )
-                {
-                    LoadRoomScene();
-                }
-
                 if ( PhotonNetwork.IsMasterClient )
                 {
+                    if ( curPlayerCnt == 5 )
+                    {
+                        LoadRoomScene();
+                    }
+
                     if ( skipButtonObj.activeInHierarchy == false )
                     {
                         skipButtonObj.SetActive( true );
@@ -137,12 +137,26 @@ namespace KSH_Lib
         {
             Debug.Log( "OnJoindRoom Called" );
             EnableMatchingCanvas();
+            DataManager.Instance.SetPlayerIdx();
             isJoinedRoom = true;
         }
         public override void OnJoinRoomFailed( short returnCode, string message )
         {
             base.OnJoinRoomFailed( returnCode, message );
             Debug.Log( "OnJoinRoomFailed Called " + message );
+        }
+        public override void OnPlayerEnteredRoom( Player newPlayer )
+        {
+            DataManager.Instance.SetPlayerIdx();
+        }
+        public override void OnPlayerLeftRoom( Player otherPlayer )
+        {
+            DataManager.Instance.SetPlayerIdx();
+        }
+
+        private void OnGUI()
+        {
+            GUI.Box( new Rect( 0, 0, 150, 30 ), DataManager.Instance.playerRoomIdx.ToString() );
         }
 
 
@@ -179,6 +193,7 @@ namespace KSH_Lib
         }
 
         /*--- Private Methods ---*/
+        
         void LoadRoomScene()
         {
             cancelButtonObj.SetActive( false );
@@ -265,21 +280,27 @@ namespace KSH_Lib
         }
         void OnMatchingStartButton()
         {
-            switch ( GameManager.Instance.Data.Role )
+            if(DataManager.Instance.CurCharacterOrder == RoleData.RoleTypeOrder.Null)
             {
-                case RoleType.Doll:
+                Debug.LogWarning( "LobbyUI_Manager: Need to Select role" );
+                return;
+            }
+
+            switch ( DataManager.Instance.CurRoleType )
+            {
+                case RoleData.RoleType.Doll:
                 {
                     PhotonNetwork.JoinRandomRoom();
                 }
                 break;
-                case RoleType.Exorcist:
+                case RoleData.RoleType.Exorcist:
                 {
                     PhotonNetwork.CreateRoom( CreateRandomRoomName(), new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
                 }
                 break;
                 default:
                 {
-                    Debug.LogError( "LobbyUI_Manager: No Player Role Set, Role is Null." );
+                    Debug.LogWarning( "LobbyUI_Manager: Need to Select role" );
                 }
                 break;
             }
@@ -307,12 +328,12 @@ namespace KSH_Lib
         void CreateDebugServer()
         {
             PhotonNetwork.CreateRoom( "DebugServer2", new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
-            GameManager.Instance.Data.ChangeRole( RoleType.Exorcist );
+            //GameManager.Instance.Data.ChangeRole( RoleType.Exorcist );
         }
         void JoinDebugServer()
         {
             PhotonNetwork.JoinRoom( "DebugServer2" );
-            GameManager.Instance.Data.ChangeRole( RoleType.Doll );
+            //GameManager.Instance.Data.ChangeRole( RoleType.Doll );
         }
     }
 

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using System.Linq;
+
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -34,26 +36,30 @@ namespace KSH_Lib
 		public List<RoleData> RoleDatas { get { return roleDatas; } }
 		public RoleData.RoleTypeOrder CurCharacterOrder;
 
-		/*--- Protected Fields ---*/
-
 
 		/*--- Private Fields ---*/
 		const string CharcterStatusCSV = "Prototype/Main/Resources/Datas/CharacterStatus";
 
-		List<PlayerData> playerDatas = new List<PlayerData>();
-		List<RoleData> roleDatas = new List<RoleData>()	;
+		public int playerRoomIdx;
 
+		List<RoleData> roleDatas = new List<RoleData>();
 		AccountData curAccount;
+
+		PlayerData[] playerDatas;
+
 
         /*--- MonoBehaviour Callbacks ---*/
         private void Awake()
 		{
 			DontDestroyOnLoad( gameObject );
-
+		}
+        private void Start()
+        {
 			if ( !SetRoleDatasFromCSV( CharcterStatusCSV ) )
 			{
 				Debug.LogError( "DataManager.RoleDatas: Can't get role Datas from CSV" );
 			}
+			playerDatas = new PlayerData[GameManager.Instance.MaxPlayerCount];
 		}
 
         /*--- Public Methods ---*/
@@ -65,7 +71,22 @@ namespace KSH_Lib
         {
 			curAccount = new AccountData();
         }
+		public void SetPlayerIdx()
+        {
+			Debug.Log( "DataManager.SetPlayerIdx Called" );
 
+			var players = PhotonNetwork.PlayerList;
+
+			int myNum = PhotonNetwork.LocalPlayer.ActorNumber;
+			for(int i = 0; i < players.Length; ++i )
+            {
+				if(myNum == players[i].ActorNumber)
+                {
+					playerRoomIdx = i;
+					break;
+                }
+            }
+        }
 
 
 		/*--- Protected Methods ---*/

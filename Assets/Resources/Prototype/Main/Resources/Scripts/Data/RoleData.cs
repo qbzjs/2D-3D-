@@ -9,12 +9,15 @@ namespace KSH_Lib.Data
     {
 		public enum RoleType
 		{
+			Null,
 			Exorcist,
 			Doll
 		}
 
 		public enum RoleTypeOrder
         {
+			Null,
+
 			Photographer,
 			Bishop,
 			Dokkaebi,

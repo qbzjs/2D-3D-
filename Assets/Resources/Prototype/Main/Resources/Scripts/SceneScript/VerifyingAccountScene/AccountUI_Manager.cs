@@ -134,6 +134,11 @@ namespace KSH_Lib.UI
 			ActiveLoginScreen();
         }
 
+		public void OnSkipLoginButtonClicked()
+		{
+			DataManager.Instance.SetLocalAccount( -1, "Test", "Test" );
+			StartCoroutine( ChangeScene() );
+		}
 		/*--- Private Methods ---*/
 		bool CheckRegisterField()
 		{
@@ -189,11 +194,7 @@ namespace KSH_Lib.UI
 				else if( data.order == "login")
                 {
 					DataManager.Instance.SetLocalAccount(data.index, data.id, data.nickname);
-					if(NextSceneName == null)
-                    {
-						Debug.LogError( "AccountUI_Manager: No NextSceneName" );
-                    }
-					GameManager.Instance.LoadScene(NextSceneName);
+					StartCoroutine( ChangeScene() );
                 }
             }
 		}
@@ -223,9 +224,11 @@ namespace KSH_Lib.UI
 			return form;
         }
 
-		void LoginProcess()
-        {
 
-        }
+		IEnumerator ChangeScene()
+        {
+			yield return new WaitForSeconds( 0.5f );
+			GameManager.Instance.LoadScene( NextSceneName );
+		}
 	}
 }
