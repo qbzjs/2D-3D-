@@ -8807,17 +8807,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FPV_Cam: {fileID: 8738915056233939025, guid: 632f4754a4c6db345bc46b5a34b79834, type: 3}
   TPV_Cam: {fileID: 6359358172108833380, guid: f09e66da3944c8d4ca0339452d801cc4, type: 3}
-  DollPrefabs: []
-  ExorcistPrefabs: []
-  NormalAltarPrefab: {fileID: 0}
-  ExitAltarPrefab: {fileID: 0}
-  FinalAltarPrefab: {fileID: 0}
-  PlayerGenPos: []
-  NormalAltarGenPos: []
-  ExitAltarGenPos: []
-  FinalAltarGenPos: {fileID: 0}
-  Count: 0
-  InitAreaRadius: 0
+  DollPrefabs:
+  - {fileID: 8865846720936348896, guid: 2fd21950923de1b40baa4b56f2770a03, type: 3}
+  ExorcistPrefabs:
+  - {fileID: 6023530114998782608, guid: 8eda122ef6de92f468e2ac99904ec26c, type: 3}
+  NormalAltarPrefab: {fileID: 8117757689588326004, guid: d34ff47e6dd0fd74ea8e15efccfecf7c,
+    type: 3}
+  ExitAltarPrefab: {fileID: 5114522174893634951, guid: b79014c182d07c24bab9d10acef207ee,
+    type: 3}
+  FinalAltarPrefab: {fileID: 5096332420961059722, guid: 12c927baa119cf247a9262b5de09d0e4,
+    type: 3}
+  PurificationBoxPrefab: {fileID: 516919569534408220, guid: a8420c06f3f898a4abe8d4d7eb90702c,
+    type: 3}
+  PlayerGenPos:
+  - {x: 0, y: 0, z: 0}
+  - {x: -5, y: 0, z: 5}
+  - {x: -5, y: 0, z: -5}
+  - {x: 5, y: 0, z: -5}
+  - {x: 5, y: 0, z: 5}
+  NormalAltarGenPos:
+  - {fileID: 995780372}
+  - {fileID: 1359186012}
+  - {fileID: 548833899}
+  - {fileID: 1677419501}
+  - {fileID: 2139268670}
+  - {fileID: 1863572195}
+  - {fileID: 1355967362}
+  - {fileID: 1452892060}
+  - {fileID: 675748063}
+  - {fileID: 651376062}
+  - {fileID: 123354104}
+  ExitAltarGenPos:
+  - {fileID: 204333999}
+  - {fileID: 2120205837}
+  - {fileID: 1378718113}
+  - {fileID: 1213057334}
+  FinalAltarGenPos: {fileID: 1364143388}
+  PurificationBoxGenPos:
+  - {fileID: 283876052}
+  - {fileID: 2018099644}
+  - {fileID: 1413694508}
+  - {fileID: 1030982221}
+  - {fileID: 603551343}
+  - {fileID: 1907077537}
+  - {fileID: 379578591}
+  - {fileID: 834004017}
+  - {fileID: 415848754}
+  Count: 5
+  InitAreaRadius: 40
   CenterPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &968054147
 Transform:
@@ -8827,7 +8864,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 968054145}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.277578, y: 23.978241, z: -69.22757}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11062,7 +11099,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &1278859311
 MeshCollider:
   m_ObjectHideFlags: 0

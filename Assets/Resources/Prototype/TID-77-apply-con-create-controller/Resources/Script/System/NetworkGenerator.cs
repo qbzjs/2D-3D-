@@ -27,17 +27,31 @@ namespace GHJ_Lib
 			this.genPositions = genPositions;
 		}
 
-		/*--- Protected Fields ---*/
-		protected string targetID;
 
+
+        /*--- Protected Fields ---*/
+        protected string targetID;
         /*--- Private Fields ---*/
 
 
         /*--- Public Methods ---*/
+        public GameObject GenerateRandomly(GameObject[] genPosObj)
+        {
+            if (genPosObj == null)
+            {
+                Debug.LogError("Generator: No Position Set");
+                return null;
+            }
+
+            int i = Random.Range(0, genPosObj.Length);
+            return _Generate(genPosObj[i].transform.position, Quaternion.Euler(genPosObj[i].transform.rotation.eulerAngles));
+        }
+
         public void GenerateByAlgorithm(int count,GameObject[] NormalAltarGenPos,float CenterDistance, Vector3 CenterPosition)
         {
             GenerateNormalAltar(count,NormalAltarGenPos, CenterDistance, CenterPosition);
         }
+
 
         /*--- Protected Methods ---*/
         protected override GameObject _Generate(in Vector3 position, in Quaternion rotation)

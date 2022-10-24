@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4163adfc388d8024fb2dced50a8c59b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Exorcist: {fileID: 7352917782144371853}
+  Exorcist: {fileID: 0}
 --- !u!1 &3021153679058623732
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,14 +369,11 @@ GameObject:
   - component: {fileID: 6023530114998782611}
   - component: {fileID: 8668095482253011849}
   - component: {fileID: 6023530114998782621}
-  - component: {fileID: 8650640184749938122}
-  - component: {fileID: 3160579518073727552}
   - component: {fileID: 455268536397400467}
   - component: {fileID: 4430563716704696487}
-  - component: {fileID: 1410060564037407499}
-  - component: {fileID: 7352917782144371853}
   - component: {fileID: -665657466991628406}
   - component: {fileID: 6111092814766441182}
+  - component: {fileID: -8825116093476708961}
   m_Layer: 7
   m_Name: Exorcist
   m_TagString: Exorcist
@@ -444,39 +441,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &8650640184749938122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6023530114998782608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9645b79eb4a205d42b3c104995fa82c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AttackArea:
-  - {fileID: 9114639851259402467}
-  - {fileID: 6374633949899727702}
-  - {fileID: 3021153679058623732}
-  - {fileID: 102432981751865916}
-  networkExorcistController: {fileID: 7352917782144371853}
-  Grab: {fileID: 3150440021692976751}
-  CamTarget: {fileID: 6023530114879361924}
---- !u!114 &3160579518073727552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6023530114998782608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9eac8f54d8126634c968a68256864c9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 8668095482253011849}
 --- !u!114 &455268536397400467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,8 +461,6 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 4430563716704696487}
-  - {fileID: 1410060564037407499}
-  - {fileID: 7352917782144371853}
   - {fileID: 6111092814766441182}
   sceneViewId: 0
   InstantiationId: 0
@@ -533,47 +495,6 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
---- !u!114 &1410060564037407499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6023530114998782608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 0
---- !u!114 &7352917782144371853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6023530114998782608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3eabaeaf2faa01498f5bb2b544c2a40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  exorcistStatus:
-    moveSpeed: 5
-    isAttack: 0
-    isSkill: 0
-    attackSpeed: 1
-    offensePower: 10
-    interactionSpeed: 1
-    projectileSpeed: 1
-  target: {fileID: 6023530114879361924}
-  Ayra: {fileID: 3615976796478522397}
-  animationCallbackSet: {fileID: 8650640184749938122}
-  GrabObj:
-  - {fileID: 4473424413195934546}
 --- !u!54 &-665657466991628406
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -623,6 +544,26 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+--- !u!114 &-8825116093476708961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6023530114998782608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e156b09044018cf40b73c508f43f1549, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterObj: {fileID: 6023530114998782608}
+  characterModel: {fileID: 1557595160446702443}
+  camTarget: {fileID: 6023530114879361924}
+  moveSpeed: 6
+  rotateSpeed: 600
+  Ayra: {fileID: 3615976796478522397}
+  CatchObj: []
+  animator: {fileID: 8668095482253011849}
 --- !u!1 &6374633949899727702
 GameObject:
   m_ObjectHideFlags: 0
@@ -1024,6 +965,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 317a56890b5c8e74ab1d492a2c7fb608, type: 3}
+--- !u!1 &1557595160446702443 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100122, guid: 317a56890b5c8e74ab1d492a2c7fb608,
+    type: 3}
+  m_PrefabInstance: {fileID: 1557595160446669937}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1557595160446799499 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400122, guid: 317a56890b5c8e74ab1d492a2c7fb608,
@@ -1322,12 +1269,6 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 05ad966a6b3793d4290e515b2afb318a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19fbc6433c996574eb80fb6d445e9968, type: 3}
---- !u!1 &4473424413195934546 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100016, guid: 19fbc6433c996574eb80fb6d445e9968,
-    type: 3}
-  m_PrefabInstance: {fileID: 4473424413195967970}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4473424413196093298 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400016, guid: 19fbc6433c996574eb80fb6d445e9968,
