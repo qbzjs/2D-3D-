@@ -182,17 +182,16 @@ namespace KSH_Lib.UI
 
 			if(data.result == "OK")
             {
-				if(data.order == "Register")
+				if(data.order == "register")
 				{
 					ActiveLoginScreen();
 				}
-				else if( data.order == "Login")
+				else if( data.order == "login")
                 {
 					DataManager.Instance.SetLocalAccount(data.index, data.id, data.nickname);
 					GameManager.Instance.LoadScene(NextSceneName);
                 }
             }
-
 		}
 
 		void PopUpMessage(in string msg)
