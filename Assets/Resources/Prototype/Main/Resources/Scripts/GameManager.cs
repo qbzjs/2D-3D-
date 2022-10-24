@@ -41,12 +41,9 @@ public class GameManager : MonoBehaviour
 
 
     #region MonoBehaviour Callbacks
-    private void Start()
+    private void Awake()
     {
         DontDestroyOnLoad( gameObject );
-    }
-    private void Update()
-    {
     }
     #endregion
 

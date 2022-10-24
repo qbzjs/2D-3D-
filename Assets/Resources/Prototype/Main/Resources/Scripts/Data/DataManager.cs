@@ -29,7 +29,7 @@ namespace KSH_Lib
 
 
 		/*--- Public Fields ---*/
-
+		public RoleData.RoleType CurRoleType;
 
 		/*--- Protected Fields ---*/
 
@@ -39,13 +39,13 @@ namespace KSH_Lib
 
 		RoleData curRoleData;
 		AccountData curAccount;
-		
 
-		/*--- MonoBehaviour Callbacks ---*/
-		private void Start()
-        {
+
+        /*--- MonoBehaviour Callbacks ---*/
+        private void Awake()
+		{
 			DontDestroyOnLoad( gameObject );
-        }
+		}
 
         /*--- Public Methods ---*/
         public void SetLocalAccount(int sheetIdx, in string id, in string nickname)
@@ -55,6 +55,10 @@ namespace KSH_Lib
 		public void ResetLocalAccount()
         {
 			curAccount = new AccountData();
+        }
+		public void CreateRoleData(RoleData.RoleType roleType)
+        {
+			
         }
 
 
