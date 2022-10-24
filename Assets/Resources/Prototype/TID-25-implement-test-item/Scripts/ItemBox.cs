@@ -10,12 +10,13 @@ namespace LSH_Lib
     [System.Serializable]
     public class ItemData
     {
-        public ItemData(string types, string names,string numbers, string isUsings, int frequency)
+        //public ItemData(string types, string names,string numbers, string isUsings, int frequency)
+        public ItemData(string type, string number, string isUsing, int frequency)
         {
-            type = types;
-            name = names;
-            number = numbers;
-            isUsing = isUsings;
+            this.type = type;
+            //name = names;
+            this.number = number;
+            this.isUsing = isUsing;
             this.frequency = frequency;
         }
         public string type, name, number, isUsing; 
@@ -24,9 +25,10 @@ namespace LSH_Lib
     public class ItemBox : MonoBehaviour
 	{
         List<ItemData> itemDatas = new List<ItemData>();
-        List<ItemData> itemTypelist = new List<ItemData>();
-        List<Item> items = new List<Item>();
-
+        Dictionary<string, ItemData> dollItems = new Dictionary<string, ItemData>();
+        Dictionary<string, ItemData> exorcistItems = new Dictionary<string, ItemData>();
+        List<string> itemlist = new List<string>();
+        
         private void Start()
         {
             DataLoad();
@@ -56,16 +58,23 @@ namespace LSH_Lib
             {
                 string type = data[i]["Type"].ToString();
                 string name = data[i]["Name"].ToString();
-                string Number = data[i]["Number"].ToString();
+                string number = data[i]["Number"].ToString();
                 string isUsing = data[i]["isUsing"].ToString();
                 int frequency = int.Parse(data[i]["Frequency"].ToString());
-                itemDatas.Add(new ItemData(type, name, Number, isUsing, frequency));
+                if(type == "Doll")
+                {
+                    dollItems.Add(name, new ItemData(type, number, isUsing, frequency));
+                }
+                else
+                {
+                    exorcistItems.Add(name, new ItemData(type, number, isUsing, frequency));
+                }
             }
         }
         void AddItemToList(string playerTag)
         {
             FindType(playerTag);
-            Addtolist();
+            //Addtolist();
         }
         void Addtolist()
         {
@@ -73,15 +82,9 @@ namespace LSH_Lib
         }
         void FindType(string playerTag)
         {
-            
-            for(var i = 0; i< itemDatas.Count; i++)
+            if(playerTag == "Doll")
             {
-                if (itemDatas[i].type == playerTag)
-                {
-                    itemTypelist.Add(itemDatas[i]);
-                }
-                else
-                    break;
+                
             }
         }
     }
