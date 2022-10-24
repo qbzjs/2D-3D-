@@ -29,7 +29,7 @@ namespace LSH_Lib
                 DoAction();
             }
         }
-        protected override void DoAction()
+        public override void DoAction()
         {
             itemManager.Doll.dollStatus.CottonBall();
             Destroy(this.gameObject);
