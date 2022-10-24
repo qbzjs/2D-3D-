@@ -7,11 +7,11 @@ namespace LSH_Lib
 	public class Whistle : Item
 	{
         ItemManager itemManager;
-        AudioSource audio;
+        AudioSource whistleaudio;
         private void Start()
         {
             itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
-            audio = GetComponent<AudioSource>();
+            whistleaudio = GetComponent<AudioSource>();
         }
         protected override void OnTriggerEnter(Collider other)
         {
@@ -20,9 +20,9 @@ namespace LSH_Lib
                 DoAction();
             }
         }
-        protected override void DoAction()
+        public override void DoAction()
         {
-            audio.Play();
+            whistleaudio.Play();
             StartCoroutine("Audio");
         }
         IEnumerator Audio()

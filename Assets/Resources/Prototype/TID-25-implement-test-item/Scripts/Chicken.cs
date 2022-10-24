@@ -6,20 +6,28 @@ namespace LSH_Lib
 {
 	public class Chicken : Item
 	{
-		public AudioSource audio;
+        public Chicken() {
+
+        }
+		AudioSource chickenaudio;
         MeshRenderer mesh;
         private void Start()
         {
+            chickenaudio = this.gameObject.GetComponent<AudioSource>();
             mesh = this.gameObject.GetComponent<MeshRenderer>();
         }
         protected override void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Exorcist"))
             {
-                audio.Play();
-                mesh.enabled = false;
-                StartCoroutine("Audio");
+                DoAction();
             }
+        }
+        public override void DoAction()
+        {
+            chickenaudio.Play();
+            mesh.enabled = false;
+            StartCoroutine("Audio");
         }
         IEnumerator Audio()
         {
