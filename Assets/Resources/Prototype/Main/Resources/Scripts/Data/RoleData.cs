@@ -26,6 +26,8 @@ namespace KSH_Lib.Data
 			Rabbit,
 			Wolf,
 			Tortoise,
+
+			Count,
 		}
 
 		/*--- Constructor ---*/
