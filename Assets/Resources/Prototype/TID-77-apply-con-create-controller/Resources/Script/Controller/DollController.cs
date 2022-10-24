@@ -17,11 +17,15 @@ namespace GHJ_Lib
 		protected PhotonTransformViewClassic photonTransformView;
 		protected Behavior<BasePlayerController> CurcharacterCondition = new Behavior<BasePlayerController>();
         protected Behavior<BasePlayerController> CurcharacterAction = new Behavior<BasePlayerController>();
-		protected FPV_CameraController fPVCam;
+		protected FPV_CameraController fpvCam;
 		protected TPV_CameraController tpvCam;
         /*--- Private Fields ---*/
 
         /*--- MonoBehaviour Callbacks ---*/
+        protected override void Start()
+        {
+            
+        }
         public override void OnEnable()
         {
 			photonTransformView = GetComponent<PhotonTransformViewClassic>();
@@ -31,9 +35,15 @@ namespace GHJ_Lib
 			//애니매이터 받기 -> behavior에서 할예정
 
 			// 카메라 설정하기
-			
-
+			if (photonView.IsMine)
+			{
+				fpvCam = GameObject.Find("FPV Cam(Clone)").GetComponent<FPV_CameraController>();
+				tpvCam = GameObject.Find("TPV Cam(Clone)").GetComponent<TPV_CameraController>();
+				tpvCam.InitCam(camTarget);
+			}
 			// CurcharacterAction, CurcharacterCondition,  초기설정하기
+
+
 
 			//처음 대기시간 주기( 이건 StageManger가 할일)
 			base.Start();
@@ -64,9 +74,8 @@ namespace GHJ_Lib
         }
 
 
-
 		/*--- Public Methods ---*/
-
+		
 		/*--- Protected Methods ---*/
 		protected void PlayerInput()
 		{ 
@@ -89,6 +98,7 @@ namespace GHJ_Lib
 			controller.SimpleMove(direction * moveSpeed);
 
 		}
+
 
 		/*--- Private Methods ---*/
 	}
