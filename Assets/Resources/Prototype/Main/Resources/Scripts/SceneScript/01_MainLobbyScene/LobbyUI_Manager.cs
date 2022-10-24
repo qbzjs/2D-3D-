@@ -56,8 +56,6 @@ namespace KSH_Lib
         private Image[] playerLoadImgs;
         [SerializeField]
         private GameObject cancelButtonObj;
-        [SerializeField]
-        private GameObject skipButtonObj;
 
 
         [Header( "CustomRoom UI" )]
@@ -68,7 +66,17 @@ namespace KSH_Lib
 
         [Header( "Debug Only" )]
         [SerializeField]
+        private GameObject skipButtonObj;
+        [SerializeField]
+        private GameObject lshSkipButtonObj;
+        [SerializeField]
+        private GameObject kshSkipButtonObj;
+
+        [SerializeField]
         string lshSceneName = "";
+        [SerializeField]
+        string kshSceneName = "";
+
 
         /*--- Private Fields ---*/
         int curPlayerCnt = 0;
@@ -89,6 +97,8 @@ namespace KSH_Lib
 
             // Deubg
             skipButtonObj.SetActive( false );
+            lshSkipButtonObj.SetActive( false );
+            kshSkipButtonObj.SetActive( false );
         }
         private void Update()
         {
@@ -108,6 +118,8 @@ namespace KSH_Lib
                     if ( skipButtonObj.activeInHierarchy == false )
                     {
                         skipButtonObj.SetActive( true );
+                        lshSkipButtonObj.SetActive( true );
+                        kshSkipButtonObj.SetActive( true );
                     }
                 }
             }
@@ -152,11 +164,6 @@ namespace KSH_Lib
         public override void OnPlayerLeftRoom( Player otherPlayer )
         {
             DataManager.Instance.SetPlayerIdx();
-        }
-
-        private void OnGUI()
-        {
-            GUI.Box( new Rect( 0, 0, 150, 30 ), DataManager.Instance.playerRoomIdx.ToString() );
         }
 
 
@@ -321,6 +328,11 @@ namespace KSH_Lib
         void OnLSHButtonClicked()
         {
             loadSceneName = lshSceneName;
+            OnSkipButtonClicked();
+        }
+        void OnKSHButtonClicked()
+        {
+            loadSceneName = kshSceneName;
             OnSkipButtonClicked();
         }
 

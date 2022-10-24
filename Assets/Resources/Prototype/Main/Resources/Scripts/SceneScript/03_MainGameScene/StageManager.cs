@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace KSH_Lib
 {
-	public class MainGameManager : MonoBehaviour
+	public class StageManager : MonoBehaviour
 	{
 		/*--- Public Fields ---*/
 
@@ -16,6 +16,10 @@ namespace KSH_Lib
 
 
 		/*--- MonoBehaviour Callbacks ---*/
+		void Start()
+		{
+			DataManager.Instance.StartGame();
+		}
 
 
 		/*--- Public Methods ---*/
@@ -25,9 +29,5 @@ namespace KSH_Lib
 
 
 		/*--- Private Methods ---*/
-		void GeneratePlayer()
-        {
-
-        }
 	}
 }

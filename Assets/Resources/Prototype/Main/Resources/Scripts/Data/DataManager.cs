@@ -40,12 +40,13 @@ namespace KSH_Lib
 		/*--- Private Fields ---*/
 		const string CharcterStatusCSV = "Prototype/Main/Resources/Datas/CharacterStatus";
 
-		public int playerRoomIdx;
+		int playerIdx;
 
 		List<RoleData> roleDatas = new List<RoleData>();
 		AccountData curAccount;
 
 		PlayerData[] playerDatas;
+		PlayerData localPlayerData;
 
 
         /*--- MonoBehaviour Callbacks ---*/
@@ -61,6 +62,18 @@ namespace KSH_Lib
 			}
 			playerDatas = new PlayerData[GameManager.Instance.MaxPlayerCount];
 		}
+        private void OnGUI()
+        {
+			//if ( photonView.IsMine )
+			//{
+			//	GUI.Box( new Rect( 0, 0, 200, 50 ), $"datas[0]: {playerDatas[0].roleData.RoleName}" );
+			//	GUI.Box( new Rect( 0, 50, 200, 50 ), $"datas[0]: {playerDatas[1].roleData.RoleName}" );
+			//	GUI.Box( new Rect( 0, 100, 200, 50 ), $"datas[0]: {playerDatas[2].roleData.RoleName}" );
+			//	GUI.Box( new Rect( 0, 150, 200, 50 ), $"datas[0]: {playerDatas[3].roleData.RoleName}" );
+			//	GUI.Box( new Rect( 0, 200, 200, 50 ), $"datas[0]: {playerDatas[4].roleData.RoleName}" );
+			//	GUI.Box( new Rect( 210, 0, 200, 50 ), $"local: {localPlayerData.roleData.RoleName}" );
+			//}
+		}
 
         /*--- Public Methods ---*/
         public void SetLocalAccount(int sheetIdx, in string id, in string nickname)
@@ -73,8 +86,6 @@ namespace KSH_Lib
         }
 		public void SetPlayerIdx()
         {
-			Debug.Log( "DataManager.SetPlayerIdx Called" );
-
 			var players = PhotonNetwork.PlayerList;
 
 			int myNum = PhotonNetwork.LocalPlayer.ActorNumber;
@@ -82,12 +93,15 @@ namespace KSH_Lib
             {
 				if(myNum == players[i].ActorNumber)
                 {
-					playerRoomIdx = i;
+					playerIdx = i;
 					break;
                 }
             }
         }
-
+		public void StartGame()
+        {
+			ChangePlayerData();
+        }
 
 		/*--- Protected Methods ---*/
 
@@ -124,5 +138,14 @@ namespace KSH_Lib
 			}
 			return true;
 		}
+
+		[PunRPC]
+		void ChangePlayerData()
+        {
+			if(photonView.IsMine)
+            {
+				playerDatas[playerIdx] = localPlayerData;
+			}
+        }
 	}
 }
