@@ -5,8 +5,10 @@ using UnityEngine;
 
 namespace KSH_Lib.Data
 {
-    public abstract class RoleData
-    {
+	[System.Serializable]
+	//public abstract class RoleData
+	public class RoleData
+	{
 		public enum RoleType
 		{
 			Null,

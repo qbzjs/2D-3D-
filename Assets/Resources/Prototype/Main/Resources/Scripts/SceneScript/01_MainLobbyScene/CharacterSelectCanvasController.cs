@@ -41,8 +41,8 @@ namespace KSH_Lib.UI
 
         public void OnSelectCharacter(string name)
         {
-            DataManager.Instance.CurCharacterOrder = (RoleData.RoleTypeOrder)System.Enum.Parse( typeof( RoleData.RoleTypeOrder ), name );
-            Debug.Log( $"Selected {DataManager.Instance.CurCharacterOrder}" );
+            DataManager.Instance.CurRoleTypeOrder = (RoleData.RoleTypeOrder)System.Enum.Parse( typeof( RoleData.RoleTypeOrder ), name );
+            Debug.Log( $"Selected {DataManager.Instance.CurRoleTypeOrder}" );
         }
 
 

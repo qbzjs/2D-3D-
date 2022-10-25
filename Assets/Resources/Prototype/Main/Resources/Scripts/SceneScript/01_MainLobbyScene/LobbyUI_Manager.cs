@@ -287,7 +287,7 @@ namespace KSH_Lib
         }
         void OnMatchingStartButton()
         {
-            if(DataManager.Instance.CurCharacterOrder == RoleData.RoleTypeOrder.Null)
+            if(DataManager.Instance.CurRoleTypeOrder == RoleData.RoleTypeOrder.Null)
             {
                 Debug.LogWarning( "LobbyUI_Manager: Need to Select role" );
                 return;

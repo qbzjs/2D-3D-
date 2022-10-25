@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace KSH_Lib.Data
 {
+	[System.Serializable]
 	public struct AccountData
 	{
 		public AccountData(int sheetIdx, string id, string nickname)
@@ -15,10 +16,10 @@ namespace KSH_Lib.Data
         }
 
 		/*--- Public Fields ---*/
-		public int SheetIdx { get; private set; }
-		public string Id { get; private set; }
-		public string Nickname { get; private set; }
-		public bool IsLogin { get; private set; }
+		public int SheetIdx;// { get; private set; }
+		public string Id;// { get; private set; }
+		public string Nickname;// { get; private set; }
+		public bool IsLogin;// { get; private set; }
 
 		/*--- Protected Fields ---*/
 

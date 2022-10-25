@@ -7,7 +7,8 @@ namespace KSH_Lib
 	public class StageManager : MonoBehaviour
 	{
 		/*--- Public Fields ---*/
-
+		public GameObject prefab1;
+		public GameObject prefab2;
 
 		/*--- Protected Fields ---*/
 
@@ -21,13 +22,18 @@ namespace KSH_Lib
 			DataManager.Instance.StartGame();
 		}
 
+        private void Update()
+        {
+			
+        }
 
-		/*--- Public Methods ---*/
+
+        /*--- Public Methods ---*/
 
 
-		/*--- Protected Methods ---*/
+        /*--- Protected Methods ---*/
 
 
-		/*--- Private Methods ---*/
-	}
+        /*--- Private Methods ---*/
+    }
 }

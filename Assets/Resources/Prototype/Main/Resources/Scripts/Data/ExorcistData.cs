@@ -5,6 +5,7 @@ using DEM;
 
 namespace KSH_Lib.Data
 {
+	[System.Serializable]
 	public class ExorcistData : RoleData
 	{
 		/*--- Constructor ---*/

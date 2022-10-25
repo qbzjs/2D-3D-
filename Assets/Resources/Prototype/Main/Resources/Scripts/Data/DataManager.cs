@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using System.Linq;
+using System;
 
 using Photon.Pun;
 using Photon.Realtime;
@@ -13,7 +13,7 @@ using KSH_Lib.Util;
 
 namespace KSH_Lib
 {
-	public class DataManager : MonoBehaviourPun
+	public class DataManager : MonoBehaviourPun, IPunObservable
 	{
 		/*--- Singleton ---*/
 		public static DataManager Instance
@@ -24,6 +24,11 @@ namespace KSH_Lib
                 {
 					GameObject obj = new GameObject( "_DataManager" );
 					instance = obj.AddComponent<DataManager>();
+					pv = obj.AddComponent<PhotonView>();
+					pv.ViewID = PhotonNetwork.AllocateViewID(0);
+
+					pv.observableSearch = (PhotonView.ObservableSearch.AutoFindActive);
+					pv.FindObservables();
 				}
 				return instance;
 			}
@@ -32,21 +37,24 @@ namespace KSH_Lib
 
 
 		/*--- Public Fields ---*/
-		public RoleData.RoleType CurRoleType;
 		public List<RoleData> RoleDatas { get { return roleDatas; } }
-		public RoleData.RoleTypeOrder CurCharacterOrder;
-
+		public RoleData.RoleType CurRoleType;
+		public RoleData.RoleTypeOrder CurRoleTypeOrder;
+		
+		//public PlayerData[] PlayerDatas { get { return playerDatas; } }
 
 		/*--- Private Fields ---*/
 		const string CharcterStatusCSV = "Prototype/Main/Resources/Datas/CharacterStatus";
 
+		static PhotonView pv;
+
 		int playerIdx;
 
 		List<RoleData> roleDatas = new List<RoleData>();
-		AccountData curAccount;
+		public AccountData curAccount;
 
-		PlayerData[] playerDatas;
-		PlayerData localPlayerData;
+		public PlayerData[] playerDatas;
+		public PlayerData localPlayerData = new PlayerData();
 
 
         /*--- MonoBehaviour Callbacks ---*/
@@ -62,28 +70,19 @@ namespace KSH_Lib
 			}
 			playerDatas = new PlayerData[GameManager.Instance.MaxPlayerCount];
 		}
-        private void OnGUI()
-        {
-			//if ( photonView.IsMine )
-			//{
-			//	GUI.Box( new Rect( 0, 0, 200, 50 ), $"datas[0]: {playerDatas[0].roleData.RoleName}" );
-			//	GUI.Box( new Rect( 0, 50, 200, 50 ), $"datas[0]: {playerDatas[1].roleData.RoleName}" );
-			//	GUI.Box( new Rect( 0, 100, 200, 50 ), $"datas[0]: {playerDatas[2].roleData.RoleName}" );
-			//	GUI.Box( new Rect( 0, 150, 200, 50 ), $"datas[0]: {playerDatas[3].roleData.RoleName}" );
-			//	GUI.Box( new Rect( 0, 200, 200, 50 ), $"datas[0]: {playerDatas[4].roleData.RoleName}" );
-			//	GUI.Box( new Rect( 210, 0, 200, 50 ), $"local: {localPlayerData.roleData.RoleName}" );
-			//}
-		}
 
         /*--- Public Methods ---*/
         public void SetLocalAccount(int sheetIdx, in string id, in string nickname)
         {
-			curAccount = new AccountData( sheetIdx, id, nickname );
-        }
+			//curAccount = new AccountData( sheetIdx, id, nickname );
+			localPlayerData.accountData = new AccountData( sheetIdx, id, nickname );
+		}
 		public void ResetLocalAccount()
         {
-			curAccount = new AccountData();
-        }
+			//curAccount = new AccountData();
+			localPlayerData.accountData = new AccountData();
+
+		}
 		public void SetPlayerIdx()
         {
 			var players = PhotonNetwork.PlayerList;
@@ -98,9 +97,18 @@ namespace KSH_Lib
                 }
             }
         }
+		public void SetRoleType(in RoleData.RoleType type)
+        {
+			localPlayerData.roleData.Type = type;
+        }
+		public void SetRoleName(in string name)
+        {
+			localPlayerData.roleData.RoleName = name;
+        }
+
 		public void StartGame()
         {
-			ChangePlayerData();
+			pv.RPC( "InitPlayerData", RpcTarget.AllViaServer );
         }
 
 		/*--- Protected Methods ---*/
@@ -139,6 +147,17 @@ namespace KSH_Lib
 			return true;
 		}
 
+		/*--- RPC ---*/
+
+		[PunRPC]
+		void InitPlayerData()
+        {
+			if(photonView.IsMine)
+            {
+				localPlayerData.roleData = roleDatas[(int)CurRoleTypeOrder];
+				ChangePlayerData();
+            }
+        }
 		[PunRPC]
 		void ChangePlayerData()
         {
@@ -147,5 +166,11 @@ namespace KSH_Lib
 				playerDatas[playerIdx] = localPlayerData;
 			}
         }
-	}
+
+
+
+        public void OnPhotonSerializeView( PhotonStream stream, PhotonMessageInfo info )
+        {
+        }
+    }
 }
