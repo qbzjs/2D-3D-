@@ -4,14 +4,15 @@ using UnityEngine;
 
 namespace LSH_Lib
 {
-	public class Item : MonoBehaviour
-	{
-        public Item(string ItemName)
+    public abstract class Item : MonoBehaviour
+    {
+        public Item() { }
+        public Item(ItemData data)
         {
-            this.itemName = ItemName;
+            this.data = data;
         }
-        string itemName;
-        virtual protected void OnTriggerEnter(Collider other){}
-        virtual protected void DoAction() { }
+
+        ItemData data;
+        virtual protected void DoAction(){ }
     }
 }

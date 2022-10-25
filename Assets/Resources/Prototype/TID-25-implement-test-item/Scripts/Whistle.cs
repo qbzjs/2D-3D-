@@ -16,14 +16,14 @@ namespace LSH_Lib
             itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
             whistleaudio = GetComponent<AudioSource>();
         }
-        protected override void OnTriggerEnter(Collider other)
+        void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Doll")) 
             {
                 DoAction();
             }
         }
-        protected override void DoAction()
+        void DoAction()
         {
             whistleaudio.Play();
             StartCoroutine("Audio");

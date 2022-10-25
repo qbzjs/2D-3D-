@@ -14,14 +14,14 @@ namespace LSH_Lib
         {
             itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
         }
-        protected override void OnTriggerEnter(Collider other)
+        void OnTriggerEnter(Collider other)
         {
             if(other.gameObject.CompareTag("Doll"))
             {
                 DoAction();
             }
         }
-        protected override void DoAction()
+        void DoAction()
         {
             itemManager.Doll.CottonPiece();
             Destroy(this.gameObject);

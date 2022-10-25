@@ -6,10 +6,11 @@ namespace LSH_Lib
 {
 	public class CottonBall : Item
 	{
-        public CottonBall(string itemName)
-            :base(itemName)
+        public CottonBall()
+            :
+            base(ItemDataLoader.Instance.GetDollItem("CottonBall"))
         { }
-		ItemManager itemManager;
+        ItemManager itemManager;
         MeshRenderer mesh;
         private void Start()
         {
@@ -17,21 +18,11 @@ namespace LSH_Lib
             itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
             if(itemManager == null)
             {
-                Debug.LogError("ItemManager is null");
+                this.gameObject.AddComponent<ItemManager>();
             }
-            else
-            {
-                Debug.Log("ItemManager is not null");
-            }
+
         }
-        protected override void OnTriggerEnter(Collider other)
-        {
-            if(other.gameObject.CompareTag("Doll"))
-            {
-                mesh.enabled = false;
-                DoAction();
-            }
-        }
+        protected override string Name { get { return "CottonBall"; } }
         protected override void DoAction()
         {
             itemManager.Doll.dollStatus.CottonBall();
