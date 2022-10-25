@@ -49,6 +49,7 @@ namespace GHJ_Lib
         {
 			//controller에서 PlayerData 를 호출하고 interact Velocity를 받음.	
 			float velocity=10.0f;
+			//BarUI.Instance.BeginCasting();
 			curGauge += velocity*Time.deltaTime;
 		}
         protected override void AutoCasting(BasePlayerController controller)

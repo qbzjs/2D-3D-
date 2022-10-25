@@ -55,9 +55,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1172639960562601707}
   - component: {fileID: 4098065298299631884}
-  - component: {fileID: 6481003745283442408}
+  - component: {fileID: 6256557472273879880}
   m_Layer: 7
-  m_Name: PickupArea
+  m_Name: PickupBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,7 +91,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6481003745283442408
+--- !u!114 &6256557472273879880
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,10 +100,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1513817430182983885}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4163adfc388d8024fb2dced50a8c59b0, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f1caf2a488c1a64296c67850b42686a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Exorcist: {fileID: 0}
 --- !u!1 &3021153679058623732
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,7 +413,7 @@ Animator:
   m_GameObject: {fileID: 6023530114998782608}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 317a56890b5c8e74ab1d492a2c7fb608, type: 3}
-  m_Controller: {fileID: 9100000, guid: ed5cb3276f9c66b48a9e4dd2836598ab, type: 2}
+  m_Controller: {fileID: 9100000, guid: 104581246a158344ab48947229c25f49, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -463,6 +462,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 4430563716704696487}
   - {fileID: 6111092814766441182}
+  - {fileID: -8825116093476708961}
   - {fileID: 5642758962536604753}
   sceneViewId: 0
   InstantiationId: 0
@@ -565,7 +565,9 @@ MonoBehaviour:
   rotateSpeed: 600
   animator: {fileID: 8668095482253011849}
   Ayra: {fileID: 3615976796478522397}
-  CatchObj: []
+  CatchObj:
+  - {fileID: 4473424413195934546}
+  pickUpBox: {fileID: 6256557472273879880}
 --- !u!114 &5642758962536604753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1287,6 +1289,12 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 05ad966a6b3793d4290e515b2afb318a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19fbc6433c996574eb80fb6d445e9968, type: 3}
+--- !u!1 &4473424413195934546 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100016, guid: 19fbc6433c996574eb80fb6d445e9968,
+    type: 3}
+  m_PrefabInstance: {fileID: 4473424413195967970}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4473424413196093298 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400016, guid: 19fbc6433c996574eb80fb6d445e9968,

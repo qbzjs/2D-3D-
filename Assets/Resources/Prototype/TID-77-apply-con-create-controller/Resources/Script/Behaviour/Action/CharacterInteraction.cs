@@ -24,7 +24,15 @@ namespace GHJ_Lib
 		/*--- Protected Methods ---*/
 		protected override void Activate(in BasePlayerController actor)
 		{
-			actor.BaseAnimator.Play("Attack");
+			BarUI.Instance.BeginCasting();
+			if (actor is DollController)
+			{
+				actor.BaseAnimator.Play("Attack");
+			}
+			else if (actor is ExorcistController)
+			{
+				actor.BaseAnimator.Play("Kick");
+			}
 		}
 
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
@@ -33,6 +41,7 @@ namespace GHJ_Lib
 			Behavior<BasePlayerController> behavior = base.DoBehavior(actor);
 			if (behavior is Idle)
 			{
+				BarUI.Instance.EndCasting();
 				actor.BaseAnimator.Play("Idle_A");
 				return behavior;
 			}

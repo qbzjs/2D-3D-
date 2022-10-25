@@ -23,6 +23,7 @@ namespace GHJ_Lib
         {
             actor.BaseAnimator.Play("Idle_A");
         }
+
         /*--- Private Methods ---*/
     }
 }

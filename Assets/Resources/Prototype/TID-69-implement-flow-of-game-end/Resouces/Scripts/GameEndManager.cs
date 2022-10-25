@@ -28,7 +28,7 @@ namespace LSH_Lib{
                 instance = this;
             }
             
-            dollCount = PhotonNetwork.CurrentRoom.PlayerCount;
+            //dollCount = PhotonNetwork.CurrentRoom.PlayerCount;
         }
         public void DollCountDecrease()
         {

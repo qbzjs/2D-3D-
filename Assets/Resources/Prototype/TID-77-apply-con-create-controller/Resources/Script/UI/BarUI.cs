@@ -88,7 +88,7 @@ namespace GHJ_Lib
 		{
 			isCasting = true;
 		}
-		public void EndCasitng()
+		public void EndCasting()
 		{
 			isCasting = false;
 		}

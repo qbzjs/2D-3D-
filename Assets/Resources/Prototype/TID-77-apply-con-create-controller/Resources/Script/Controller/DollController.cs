@@ -16,10 +16,10 @@ namespace GHJ_Lib
 		{
 			get { return idle; }
 		}
+		public Behavior<BasePlayerController> CurcharacterCondition	= new Behavior<BasePlayerController>();
+		public Behavior<BasePlayerController> CurcharacterAction		= new Behavior<BasePlayerController>();
 		/*--- Protected Fields ---*/
 		protected PhotonTransformViewClassic photonTransformView;
-		protected Behavior<BasePlayerController> CurcharacterCondition	= new Behavior<BasePlayerController>();
-		protected Behavior<BasePlayerController> CurcharacterAction		= new Behavior<BasePlayerController>();
 
 		protected Idle idle					= new Idle();
 
@@ -29,7 +29,6 @@ namespace GHJ_Lib
 		protected TPV_CameraController			tpvCam;
 
 		protected bool canInteract = false;
-		protected streamVector3 sVector3;
 		/*--- Private Fields ---*/
 		Interaction interactObj;
 
@@ -156,6 +155,7 @@ namespace GHJ_Lib
 			if (other.CompareTag("interactObj"))
 			{
 				BarUI.Instance.TextVisible(false);
+				BarUI.Instance.SliderVisible(false);
 			}
 		}
 
@@ -179,12 +179,10 @@ namespace GHJ_Lib
 
 			if (stream.IsWriting)
 			{
-				sVector3.x = direction.x;
-				sVector3.y = direction.y;
-				sVector3.z = direction.z;
-				stream.SendNext(sVector3.x);
-				stream.SendNext(sVector3.y);
-				stream.SendNext(sVector3.z);
+
+				stream.SendNext(direction.x);
+				stream.SendNext(direction.y);
+				stream.SendNext(direction.z);
 
 				stream.SendNext(this.transform.position.x);
 				stream.SendNext(this.transform.position.y);
@@ -193,10 +191,9 @@ namespace GHJ_Lib
 			}
 			if (stream.IsReading)
 			{
-				this.sVector3.x = (float)stream.ReceiveNext();
-				this.sVector3.y = (float)stream.ReceiveNext();
-				this.sVector3.z = (float)stream.ReceiveNext();
-				this.direction = new Vector3(sVector3.x, sVector3.y, sVector3.z);
+				this.direction.x = (float)stream.ReceiveNext();
+				this.direction.y = (float)stream.ReceiveNext();
+				this.direction.z = (float)stream.ReceiveNext();
 
 				this.transform.position = new Vector3((float)stream.ReceiveNext(), (float)stream.ReceiveNext(), (float)stream.ReceiveNext());
 			}
@@ -221,12 +218,12 @@ namespace GHJ_Lib
 				if (Input.GetKeyDown(KeyCode.Mouse0))
 				{
 					ChangeActionTo("Interact");
-					BarUI.Instance.BeginCasting();
+
 				}
 				if (Input.GetKeyUp(KeyCode.Mouse0))
 				{
 					ChangeActionTo("Idle");
-					BarUI.Instance.EndCasitng();
+
 				}
 			}
 			else
@@ -234,7 +231,7 @@ namespace GHJ_Lib
 				if (!(CurcharacterAction is Idle))
 				{
 					ChangeActionTo("Idle");
-					BarUI.Instance.EndCasitng();
+
 				}
 			}
 
