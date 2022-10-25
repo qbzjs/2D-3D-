@@ -24,6 +24,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.GameVersion = gameVersion;
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.SerializationRate = 30;
         PhotonNetwork.ConnectUsingSettings();
     }
     private void Start()

@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
+using Photon.Pun;
+using Photon.Realtime;
 namespace GHJ_Lib
 {
-	public class Interaction :MonoBehaviour
+	public class Interaction :MonoBehaviour,IPunObservable
 	{
 		/*--- Public Fields ---*/
 		public bool CanActiveToExorcist = true;
 		public bool CanActiveToDoll = true;
+		public bool IsCasting = false;
 		public float GetGaugeRate
 		{
 			get { return curGauge / maxGauge; }
@@ -59,6 +62,19 @@ namespace GHJ_Lib
 		{
 			
 		}
-		/*--- Private Methods ---*/
-	}
+
+		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+		{
+			if (stream.IsWriting)
+			{
+				stream.SendNext(curGauge);
+				
+			}
+			if (stream.IsReading)
+			{
+				curGauge = (float)stream.ReceiveNext();
+			}
+        }
+        /*--- Private Methods ---*/
+    }
 }

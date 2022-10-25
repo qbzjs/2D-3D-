@@ -24,17 +24,17 @@ namespace GHJ_Lib
         {
             exorcistController = (actor as ExorcistController);
 
-            if (exorcistController.Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+            if (exorcistController.BaseAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
             {
                 return;
             }
-            exorcistController.Animator.Play("Attack");
+            exorcistController.BaseAnimator.Play("Attack");
         }
 
         
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
         {
-            if (exorcistController.Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+            if (exorcistController.BaseAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
             {
                 return null;
             }

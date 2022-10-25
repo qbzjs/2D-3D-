@@ -11,31 +11,32 @@ namespace GHJ_Lib
 
 
 		/*--- Protected Fields ---*/
-		protected DollController dollController;
+		protected Interaction interactionObj;
 
 		/*--- Private Fields ---*/
 
 		/*--- Public Methods ---*/
-
+		public void SetInteractObj(Interaction interaction)
+		{
+			this.interactionObj = interaction;
+		}
 
 		/*--- Protected Methods ---*/
 		protected override void Activate(in BasePlayerController actor)
 		{
-			dollController = (actor as DollController);
-			dollController.Animator.Play("Attack");
+			actor.BaseAnimator.Play("Attack");
 		}
 
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
         {
 			//if(dollController.Animator.GetCurrentAnimatorStateInfo(0).length >
-			
-
 			Behavior<BasePlayerController> behavior = base.DoBehavior(actor);
 			if (behavior is Idle)
 			{
-				dollController.Animator.Play("Idle_A");
+				actor.BaseAnimator.Play("Idle_A");
 				return behavior;
 			}
+			this.interactionObj.Interact(actor);
 			return null;
         }
         /*--- Private Methods ---*/

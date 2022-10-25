@@ -8,6 +8,12 @@ namespace KSH_Lib
 {
 	public class BasePlayerController : MonoBehaviourPunCallbacks
 	{
+		/*--- Public Fields---*/
+		public Animator BaseAnimator
+		{
+			get { return animator; }
+		}
+
 		/*--- Seriealized Fields ---*/
 		[Header( "Character Object Setting" )]
 		[Tooltip( "The Object has CharacterController Component" )]
@@ -28,7 +34,8 @@ namespace KSH_Lib
 		[SerializeField]
 		protected float rotateSpeed = 600.0f;
 
-
+		[SerializeField]
+		protected Animator animator;
 		/*--- Protected Fields ---*/
 
 		/*--- Player Movement Factors ---*/

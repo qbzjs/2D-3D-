@@ -11,10 +11,7 @@ namespace GHJ_Lib
 	{
 
 		/*--- Public Fields ---*/
-		public Animator Animator
-		{
-			get { return animator; }
-		}
+		
 		public Idle GetIdle
 		{
 			get { return idle; }
@@ -25,24 +22,22 @@ namespace GHJ_Lib
 		protected Behavior<BasePlayerController> CurcharacterAction		= new Behavior<BasePlayerController>();
 
 		protected Idle idle					= new Idle();
-		protected Move move					= new Move();
-		protected Walk walk					= new Walk();
-		protected Run run					= new Run();
-		protected CharacterInteraction interAction	= new CharacterInteraction();
+
+		protected CharacterInteraction interaction	= new CharacterInteraction();
 
 		protected KSH_Lib.FPV_CameraController	fpvCam;
 		protected TPV_CameraController			tpvCam;
-		[SerializeField]
-		protected Animator animator;
-		/*--- Private Fields ---*/
 
+		protected bool canInteract = false;
+		protected streamVector3 sVector3;
+		/*--- Private Fields ---*/
+		Interaction interactObj;
 
 		/*--- MonoBehaviour Callbacks ---*/
 
 		public override void OnEnable()
 		{
 			photonTransformView = GetComponent<PhotonTransformViewClassic>();
-			animator = GetComponent<Animator>();
 			// 스테이터스 받아오기
 
 			//애니매이터 받기 -> behavior에서 할예정
@@ -82,21 +77,69 @@ namespace GHJ_Lib
 				
 				PlayerInput();
 
-				Stop();
-				
-				
-				var velocity = controller.velocity;
+				//Stop();
+				var velocity = direction*moveSpeed;
 				var turnSpeed = rotateSpeed;
 				photonTransformView.SetSynchronizedValues(velocity, turnSpeed);
+				
 			}
-
 			RotateToDirection();
 			MoveCharacter();
+
 
 			CurcharacterAction.Update(this, ref CurcharacterAction);
 			CurcharacterCondition.Update(this, ref CurcharacterCondition);
 			//HP동기화
 
+		}
+
+        private void OnTriggerStay(Collider other)
+        {
+			if (other.CompareTag("interactObj"))
+			{
+				interactObj =  other.GetComponent<Interaction>();
+
+				if (BarUI.Instance.IsAutoCasting || BarUI.Instance.IsAutoCastingNull)
+				{
+					canInteract = false;
+					BarUI.Instance.SliderVisible(true);
+					BarUI.Instance.TextVisible(false);
+					return;
+				}
+				else if (BarUI.Instance.IsCasting)
+				{
+					canInteract = true;
+					BarUI.Instance.SliderVisible(true);
+					BarUI.Instance.TextVisible(false);
+					return;
+				}
+				else
+				{
+					BarUI.Instance.SliderVisible(false);
+				}
+
+				if (Vector3.Dot(forward, Vector3.ProjectOnPlane((other.transform.position - this.transform.position), Vector3.up)) < 90&&
+					interactObj.CanActiveToDoll)
+				{
+					BarUI.Instance.TextVisible(true);
+					canInteract = true;
+					interaction.SetInteractObj(interactObj);
+				}
+				else
+				{
+					BarUI.Instance.TextVisible(false);
+					canInteract = false;
+				}
+				
+			}
+        }
+
+		private void OnTriggerExit(Collider other)
+		{
+			if (other.CompareTag("interactObj"))
+			{
+				BarUI.Instance.TextVisible(false);
+			}
 		}
 
 
@@ -119,54 +162,68 @@ namespace GHJ_Lib
 
 			if (stream.IsWriting)
 			{
-				stream.SendNext(direction.x);
-				stream.SendNext(direction.y);
-				stream.SendNext(direction.z);
+				sVector3.x = direction.x;
+				sVector3.y = direction.y;
+				sVector3.z = direction.z;
+				stream.SendNext(sVector3.x);
+				stream.SendNext(sVector3.y);
+				stream.SendNext(sVector3.z);
+
+				stream.SendNext(this.transform.position.x);
+				stream.SendNext(this.transform.position.y);
+				stream.SendNext(this.transform.position.z);
+
 			}
 			if (stream.IsReading)
 			{
-				this.direction.x = (float)stream.ReceiveNext();
-				this.direction.y = (float)stream.ReceiveNext();
-				this.direction.z = (float)stream.ReceiveNext();
+				this.sVector3.x = (float)stream.ReceiveNext();
+				this.sVector3.y = (float)stream.ReceiveNext();
+				this.sVector3.z = (float)stream.ReceiveNext();
+				this.direction = new Vector3(sVector3.x, sVector3.y, sVector3.z);
+
+				this.transform.position = new Vector3((float)stream.ReceiveNext(), (float)stream.ReceiveNext(), (float)stream.ReceiveNext());
 			}
 		}
-		public void PlayAnimation()
-		{
-			
-		}
-	
+
 		/*--- Protected Methods ---*/
 		protected void PlayerInput()
 		{
-			
+
 			if (Input.GetKeyDown(KeyCode.LeftShift))
 			{
-				ChangeActionTo("Run");
+				moveSpeed = 12.0f;
 			}
 			if (Input.GetKeyUp(KeyCode.LeftShift))
 			{
-				ChangeActionTo("Idle");
+				moveSpeed = 6.0f;
 			}
-			
 
-			if (Input.GetKeyDown(KeyCode.Mouse0))
+
+			if (canInteract)
 			{
-				ChangeActionTo("Interact");
+				if (Input.GetKeyDown(KeyCode.Mouse0))
+				{
+					ChangeActionTo("Interact");
+					BarUI.Instance.BeginCasting();
+				}
+				if (Input.GetKeyUp(KeyCode.Mouse0))
+				{
+					ChangeActionTo("Idle");
+					BarUI.Instance.EndCasitng();
+				}
 			}
-			if(Input.GetKeyUp(KeyCode.Mouse0))
+			else
 			{
-				Debug.Log("To Idle");
-				ChangeActionTo("Idle");
+				if (!(CurcharacterAction is Idle))
+				{
+					ChangeActionTo("Idle");
+					BarUI.Instance.EndCasitng();
+				}
 			}
 
 		}
 		protected void Stop()
 		{
-			if (CurcharacterAction is Move
-				||CurcharacterAction is Run)
-			{
-				return;
-			}
 			direction = Vector3.zero;
 		}
         protected override void SetDirection()
@@ -177,28 +234,7 @@ namespace GHJ_Lib
 			camProjToPlane = Vector3.ProjectOnPlane(camForward, Vector3.up);
 			camRight = camTarget.transform.right;
 			direction = (inputDir.x * camRight + inputDir.y * camProjToPlane).normalized;
-
-			if (CurcharacterAction is Run)
-			{
-				return;
-			}
-
-			if (direction.sqrMagnitude > 0.01f)
-			{
-				if (CurcharacterAction is Move)
-				{
-					return;
-				}
-				ChangeActionTo("Move");
-			}
-			else
-			{
-				if (CurcharacterAction is Idle)
-				{
-					return;
-				}
-				ChangeActionTo("Idle");
-			}
+		
 		}
 		protected override void RotateToDirection()
         {
@@ -210,15 +246,26 @@ namespace GHJ_Lib
 				characterModel.transform.LookAt(characterModel.transform.position + forward);
 			}
 
-			animator.SetFloat("Move", direction.sqrMagnitude);
+			
 		}
         protected override void MoveCharacter()
 		{
 			if (controller.enabled == false)
 			{
+				BaseAnimator.SetFloat("Move", 0);
+				Stop();
 				return;
 			}
 			controller.SimpleMove(direction * moveSpeed);
+
+			if (direction.sqrMagnitude <= 0)
+			{
+				BaseAnimator.SetFloat("Move", 0);
+			}
+			else
+			{
+				BaseAnimator.SetFloat("Move", moveSpeed);
+			}
 
 		}
 
@@ -234,19 +281,9 @@ namespace GHJ_Lib
 						CurcharacterAction.PushSuccessorState(idle);
 					}
 					break;
-				case "Run":
-					{
-						CurcharacterAction.PushSuccessorState(run);
-					}
-					break;
-				case "Move":
-					{
-						CurcharacterAction.PushSuccessorState(move);
-					}
-					break;
 				case "Interact":
 					{
-						CurcharacterAction.PushSuccessorState(interAction);
+						CurcharacterAction.PushSuccessorState(interaction);
 					}
 					break;
 			}
@@ -270,7 +307,13 @@ namespace GHJ_Lib
 			
 		}
 
-		
+		/*
+		[PunRPC]
+		void sendNext(니정보,인덱스)
+		{
+			리스트(인덱스).정보 = 니정보
+		}
+		*/
         /*--- Private Methods ---*/
     }
 }

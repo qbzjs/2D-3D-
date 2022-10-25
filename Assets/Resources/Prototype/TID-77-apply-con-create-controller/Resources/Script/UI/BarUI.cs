@@ -6,16 +6,24 @@ using TMPro;
 
 namespace GHJ_Lib
 {
-	public class BarUI: MonoBehaviour
+	public class BarUI : MonoBehaviour
 	{
 		/*--- Public Fields ---*/
 		public static BarUI Instance
 		{
 			get { return instance; }
 		}
-		public bool IsAutoCasting
+		public bool IsAutoCastingNull
 		{
 			get { return isAutoCastingNull; }
+		}
+		public bool IsAutoCasting
+		{
+			get { return isAutoCasting; }
+		}
+		public bool IsCasting
+		{
+			get { return isCasting; }
 		}
 		/*--- Protected Fields ---*/
 		protected static BarUI instance;
@@ -28,6 +36,7 @@ namespace GHJ_Lib
 		private Interaction targetInteraction;
 		private bool isAutoCastingNull = false;
 		private bool isAutoCasting = false;
+		private bool isCasting = false;
 		private float autoCastingTime = 0.0f;
 
 		/*--- MonoBehaviour Callbacks ---*/
@@ -52,9 +61,10 @@ namespace GHJ_Lib
 				return;
 			}
 
-			if (bar.gameObject.activeInHierarchy)
+			if (isCasting&& targetInteraction)
 			{
 				bar.value = targetInteraction.GetGaugeRate;
+				return;
 			}
 
 			
@@ -74,6 +84,14 @@ namespace GHJ_Lib
 		{
 			targetInteraction = interaction;
 		}
+		public void BeginCasting()
+		{
+			isCasting = true;
+		}
+		public void EndCasitng()
+		{
+			isCasting = false;
+		}
 		public void AutoCastingNull(float chargeTime)
 		{
 			StartCoroutine("_AutoCastingNull", chargeTime);
@@ -92,7 +110,7 @@ namespace GHJ_Lib
 			{
 				yield break;
 			}
-			SliderVisible(true);
+
 			bar.value = 0;
 			while (true)
 			{
@@ -101,7 +119,7 @@ namespace GHJ_Lib
 				yield return new WaitForEndOfFrame();
 				if (bar.value >= 1.0f)
 				{
-					SliderVisible(false);
+
 					isAutoCastingNull = false;
 				}
 
@@ -114,7 +132,7 @@ namespace GHJ_Lib
 			{
 				yield break;
 			}
-			SliderVisible(true);
+
 			bar.value = 0;
 			while (true)
 			{
@@ -123,12 +141,15 @@ namespace GHJ_Lib
 				yield return new WaitForEndOfFrame();
 				if (bar.value >= 1.0f)
 				{
-					SliderVisible(false);
+
 					isAutoCasting = false;
 				}
 
 			}
 		}
+
+
+
 
 	}
 }

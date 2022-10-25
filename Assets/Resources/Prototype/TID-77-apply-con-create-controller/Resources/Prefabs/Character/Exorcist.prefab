@@ -374,6 +374,7 @@ GameObject:
   - component: {fileID: -665657466991628406}
   - component: {fileID: 6111092814766441182}
   - component: {fileID: -8825116093476708961}
+  - component: {fileID: 5642758962536604753}
   m_Layer: 7
   m_Name: Exorcist
   m_TagString: Exorcist
@@ -462,6 +463,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 4430563716704696487}
   - {fileID: 6111092814766441182}
+  - {fileID: 5642758962536604753}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -536,7 +538,7 @@ MonoBehaviour:
     ExtrapolateNumberOfStoredPositions: 1
   m_RotationModel:
     SynchronizeEnabled: 1
-    InterpolateOption: 1
+    InterpolateOption: 2
     InterpolateRotateTowardsSpeed: 180
     InterpolateLerpSpeed: 5
   m_ScaleModel:
@@ -561,9 +563,25 @@ MonoBehaviour:
   camTarget: {fileID: 6023530114879361924}
   moveSpeed: 6
   rotateSpeed: 600
+  animator: {fileID: 8668095482253011849}
   Ayra: {fileID: 3615976796478522397}
   CatchObj: []
-  animator: {fileID: 8668095482253011849}
+--- !u!114 &5642758962536604753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6023530114998782608}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 1
+  m_TeleportEnabled: 1
+  m_TeleportIfDistanceGreaterThan: 3
 --- !u!1 &6374633949899727702
 GameObject:
   m_ObjectHideFlags: 0

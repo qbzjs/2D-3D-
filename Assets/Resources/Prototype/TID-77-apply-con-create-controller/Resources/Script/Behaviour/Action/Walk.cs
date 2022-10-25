@@ -22,8 +22,7 @@ namespace GHJ_Lib
         /*--- Protected Methods ---*/
         protected override void Activate(in BasePlayerController actor)
         {
-            DollController dollController = (actor as DollController);
-            dollController.Animator.Play("Walk");
+            actor.BaseAnimator.Play("Walk");
         }
 
         /*--- Private Methods ---*/

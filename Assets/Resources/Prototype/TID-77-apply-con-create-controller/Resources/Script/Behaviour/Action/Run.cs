@@ -11,7 +11,7 @@ namespace GHJ_Lib
         
 
         /*--- Protected Fields ---*/
-        protected DollController dollActor;
+
 
         /*--- Private Fields ---*/
 
@@ -22,8 +22,7 @@ namespace GHJ_Lib
         /*--- Protected Methods ---*/
         protected override void Activate(in BasePlayerController actor)
         {
-            dollActor = (actor as DollController);
-            dollActor.Animator.Play("Run");
+            actor.BaseAnimator.Play("Run");
         }
 
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)

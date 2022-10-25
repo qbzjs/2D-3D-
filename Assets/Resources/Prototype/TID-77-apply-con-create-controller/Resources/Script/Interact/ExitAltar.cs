@@ -25,7 +25,7 @@ namespace GHJ_Lib
 		}
 		void Update()
 		{
-			
+			CheckGauge();
 		}
 
 		/*--- Public Methods ---*/
@@ -55,8 +55,22 @@ namespace GHJ_Lib
 			//controller에서 PlayerData 를 호출하고 interact Velocity를 받은걸 사용.	
 			float velocity = 10.0f;
 			BarUI.Instance.AutoCastingNull(maxGauge / velocity);
+			//Doll 이라면 끝날때 탈출을 넣어주기
 		}
 		/*--- Private Methods ---*/
-	 
+		void CheckGauge()
+		{
+			if (GetGaugeRate >= 1.0f)
+			{
+				CanActiveToExorcist = false;
+				CanActiveToDoll = false;
+			}
+			else
+			{
+				CanActiveToExorcist = true;
+				CanActiveToExorcist = true;
+			}
+
+		}
 	}
 }

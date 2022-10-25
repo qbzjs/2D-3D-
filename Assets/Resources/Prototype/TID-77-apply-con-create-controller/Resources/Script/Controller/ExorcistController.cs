@@ -9,11 +9,7 @@ namespace GHJ_Lib
 	public class ExorcistController: BasePlayerController
 	{
 		/*--- Public Fields ---*/
-		public Animator Animator
-		{
-			get { return animator; }
-		}
-
+	
 		public ParticleSystem Ayra;
 		public GameObject[] CatchObj;
 
@@ -29,8 +25,6 @@ namespace GHJ_Lib
 
 		protected KSH_Lib.FPV_CameraController fpvCam;
 		protected TPV_CameraController tpvCam;
-		[SerializeField]
-		protected Animator animator;
 
         /*--- Private Fields ---*/
 
