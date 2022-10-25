@@ -62,14 +62,19 @@ namespace GHJ_Lib
 		/*--- Private Methods ---*/
 		void CheckGauge()
 		{
-			if (GetGaugeRate >= 1.0f)
+			
+			if (GetGaugeRate >= 1.0f&& CanActiveToDoll)
 			{
-				//FinalAltar ºÎ¸£±â
+				FinalAltar.Instance.DisableNormalAltar();
 				CanActiveToExorcist = false;
 				CanActiveToDoll = false;
 			}
 			else
 			{
+				if (!CanActiveToDoll)
+				{
+					return;
+				}
 				if (GetGaugeRate >= 0.3f)
 				{
 					CanActiveToExorcist = true;

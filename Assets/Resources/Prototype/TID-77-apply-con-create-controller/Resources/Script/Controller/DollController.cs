@@ -73,7 +73,14 @@ namespace GHJ_Lib
 			if (photonView.IsMine)
 			{
 				//움직임 관련, 및 행동제한 부분
-				SetDirection();
+				if (CurcharacterAction is Idle)
+				{
+					SetDirection();
+				}
+				else
+				{
+					Stop();
+				}
 				
 				PlayerInput();
 
@@ -95,9 +102,15 @@ namespace GHJ_Lib
 
         private void OnTriggerStay(Collider other)
         {
+			
+
 			if (other.CompareTag("interactObj"))
 			{
 				interactObj =  other.GetComponent<Interaction>();
+				if (!photonView.IsMine)
+				{
+					return;
+				}
 
 				if (BarUI.Instance.IsAutoCasting || BarUI.Instance.IsAutoCastingNull)
 				{
@@ -111,6 +124,10 @@ namespace GHJ_Lib
 					canInteract = true;
 					BarUI.Instance.SliderVisible(true);
 					BarUI.Instance.TextVisible(false);
+					if (!interactObj.CanActiveToDoll)
+					{
+						canInteract = false;
+					}
 					return;
 				}
 				else
@@ -123,7 +140,7 @@ namespace GHJ_Lib
 				{
 					BarUI.Instance.TextVisible(true);
 					canInteract = true;
-					interaction.SetInteractObj(interactObj);
+					
 				}
 				else
 				{
@@ -284,6 +301,7 @@ namespace GHJ_Lib
 				case "Interact":
 					{
 						CurcharacterAction.PushSuccessorState(interaction);
+						interaction.SetInteractObj(interactObj);
 					}
 					break;
 			}
