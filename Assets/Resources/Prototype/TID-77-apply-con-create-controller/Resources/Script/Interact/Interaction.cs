@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 namespace GHJ_Lib
 {
-	public class Interaction :MonoBehaviour,IPunObservable
+	public class Interaction :MonoBehaviourPun,IPunObservable
 	{
 		/*--- Public Fields ---*/
 		public bool CanActiveToExorcist = true;
@@ -63,7 +63,7 @@ namespace GHJ_Lib
 			
 		}
 
-		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+		public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 		{
 			if (stream.IsWriting)
 			{

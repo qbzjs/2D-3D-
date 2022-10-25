@@ -60,6 +60,7 @@ namespace GHJ_Lib
 		}
         void Start()
 		{
+			instance = this;
 			//PlayerData 받아온정보를 토대로 어떤 퇴마사인지, 어떤 인형인지.. 결정
 			playerGenerator = new NetworkGenerator(DollPrefabs[0]);
 
@@ -95,7 +96,6 @@ namespace GHJ_Lib
 		{
 			Model.layer = layer;
 			int count = Model.transform.childCount;
-			Debug.Log("count : " + count);
 			if (count != 0)
 			{
 				for (int i = 0; i < count; ++i)
@@ -109,15 +109,8 @@ namespace GHJ_Lib
 			}
 		}
 
-		public void ExitMapAlone()
-		{
-			
-		}
-		public void EndStage()
-		{
-			
-		}
 		
+
 		/*--- Protected Methods ---*/
 
 
