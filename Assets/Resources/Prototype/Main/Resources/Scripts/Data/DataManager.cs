@@ -25,11 +25,11 @@ namespace KSH_Lib
 				{
 					GameObject obj = new GameObject("_DataManager");
 					instance = obj.AddComponent<DataManager>();
-					//pv = obj.AddComponent<PhotonView>();
-					//pv.ViewID = PhotonNetwork.AllocateViewID(0);
+					pv = obj.AddComponent<PhotonView>();
+					pv.ViewID = PhotonNetwork.AllocateViewID(1);
 
-					//pv.observableSearch = (PhotonView.ObservableSearch.AutoFindActive);
-					//pv.FindObservables();
+					pv.observableSearch = (PhotonView.ObservableSearch.AutoFindActive);
+					pv.FindObservables();
 				}
 				return instance;
 			}
@@ -47,7 +47,7 @@ namespace KSH_Lib
 		/*--- Private Fields ---*/
 		const string CharcterStatusCSV = "Prototype/Main/Resources/Datas/CharacterStatus";
 
-		//static PhotonView pv;
+		static PhotonView pv;
 
 		public int playerIdx;
 
@@ -87,7 +87,6 @@ namespace KSH_Lib
 		{
 			//curAccount = new AccountData();
 			localPlayerData.accountData = new AccountData();
-
 		}
 		public void SetPlayerIdx()
 		{
@@ -120,7 +119,7 @@ namespace KSH_Lib
 		}
 		public void UpdateData()
 		{
-			//pv.RPC("TestPhoton", RpcTarget.AllViaServer, localint);
+			pv.RPC("TestPhoton", RpcTarget.AllViaServer, localint, playerIdx);
 		}
 
 		/*--- Protected Methods ---*/
@@ -164,18 +163,14 @@ namespace KSH_Lib
 		[PunRPC]
 		void InitPlayerData()
 		{
-			//if(photonView.IsMine)
 			{
 				localPlayerData.roleData = roleDatas[(int)CurRoleTypeOrder];
 				playerDatas[playerIdx] = localPlayerData;
-
-
 			}
 		}
 		[PunRPC]
 		void ChangePlayerData(PlayerData data)
 		{
-			//if(photonView.IsMine)
 			{
 				//playerDatas[playerIdx] = localPlayerData;
 				playerDatas[0] = data;
@@ -183,9 +178,9 @@ namespace KSH_Lib
 		}
 
 		[PunRPC]
-		void TestPhoton(int data)
+		void TestPhoton(int data, int idx)
         {
-			testDatas[playerIdx] = data;
+			testDatas[idx] = data;
         }
 
 

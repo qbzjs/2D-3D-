@@ -31,6 +31,7 @@ namespace KSH_Lib
             {
                 DataManager.Instance.localPlayerData.roleData.MoveSpeed += 1;
                 DataManager.Instance.localint += 1;
+                DataManager.Instance.UpdateData();
             }
         }
 
