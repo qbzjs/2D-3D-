@@ -3,11 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
 using Photon.Pun;
+
+using System.Linq;
+
 namespace GHJ_Lib
 {
 	public class NetworkGenerator : Generator
 	{
 		/*--- Public Fields ---*/
+        public NetworkGenerator(in GameObject[] targetPrefabs)
+        {
+            foreach(var prefab in targetPrefabs)
+            {
+                PhotonNetwork.PrefabPool.RegisterPrefab( prefab.name, prefab );
+            }
+        }
+
+        /*
 		public NetworkGenerator(in GameObject targetObj)
 			:
 			base(targetObj)
@@ -26,59 +38,106 @@ namespace GHJ_Lib
 			this.targetObj = targetObj;
 			this.genPositions = genPositions;
 		}
-
+        */
 
 
         /*--- Protected Fields ---*/
-        protected string targetID;
+
         /*--- Private Fields ---*/
 
 
         /*--- Public Methods ---*/
-        public GameObject GenerateRandomly(GameObject[] genPosObj)
+        public void GenerateSpread( in GameObject targetObj, in Transform[] genTransforms, int count, float radius, Vector3 anchor )
         {
-            if (genPosObj == null)
+            List<Transform> genTransformList = genTransforms.ToList();
+            List<int> innerIndices = new List<int>();
+            List<int> outterIndices = new List<int>();
+            List<GameObject> targetObjects = new List<GameObject>();
+
+            for ( int i = 0; i < genTransforms.Length; i++ )
             {
-                Debug.LogError("Generator: No Position Set");
-                return null;
+                if ( radius > (genTransforms[i].gameObject.transform.position - anchor).magnitude )
+                {
+                    innerIndices.Add( i );
+                }
+                else
+                {
+                    outterIndices.Add( i );
+                }
             }
 
-            int i = Random.Range(0, genPosObj.Length);
-            return _Generate(genPosObj[i].transform.position, Quaternion.Euler(genPosObj[i].transform.rotation.eulerAngles));
+            int index = innerIndices[Random.Range( 0, innerIndices.Count )];
+            GenerateTargetAtList( targetObj, ref targetObjects, ref genTransformList, index );
+
+            index = outterIndices[Random.Range( 0, outterIndices.Count )];
+            GenerateTargetAtList( targetObj, ref targetObjects, ref genTransformList, index );
+
+            for ( int i = 0; i < count - 2; ++i )
+            {
+                GenerateTargetAtList( targetObj, ref targetObjects, ref genTransformList, GetfarthestIndex( genTransformList, targetObjects ) );
+            }
         }
 
-        public void GenerateByAlgorithm(int count,GameObject[] NormalAltarGenPos,float CenterDistance, Vector3 CenterPosition)
+        public void GenerateByAlgorithm(System.Action GenFunc)
         {
-            GenerateNormalAltar(count,NormalAltarGenPos, CenterDistance, CenterPosition);
+            GenFunc();
         }
+
 
 
         /*--- Protected Methods ---*/
-        protected override GameObject _Generate(in Vector3 position, in Quaternion rotation)
+        protected override GameObject _Generate(in GameObject targetObj, in Vector3 position, in Quaternion rotation)
         {
 			if (targetObj == null)
 			{
 				Debug.LogError("Generator: No targetObject Set");
 				return null;
 			}
-
-			return PhotonNetwork.Instantiate(targetID, position, rotation,0);
+            return PhotonNetwork.Instantiate(targetObj.name, position, rotation);
         }
 
-        protected GameObject _Generate(in GameObject Pos)
+        protected GameObject _Generate( in GameObject targetObj, in Transform transform)
         {
             if (targetObj == null)
             {
                 Debug.LogError("Generator: No targetObject Set");
                 return null;
             }
-
-            return PhotonNetwork.Instantiate(targetID, Pos.transform.position, Quaternion.Euler(Pos.transform.rotation.eulerAngles), 0);
+            return PhotonNetwork.Instantiate( targetObj.name, transform.position, transform.rotation);
         }
 
 
         /*--- Private Methods ---*/
-        void GenerateNormalAltar(int AltarCount, GameObject[] NormalAltarGenPos, float CenterDistance,Vector3 CenterPosition)
+
+
+        void GenerateTargetAtList(in GameObject targetObj, ref List<GameObject> targetObjects, ref List<Transform> transforms, int index )
+        {
+            targetObjects.Add( _Generate( targetObj, transforms[index] ) );
+            transforms.RemoveAt( index );
+        }
+        int GetfarthestIndex( in List<Transform> genTransform, in List<GameObject> targetObjects )
+        {
+            float maxDistance = 0;
+            float curDistance = 0;
+            int targetIdx = 0;
+            for ( int i = 0; i < genTransform.Count; ++i )
+            {
+                curDistance = 0;
+                for ( int j = 0; j < targetObjects.Count; ++j )
+                {
+                    curDistance += (genTransform[i].position - targetObjects[j].transform.position).magnitude;
+                }
+
+                if ( curDistance > maxDistance )
+                {
+                    targetIdx = i;
+                    maxDistance = curDistance;
+                }
+            }
+            return targetIdx;
+        }
+        /*
+        void GenerateNormalAltar(int AltarCount, in Transform[] NormalAltarGenPos, float CenterDistance,Vector3 CenterPosition)
         {
             List<GameObject> AltarGenPos = new List<GameObject>();
             List<int> inCenterAltars = new List<int>();
@@ -117,29 +176,8 @@ namespace GHJ_Lib
                 Altars.Add(C);
             }
         }
+        */
 
 
-        GameObject GetMaxDistancePos(List<GameObject> altarGenPos, List<GameObject> altars)
-        {
-            float maxDistance = 0;
-            float curDistance = 0;
-            int MaxIndex = 0;
-            for (int i = 0; i < altarGenPos.Count; ++i)
-            {
-                curDistance = 0;
-                for (int j = 0; j < altars.Count; ++j)
-                {
-                    curDistance += (altarGenPos[i].transform.position - altars[j].transform.position).magnitude;
-                }
-
-                if (curDistance > maxDistance)
-                {
-                    MaxIndex = i;
-                    maxDistance = curDistance;
-                }
-            }
-
-            return altarGenPos[MaxIndex];
-        }
     }
 }

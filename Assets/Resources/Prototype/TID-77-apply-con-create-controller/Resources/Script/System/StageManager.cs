@@ -11,20 +11,20 @@ namespace GHJ_Lib
 		/*--- Public Fields ---*/
 		public static StageManager Instance
 		{
-			get 
+			get
 			{
-				if (instance == null)
+				if ( instance == null )
 				{
-					Debug.LogError("Not Exist StageManger!");
+					Debug.LogError( "Not Exist StageManger!" );
 				}
-				return instance; 
+				return instance;
 			}
 		}
-		[Header("Camera")]
+		[Header( "Camera" )]
 		public GameObject FPV_Cam;
 		public GameObject TPV_Cam;
 
-		[Header("Prefabs")]
+		[Header( "Prefabs" )]
 		public GameObject[] DollPrefabs;
 		public GameObject[] ExorcistPrefabs;
 		public GameObject NormalAltarPrefab;
@@ -32,14 +32,14 @@ namespace GHJ_Lib
 		public GameObject FinalAltarPrefab;
 		public GameObject PurificationBoxPrefab;
 
-		[Header("GenPos")]
+		[Header( "GenPos" )]
 		public Vector3[] PlayerGenPos;
 		public GameObject[] NormalAltarGenPos;
 		public GameObject[] ExitAltarGenPos;
 		public GameObject FinalAltarGenPos;
 		public GameObject[] PurificationBoxGenPos;
 
-		[Header("NormalAltarSetting")]
+		[Header( "NormalAltarSetting" )]
 		public int Count;
 		public float InitAreaRadius;
 		public Vector3 CenterPosition;
@@ -49,6 +49,10 @@ namespace GHJ_Lib
 		protected NetworkGenerator exitAltarGenerator;
 		protected NetworkGenerator finalAltarGenerator;
 		protected NetworkGenerator purificationBoxGenerator;
+
+
+		protected NetworkGenerator networkGenerator;
+
 		/*--- Private Fields ---*/
 		static StageManager instance;
 

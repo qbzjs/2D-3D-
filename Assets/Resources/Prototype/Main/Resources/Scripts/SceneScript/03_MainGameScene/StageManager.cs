@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using GHJ_Lib;
+
 namespace KSH_Lib
 {
 	public class StageManager : MonoBehaviour
@@ -15,11 +17,11 @@ namespace KSH_Lib
 
 		/*--- Private Fields ---*/
 
-
 		/*--- MonoBehaviour Callbacks ---*/
 		void Start()
 		{
 			DataManager.Instance.StartGame();
+			
 		}
 
         private void Update()
