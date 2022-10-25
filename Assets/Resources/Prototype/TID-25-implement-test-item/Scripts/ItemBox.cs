@@ -10,16 +10,14 @@ namespace LSH_Lib
     [System.Serializable]
     public class ItemData
     {
-        //public ItemData(string types, string names,string numbers, string isUsings, int frequency)
         public ItemData(string type, string number, string isUsing, int frequency)
         {
             this.type = type;
-            //name = names;
             this.number = number;
             this.isUsing = isUsing;
             this.frequency = frequency;
         }
-        public string type, name, number, isUsing; 
+        public string type, number, isUsing; 
         public int frequency;
     }
     public class ItemBox : MonoBehaviour
@@ -27,27 +25,24 @@ namespace LSH_Lib
         List<ItemData> itemDatas = new List<ItemData>();
         Dictionary<string, ItemData> dollItems = new Dictionary<string, ItemData>();
         Dictionary<string, ItemData> exorcistItems = new Dictionary<string, ItemData>();
-        List<string> itemlist = new List<string>();
-        
+        RandomGenerator<string> randomGenerator = new RandomGenerator<string>();
+        Item item;
         private void Start()
         {
             DataLoad();
-            AddItemToList("Doll");
-        }
-        private void Update()
-        {
         }
         private void OnTriggerEnter(Collider other)
         {
+            string playerTag;
             if(other.gameObject.CompareTag("Exorcist"))
             {
-                string playerTag = "Exorcist";
-                AddItemToList(playerTag);
+                playerTag = "Exorcist";
+                DoAction(playerTag);
             }
             if(other.gameObject.CompareTag("Doll"))
             {
-                string playerTag = "Doll";
-                AddItemToList(playerTag);
+                playerTag = "Doll";
+                DoAction(playerTag);
             }
         }
 
@@ -71,21 +66,32 @@ namespace LSH_Lib
                 }
             }
         }
+        void DoAction(string playerTag)
+        {
+            AddItemToList(playerTag);
+            RandomPick();
+        }
         void AddItemToList(string playerTag)
-        {
-            FindType(playerTag);
-            //Addtolist();
-        }
-        void Addtolist()
-        {
-            
-        }
-        void FindType(string playerTag)
         {
             if(playerTag == "Doll")
             {
-                
+                foreach(string key in dollItems.Keys)
+                {
+                    randomGenerator.Add(key,10);
+                }
             }
+            if(playerTag == "Exorcist")
+            {
+                foreach(string key in exorcistItems.Keys)
+                {
+                    randomGenerator.Add(key,10);
+                }
+            }
+        }
+        void RandomPick()
+        {
+            string result = randomGenerator.GetItem();
+            item = new Item(result);
         }
     }
 }

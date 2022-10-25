@@ -6,6 +6,9 @@ namespace LSH_Lib
 {
 	public class CottonPiece : Item
 	{
+        public CottonPiece(string itemName)
+            :base(itemName)
+        { }
 		ItemManager itemManager;
         private void Start()
         {
@@ -18,7 +21,7 @@ namespace LSH_Lib
                 DoAction();
             }
         }
-        public override void DoAction()
+        protected override void DoAction()
         {
             itemManager.Doll.CottonPiece();
             Destroy(this.gameObject);

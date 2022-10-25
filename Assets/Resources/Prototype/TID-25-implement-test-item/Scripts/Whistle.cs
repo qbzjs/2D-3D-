@@ -6,6 +6,9 @@ namespace LSH_Lib
 {
 	public class Whistle : Item
 	{
+        public Whistle(string itemName)
+            :base(itemName)
+        { }
         ItemManager itemManager;
         AudioSource whistleaudio;
         private void Start()
@@ -20,7 +23,7 @@ namespace LSH_Lib
                 DoAction();
             }
         }
-        public override void DoAction()
+        protected override void DoAction()
         {
             whistleaudio.Play();
             StartCoroutine("Audio");

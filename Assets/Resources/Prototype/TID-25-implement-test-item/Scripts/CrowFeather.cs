@@ -6,6 +6,9 @@ namespace LSH_Lib
 {
 	public class CrowFeather : Item
 	{
+        public CrowFeather(string itemName)
+            :base(itemName)
+        { }
         ItemManager itemManager;
         private void Start()
         {
@@ -18,7 +21,7 @@ namespace LSH_Lib
                 DoAction();
             }
         }
-        public override void DoAction()
+        protected override void DoAction()
         {
             itemManager.Doll.CrowFeather();
             Destroy(this.gameObject);

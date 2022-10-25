@@ -6,10 +6,10 @@ namespace LSH_Lib
 {
 	public class Chicken : Item
 	{
-        public Chicken() {
-
-        }
-		AudioSource chickenaudio;
+        public Chicken(string itemName) 
+            :base(itemName)
+        { }
+        AudioSource chickenaudio;
         MeshRenderer mesh;
         private void Start()
         {
@@ -23,7 +23,7 @@ namespace LSH_Lib
                 DoAction();
             }
         }
-        public override void DoAction()
+        protected override void DoAction()
         {
             chickenaudio.Play();
             mesh.enabled = false;

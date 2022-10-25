@@ -6,6 +6,9 @@ namespace LSH_Lib
 {
 	public class CottonBall : Item
 	{
+        public CottonBall(string itemName)
+            :base(itemName)
+        { }
 		ItemManager itemManager;
         MeshRenderer mesh;
         private void Start()
@@ -29,7 +32,7 @@ namespace LSH_Lib
                 DoAction();
             }
         }
-        public override void DoAction()
+        protected override void DoAction()
         {
             itemManager.Doll.dollStatus.CottonBall();
             Destroy(this.gameObject);
