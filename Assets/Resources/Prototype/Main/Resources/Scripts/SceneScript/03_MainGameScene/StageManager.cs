@@ -30,6 +30,7 @@ namespace KSH_Lib
 			if(Input.GetKeyDown(KeyCode.Alpha1))
             {
                 DataManager.Instance.localPlayerData.roleData.MoveSpeed += 1;
+                DataManager.Instance.localint += 1;
             }
         }
 
