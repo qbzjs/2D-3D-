@@ -6,24 +6,13 @@ namespace LSH_Lib
 {
 	public class CrowFeather : Item
 	{
-        public CrowFeather(string itemName)
-            :base(itemName)
-        { }
-        ItemManager itemManager;
-        private void Start()
+        protected override void InitItemData()
         {
-            itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
+            ItemDataLoader.Instance.GetDollItem("CrowFeatehr");
         }
-        void OnTriggerEnter(Collider other)
+        protected override void DoAction()
         {
-            if(other.gameObject.CompareTag("Doll"))
-            {
-                DoAction();
-            }
-        }
-        void DoAction()
-        {
-            itemManager.Doll.CrowFeather();
+            ItemManager.Instance.Doll.CrowFeather();
             Destroy(this.gameObject);
         }
     }

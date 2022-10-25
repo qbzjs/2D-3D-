@@ -6,15 +6,13 @@ namespace LSH_Lib
 {
 	public class Chicken : Item
 	{
-        public Chicken() 
-            :
-            base(ItemDataLoader.Instance.GetDollItem("Chicken"))
-        { }
+
         AudioSource chickenaudio;
         MeshRenderer mesh;
         GameObject ChickenDoll;
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             chickenaudio = this.gameObject.GetComponent<AudioSource>();
             mesh = this.gameObject.GetComponent<MeshRenderer>();
         }
@@ -22,11 +20,15 @@ namespace LSH_Lib
         {
             KeyDown();
         }
+        protected override void InitItemData()
+        {
+            ItemDataLoader.Instance.GetDollItem("Chicken");
+        }
         void KeyDown()
         {
             if(Input.GetKeyDown(KeyCode.Space))
             {
-                Instantiate(ChickenDoll);
+                Instantiate(ChickenDoll, this.gameObject.transform);
             }
         }
         private void OnTriggerEnter(Collider other)
@@ -41,6 +43,7 @@ namespace LSH_Lib
             chickenaudio.Play();
             mesh.enabled = false;
             StartCoroutine("Audio");
+            
         }
         IEnumerator Audio()
         {

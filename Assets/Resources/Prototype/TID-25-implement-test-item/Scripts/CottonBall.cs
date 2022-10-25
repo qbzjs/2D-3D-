@@ -6,27 +6,28 @@ namespace LSH_Lib
 {
 	public class CottonBall : Item
 	{
-        public CottonBall()
-            :
-            base(ItemDataLoader.Instance.GetDollItem("CottonBall"))
-        { }
-        ItemManager itemManager;
         MeshRenderer mesh;
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             mesh = GetComponent<MeshRenderer>();
-            itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
-            if(itemManager == null)
-            {
-                this.gameObject.AddComponent<ItemManager>();
-            }
-
         }
-        protected override string Name { get { return "CottonBall"; } }
+        protected override void InitItemData()
+        {
+            ItemDataLoader.Instance.GetDollItem("CottonBall");
+        }
+        private void Update()
+        {
+            if(Input.GetKey(KeyCode.Space))
+            {
+                DoAction();
+            }
+        }
         protected override void DoAction()
         {
-            itemManager.Doll.dollStatus.CottonBall();
+            ItemManager.Instance.Doll.dollStatus.CottonBall();
             Destroy(this.gameObject);
+            
         }
     }
 }

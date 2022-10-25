@@ -6,24 +6,13 @@ namespace LSH_Lib
 {
 	public class CottonPiece : Item
 	{
-        public CottonPiece(string itemName)
-            :base(itemName)
-        { }
-		ItemManager itemManager;
-        private void Start()
+        protected override void InitItemData()
         {
-            itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
+            ItemDataLoader.Instance.GetDollItem("CottonPiece");
         }
-        void OnTriggerEnter(Collider other)
+        protected override void DoAction()
         {
-            if(other.gameObject.CompareTag("Doll"))
-            {
-                DoAction();
-            }
-        }
-        void DoAction()
-        {
-            itemManager.Doll.CottonPiece();
+            ItemManager.Instance.Doll.CottonPiece();
             Destroy(this.gameObject);
         }
     }

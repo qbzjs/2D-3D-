@@ -30,7 +30,7 @@ namespace LSH_Lib
                 playerTag = "Doll";
                 ItemOrder itemOrder = randomList.GetItem();
 
-                other.gameObject.GetComponent<BasePlayerController>().AddToInventory(Instantiate(itemPrefabs[(int)itemOrder]));
+                other.gameObject.GetComponent<Inventory>().AddToInventory(itemPrefabs[(int)itemOrder]);
 
 
             }

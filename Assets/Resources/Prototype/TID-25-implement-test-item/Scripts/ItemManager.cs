@@ -7,6 +7,20 @@ namespace LSH_Lib
 {
     public class ItemManager : MonoBehaviour
     {
+        public static ItemManager Instance 
+        {
+            get
+            {
+                if(instance == null)
+                {
+                    GameObject obj = new GameObject("_ItemManager");
+                    instance = obj.AddComponent<ItemManager>();
+                }
+                return instance;
+            }
+        }
+        static ItemManager instance; 
+        
         public NetworkExorcistController Exorcist
         {
             get

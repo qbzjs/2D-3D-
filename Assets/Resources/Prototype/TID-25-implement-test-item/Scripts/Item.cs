@@ -6,13 +6,14 @@ namespace LSH_Lib
 {
     public abstract class Item : MonoBehaviour
     {
-        public Item() { }
-        public Item(ItemData data)
-        {
-            this.data = data;
-        }
-
         ItemData data;
+
+        virtual protected void Start()
+        {
+            InitItemData();
+        }
+        protected abstract void InitItemData();
+
         virtual protected void DoAction(){ }
     }
 }

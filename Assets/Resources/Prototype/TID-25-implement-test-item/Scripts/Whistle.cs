@@ -6,24 +6,17 @@ namespace LSH_Lib
 {
 	public class Whistle : Item
 	{
-        public Whistle(string itemName)
-            :base(itemName)
-        { }
-        ItemManager itemManager;
         AudioSource whistleaudio;
-        private void Start()
+        protected override void Start()
         {
-            itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
+            base.Start();
             whistleaudio = GetComponent<AudioSource>();
         }
-        void OnTriggerEnter(Collider other)
+        protected override void InitItemData()
         {
-            if (other.gameObject.CompareTag("Doll")) 
-            {
-                DoAction();
-            }
+            ItemDataLoader.Instance.GetDollItem("Whistle");
         }
-        void DoAction()
+        protected override void DoAction()
         {
             whistleaudio.Play();
             StartCoroutine("Audio");
