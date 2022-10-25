@@ -66,10 +66,13 @@ namespace GHJ_Lib
 			int number = PhotonNetwork.LocalPlayer.ActorNumber;
 			if (number == 1)
 			{
+				playerGenerator = new NetworkGenerator(DollPrefabs[0]);
 				playerGenerator = new NetworkGenerator(ExorcistPrefabs[0]);
+				 
 			}
 			else
 			{
+				playerGenerator = new NetworkGenerator(ExorcistPrefabs[0]);
 				playerGenerator = new NetworkGenerator(DollPrefabs[0]);
 			}
 			//

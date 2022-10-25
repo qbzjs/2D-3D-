@@ -8,10 +8,10 @@ namespace GHJ_Lib
 	public class ExitAltar: Interaction
 	{
 		/*--- Public Fields ---*/
-		
+		public GameObject ExitAltarModel;
 
 		/*--- Protected Fields ---*/
-
+		protected bool isOpen = false;
 
 		/*--- Private Fields ---*/
 
@@ -19,13 +19,17 @@ namespace GHJ_Lib
 		/*--- MonoBehaviour Callbacks ---*/
 		void OnEnable()
 		{
+			ExitAltarModel.SetActive(false);
 			curGauge = 0.0f;
-			CanActiveToExorcist = true;
-			CanActiveToDoll = true;
+			CanActiveToExorcist = false;
+			CanActiveToDoll = false;
 		}
 		void Update()
 		{
-			CheckGauge();
+			if (isOpen)
+			{ 
+				CheckGauge();
+			}
 		}
 
 		/*--- Public Methods ---*/
@@ -42,7 +46,13 @@ namespace GHJ_Lib
 				AutoCasting(controller);
 			}
 		}
-
+		public void OpenExitAltar()
+		{
+			isOpen = true;
+			CanActiveToExorcist = true;
+			CanActiveToDoll = true;
+			ExitAltarModel.SetActive(true);
+		}
 		/*--- Protected Methods ---*/
 		protected override void Casting(BasePlayerController controller)
 		{
@@ -64,13 +74,12 @@ namespace GHJ_Lib
 			{
 				CanActiveToExorcist = false;
 				CanActiveToDoll = false;
+				isOpen = false;
 			}
-			else
-			{
-				CanActiveToExorcist = true;
-				CanActiveToExorcist = true;
-			}
+		
 
 		}
+
+	
 	}
 }

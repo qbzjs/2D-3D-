@@ -28,9 +28,11 @@ namespace GHJ_Lib
 		int dollCount;
 		int needAltarCount = 4;
 		bool canOpenDoor = false;
+		ExitAltar exitAltar;
 		/*--- MonoBehaviour Callbacks ---*/
 		void OnEnable()
 		{
+			exitAltar = GameObject.Find("ExitAltar(Clone)").GetComponent<ExitAltar>();
 			instance = this;
 			dollCount = PhotonNetwork.CurrentRoom.PlayerCount;
 			curGauge = 0.0f;
@@ -66,6 +68,7 @@ namespace GHJ_Lib
 			{
 				needAltarCount--;
 			}
+
 
 			if (needAltarCount <= 0)
 			{
@@ -119,6 +122,11 @@ namespace GHJ_Lib
 			if (dollCount > 0)
 			{
 				--dollCount;
+			}
+
+			if (dollCount == 2)
+			{
+				exitAltar.OpenExitAltar();
 			}
 
 			if (dollCount == 1)
