@@ -4,11 +4,13 @@ using UnityEngine;
 
 using UnityEngine.SceneManagement;
 using Photon.Pun;
-using Photon.Realtime;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
-    #region Private Fields
+    /*--- Public Fields ---*/
+    public string NextSceneName;
+
+    /*--- Private Fields ---*/
     [SerializeField]
     private float maxDelayTime = 2.0f;
 
@@ -16,10 +18,9 @@ public class Launcher : MonoBehaviourPunCallbacks
     float delayTimer;
     string gameVersion = "1.0";
     bool isConnectedToServer = false;
-    #endregion
 
 
-    #region MonoBehaviour Callbacks
+    /*--- MonoBehaviour Callbacks ---*/
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -28,37 +29,33 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     private void Start()
     {
-        StartCoroutine( LoadingNextScene( "01_MainLobbyScene" ) );
+        StartCoroutine( LoadingNextScene(NextSceneName) );
     }
     private void Update()
     {
         DelayTime();
     }
-    #endregion
 
 
-    #region MonoBehaviourPun Callbacks
+    /*--- MonoBehaviourPun Callbacks ---*/
     public override void OnConnectedToMaster()
     {
         Debug.Log( "Launcher: OnConnectedToMaster 호출, 서버 연결 완료" );
         isConnectedToServer = true;
     }
-    #endregion
 
 
-    #region Public Methods
-    #endregion
+    /*--- Public Methods ---*/
 
 
-    #region Private Methods
+    /*--- Private Methods ---*/
     void DelayTime()
     {
         delayTimer += Time.deltaTime;
     }
-    #endregion
 
 
-    #region IEnumerators
+    /*--- IEnumerators ---*/
     IEnumerator LoadingNextScene( string sceneName )
     {
         async = SceneManager.LoadSceneAsync( sceneName );
@@ -80,5 +77,4 @@ public class Launcher : MonoBehaviourPunCallbacks
         async.allowSceneActivation = true;
         yield return true;
     }
-    #endregion
 }

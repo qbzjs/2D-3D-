@@ -5,16 +5,21 @@ using UnityEngine;
 
 namespace KSH_Lib.Data
 {
-    public abstract class RoleData
-    {
+	[System.Serializable]
+	//public abstract class RoleData
+	public class RoleData
+	{
 		public enum RoleType
 		{
+			Null,
 			Exorcist,
 			Doll
 		}
 
 		public enum RoleTypeOrder
         {
+			Null,
+
 			Photographer,
 			Bishop,
 			Dokkaebi,
@@ -26,6 +31,8 @@ namespace KSH_Lib.Data
 			Rabbit,
 			Wolf,
 			Tortoise,
+
+			Count,
 		}
 
 		/*--- Constructor ---*/

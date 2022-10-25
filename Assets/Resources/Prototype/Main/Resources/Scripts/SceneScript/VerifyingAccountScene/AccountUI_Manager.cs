@@ -4,13 +4,16 @@ using UnityEngine;
 
 using KSH_Lib.Util;
 using TMPro;
-using UnityEngine.Networking;
 
 namespace KSH_Lib.UI
 {
 	public class AccountUI_Manager : MonoBehaviour
 	{
 		/*--- Public Fields ---*/
+		[Header("Next Scene")]
+		[SerializeField]
+		string NextSceneName;
+
 		[Header("UI Init")]
 		public GameObject IdFieldObj;
 		public GameObject PasswordFieldObj;
@@ -131,6 +134,11 @@ namespace KSH_Lib.UI
 			ActiveLoginScreen();
         }
 
+		public void OnSkipLoginButtonClicked()
+		{
+			DataManager.Instance.SetLocalAccount( -1, "Test", "Test" );
+			StartCoroutine( ChangeScene() );
+		}
 		/*--- Private Methods ---*/
 		bool CheckRegisterField()
 		{
@@ -179,16 +187,16 @@ namespace KSH_Lib.UI
 
 			if(data.result == "OK")
             {
-				if(data.order == "Register")
+				if(data.order == "register")
 				{
 					ActiveLoginScreen();
 				}
-				else if( data.order == "Login")
+				else if( data.order == "login")
                 {
-					//Load Lobby;
+					DataManager.Instance.SetLocalAccount(data.index, data.id, data.nickname);
+					StartCoroutine( ChangeScene() );
                 }
             }
-
 		}
 
 		void PopUpMessage(in string msg)
@@ -215,5 +223,12 @@ namespace KSH_Lib.UI
 			form.AddField( "nickname", nickname );
 			return form;
         }
+
+
+		IEnumerator ChangeScene()
+        {
+			yield return new WaitForSeconds( 0.5f );
+			GameManager.Instance.LoadScene( NextSceneName );
+		}
 	}
 }

@@ -4,10 +4,12 @@ using UnityEngine;
 
 namespace KSH_Lib.Data
 {
+	[System.Serializable]
 	public class PlayerData
 	{
 
 		/*--- Public Fields ---*/
+		public int Index;
 		public RoleData roleData;
 		public AccountData accountData;
 
