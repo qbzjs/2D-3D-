@@ -12,15 +12,15 @@ namespace KSH_Lib
 		[Header( "Character Object Setting" )]
 		[Tooltip( "The Object has CharacterController Component" )]
 		[SerializeField]
-		GameObject characterObj;
+		protected GameObject characterObj;
 
 		[Tooltip( "Actual Model of Character" )]
 		[SerializeField]
-		GameObject characterModel;
+		protected GameObject characterModel;
 
 		[Tooltip( "Camera Target for Camera, This is used for rotation of Camera" )]
 		[SerializeField]
-		GameObject camTarget;
+		protected GameObject camTarget;
 
 		[Header( "Character Move Setting" )]
 		[SerializeField]

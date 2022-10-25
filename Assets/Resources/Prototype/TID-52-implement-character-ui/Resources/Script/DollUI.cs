@@ -47,7 +47,7 @@ namespace GHJ_Lib
 
         private void Update()
         {
-            Debug.Log("playerStatus: " + playerStatus.name);
+            
             if (playerStatus == null)
             {
                 return;

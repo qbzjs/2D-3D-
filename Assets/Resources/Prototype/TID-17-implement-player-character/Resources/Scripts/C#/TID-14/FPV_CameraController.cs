@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+
+
 public class FPV_CameraController : CinemachineExtension
 {
 
@@ -20,7 +22,7 @@ public class FPV_CameraController : CinemachineExtension
     #region Private Fields
     private FPV_InputManager inputManager;
     private Vector3 startingRotation = new Vector3();
-    
+
     #endregion
 
     #region MonoBehaviour Callbacks
@@ -38,7 +40,7 @@ public class FPV_CameraController : CinemachineExtension
     }
     void Update()
     {
-        
+
     }
     #endregion
 
@@ -51,9 +53,9 @@ public class FPV_CameraController : CinemachineExtension
     #region Protected Methods
     protected override void PostPipelineStageCallback(CinemachineVirtualCameraBase vcam, CinemachineCore.Stage stage, ref CameraState state, float deltaTime)
     {
-        if(vcam.Follow)
+        if (vcam.Follow)
         {
-            if(stage == CinemachineCore.Stage.Aim)
+            if (stage == CinemachineCore.Stage.Aim)
             {
                 Vector2 deltaInput = inputManager.GetPlayerLook();
                 startingRotation.x += deltaInput.x * verticalSpeed * Time.deltaTime;
