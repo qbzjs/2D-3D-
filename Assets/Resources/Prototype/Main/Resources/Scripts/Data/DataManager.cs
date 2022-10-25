@@ -6,6 +6,7 @@ using System;
 
 using Photon.Pun;
 using Photon.Realtime;
+using Photon.Chat;
 
 using KSH_Lib.Data;
 using KSH_Lib.Util;
@@ -61,6 +62,7 @@ namespace KSH_Lib
         private void Awake()
 		{
 			DontDestroyOnLoad( gameObject );
+
 		}
         private void Start()
         {
@@ -108,7 +110,8 @@ namespace KSH_Lib
 
 		public void StartGame()
         {
-			pv.RPC( "InitPlayerData", RpcTarget.AllViaServer );
+			localPlayerData.roleData = roleDatas[(int)CurRoleTypeOrder];
+			pv.RPC( "ChangePlayerData", RpcTarget.AllViaServer, localPlayerData );
         }
 
 		/*--- Protected Methods ---*/
@@ -152,18 +155,19 @@ namespace KSH_Lib
 		[PunRPC]
 		void InitPlayerData()
         {
-			if(photonView.IsMine)
+			//if(photonView.IsMine)
             {
 				localPlayerData.roleData = roleDatas[(int)CurRoleTypeOrder];
-				ChangePlayerData();
-            }
+				playerDatas[playerIdx] = localPlayerData;
+			}
         }
 		[PunRPC]
-		void ChangePlayerData()
+		void ChangePlayerData( PlayerData data )
         {
-			if(photonView.IsMine)
+			//if(photonView.IsMine)
             {
-				playerDatas[playerIdx] = localPlayerData;
+				//playerDatas[playerIdx] = localPlayerData;
+				playerDatas[0] = data;
 			}
         }
 

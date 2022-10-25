@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using System;
+using System.Linq;
+using System.Text;
+using System.Reflection;
+using ExitGames.Client.Photon;
+
+using MSLIMA.Serializer;
+
 namespace KSH_Lib.Data
 {
 	[System.Serializable]
@@ -13,19 +21,19 @@ namespace KSH_Lib.Data
 		public RoleData roleData;
 		public AccountData accountData;
 
-		/*--- Protected Fields ---*/
+        /*--- Protected Fields ---*/
 
 
-		/*--- Private Fields ---*/
+        /*--- Private Fields ---*/
 
 
 
-		/*--- Public Methods ---*/
+        /*--- Public Methods ---*/
+  
+
+        /*--- Protected Methods ---*/
 
 
-		/*--- Protected Methods ---*/
-
-
-		/*--- Private Methods ---*/
-	}
+        /*--- Private Methods ---*/
+    }
 }

@@ -8,6 +8,7 @@ namespace GHJ_Lib
 {
 	public class StageManager : MonoBehaviour
 	{
+		
 		/*--- Public Fields ---*/
 		public static StageManager Instance
 		{
@@ -64,6 +65,7 @@ namespace GHJ_Lib
 		}
         void Start()
 		{
+			/*
 			//PlayerData 받아온정보를 토대로 어떤 퇴마사인지, 어떤 인형인지.. 결정
 			playerGenerator = new NetworkGenerator(DollPrefabs[0]);
 
@@ -89,6 +91,7 @@ namespace GHJ_Lib
 			{
 				purificationBoxGenerator.Generate(purificationBoxGenPos.transform.position, Quaternion.Euler(purificationBoxGenPos.transform.rotation.eulerAngles));
 			}
+			*/
 		}
 
 
@@ -116,5 +119,6 @@ namespace GHJ_Lib
 
 
 		/*--- Private Methods ---*/
+		
 	}
 }

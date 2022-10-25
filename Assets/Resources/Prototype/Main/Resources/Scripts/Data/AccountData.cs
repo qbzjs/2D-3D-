@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using MSLIMA.Serializer;
+
 namespace KSH_Lib.Data
 {
 	[System.Serializable]
@@ -29,7 +31,6 @@ namespace KSH_Lib.Data
 
 
 		/*--- Public Methods ---*/
-
 
 
 		/*--- Protected Methods ---*/
