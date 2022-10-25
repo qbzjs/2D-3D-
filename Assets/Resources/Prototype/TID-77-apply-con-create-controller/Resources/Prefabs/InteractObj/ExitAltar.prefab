@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4374379886750062492}
   - component: {fileID: 4876927902422900424}
   - component: {fileID: 8951657378999269278}
-  - component: {fileID: -6133674652785277652}
   m_Layer: 0
   m_Name: ExitAltar
   m_TagString: interactObj
@@ -54,7 +53,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: -6133674652785277652}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -71,23 +70,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3, y: 1, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-6133674652785277652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5114522174893634951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6e05d30ac6420d4bb3f2f44d50de6e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CanActiveToExorcist: 1
-  CanActiveToDoll: 1
-  maxGauge: 10
-  reduction: 0.5
-  ExitAltarModel: {fileID: 6745513177134003140}
 --- !u!1 &6745513177134003140
 GameObject:
   m_ObjectHideFlags: 0

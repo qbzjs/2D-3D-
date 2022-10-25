@@ -8,7 +8,7 @@ namespace GHJ_Lib
 	public class Run: Behavior<BasePlayerController>
     {
         /*--- Public Fields ---*/
-
+        
 
         /*--- Protected Fields ---*/
         protected DollController dollActor;
@@ -28,11 +28,10 @@ namespace GHJ_Lib
 
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
         {
-           
+
             Behavior<BasePlayerController> nextAction = base.DoBehavior(actor);
             if (nextAction != null)
             {
-                dollActor.Animator.Play("Idle_A");
                 return nextAction;
             }
 

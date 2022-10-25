@@ -15,16 +15,20 @@ namespace GHJ_Lib
 		{
 			get { return animator; }
 		}
-
+		public Idle GetIdle
+		{
+			get { return idle; }
+		}
 		/*--- Protected Fields ---*/
 		protected PhotonTransformViewClassic photonTransformView;
 		protected Behavior<BasePlayerController> CurcharacterCondition	= new Behavior<BasePlayerController>();
 		protected Behavior<BasePlayerController> CurcharacterAction		= new Behavior<BasePlayerController>();
 
 		protected Idle idle					= new Idle();
+		protected Move move					= new Move();
 		protected Walk walk					= new Walk();
 		protected Run run					= new Run();
-		protected InterAction interAction	= new InterAction();
+		protected CharacterInteraction interAction	= new CharacterInteraction();
 
 		protected KSH_Lib.FPV_CameraController	fpvCam;
 		protected TPV_CameraController			tpvCam;
@@ -74,10 +78,11 @@ namespace GHJ_Lib
 			if (photonView.IsMine)
 			{
 				//움직임 관련, 및 행동제한 부분
+				SetDirection();
+				
 				PlayerInput();
 
-				
-					SetDirection();
+				Stop();
 				
 				
 				var velocity = controller.velocity;
@@ -88,8 +93,8 @@ namespace GHJ_Lib
 			RotateToDirection();
 			MoveCharacter();
 
-			CurcharacterCondition.Update(this, ref CurcharacterCondition);
 			CurcharacterAction.Update(this, ref CurcharacterAction);
+			CurcharacterCondition.Update(this, ref CurcharacterCondition);
 			//HP동기화
 
 		}
@@ -125,6 +130,11 @@ namespace GHJ_Lib
 				this.direction.z = (float)stream.ReceiveNext();
 			}
 		}
+		public void PlayAnimation()
+		{
+			
+		}
+	
 		/*--- Protected Methods ---*/
 		protected void PlayerInput()
 		{
@@ -150,14 +160,48 @@ namespace GHJ_Lib
 			}
 
 		}
-	
-		protected override void RotateToDirection()
-        {
-			if (CurcharacterAction is InterAction)
+		protected void Stop()
+		{
+			if (CurcharacterAction is Move
+				||CurcharacterAction is Run)
 			{
-				direction = Vector3.zero;
+				return;
+			}
+			direction = Vector3.zero;
+		}
+        protected override void SetDirection()
+        {
+			inputDir = BasePlayerInputManager.Instance.GetPlayerMove();
+			
+			camForward = camTarget.transform.forward;
+			camProjToPlane = Vector3.ProjectOnPlane(camForward, Vector3.up);
+			camRight = camTarget.transform.right;
+			direction = (inputDir.x * camRight + inputDir.y * camProjToPlane).normalized;
+
+			if (CurcharacterAction is Run)
+			{
+				return;
 			}
 
+			if (direction.sqrMagnitude > 0.01f)
+			{
+				if (CurcharacterAction is Move)
+				{
+					return;
+				}
+				ChangeActionTo("Move");
+			}
+			else
+			{
+				if (CurcharacterAction is Idle)
+				{
+					return;
+				}
+				ChangeActionTo("Idle");
+			}
+		}
+		protected override void RotateToDirection()
+        {
 			if (direction.sqrMagnitude > 0.01f)
 			{
 				
@@ -195,9 +239,9 @@ namespace GHJ_Lib
 						CurcharacterAction.PushSuccessorState(run);
 					}
 					break;
-				case "Walk":
+				case "Move":
 					{
-						CurcharacterAction.PushSuccessorState(walk);
+						CurcharacterAction.PushSuccessorState(move);
 					}
 					break;
 				case "Interact":
