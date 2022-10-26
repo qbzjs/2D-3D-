@@ -8,10 +8,10 @@ namespace LSH_Lib
 {
 	public class CottonBall : Item
     {
-        //protected override void Start()
-        //{
-        //    base.Start();
-        //}
+        protected override void Start()
+        {
+            base.Start();
+        }
         protected override void InitItemData()
         {
             ItemDataLoader.Instance.GetDollItem("CottonBall");
@@ -20,7 +20,7 @@ namespace LSH_Lib
         {
             if (Input.GetKey(KeyCode.Space))
             {
-                if(gameObject.tag == "Doll")
+                if (photonView.IsMine)
                 {
                     DoAction();
                 }
@@ -35,7 +35,7 @@ namespace LSH_Lib
 
         public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

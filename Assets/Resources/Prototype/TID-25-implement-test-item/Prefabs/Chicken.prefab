@@ -188,8 +188,8 @@ GameObject:
   - component: {fileID: 1842379080698611036}
   - component: {fileID: 1842379080698611026}
   - component: {fileID: 1842379080698611037}
-  - component: {fileID: -851700374432723844}
   - component: {fileID: -4365335984671978042}
+  - component: {fileID: -851700374432723844}
   m_Layer: 0
   m_Name: Chicken
   m_TagString: Item
@@ -400,6 +400,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 527a0d93667778645b7062c300ff5af5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4365335984671978042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842379080698611035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 0
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!114 &-851700374432723844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -424,19 +440,3 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-4365335984671978042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1842379080698611035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1

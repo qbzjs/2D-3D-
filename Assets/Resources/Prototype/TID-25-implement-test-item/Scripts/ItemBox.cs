@@ -17,6 +17,10 @@ namespace LSH_Lib
         {
             randomList.Add(ItemOrder.CottonBall, ItemDataLoader.Instance.GetDollItem("CottonBall").frequency);
             randomList.Add(ItemOrder.Chicken, ItemDataLoader.Instance.GetDollItem("Chicken").frequency);
+            randomList.Add(ItemOrder.Chicken, ItemDataLoader.Instance.GetDollItem("CottonPiece").frequency);
+            randomList.Add(ItemOrder.Chicken, ItemDataLoader.Instance.GetDollItem("CrowFeather").frequency);
+            randomList.Add(ItemOrder.Chicken, ItemDataLoader.Instance.GetDollItem("Whistle").frequency);
+            
         }
         private void OnTriggerEnter(Collider other)
         {
@@ -32,8 +36,7 @@ namespace LSH_Lib
                 ItemOrder itemOrder = randomList.GetItem();
                 int a = (int)itemOrder;
                 other.gameObject.GetComponent<Inventory>().AddToInventory(itemPrefabs[(int)itemOrder]);
-
-
+                Destroy(this.gameObject);
             }
         }
     }

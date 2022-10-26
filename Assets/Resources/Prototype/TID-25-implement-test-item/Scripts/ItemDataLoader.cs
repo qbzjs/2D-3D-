@@ -24,18 +24,16 @@ namespace LSH_Lib
     {
         CottonBall,
         Chicken,
-        //ConttonBall,
-        //CottonPiece,
-        //CrowFeather,
-        //Oil,
-        //Bond,
-        //Chicken,
-        //Metal,
-        //Whistle,
-        //SealingTool,
-        //BaitPotion,
-        //Neckless,
-        //PigeonFeather,
+        CottonPiece,
+        CrowFeather,
+        Whistle,
+        Bond,
+        Metal,
+        Oil,
+        SealingTool,
+        BaitPotion,
+        Neckless,
+        PigeonFeather,
     }
 
     public class ItemDataLoader : MonoBehaviour
@@ -54,7 +52,7 @@ namespace LSH_Lib
         }
         static ItemDataLoader instance;
 
-        const string Path = "Prototype/TID-25-implement-test-item/Data/ItemDataTest";
+        const string Path = "Prototype/TID-25-implement-test-item/Data/ItemData";
 
         public Dictionary<string, ItemData> dollItemDatas;
         public Dictionary<string, ItemData> exorcistItemDatas;
