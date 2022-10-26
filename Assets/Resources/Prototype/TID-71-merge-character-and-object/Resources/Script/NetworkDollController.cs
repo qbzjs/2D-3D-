@@ -32,7 +32,7 @@ namespace GHJ_Lib
 		protected BvGhost bvGhost = new BvGhost();
 		protected BvFall bvFall = new BvFall();
 		protected BvGrabbed bvGrabbed = new BvGrabbed();
-		protected BvImprison bvImplement = new BvImprison();
+		protected LSH_Lib.BvImprison bvImplement = new LSH_Lib.BvImprison();
 		[SerializeField]
 		protected SkinnedMeshRenderer skinnedMeshRenderer;
 		protected Material originMaterial;
