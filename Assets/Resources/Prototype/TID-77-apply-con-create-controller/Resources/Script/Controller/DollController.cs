@@ -195,11 +195,11 @@ namespace GHJ_Lib
 				tpvCam.InitCam(camTarget);
 			}
 		}
-		public void HitDamage(float damage)
+		public void HitDamage()
 		{
 			if (CurcharacterAction is not BvHit)
 			{
-				hit.SetDamage(damage);
+				
 				ChangeActionTo("Hit");
 			}
 			
@@ -385,6 +385,7 @@ namespace GHJ_Lib
 					break;
 				case "Hit":
 					{
+						hit.SetPlayerIdx(playerIndex);
 						CurcharacterAction.PushSuccessorState(hit);
 					}
 					break;

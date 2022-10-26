@@ -26,11 +26,12 @@ namespace GHJ_Lib
 		protected BvAttack attack = new BvAttack();
 		protected BvCharacterInteraction interact = new BvCharacterInteraction();
 		protected BvCatch catchDoll = new BvCatch();
+		protected BvImprison imprison = new BvImprison();
 
 		protected KSH_Lib.FPV_CameraController fpvCam;
 		protected TPV_CameraController tpvCam;
 
-		protected GameObject nearestDownDoll;
+		protected GameObject caughtDoll;
 		protected bool canInteract = false;
 		protected int typeIndex;
 		protected float initialSpeed;
@@ -343,16 +344,25 @@ namespace GHJ_Lib
 					break;
 				case "Interact":
 					{
-						interact.SetInteractObj(interactObj);
-						CurcharacterAction.PushSuccessorState(interact);						
+						if (CurcharacterAction is BvIdle)
+						{
+							interact.SetInteractObj(interactObj);
+							CurcharacterAction.PushSuccessorState(interact);
+						}
+						if (CurcharacterAction is BvCatch)
+						{
+							imprison.SetCaughtDoll(caughtDoll);
+							imprison.SetInteractObj(interactObj);
+							CurcharacterAction.PushSuccessorState(imprison);
+						}
 					}
 					break; 
 				case "Catch":
 					{
-						nearestDownDoll = pickUpBox.FindNearestFallDownDoll();
+						caughtDoll = pickUpBox.FindNearestFallDownDoll();
 						CurcharacterAction.PushSuccessorState(catchDoll);
 					}
-					break; 
+					break;
 			}
 
 
@@ -385,13 +395,16 @@ namespace GHJ_Lib
 		/*--- AnimationCallbacks Methods ---*/
 		public void ImprisonDoll(GameObject camTarget)
         {
+			CatchObj[0].gameObject.SetActive(false);
+			caughtDoll.GetComponent<DollController>().ChangeCamera(camTarget);
 
-        }
+		}
 		public void PickUp()
 		{
-			CharacterLayerChange(nearestDownDoll, 7);
+			CharacterLayerChange(caughtDoll, 8);
 			CatchObj[0].gameObject.SetActive(true);
-			nearestDownDoll.GetComponent<DollController>().CaughtDoll(camTarget);
+			caughtDoll.GetComponent<DollController>().CaughtDoll(camTarget);
+
 		}
 	}
 }

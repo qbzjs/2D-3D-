@@ -57,7 +57,7 @@ namespace GHJ_Lib
             return CastingType.NotCasting;
         }
 
-        public void PurifyDoll()
+        public void PurifyDoll(DollController doll)
         {
             DollModels[0].SetActive(true);
             DollModels[0].GetComponent<Animator>().enabled = true;
