@@ -180,22 +180,24 @@ namespace KSH_Lib
                 {
                     //GameManager.Instance.Data.ChangeRole( RoleType.Doll );
                     //22.10.24 TID-61 Added
-                    DataManager.Instance.CurRoleType = RoleData.RoleType.Doll;
+                    DataManager.Instance.PreRoleType = RoleData.RoleType.Doll;
                     charaSelectCanvasController.SendMessage( "OnSelectRole" );
+
+
                 }
                 break;
                 case "Exorcist":
                 {
                     //GameManager.Instance.Data.ChangeRole( RoleType.Exorcist );
-                    DataManager.Instance.CurRoleType = RoleData.RoleType.Exorcist;
+                    DataManager.Instance.PreRoleType = RoleData.RoleType.Exorcist;
                     charaSelectCanvasController.SendMessage( "OnSelectRole" );
                 }
                 break;
-                //default:
-                //{
-                //GameManager.Instance.Data.ChangeRole( RoleType.Null );
-                //}
-                // break;
+                default:
+                {
+                    GameManager.Instance.Data.ChangeRole( RoleType.Null );
+                }
+                break;
             }
         }
 
@@ -287,13 +289,16 @@ namespace KSH_Lib
         }
         void OnMatchingStartButton()
         {
-            if(DataManager.Instance.CurRoleTypeOrder == RoleData.RoleTypeOrder.Null)
+            if(DataManager.Instance.PreRoleType == RoleData.RoleType.Null)
             {
                 Debug.LogWarning( "LobbyUI_Manager: Need to Select role" );
                 return;
             }
 
-            switch ( DataManager.Instance.CurRoleType )
+            DataManager.Instance.InitLocalRoleData();
+
+
+            switch ( DataManager.Instance.PreRoleType )
             {
                 case RoleData.RoleType.Doll:
                 {

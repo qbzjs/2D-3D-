@@ -29,11 +29,11 @@ namespace KSH_Lib.UI
         /*--- Public Methods ---*/
         public void OnSelectRole()
         {
-            if ( DataManager.Instance.CurRoleType == RoleData.RoleType.Doll )
+            if ( DataManager.Instance.PreRoleType == RoleData.RoleType.Doll )
             {
                 EnableDollButtons();
             }
-            else if ( DataManager.Instance.CurRoleType == RoleData.RoleType.Exorcist )
+            else if ( DataManager.Instance.PreRoleType == RoleData.RoleType.Exorcist )
             {
                 EnableExorcistButtons();
             }
@@ -41,8 +41,8 @@ namespace KSH_Lib.UI
 
         public void OnSelectCharacter(string name)
         {
-            DataManager.Instance.CurRoleTypeOrder = (RoleData.RoleTypeOrder)System.Enum.Parse( typeof( RoleData.RoleTypeOrder ), name );
-            Debug.Log( $"Selected {DataManager.Instance.CurRoleTypeOrder}" );
+            DataManager.Instance.PreRoleTypeOrder = (RoleData.RoleTypeOrder)System.Enum.Parse( typeof( RoleData.RoleTypeOrder ), name );
+            Debug.Log( $"Selected {DataManager.Instance.PreRoleTypeOrder}" );
         }
 
 

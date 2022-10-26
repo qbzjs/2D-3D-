@@ -37,22 +37,23 @@ namespace KSH_Lib.Data
 
 		/*--- Constructor ---*/
 		public RoleData() { }
-		public RoleData(float moveSpeed, float interactionSpeed, float projectileSpeed, RoleType type, string roleName)
-        {
+		public RoleData( RoleType type, string roleName,float moveSpeed, float interactionSpeed, float projectileSpeed )
+		{
+			Type = type;
+			RoleName = roleName;
 			MoveSpeed = moveSpeed;
 			InteractionSpeed = interactionSpeed;
 			ProjectileSpeed = projectileSpeed;
-			Type = type;
-			RoleName = roleName;
         }
 
 		/*--- Public Fields ---*/
+		public RoleType Type;
+		public string RoleName;
+
 		public float MoveSpeed;
 		public float InteractionSpeed;
 		public float ProjectileSpeed;
 
-		public RoleType Type;
-		public string RoleName;
 		
 
 		//public int Score

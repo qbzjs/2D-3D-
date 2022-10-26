@@ -37,7 +37,7 @@ namespace KSH_Lib.Test
             if(Input.GetKeyDown(KeyCode.Alpha2))
             {
 				localData++;
-				pv.RPC("AddData", RpcTarget.All, localData, index);
+				pv.RPC("AddDatas", RpcTarget.All, localData, index);
             }
         }
 
@@ -49,7 +49,7 @@ namespace KSH_Lib.Test
 
         /*--- Public Methods ---*/
         [PunRPC]
-		void AddData(int data, int idx)
+		void AddDatas(int data, int idx)
 		{
 			datas[idx] = data;
 		}

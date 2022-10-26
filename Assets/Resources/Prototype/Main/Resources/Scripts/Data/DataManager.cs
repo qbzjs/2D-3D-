@@ -11,6 +11,7 @@ using Photon.Chat;
 using KSH_Lib.Data;
 using KSH_Lib.Util;
 
+using MSLIMA.Serializer;
 
 namespace KSH_Lib
 {
@@ -38,11 +39,13 @@ namespace KSH_Lib
 
 
 		/*--- Public Fields ---*/
-		public List<RoleData> RoleDatas { get { return roleDatas; } }
-		public RoleData.RoleType CurRoleType;
-		public RoleData.RoleTypeOrder CurRoleTypeOrder;
+		public List<RoleData> RoleInfos { get { return roleInfos; } }
 
-		//public PlayerData[] PlayerDatas { get { return playerDatas; } }
+		// This For Room Settings
+		public RoleData.RoleType PreRoleType;
+		public RoleData.RoleTypeOrder PreRoleTypeOrder;
+
+		//public PlayerData LocalPlayerData { get { return LocalPlayerData; } }
 
 		/*--- Private Fields ---*/
 		const string CharcterStatusCSV = "Prototype/Main/Resources/Datas/CharacterStatus";
@@ -51,21 +54,20 @@ namespace KSH_Lib
 
 		public int playerIdx;
 
-		List<RoleData> roleDatas = new List<RoleData>();
-		public AccountData curAccount;
+		List<RoleData> roleInfos = new List<RoleData>();
 
+		//public List<PlayerData> playerDatas = new List<PlayerData>();
 		public PlayerData[] playerDatas;
 		public PlayerData localPlayerData = new PlayerData();
-
-		public int[] testDatas;
-		public int localint;
-
 
 		/*--- MonoBehaviour Callbacks ---*/
 		private void Awake()
 		{
 			DontDestroyOnLoad(gameObject);
 
+			Serializer.RegisterCustomType<AccountData>( (byte)'A' );
+			Serializer.RegisterCustomType<DollData>( (byte)'D' );
+			Serializer.RegisterCustomType<ExorcistData>( (byte)'E' );
 		}
 		private void Start()
 		{
@@ -74,18 +76,16 @@ namespace KSH_Lib
 				Debug.LogError("DataManager.RoleDatas: Can't get role Datas from CSV");
 			}
 			playerDatas = new PlayerData[GameManager.Instance.MaxPlayerCount];
-			testDatas = new int[GameManager.Instance.MaxPlayerCount];
+
 		}
 
 		/*--- Public Methods ---*/
 		public void SetLocalAccount(int sheetIdx, in string id, in string nickname)
 		{
-			//curAccount = new AccountData( sheetIdx, id, nickname );
-			localPlayerData.accountData = new AccountData(sheetIdx, id, nickname);
+			localPlayerData.accountData.Init( sheetIdx, id, nickname);
 		}
 		public void ResetLocalAccount()
 		{
-			//curAccount = new AccountData();
 			localPlayerData.accountData = new AccountData();
 		}
 		public void SetPlayerIdx()
@@ -102,28 +102,51 @@ namespace KSH_Lib
 				}
 			}
 		}
-		public void SetRoleType(in RoleData.RoleType type)
-		{
-			localPlayerData.roleData.Type = type;
+
+		public void InitLocalRoleData()
+        {
+			localPlayerData.roleData = roleInfos[(int)PreRoleTypeOrder];
+        }
+		public void ResetLocalRoleData()
+        {
+			localPlayerData.roleData = new RoleData();
+        }
+
+
+
+		public void InitPlayerDatas()
+        {
+			//playerDatas = new List<PlayerData>( PhotonNetwork.CurrentRoom.PlayerCount );	
+			for( int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; ++i )
+            {
+				//playerDatas.Add( new PlayerData() );
+            }
 		}
-		public void SetRoleName(in string name)
+		public void ResetPlayerDatas()
 		{
-			localPlayerData.roleData.RoleName = name;
+			//	playerDatas = new List<PlayerData>();
 		}
 
-		public void StartGame()
+		public void ShareAllData()
+        {
+			ShareAccountData();
+			ShareRoleData();
+        }
+		public void ShareAccountData()
 		{
-			localPlayerData.roleData = roleDatas[(int)CurRoleTypeOrder];
-			//pv.RPC("ChangePlayerData", RpcTarget.AllViaServer, localPlayerData);
-			//pv.RPC("TestPhoton", RpcTarget.AllViaServer, localint);
+			pv.RPC( "ShareAccountDataRPC", RpcTarget.AllViaServer, playerIdx, AccountData.Serialize(localPlayerData.accountData) );
 		}
-		public void UpdateData()
-		{
-			pv.RPC("TestPhoton", RpcTarget.AllViaServer, localint, playerIdx);
-		}
-
-		/*--- Protected Methods ---*/
-
+		public void ShareRoleData()
+        {
+			if(localPlayerData.roleData is DollData)
+            {
+				pv.RPC( "ShareDollDataRPC", RpcTarget.AllViaServer, playerIdx, DollData.Serialize( localPlayerData.roleData ) );
+            }
+			else if(localPlayerData.roleData is ExorcistData)
+			{
+				pv.RPC( "ShareExorcistDataRPC", RpcTarget.AllViaServer, playerIdx, ExorcistData.Serialize( localPlayerData.roleData ) );
+			}
+        }
 
 		/*--- Private Methods ---*/
 		bool SetRoleDatasFromCSV(string csvPath)
@@ -146,45 +169,59 @@ namespace KSH_Lib
 				{
 					float attackSpeed = float.Parse(data[i]["AttackSpeed"].ToString());
 					float attackPower = float.Parse(data[i]["AttackPower"].ToString());
-					roleDatas.Add(new ExorcistData(moveSpeed, interactionSpeed, projectileSpeed, name, attackPower, attackSpeed));
+					roleInfos.Add(new ExorcistData( name, moveSpeed, interactionSpeed, projectileSpeed,  attackPower, attackSpeed));
 				}
 				else if (type == "D")
 				{
 					int dollHP = int.Parse(data[i]["DollHP"].ToString());
 					int devilHP = int.Parse(data[i]["DevilHP"].ToString());
-					roleDatas.Add(new DollData(moveSpeed, interactionSpeed, projectileSpeed, name, dollHP, devilHP));
+					roleInfos.Add(new DollData( name, moveSpeed, interactionSpeed, projectileSpeed, dollHP, devilHP));
 				}
 			}
 			return true;
 		}
 
+		
+
+
 		/*--- RPC ---*/
-
 		[PunRPC]
-		void InitPlayerData()
-		{
-			{
-				localPlayerData.roleData = roleDatas[(int)CurRoleTypeOrder];
-				playerDatas[playerIdx] = localPlayerData;
-			}
-		}
-		[PunRPC]
-		void ChangePlayerData(PlayerData data)
-		{
-			{
-				//playerDatas[playerIdx] = localPlayerData;
-				playerDatas[0] = data;
-			}
-		}
-
-		[PunRPC]
-		void TestPhoton(int data, int idx)
+		void ShareAccountDataRPC(int idx, byte[] data)
         {
-			testDatas[idx] = data;
+			playerDatas[idx].accountData = (AccountData)AccountData.Deserialize(data);
+        }
+
+		[PunRPC]
+		void ShareDollDataRPC(int idx, byte[] data)
+		{
+			playerDatas[idx].roleData = (DollData)DollData.Deserialize( data );
+		}
+
+		[PunRPC]
+		void ShareExorcistDataRPC( int idx, byte[] data )
+		{
+			playerDatas[idx].roleData = (ExorcistData)ExorcistData.Deserialize( data );
+		}
+
+
+
+
+		[PunRPC]
+		void DisconnectAllDataRPC(int idx)
+        {
+			//playerDatas.RemoveAt( idx );
         }
 
 
-        public void OnPhotonSerializeView( PhotonStream stream, PhotonMessageInfo info )
+
+
+
+
+
+
+
+
+		public void OnPhotonSerializeView( PhotonStream stream, PhotonMessageInfo info )
         {
         }
     }
