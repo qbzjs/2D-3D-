@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using MSLIMA.Serializer;
 
 namespace KSH_Lib.Data
 {
@@ -18,8 +19,6 @@ namespace KSH_Lib.Data
 
 		public enum RoleTypeOrder
         {
-			Null,
-
 			Photographer,
 			Bishop,
 			Dokkaebi,
@@ -33,39 +32,41 @@ namespace KSH_Lib.Data
 			Tortoise,
 
 			Count,
+			Null,
 		}
 
 		/*--- Constructor ---*/
 		public RoleData() { }
-		public RoleData(float moveSpeed, float interactionSpeed, float projectileSpeed, RoleType type, string roleName)
-        {
+		public RoleData( RoleType type, string roleName,float moveSpeed, float interactionSpeed, float projectileSpeed )
+		{
+			Type = type;
+			RoleName = roleName;
 			MoveSpeed = moveSpeed;
 			InteractionSpeed = interactionSpeed;
 			ProjectileSpeed = projectileSpeed;
-			Type = type;
-			RoleName = roleName;
         }
 
 		/*--- Public Fields ---*/
+		public RoleType Type;
+		public string RoleName;
+
 		public float MoveSpeed;
 		public float InteractionSpeed;
 		public float ProjectileSpeed;
 
-		public RoleType Type;
-		public string RoleName;
 		
 
-		public int Score
-        {
-			get { return roleScore.GetRoleScore();  }
-        }
+		//public int Score
+  //      {
+		//	get { return roleScore.GetRoleScore();  }
+  //      }
 
 		/*--- Protected Fields ---*/
-		private RoleScore roleScore;
+		//private RoleScore roleScore;
 
 		/*--- Private Fields ---*/
 
-			
+
 		/*--- Public Methods ---*/
 		//public abstract int GetCharacterScore();
 

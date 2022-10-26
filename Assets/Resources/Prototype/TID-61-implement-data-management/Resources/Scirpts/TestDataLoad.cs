@@ -60,13 +60,13 @@ namespace KSH_Lib.Test
 				{
 					float attackSpeed = float.Parse( data[i]["AttackSpeed"].ToString() );
 					float attackPower = float.Parse( data[i]["AttackPower"].ToString() );
-					roleDatas.Add( new ExorcistData( moveSpeed, interactionSpeed, projectileSpeed, name, attackPower, attackSpeed ) );
+					roleDatas.Add( new ExorcistData( name, moveSpeed, interactionSpeed, projectileSpeed,  attackPower, attackSpeed ) );
 				}
 				else if ( type == "D" )
 				{
 					int dollHP = int.Parse( data[i]["DollHP"].ToString() );
 					int devilHP = int.Parse( data[i]["DevilHP"].ToString() );
-					roleDatas.Add( new DollData( moveSpeed, interactionSpeed, projectileSpeed, name, dollHP, devilHP ) );
+					roleDatas.Add( new DollData( name, moveSpeed, interactionSpeed, projectileSpeed, dollHP, devilHP ) );
 				}
 			}
 			return true;
