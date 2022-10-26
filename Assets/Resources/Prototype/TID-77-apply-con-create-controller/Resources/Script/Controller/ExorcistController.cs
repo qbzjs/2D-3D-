@@ -51,10 +51,22 @@ namespace GHJ_Lib
 			if (photonView.IsMine)
 			{
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
-				fpvCam = GameObject.Find( "FPV_Cam" ).GetComponent<KSH_Lib.FPV_CameraController>();
+				fpvCam = GameObject.Find( "FPV_Cam(Clone)" ).GetComponent<KSH_Lib.FPV_CameraController>();
+				if(fpvCam == null)
+                {
+					Debug.LogError( "ExorcistController.OnEnable: Can not find FPVCamController" );
+					return;
+                }
+
 				fpvCam.InitCam(camTarget);
 				fpvCam.gameObject.SetActive(true);
-				tpvCam = GameObject.Find( "TPV_Cam" ).GetComponent<TPV_CameraController>();
+
+				tpvCam = GameObject.Find( "TPV_Cam(Clone)" ).GetComponent<TPV_CameraController>();
+				if ( tpvCam == null )
+				{
+					Debug.LogError( "ExorcistController.OnEnable: Can not find TPVCamController" );
+					return;
+				}
 				tpvCam.InitCam(camTarget);
 				tpvCam.gameObject.SetActive(false);
 			}
