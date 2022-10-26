@@ -66,10 +66,10 @@ namespace GHJ_Lib
                 }
             }
 
-            int index = innerIndices[Random.Range( 0, innerIndices.Count )];
+            int index = innerIndices[Random.Range( 0, innerIndices.Count - 1 )];
             GenerateTargetAtList( targetObj, ref targetObjects, ref genTransformList, index );
 
-            index = outterIndices[Random.Range( 0, outterIndices.Count )];
+            index = outterIndices[Random.Range( 0, outterIndices.Count - 1 )];
             GenerateTargetAtList( targetObj, ref targetObjects, ref genTransformList, index );
 
             for ( int i = 0; i < count - 2; ++i )

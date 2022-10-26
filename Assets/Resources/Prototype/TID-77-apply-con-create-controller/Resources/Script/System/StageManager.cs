@@ -54,16 +54,22 @@ namespace GHJ_Lib
 		//protected NetworkGenerator purificationBoxGenerator;
 		/*--- Private Fields ---*/
 		static StageManager instance;
+		bool activeDebugGUI;
 
-        /*--- MonoBehaviour Callbacks ---*/
-        void Awake()
+		/*--- MonoBehaviour Callbacks ---*/
+		void Awake()
         {
+			DataManager.Instance.InitPlayerDatas();
+
 			Instantiate(FPV_Cam);
 			Instantiate(TPV_Cam);
 		}
         void Start()
 		{
 			instance = this;
+
+			DataManager.Instance.ShareAllData();
+
 			//PlayerData 받아온정보를 토대로 어떤 퇴마사인지, 어떤 인형인지.. 결정
 			//임시
 
@@ -141,6 +147,28 @@ namespace GHJ_Lib
 		}
 
 
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.Alpha0))
+            {
+				activeDebugGUI = !activeDebugGUI;
+			}
+        }
+
+        private void OnGUI()
+		{
+            if (activeDebugGUI)
+            {
+                GUI.Box(new Rect(300, 160, 150, 30), $"Local MoveSpeed: {DataManager.Instance.LocalPlayerData.roleData.MoveSpeed}");
+                GUI.Box(new Rect(460, 160, 150, 30), $"Local sheetIdx: {DataManager.Instance.LocalPlayerData.accountData.SheetIdx}");
+
+                for (int i = 0; i < DataManager.Instance.PlayerDatas.Count; ++i)
+                {
+                    GUI.Box(new Rect(300, i * 30, 150, 30), $"MoveSpeed[{i}]: {DataManager.Instance.PlayerDatas[i].roleData.MoveSpeed}");
+                    GUI.Box(new Rect(460, i * 30, 150, 30), $"sheetIdx[{i}]: {DataManager.Instance.PlayerDatas[i].accountData.SheetIdx}");
+                }
+            }
+        }
 
 		/*--- Public Methods ---*/
 		public static void CharacterLayerChange(GameObject Model, int layer)
