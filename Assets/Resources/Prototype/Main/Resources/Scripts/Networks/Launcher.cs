@@ -24,6 +24,7 @@ namespace KSH_Lib
         public float videoFadeInTime = 0.5f;
         public float startButtonFadeTime = 0.5f;
         public float startButtonWaitTime = 1.0f;
+        public float sceneFadeOutTime = 1.5f;
 
 
         /*--- Private Fields ---*/
@@ -66,7 +67,8 @@ namespace KSH_Lib
         /*--- Public Methods ---*/
         public void OnStartButtonClick()
         {
-            GameManager.Instance.LoadScene(NextSceneName);
+            //GameManager.Instance.LoadSceneImmediately(NextSceneName);
+            StartCoroutine(ChangeScene());
         }
 
         /*--- Private Methods ---*/
@@ -105,6 +107,14 @@ namespace KSH_Lib
                 }
                 yield return true;
             }
+        }
+
+        IEnumerator ChangeScene()
+        {
+            videoCanvasGroup.LeanAlpha(0.0f, sceneFadeOutTime);
+            yield return new WaitForSeconds(sceneFadeOutTime);
+            GameManager.Instance.LoadSceneImmediately(NextSceneName);
+            yield return null;
         }
     }
 
