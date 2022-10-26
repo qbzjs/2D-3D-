@@ -4,13 +4,13 @@ using UnityEngine;
 using KSH_Lib;
 namespace GHJ_Lib
 {
-	public class Down: Behavior<BasePlayerController>
+	public class Hit: Behavior<BasePlayerController>
 	{
         /*--- Public Fields ---*/
 
 
         /*--- Protected Fields ---*/
-        protected float UpGauge=0.0f;
+
 
         /*--- Private Fields ---*/
 
@@ -21,17 +21,25 @@ namespace GHJ_Lib
         /*--- Protected Methods ---*/
         protected override void Activate(in BasePlayerController actor)
         {
-            UpGauge = 0.0f;
-            actor.BaseAnimator.Play("Death");
+            
+            actor.BaseAnimator.Play("Hit");
+            //HP ´ÞÀ½        
+
         }
 
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
         {
-            if (UpGauge >= 1.0f)
+            /*
+            if(HP<=0.0f)
             {
+                return new Down();
+            }    
+            */
+            if (actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f)
+            {
+               
                 return new Idle();
             }
-
             return null;
         }
 

@@ -26,16 +26,18 @@ namespace GHJ_Lib
                 return;
             }
             actor.BaseAnimator.Play("Attack");
+            (actor as ExorcistController).attackBox.gameObject.SetActive(true);
         }
 
         
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
         {
-            if (actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).length<=0.9)
+            if (actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime>=0.9)
             {
-                return null;
+                (actor as ExorcistController).attackBox.gameObject.SetActive(false);
+                return new Idle();
             }
-            return new Idle();
+            return null;
         }
         /*--- Private Methods ---*/
     }

@@ -113,6 +113,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5817863161708207313}
   - component: {fileID: 2818235443378774753}
+  - component: {fileID: 761800027552297657}
   m_Layer: 7
   m_Name: AttackRange
   m_TagString: AttackArea
@@ -148,6 +149,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.06, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &761800027552297657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3021153679058623732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03d707fb89085e641b05eceb0324d3b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3150440021692976751
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,12 +500,6 @@ MonoBehaviour:
     Name: MoveSpeed
   - Type: 4
     SynchronizeType: 0
-    Name: isSkill
-  - Type: 4
-    SynchronizeType: 0
-    Name: isAttack
-  - Type: 4
-    SynchronizeType: 0
     Name: isRage
   m_SynchronizeLayers:
   - SynchronizeType: 0
@@ -564,10 +571,13 @@ MonoBehaviour:
   moveSpeed: 6
   rotateSpeed: 600
   animator: {fileID: 8668095482253011849}
+  IsCasting: 0
+  IsAutoCasting: 0
   Ayra: {fileID: 3615976796478522397}
   CatchObj:
   - {fileID: 4473424413195934546}
   pickUpBox: {fileID: 6256557472273879880}
+  attackBox: {fileID: 761800027552297657}
 --- !u!114 &5642758962536604753
 MonoBehaviour:
   m_ObjectHideFlags: 0

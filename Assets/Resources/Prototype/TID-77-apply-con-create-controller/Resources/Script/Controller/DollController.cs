@@ -22,7 +22,9 @@ namespace GHJ_Lib
 		protected PhotonTransformViewClassic photonTransformView;
 
 		protected Idle idle					= new Idle();
-
+		protected Down down = new Down();
+		protected Hit hit = new Hit();
+		protected Caught caught = new Caught();
 		protected CharacterInteraction interaction	= new CharacterInteraction();
 
 		protected KSH_Lib.FPV_CameraController	fpvCam;
@@ -106,20 +108,21 @@ namespace GHJ_Lib
 			if (other.CompareTag("interactObj"))
 			{
 				interactObj =  other.GetComponent<Interaction>();
+
 				if (!photonView.IsMine)
 				{
 					return;
 				}
 
-				if (BarUI.Instance.IsAutoCasting || BarUI.Instance.IsAutoCastingNull)
+				if (IsAutoCasting)
 				{
 					canInteract = false;
 					BarUI.Instance.SliderVisible(true);
 					BarUI.Instance.TextVisible(false);
 					return;
 				}
-				else if (BarUI.Instance.IsCasting)
-				{
+				else if(IsCasting)
+				{ 
 					canInteract = true;
 					BarUI.Instance.SliderVisible(true);
 					BarUI.Instance.TextVisible(false);
@@ -173,7 +176,22 @@ namespace GHJ_Lib
 		{
 			photonView.RPC("_AddCondition", RpcTarget.AllViaServer, ConditionName);
 		}
-
+		public void CaughtDoll(GameObject ExorcistCamTarget)
+		{
+			if (photonView.IsMine)
+			{
+				tpvCam.InitCam(ExorcistCamTarget);
+			}
+			ChangeActionTo("Caught");
+		}
+		public void HitDamage(float Damage)
+		{
+			if (CurcharacterAction is not Hit)
+			{ 
+				ChangeActionTo("Hit");
+			}
+			
+		}
 		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 		{
 
@@ -223,7 +241,6 @@ namespace GHJ_Lib
 				if (Input.GetKeyUp(KeyCode.Mouse0))
 				{
 					ChangeActionTo("Idle");
-
 				}
 			}
 			else
@@ -283,8 +300,48 @@ namespace GHJ_Lib
 
 		}
 
-		
-		
+		protected override IEnumerator AutoCasting()
+		{
+			if (IsAutoCasting)
+			{
+				yield break;
+			}
+			IsAutoCasting = true;
+			BarUI.Instance.SetTarget(interactObj);
+			while (true)
+			{
+				
+				float ChargeVel = 3;//차지속도
+				interactObj.AddGauge(ChargeVel * Time.deltaTime);
+				yield return new WaitForEndOfFrame();
+				if (interactObj.GetGaugeRate >= 1.0f)
+				{
+					IsAutoCasting = false;
+					break;
+				}
+			}
+		}
+		protected override IEnumerator AutoCastingNull()
+		{
+			if (IsAutoCasting)
+			{
+				yield break;
+			}
+			IsAutoCasting = true;
+			BarUI.Instance.SetTarget(null);
+			while (true)
+			{
+				float ChargeVel = 3;
+				BarUI.Instance.UpdateValue(ChargeVel * Time.deltaTime);
+				yield return new WaitForEndOfFrame();
+				if (BarUI.Instance.GetValue >= 1.0f)
+				{
+					IsAutoCasting = false;
+					break;
+				}
+			}
+		}
+
 		[PunRPC]
 		protected void _ChangeActionTo(string ActionName)
 		{
@@ -297,8 +354,23 @@ namespace GHJ_Lib
 					break;
 				case "Interact":
 					{
-						CurcharacterAction.PushSuccessorState(interaction);
 						interaction.SetInteractObj(interactObj);
+						CurcharacterAction.PushSuccessorState(interaction);
+					}
+					break;
+				case "Down":
+					{
+						CurcharacterAction.PushSuccessorState(down);
+					}
+					break;
+				case "Hit":
+					{
+						CurcharacterAction.PushSuccessorState(hit);
+					}
+					break;
+				case "Caught":
+					{
+						CurcharacterAction.PushSuccessorState(caught);
 					}
 					break;
 			}

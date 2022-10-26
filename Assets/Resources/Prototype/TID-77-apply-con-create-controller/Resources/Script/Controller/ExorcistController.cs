@@ -14,6 +14,7 @@ namespace GHJ_Lib
 		public GameObject[] CatchObj;
 
 		public PickUpBox pickUpBox;
+		public AttackBox attackBox;
 
 		public Behavior<BasePlayerController> CurcharacterCondition = new Behavior<BasePlayerController>();
 		public Behavior<BasePlayerController> CurcharacterAction = new Behavior<BasePlayerController>();
@@ -25,14 +26,17 @@ namespace GHJ_Lib
 		protected Idle idle = new Idle();
 		protected Attack attack = new Attack();
 		protected CharacterInteraction interact = new CharacterInteraction();
+		protected Catch catchDoll = new Catch();
 
 		protected KSH_Lib.FPV_CameraController fpvCam;
 		protected TPV_CameraController tpvCam;
 
 		protected GameObject nearestDownDoll;
 		protected bool canInteract = false;
-		/*--- Private Fields ---*/
 
+
+		/*--- Private Fields ---*/
+		Interaction interactObj;
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
@@ -49,9 +53,10 @@ namespace GHJ_Lib
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
 				fpvCam = GameObject.Find("FPV Cam(Clone)").GetComponent<KSH_Lib.FPV_CameraController>();
 				fpvCam.InitCam(camTarget);
-
+				fpvCam.gameObject.SetActive(true);
 				tpvCam = GameObject.Find("TPV Cam(Clone)").GetComponent<TPV_CameraController>();
 				tpvCam.InitCam(camTarget);
+				tpvCam.gameObject.SetActive(false);
 			}
 			// CurcharacterAction, CurcharacterCondition,  초기설정하기
 			CurcharacterAction.PushSuccessorState(idle);
@@ -95,20 +100,18 @@ namespace GHJ_Lib
 
 			if (other.CompareTag("interactObj"))
 			{
-				Interaction interactObj = other.GetComponent<Interaction>();
+				interactObj = other.GetComponent<Interaction>();
 				if (!photonView.IsMine)
 				{
 					return;
 				}
-
-				if (BarUI.Instance.IsAutoCasting || BarUI.Instance.IsAutoCastingNull)
+				if (IsAutoCasting)
 				{
 					canInteract = false;
 					BarUI.Instance.SliderVisible(true);
 					BarUI.Instance.TextVisible(false);
-					return;
 				}
-				else if (BarUI.Instance.IsCasting)
+				else if (IsCasting)
 				{
 					canInteract = true;
 					BarUI.Instance.SliderVisible(true);
@@ -121,7 +124,7 @@ namespace GHJ_Lib
 				}
 				else
 				{
-					if (CurcharacterAction is not Idle)
+					if (CurcharacterAction is CharacterInteraction)
 					{
 						ChangeActionTo("Idle");
 					}
@@ -198,33 +201,44 @@ namespace GHJ_Lib
 		}
 		protected void PlayerInput()
 		{
-			if (BarUI.Instance.IsAutoCasting || BarUI.Instance.IsAutoCastingNull)
+
+			if (pickUpBox.CanPickUp()&&(CurcharacterAction is not Catch))
 			{
-				return;
+				if (Input.GetKeyDown(KeyCode.Mouse0))
+				{
+					ChangeActionTo("Catch");
+					return;
+				}
 			}
 
-			if (BarUI.Instance.IsCasting)
+			if (canInteract)
 			{
+				if (Input.GetKeyDown(KeyCode.Mouse0))
+				{
+
+					ChangeActionTo("Interact");
+					return;
+				}
 				if (Input.GetKeyUp(KeyCode.Mouse0))
 				{
-					BarUI.Instance.EndCasting();
-				}
-				return;
-			}
-			
 
-			if (Input.GetKeyDown(KeyCode.Mouse0))
-			{
-				if (canInteract)
-				{
-					ChangeActionTo("Interact");
+					ChangeActionTo("Idle");
+					return;
 				}
-				else if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-				{
-					ChangeActionTo("Attack");
-				}
-				
 			}
+			else
+			{ 
+				if (Input.GetKeyDown(KeyCode.Mouse0))
+				{
+					if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+					{
+						ChangeActionTo("Attack");
+						return;
+					}
+				
+				}
+			}
+
 		}
 		
 
@@ -252,12 +266,54 @@ namespace GHJ_Lib
 
 		}
 
+		protected override IEnumerator AutoCasting()
+		{
+			if (IsAutoCasting)
+			{
+				yield break;
+			}
+			IsAutoCasting = true;
+			BarUI.Instance.SetTarget(interactObj);
+			while (true)
+			{
+
+				float ChargeVel = 3;//차지속도
+				interactObj.AddGauge(ChargeVel * Time.deltaTime);
+				yield return new WaitForEndOfFrame();
+				if (interactObj.GetGaugeRate >= 1.0f)
+				{
+					IsAutoCasting = false;
+					break;
+				}
+			}
+		}
+		protected override IEnumerator AutoCastingNull()
+		{
+			if (IsAutoCasting)
+			{
+				yield break;
+			}
+			IsAutoCasting = true;
+			BarUI.Instance.SetTarget(null);
+			while (true)
+			{
+				float ChargeVel = 3;
+				BarUI.Instance.UpdateValue(ChargeVel * Time.deltaTime);
+				yield return new WaitForEndOfFrame();
+				if (BarUI.Instance.GetValue >= 1.0f)
+				{
+					IsAutoCasting = false;
+					break;
+				}
+			}
+		}
+
 		[PunRPC]
 		protected void _ChangeActionTo(string ActionName)
 		{
 			switch (ActionName)
 			{
-				case "idle":
+				case "Idle":
 					{
 						CurcharacterAction.PushSuccessorState(idle);
 					}
@@ -269,9 +325,16 @@ namespace GHJ_Lib
 					break;
 				case "Interact":
 					{
-						CurcharacterAction.PushSuccessorState(interact);
+						interact.SetInteractObj(interactObj);
+						CurcharacterAction.PushSuccessorState(interact);						
 					}
-					break;
+					break; 
+				case "Catch":
+					{
+						nearestDownDoll = pickUpBox.FindNearestFallDownDoll();
+						CurcharacterAction.PushSuccessorState(catchDoll);
+					}
+					break; 
 			}
 
 
@@ -287,5 +350,26 @@ namespace GHJ_Lib
 
 
 		/*--- Private Methods ---*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		/*--- AnimationCallbacks Methods ---*/
+		public void PickUp()
+		{
+			CharacterLayerChange(nearestDownDoll, 7);
+			CatchObj[0].gameObject.SetActive(true);
+			nearestDownDoll.GetComponent<DollController>().CaughtDoll(camTarget);
+		}
 	}
 }

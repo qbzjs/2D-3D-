@@ -80,7 +80,9 @@ namespace GHJ_Lib
 
 			//PlayerData 에서 퇴마사라면 퇴마사의 위치 0 , 인형이라면 순서대로 1,2,3,4 위치로
 			//각 인형들이 들어온 순서대로 배열또는 리스트에 넣었기 때문에 해당 인덱스를 이용.
-			playerGenerator.Generate(PlayerGenPos[number]);
+			GameObject Player = playerGenerator.Generate(PlayerGenPos[number]);
+
+			Log.Instance.SetPlayer(Player);
 
 			normalAltarGenerator = new NetworkGenerator(NormalAltarPrefab);
 			exitAltarGenerator = new NetworkGenerator(ExitAltarPrefab);

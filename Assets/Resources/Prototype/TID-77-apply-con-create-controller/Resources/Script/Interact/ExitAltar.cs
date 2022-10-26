@@ -23,6 +23,8 @@ namespace GHJ_Lib
 			curGauge = 0.0f;
 			CanActiveToExorcist = false;
 			CanActiveToDoll = false;
+
+			OpenExitAltar(); //디버그를 위해 
 		}
 		void Update()
 		{
@@ -33,6 +35,23 @@ namespace GHJ_Lib
 		}
 
 		/*--- Public Methods ---*/
+
+		public override CastingType GetCastingType(BasePlayerController player)
+		{
+			if (player is DollController)
+			{
+				return CastingType.AutoCastingNull;
+			}
+
+			if (player is ExorcistController)
+			{
+				return CastingType.AutoCasting;
+			}
+
+			Debug.LogError("Error get Casting Type");
+			return CastingType.Casting;
+		}
+
 		public override void Interact(BasePlayerController controller)
 		{
 			if (controller is DollController)
@@ -64,7 +83,6 @@ namespace GHJ_Lib
 		{
 			//controller에서 PlayerData 를 호출하고 interact Velocity를 받은걸 사용.	
 			float velocity = 10.0f;
-			BarUI.Instance.AutoCastingNull(maxGauge / velocity);
 			//Doll 이라면 끝날때 탈출을 넣어주기
 		}
 		/*--- Private Methods ---*/

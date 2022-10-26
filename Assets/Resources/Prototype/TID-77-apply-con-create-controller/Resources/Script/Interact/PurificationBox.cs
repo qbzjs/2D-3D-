@@ -26,6 +26,39 @@ namespace GHJ_Lib
             
         }
 
+        public override CastingType GetCastingType(BasePlayerController player)
+        {
+            if (player is DollController)
+            {
+                if ((player as DollController).CurcharacterAction is Idle)
+                {
+                    return CastingType.Casting;
+                }
+                else
+                {
+                    return CastingType.NotCasting;
+                }
+            }
+
+            if (player is ExorcistController)
+            {
+                if ((player as ExorcistController).CurcharacterAction is Catch)
+                {
+                    return CastingType.AutoCastingNull;
+                }
+                else
+                {
+                    return CastingType.NotCasting;
+                }
+
+            }
+
+            Debug.LogError("Error get Casting Type");
+            return CastingType.NotCasting;
+        }
+
+
+
         private void OnTriggerStay(Collider other)
         {
             if (other.CompareTag("Exorcist"))
@@ -85,7 +118,6 @@ namespace GHJ_Lib
         {
             //controller에서 PlayerData 를 호출하고 interact Velocity를 받음.	
             float velocity = 10.0f;
-            BarUI.Instance.AutoCastingNull(maxGauge / velocity);
         }
 
         /*--- Private Methods ---*/

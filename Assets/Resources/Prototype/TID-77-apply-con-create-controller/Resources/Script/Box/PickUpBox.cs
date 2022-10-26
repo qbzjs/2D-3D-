@@ -13,17 +13,6 @@ namespace GHJ_Lib
         /*--- Private Fields ---*/
 
         /*--- MonoBehaviour CallBacks ---*/ 
-        void Start()
-        {
-        
-        }
-
-    
-        void Update()
-        {
-        
-        }
-
         private void OnTriggerStay(Collider other)
         {
             if (other.CompareTag("Doll"))
@@ -74,6 +63,18 @@ namespace GHJ_Lib
             }
 
             return nearestDoll;
+        }
+
+        public bool CanPickUp()
+        {
+            if (Dolls.Count == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
         /*--- Private Methods ---*/
     }

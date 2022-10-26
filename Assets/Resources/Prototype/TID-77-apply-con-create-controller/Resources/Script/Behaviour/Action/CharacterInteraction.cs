@@ -12,19 +12,19 @@ namespace GHJ_Lib
 
 		/*--- Protected Fields ---*/
 		protected Interaction interactionObj;
-
+		protected CastingType castingType;
 		/*--- Private Fields ---*/
 
 		/*--- Public Methods ---*/
 		public void SetInteractObj(Interaction interaction)
 		{
 			this.interactionObj = interaction;
+			
 		}
 
 		/*--- Protected Methods ---*/
 		protected override void Activate(in BasePlayerController actor)
 		{
-			BarUI.Instance.BeginCasting();
 			if (actor is DollController)
 			{
 				actor.BaseAnimator.Play("Attack");
@@ -33,21 +33,65 @@ namespace GHJ_Lib
 			{
 				actor.BaseAnimator.Play("Kick");
 			}
+
+			 castingType = interactionObj.GetCastingType(actor);
+
+
+
 		}
 
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
         {
-			//if(dollController.Animator.GetCurrentAnimatorStateInfo(0).length >
-			Behavior<BasePlayerController> behavior = base.DoBehavior(actor);
+			if (actor.IsAutoCasting)
+			{
+				return null;
+			}
+
+			Behavior<BasePlayerController> behavior = PassIfHasSuccessor();
+
 			if (behavior is Idle)
 			{
-				BarUI.Instance.EndCasting();
+				actor.IsCasting = false;
 				actor.BaseAnimator.Play("Idle_A");
 				return behavior;
 			}
-			this.interactionObj.Interact(actor);
+
+			switch (castingType)
+			{
+				case CastingType.Casting:
+					{
+						BarUI.Instance.SetTarget(interactionObj);
+						actor.IsCasting = true;
+						//actor 한테서 값 받기
+						float velocity = 5;
+						interactionObj.AddGauge(velocity*Time.deltaTime);
+						BarUI.Instance.UpdateValue();
+					}
+					break;
+				case CastingType.AutoCasting:
+					{
+						BarUI.Instance.SetTarget(interactionObj);
+						actor.Interact("AutoCasting");
+					}
+					break;
+				case CastingType.AutoCastingNull:
+					{
+						actor.Interact("AutoCastingNull");
+					}
+					break;
+				case CastingType.NotCasting:
+					{
+						
+					}
+					break;
+			}
+
+			//this.interactionObj.Interact(actor);
 			return null;
         }
+
+
+
         /*--- Private Methods ---*/
     }
 }

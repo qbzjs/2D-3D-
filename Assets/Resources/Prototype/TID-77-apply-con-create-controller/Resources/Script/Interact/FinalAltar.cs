@@ -54,6 +54,22 @@ namespace GHJ_Lib
 			}
         }
 
+		public override CastingType GetCastingType(BasePlayerController player)
+		{
+			if (player is DollController)
+			{
+				return CastingType.Casting;
+			}
+
+			if (player is ExorcistController)
+			{
+				return CastingType.NotCasting;
+			}
+
+			Debug.LogError("Error get Casting Type");
+			return CastingType.Casting;
+		}
+
 		/*--- Interaction Methods ---*/
 
 		public void DisableNormalAltar()
@@ -102,7 +118,6 @@ namespace GHJ_Lib
 		{
 			//controller에서 PlayerData 를 호출하고 interact Velocity를 받음.	
 			float velocity = 10.0f;
-			BarUI.Instance.AutoCastingNull(maxGauge / velocity);
 		}
 
 

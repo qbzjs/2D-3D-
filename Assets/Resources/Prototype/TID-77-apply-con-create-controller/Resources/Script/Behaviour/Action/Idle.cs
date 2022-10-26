@@ -21,7 +21,15 @@ namespace GHJ_Lib
         /*--- Protected Methods ---*/
         protected override void Activate(in BasePlayerController actor)
         {
-            actor.BaseAnimator.Play("Idle_A");
+            if (actor is DollController)
+            {
+                actor.BaseAnimator.Play("Idle_A");
+            }
+
+            if (actor is ExorcistController)
+            {
+                actor.BaseAnimator.Play("Idle");
+            }
         }
 
         /*--- Private Methods ---*/

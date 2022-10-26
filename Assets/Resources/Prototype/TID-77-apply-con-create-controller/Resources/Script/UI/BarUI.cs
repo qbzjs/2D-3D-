@@ -13,19 +13,10 @@ namespace GHJ_Lib
 		{
 			get { return instance; }
 		}
-		public bool IsAutoCastingNull
+		public float GetValue
 		{
-			get { return isAutoCastingNull; }
+			get { return bar.value; }
 		}
-		public bool IsAutoCasting
-		{
-			get { return isAutoCasting; }
-		}
-		public bool IsCasting
-		{
-			get { return isCasting; }
-		}
-		/*--- Protected Fields ---*/
 		protected static BarUI instance;
 
 		/*--- Private Fields ---*/
@@ -34,10 +25,6 @@ namespace GHJ_Lib
 		[SerializeField]
 		TextMeshProUGUI interactionText;
 		private Interaction targetInteraction;
-		private bool isAutoCastingNull = false;
-		private bool isAutoCasting = false;
-		private bool isCasting = false;
-		private float autoCastingTime = 0.0f;
 
 		/*--- MonoBehaviour Callbacks ---*/
 		void Start()
@@ -48,31 +35,17 @@ namespace GHJ_Lib
 			interactionText.gameObject.SetActive(false);
 			instance = this;
 		}
-		void Update()
-		{
-			if (isAutoCastingNull)
-			{
-				return;
-			}
 
-			if (isAutoCasting)
-			{
-				targetInteraction.UpdateCurGaugeRate(bar.value);
-				return;
-			}
-
-			if (isCasting&& targetInteraction)
-			{
+        void Update()
+        {
+			if (targetInteraction != null)
+			{ 
 				bar.value = targetInteraction.GetGaugeRate;
-				return;
 			}
 
-			
 		}
-
-
-		/*--- Public Methods ---*/
-		public void SliderVisible(bool flag)
+        /*--- Public Methods ---*/
+        public void SliderVisible(bool flag)
 		{
 			bar.gameObject.SetActive(flag);
 		}
@@ -83,72 +56,26 @@ namespace GHJ_Lib
 		public void SetTarget(Interaction interaction)
 		{
 			targetInteraction = interaction;
+			if (targetInteraction == null)
+			{
+				bar.value = 0;
+			}
 		}
-		public void BeginCasting()
+
+		public void UpdateValue(float velocity)
 		{
-			isCasting = true;
+			bar.value += velocity  ;
 		}
-		public void EndCasting()
+
+		public void UpdateValue()
 		{
-			isCasting = false;
+			bar.value = targetInteraction.GetGaugeRate;
 		}
-		public void AutoCastingNull(float chargeTime)
-		{
-			StartCoroutine("_AutoCastingNull", chargeTime);
-		}
-		public void AutoCasting(float chargeTime)
-		{
-			StartCoroutine("_AutoCasting", chargeTime);
-		}
+
 		/*--- Protected Methods ---*/
 
 
 		/*--- Private Methods ---*/
-		IEnumerator _AutoCastingNull(float chargeTime)
-		{
-			if (isAutoCastingNull)
-			{
-				yield break;
-			}
-
-			bar.value = 0;
-			while (true)
-			{
-				isAutoCastingNull = true;
-				bar.value += 1 / chargeTime;
-				yield return new WaitForEndOfFrame();
-				if (bar.value >= 1.0f)
-				{
-
-					isAutoCastingNull = false;
-				}
-
-			}
-		}
-
-		IEnumerator _AutoCasting(float chargeTime)
-		{
-			if (isAutoCasting)
-			{
-				yield break;
-			}
-
-			bar.value = 0;
-			while (true)
-			{
-				isAutoCasting = true;
-				bar.value += 1 / chargeTime;
-				yield return new WaitForEndOfFrame();
-				if (bar.value >= 1.0f)
-				{
-
-					isAutoCasting = false;
-				}
-
-			}
-		}
-
-
 
 
 	}
