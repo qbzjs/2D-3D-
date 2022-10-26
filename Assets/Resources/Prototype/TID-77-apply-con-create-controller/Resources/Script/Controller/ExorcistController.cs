@@ -396,7 +396,6 @@ namespace GHJ_Lib
 		public void ImprisonDoll(GameObject camTarget)
         {
 			DollController doll = caughtDoll.GetComponent<DollController>();
-
 			CatchObj[doll.TypeIndex-5].gameObject.SetActive(false);
 			doll.ChangeCamera(camTarget);
 

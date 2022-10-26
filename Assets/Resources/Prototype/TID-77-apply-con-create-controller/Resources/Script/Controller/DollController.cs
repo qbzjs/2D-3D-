@@ -34,7 +34,7 @@ namespace GHJ_Lib
 		protected BvHit hit = new BvHit();
 		protected BvCaught caught = new BvCaught();
 		protected BvCharacterInteraction interaction	= new BvCharacterInteraction();
-
+		protected BvPurified purified = new BvPurified();
 		protected KSH_Lib.FPV_CameraController	fpvCam;
 		protected TPV_CameraController			tpvCam;
 
@@ -207,10 +207,20 @@ namespace GHJ_Lib
 		{
 			if (CurcharacterAction is not BvHit)
 			{
-				
-				ChangeActionTo("Hit");
+				if (photonView.IsMine)
+				{ 
+					ChangeActionTo("Hit");
+				}
 			}
 			
+		}
+		public void Imprisoned(PurificationBox puriBox)
+		{
+			purified.SetPuriBox(puriBox);
+			if (photonView.IsMine)
+			{
+				ChangeActionTo("Purified");
+			}
 		}
 		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 		{
@@ -402,6 +412,12 @@ namespace GHJ_Lib
 						CurcharacterAction.PushSuccessorState(caught);
 					}
 					break;
+				case "Purified":
+					{
+						CurcharacterAction.PushSuccessorState(purified);
+					}
+					break;
+					
 			}
 
 			

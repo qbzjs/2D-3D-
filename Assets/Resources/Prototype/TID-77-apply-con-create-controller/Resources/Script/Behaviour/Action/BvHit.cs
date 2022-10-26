@@ -36,8 +36,8 @@ namespace GHJ_Lib
 
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
         {
-            
-            if((DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP<0.0f)
+            //PassIfHasSuccessor();
+            if ((DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP<0.0f)
             {
                 return new BvDown();
             }    

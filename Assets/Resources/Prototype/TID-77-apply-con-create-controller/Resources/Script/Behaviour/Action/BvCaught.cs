@@ -28,6 +28,12 @@ namespace GHJ_Lib
 
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
         {
+
+            Behavior<BasePlayerController> Bv =  PassIfHasSuccessor();
+            if (Bv is Purfied)
+            {
+                return Bv;
+            }
             if (resistGauge > 1.0f)
             {
                 //escape

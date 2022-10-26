@@ -47,6 +47,7 @@ namespace GHJ_Lib
 			}
 			(actor as ExorcistController).ImprisonDoll(interactionObj.CamTarget);
 			interactionObj.PurifyDoll(doll);
+			doll.Imprisoned(interactionObj);
 			return new BvIdle();
         }
 

@@ -27,6 +27,7 @@ namespace GHJ_Lib
 
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
         {
+            PassIfHasSuccessor();
             if (UpGauge >= 1.0f)
             {
                 return new BvIdle();
