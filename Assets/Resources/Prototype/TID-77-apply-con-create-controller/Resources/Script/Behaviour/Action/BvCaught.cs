@@ -4,13 +4,13 @@ using UnityEngine;
 using KSH_Lib;
 namespace GHJ_Lib
 {
-	public class Move: Behavior<BasePlayerController>
+	public class BvCaught: Behavior<BasePlayerController>
 	{
         /*--- Public Fields ---*/
 
 
         /*--- Protected Fields ---*/
-
+        protected float resistGauge = 0.0f;
 
         /*--- Private Fields ---*/
 
@@ -19,16 +19,22 @@ namespace GHJ_Lib
 
 
         /*--- Protected Methods ---*/
-        protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
+        protected override void Activate(in BasePlayerController actor)
         {
-            Behavior<BasePlayerController> nextBehavior = base.DoBehavior(actor);
-            if (nextBehavior is Idle)
-            {
-                return nextBehavior;
-            }
-            return null;
+            
+            resistGauge = 0.0f;
+
         }
 
+        protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
+        {
+            if (resistGauge > 1.0f)
+            {
+                //escape
+            }
+
+            return null;
+        }
         /*--- Private Methods ---*/
     }
 }

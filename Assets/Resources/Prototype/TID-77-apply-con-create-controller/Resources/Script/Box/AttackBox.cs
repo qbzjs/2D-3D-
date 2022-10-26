@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using KSH_Lib;
+using KSH_Lib.Data;
 namespace GHJ_Lib
 {
 	public class AttackBox: MonoBehaviour
 	{
 		/*--- Public Fields ---*/
-		
+
 
 		/*--- Protected Fields ---*/
 
@@ -21,7 +22,7 @@ namespace GHJ_Lib
         {
 			if (other.CompareTag("Doll"))
 			{
-				other.GetComponent<DollController>().HitDamage(10);
+				other.GetComponent<DollController>().HitDamage((DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower);
 				this.gameObject.SetActive(false);
 			}
         }

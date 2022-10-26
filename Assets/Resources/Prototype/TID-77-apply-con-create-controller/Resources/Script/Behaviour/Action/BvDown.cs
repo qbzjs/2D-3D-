@@ -1,16 +1,16 @@
-using KSH_Lib;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using KSH_Lib;
 namespace GHJ_Lib
 {
-	public class Attack: Behavior<BasePlayerController>
-    {
+	public class BvDown: Behavior<BasePlayerController>
+	{
         /*--- Public Fields ---*/
 
 
         /*--- Protected Fields ---*/
+        protected float UpGauge=0.0f;
 
         /*--- Private Fields ---*/
 
@@ -21,24 +21,20 @@ namespace GHJ_Lib
         /*--- Protected Methods ---*/
         protected override void Activate(in BasePlayerController actor)
         {
-            if (actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-            {
-                return;
-            }
-            actor.BaseAnimator.Play("Attack");
-            (actor as ExorcistController).attackBox.gameObject.SetActive(true);
+            UpGauge = 0.0f;
+            actor.BaseAnimator.Play("Death");
         }
 
-        
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
         {
-            if (actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime>=0.9)
+            if (UpGauge >= 1.0f)
             {
-                (actor as ExorcistController).attackBox.gameObject.SetActive(false);
-                return new Idle();
+                return new BvIdle();
             }
+
             return null;
         }
+
         /*--- Private Methods ---*/
     }
 }

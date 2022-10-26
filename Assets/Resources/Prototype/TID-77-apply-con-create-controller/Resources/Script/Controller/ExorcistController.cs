@@ -19,21 +19,21 @@ namespace GHJ_Lib
 		public Behavior<BasePlayerController> CurcharacterCondition = new Behavior<BasePlayerController>();
 		public Behavior<BasePlayerController> CurcharacterAction = new Behavior<BasePlayerController>();
 
-
 		/*--- Protected Fields ---*/
 		protected PhotonTransformViewClassic photonTransformView;
 
-		protected Idle idle = new Idle();
-		protected Attack attack = new Attack();
-		protected CharacterInteraction interact = new CharacterInteraction();
-		protected Catch catchDoll = new Catch();
+		protected BvIdle idle = new BvIdle();
+		protected BvAttack attack = new BvAttack();
+		protected BvCharacterInteraction interact = new BvCharacterInteraction();
+		protected BvCatch catchDoll = new BvCatch();
 
 		protected KSH_Lib.FPV_CameraController fpvCam;
 		protected TPV_CameraController tpvCam;
 
 		protected GameObject nearestDownDoll;
 		protected bool canInteract = false;
-
+		protected int typeIndex;
+		protected float initialSpeed;
 
 		/*--- Private Fields ---*/
 		Interaction interactObj;
@@ -50,6 +50,8 @@ namespace GHJ_Lib
 			// 카메라 설정하기
 			if (photonView.IsMine)
 			{
+				typeIndex = (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder;
+				initialSpeed = DataManager.Instance.RoleInfos[typeIndex].MoveSpeed;
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
 				fpvCam = GameObject.Find( "FPV_Cam(Clone)" ).GetComponent<KSH_Lib.FPV_CameraController>();
 				if(fpvCam == null)
@@ -85,7 +87,7 @@ namespace GHJ_Lib
 			{
 				//움직임 관련, 및 행동제한 부분
 				PlayerInput();
-				if (CurcharacterAction is Idle)
+				if (CurcharacterAction is BvIdle)
 				{
 					SetDirection();
 				}
@@ -136,7 +138,7 @@ namespace GHJ_Lib
 				}
 				else
 				{
-					if (CurcharacterAction is CharacterInteraction)
+					if (CurcharacterAction is BvCharacterInteraction)
 					{
 						ChangeActionTo("Idle");
 					}
@@ -214,7 +216,7 @@ namespace GHJ_Lib
 		protected void PlayerInput()
 		{
 
-			if (pickUpBox.CanPickUp()&&(CurcharacterAction is not Catch))
+			if (pickUpBox.CanPickUp()&&(CurcharacterAction is not BvCatch))
 			{
 				if (Input.GetKeyDown(KeyCode.Mouse0))
 				{
@@ -274,7 +276,7 @@ namespace GHJ_Lib
 			{
 				return;
 			}
-			controller.SimpleMove(direction * moveSpeed);
+			controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[typeIndex].roleData.MoveSpeed);
 
 		}
 

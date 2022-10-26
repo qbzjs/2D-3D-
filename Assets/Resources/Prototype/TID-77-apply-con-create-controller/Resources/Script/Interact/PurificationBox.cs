@@ -30,7 +30,7 @@ namespace GHJ_Lib
         {
             if (player is DollController)
             {
-                if ((player as DollController).CurcharacterAction is Idle)
+                if ((player as DollController).CurcharacterAction is BvIdle)
                 {
                     return CastingType.Casting;
                 }
@@ -42,7 +42,7 @@ namespace GHJ_Lib
 
             if (player is ExorcistController)
             {
-                if ((player as ExorcistController).CurcharacterAction is Catch)
+                if ((player as ExorcistController).CurcharacterAction is BvCatch)
                 {
                     return CastingType.AutoCastingNull;
                 }
@@ -65,7 +65,7 @@ namespace GHJ_Lib
             {
                 ExorcistController exorcistController = other.GetComponent<ExorcistController>();
 
-                if (exorcistController.CurcharacterAction is Catch)
+                if (exorcistController.CurcharacterAction is BvCatch)
                 {
                     CanActiveToExorcist = true;
                 }
@@ -78,7 +78,7 @@ namespace GHJ_Lib
             {
                 DollController dollController = other.GetComponent<DollController>();
 
-                if (dollController.CurcharacterAction is Idle)
+                if (dollController.CurcharacterAction is BvIdle)
                 {
                     CanActiveToDoll = true;
                 }

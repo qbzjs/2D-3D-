@@ -4,13 +4,13 @@ using UnityEngine;
 using KSH_Lib;
 namespace GHJ_Lib
 {
-	public class Caught: Behavior<BasePlayerController>
+	public class BvIdle: Behavior<BasePlayerController>
 	{
         /*--- Public Fields ---*/
 
 
         /*--- Protected Fields ---*/
-        protected float resistGauge = 0.0f;
+
 
         /*--- Private Fields ---*/
 
@@ -21,20 +21,17 @@ namespace GHJ_Lib
         /*--- Protected Methods ---*/
         protected override void Activate(in BasePlayerController actor)
         {
-            
-            resistGauge = 0.0f;
-
-        }
-
-        protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
-        {
-            if (resistGauge > 1.0f)
+            if (actor is DollController)
             {
-                //escape
+                actor.BaseAnimator.Play("Idle_A");
             }
 
-            return null;
+            if (actor is ExorcistController)
+            {
+                actor.BaseAnimator.Play("Idle");
+            }
         }
+
         /*--- Private Methods ---*/
     }
 }

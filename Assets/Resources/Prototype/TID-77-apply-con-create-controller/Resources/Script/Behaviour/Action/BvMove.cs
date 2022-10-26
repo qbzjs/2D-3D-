@@ -4,7 +4,7 @@ using UnityEngine;
 using KSH_Lib;
 namespace GHJ_Lib
 {
-	public class Hit: Behavior<BasePlayerController>
+	public class BvMove: Behavior<BasePlayerController>
 	{
         /*--- Public Fields ---*/
 
@@ -19,26 +19,12 @@ namespace GHJ_Lib
 
 
         /*--- Protected Methods ---*/
-        protected override void Activate(in BasePlayerController actor)
-        {
-            
-            actor.BaseAnimator.Play("Hit");
-            //HP ´ÞÀ½        
-
-        }
-
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
         {
-            /*
-            if(HP<=0.0f)
+            Behavior<BasePlayerController> nextBehavior = base.DoBehavior(actor);
+            if (nextBehavior is BvIdle)
             {
-                return new Down();
-            }    
-            */
-            if (actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f)
-            {
-               
-                return new Idle();
+                return nextBehavior;
             }
             return null;
         }

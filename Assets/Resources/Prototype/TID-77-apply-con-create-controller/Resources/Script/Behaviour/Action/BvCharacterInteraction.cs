@@ -5,7 +5,7 @@ using KSH_Lib;
 
 namespace GHJ_Lib
 {
-	public class CharacterInteraction: Behavior<BasePlayerController>
+	public class BvCharacterInteraction: Behavior<BasePlayerController>
 	{
 		/*--- Public Fields ---*/
 
@@ -49,7 +49,7 @@ namespace GHJ_Lib
 
 			Behavior<BasePlayerController> behavior = PassIfHasSuccessor();
 
-			if (behavior is Idle)
+			if (behavior is BvIdle)
 			{
 				actor.IsCasting = false;
 				actor.BaseAnimator.Play("Idle_A");

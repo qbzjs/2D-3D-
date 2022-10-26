@@ -2,36 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
+
 namespace GHJ_Lib
 {
-	public class Idle: Behavior<BasePlayerController>
+	public class BvCatch: Behavior<BasePlayerController>
 	{
-        /*--- Public Fields ---*/
+		/*--- Public Fields ---*/
 
 
-        /*--- Protected Fields ---*/
-
+		/*--- Protected Fields ---*/
+		protected DollController nearestDoll;
 
         /*--- Private Fields ---*/
 
 
         /*--- Public Methods ---*/
-
+        public void SetNearestDoll(GameObject doll)
+        {
+            nearestDoll = doll.GetComponent<DollController>();
+        }
 
         /*--- Protected Methods ---*/
         protected override void Activate(in BasePlayerController actor)
         {
-            if (actor is DollController)
-            {
-                actor.BaseAnimator.Play("Idle_A");
-            }
-
-            if (actor is ExorcistController)
-            {
-                actor.BaseAnimator.Play("Idle");
-            }
+            actor.BaseAnimator.Play("Pickup");
         }
 
+        
         /*--- Private Methods ---*/
     }
 }

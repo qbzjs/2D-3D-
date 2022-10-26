@@ -12,7 +12,7 @@ namespace GHJ_Lib
 
 		/*--- Public Fields ---*/
 		
-		public Idle GetIdle
+		public BvIdle GetIdle
 		{
 			get { return idle; }
 		}
@@ -21,16 +21,18 @@ namespace GHJ_Lib
 		/*--- Protected Fields ---*/
 		protected PhotonTransformViewClassic photonTransformView;
 
-		protected Idle idle					= new Idle();
-		protected Down down = new Down();
-		protected Hit hit = new Hit();
-		protected Caught caught = new Caught();
-		protected CharacterInteraction interaction	= new CharacterInteraction();
+		protected BvIdle idle					= new BvIdle();
+		protected BvDown down = new BvDown();
+		protected BvHit hit = new BvHit();
+		protected BvCaught caught = new BvCaught();
+		protected BvCharacterInteraction interaction	= new BvCharacterInteraction();
 
 		protected KSH_Lib.FPV_CameraController	fpvCam;
 		protected TPV_CameraController			tpvCam;
 
 		protected bool canInteract = false;
+		protected int typeIndex;
+		protected float initialSpeed;
 		/*--- Private Fields ---*/
 		Interaction interactObj;
 
@@ -39,6 +41,7 @@ namespace GHJ_Lib
 		public override void OnEnable()
 		{
 			photonTransformView = GetComponent<PhotonTransformViewClassic>();
+			
 			// 스테이터스 받아오기
 
 			//애니매이터 받기 -> behavior에서 할예정
@@ -46,6 +49,9 @@ namespace GHJ_Lib
 			// 카메라 설정하기
 			if (photonView.IsMine)
 			{
+				typeIndex = (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder;
+				Debug.LogWarning("typeIndex : " + typeIndex);
+				initialSpeed = DataManager.Instance.RoleInfos[typeIndex].MoveSpeed;
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
 				fpvCam = GameObject.Find( "FPV_Cam(Clone)" ).GetComponent<KSH_Lib.FPV_CameraController>();
 				fpvCam.InitCam(camTarget);
@@ -74,7 +80,7 @@ namespace GHJ_Lib
 			if (photonView.IsMine)
 			{
 				//움직임 관련, 및 행동제한 부분
-				if (CurcharacterAction is Idle)
+				if (CurcharacterAction is BvIdle)
 				{
 					SetDirection();
 				}
@@ -86,7 +92,7 @@ namespace GHJ_Lib
 				PlayerInput();
 
 				//Stop();
-				var velocity = direction*moveSpeed;
+				var velocity = direction*DataManager.Instance.LocalPlayerData.roleData.MoveSpeed;
 				var turnSpeed = rotateSpeed;
 				photonTransformView.SetSynchronizedValues(velocity, turnSpeed);
 				
@@ -184,10 +190,11 @@ namespace GHJ_Lib
 			}
 			ChangeActionTo("Caught");
 		}
-		public void HitDamage(float Damage)
+		public void HitDamage(float damage)
 		{
-			if (CurcharacterAction is not Hit)
-			{ 
+			if (CurcharacterAction is not BvHit)
+			{
+				hit.SetDamage(damage);
 				ChangeActionTo("Hit");
 			}
 			
@@ -223,11 +230,13 @@ namespace GHJ_Lib
 
 			if (Input.GetKeyDown(KeyCode.LeftShift))
 			{
-				moveSpeed = 12.0f;
+				DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = initialSpeed * 2;
+				DataManager.Instance.ShareRoleData();
 			}
 			if (Input.GetKeyUp(KeyCode.LeftShift))
 			{
-				moveSpeed = 6.0f;
+				DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = initialSpeed;
+				DataManager.Instance.ShareRoleData();
 			}
 
 
@@ -245,7 +254,7 @@ namespace GHJ_Lib
 			}
 			else
 			{
-				if (!(CurcharacterAction is Idle))
+				if (!(CurcharacterAction is BvIdle))
 				{
 					ChangeActionTo("Idle");
 
@@ -287,7 +296,7 @@ namespace GHJ_Lib
 				Stop();
 				return;
 			}
-			controller.SimpleMove(direction * moveSpeed);
+			controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[typeIndex].roleData.MoveSpeed);
 
 			if (direction.sqrMagnitude <= 0)
 			{
@@ -295,7 +304,7 @@ namespace GHJ_Lib
 			}
 			else
 			{
-				BaseAnimator.SetFloat("Move", moveSpeed);
+				BaseAnimator.SetFloat("Move", DataManager.Instance.PlayerDatas[typeIndex].roleData.MoveSpeed);
 			}
 
 		}
