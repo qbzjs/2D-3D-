@@ -6,18 +6,17 @@ using TMPro;
 
 namespace GHJ_Lib
 {
-	public class BarUI: MonoBehaviour
+	public class BarUI : MonoBehaviour
 	{
 		/*--- Public Fields ---*/
 		public static BarUI Instance
 		{
 			get { return instance; }
 		}
-		public bool IsAutoCasting
+		public float GetValue
 		{
-			get { return isAutoCastingNull; }
+			get { return bar.value; }
 		}
-		/*--- Protected Fields ---*/
 		protected static BarUI instance;
 
 		/*--- Private Fields ---*/
@@ -26,9 +25,6 @@ namespace GHJ_Lib
 		[SerializeField]
 		TextMeshProUGUI interactionText;
 		private Interaction targetInteraction;
-		private bool isAutoCastingNull = false;
-		private bool isAutoCasting = false;
-		private float autoCastingTime = 0.0f;
 
 		/*--- MonoBehaviour Callbacks ---*/
 		void Start()
@@ -39,30 +35,17 @@ namespace GHJ_Lib
 			interactionText.gameObject.SetActive(false);
 			instance = this;
 		}
-		void Update()
-		{
-			if (isAutoCastingNull)
-			{
-				return;
-			}
 
-			if (isAutoCasting)
-			{
-				targetInteraction.UpdateCurGaugeRate(bar.value);
-				return;
-			}
-
-			if (bar.gameObject.activeInHierarchy)
-			{
+        void Update()
+        {
+			if (targetInteraction != null)
+			{ 
 				bar.value = targetInteraction.GetGaugeRate;
 			}
 
-			
 		}
-
-
-		/*--- Public Methods ---*/
-		public void SliderVisible(bool flag)
+        /*--- Public Methods ---*/
+        public void SliderVisible(bool flag)
 		{
 			bar.gameObject.SetActive(flag);
 		}
@@ -73,62 +56,27 @@ namespace GHJ_Lib
 		public void SetTarget(Interaction interaction)
 		{
 			targetInteraction = interaction;
+			if (targetInteraction == null)
+			{
+				bar.value = 0;
+			}
 		}
-		public void AutoCastingNull(float chargeTime)
+
+		public void UpdateValue(float velocity)
 		{
-			StartCoroutine("_AutoCastingNull", chargeTime);
+			bar.value += velocity  ;
 		}
-		public void AutoCasting(float chargeTime)
+
+		public void UpdateValue()
 		{
-			StartCoroutine("_AutoCasting", chargeTime);
+			bar.value = targetInteraction.GetGaugeRate;
 		}
+
 		/*--- Protected Methods ---*/
 
 
 		/*--- Private Methods ---*/
-		IEnumerator _AutoCastingNull(float chargeTime)
-		{
-			if (isAutoCastingNull)
-			{
-				yield break;
-			}
-			SliderVisible(true);
-			bar.value = 0;
-			while (true)
-			{
-				isAutoCastingNull = true;
-				bar.value += 1 / chargeTime;
-				yield return new WaitForEndOfFrame();
-				if (bar.value >= 1.0f)
-				{
-					SliderVisible(false);
-					isAutoCastingNull = false;
-				}
 
-			}
-		}
-
-		IEnumerator _AutoCasting(float chargeTime)
-		{
-			if (isAutoCasting)
-			{
-				yield break;
-			}
-			SliderVisible(true);
-			bar.value = 0;
-			while (true)
-			{
-				isAutoCasting = true;
-				bar.value += 1 / chargeTime;
-				yield return new WaitForEndOfFrame();
-				if (bar.value >= 1.0f)
-				{
-					SliderVisible(false);
-					isAutoCasting = false;
-				}
-
-			}
-		}
 
 	}
 }

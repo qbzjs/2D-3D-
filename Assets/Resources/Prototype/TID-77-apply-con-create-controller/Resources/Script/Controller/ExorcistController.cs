@@ -6,37 +6,40 @@ using Photon.Pun;
 using Photon.Realtime;
 namespace GHJ_Lib
 {
-	public class ExorcistController: BasePlayerController
+	public class ExorcistController: BasePlayerController ,IPunObservable
 	{
 		/*--- Public Fields ---*/
-		public Animator Animator
-		{
-			get { return animator; }
-		}
-
+	
 		public ParticleSystem Ayra;
 		public GameObject[] CatchObj;
 
+		public PickUpBox pickUpBox;
+		public AttackBox attackBox;
+
+		public Behavior<BasePlayerController> CurcharacterCondition = new Behavior<BasePlayerController>();
+		public Behavior<BasePlayerController> CurcharacterAction = new Behavior<BasePlayerController>();
+
+
 		/*--- Protected Fields ---*/
 		protected PhotonTransformViewClassic photonTransformView;
-		protected Behavior<BasePlayerController> CurcharacterCondition = new Behavior<BasePlayerController>();
-		protected Behavior<BasePlayerController> CurcharacterAction = new Behavior<BasePlayerController>();
 
 		protected Idle idle = new Idle();
-		protected Walk walk = new Walk();
 		protected Attack attack = new Attack();
-
+		protected CharacterInteraction interact = new CharacterInteraction();
+		protected Catch catchDoll = new Catch();
 
 		protected KSH_Lib.FPV_CameraController fpvCam;
 		protected TPV_CameraController tpvCam;
-		[SerializeField]
-		protected Animator animator;
 
-        /*--- Private Fields ---*/
+		protected GameObject nearestDownDoll;
+		protected bool canInteract = false;
 
 
-        /*--- MonoBehaviour Callbacks ---*/
-        public override void OnEnable()
+		/*--- Private Fields ---*/
+		Interaction interactObj;
+
+		/*--- MonoBehaviour Callbacks ---*/
+		public override void OnEnable()
 		{
 			photonTransformView = GetComponent<PhotonTransformViewClassic>();
 			animator = GetComponent<Animator>();
@@ -50,9 +53,10 @@ namespace GHJ_Lib
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
 				fpvCam = GameObject.Find("FPV Cam(Clone)").GetComponent<KSH_Lib.FPV_CameraController>();
 				fpvCam.InitCam(camTarget);
-
+				fpvCam.gameObject.SetActive(true);
 				tpvCam = GameObject.Find("TPV Cam(Clone)").GetComponent<TPV_CameraController>();
 				tpvCam.InitCam(camTarget);
+				tpvCam.gameObject.SetActive(false);
 			}
 			// CurcharacterAction, CurcharacterCondition,  초기설정하기
 			CurcharacterAction.PushSuccessorState(idle);
@@ -69,7 +73,14 @@ namespace GHJ_Lib
 			{
 				//움직임 관련, 및 행동제한 부분
 				PlayerInput();
-				SetDirection();
+				if (CurcharacterAction is Idle)
+				{
+					SetDirection();
+				}
+				else
+				{
+					Stop();
+				}
 				var velocity = controller.velocity;
 				var turnSpeed = rotateSpeed;
 				photonTransformView.SetSynchronizedValues(velocity, turnSpeed);
@@ -77,13 +88,73 @@ namespace GHJ_Lib
 
 			RotateToDirection();
 			MoveCharacter();
+			
 
 			CurcharacterCondition.Update(this, ref CurcharacterCondition);
 			CurcharacterAction.Update(this, ref CurcharacterAction);
 			//HP동기화
 		}
 
+		private void OnTriggerStay(Collider other)
+		{
 
+			if (other.CompareTag("interactObj"))
+			{
+				interactObj = other.GetComponent<Interaction>();
+				if (!photonView.IsMine)
+				{
+					return;
+				}
+				if (IsAutoCasting)
+				{
+					canInteract = false;
+					BarUI.Instance.SliderVisible(true);
+					BarUI.Instance.TextVisible(false);
+				}
+				else if (IsCasting)
+				{
+					canInteract = true;
+					BarUI.Instance.SliderVisible(true);
+					BarUI.Instance.TextVisible(false);
+					if (!interactObj.CanActiveToDoll)
+					{
+						canInteract = false;
+					}
+					return;
+				}
+				else
+				{
+					if (CurcharacterAction is CharacterInteraction)
+					{
+						ChangeActionTo("Idle");
+					}
+					BarUI.Instance.SliderVisible(false);
+				}
+
+				if (Vector3.Dot(forward, Vector3.ProjectOnPlane((other.transform.position - this.transform.position), Vector3.up)) < 90 &&
+					interactObj.CanActiveToExorcist)
+				{
+					BarUI.Instance.TextVisible(true);
+					canInteract = true;
+
+				}
+				else
+				{
+					BarUI.Instance.TextVisible(false);
+					canInteract = false;
+				}
+
+			}
+		}
+
+		private void OnTriggerExit(Collider other)
+		{
+			if (other.CompareTag("interactObj"))
+			{
+				BarUI.Instance.TextVisible(false);
+				BarUI.Instance.SliderVisible(false);
+			}
+		}
 		/*--- Public Methods ---*/
 		//행동은 한번에 하나씩 존재
 		public virtual void ChangeActionTo(string ActionName)
@@ -96,52 +167,93 @@ namespace GHJ_Lib
 		{
 			photonView.RPC("_AddCondition", RpcTarget.AllViaServer, ConditionName);
 		}
+
 		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 		{
 
 			if (stream.IsWriting)
 			{
+
 				stream.SendNext(direction.x);
 				stream.SendNext(direction.y);
 				stream.SendNext(direction.z);
+
+				stream.SendNext(this.transform.position.x);
+				stream.SendNext(this.transform.position.y);
+				stream.SendNext(this.transform.position.z);
+
 			}
 			if (stream.IsReading)
 			{
 				this.direction.x = (float)stream.ReceiveNext();
 				this.direction.y = (float)stream.ReceiveNext();
 				this.direction.z = (float)stream.ReceiveNext();
+
+				this.transform.position = new Vector3((float)stream.ReceiveNext(), (float)stream.ReceiveNext(), (float)stream.ReceiveNext());
 			}
 		}
+
+
 		/*--- Protected Methods ---*/
+		protected void Stop()
+		{
+			direction = Vector3.zero;
+		}
 		protected void PlayerInput()
 		{
 
-			if (Input.GetKeyDown(KeyCode.Mouse0))
+			if (pickUpBox.CanPickUp()&&(CurcharacterAction is not Catch))
 			{
-				if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+				if (Input.GetKeyDown(KeyCode.Mouse0))
 				{
-					ChangeActionTo("Attack");
+					ChangeActionTo("Catch");
+					return;
 				}
-				
 			}
-			if (Input.GetKeyUp(KeyCode.Mouse0))
+
+			if (canInteract)
 			{
+				if (Input.GetKeyDown(KeyCode.Mouse0))
+				{
+
+					ChangeActionTo("Interact");
+					return;
+				}
+				if (Input.GetKeyUp(KeyCode.Mouse0))
+				{
+
+					ChangeActionTo("Idle");
+					return;
+				}
+			}
+			else
+			{ 
+				if (Input.GetKeyDown(KeyCode.Mouse0))
+				{
+					if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+					{
+						ChangeActionTo("Attack");
+						return;
+					}
 				
+				}
 			}
 
 		}
+		
+
 		protected override void RotateToDirection()
 		{
 			if (direction.sqrMagnitude > 0.01f)
 			{
-				animator.SetFloat("Move", direction.sqrMagnitude);
+				animator.SetFloat("MoveSpeed", direction.magnitude);
 				forward = Vector3.Slerp(characterModel.transform.forward, direction,
 					rotateSpeed * Time.deltaTime / Vector3.Angle(characterModel.transform.forward, direction));
 				characterModel.transform.LookAt(characterModel.transform.position + forward);
 			}
 			else
 			{
-				animator.SetFloat("Move", 0);
+				animator.SetFloat("MoveSpeed", 0);
 			}
 		}
 		protected override void MoveCharacter()
@@ -154,12 +266,54 @@ namespace GHJ_Lib
 
 		}
 
+		protected override IEnumerator AutoCasting()
+		{
+			if (IsAutoCasting)
+			{
+				yield break;
+			}
+			IsAutoCasting = true;
+			BarUI.Instance.SetTarget(interactObj);
+			while (true)
+			{
+
+				float ChargeVel = 3;//차지속도
+				interactObj.AddGauge(ChargeVel * Time.deltaTime);
+				yield return new WaitForEndOfFrame();
+				if (interactObj.GetGaugeRate >= 1.0f)
+				{
+					IsAutoCasting = false;
+					break;
+				}
+			}
+		}
+		protected override IEnumerator AutoCastingNull()
+		{
+			if (IsAutoCasting)
+			{
+				yield break;
+			}
+			IsAutoCasting = true;
+			BarUI.Instance.SetTarget(null);
+			while (true)
+			{
+				float ChargeVel = 3;
+				BarUI.Instance.UpdateValue(ChargeVel * Time.deltaTime);
+				yield return new WaitForEndOfFrame();
+				if (BarUI.Instance.GetValue >= 1.0f)
+				{
+					IsAutoCasting = false;
+					break;
+				}
+			}
+		}
+
 		[PunRPC]
 		protected void _ChangeActionTo(string ActionName)
 		{
 			switch (ActionName)
 			{
-				case "idle":
+				case "Idle":
 					{
 						CurcharacterAction.PushSuccessorState(idle);
 					}
@@ -169,6 +323,18 @@ namespace GHJ_Lib
 						CurcharacterAction.PushSuccessorState(attack);
 					}
 					break;
+				case "Interact":
+					{
+						interact.SetInteractObj(interactObj);
+						CurcharacterAction.PushSuccessorState(interact);						
+					}
+					break; 
+				case "Catch":
+					{
+						nearestDownDoll = pickUpBox.FindNearestFallDownDoll();
+						CurcharacterAction.PushSuccessorState(catchDoll);
+					}
+					break; 
 			}
 
 
@@ -184,5 +350,26 @@ namespace GHJ_Lib
 
 
 		/*--- Private Methods ---*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		/*--- AnimationCallbacks Methods ---*/
+		public void PickUp()
+		{
+			CharacterLayerChange(nearestDownDoll, 7);
+			CatchObj[0].gameObject.SetActive(true);
+			nearestDownDoll.GetComponent<DollController>().CaughtDoll(camTarget);
+		}
 	}
 }

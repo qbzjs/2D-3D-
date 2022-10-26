@@ -11,38 +11,34 @@ namespace GHJ_Lib
 	{
 
 		/*--- Public Fields ---*/
-		public Animator Animator
-		{
-			get { return animator; }
-		}
+		
 		public Idle GetIdle
 		{
 			get { return idle; }
 		}
+		public Behavior<BasePlayerController> CurcharacterCondition	= new Behavior<BasePlayerController>();
+		public Behavior<BasePlayerController> CurcharacterAction		= new Behavior<BasePlayerController>();
 		/*--- Protected Fields ---*/
 		protected PhotonTransformViewClassic photonTransformView;
-		protected Behavior<BasePlayerController> CurcharacterCondition	= new Behavior<BasePlayerController>();
-		protected Behavior<BasePlayerController> CurcharacterAction		= new Behavior<BasePlayerController>();
 
 		protected Idle idle					= new Idle();
-		protected Move move					= new Move();
-		protected Walk walk					= new Walk();
-		protected Run run					= new Run();
-		protected CharacterInteraction interAction	= new CharacterInteraction();
+		protected Down down = new Down();
+		protected Hit hit = new Hit();
+		protected Caught caught = new Caught();
+		protected CharacterInteraction interaction	= new CharacterInteraction();
 
 		protected KSH_Lib.FPV_CameraController	fpvCam;
 		protected TPV_CameraController			tpvCam;
-		[SerializeField]
-		protected Animator animator;
-		/*--- Private Fields ---*/
 
+		protected bool canInteract = false;
+		/*--- Private Fields ---*/
+		Interaction interactObj;
 
 		/*--- MonoBehaviour Callbacks ---*/
 
 		public override void OnEnable()
 		{
 			photonTransformView = GetComponent<PhotonTransformViewClassic>();
-			animator = GetComponent<Animator>();
 			// 스테이터스 받아오기
 
 			//애니매이터 받기 -> behavior에서 할예정
@@ -78,25 +74,92 @@ namespace GHJ_Lib
 			if (photonView.IsMine)
 			{
 				//움직임 관련, 및 행동제한 부분
-				SetDirection();
+				if (CurcharacterAction is Idle)
+				{
+					SetDirection();
+				}
+				else
+				{
+					Stop();
+				}
 				
 				PlayerInput();
 
-				Stop();
-				
-				
-				var velocity = controller.velocity;
+				//Stop();
+				var velocity = direction*moveSpeed;
 				var turnSpeed = rotateSpeed;
 				photonTransformView.SetSynchronizedValues(velocity, turnSpeed);
+				
 			}
-
 			RotateToDirection();
 			MoveCharacter();
+
 
 			CurcharacterAction.Update(this, ref CurcharacterAction);
 			CurcharacterCondition.Update(this, ref CurcharacterCondition);
 			//HP동기화
 
+		}
+
+        private void OnTriggerStay(Collider other)
+        {
+			
+
+			if (other.CompareTag("interactObj"))
+			{
+				interactObj =  other.GetComponent<Interaction>();
+
+				if (!photonView.IsMine)
+				{
+					return;
+				}
+
+				if (IsAutoCasting)
+				{
+					canInteract = false;
+					BarUI.Instance.SliderVisible(true);
+					BarUI.Instance.TextVisible(false);
+					return;
+				}
+				else if(IsCasting)
+				{ 
+					canInteract = true;
+					BarUI.Instance.SliderVisible(true);
+					BarUI.Instance.TextVisible(false);
+					if (!interactObj.CanActiveToDoll)
+					{
+						canInteract = false;
+					}
+					return;
+				}
+				else
+				{
+					BarUI.Instance.SliderVisible(false);
+				}
+
+				if (Vector3.Dot(forward, Vector3.ProjectOnPlane((other.transform.position - this.transform.position), Vector3.up)) < 90&&
+					interactObj.CanActiveToDoll)
+				{
+					BarUI.Instance.TextVisible(true);
+					canInteract = true;
+					
+				}
+				else
+				{
+					BarUI.Instance.TextVisible(false);
+					canInteract = false;
+				}
+				
+			}
+        }
+
+		private void OnTriggerExit(Collider other)
+		{
+			if (other.CompareTag("interactObj"))
+			{
+				BarUI.Instance.TextVisible(false);
+				BarUI.Instance.SliderVisible(false);
+			}
 		}
 
 
@@ -113,60 +176,85 @@ namespace GHJ_Lib
 		{
 			photonView.RPC("_AddCondition", RpcTarget.AllViaServer, ConditionName);
 		}
-
+		public void CaughtDoll(GameObject ExorcistCamTarget)
+		{
+			if (photonView.IsMine)
+			{
+				tpvCam.InitCam(ExorcistCamTarget);
+			}
+			ChangeActionTo("Caught");
+		}
+		public void HitDamage(float Damage)
+		{
+			if (CurcharacterAction is not Hit)
+			{ 
+				ChangeActionTo("Hit");
+			}
+			
+		}
 		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 		{
 
 			if (stream.IsWriting)
 			{
+
 				stream.SendNext(direction.x);
 				stream.SendNext(direction.y);
 				stream.SendNext(direction.z);
+
+				stream.SendNext(this.transform.position.x);
+				stream.SendNext(this.transform.position.y);
+				stream.SendNext(this.transform.position.z);
+
 			}
 			if (stream.IsReading)
 			{
 				this.direction.x = (float)stream.ReceiveNext();
 				this.direction.y = (float)stream.ReceiveNext();
 				this.direction.z = (float)stream.ReceiveNext();
+
+				this.transform.position = new Vector3((float)stream.ReceiveNext(), (float)stream.ReceiveNext(), (float)stream.ReceiveNext());
 			}
 		}
-		public void PlayAnimation()
-		{
-			
-		}
-	
+
 		/*--- Protected Methods ---*/
 		protected void PlayerInput()
 		{
-			
+
 			if (Input.GetKeyDown(KeyCode.LeftShift))
 			{
-				ChangeActionTo("Run");
+				moveSpeed = 12.0f;
 			}
 			if (Input.GetKeyUp(KeyCode.LeftShift))
 			{
-				ChangeActionTo("Idle");
+				moveSpeed = 6.0f;
 			}
-			
 
-			if (Input.GetKeyDown(KeyCode.Mouse0))
+
+			if (canInteract)
 			{
-				ChangeActionTo("Interact");
+				if (Input.GetKeyDown(KeyCode.Mouse0))
+				{
+					ChangeActionTo("Interact");
+
+				}
+				if (Input.GetKeyUp(KeyCode.Mouse0))
+				{
+					ChangeActionTo("Idle");
+				}
 			}
-			if(Input.GetKeyUp(KeyCode.Mouse0))
+			else
 			{
-				Debug.Log("To Idle");
-				ChangeActionTo("Idle");
+				if (!(CurcharacterAction is Idle))
+				{
+					ChangeActionTo("Idle");
+
+				}
 			}
 
 		}
 		protected void Stop()
 		{
-			if (CurcharacterAction is Move
-				||CurcharacterAction is Run)
-			{
-				return;
-			}
 			direction = Vector3.zero;
 		}
         protected override void SetDirection()
@@ -177,28 +265,7 @@ namespace GHJ_Lib
 			camProjToPlane = Vector3.ProjectOnPlane(camForward, Vector3.up);
 			camRight = camTarget.transform.right;
 			direction = (inputDir.x * camRight + inputDir.y * camProjToPlane).normalized;
-
-			if (CurcharacterAction is Run)
-			{
-				return;
-			}
-
-			if (direction.sqrMagnitude > 0.01f)
-			{
-				if (CurcharacterAction is Move)
-				{
-					return;
-				}
-				ChangeActionTo("Move");
-			}
-			else
-			{
-				if (CurcharacterAction is Idle)
-				{
-					return;
-				}
-				ChangeActionTo("Idle");
-			}
+		
 		}
 		protected override void RotateToDirection()
         {
@@ -210,20 +277,71 @@ namespace GHJ_Lib
 				characterModel.transform.LookAt(characterModel.transform.position + forward);
 			}
 
-			animator.SetFloat("Move", direction.sqrMagnitude);
+			
 		}
         protected override void MoveCharacter()
 		{
 			if (controller.enabled == false)
 			{
+				BaseAnimator.SetFloat("Move", 0);
+				Stop();
 				return;
 			}
 			controller.SimpleMove(direction * moveSpeed);
 
+			if (direction.sqrMagnitude <= 0)
+			{
+				BaseAnimator.SetFloat("Move", 0);
+			}
+			else
+			{
+				BaseAnimator.SetFloat("Move", moveSpeed);
+			}
+
 		}
 
-		
-		
+		protected override IEnumerator AutoCasting()
+		{
+			if (IsAutoCasting)
+			{
+				yield break;
+			}
+			IsAutoCasting = true;
+			BarUI.Instance.SetTarget(interactObj);
+			while (true)
+			{
+				
+				float ChargeVel = 3;//차지속도
+				interactObj.AddGauge(ChargeVel * Time.deltaTime);
+				yield return new WaitForEndOfFrame();
+				if (interactObj.GetGaugeRate >= 1.0f)
+				{
+					IsAutoCasting = false;
+					break;
+				}
+			}
+		}
+		protected override IEnumerator AutoCastingNull()
+		{
+			if (IsAutoCasting)
+			{
+				yield break;
+			}
+			IsAutoCasting = true;
+			BarUI.Instance.SetTarget(null);
+			while (true)
+			{
+				float ChargeVel = 3;
+				BarUI.Instance.UpdateValue(ChargeVel * Time.deltaTime);
+				yield return new WaitForEndOfFrame();
+				if (BarUI.Instance.GetValue >= 1.0f)
+				{
+					IsAutoCasting = false;
+					break;
+				}
+			}
+		}
+
 		[PunRPC]
 		protected void _ChangeActionTo(string ActionName)
 		{
@@ -234,19 +352,25 @@ namespace GHJ_Lib
 						CurcharacterAction.PushSuccessorState(idle);
 					}
 					break;
-				case "Run":
-					{
-						CurcharacterAction.PushSuccessorState(run);
-					}
-					break;
-				case "Move":
-					{
-						CurcharacterAction.PushSuccessorState(move);
-					}
-					break;
 				case "Interact":
 					{
-						CurcharacterAction.PushSuccessorState(interAction);
+						interaction.SetInteractObj(interactObj);
+						CurcharacterAction.PushSuccessorState(interaction);
+					}
+					break;
+				case "Down":
+					{
+						CurcharacterAction.PushSuccessorState(down);
+					}
+					break;
+				case "Hit":
+					{
+						CurcharacterAction.PushSuccessorState(hit);
+					}
+					break;
+				case "Caught":
+					{
+						CurcharacterAction.PushSuccessorState(caught);
 					}
 					break;
 			}
@@ -270,7 +394,13 @@ namespace GHJ_Lib
 			
 		}
 
-		
+		/*
+		[PunRPC]
+		void sendNext(니정보,인덱스)
+		{
+			리스트(인덱스).정보 = 니정보
+		}
+		*/
         /*--- Private Methods ---*/
     }
 }

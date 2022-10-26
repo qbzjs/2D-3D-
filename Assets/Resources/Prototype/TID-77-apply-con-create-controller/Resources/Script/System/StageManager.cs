@@ -60,22 +60,40 @@ namespace GHJ_Lib
 		}
         void Start()
 		{
+			instance = this;
 			//PlayerData 받아온정보를 토대로 어떤 퇴마사인지, 어떤 인형인지.. 결정
-			playerGenerator = new NetworkGenerator(DollPrefabs[0]);
+			//임시
+			int number = PhotonNetwork.LocalPlayer.ActorNumber;
+			if (number == 1)
+			{
+				playerGenerator = new NetworkGenerator(DollPrefabs[0]);
+				playerGenerator = new NetworkGenerator(ExorcistPrefabs[0]);
+				 
+			}
+			else
+			{
+				playerGenerator = new NetworkGenerator(ExorcistPrefabs[0]);
+				playerGenerator = new NetworkGenerator(DollPrefabs[0]);
+			}
+			//
+			
 
 			//PlayerData 에서 퇴마사라면 퇴마사의 위치 0 , 인형이라면 순서대로 1,2,3,4 위치로
 			//각 인형들이 들어온 순서대로 배열또는 리스트에 넣었기 때문에 해당 인덱스를 이용.
-			playerGenerator.Generate(PlayerGenPos[0]);
+			GameObject Player = playerGenerator.Generate(PlayerGenPos[number]);
+
+			Log.Instance.SetPlayer(Player);
+
+			normalAltarGenerator = new NetworkGenerator(NormalAltarPrefab);
+			exitAltarGenerator = new NetworkGenerator(ExitAltarPrefab);
+			finalAltarGenerator = new NetworkGenerator(FinalAltarPrefab);
+			purificationBoxGenerator = new NetworkGenerator(PurificationBoxPrefab);
 
 			if (!PhotonNetwork.IsMasterClient)
 			{
 				return;
 			}
 
-			normalAltarGenerator = new NetworkGenerator(NormalAltarPrefab);
-			exitAltarGenerator = new NetworkGenerator(ExitAltarPrefab);
-			finalAltarGenerator = new NetworkGenerator(FinalAltarPrefab);
-			purificationBoxGenerator = new NetworkGenerator(PurificationBoxPrefab);
 
 			normalAltarGenerator.GenerateByAlgorithm(Count, NormalAltarGenPos, InitAreaRadius, CenterPosition);
 			exitAltarGenerator.GenerateRandomly(ExitAltarGenPos);
@@ -94,7 +112,6 @@ namespace GHJ_Lib
 		{
 			Model.layer = layer;
 			int count = Model.transform.childCount;
-			Debug.Log("count : " + count);
 			if (count != 0)
 			{
 				for (int i = 0; i < count; ++i)
@@ -107,6 +124,8 @@ namespace GHJ_Lib
 				return;
 			}
 		}
+
+		
 
 		/*--- Protected Methods ---*/
 

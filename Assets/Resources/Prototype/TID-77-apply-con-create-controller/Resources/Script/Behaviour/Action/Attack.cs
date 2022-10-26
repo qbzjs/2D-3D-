@@ -11,7 +11,6 @@ namespace GHJ_Lib
 
 
         /*--- Protected Fields ---*/
-        protected ExorcistController exorcistController;
 
         /*--- Private Fields ---*/
 
@@ -22,23 +21,23 @@ namespace GHJ_Lib
         /*--- Protected Methods ---*/
         protected override void Activate(in BasePlayerController actor)
         {
-            exorcistController = (actor as ExorcistController);
-
-            if (exorcistController.Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+            if (actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
             {
                 return;
             }
-            exorcistController.Animator.Play("Attack");
+            actor.BaseAnimator.Play("Attack");
+            (actor as ExorcistController).attackBox.gameObject.SetActive(true);
         }
 
         
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
         {
-            if (exorcistController.Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+            if (actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime>=0.9)
             {
-                return null;
+                (actor as ExorcistController).attackBox.gameObject.SetActive(false);
+                return new Idle();
             }
-            return base.DoBehavior(actor);
+            return null;
         }
         /*--- Private Methods ---*/
     }

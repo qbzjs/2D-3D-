@@ -53,16 +53,20 @@ namespace KSH_Lib
             return ps;
         }
 
+        public Behavior<T> PassIfHasSuccessor()
+        {
+            if (HasSuccessors())
+			{
+				return PassState();
+			}
+			return null;
+        }
 
         /*--- Protected Methods---*/
         protected virtual void Activate( in T actor ) { }
         protected virtual Behavior<T> DoBehavior( in T actor )
         {
-            if (HasSuccessors())
-            {
-                return PassState();
-            }
-            return null;
+            return PassIfHasSuccessor();
         }
     }
 }

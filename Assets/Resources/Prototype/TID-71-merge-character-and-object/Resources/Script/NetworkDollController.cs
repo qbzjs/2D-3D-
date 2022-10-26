@@ -309,7 +309,7 @@ namespace GHJ_Lib
 			if (curBehavior is BvGhost)
 			{
 				escapeTransform = cinemachineVirtual.Follow.transform;
-				purificatinBox.DieToGhost();
+				//purificatinBox.DieToGhost();
 				return;
 			}
 			curBehavior.PushSuccessorState(bvImplement);

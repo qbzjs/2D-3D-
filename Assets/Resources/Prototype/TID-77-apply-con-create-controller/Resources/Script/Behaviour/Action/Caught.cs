@@ -1,37 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using KSH_Lib;
 namespace GHJ_Lib
 {
-	public class Caught: MonoBehaviour
+	public class Caught: Behavior<BasePlayerController>
 	{
-		/*--- Public Fields ---*/
+        /*--- Public Fields ---*/
 
 
-		/*--- Protected Fields ---*/
+        /*--- Protected Fields ---*/
+        protected float resistGauge = 0.0f;
+
+        /*--- Private Fields ---*/
 
 
-		/*--- Private Fields ---*/
+        /*--- Public Methods ---*/
 
 
-		/*--- MonoBehaviour Callbacks ---*/
-		void Start()
-		{
-		
-		}
-		void Update()
-		{
-		
-		}
+        /*--- Protected Methods ---*/
+        protected override void Activate(in BasePlayerController actor)
+        {
+            
+            resistGauge = 0.0f;
 
+        }
 
-		/*--- Public Methods ---*/
+        protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
+        {
+            if (resistGauge > 1.0f)
+            {
+                //escape
+            }
 
-
-		/*--- Protected Methods ---*/
-
-
-		/*--- Private Methods ---*/
-	}
+            return null;
+        }
+        /*--- Private Methods ---*/
+    }
 }
