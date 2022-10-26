@@ -76,11 +76,11 @@ namespace GHJ_Lib
 
                 if (photonView.IsMine)
                 {
-                    dollUI.SetStatus(this);
+                    //dollUI.SetStatus(this);
                 }
                 else
                 {
-                    dollUI.SetFriendStatus(this);
+                    //dollUI.SetFriendStatus(this);
                 }
             }
             else
@@ -92,7 +92,7 @@ namespace GHJ_Lib
                     return;
                 }
                 ExorcistUI exorcistUI = UIobj.GetComponent<ExorcistUI>();
-                exorcistUI.SetDollStatus(this);
+                //exorcistUI.SetDollStatus(this);
 
 
             }
