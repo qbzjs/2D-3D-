@@ -56,8 +56,8 @@ namespace KSH_Lib
 
 		List<RoleData> roleInfos = new List<RoleData>();
 
-		//public List<PlayerData> playerDatas = new List<PlayerData>();
-		public PlayerData[] playerDatas;
+		public List<PlayerData> playerDatas = new List<PlayerData>();
+		//public PlayerData[] playerDatas;
 		public PlayerData localPlayerData = new PlayerData();
 
 		/*--- MonoBehaviour Callbacks ---*/
@@ -75,7 +75,7 @@ namespace KSH_Lib
 			{
 				Debug.LogError("DataManager.RoleDatas: Can't get role Datas from CSV");
 			}
-			playerDatas = new PlayerData[GameManager.Instance.MaxPlayerCount];
+			//playerDatas = new PlayerData[GameManager.Instance.MaxPlayerCount];
 
 		}
 
@@ -119,12 +119,12 @@ namespace KSH_Lib
 			//playerDatas = new List<PlayerData>( PhotonNetwork.CurrentRoom.PlayerCount );	
 			for( int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; ++i )
             {
-				//playerDatas.Add( new PlayerData() );
+				playerDatas.Add( new PlayerData() );
             }
 		}
 		public void ResetPlayerDatas()
 		{
-			//	playerDatas = new List<PlayerData>();
+			playerDatas = new List<PlayerData>();
 		}
 
 		public void ShareAllData()
@@ -146,7 +146,15 @@ namespace KSH_Lib
 			{
 				pv.RPC( "ShareExorcistDataRPC", RpcTarget.AllViaServer, playerIdx, ExorcistData.Serialize( localPlayerData.roleData ) );
 			}
+			else
+            {
+				Debug.LogError( "DataManger.ShareRoleData: localPlayerData.roleData type error" );
+            }
         }
+		public void DisconnectAllData()
+		{
+			pv.RPC( "DisconnectAllDataRPC", RpcTarget.AllViaServer, playerIdx );
+		}
 
 		/*--- Private Methods ---*/
 		bool SetRoleDatasFromCSV(string csvPath)
@@ -204,12 +212,10 @@ namespace KSH_Lib
 		}
 
 
-
-
 		[PunRPC]
 		void DisconnectAllDataRPC(int idx)
         {
-			//playerDatas.RemoveAt( idx );
+			playerDatas.RemoveAt( idx );
         }
 
 
