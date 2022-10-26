@@ -16,6 +16,14 @@ namespace GHJ_Lib
 		{
 			get { return idle; }
 		}
+		public int TypeIndex
+		{
+			get { return typeIndex; }
+		}
+		public int PlayerIndex
+		{
+			get { return playerIndex; }
+		}
 		public Behavior<BasePlayerController> CurcharacterCondition	= new Behavior<BasePlayerController>();
 		public Behavior<BasePlayerController> CurcharacterAction		= new Behavior<BasePlayerController>();
 		/*--- Protected Fields ---*/

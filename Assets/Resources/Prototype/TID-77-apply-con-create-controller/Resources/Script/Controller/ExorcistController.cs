@@ -395,15 +395,18 @@ namespace GHJ_Lib
 		/*--- AnimationCallbacks Methods ---*/
 		public void ImprisonDoll(GameObject camTarget)
         {
-			CatchObj[0].gameObject.SetActive(false);
-			caughtDoll.GetComponent<DollController>().ChangeCamera(camTarget);
+			DollController doll = caughtDoll.GetComponent<DollController>();
+
+			CatchObj[doll.TypeIndex-5].gameObject.SetActive(false);
+			doll.ChangeCamera(camTarget);
 
 		}
 		public void PickUp()
 		{
+			DollController doll = caughtDoll.GetComponent<DollController>();
 			CharacterLayerChange(caughtDoll, 8);
-			CatchObj[0].gameObject.SetActive(true);
-			caughtDoll.GetComponent<DollController>().CaughtDoll(camTarget);
+			CatchObj[doll.TypeIndex-5].gameObject.SetActive(true);
+			doll.CaughtDoll(camTarget);
 
 		}
 	}
