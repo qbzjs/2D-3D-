@@ -10,10 +10,11 @@ namespace LSH_Lib
     {
 
         GameObject inventory;
-        [PunRPC]
         public void AddToInventory(GameObject obj)
         {
-            inventory = PhotonNetwork.Instantiate(obj.name, this.gameObject.transform.position, this.gameObject.transform.rotation, 0, null);
+            string path = "Prototype/TID-25-implement-test-item/Prefabs/" + obj.name;
+            //inventory = obj;
+            inventory = PhotonNetwork.Instantiate(path, this.gameObject.transform.position, this.gameObject.transform.rotation, 0, null);
             //inventory.Add(PhotonNetwork.Instantiate(obj.name, this.gameObject.transform.position, this.gameObject.transform.rotation, 0, null));
         }
     }

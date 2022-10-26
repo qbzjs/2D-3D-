@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon;
+using Photon.Pun;
+using Photon.Realtime;
 namespace LSH_Lib
 {
 	public class Chicken : Item
-	{
+    {
 
         AudioSource chickenaudio;
         MeshRenderer mesh;
@@ -15,6 +17,7 @@ namespace LSH_Lib
             base.Start();
             chickenaudio = this.gameObject.GetComponent<AudioSource>();
             mesh = this.gameObject.GetComponent<MeshRenderer>();
+            ChickenDoll = this.gameObject;
         }
         private void Update()
         {
@@ -26,6 +29,7 @@ namespace LSH_Lib
         }
         void KeyDown()
         {
+
             if(Input.GetKeyDown(KeyCode.Space))
             {
                 Instantiate(ChickenDoll, this.gameObject.transform);
@@ -33,7 +37,7 @@ namespace LSH_Lib
         }
         private void OnTriggerEnter(Collider other)
         {
-            if(other.gameObject.CompareTag("Exocist"))
+            if(other.gameObject.CompareTag("Exorcist"))
             {
                 DoAction();
             }
@@ -49,6 +53,11 @@ namespace LSH_Lib
         {
             yield return new WaitForSeconds(3.0f);
             Destroy(this.gameObject);
+        }
+
+        public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

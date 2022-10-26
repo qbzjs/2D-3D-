@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon;
+using Photon.Pun;
+using Photon.Realtime;
 namespace LSH_Lib
 {
 	public class CrowFeather : Item
@@ -14,6 +16,10 @@ namespace LSH_Lib
         {
             ItemManager.Instance.Doll.CrowFeather();
             Destroy(this.gameObject);
+        }
+        public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

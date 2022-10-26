@@ -22,18 +22,20 @@ namespace LSH_Lib
 
     public enum ItemOrder
     {
-        ConttonBall,
-        CottonPiece,
-        CrowFeather,
-        Oil,
-        Bond,
+        CottonBall,
         Chicken,
-        Metal,
-        Whistle,
-        SealingTool,
-        BaitPotion,
-        Neckless,
-        PigeonFeather,
+        //ConttonBall,
+        //CottonPiece,
+        //CrowFeather,
+        //Oil,
+        //Bond,
+        //Chicken,
+        //Metal,
+        //Whistle,
+        //SealingTool,
+        //BaitPotion,
+        //Neckless,
+        //PigeonFeather,
     }
 
     public class ItemDataLoader : MonoBehaviour
@@ -54,8 +56,8 @@ namespace LSH_Lib
 
         const string Path = "Prototype/TID-25-implement-test-item/Data/ItemDataTest";
 
-        public Dictionary<string, ItemData> dollItemDatas = new Dictionary<string, ItemData>();
-        public Dictionary<string, ItemData> exorcistItemDatas = new Dictionary<string, ItemData>();
+        public Dictionary<string, ItemData> dollItemDatas;
+        public Dictionary<string, ItemData> exorcistItemDatas;
 
         public void LoadData()
         {
@@ -83,10 +85,15 @@ namespace LSH_Lib
 
             if(dollItemDatas == null)
             {
+                dollItemDatas = new Dictionary<string, ItemData>();
+                exorcistItemDatas = new Dictionary<string, ItemData>();
                 LoadData();
             }
 
-            dollItemDatas.TryGetValue(name, out data);
+            if(!dollItemDatas.TryGetValue(name, out data))
+            {
+                Debug.LogError($"ItemDataLoader: Can not Find {name} in data table");
+            }
             return data;
         }
         public ItemData GetExorcistItem(in string name)
@@ -95,10 +102,15 @@ namespace LSH_Lib
 
             if(exorcistItemDatas == null)
             {
+                dollItemDatas = new Dictionary<string, ItemData>();
+                exorcistItemDatas = new Dictionary<string, ItemData>();
                 LoadData();
             }
 
-            exorcistItemDatas.TryGetValue(name, out data);
+            if(!exorcistItemDatas.TryGetValue(name, out data))
+            {
+                Debug.LogError($"ItemDataLoader: Can not Find {name} in data table");
+            }
             return data;
         }
     }

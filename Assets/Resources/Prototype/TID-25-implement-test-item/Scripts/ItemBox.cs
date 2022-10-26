@@ -15,6 +15,7 @@ namespace LSH_Lib
 
         private void Start()
         {
+            randomList.Add(ItemOrder.CottonBall, ItemDataLoader.Instance.GetDollItem("CottonBall").frequency);
             randomList.Add(ItemOrder.Chicken, ItemDataLoader.Instance.GetDollItem("Chicken").frequency);
         }
         private void OnTriggerEnter(Collider other)
@@ -29,7 +30,7 @@ namespace LSH_Lib
             {
                 playerTag = "Doll";
                 ItemOrder itemOrder = randomList.GetItem();
-
+                int a = (int)itemOrder;
                 other.gameObject.GetComponent<Inventory>().AddToInventory(itemPrefabs[(int)itemOrder]);
 
 
