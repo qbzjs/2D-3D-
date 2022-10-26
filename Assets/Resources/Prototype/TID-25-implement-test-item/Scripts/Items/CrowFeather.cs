@@ -12,6 +12,16 @@ namespace LSH_Lib
         {
             ItemDataLoader.Instance.GetDollItem("CrowFeatehr");
         }
+        private void Update()
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                if (photonView.IsMine)
+                {
+                    DoAction();
+                }
+            }
+        }
         protected override void DoAction()
         {
             ItemManager.Instance.Doll.CrowFeather();

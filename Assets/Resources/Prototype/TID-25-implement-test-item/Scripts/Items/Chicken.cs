@@ -21,11 +21,6 @@ namespace LSH_Lib
         {
             KeyDown();
         }
-        protected override void InitItemData()
-        {
-            ItemDataLoader.Instance.GetDollItem("Chicken");
-        }
-        [PunRPC]
         void KeyDown()
         {
 
@@ -37,6 +32,12 @@ namespace LSH_Lib
                 }
             }
         }
+        protected override void InitItemData()
+        {
+            ItemDataLoader.Instance.GetDollItem("Chicken");
+        }
+        
+        
         private void OnTriggerEnter(Collider other)
         {
             if(other.gameObject.CompareTag("Exorcist"))
