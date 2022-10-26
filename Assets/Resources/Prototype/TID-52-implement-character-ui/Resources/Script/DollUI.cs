@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using KSH_Lib;
+using KSH_Lib.Data;
 namespace GHJ_Lib
 { 
     public class DollUI : InGameUI
@@ -21,13 +23,13 @@ namespace GHJ_Lib
         public Image Friend3DollHP;
         public Image Friend3DevilHP;
 
-
-
+        private float[] maxDollHP;
+        private float[] maxDevilHP;
+        private int MyIdx;
         #endregion
 
         #region Private Fields
-        private DollStatus playerStatus = null;
-        private List<DollStatus> friendsStatus = new List<DollStatus>();
+
         private List<Image> friendDollHP=new List<Image>();
         private List<Image> friendDevilHP = new List<Image>();
         #endregion
@@ -43,38 +45,41 @@ namespace GHJ_Lib
             friendDevilHP.Add(Friend2DevilHP);
             friendDevilHP.Add(Friend3DevilHP);
 
+            MyIdx = DataManager.Instance.PlayerIdx;
+            for (int i = 1; i < 5; ++i)
+            {
+                maxDollHP[i] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
+                maxDevilHP[i] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
+            }
         }
 
         private void Update()
         {
-            
-            if (playerStatus == null)
+            int j = 0;
+
+            for (int i = 1; i < 5; ++i)
             {
-                return;
+                if (MyIdx == i)
+                {
+                    PlayerDollHP.fillAmount = (DataManager.Instance.PlayerDatas[MyIdx].roleData as DollData).DollHP / maxDollHP[MyIdx];
+                    PlayerDevilHP.fillAmount = (DataManager.Instance.PlayerDatas[MyIdx].roleData as DollData).DevilHP / maxDevilHP[MyIdx];
+                }
+                else
+                { 
+                    friendDollHP[j].fillAmount = (DataManager.Instance.PlayerDatas[j].roleData as DollData).DollHP / maxDollHP[j];
+                    friendDevilHP[j].fillAmount = (DataManager.Instance.PlayerDatas[j].roleData as DollData).DevilHP / maxDevilHP[j];
+                    j++;
+                }
             }
             
-            ApplyStatusHPToHPUI(playerStatus, PlayerDollHP, PlayerDevilHP);
-            for (int i = 0; i < friendsStatus.Count; ++i)
-            { 
-                ApplyStatusHPToHPUI(friendsStatus[i], friendDollHP[i], friendDevilHP[i]);
-            }
 
 
-        }
-        #endregion	
+           
 
-        #region Public Methods
-        public void SetStatus(DollStatus dollStatus)
-        {
-            this.playerStatus = dollStatus;
-        }
-
-        public void SetFriendStatus(DollStatus dollStatus)
-        {
-            friendsStatus.Add(dollStatus);
         }
 
         #endregion	
 
+        
     }
 }

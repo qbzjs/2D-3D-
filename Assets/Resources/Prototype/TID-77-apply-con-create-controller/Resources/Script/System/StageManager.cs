@@ -46,6 +46,9 @@ namespace GHJ_Lib
 		/*--- Protected Fields ---*/
 		protected NetworkGenerator networkGenerator;
 
+		[Header("UI")]
+		public DollUI dollUI;
+		public ExorcistUI exorcistUI;
 
 		//protected NetworkGenerator playerGenerator;
 		//protected NetworkGenerator normalAltarGenerator;
@@ -98,20 +101,25 @@ namespace GHJ_Lib
 			//PlayerData 에서 퇴마사라면 퇴마사의 위치 0 , 인형이라면 순서대로 1,2,3,4 위치로
 			//각 인형들이 들어온 순서대로 배열또는 리스트에 넣었기 때문에 해당 인덱스를 이용.
 			//GameObject Player = playerGenerator.Generate(PlayerGenPos[number]);
-			int number = PhotonNetwork.LocalPlayer.ActorNumber;
+			int number = DataManager.Instance.PlayerIdx;
 
 			GameObject targetPrefab;
-			if (number == 1)
+			if (number == 0)
             {
-				targetPrefab = ExorcistPrefabs[0];
-            }
+				targetPrefab = ExorcistPrefabs[(int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder];
+				exorcistUI.gameObject.SetActive(true);
+			}
 			else
 			{
-				targetPrefab = DollPrefabs[0];
+				targetPrefab = DollPrefabs[(int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder - 5];
+				dollUI.gameObject.SetActive(true);
 			}
 
 			GameObject Player = networkGenerator.Generate( targetPrefab, PlayerGenPos[number].position, PlayerGenPos[number].rotation );
 			Log.Instance.SetPlayer(Player);
+
+
+
 
 
 			if (!PhotonNetwork.IsMasterClient)

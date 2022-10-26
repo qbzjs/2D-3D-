@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using KSH_Lib;
+using KSH_Lib.Data;
 namespace GHJ_Lib
 { 
     public class ExorcistUI : InGameUI
@@ -23,7 +24,10 @@ namespace GHJ_Lib
         [Header("Passive Skill")]
         public Image PassiveCoolTime;
 
-        private List<DollStatus> dollsStatus = new List<DollStatus>();
+
+
+        private float[] maxDollHP;
+        private float[] maxDevilHP;
         private List<Image> dollHP = new List<Image>();
         private List<Image> devilHP = new List<Image>();
 
@@ -38,26 +42,26 @@ namespace GHJ_Lib
             devilHP.Add(Devil2HP);
             devilHP.Add(Devil3HP);
             devilHP.Add(Devil4HP);
+
+            for (int i = 1; i < 5; ++i)
+            {
+                maxDollHP[i-1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
+                maxDevilHP[i-1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
+            }
+
         }
 
         void Update()
         {
 
-            for (int i = 0; i < dollsStatus.Count; ++i)
-            {
-                ApplyStatusHPToHPUI(dollsStatus[i], dollHP[i], devilHP[i]);
+            for (int i = 1; i < 5; ++i)
+            { 
+                dollHP[i-1].fillAmount = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i-1];
+                devilHP[i-1].fillAmount = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i-1];
             }
 
         }
 
-        public void SetDollStatus(DollStatus dollStatus)
-        {
-            dollsStatus.Add(dollStatus);
-        }
-
-        public void CoolTime(float durationValue)
-        {
-            PassiveCoolTime.fillAmount = durationValue;
-        }
+      
     }
 }
