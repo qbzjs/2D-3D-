@@ -105,7 +105,7 @@ namespace GHJ_Lib
 			}
 
 			GameObject Player = networkGenerator.Generate( targetPrefab, PlayerGenPos[number].position, PlayerGenPos[number].rotation );
-			//Log.Instance.SetPlayer(Player);
+			Log.Instance.SetPlayer(Player);
 
 
 			if (!PhotonNetwork.IsMasterClient)
