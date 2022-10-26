@@ -16,7 +16,6 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     AsyncOperation async;
     float delayTimer;
-    string gameVersion = "1.0";
     bool isConnectedToServer = false;
 
 
@@ -24,7 +23,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.GameVersion = gameVersion;
+        PhotonNetwork.GameVersion = Application.version;
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
         PhotonNetwork.ConnectUsingSettings();
