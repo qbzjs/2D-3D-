@@ -18,6 +18,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     float delayTimer;
     bool isConnectedToServer = false;
 
+    bool isSceneLoaded;
+
 
     /*--- MonoBehaviour Callbacks ---*/
     private void Awake()
@@ -31,10 +33,14 @@ public class Launcher : MonoBehaviourPunCallbacks
     private void Start()
     {
         StartCoroutine( LoadingNextScene(NextSceneName) );
+
+        //StartCoroutine(PrepareLoading(NextSceneName));
+
     }
     private void Update()
     {
         DelayTime();
+
     }
 
 
@@ -54,6 +60,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         delayTimer += Time.deltaTime;
     }
+
+
 
 
     /*--- IEnumerators ---*/
@@ -76,6 +84,25 @@ public class Launcher : MonoBehaviourPunCallbacks
             }
         }
         async.allowSceneActivation = true;
+        yield return true;
+    }
+
+    IEnumerator PrepareLoading( string sceneName )
+    {
+        async = SceneManager.LoadSceneAsync(sceneName);
+        async.allowSceneActivation = false;
+
+        while (async.progress < 0.9f)
+        {
+            isSceneLoaded = false;
+            yield return null;
+        }
+        while (async.progress >= 0.9f)
+        {
+            isSceneLoaded = true;
+        }
+
+
         yield return true;
     }
 }
