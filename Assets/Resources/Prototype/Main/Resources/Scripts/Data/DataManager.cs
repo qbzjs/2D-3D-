@@ -155,7 +155,7 @@ namespace KSH_Lib
 			for (int i = 0; i < data.Count; ++i)
 			{
 				string type = data[i]["RoleType"].ToString();
-				string name = data[i]["RoleName"].ToString();
+				//string name = data[i]["RoleName"].ToString();
 				float moveSpeed = float.Parse(data[i]["MoveSpeed"].ToString());
 				float interactionSpeed = float.Parse(data[i]["InteractionSpeed"].ToString());
 				float projectileSpeed = float.Parse(data[i]["ProjectileSpeed"].ToString());
@@ -164,13 +164,13 @@ namespace KSH_Lib
 				{
 					float attackSpeed = float.Parse(data[i]["AttackSpeed"].ToString());
 					float attackPower = float.Parse(data[i]["AttackPower"].ToString());
-					roleInfos.Add(new ExorcistData( name, moveSpeed, interactionSpeed, projectileSpeed,  attackPower, attackSpeed));
+					roleInfos.Add(new ExorcistData( (Data.RoleData.RoleTypeOrder)i, moveSpeed, interactionSpeed, projectileSpeed,  attackPower, attackSpeed));
 				}
 				else if (type == "D")
 				{
 					int dollHP = int.Parse(data[i]["DollHP"].ToString());
 					int devilHP = int.Parse(data[i]["DevilHP"].ToString());
-					roleInfos.Add(new DollData( name, moveSpeed, interactionSpeed, projectileSpeed, dollHP, devilHP));
+					roleInfos.Add(new DollData( (Data.RoleData.RoleTypeOrder)i, moveSpeed, interactionSpeed, projectileSpeed, dollHP, devilHP));
 				}
 			}
 			return true;

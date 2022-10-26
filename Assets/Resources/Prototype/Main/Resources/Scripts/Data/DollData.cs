@@ -12,9 +12,9 @@ namespace KSH_Lib.Data
 	{
 		/*--- Constructor ---*/
 		public DollData() { }
-		public DollData( string roleName, float moveSpeed, float interactionSpeed, float projectileSpeed, int dollHP, int devilHP )
+		public DollData( RoleTypeOrder roleTypeOrder, float moveSpeed, float interactionSpeed, float projectileSpeed, int dollHP, int devilHP )
 		:
-			base( RoleType.Doll, roleName, moveSpeed, interactionSpeed, projectileSpeed)
+			base( RoleType.Doll, roleTypeOrder, moveSpeed, interactionSpeed, projectileSpeed)
 		{
 			DollHP = dollHP;
 			DevilHP = devilHP;
@@ -30,7 +30,7 @@ namespace KSH_Lib.Data
             byte[] bytes = new byte[0];
 
             Serializer.Serialize( (int)o.Type, ref bytes );
-            Serializer.Serialize( o.RoleName, ref bytes );
+            Serializer.Serialize( (int)o.TypeOrder, ref bytes );
             Serializer.Serialize( o.MoveSpeed, ref bytes );
             Serializer.Serialize( o.InteractionSpeed, ref bytes );
             Serializer.Serialize( o.ProjectileSpeed, ref bytes );
@@ -47,7 +47,7 @@ namespace KSH_Lib.Data
             int offset = 0;
 
             o.Type = (RoleType)Serializer.DeserializeInt( bytes, ref offset );
-            o.RoleName = Serializer.DeserializeString( bytes, ref offset );
+            o.TypeOrder = (RoleTypeOrder)Serializer.DeserializeInt( bytes, ref offset );
             o.MoveSpeed = Serializer.DeserializeFloat( bytes, ref offset );
             o.InteractionSpeed = Serializer.DeserializeFloat( bytes, ref offset );
             o.ProjectileSpeed = Serializer.DeserializeFloat( bytes, ref offset );

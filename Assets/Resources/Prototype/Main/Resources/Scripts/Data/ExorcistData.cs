@@ -12,9 +12,9 @@ namespace KSH_Lib.Data
 	{
 		/*--- Constructor ---*/
 		public ExorcistData() { }
-		public ExorcistData( string roleName, float moveSpeed, float interactionSpeed, float projectileSpeed,  float attackPower, float attackSpeed)
+		public ExorcistData( RoleTypeOrder roleTypeOrder, float moveSpeed, float interactionSpeed, float projectileSpeed,  float attackPower, float attackSpeed)
         :
-			base( RoleType.Exorcist, roleName, moveSpeed, interactionSpeed, projectileSpeed )
+			base( RoleType.Exorcist, roleTypeOrder, moveSpeed, interactionSpeed, projectileSpeed )
 		{
 			AttackPower = attackPower;
 			AttackSpeed = attackSpeed;
@@ -32,7 +32,7 @@ namespace KSH_Lib.Data
             byte[] bytes = new byte[0];
 
             Serializer.Serialize( (int)o.Type, ref bytes );
-            Serializer.Serialize( o.RoleName, ref bytes );
+            Serializer.Serialize( (int)o.TypeOrder, ref bytes );
             Serializer.Serialize( o.MoveSpeed, ref bytes );
             Serializer.Serialize( o.InteractionSpeed, ref bytes );
             Serializer.Serialize( o.ProjectileSpeed, ref bytes );
@@ -49,7 +49,7 @@ namespace KSH_Lib.Data
             int offset = 0;
 
             o.Type = (RoleType)Serializer.DeserializeInt( bytes, ref offset );
-            o.RoleName = Serializer.DeserializeString( bytes, ref offset );
+            o.TypeOrder = (RoleTypeOrder)Serializer.DeserializeInt( bytes, ref offset );
             o.MoveSpeed = Serializer.DeserializeFloat( bytes, ref offset );
             o.InteractionSpeed = Serializer.DeserializeFloat( bytes, ref offset );
             o.ProjectileSpeed = Serializer.DeserializeFloat( bytes, ref offset );
