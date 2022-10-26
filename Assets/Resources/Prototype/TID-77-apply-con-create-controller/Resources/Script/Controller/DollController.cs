@@ -184,11 +184,15 @@ namespace GHJ_Lib
 		}
 		public void CaughtDoll(GameObject ExorcistCamTarget)
 		{
+			ChangeCamera(ExorcistCamTarget);
+			ChangeActionTo("Caught");
+		}
+		public void ChangeCamera(GameObject camTarget)
+		{
 			if (photonView.IsMine)
 			{
-				tpvCam.InitCam(ExorcistCamTarget);
+				tpvCam.InitCam(camTarget);
 			}
-			ChangeActionTo("Caught");
 		}
 		public void HitDamage(float damage)
 		{

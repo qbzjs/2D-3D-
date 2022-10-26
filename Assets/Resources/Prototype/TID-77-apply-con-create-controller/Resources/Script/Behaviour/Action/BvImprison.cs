@@ -5,7 +5,7 @@ using KSH_Lib;
 
 namespace GHJ_Lib
 {
-    public class Imprison : Behavior<BasePlayerController>
+    public class BvImprison : Behavior<BasePlayerController>
     {
 		/*--- Public Fields ---*/
 
@@ -42,7 +42,7 @@ namespace GHJ_Lib
 			}
 			(actor as ExorcistController).ImprisonDoll(interactionObj.CamTarget);
 			interactionObj.PurifyDoll();
-			return new Idle();
+			return new BvIdle();
         }
 
         /*--- Public Methods---*/

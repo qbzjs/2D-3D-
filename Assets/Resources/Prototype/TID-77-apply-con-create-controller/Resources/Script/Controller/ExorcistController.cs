@@ -30,7 +30,7 @@ namespace GHJ_Lib
 		protected KSH_Lib.FPV_CameraController fpvCam;
 		protected TPV_CameraController tpvCam;
 
-		protected GameObject nearestDownDoll;
+		protected GameObject CaughtDoll;
 		protected bool canInteract = false;
 		protected int typeIndex;
 		protected float initialSpeed;
@@ -345,7 +345,7 @@ namespace GHJ_Lib
 					break; 
 				case "Catch":
 					{
-						nearestDownDoll = pickUpBox.FindNearestFallDownDoll();
+						CaughtDoll = pickUpBox.FindNearestFallDownDoll();
 						CurcharacterAction.PushSuccessorState(catchDoll);
 					}
 					break; 
@@ -379,11 +379,16 @@ namespace GHJ_Lib
 
 
 		/*--- AnimationCallbacks Methods ---*/
+		public void ImprisonDoll(GameObject camTarget)
+		{
+			CatchObj[0].gameObject.SetActive(false);
+			CaughtDoll.GetComponent<DollController>().ChangeCamera(camTarget);
+		}
 		public void PickUp()
 		{
-			CharacterLayerChange(nearestDownDoll, 7);
+			CharacterLayerChange(CaughtDoll, 8);
 			CatchObj[0].gameObject.SetActive(true);
-			nearestDownDoll.GetComponent<DollController>().CaughtDoll(camTarget);
+			CaughtDoll.GetComponent<DollController>().CaughtDoll(camTarget);
 		}
 	}
 }
