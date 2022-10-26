@@ -57,6 +57,18 @@ namespace GHJ_Lib
             return CastingType.NotCasting;
         }
 
+        public void PurifyDoll()
+        {
+            DollModels[0].SetActive(true);
+            DollModels[0].GetComponent<Animator>().enabled = true;
+            DollModels[0].GetComponent<Animator>().Play("fear");
+        }
+
+        public void EscapePurifyDoll()
+        {
+            DollModels[0].SetActive(false);
+            DollModels[0].GetComponent<Animator>().enabled = false;
+        }
 
 
         private void OnTriggerStay(Collider other)

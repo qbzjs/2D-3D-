@@ -11,7 +11,6 @@ namespace GHJ_Lib
 	{
 
 		/*--- Public Fields ---*/
-		
 		public Idle GetIdle
 		{
 			get { return idle; }
@@ -21,10 +20,11 @@ namespace GHJ_Lib
 		/*--- Protected Fields ---*/
 		protected PhotonTransformViewClassic photonTransformView;
 
-		protected Idle idle					= new Idle();
+		protected Idle idle	= new Idle();
 		protected Down down = new Down();
 		protected Hit hit = new Hit();
 		protected Caught caught = new Caught();
+		protected Purfied purfied = new Purfied();
 		protected CharacterInteraction interaction	= new CharacterInteraction();
 
 		protected KSH_Lib.FPV_CameraController	fpvCam;
@@ -178,12 +178,19 @@ namespace GHJ_Lib
 		}
 		public void CaughtDoll(GameObject ExorcistCamTarget)
 		{
-			if (photonView.IsMine)
-			{
-				tpvCam.InitCam(ExorcistCamTarget);
-			}
+			ChangeCamTarget(ExorcistCamTarget);
 			ChangeActionTo("Caught");
 		}
+
+		public void ChangeCamTarget(GameObject otherCamTarget)
+		{
+			if (photonView.IsMine)
+			{
+				tpvCam.InitCam(otherCamTarget);
+			}
+		}
+
+
 		public void HitDamage(float Damage)
 		{
 			if (CurcharacterAction is not Hit)
@@ -265,7 +272,7 @@ namespace GHJ_Lib
 			camProjToPlane = Vector3.ProjectOnPlane(camForward, Vector3.up);
 			camRight = camTarget.transform.right;
 			direction = (inputDir.x * camRight + inputDir.y * camProjToPlane).normalized;
-		
+
 		}
 		protected override void RotateToDirection()
         {
@@ -276,8 +283,6 @@ namespace GHJ_Lib
 					rotateSpeed * Time.deltaTime / Vector3.Angle(characterModel.transform.forward, direction));
 				characterModel.transform.LookAt(characterModel.transform.position + forward);
 			}
-
-			
 		}
         protected override void MoveCharacter()
 		{
@@ -297,7 +302,6 @@ namespace GHJ_Lib
 			{
 				BaseAnimator.SetFloat("Move", moveSpeed);
 			}
-
 		}
 
 		protected override IEnumerator AutoCasting()
@@ -391,7 +395,6 @@ namespace GHJ_Lib
 		{
 			switch (ConditionName)
 			{ }
-			
 		}
 
 		/*

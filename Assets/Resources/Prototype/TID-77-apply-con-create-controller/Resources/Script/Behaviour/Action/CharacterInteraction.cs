@@ -19,9 +19,7 @@ namespace GHJ_Lib
 		public void SetInteractObj(Interaction interaction)
 		{
 			this.interactionObj = interaction;
-			
 		}
-
 		/*--- Protected Methods ---*/
 		protected override void Activate(in BasePlayerController actor)
 		{
@@ -33,11 +31,7 @@ namespace GHJ_Lib
 			{
 				actor.BaseAnimator.Play("Kick");
 			}
-
-			 castingType = interactionObj.GetCastingType(actor);
-
-
-
+			castingType = interactionObj.GetCastingType(actor);
 		}
 
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
@@ -76,6 +70,7 @@ namespace GHJ_Lib
 					break;
 				case CastingType.AutoCastingNull:
 					{
+						BarUI.Instance.SetTarget(null);
 						actor.Interact("AutoCastingNull");
 					}
 					break;

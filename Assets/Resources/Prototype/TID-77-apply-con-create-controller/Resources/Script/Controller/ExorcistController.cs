@@ -27,11 +27,12 @@ namespace GHJ_Lib
 		protected Attack attack = new Attack();
 		protected CharacterInteraction interact = new CharacterInteraction();
 		protected Catch catchDoll = new Catch();
+		protected Imprison imprison = new Imprison();
 
 		protected KSH_Lib.FPV_CameraController fpvCam;
 		protected TPV_CameraController tpvCam;
 
-		protected GameObject nearestDownDoll;
+		protected GameObject CaughtDoll;
 		protected bool canInteract = false;
 
 
@@ -85,7 +86,7 @@ namespace GHJ_Lib
 			{
 				//움직임 관련, 및 행동제한 부분
 				PlayerInput();
-				if (CurcharacterAction is Idle)
+				if (CurcharacterAction is Idle|| CurcharacterAction is Catch)
 				{
 					SetDirection();
 				}
@@ -337,13 +338,28 @@ namespace GHJ_Lib
 					break;
 				case "Interact":
 					{
-						interact.SetInteractObj(interactObj);
-						CurcharacterAction.PushSuccessorState(interact);						
+						
+						if (CurcharacterAction is Idle)
+						{
+							interact.SetInteractObj(interactObj);
+							CurcharacterAction.PushSuccessorState(interact);
+						}
+						else if (CurcharacterAction is Catch)
+						{
+							if (interactObj is not PurificationBox)
+							{
+								Debug.LogWarning("if Exorcist Catch and try interact not PurificationBox");
+								return;
+							}
+							imprison.SetInteractObj(interactObj);
+							CurcharacterAction.PushSuccessorState(imprison);
+						}
+						
 					}
 					break; 
 				case "Catch":
 					{
-						nearestDownDoll = pickUpBox.FindNearestFallDownDoll();
+						CaughtDoll = pickUpBox.FindNearestFallDownDoll();
 						CurcharacterAction.PushSuccessorState(catchDoll);
 					}
 					break; 
@@ -364,24 +380,18 @@ namespace GHJ_Lib
 		/*--- Private Methods ---*/
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 		/*--- AnimationCallbacks Methods ---*/
+
+		public void ImprisonDoll(GameObject purificationBoxCamTarget)
+		{
+			CatchObj[0].SetActive(false); //데이터 받아서 뭘 없애야할지 정해야함
+			CaughtDoll.GetComponent<DollController>().ChangeCamTarget(purificationBoxCamTarget);
+		}
 		public void PickUp()
 		{
-			CharacterLayerChange(nearestDownDoll, 7);
+			CharacterLayerChange(CaughtDoll, 8);
 			CatchObj[0].gameObject.SetActive(true);
-			nearestDownDoll.GetComponent<DollController>().CaughtDoll(camTarget);
+			CaughtDoll.GetComponent<DollController>().CaughtDoll(camTarget);
 		}
 	}
 }
