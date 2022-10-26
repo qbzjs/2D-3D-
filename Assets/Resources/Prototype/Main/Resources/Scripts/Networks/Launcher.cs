@@ -5,104 +5,107 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 
-public class Launcher : MonoBehaviourPunCallbacks
+namespace KSH_Lib
 {
-    /*--- Public Fields ---*/
-    public string NextSceneName;
-
-    /*--- Private Fields ---*/
-    [SerializeField]
-    private float maxDelayTime = 2.0f;
-
-    AsyncOperation async;
-    float delayTimer;
-    bool isConnectedToServer = false;
-
-    bool isSceneLoaded;
-
-
-    /*--- MonoBehaviour Callbacks ---*/
-    private void Awake()
+    public class Launcher : MonoBehaviourPunCallbacks
     {
-        PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.GameVersion = Application.version;
-        PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 30;
-        PhotonNetwork.ConnectUsingSettings();
-    }
-    private void Start()
-    {
-        StartCoroutine( LoadingNextScene(NextSceneName) );
+        /*--- Public Fields ---*/
+        [Header("Loading Settings")]
+        public string NextSceneName;
 
-        //StartCoroutine(PrepareLoading(NextSceneName));
+        [Header("GameObject Settings")]
+        public GameObject startButtonObj;
 
-    }
-    private void Update()
-    {
-        DelayTime();
+        [Header("CanvasGroup Settings")]
+        public CanvasGroup videoCanvasGroup;
+        public CanvasGroup startButtonCanvasGroup;
 
-    }
+        [Header("Animation Settings")]
+        public float videoFadeInTime = 0.5f;
+        public float startButtonFadeTime = 0.5f;
+        public float startButtonWaitTime = 1.0f;
 
 
-    /*--- MonoBehaviourPun Callbacks ---*/
-    public override void OnConnectedToMaster()
-    {
-        Debug.Log( "Launcher: OnConnectedToMaster 호출, 서버 연결 완료" );
-        isConnectedToServer = true;
-    }
+        /*--- Private Fields ---*/
+
+        //AsyncOperation async;
+        bool isConnectedToServer = false;
+        bool activeStartButton;
+
+        float timer;
 
 
-    /*--- Public Methods ---*/
-
-
-    /*--- Private Methods ---*/
-    void DelayTime()
-    {
-        delayTimer += Time.deltaTime;
-    }
-
-
-
-
-    /*--- IEnumerators ---*/
-    IEnumerator LoadingNextScene( string sceneName )
-    {
-        async = SceneManager.LoadSceneAsync( sceneName );
-        async.allowSceneActivation = false;
-
-        while ( async.progress < 0.9f )
+        /*--- MonoBehaviour Callbacks ---*/
+        private void Awake()
         {
-            yield return true;
+            PhotonNetwork.AutomaticallySyncScene = true;
+            PhotonNetwork.GameVersion = Application.version;
+            PhotonNetwork.SendRate = 60;
+            PhotonNetwork.SerializationRate = 30;
+            PhotonNetwork.ConnectUsingSettings();
+        }
+        private void Start()
+        {
+            videoCanvasGroup.alpha = 0;
+            videoCanvasGroup.LeanAlpha(1, 1.0f);
+            startButtonCanvasGroup.alpha = 0;
+            startButtonObj.SetActive(false);
+
+            StartCoroutine(FadeInOut());
         }
 
-        while ( async.progress >= 0.9f )
+
+        /*--- MonoBehaviourPun Callbacks ---*/
+        public override void OnConnectedToMaster()
         {
-            yield return new WaitForSeconds( 0.1f );
-            if ( delayTimer >= maxDelayTime && isConnectedToServer )
+            Debug.Log("Launcher: OnConnectedToMaster 호출, 서버 연결 완료");
+            isConnectedToServer = true;
+        }
+
+
+        /*--- Public Methods ---*/
+        public void OnStartButtonClick()
+        {
+            GameManager.Instance.LoadScene(NextSceneName);
+        }
+
+        /*--- Private Methods ---*/
+        void TurnOnStartButton()
+        {
+            startButtonObj.SetActive(true);
+            activeStartButton = true;
+        }
+
+
+        /*--- IEnumerators ---*/
+
+        IEnumerator FadeInOut()
+        {
+            while(true)
             {
-                break;
+                if (videoCanvasGroup.alpha >= 1.0f && isConnectedToServer)
+                {
+                    if (startButtonObj.activeInHierarchy == false)
+                    {
+                        startButtonObj.SetActive(true);
+                        yield return true;
+                    }
+
+                    if (startButtonCanvasGroup.alpha <= 0.0f)
+                    {
+                        startButtonCanvasGroup.LeanAlpha(1.0f, startButtonFadeTime);
+                        yield return true;
+                    }
+                    else if (startButtonCanvasGroup.alpha >= 1.0f)
+                    {
+                        yield return new WaitForSeconds(startButtonWaitTime);
+                        startButtonCanvasGroup.LeanAlpha(0.0f, startButtonFadeTime);
+                        yield return true;
+                    }
+                }
+                yield return true;
             }
         }
-        async.allowSceneActivation = true;
-        yield return true;
     }
 
-    IEnumerator PrepareLoading( string sceneName )
-    {
-        async = SceneManager.LoadSceneAsync(sceneName);
-        async.allowSceneActivation = false;
-
-        while (async.progress < 0.9f)
-        {
-            isSceneLoaded = false;
-            yield return null;
-        }
-        while (async.progress >= 0.9f)
-        {
-            isSceneLoaded = true;
-        }
-
-
-        yield return true;
-    }
 }
