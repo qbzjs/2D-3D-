@@ -2,15 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using System;
-
 using Photon.Pun;
-using Photon.Realtime;
-using Photon.Chat;
-
 using KSH_Lib.Data;
-using KSH_Lib.Util;
-
 using MSLIMA.Serializer;
 
 namespace KSH_Lib
@@ -45,19 +38,19 @@ namespace KSH_Lib
 		public RoleData.RoleType PreRoleType;
 		public RoleData.RoleTypeOrder PreRoleTypeOrder;
 
-		public PlayerData LocalPlayerData { get { return LocalPlayerData; } }
+		public List<PlayerData> PlayerDatas { get { return playerDatas; } }
+		public PlayerData LocalPlayerData = new PlayerData();
+		public int PlayerIdx { get; private set; }
+
 
 		/*--- Private Fields ---*/
 		const string CharcterStatusCSV = "Prototype/Main/Resources/Datas/CharacterStatus";
 
 		static PhotonView pv;
 
-		public int playerIdx;
-
 		List<RoleData> roleInfos = new List<RoleData>();
+		List<PlayerData> playerDatas = new List<PlayerData>();
 
-		public List<PlayerData> playerDatas = new List<PlayerData>();
-		public PlayerData localPlayerData = new PlayerData();
 
 		/*--- MonoBehaviour Callbacks ---*/
 		private void Awake()
@@ -79,11 +72,11 @@ namespace KSH_Lib
 		/*--- Public Methods ---*/
 		public void SetLocalAccount(int sheetIdx, in string id, in string nickname)
 		{
-			localPlayerData.accountData.Init( sheetIdx, id, nickname);
+			LocalPlayerData.accountData.Init( sheetIdx, id, nickname);
 		}
 		public void ResetLocalAccount()
 		{
-			localPlayerData.accountData = new AccountData();
+			LocalPlayerData.accountData = new AccountData();
 		}
 		public void SetPlayerIdx()
 		{
@@ -94,7 +87,7 @@ namespace KSH_Lib
 			{
 				if (myNum == players[i].ActorNumber)
 				{
-					playerIdx = i;
+					PlayerIdx = i;
 					break;
 				}
 			}
@@ -102,14 +95,12 @@ namespace KSH_Lib
 
 		public void InitLocalRoleData()
         {
-			localPlayerData.roleData = roleInfos[(int)PreRoleTypeOrder];
+			LocalPlayerData.roleData = roleInfos[(int)PreRoleTypeOrder];
         }
 		public void ResetLocalRoleData()
         {
-			localPlayerData.roleData = new RoleData();
+			LocalPlayerData.roleData = new RoleData();
         }
-
-
 
 		public void InitPlayerDatas()
         {
@@ -130,17 +121,17 @@ namespace KSH_Lib
         }
 		public void ShareAccountData()
 		{
-			pv.RPC( "ShareAccountDataRPC", RpcTarget.AllViaServer, playerIdx, AccountData.Serialize(localPlayerData.accountData) );
+			pv.RPC( "ShareAccountDataRPC", RpcTarget.AllViaServer, PlayerIdx, AccountData.Serialize(LocalPlayerData.accountData) );
 		}
 		public void ShareRoleData()
         {
-			if(localPlayerData.roleData is DollData)
+			if(LocalPlayerData.roleData is DollData)
             {
-				pv.RPC( "ShareDollDataRPC", RpcTarget.AllViaServer, playerIdx, DollData.Serialize( localPlayerData.roleData ) );
+				pv.RPC( "ShareDollDataRPC", RpcTarget.AllViaServer, PlayerIdx, DollData.Serialize( LocalPlayerData.roleData ) );
             }
-			else if(localPlayerData.roleData is ExorcistData)
+			else if(LocalPlayerData.roleData is ExorcistData)
 			{
-				pv.RPC( "ShareExorcistDataRPC", RpcTarget.AllViaServer, playerIdx, ExorcistData.Serialize( localPlayerData.roleData ) );
+				pv.RPC( "ShareExorcistDataRPC", RpcTarget.AllViaServer, PlayerIdx, ExorcistData.Serialize( LocalPlayerData.roleData ) );
 			}
 			else
             {
@@ -149,7 +140,7 @@ namespace KSH_Lib
         }
 		public void DisconnectAllData()
 		{
-			pv.RPC( "DisconnectAllDataRPC", RpcTarget.AllViaServer, playerIdx );
+			pv.RPC( "DisconnectAllDataRPC", RpcTarget.AllViaServer, PlayerIdx );
 		}
 
 		/*--- Private Methods ---*/
@@ -211,7 +202,35 @@ namespace KSH_Lib
 		void DisconnectAllDataRPC(int idx)
         {
 			playerDatas.RemoveAt( idx );
-        }
+		}
+
+
+		/***************************************************
+		 * 
+		 *  Data Manager 사용 예시다
+		 * 
+		 * *************************************************
+		 * 
+		 * Write: LocalData를 업데이트 한 후 playerDatas에서 자신의 index를 공유하는 것
+		 * Read: 자신의 Index의 playerDatas를 보면 됨
+		 * 
+		 * 
+		 * Read 예시
+		 * var dollHp = (DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP;
+		 * var exorcistAttackPower = (DataManager.Instance.LocalPlayerData.roleData as ExorcistData).AttackPower;
+		 * var myMoveSpeed = (DataManager.Instance.LocalPlayerData.roleData).MoveSpeed;
+		 * 
+		 * DataManager.Instance.LocalPlayerData.roleData.MoveSpeed += 3;
+		 * (DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP += 200;
+		 *	...
+		 *	...
+		 *	많은 데이터 수정 후 마지막으로
+		 *	DataManager.Instance.ShareRoleData();
+		 *	
+		 *	*****************************************/
+		
+
+
 
 
 

@@ -21,8 +21,8 @@ namespace KSH_Lib.Data
 		}
 
 		/*--- Public Fields ---*/
-		public int DollHP = 200;
-		public int DevilHP = 200;
+		public float DollHP = 200;
+		public float DevilHP = 200;
 
         public static byte[] Serialize( object customObject )
         {
@@ -52,8 +52,8 @@ namespace KSH_Lib.Data
             o.InteractionSpeed = Serializer.DeserializeFloat( bytes, ref offset );
             o.ProjectileSpeed = Serializer.DeserializeFloat( bytes, ref offset );
 
-            o.DollHP = Serializer.DeserializeInt( bytes, ref offset );
-            o.DevilHP = Serializer.DeserializeInt( bytes, ref offset );
+            o.DollHP = Serializer.DeserializeFloat( bytes, ref offset );
+            o.DevilHP = Serializer.DeserializeFloat( bytes, ref offset );
 
             return o;
         }

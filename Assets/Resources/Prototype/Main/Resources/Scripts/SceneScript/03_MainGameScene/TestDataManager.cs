@@ -28,7 +28,7 @@ namespace KSH_Lib.Test
 		{
 			datas = new int[5];
 			pv = GetComponent<PhotonView>();
-			index = DataManager.Instance.playerIdx;
+			//index = DataManager.Instance.playerIdx;
 			localData = index;
 		}
 
