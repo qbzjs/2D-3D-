@@ -11,15 +11,15 @@ namespace GHJ_Lib
 
 
         /*--- Protected Fields ---*/
-        protected float damage;
+        protected int playerIdx;
 
         /*--- Private Fields ---*/
 
 
         /*--- Public Methods ---*/
-        public void SetDamage(float damage)
+        public void SetPlayerIdx(int idx)
         {
-            this.damage = damage;
+            playerIdx = idx;
         }
 
         /*--- Protected Methods ---*/
@@ -27,8 +27,11 @@ namespace GHJ_Lib
         {
             
             actor.BaseAnimator.Play("Hit");
-            (DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP -= damage;
-            DataManager.Instance.ShareRoleData();
+            if (actor.photonView.IsMine)
+            { 
+                (DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower;
+                DataManager.Instance.ShareRoleData();
+            }
         }
 
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
