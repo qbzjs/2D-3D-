@@ -32,6 +32,7 @@ namespace GHJ_Lib
 
 		protected bool canInteract = false;
 		protected int typeIndex;
+		protected int playerIndex;
 		protected float initialSpeed;
 		/*--- Private Fields ---*/
 		Interaction interactObj;
@@ -50,7 +51,7 @@ namespace GHJ_Lib
 			if (photonView.IsMine)
 			{
 				typeIndex = (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder;
-				Debug.LogWarning("typeIndex : " + typeIndex);
+				playerIndex = DataManager.Instance.PlayerIdx;
 				initialSpeed = DataManager.Instance.RoleInfos[typeIndex].MoveSpeed;
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
 				fpvCam = GameObject.Find( "FPV_Cam(Clone)" ).GetComponent<KSH_Lib.FPV_CameraController>();
@@ -296,7 +297,13 @@ namespace GHJ_Lib
 				Stop();
 				return;
 			}
-			controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[typeIndex].roleData.MoveSpeed);
+
+			if(DataManager.Instance.PlayerDatas[playerIndex].roleData == null)
+            {
+				return;
+            }
+
+			controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[playerIndex].roleData.MoveSpeed);
 
 			if (direction.sqrMagnitude <= 0)
 			{
@@ -304,7 +311,7 @@ namespace GHJ_Lib
 			}
 			else
 			{
-				BaseAnimator.SetFloat("Move", DataManager.Instance.PlayerDatas[typeIndex].roleData.MoveSpeed);
+				BaseAnimator.SetFloat("Move", DataManager.Instance.PlayerDatas[playerIndex].roleData.MoveSpeed);
 			}
 
 		}

@@ -51,6 +51,7 @@ namespace GHJ_Lib
 			if (photonView.IsMine)
 			{
 				typeIndex = (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder;
+				Debug.Log($"TypeIndex: {typeIndex}");
 				initialSpeed = DataManager.Instance.RoleInfos[typeIndex].MoveSpeed;
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
 				fpvCam = GameObject.Find( "FPV_Cam(Clone)" ).GetComponent<KSH_Lib.FPV_CameraController>();
@@ -276,8 +277,11 @@ namespace GHJ_Lib
 			{
 				return;
 			}
-			controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[typeIndex].roleData.MoveSpeed);
 
+			if(DataManager.Instance.PlayerDatas[0].roleData != null)
+			{
+				controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[0].roleData.MoveSpeed);
+			}
 		}
 
 		protected override IEnumerator AutoCasting()
@@ -379,6 +383,10 @@ namespace GHJ_Lib
 
 
 		/*--- AnimationCallbacks Methods ---*/
+		public void ImprisonDoll(GameObject camTarget)
+        {
+
+        }
 		public void PickUp()
 		{
 			CharacterLayerChange(nearestDownDoll, 7);

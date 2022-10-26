@@ -312,7 +312,7 @@ namespace GHJ_Lib
 				//purificatinBox.DieToGhost();
 				return;
 			}
-			curBehavior.PushSuccessorState(bvImplement);
+			//curBehavior.PushSuccessorState(BvImplement);
 		}
 
 		public void Imprison(GameObject purificatinBox)

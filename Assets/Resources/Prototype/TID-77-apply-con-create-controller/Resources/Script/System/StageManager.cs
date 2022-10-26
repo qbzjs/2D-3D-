@@ -60,6 +60,7 @@ namespace GHJ_Lib
 		void Awake()
         {
 			DataManager.Instance.InitPlayerDatas();
+			DataManager.Instance.ShareAllData();
 
 			Instantiate(FPV_Cam);
 			Instantiate(TPV_Cam);
@@ -68,7 +69,6 @@ namespace GHJ_Lib
 		{
 			instance = this;
 
-			DataManager.Instance.ShareAllData();
 
 			//PlayerData 받아온정보를 토대로 어떤 퇴마사인지, 어떤 인형인지.. 결정
 			//임시
