@@ -45,7 +45,7 @@ namespace KSH_Lib
 		public RoleData.RoleType PreRoleType;
 		public RoleData.RoleTypeOrder PreRoleTypeOrder;
 
-		//public PlayerData LocalPlayerData { get { return LocalPlayerData; } }
+		public PlayerData LocalPlayerData { get { return LocalPlayerData; } }
 
 		/*--- Private Fields ---*/
 		const string CharcterStatusCSV = "Prototype/Main/Resources/Datas/CharacterStatus";
@@ -57,7 +57,6 @@ namespace KSH_Lib
 		List<RoleData> roleInfos = new List<RoleData>();
 
 		public List<PlayerData> playerDatas = new List<PlayerData>();
-		//public PlayerData[] playerDatas;
 		public PlayerData localPlayerData = new PlayerData();
 
 		/*--- MonoBehaviour Callbacks ---*/
@@ -75,8 +74,6 @@ namespace KSH_Lib
 			{
 				Debug.LogError("DataManager.RoleDatas: Can't get role Datas from CSV");
 			}
-			//playerDatas = new PlayerData[GameManager.Instance.MaxPlayerCount];
-
 		}
 
 		/*--- Public Methods ---*/
@@ -116,7 +113,6 @@ namespace KSH_Lib
 
 		public void InitPlayerDatas()
         {
-			//playerDatas = new List<PlayerData>( PhotonNetwork.CurrentRoom.PlayerCount );	
 			for( int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; ++i )
             {
 				playerDatas.Add( new PlayerData() );
@@ -211,18 +207,11 @@ namespace KSH_Lib
 			playerDatas[idx].roleData = (ExorcistData)ExorcistData.Deserialize( data );
 		}
 
-
 		[PunRPC]
 		void DisconnectAllDataRPC(int idx)
         {
 			playerDatas.RemoveAt( idx );
         }
-
-
-
-
-
-
 
 
 

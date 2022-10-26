@@ -8,7 +8,8 @@ namespace KSH_Lib
 {
 	public class StageManager : MonoBehaviour
 	{
-		/*--- Public Fields ---*/
+        /*--- Public Fields ---*/
+        public bool isOnDebugGUI;
 		NetworkGenerator networkGenerator;
 
         /*--- Protected Fields ---*/
@@ -29,6 +30,10 @@ namespace KSH_Lib
 
         private void Update()
         {
+            if(Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                isOnDebugGUI = !isOnDebugGUI;
+            }
 			if(Input.GetKeyDown(KeyCode.Alpha1))
             {
                 DataManager.Instance.localPlayerData.roleData.MoveSpeed += 1;
@@ -45,36 +50,17 @@ namespace KSH_Lib
 
         private void OnGUI()
         {
-            //if ( DataManager.Instance.localPlayerData != null )
-            //{
-            //    GUI.Box( new Rect( 200, 0, 150, 30 ), $"0.localData = {DataManager.Instance.localTestDatas}" );
-            //}
-            //GUI.Box( new Rect( 0, 0, 150, 30 ), $"0.TestDatas = {DataManager.Instance.testDatas[0]}" );
-            //GUI.Box( new Rect( 0, 30, 150, 30 ), $"1.TestDatas = {DataManager.Instance.testDatas[1]}" );
-            //GUI.Box( new Rect( 0, 60, 150, 30 ), $"2.TestDatas = {DataManager.Instance.testDatas[2]}" );
-            //GUI.Box( new Rect( 0, 90, 150, 30 ), $"3.TestDatas = {DataManager.Instance.testDatas[3]}" );
-            //GUI.Box( new Rect( 0, 120, 150, 30 ), $"4.TestDatas = {DataManager.Instance.testDatas[4]}" );
+            if ( isOnDebugGUI )
+            {
+                GUI.Box( new Rect( 0, 160, 150, 30 ), $"Local MoveSpeed: {DataManager.Instance.localPlayerData.roleData.MoveSpeed}" );
+                GUI.Box( new Rect( 160, 160, 150, 30 ), $"Local sheetIdx: {DataManager.Instance.localPlayerData.accountData.SheetIdx}" );
 
-            //if ( DataManager.Instance.localPlayerData != null )
-            //{
-            //    GUI.Box( new Rect( 0, 160, 150, 30 ), $"0.MoveSpeed = {DataManager.Instance.localPlayerData.roleData.MoveSpeed}" );
-
-            //    GUI.Box( new Rect( 0, 0, 150, 30 ), $"0.MoveSpeed = {DataManager.Instance.playerDatas[0].roleData.MoveSpeed}" );
-            //    GUI.Box( new Rect( 0, 30, 150, 30 ), $"1.MoveSpeed = {DataManager.Instance.playerDatas[1].roleData.MoveSpeed}" );
-            //    GUI.Box( new Rect( 0, 60, 150, 30 ), $"2.MoveSpeed = {DataManager.Instance.playerDatas[2].roleData.MoveSpeed}" );
-            //    GUI.Box( new Rect( 0, 90, 150, 30 ), $"3.MoveSpeed = {DataManager.Instance.playerDatas[3].roleData.MoveSpeed}" );
-            //    GUI.Box( new Rect( 0, 120, 150, 30 ), $"4.MoveSpeed = {DataManager.Instance.playerDatas[4].roleData.MoveSpeed}" );
-            //}
-
-            //if ( DataManager.Instance.localPlayerData != null )
-            //{
-            //    GUI.Box( new Rect( 160, 160, 150, 30 ), $"0.sheetIdx = {DataManager.Instance.localPlayerData.accountData.SheetIdx}" );
-            //    GUI.Box( new Rect( 160, 0, 150, 30 ), $"0.sheetIdx = {DataManager.Instance.playerDatas[0].accountData.SheetIdx}" );
-            //    GUI.Box( new Rect( 160, 30, 150, 30 ), $"1.sheetIdx = {DataManager.Instance.playerDatas[1].accountData.SheetIdx}" );
-            //    GUI.Box( new Rect( 160, 60, 150, 30 ), $"2.sheetIdx = {DataManager.Instance.playerDatas[2].accountData.SheetIdx}" );
-            //    GUI.Box( new Rect( 160, 90, 150, 30 ), $"3.sheetIdx = {DataManager.Instance.playerDatas[3].accountData.SheetIdx}" );
-            //    GUI.Box( new Rect( 160, 120, 150, 30 ), $"4.sheetIdx = {DataManager.Instance.playerDatas[4].accountData.SheetIdx}" );
-            //}
+                for (int i = 0; i < DataManager.Instance.playerDatas.Count; ++i )
+                {
+                    GUI.Box( new Rect( 0, i * 30, 150, 30 ), $"MoveSpeed[{i}]: {DataManager.Instance.playerDatas[i].roleData.MoveSpeed}" );
+                    GUI.Box( new Rect( 160, i * 30, 150, 30 ), $"sheetIdx[{i}]: {DataManager.Instance.playerDatas[i].accountData.SheetIdx}" );
+                }
+            }
         }
 
 
