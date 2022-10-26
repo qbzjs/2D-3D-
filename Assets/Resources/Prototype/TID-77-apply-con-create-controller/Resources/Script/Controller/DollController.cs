@@ -35,6 +35,10 @@ namespace GHJ_Lib
 		protected BvCaught caught = new BvCaught();
 		protected BvCharacterInteraction interaction	= new BvCharacterInteraction();
 		protected BvPurified purified = new BvPurified();
+		protected BvEscape escape = new BvEscape();
+
+
+
 		protected KSH_Lib.FPV_CameraController	fpvCam;
 		protected TPV_CameraController			tpvCam;
 

@@ -11,6 +11,7 @@ namespace GHJ_Lib
 
         /*--- Protected Fields ---*/
         protected PurificationBox purificationBox;
+
         /*--- Private Fields ---*/
 
 
@@ -23,9 +24,10 @@ namespace GHJ_Lib
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
         {
             Behavior<BasePlayerController> Bv = PassIfHasSuccessor();
-            //if (Bv is Escape)
+            if (Bv is BvEscape)
             {
-                //return Bv;
+                purificationBox.EscapePurifyDoll();
+                return Bv;
             }
 
             if (actor.photonView.IsMine)

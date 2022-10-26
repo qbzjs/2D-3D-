@@ -92,7 +92,7 @@ namespace GHJ_Lib
             {
                 DollController dollController = other.GetComponent<DollController>();
 
-                if (dollController.CurcharacterAction is BvIdle)
+                if (dollController.CurcharacterAction is BvIdle && DollInBox)
                 {
                     CanActiveToDoll = true;
                 }
