@@ -67,8 +67,7 @@ namespace GHJ_Lib
             friendDevilHP.Add(Friend2DevilHP);
             friendDevilHP.Add(Friend3DevilHP);
 
-
-            myIdx = DataManager.Instance.PlayerIdx - 1;
+            
 
             StartCoroutine(InitUI());
 
@@ -91,9 +90,9 @@ namespace GHJ_Lib
                     PlayerDevilHP.fillAmount = (DataManager.Instance.PlayerDatas[myIdx].roleData as DollData).DevilHP / maxDevilHP[myIdx];
                 }
                 else
-                { 
-                    friendDollHP[j].fillAmount = (DataManager.Instance.PlayerDatas[j+1].roleData as DollData).DollHP / maxDollHP[j];
-                    friendDevilHP[j].fillAmount = (DataManager.Instance.PlayerDatas[j+1].roleData as DollData).DevilHP / maxDevilHP[j];
+                {
+                    friendDollHP[j].fillAmount = (DataManager.Instance.PlayerDatas[j + 1].roleData as DollData).DollHP / maxDollHP[j];
+                    friendDevilHP[j].fillAmount = (DataManager.Instance.PlayerDatas[j + 1].roleData as DollData).DevilHP / maxDevilHP[j];
                     j++;
                 }
             }
@@ -126,6 +125,8 @@ namespace GHJ_Lib
                 yield return null;
             }
 
+
+            myIdx = DataManager.Instance.PlayerIdx;
             for (int i = 1; i <= curDollCount; ++i)
             {
                 maxDollHP.Add((DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP);
