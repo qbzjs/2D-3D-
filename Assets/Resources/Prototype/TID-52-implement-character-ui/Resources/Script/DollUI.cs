@@ -9,6 +9,11 @@ namespace GHJ_Lib
     public class DollUI : InGameUI
     {
         #region Public Fields
+        [Header("UI Objects")]
+        public GameObject PlayerUiObject;
+        public GameObject[] FriendUiObjets;
+
+
         [Header("PlayerHP")]
         public Image PlayerDollHP;
         public Image PlayerDevilHP;
@@ -23,8 +28,6 @@ namespace GHJ_Lib
         public Image Friend3DollHP;
         public Image Friend3DevilHP;
 
-        private int MyIdx;
-        private bool canUpdate = false;
         #endregion
 
         #region Private Fields
@@ -32,13 +35,23 @@ namespace GHJ_Lib
         private List<Image> friendDollHP=new List<Image>();
         private List<Image> friendDevilHP = new List<Image>();
 
-        private float[] maxDollHP = new float[4];
-        private float[] maxDevilHP = new float[4];
+        private List<float> maxDollHP = new List<float>();
+        private List<float> maxDevilHP = new List<float>();
+
+        //private float[] maxDollHP = new float[4];
+        //private float[] maxDevilHP = new float[4];
+
+        private int myIdx;
+        private bool canUpdate = false;
+
         #endregion
 
         #region MonoBehaviour CallBacks
         void Start()
         {
+            DisableUI_All();
+            EnableUI();
+
             friendDollHP.Add(Friend1DollHP);
             friendDollHP.Add(Friend2DollHP);
             friendDollHP.Add(Friend3DollHP);
@@ -47,7 +60,16 @@ namespace GHJ_Lib
             friendDevilHP.Add(Friend2DevilHP);
             friendDevilHP.Add(Friend3DevilHP);
 
-            StartCoroutine(InitMaxHP());
+            //StartCoroutine(InitMaxHP());
+
+            myIdx = DataManager.Instance.PlayerIdx - 1;
+            for (int i = 0; i < GameManager.Instance.CurPlayerCount - 1; ++i)
+            {
+                maxDollHP[i] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
+                maxDevilHP[i] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
+            }
+            canUpdate = true;
+
         }
 
         private void Update()
@@ -59,12 +81,12 @@ namespace GHJ_Lib
 
             int j = 0;
 
-            for (int i = 0; i < 4; ++i)
+            for (int i = 0; i < GameManager.Instance.CurPlayerCount - 1; ++i)
             {
-                if (MyIdx == i)
+                if (myIdx == i)
                 {
-                    PlayerDollHP.fillAmount = (DataManager.Instance.PlayerDatas[MyIdx].roleData as DollData).DollHP / maxDollHP[MyIdx];
-                    PlayerDevilHP.fillAmount = (DataManager.Instance.PlayerDatas[MyIdx].roleData as DollData).DevilHP / maxDevilHP[MyIdx];
+                    PlayerDollHP.fillAmount = (DataManager.Instance.PlayerDatas[myIdx].roleData as DollData).DollHP / maxDollHP[myIdx];
+                    PlayerDevilHP.fillAmount = (DataManager.Instance.PlayerDatas[myIdx].roleData as DollData).DevilHP / maxDevilHP[myIdx];
                 }
                 else
                 { 
@@ -82,7 +104,7 @@ namespace GHJ_Lib
             {
                 if (DataManager.Instance.PlayerDatas[4].roleData != null)
                 { 
-                    MyIdx = DataManager.Instance.PlayerIdx - 1;
+                    myIdx = DataManager.Instance.PlayerIdx - 1;
                     for (int i = 0; i < 4; ++i)
                     {
                         maxDollHP[i] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
@@ -91,6 +113,24 @@ namespace GHJ_Lib
                     canUpdate = true;
                     yield return true;
                 }
+            }
+        }
+
+        void DisableUI_All()
+        {
+            PlayerUiObject.SetActive(false);
+            foreach(var ui in FriendUiObjets)
+            {
+                ui.SetActive(false);
+            }
+        }
+
+        void EnableUI()
+        {
+            PlayerUiObject.SetActive(true);
+            for(int i = 0; i < GameManager.Instance.CurPlayerCount; ++i)
+            {
+                FriendUiObjets[i].SetActive(true);
             }
         }
 
