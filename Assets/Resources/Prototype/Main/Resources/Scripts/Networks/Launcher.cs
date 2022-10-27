@@ -11,20 +11,28 @@ namespace KSH_Lib
     {
         /*--- Public Fields ---*/
         [Header("Loading Settings")]
-        public string NextSceneName;
+        [SerializeField]
+        string nextSceneName;
 
         [Header("GameObject Settings")]
-        public GameObject startButtonObj;
+        [SerializeField]
+        GameObject startButtonObj;
 
         [Header("CanvasGroup Settings")]
-        public CanvasGroup videoCanvasGroup;
-        public CanvasGroup startButtonCanvasGroup;
+        [SerializeField]
+        CanvasGroup panelCanvasGroup;
+        [SerializeField]
+        CanvasGroup startButtonCanvasGroup;
 
         [Header("Animation Settings")]
-        public float videoFadeInTime = 0.5f;
-        public float startButtonFadeTime = 0.5f;
-        public float startButtonWaitTime = 1.0f;
-        public float sceneFadeOutTime = 1.5f;
+        [SerializeField]
+        float videoFadeInTime = 0.5f;
+        [SerializeField]
+        float startButtonFadeTime = 0.5f;
+        [SerializeField]
+        float startButtonWaitTime = 1.0f;
+        [SerializeField]
+        float sceneFadeOutTime = 1.5f;
 
 
         /*--- Private Fields ---*/
@@ -47,8 +55,8 @@ namespace KSH_Lib
         }
         private void Start()
         {
-            videoCanvasGroup.alpha = 0;
-            videoCanvasGroup.LeanAlpha(1, 1.0f);
+            panelCanvasGroup.alpha = 0;
+            panelCanvasGroup.LeanAlpha(1, 1.0f);
             startButtonCanvasGroup.alpha = 0;
             startButtonObj.SetActive(false);
 
@@ -68,6 +76,7 @@ namespace KSH_Lib
         public void OnStartButtonClick()
         {
             //GameManager.Instance.LoadSceneImmediately(NextSceneName);
+            startButtonObj.SetActive(false);
             StartCoroutine(ChangeScene());
         }
 
@@ -85,7 +94,7 @@ namespace KSH_Lib
         {
             while(true)
             {
-                if (videoCanvasGroup.alpha >= 1.0f && isConnectedToServer)
+                if (panelCanvasGroup.alpha >= 1.0f && isConnectedToServer)
                 {
                     if (startButtonObj.activeInHierarchy == false)
                     {
@@ -111,9 +120,9 @@ namespace KSH_Lib
 
         IEnumerator ChangeScene()
         {
-            videoCanvasGroup.LeanAlpha(0.0f, sceneFadeOutTime);
+            panelCanvasGroup.LeanAlpha(0.0f, sceneFadeOutTime);
             yield return new WaitForSeconds(sceneFadeOutTime);
-            GameManager.Instance.LoadSceneImmediately(NextSceneName);
+            GameManager.Instance.LoadSceneImmediately(nextSceneName);
             yield return null;
         }
     }

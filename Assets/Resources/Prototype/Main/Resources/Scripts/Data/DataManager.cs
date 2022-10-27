@@ -29,10 +29,14 @@ namespace KSH_Lib
 			}
 		}
 		static DataManager instance;
+		static PhotonView pv;
 
 
-		/*--- Public Fields ---*/
+		/*--- Fields ---*/
+		const string CharcterStatusCSV = "Prototype/Main/Resources/Datas/CharacterStatus";
+
 		public List<RoleData> RoleInfos { get { return roleInfos; } }
+		List<RoleData> roleInfos = new List<RoleData>();
 
 		// This For Room Settings
 		public RoleData.RoleType PreRoleType;
@@ -49,6 +53,8 @@ namespace KSH_Lib
 				return playerDatas;
 			}
 		}
+		List<PlayerData> playerDatas = new List<PlayerData>();
+
 		public PlayerData LocalPlayerData = new PlayerData();
 		public int PlayerIdx { get; private set; }
 		public bool IsInited
@@ -62,17 +68,7 @@ namespace KSH_Lib
 				}
 				return flag;
             }
-        }
-
-
-		/*--- Private Fields ---*/
-		const string CharcterStatusCSV = "Prototype/Main/Resources/Datas/CharacterStatus";
-
-		static PhotonView pv;
-
-		List<RoleData> roleInfos = new List<RoleData>();
-		List<PlayerData> playerDatas = new List<PlayerData>();
-
+		}
 		List<bool> isInitedList = new List<bool>();
 
 		/*--- MonoBehaviour Callbacks ---*/

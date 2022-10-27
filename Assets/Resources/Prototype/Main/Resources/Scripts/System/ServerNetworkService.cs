@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+using System;
+
 namespace KSH_Lib.Util
 {
 	public abstract class ServerNetworkService : MonoBehaviour
@@ -22,7 +24,7 @@ namespace KSH_Lib.Util
 
 
 		/*--- Protected Methods ---*/	
-		protected virtual void DoPost(in string order, System.Func<WWWForm> InitForm,  System.Action<string> HandleResponse)
+		protected virtual void DoPost(in string order, Func<WWWForm> InitForm,  Action<string> HandleResponse)
 		{
 			WWWForm form = InitForm();
 			StartCoroutine(Post(form, HandleResponse ) );
@@ -50,7 +52,7 @@ namespace KSH_Lib.Util
 				}
 			}
 		}
-		protected virtual IEnumerator Post(WWWForm form, System.Action<string> HandleResponse)
+		protected virtual IEnumerator Post(WWWForm form, Action<string> HandleResponse)
 		{
 			using (UnityWebRequest www = UnityWebRequest.Post(URL, form))
 			{

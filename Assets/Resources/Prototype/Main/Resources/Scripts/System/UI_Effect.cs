@@ -10,12 +10,12 @@ namespace KSH_Lib.UI
 		/*--- Constructor ---*/
 		public UI_Effect(in CanvasGroup canvasGroup)
         {
-			this.canvasGroup = canvasGroup;
+			this.TargetCanvasGroup = canvasGroup;
         }
 
 
 		/*--- Public Fields ---*/
-		public CanvasGroup canvasGroup;
+		public CanvasGroup TargetCanvasGroup;
 		public bool IsEffectStart { get; private set; }
 
 
@@ -26,9 +26,9 @@ namespace KSH_Lib.UI
 			if (!IsEffectStart)
 			{
 				IsEffectStart = true;
-				while (canvasGroup.alpha < 1.0f)
+				while (TargetCanvasGroup.alpha < 1.0f)
 				{
-					canvasGroup.alpha += Time.deltaTime / fadeTime;
+					TargetCanvasGroup.alpha += Time.deltaTime / fadeTime;
 					yield return null;
 				}
 				yield return null;
@@ -40,9 +40,9 @@ namespace KSH_Lib.UI
 			if(!IsEffectStart)
             {
 				IsEffectStart = true;
-				while (canvasGroup.alpha > 0.0f)
+				while (TargetCanvasGroup.alpha > 0.0f)
 				{
-					canvasGroup.alpha -= Time.deltaTime / fadeTime;
+					TargetCanvasGroup.alpha -= Time.deltaTime / fadeTime;
 					yield return null;
 				}
 				IsEffectStart = false;
@@ -53,17 +53,17 @@ namespace KSH_Lib.UI
 			if(!IsEffectStart)
             {
 				IsEffectStart = true;
-				while (canvasGroup.alpha < 1.0f)
+				while (TargetCanvasGroup.alpha < 1.0f)
 				{
-					canvasGroup.alpha += Time.deltaTime / fadeInTime;
+					TargetCanvasGroup.alpha += Time.deltaTime / fadeInTime;
 					yield return null;
 				}
 
 				yield return new WaitForSeconds(waitTime);
 
-				while (canvasGroup.alpha > 0.0f)
+				while (TargetCanvasGroup.alpha > 0.0f)
 				{
-					canvasGroup.alpha -= Time.deltaTime / fadeOutTime;
+					TargetCanvasGroup.alpha -= Time.deltaTime / fadeOutTime;
 					yield return null;
 				}
 
