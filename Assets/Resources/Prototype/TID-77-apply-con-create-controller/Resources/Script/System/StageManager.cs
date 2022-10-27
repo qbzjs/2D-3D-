@@ -156,11 +156,6 @@ namespace GHJ_Lib
 			
 		}
 
-        private void OnEnable()
-        {
-			dollUI.InitUI();
-			exorcistUI.InitUI();
-		}
 
         private void Update()
         {

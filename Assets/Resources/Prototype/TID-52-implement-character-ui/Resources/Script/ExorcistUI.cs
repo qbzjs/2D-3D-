@@ -57,7 +57,7 @@ namespace GHJ_Lib
             devilHP.Add(Devil4HP);
 
 
-            //StartCoroutine(InitMaxHP());
+            StartCoroutine(InitUI());
 
 
         }
@@ -76,21 +76,6 @@ namespace GHJ_Lib
 
         }
 
-        public void InitUI()
-        {
-            for (int i = 1; i < GameManager.Instance.CurPlayerCount; ++i)
-            {
-                Debug.LogWarning("Exorcist InitUI() :" + DataManager.Instance.PlayerDatas[i].ToString() +"     "+ i);
-
-                if(DataManager.Instance.PlayerDatas[i].roleData is DollData)
-                {
-                    maxDollHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
-                    maxDevilHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
-                }
-            }
-            canUpdate = true;
-        }
-
         void DisableUI_All()
         {
             foreach(var ui in DollUiObjects)
@@ -107,22 +92,26 @@ namespace GHJ_Lib
             }
         }
 
-
-        IEnumerator InitMaxHP()
+        IEnumerator InitUI()
         {
             while (true)
             {
-                if (DataManager.Instance.PlayerDatas[4].roleData != null)
+                if (DataManager.Instance.PlayerDatas[GameManager.Instance.CurPlayerCount - 1].roleData != null)
                 {
-                    for (int i = 1; i < 5; ++i)
+                    for (int i = 1; i < GameManager.Instance.CurPlayerCount; ++i)
                     {
-                        maxDollHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
-                        maxDevilHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
+                        if (DataManager.Instance.PlayerDatas[i].roleData is DollData)
+                        {
+                            maxDollHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
+                            maxDevilHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
+                        }
                     }
                     canUpdate = true;
                     yield return true;
                 }
             }
         }
+
+
     }
 }

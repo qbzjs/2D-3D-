@@ -65,6 +65,10 @@ namespace GHJ_Lib
             friendDevilHP.Add(Friend1DevilHP);
             friendDevilHP.Add(Friend2DevilHP);
             friendDevilHP.Add(Friend3DevilHP);
+
+            myIdx = DataManager.Instance.PlayerIdx - 1;
+
+            StartCoroutine(InitUI());
         }
 
         private void Update()
@@ -92,20 +96,6 @@ namespace GHJ_Lib
             }
            
         }
-        public void InitUI()
-        {
-            myIdx = DataManager.Instance.PlayerIdx - 1;
-
-            for (int i = 1; i <= curDollCount; ++i)
-            {
-                if (DataManager.Instance.PlayerDatas[i].roleData is DollData)
-                {
-                    maxDollHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
-                    maxDevilHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
-                }
-            }
-            canUpdate = true;
-        }
 
 
         void DisableUI_All()
@@ -126,7 +116,25 @@ namespace GHJ_Lib
             }
         }
 
- 
+        IEnumerator InitUI()
+        {
+            while(true)
+            {
+                if(DataManager.Instance.PlayerDatas[GameManager.Instance.CurPlayerCount - 1].roleData != null)
+                {
+                    for (int i = 1; i <= curDollCount; ++i)
+                    {
+                        if (DataManager.Instance.PlayerDatas[i].roleData is DollData)
+                        {
+                            maxDollHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
+                            maxDevilHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
+                        }
+                    }
+                    canUpdate = true;
+                    yield return true;
+                }
+            }
+        }
 
         #endregion	
 
