@@ -301,12 +301,14 @@ namespace KSH_Lib
             {
                 case RoleData.RoleType.Doll:
                 {
-                    PhotonNetwork.JoinRandomRoom();
+                    //PhotonNetwork.JoinRandomRoom();
+                    PhotonNetwork.JoinRoom("DebugServer2");
                 }
                 break;
                 case RoleData.RoleType.Exorcist:
                 {
-                    PhotonNetwork.CreateRoom( CreateRandomRoomName(), new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
+                    PhotonNetwork.CreateRoom("DebugServer2", new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
+                    //PhotonNetwork.CreateRoom( CreateRandomRoomName(), new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
                 }
                 break;
                 default:
@@ -343,11 +345,13 @@ namespace KSH_Lib
         /*---Debug Server ---*/
         void CreateDebugServer()
         {
+            DataManager.Instance.InitLocalRoleData();
             PhotonNetwork.CreateRoom( "DebugServer2", new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
             //GameManager.Instance.Data.ChangeRole( RoleType.Exorcist );
         }
         void JoinDebugServer()
         {
+            DataManager.Instance.InitLocalRoleData();
             PhotonNetwork.JoinRoom( "DebugServer2" );
             //GameManager.Instance.Data.ChangeRole( RoleType.Doll );
         }
