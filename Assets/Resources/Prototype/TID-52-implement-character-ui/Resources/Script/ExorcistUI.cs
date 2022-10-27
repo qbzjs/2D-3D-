@@ -25,9 +25,9 @@ namespace GHJ_Lib
         public Image PassiveCoolTime;
 
 
-
-        private float[] maxDollHP;
-        private float[] maxDevilHP;
+        private bool canUpdate = false;
+        private float[] maxDollHP =new float[4];
+        private float[] maxDevilHP = new float[4];
         private List<Image> dollHP = new List<Image>();
         private List<Image> devilHP = new List<Image>();
 
@@ -43,17 +43,19 @@ namespace GHJ_Lib
             devilHP.Add(Devil3HP);
             devilHP.Add(Devil4HP);
 
-            for (int i = 1; i < 5; ++i)
-            {
-                maxDollHP[i-1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
-                maxDevilHP[i-1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
-            }
+
+            StartCoroutine(InitMaxHP());
+
+            
 
         }
 
         void Update()
         {
-
+            if (!canUpdate)
+            {
+                return;
+            }
             for (int i = 1; i < 5; ++i)
             { 
                 dollHP[i-1].fillAmount = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i-1];
@@ -62,6 +64,21 @@ namespace GHJ_Lib
 
         }
 
-      
+        IEnumerator InitMaxHP()
+        {
+            while (true)
+            {
+                if (DataManager.Instance.PlayerDatas[4].roleData != null)
+                {
+                    for (int i = 1; i < 5; ++i)
+                    {
+                        maxDollHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
+                        maxDevilHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
+                    }
+                    canUpdate = true;
+                    yield return true;
+                }
+            }
+        }
     }
 }

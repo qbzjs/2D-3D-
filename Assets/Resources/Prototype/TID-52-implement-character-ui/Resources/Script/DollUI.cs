@@ -23,9 +23,10 @@ namespace GHJ_Lib
         public Image Friend3DollHP;
         public Image Friend3DevilHP;
 
-        private float[] maxDollHP;
-        private float[] maxDevilHP;
+        private float[] maxDollHP =new float[4];
+        private float[] maxDevilHP = new float[4];
         private int MyIdx;
+        private bool canUpdate = false;
         #endregion
 
         #region Private Fields
@@ -45,19 +46,19 @@ namespace GHJ_Lib
             friendDevilHP.Add(Friend2DevilHP);
             friendDevilHP.Add(Friend3DevilHP);
 
-            MyIdx = DataManager.Instance.PlayerIdx;
-            for (int i = 1; i < 5; ++i)
-            {
-                maxDollHP[i] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
-                maxDevilHP[i] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
-            }
+            StartCoroutine(InitMaxHP());
         }
 
         private void Update()
         {
+            if (!canUpdate)
+            {
+                return;
+            }
+
             int j = 0;
 
-            for (int i = 1; i < 5; ++i)
+            for (int i = 0; i < 4; ++i)
             {
                 if (MyIdx == i)
                 {
@@ -66,16 +67,30 @@ namespace GHJ_Lib
                 }
                 else
                 { 
-                    friendDollHP[j].fillAmount = (DataManager.Instance.PlayerDatas[j].roleData as DollData).DollHP / maxDollHP[j];
-                    friendDevilHP[j].fillAmount = (DataManager.Instance.PlayerDatas[j].roleData as DollData).DevilHP / maxDevilHP[j];
+                    friendDollHP[j].fillAmount = (DataManager.Instance.PlayerDatas[j+1].roleData as DollData).DollHP / maxDollHP[j];
+                    friendDevilHP[j].fillAmount = (DataManager.Instance.PlayerDatas[j+1].roleData as DollData).DevilHP / maxDevilHP[j];
                     j++;
                 }
             }
-            
-
-
            
+        }
 
+        IEnumerator InitMaxHP()
+        {
+            while (true)
+            {
+                if (DataManager.Instance.PlayerDatas[4].roleData != null)
+                { 
+                    MyIdx = DataManager.Instance.PlayerIdx - 1;
+                    for (int i = 0; i < 4; ++i)
+                    {
+                        maxDollHP[i] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
+                        maxDevilHP[i] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
+                    }
+                    canUpdate = true;
+                    yield return true;
+                }
+            }
         }
 
         #endregion	
