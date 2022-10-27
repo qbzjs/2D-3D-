@@ -27,11 +27,11 @@ namespace GHJ_Lib
                 return;
             }
             //애니매이션이 있다면 그에따라 pos를 변경.
-            (actor as DollController).Escape(escapePos);
+            (actor as DollController).Escape(escapePos,0); //Default layer = 0;
         }
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
         {
-            //애니매이션이 있다면 애니매이션이 끝날때 new BvIdle() 를 반환.
+            //애니매이션이 있다면 애니매이션이 끝날때 함수시작 를 반환.
             return new BvIdle();
         }
         /*--- Private Methods ---*/

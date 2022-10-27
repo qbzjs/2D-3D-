@@ -1,35 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using KSH_Lib;
 
 namespace GHJ_Lib
 {
-public class BvBecomeGhost : MonoBehaviour
-{
-     /*--- Public Fields ---*/
-    
-     /*--- Protected Fields ---*/
-   
-     /*--- Private Fields ---*/
-
-    /*--- MonoBehaviour CallBacks ---*/ 
-    void Start()
+    public class BvBecomeGhost : Behavior<BasePlayerController>
     {
-        
-    }
+        /*--- Public Fields ---*/
 
-    
-    void Update()
-    {
-        
-    }
+        /*--- Protected Fields ---*/
+        protected Transform initGhostPos;
+        /*--- Private Fields ---*/
 
-      /*--- Public Methods---*/
+        /*--- Public Methods---*/
+        public void SetInitGhostPos(Transform transform)
+        {
+            initGhostPos = transform;
+        }
+        /*--- Protected Methods ---*/
+        protected override void Activate(in BasePlayerController actor)
+        {
+            DollController doll = (actor as DollController);
+            doll.Escape(initGhostPos,8); //ghost layer = 8;
+            doll.BecomeGhost();
+        }
     
-     /*--- Protected Methods ---*/
-   
-     /*--- Private Methods ---*/
-}
+        /*--- Private Methods ---*/
+    }
 
 }
 

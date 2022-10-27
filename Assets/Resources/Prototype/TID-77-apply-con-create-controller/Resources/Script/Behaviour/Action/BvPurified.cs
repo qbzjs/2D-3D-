@@ -38,7 +38,9 @@ namespace GHJ_Lib
 
                 if ((DataManager.Instance.LocalPlayerData.roleData as DollData).DevilHP < 0.0f)
                 {
-                    //return ghost
+                    BvBecomeGhost becomeGhost = new BvBecomeGhost();
+                    becomeGhost.SetInitGhostPos(purificationBox.CharacterPos);
+                    return becomeGhost;
                 }
             }
 

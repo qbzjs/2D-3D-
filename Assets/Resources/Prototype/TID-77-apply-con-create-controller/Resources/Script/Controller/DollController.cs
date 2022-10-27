@@ -26,7 +26,12 @@ namespace GHJ_Lib
 		}
 		public Behavior<BasePlayerController> CurcharacterCondition	= new Behavior<BasePlayerController>();
 		public Behavior<BasePlayerController> CurcharacterAction		= new Behavior<BasePlayerController>();
+
+		[SerializeField]
+		protected GameObject GhostModel;
 		/*--- Protected Fields ---*/
+
+
 		protected PhotonTransformViewClassic photonTransformView;
 
 		protected BvIdle idle					= new BvIdle();
@@ -54,7 +59,7 @@ namespace GHJ_Lib
 		public override void OnEnable()
 		{
 			photonTransformView = GetComponent<PhotonTransformViewClassic>();
-			
+			GhostModel.SetActive(false);
 			// 스테이터스 받아오기
 
 			//애니매이터 받기 -> behavior에서 할예정
@@ -200,14 +205,16 @@ namespace GHJ_Lib
 			ChangeCamera(ExorcistCamTarget);
 			ChangeActionTo("Caught");
 		}
-		public void Escape(Transform transform)
+		public void Escape(Transform transform, int layer)
 		{
 			this.transform.position = transform.position;
 			this.transform.rotation = transform.rotation;
 			characterModel.gameObject.SetActive(true);
-			CharacterLayerChange(characterObj, 0);
+			CharacterLayerChange(characterObj, layer);
 			ChangeCamera(camTarget);
 		}
+
+		
 
 		public void ChangeCamera(GameObject camTarget)
 		{
@@ -234,6 +241,19 @@ namespace GHJ_Lib
 			{
 				ChangeActionTo("Purified");
 			}
+		}
+		public void BecomeGhost()
+		{
+			//에셋이 바뀐다
+			characterModel.SetActive(false);
+			GhostModel.SetActive(true);
+			CharacterLayerChange(GhostModel, 8);
+			ChangeActionTo("Idle");
+			BaseAnimator.enabled = false;
+
+			GhostModel.GetComponent<Animator>().Play("GhostIdle");
+			
+
 		}
 		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 		{
