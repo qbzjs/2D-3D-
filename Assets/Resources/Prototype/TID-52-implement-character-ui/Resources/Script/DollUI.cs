@@ -98,8 +98,11 @@ namespace GHJ_Lib
 
             for (int i = 1; i <= curDollCount; ++i)
             {
-                maxDollHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
-                maxDevilHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
+                if (DataManager.Instance.PlayerDatas[i].roleData is DollData)
+                {
+                    maxDollHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
+                    maxDevilHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
+                }
             }
             canUpdate = true;
         }
