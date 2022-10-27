@@ -25,25 +25,27 @@ namespace KSH_Lib
         /*--- Private Fields ---*/
         [Header( "Camera Speed Setting" )]
         [SerializeField]
-        float mouseSpeed = 0.3f;
+        protected float mouseSpeed = 0.3f;
         [SerializeField]
-        float mouseAccel = 0.1f;
+        protected float mouseAccel = 0.1f;
+        [SerializeField]
+        protected bool activeAccel = true;
 
-        [Header( "Limit Setting" )]
+        [Header("Limit Setting")]
         [SerializeField]
-        float minAngleY = -40.0f;
-        [SerializeField]    
-        float maxAngleY = 40.0f;
+        protected float minAngleY = -40.0f;
+        [SerializeField]
+        protected float maxAngleY = 40.0f;
 
         [Header( "Invert Setting" )]
         [SerializeField]
-        bool isInvertHorizontal = false;
+        protected bool isInvertHorizontal = false;
         [SerializeField]
-        bool isInvertVertical = true;
+        protected bool isInvertVertical = true;
 
-        Vector2 camAxisRaw;
-        Vector2 camAxis;
-        Vector3 angles;
+        protected Vector2 camAxisRaw;
+        protected Vector2 camAxis;
+        protected Vector3 angles;
 
 
         /*--- MonoBehaviour Callbacks ---*/
@@ -104,13 +106,20 @@ namespace KSH_Lib
 
         protected virtual void SmoothInputData()
         {
-            camAxis.x = Mathf.SmoothStep( camAxis.x, camAxisRaw.x, mouseAccel );
-            camAxis.y = Mathf.SmoothStep( camAxis.y, camAxisRaw.y, mouseAccel );
+            if(activeAccel)
+            {
+                camAxis.x = Mathf.SmoothStep(camAxis.x, camAxisRaw.x, mouseAccel);
+                camAxis.y = Mathf.SmoothStep(camAxis.y, camAxisRaw.y, mouseAccel);
+            }
+            else
+            {
+                camAxis = camAxisRaw;
+            }
         }
 
 
         /*--- Private Methods ---*/
-        void RotateCamera()
+        protected virtual void RotateCamera()
         {
             camTarget.transform.Rotate( Vector3.up, camAxis.x * mouseSpeed, Space.World );
             camTarget.transform.Rotate( Vector3.right, camAxis.y * mouseSpeed, Space.Self );
