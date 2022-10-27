@@ -68,7 +68,7 @@ namespace GHJ_Lib
 			if (photonView.IsMine)
 			{
 				typeIndex = (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder;
-				playerIndex = DataManager.Instance.PlayerIdx;
+				photonView.ViewID = DataManager.Instance.PlayerIdx;
 				initialSpeed = DataManager.Instance.RoleInfos[typeIndex].MoveSpeed;
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
 				fpvCam = GameObject.Find( "FPV_Cam(Clone)" ).GetComponent<KSH_Lib.FPV_CameraController>();
@@ -353,12 +353,12 @@ namespace GHJ_Lib
 				return;
 			}
 
-			if(DataManager.Instance.PlayerDatas[playerIndex].roleData == null)
+			if(DataManager.Instance.PlayerDatas[photonView.ViewID].roleData == null)
             {
 				return;
             }
 
-			controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[playerIndex].roleData.MoveSpeed);
+			controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[photonView.ViewID].roleData.MoveSpeed);
 
 			if (direction.sqrMagnitude <= 0)
 			{
@@ -366,7 +366,7 @@ namespace GHJ_Lib
 			}
 			else
 			{
-				BaseAnimator.SetFloat("Move", DataManager.Instance.PlayerDatas[playerIndex].roleData.MoveSpeed);
+				BaseAnimator.SetFloat("Move", DataManager.Instance.PlayerDatas[photonView.ViewID].roleData.MoveSpeed);
 			}
 
 		}

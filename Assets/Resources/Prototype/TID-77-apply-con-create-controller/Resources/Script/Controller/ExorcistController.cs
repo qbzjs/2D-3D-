@@ -52,6 +52,7 @@ namespace GHJ_Lib
 			if (photonView.IsMine)
 			{
 				typeIndex = (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder;
+				photonView.ViewID = DataManager.Instance.PlayerIdx;
 				Debug.Log($"TypeIndex: {typeIndex}");
 				initialSpeed = DataManager.Instance.RoleInfos[typeIndex].MoveSpeed;
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
