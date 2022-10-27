@@ -24,8 +24,8 @@ namespace GHJ_Lib
 		{
 			get { return playerIndex; }
 		}
-		public Behavior<BasePlayerController> CurcharacterCondition	= new Behavior<BasePlayerController>();
-		public Behavior<BasePlayerController> CurcharacterAction		= new Behavior<BasePlayerController>();
+		public Behavior<BasePlayerController> CurCharacterCondition	= new Behavior<BasePlayerController>();
+		public Behavior<BasePlayerController> CurCharacterAction		= new Behavior<BasePlayerController>();
 
 		[SerializeField]
 		protected GameObject GhostModel;
@@ -79,8 +79,8 @@ namespace GHJ_Lib
 				tpvCam.gameObject.SetActive(true);
 			}
 			// CurcharacterAction, CurcharacterCondition,  초기설정하기
-			CurcharacterAction.PushSuccessorState(idle);
-
+			CurCharacterAction.PushSuccessorState(idle);
+			//CurCharacterCondition.PushSuccessorState
 
 			//처음 대기시간 주기( 이건 StageManger가 할일)
 			base.Start();
@@ -98,7 +98,7 @@ namespace GHJ_Lib
 			if (photonView.IsMine)
 			{
 				//움직임 관련, 및 행동제한 부분
-				if (CurcharacterAction is BvIdle)
+				if (CurCharacterAction is BvIdle)
 				{
 					SetDirection();
 				}
@@ -119,8 +119,8 @@ namespace GHJ_Lib
 			MoveCharacter();
 
 
-			CurcharacterAction.Update(this, ref CurcharacterAction);
-			CurcharacterCondition.Update(this, ref CurcharacterCondition);
+			CurCharacterAction.Update(this, ref CurCharacterAction);
+			CurCharacterCondition.Update(this, ref CurCharacterCondition);
 			//HP동기화
 
 		}
@@ -225,7 +225,7 @@ namespace GHJ_Lib
 		}
 		public void HitDamage()
 		{
-			if (CurcharacterAction is not BvHit)
+			if (CurCharacterAction is not BvHit)
 			{
 				if (photonView.IsMine)
 				{ 
@@ -310,7 +310,7 @@ namespace GHJ_Lib
 			}
 			else
 			{
-				if (!(CurcharacterAction is BvIdle))
+				if (!(CurCharacterAction is BvIdle))
 				{
 					ChangeActionTo("Idle");
 
@@ -420,34 +420,34 @@ namespace GHJ_Lib
 			{
 				case "Idle":
 					{
-						CurcharacterAction.PushSuccessorState(idle);
+						CurCharacterAction.PushSuccessorState(idle);
 					}
 					break;
 				case "Interact":
 					{
 						interaction.SetInteractObj(interactObj);
-						CurcharacterAction.PushSuccessorState(interaction);
+						CurCharacterAction.PushSuccessorState(interaction);
 					}
 					break;
 				case "Down":
 					{
-						CurcharacterAction.PushSuccessorState(down);
+						CurCharacterAction.PushSuccessorState(down);
 					}
 					break;
 				case "Hit":
 					{
 						hit.SetPlayerIdx(playerIndex);
-						CurcharacterAction.PushSuccessorState(hit);
+						CurCharacterAction.PushSuccessorState(hit);
 					}
 					break;
 				case "Caught":
 					{
-						CurcharacterAction.PushSuccessorState(caught);
+						CurCharacterAction.PushSuccessorState(caught);
 					}
 					break;
 				case "Purified":
 					{
-						CurcharacterAction.PushSuccessorState(purified);
+						CurCharacterAction.PushSuccessorState(purified);
 					}
 					break;
 					
