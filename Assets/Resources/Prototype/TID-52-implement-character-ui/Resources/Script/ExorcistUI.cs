@@ -59,12 +59,6 @@ namespace GHJ_Lib
 
             //StartCoroutine(InitMaxHP());
 
-            for (int i = 1; i < GameManager.Instance.CurPlayerCount; ++i)
-            {
-                maxDollHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
-                maxDevilHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
-            }
-            canUpdate = true;
 
         }
 
@@ -80,6 +74,16 @@ namespace GHJ_Lib
                 devilHP[i-1].fillAmount = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i-1];
             }
 
+        }
+
+        public void InitUI()
+        {
+            for (int i = 1; i < GameManager.Instance.CurPlayerCount; ++i)
+            {
+                maxDollHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
+                maxDevilHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
+            }
+            canUpdate = true;
         }
 
         void DisableUI_All()

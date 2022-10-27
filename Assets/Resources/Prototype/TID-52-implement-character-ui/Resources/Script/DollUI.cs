@@ -65,17 +65,6 @@ namespace GHJ_Lib
             friendDevilHP.Add(Friend1DevilHP);
             friendDevilHP.Add(Friend2DevilHP);
             friendDevilHP.Add(Friend3DevilHP);
-
-
-            myIdx = DataManager.Instance.PlayerIdx - 1;
-
-            for (int i = 0; i < curDollCount; ++i)
-            {
-                maxDollHP[i] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
-                maxDevilHP[i] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
-            }
-            canUpdate = true;
-
         }
 
         private void Update()
@@ -103,6 +92,18 @@ namespace GHJ_Lib
             }
            
         }
+        public void InitUI()
+        {
+            myIdx = DataManager.Instance.PlayerIdx - 1;
+
+            for (int i = 1; i <= curDollCount; ++i)
+            {
+                maxDollHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
+                maxDevilHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
+            }
+            canUpdate = true;
+        }
+
 
         void DisableUI_All()
         {
@@ -121,6 +122,8 @@ namespace GHJ_Lib
                 FriendUiObjets[i].SetActive(true);
             }
         }
+
+ 
 
         #endregion	
 

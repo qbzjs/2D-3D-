@@ -152,6 +152,9 @@ namespace GHJ_Lib
 			//	purificationBoxGenerator.Generate(purificationBoxGenPos.transform.position, Quaternion.Euler(purificationBoxGenPos.transform.rotation.eulerAngles));
 			//}
 
+
+			dollUI.InitUI();
+			exorcistUI.InitUI();
 		}
 
 
