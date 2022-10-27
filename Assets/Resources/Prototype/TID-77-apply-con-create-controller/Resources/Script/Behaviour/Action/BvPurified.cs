@@ -27,6 +27,7 @@ namespace GHJ_Lib
             if (Bv is BvEscape)
             {
                 purificationBox.EscapePurifyDoll();
+                (Bv as BvEscape).SetEscapePos(purificationBox.CharacterPos);
                 return Bv;
             }
 

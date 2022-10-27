@@ -147,7 +147,7 @@ namespace GHJ_Lib
 					BarUI.Instance.SliderVisible(false);
 				}
 
-				if (Vector3.Dot(forward, Vector3.ProjectOnPlane((other.transform.position - this.transform.position), Vector3.up)) < 90 &&
+				if (Vector3.Dot(forward, Vector3.ProjectOnPlane((other.transform.position - this.transform.position), Vector3.up)) > 0 &&
 					interactObj.CanActiveToExorcist)
 				{
 					BarUI.Instance.TextVisible(true);
@@ -403,10 +403,9 @@ namespace GHJ_Lib
 		public void PickUp()
 		{
 			DollController doll = caughtDoll.GetComponent<DollController>();
-			CharacterLayerChange(caughtDoll, 8);
 			CatchObj[doll.TypeIndex-5].gameObject.SetActive(true);
+			CharacterLayerChange(caughtDoll, 8);
 			doll.CaughtDoll(camTarget);
-
 		}
 	}
 }

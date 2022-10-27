@@ -156,7 +156,7 @@ namespace GHJ_Lib
 					BarUI.Instance.SliderVisible(false);
 				}
 
-				if (Vector3.Dot(forward, Vector3.ProjectOnPlane((other.transform.position - this.transform.position), Vector3.up)) < 90&&
+				if (Vector3.Dot(forward, Vector3.ProjectOnPlane((other.transform.position - this.transform.position), Vector3.up))>0&&
 					interactObj.CanActiveToDoll)
 				{
 					BarUI.Instance.TextVisible(true);
@@ -200,6 +200,15 @@ namespace GHJ_Lib
 			ChangeCamera(ExorcistCamTarget);
 			ChangeActionTo("Caught");
 		}
+		public void Escape(Transform transform)
+		{
+			this.transform.position = transform.position;
+			this.transform.rotation = transform.rotation;
+			characterModel.gameObject.SetActive(true);
+			CharacterLayerChange(characterObj, 0);
+			ChangeCamera(camTarget);
+		}
+
 		public void ChangeCamera(GameObject camTarget)
 		{
 			if (photonView.IsMine)
