@@ -38,7 +38,17 @@ namespace KSH_Lib
 		public RoleData.RoleType PreRoleType;
 		public RoleData.RoleTypeOrder PreRoleTypeOrder;
 
-		public List<PlayerData> PlayerDatas { get { return playerDatas; } }
+		public List<PlayerData> PlayerDatas
+		{
+			get
+			{
+				if(playerDatas == null)
+                {
+					Debug.LogError("DataManager: playerData is not set");
+                }
+				return playerDatas;
+			}
+		}
 		public PlayerData LocalPlayerData = new PlayerData();
 		public int PlayerIdx { get; private set; }
 
@@ -115,9 +125,9 @@ namespace KSH_Lib
 		}
 
 		public void ShareAllData()
-        {
-			ShareAccountData();
+		{
 			ShareRoleData();
+			ShareAccountData();
         }
 		public void ShareAccountData()
 		{
