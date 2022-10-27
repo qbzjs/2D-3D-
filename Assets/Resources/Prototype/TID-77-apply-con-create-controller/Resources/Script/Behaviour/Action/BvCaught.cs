@@ -30,7 +30,7 @@ namespace GHJ_Lib
         {
 
             Behavior<BasePlayerController> Bv =  PassIfHasSuccessor();
-            if (Bv is Purfied)
+            if (Bv is BvPurified)
             {
                 return Bv;
             }

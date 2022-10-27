@@ -40,6 +40,12 @@ namespace GHJ_Lib
 		Interaction interactObj;
 
 		/*--- MonoBehaviour Callbacks ---*/
+		[PunRPC]
+		public void SetExorcistTypeIdx( int typeIdx)
+		{
+			typeIndex = typeIdx;
+		}
+
 		public override void OnEnable()
 		{
 			photonTransformView = GetComponent<PhotonTransformViewClassic>();
@@ -52,6 +58,8 @@ namespace GHJ_Lib
 			if (photonView.IsMine)
 			{
 				typeIndex = (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder;
+				photonView.RPC("SetExorcistTypeIdx", RpcTarget.All, typeIndex);
+				//photonView.ViewID = DataManager.Instance.PlayerIdx;
 				Debug.Log($"TypeIndex: {typeIndex}");
 				initialSpeed = DataManager.Instance.RoleInfos[typeIndex].MoveSpeed;
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
@@ -89,7 +97,7 @@ namespace GHJ_Lib
 			{
 				//움직임 관련, 및 행동제한 부분
 				PlayerInput();
-				if (CurcharacterAction is BvIdle)
+				if (CurcharacterAction is BvIdle|| CurcharacterAction is BvCatch)
 				{
 					SetDirection();
 				}
@@ -117,10 +125,12 @@ namespace GHJ_Lib
 			if (other.CompareTag("interactObj"))
 			{
 				interactObj = other.GetComponent<Interaction>();
+				
 				if (!photonView.IsMine)
 				{
 					return;
 				}
+				Log.Instance.WriteLog(interactObj.name.ToString(), 1);
 				if (IsAutoCasting)
 				{
 					canInteract = false;
@@ -225,7 +235,7 @@ namespace GHJ_Lib
 		}
 		protected void PlayerInput()
 		{
-
+			Debug.Log("CanPickUp : " + pickUpBox.CanPickUp());
 			if (pickUpBox.CanPickUp()&&(CurcharacterAction is not BvCatch))
 			{
 				if (Input.GetKeyDown(KeyCode.Mouse0))
