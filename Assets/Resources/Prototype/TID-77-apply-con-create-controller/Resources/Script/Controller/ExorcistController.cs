@@ -171,9 +171,17 @@ namespace GHJ_Lib
 				BarUI.Instance.SliderVisible(false);
 			}
 		}
-		/*--- Public Methods ---*/
-		//행동은 한번에 하나씩 존재
-		public virtual void ChangeActionTo(string ActionName)
+
+        private void OnGUI()
+        {
+			GUI.Box(new Rect(200, 0, 150, 30), $"direction: {direction}");
+			GUI.Box(new Rect(200, 30, 150, 30), $"camTagetRot: {camTarget.transform.rotation}");
+			GUI.Box(new Rect(200, 60, 150, 30), $": {transform.rotation}");
+		}
+
+        /*--- Public Methods ---*/
+        //행동은 한번에 하나씩 존재
+        public virtual void ChangeActionTo(string ActionName)
 		{
 			photonView.RPC("_ChangeActionTo", RpcTarget.AllViaServer, ActionName);
 		}
@@ -256,21 +264,21 @@ namespace GHJ_Lib
 			}
 
 		}
-		
 
-		protected override void RotateToDirection()
+        protected override void RotateToDirection()
 		{
 			if (direction.sqrMagnitude > 0.01f)
 			{
 				animator.SetFloat("MoveSpeed", direction.magnitude);
-				forward = Vector3.Slerp(characterModel.transform.forward, direction,
-					rotateSpeed * Time.deltaTime / Vector3.Angle(characterModel.transform.forward, direction));
-				characterModel.transform.LookAt(characterModel.transform.position + forward);
+				//forward = Vector3.Slerp(characterModel.transform.forward, direction,
+				//	rotateSpeed * Time.deltaTime / Vector3.Angle(characterModel.transform.forward, direction));
+				//characterModel.transform.LookAt(characterModel.transform.position + forward);
 			}
 			else
 			{
 				animator.SetFloat("MoveSpeed", 0);
 			}
+			characterModel.transform.rotation =  Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y,0.0f);
 		}
 		protected override void MoveCharacter()
 		{
