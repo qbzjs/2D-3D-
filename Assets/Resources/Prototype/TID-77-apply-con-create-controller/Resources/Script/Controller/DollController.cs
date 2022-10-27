@@ -53,9 +53,21 @@ namespace GHJ_Lib
 		protected float initialSpeed;
 		/*--- Private Fields ---*/
 		Interaction interactObj;
+		[PunRPC]
+		public void SetPlayerIdx(int playerIdx)
+		{
+			playerIndex = playerIdx;
+			
+		}
+
+		[PunRPC]
+		public void SetTypeIdx( int typeIdx)
+		{
+			
+			typeIndex = typeIdx;
+		}
 
 		/*--- MonoBehaviour Callbacks ---*/
-
 		public override void OnEnable()
 		{
 			photonTransformView = GetComponent<PhotonTransformViewClassic>();
@@ -68,7 +80,9 @@ namespace GHJ_Lib
 			if (photonView.IsMine)
 			{
 				typeIndex = (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder;
-				photonView.ViewID = DataManager.Instance.PlayerIdx;
+				playerIndex = DataManager.Instance.PlayerIdx;
+				photonView.RPC("SetPlayerIdx", RpcTarget.All, playerIndex);
+				photonView.RPC("SetTypeIdx", RpcTarget.All, typeIndex);
 				initialSpeed = DataManager.Instance.RoleInfos[typeIndex].MoveSpeed;
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
 				fpvCam = GameObject.Find( "FPV_Cam(Clone)" ).GetComponent<KSH_Lib.FPV_CameraController>();
@@ -202,6 +216,7 @@ namespace GHJ_Lib
 		}
 		public void CaughtDoll(GameObject ExorcistCamTarget)
 		{
+			characterModel.gameObject.SetActive(false);
 			ChangeCamera(ExorcistCamTarget);
 			ChangeActionTo("Caught");
 		}
@@ -353,12 +368,12 @@ namespace GHJ_Lib
 				return;
 			}
 
-			if(DataManager.Instance.PlayerDatas[photonView.ViewID].roleData == null)
+			if(DataManager.Instance.PlayerDatas[playerIndex].roleData == null)
             {
 				return;
             }
 
-			controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[photonView.ViewID].roleData.MoveSpeed);
+			controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[playerIndex].roleData.MoveSpeed);
 
 			if (direction.sqrMagnitude <= 0)
 			{
@@ -366,7 +381,7 @@ namespace GHJ_Lib
 			}
 			else
 			{
-				BaseAnimator.SetFloat("Move", DataManager.Instance.PlayerDatas[photonView.ViewID].roleData.MoveSpeed);
+				BaseAnimator.SetFloat("Move", DataManager.Instance.PlayerDatas[playerIndex].roleData.MoveSpeed);
 			}
 
 		}

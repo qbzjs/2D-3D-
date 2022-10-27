@@ -82,12 +82,12 @@ namespace GHJ_Lib
 
             int j = 0;
 
-            for (int i = 0; i < curDollCount; ++i)
+            for (int i = 1; i < curDollCount+1; ++i)
             {
                 if (myIdx == i)
                 {
-                    PlayerDollHP.fillAmount = (DataManager.Instance.PlayerDatas[myIdx].roleData as DollData).DollHP / maxDollHP[myIdx];
-                    PlayerDevilHP.fillAmount = (DataManager.Instance.PlayerDatas[myIdx].roleData as DollData).DevilHP / maxDevilHP[myIdx];
+                    PlayerDollHP.fillAmount = (DataManager.Instance.PlayerDatas[myIdx].roleData as DollData).DollHP / maxDollHP[myIdx-1];
+                    PlayerDevilHP.fillAmount = (DataManager.Instance.PlayerDatas[myIdx].roleData as DollData).DevilHP / maxDevilHP[myIdx-1];
                 }
                 else
                 {
@@ -127,6 +127,7 @@ namespace GHJ_Lib
 
 
             myIdx = DataManager.Instance.PlayerIdx;
+            Debug.Log("myIdx : "+ myIdx);
             for (int i = 1; i <= curDollCount; ++i)
             {
                 maxDollHP.Add((DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP);

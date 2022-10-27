@@ -31,16 +31,19 @@ namespace GHJ_Lib
             // DataManager.Instance.ShareRoleData();
 
             if (actor.photonView.IsMine)
-            { 
-                (DataManager.Instance.PlayerDatas[actor.photonView.ViewID].roleData as DollData).DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower;
+            {
+                Debug.Log("DollHP : " + (DataManager.Instance.PlayerDatas[playerIdx].roleData as DollData).DollHP);
+                (DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower;
+                Debug.Log("DollHP Damaged : " + (DataManager.Instance.PlayerDatas[playerIdx].roleData as DollData).DollHP);
                 DataManager.Instance.ShareRoleData();
+                Debug.Log("DollHP Shared : " + (DataManager.Instance.PlayerDatas[playerIdx].roleData as DollData).DollHP);
             }
         }
 
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
         {
             //PassIfHasSuccessor();
-            if ((DataManager.Instance.PlayerDatas[actor.photonView.ViewID].roleData as DollData).DollHP<0.0f)
+            if ((DataManager.Instance.PlayerDatas[playerIdx].roleData as DollData).DollHP<0.0f)
             {
                 return new BvDown();
             }    

@@ -28,7 +28,18 @@ namespace GHJ_Lib
             actor.BaseAnimator.Play("Pickup");
         }
 
-        
+        protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
+        {
+            Behavior<BasePlayerController> Bv = PassIfHasSuccessor();
+
+            if (Bv is BvImprison)
+            {
+                return Bv;
+            }
+            return null;
+
+        }
+
         /*--- Private Methods ---*/
     }
 }

@@ -17,7 +17,7 @@ namespace GHJ_Lib
         {
             if (other.CompareTag("Doll"))
             {
-                if (other.GetComponent<DollController>().CurCharacterAction is BvCaught)
+                if (other.GetComponent<DollController>().CurCharacterAction is BvDown)
                 {
                     if (!Dolls.Contains(other.gameObject))
                     { 
