@@ -42,10 +42,11 @@ namespace GHJ_Lib
         //private float[] maxDevilHP = new float[4];
 
         private int myIdx;
-        private bool canUpdate = false;
 
         int curDollCount;
         int curFriendCount;
+
+        bool isInited;
 
         #endregion
 
@@ -69,11 +70,12 @@ namespace GHJ_Lib
             myIdx = DataManager.Instance.PlayerIdx - 1;
 
             StartCoroutine(InitUI());
+
         }
 
         private void Update()
         {
-            if (!canUpdate)
+            if(!isInited)
             {
                 return;
             }
@@ -118,26 +120,43 @@ namespace GHJ_Lib
 
         IEnumerator InitUI()
         {
-            while(true)
+            while (!DataManager.Instance.IsInited)
             {
-                if(DataManager.Instance.PlayerDatas[GameManager.Instance.CurPlayerCount - 1].roleData != null)
-                {
-                    for (int i = 1; i <= curDollCount; ++i)
-                    {
-                        if (DataManager.Instance.PlayerDatas[i].roleData is DollData)
-                        {
-                            maxDollHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
-                            maxDevilHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
-                        }
-                    }
-                    canUpdate = true;
-                    yield return true;
-                }
+                yield return null;
             }
+
+            for (int i = 1; i <= curDollCount; ++i)
+            {
+                maxDollHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
+                maxDevilHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
+            }
+            isInited = true;
+            yield return true;
         }
 
-        #endregion	
 
-        
+        //IEnumerator InitUI()
+        //{
+        //    while(true)
+        //    {
+        //        if(DataManager.Instance.PlayerDatas[GameManager.Instance.CurPlayerCount - 1].roleData != null)
+        //        {
+        //            for (int i = 1; i <= curDollCount; ++i)
+        //            {
+        //                if (DataManager.Instance.PlayerDatas[i].roleData is DollData)
+        //                {
+        //                    maxDollHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
+        //                    maxDevilHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
+        //                }
+        //            }
+        //            canUpdate = true;
+        //            yield return true;
+        //        }
+        //    }
+        //}
+
+        #endregion
+
+
     }
 }

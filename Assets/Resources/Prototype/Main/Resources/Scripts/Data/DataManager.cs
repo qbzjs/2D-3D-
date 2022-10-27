@@ -51,6 +51,18 @@ namespace KSH_Lib
 		}
 		public PlayerData LocalPlayerData = new PlayerData();
 		public int PlayerIdx { get; private set; }
+		public bool IsInited
+        {
+			get
+            {
+				bool flag = true;
+				foreach(bool isInited in isInitedList)
+                {
+					flag &= isInited;
+				}
+				return flag;
+            }
+        }
 
 
 		/*--- Private Fields ---*/
@@ -61,6 +73,7 @@ namespace KSH_Lib
 		List<RoleData> roleInfos = new List<RoleData>();
 		List<PlayerData> playerDatas = new List<PlayerData>();
 
+		List<bool> isInitedList = new List<bool>();
 
 		/*--- MonoBehaviour Callbacks ---*/
 		private void Awake()
@@ -117,7 +130,8 @@ namespace KSH_Lib
 			for( int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; ++i )
             {
 				playerDatas.Add( new PlayerData() );
-            }
+				isInitedList.Add(false);
+			}
 		}
 		public void ResetPlayerDatas()
 		{
@@ -128,6 +142,7 @@ namespace KSH_Lib
 		{
 			ShareRoleData();
 			ShareAccountData();
+			pv.RPC("ShareInitedRPC", RpcTarget.AllViaServer, PlayerIdx, true);
         }
 		public void ShareAccountData()
 		{
@@ -213,6 +228,12 @@ namespace KSH_Lib
         {
 			playerDatas.RemoveAt( idx );
 		}
+
+		[PunRPC]
+		void ShareInitedRPC(int idx, bool isInited)
+        {
+			isInitedList[idx] = isInited;
+        }
 
 
 		/***************************************************
