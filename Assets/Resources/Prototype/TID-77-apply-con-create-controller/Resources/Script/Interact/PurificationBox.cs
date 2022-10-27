@@ -8,6 +8,7 @@ namespace GHJ_Lib
     {
         /*--- Public Fields ---*/
         public GameObject[] DollModels;
+        public Transform CharacterPos;
         public GameObject CamTarget;
         /*--- Protected Fields ---*/
         protected DollController DollInBox = null;
@@ -16,6 +17,7 @@ namespace GHJ_Lib
         /*--- MonoBehaviour CallBacks ---*/
         void OnEnable()
         {
+            CharacterPos = DollModels[0].transform;
             CanActiveToDoll = false;
             CanActiveToExorcist = false;
         }
