@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     public string NextSceneName;
     public readonly byte MaxPlayerCount = 5;
+    public int CurPlayerCount;
     public PlayerData Data;
     #endregion
 

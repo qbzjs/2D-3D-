@@ -23,8 +23,6 @@ namespace GHJ_Lib
         public Image Friend3DollHP;
         public Image Friend3DevilHP;
 
-        private float[] maxDollHP =new float[4];
-        private float[] maxDevilHP = new float[4];
         private int MyIdx;
         private bool canUpdate = false;
         #endregion
@@ -33,6 +31,9 @@ namespace GHJ_Lib
 
         private List<Image> friendDollHP=new List<Image>();
         private List<Image> friendDevilHP = new List<Image>();
+
+        private float[] maxDollHP = new float[4];
+        private float[] maxDevilHP = new float[4];
         #endregion
 
         #region MonoBehaviour CallBacks

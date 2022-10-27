@@ -32,29 +32,29 @@ namespace GHJ_Lib
             switch (dollType)
             {
                 case DollType.Rabbit:
-                    {
-                        this.MoveSpeed = 6.0f;
-                        this.InteractionSpeed = 2.0f;
-                        this.ProjectileSpeed = 10.0f;
-                        this.DollHealthPoint = 40;
-                        this.DevilHealthPoint = 50;
-                        this.DollTempHealth = 0.0f;
-                        MaxDollHitPoint = DollHealthPoint;
-                        MaxDevilHitPoint = DevilHealthPoint;
-                    }
-                    break;
+                {
+                    this.MoveSpeed = 6.0f;
+                    this.InteractionSpeed = 2.0f;
+                    this.ProjectileSpeed = 10.0f;
+                    this.DollHealthPoint = 40;
+                    this.DevilHealthPoint = 50;
+                    this.DollTempHealth = 0.0f;
+                    MaxDollHitPoint = DollHealthPoint;
+                    MaxDevilHitPoint = DevilHealthPoint;
+                }
+                break;
                 default:
-                    {
-                        this.MoveSpeed = 10.0f;
-                        this.InteractionSpeed = 1.0f;
-                        this.ProjectileSpeed = 10.0f;
-                        this.DollHealthPoint = 50;
-                        this.DevilHealthPoint = 50;
-                        this.DollTempHealth = 0.0f;
-                        MaxDollHitPoint = DollHealthPoint;
-                        MaxDevilHitPoint = DevilHealthPoint;
-                    }
-                    break;
+                {
+                    this.MoveSpeed = 10.0f;
+                    this.InteractionSpeed = 1.0f;
+                    this.ProjectileSpeed = 10.0f;
+                    this.DollHealthPoint = 50;
+                    this.DevilHealthPoint = 50;
+                    this.DollTempHealth = 0.0f;
+                    MaxDollHitPoint = DollHealthPoint;
+                    MaxDevilHitPoint = DevilHealthPoint;
+                }
+                break;
             }
 
 
@@ -102,7 +102,7 @@ namespace GHJ_Lib
         float DecreaseTempHP(float Damage)
         {
             DollTempHealth = DollTempHealth - Damage;
-            if(DollTempHealth < 0)
+            if (DollTempHealth < 0)
             {
                 Damage = -DollTempHealth;
                 DollTempHealth = 0;
@@ -113,7 +113,7 @@ namespace GHJ_Lib
                 Damage = 0;
             }
             return Damage;
-            
+
         }
         private void OnGUI()
         {
@@ -124,7 +124,7 @@ namespace GHJ_Lib
 
         public void Move(float moveSpeed)
         {
-            this.MoveSpeed=moveSpeed;
+            this.MoveSpeed = moveSpeed;
         }
 
         public void HitDollHP(float Damage)
@@ -175,7 +175,7 @@ namespace GHJ_Lib
             }
             if (stream.IsReading)
             {
-                this.MoveSpeed =(float)stream.ReceiveNext();
+                this.MoveSpeed = (float)stream.ReceiveNext();
                 this.InteractionSpeed = (float)stream.ReceiveNext();
                 this.ProjectileSpeed = (float)stream.ReceiveNext();
                 this.DollHealthPoint = (float)stream.ReceiveNext();

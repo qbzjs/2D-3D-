@@ -79,7 +79,6 @@ namespace KSH_Lib
 
 
         /*--- Private Fields ---*/
-        int curPlayerCnt = 0;
         bool isJoinedRoom = false;
         CharacterSelectCanvasController charaSelectCanvasController;
 
@@ -104,13 +103,13 @@ namespace KSH_Lib
         {
             if ( isJoinedRoom )
             {
-                curPlayerCnt = PhotonNetwork.CurrentRoom.PlayerCount;
+                GameManager.Instance.CurPlayerCount = PhotonNetwork.CurrentRoom.PlayerCount;
                 ChangePlayerImage();
                 ChangePlayerCountText();
 
                 if ( PhotonNetwork.IsMasterClient )
                 {
-                    if ( curPlayerCnt == 5 )
+                    if (GameManager.Instance.CurPlayerCount == 5 )
                     {
                         LoadRoomScene();
                     }
@@ -195,7 +194,7 @@ namespace KSH_Lib
                 break;
                 default:
                 {
-                    GameManager.Instance.Data.ChangeRole( RoleType.Null );
+                    //GameManager.Instance.Data.ChangeRole( RoleType.Null );
                 }
                 break;
             }
@@ -233,11 +232,11 @@ namespace KSH_Lib
         }
         void ChangePlayerImage()
         {
-            for ( int i = 0; i < curPlayerCnt; ++i )
+            for ( int i = 0; i < GameManager.Instance.CurPlayerCount; ++i )
             {
                 playerLoadImgs[i].sprite = refPlayerOnSprite;
             }
-            for ( int i = curPlayerCnt; i < GameManager.Instance.MaxPlayerCount; ++i )
+            for ( int i = GameManager.Instance.CurPlayerCount; i < GameManager.Instance.MaxPlayerCount; ++i )
             {
                 playerLoadImgs[i].sprite = refPlayerOffSprite;
             }
@@ -281,7 +280,7 @@ namespace KSH_Lib
 
         void ChangePlayerCountText()
         {
-            userCntTMP.text = $"{curPlayerCnt} / {GameManager.Instance.MaxPlayerCount}";
+            userCntTMP.text = $"{GameManager.Instance.CurPlayerCount} / {GameManager.Instance.MaxPlayerCount}";
         }
         string CreateRandomRoomName()
         {
