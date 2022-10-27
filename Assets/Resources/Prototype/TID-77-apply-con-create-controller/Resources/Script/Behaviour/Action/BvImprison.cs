@@ -13,14 +13,17 @@ namespace GHJ_Lib
 
 		protected PurificationBox interactionObj;
 		protected CastingType castingType;
-
+		protected DollController doll;
 		/*--- Public Methods ---*/
 		public void SetInteractObj(Interaction interaction)
 		{
 			this.interactionObj = interaction as PurificationBox;
 
 		}
-
+		public void SetCaughtDoll(GameObject dollObj)
+		{
+			doll = dollObj.GetComponent<DollController>();
+		}
 		/*--- Protected Methods ---*/
 		protected override void Activate(in BasePlayerController actor)
 		{
@@ -28,9 +31,11 @@ namespace GHJ_Lib
 			{
 				actor.BaseAnimator.Play("Imprison");
 			}
-
-			BarUI.Instance.SetTarget(null);
-			actor.Interact("AutoCastingNull");
+			if (actor.photonView.IsMine)
+			{ 
+				BarUI.Instance.SetTarget(null);
+				actor.Interact("AutoCastingNull");
+			}
 
 		}
 
@@ -41,7 +46,8 @@ namespace GHJ_Lib
 				return null;
 			}
 			(actor as ExorcistController).ImprisonDoll(interactionObj.CamTarget);
-			interactionObj.PurifyDoll();
+			interactionObj.PurifyDoll(doll);
+			doll.Imprisoned(interactionObj);
 			return new BvIdle();
         }
 

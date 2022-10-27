@@ -16,6 +16,14 @@ namespace GHJ_Lib
 		{
 			get { return idle; }
 		}
+		public int TypeIndex
+		{
+			get { return typeIndex; }
+		}
+		public int PlayerIndex
+		{
+			get { return playerIndex; }
+		}
 		public Behavior<BasePlayerController> CurcharacterCondition	= new Behavior<BasePlayerController>();
 		public Behavior<BasePlayerController> CurcharacterAction		= new Behavior<BasePlayerController>();
 		/*--- Protected Fields ---*/
@@ -26,6 +34,10 @@ namespace GHJ_Lib
 		protected BvHit hit = new BvHit();
 		protected BvCaught caught = new BvCaught();
 		protected BvCharacterInteraction interaction	= new BvCharacterInteraction();
+		protected BvPurified purified = new BvPurified();
+		protected BvEscape escape = new BvEscape();
+
+
 
 		protected KSH_Lib.FPV_CameraController	fpvCam;
 		protected TPV_CameraController			tpvCam;
@@ -195,14 +207,24 @@ namespace GHJ_Lib
 				tpvCam.InitCam(camTarget);
 			}
 		}
-		public void HitDamage(float damage)
+		public void HitDamage()
 		{
 			if (CurcharacterAction is not BvHit)
 			{
-				hit.SetDamage(damage);
-				ChangeActionTo("Hit");
+				if (photonView.IsMine)
+				{ 
+					ChangeActionTo("Hit");
+				}
 			}
 			
+		}
+		public void Imprisoned(PurificationBox puriBox)
+		{
+			purified.SetPuriBox(puriBox);
+			if (photonView.IsMine)
+			{
+				ChangeActionTo("Purified");
+			}
 		}
 		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 		{
@@ -385,6 +407,7 @@ namespace GHJ_Lib
 					break;
 				case "Hit":
 					{
+						hit.SetPlayerIdx(playerIndex);
 						CurcharacterAction.PushSuccessorState(hit);
 					}
 					break;
@@ -393,6 +416,12 @@ namespace GHJ_Lib
 						CurcharacterAction.PushSuccessorState(caught);
 					}
 					break;
+				case "Purified":
+					{
+						CurcharacterAction.PushSuccessorState(purified);
+					}
+					break;
+					
 			}
 
 			

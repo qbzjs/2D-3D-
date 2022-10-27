@@ -57,17 +57,19 @@ namespace GHJ_Lib
             return CastingType.NotCasting;
         }
 
-        public void PurifyDoll()
+        public void PurifyDoll(DollController doll)
         {
-            DollModels[0].SetActive(true);
-            DollModels[0].GetComponent<Animator>().enabled = true;
-            DollModels[0].GetComponent<Animator>().Play("fear");
+            DollInBox = doll;
+            DollModels[DollInBox.TypeIndex - 5].SetActive(true);
+            DollModels[DollInBox.TypeIndex - 5].GetComponent<Animator>().enabled = true;
+            DollModels[DollInBox.TypeIndex - 5].GetComponent<Animator>().Play("fear");
         }
 
         public void EscapePurifyDoll()
         {
-            DollModels[0].SetActive(false);
-            DollModels[0].GetComponent<Animator>().enabled = false;
+            DollModels[DollInBox.TypeIndex - 5].SetActive(false);
+            DollModels[DollInBox.TypeIndex - 5].GetComponent<Animator>().enabled = false;
+            DollInBox = null;
         }
 
 
@@ -90,7 +92,7 @@ namespace GHJ_Lib
             {
                 DollController dollController = other.GetComponent<DollController>();
 
-                if (dollController.CurcharacterAction is BvIdle)
+                if (dollController.CurcharacterAction is BvIdle && DollInBox)
                 {
                     CanActiveToDoll = true;
                 }

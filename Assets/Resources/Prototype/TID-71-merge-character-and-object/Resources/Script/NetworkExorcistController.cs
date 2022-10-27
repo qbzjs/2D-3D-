@@ -92,7 +92,7 @@ namespace GHJ_Lib
                 if (isRage)
                 {
                     bvRage.RageDuration -= Time.deltaTime;
-                    exorcistUI.CoolTime(bvRage.RageDuration / rageTime);
+                    //exorcistUI.CoolTime(bvRage.RageDuration / rageTime);
                 }
                 var velocity = controller.velocity;
                 var turnSpeed = rotSpeed;

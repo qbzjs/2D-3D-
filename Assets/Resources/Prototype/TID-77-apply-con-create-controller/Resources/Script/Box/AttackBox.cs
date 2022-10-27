@@ -22,7 +22,7 @@ namespace GHJ_Lib
         {
 			if (other.CompareTag("Doll"))
 			{
-				other.GetComponent<DollController>().HitDamage((DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower);
+				other.GetComponent<DollController>().HitDamage();
 				this.gameObject.SetActive(false);
 			}
         }
