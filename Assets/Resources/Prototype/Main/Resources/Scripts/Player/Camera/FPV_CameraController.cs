@@ -24,6 +24,10 @@ namespace KSH_Lib
 
         protected override void RotateCamera()
         {
+            if(camTarget == null)
+            {
+                return;
+            }
             camAxis *= mouseSpeed;
 
             if(camAxis.x > maxSpeedX)

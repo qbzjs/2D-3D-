@@ -44,11 +44,17 @@ namespace GHJ_Lib
         private int myIdx;
         private bool canUpdate = false;
 
+        int curDollCount;
+        int curFriendCount;
+
         #endregion
 
         #region MonoBehaviour CallBacks
         void Start()
         {
+            curDollCount = GameManager.Instance.CurPlayerCount - 1;
+            curFriendCount = curDollCount - 1;
+
             DisableUI_All();
             EnableUI();
 
@@ -60,10 +66,10 @@ namespace GHJ_Lib
             friendDevilHP.Add(Friend2DevilHP);
             friendDevilHP.Add(Friend3DevilHP);
 
-            //StartCoroutine(InitMaxHP());
 
             myIdx = DataManager.Instance.PlayerIdx - 1;
-            for (int i = 0; i < GameManager.Instance.CurPlayerCount - 1; ++i)
+
+            for (int i = 0; i < curDollCount; ++i)
             {
                 maxDollHP[i] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
                 maxDevilHP[i] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
@@ -81,7 +87,7 @@ namespace GHJ_Lib
 
             int j = 0;
 
-            for (int i = 0; i < GameManager.Instance.CurPlayerCount - 1; ++i)
+            for (int i = 0; i < curDollCount; ++i)
             {
                 if (myIdx == i)
                 {
@@ -98,24 +104,6 @@ namespace GHJ_Lib
            
         }
 
-        IEnumerator InitMaxHP()
-        {
-            while (true)
-            {
-                if (DataManager.Instance.PlayerDatas[4].roleData != null)
-                { 
-                    myIdx = DataManager.Instance.PlayerIdx - 1;
-                    for (int i = 0; i < 4; ++i)
-                    {
-                        maxDollHP[i] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
-                        maxDevilHP[i] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
-                    }
-                    canUpdate = true;
-                    yield return true;
-                }
-            }
-        }
-
         void DisableUI_All()
         {
             PlayerUiObject.SetActive(false);
@@ -128,7 +116,7 @@ namespace GHJ_Lib
         void EnableUI()
         {
             PlayerUiObject.SetActive(true);
-            for(int i = 0; i < GameManager.Instance.CurPlayerCount; ++i)
+            for(int i = 0; i < curFriendCount; ++i)
             {
                 FriendUiObjets[i].SetActive(true);
             }

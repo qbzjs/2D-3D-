@@ -59,7 +59,7 @@ namespace GHJ_Lib
 		public override void OnEnable()
 		{
 			photonTransformView = GetComponent<PhotonTransformViewClassic>();
-			GhostModel.SetActive(false);
+			//GhostModel.SetActive(false);
 			// 스테이터스 받아오기
 
 			//애니매이터 받기 -> behavior에서 할예정
