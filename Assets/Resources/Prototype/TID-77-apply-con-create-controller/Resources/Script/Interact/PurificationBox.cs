@@ -32,7 +32,7 @@ namespace GHJ_Lib
         {
             if (player is DollController)
             {
-                if ((player as DollController).CurcharacterAction is BvIdle)
+                if ((player as DollController).CurCharacterAction is BvIdle)
                 {
                     return CastingType.Casting;
                 }
@@ -94,7 +94,7 @@ namespace GHJ_Lib
             {
                 DollController dollController = other.GetComponent<DollController>();
 
-                if (dollController.CurcharacterAction is BvIdle && DollInBox)
+                if (dollController.CurCharacterAction is BvIdle && DollInBox)
                 {
                     CanActiveToDoll = true;
                 }

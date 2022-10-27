@@ -58,7 +58,7 @@ namespace GHJ_Lib
 			if (curPlayer is DollController)
 			{
 				doll = curPlayer as DollController;
-				GUI.Box(new Rect(0, 0, 100, 30), doll.CurcharacterAction.ToString());
+				GUI.Box(new Rect(0, 0, 100, 30), doll.CurCharacterAction.ToString());
 			}
 
 			if (curPlayer is ExorcistController)
