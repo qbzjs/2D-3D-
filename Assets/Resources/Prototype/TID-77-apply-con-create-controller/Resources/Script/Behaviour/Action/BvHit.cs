@@ -29,7 +29,7 @@ namespace GHJ_Lib
             actor.BaseAnimator.Play("Hit");
             if (actor.photonView.IsMine)
             { 
-                (DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower;
+                (DataManager.Instance.PlayerDatas[playerIdx].roleData as DollData).DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower;
                 DataManager.Instance.ShareRoleData();
             }
         }
@@ -37,7 +37,7 @@ namespace GHJ_Lib
         protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
         {
             //PassIfHasSuccessor();
-            if ((DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP<0.0f)
+            if ((DataManager.Instance.PlayerDatas[playerIdx].roleData as DollData).DollHP<0.0f)
             {
                 return new BvDown();
             }    
