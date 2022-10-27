@@ -26,6 +26,8 @@ namespace GHJ_Lib
 		}
 		public Behavior<BasePlayerController> CurCharacterCondition	= new Behavior<BasePlayerController>();
 		public Behavior<BasePlayerController> CurCharacterAction		= new Behavior<BasePlayerController>();
+		public Behavior<BasePlayerController> ActiveSkill = new Behavior<BasePlayerController>();
+		public Behavior<BasePlayerController> PassiveSkill = new Behavior<BasePlayerController>();
 
 		[SerializeField]
 		protected GameObject GhostModel;
@@ -84,6 +86,9 @@ namespace GHJ_Lib
 				photonView.RPC("SetPlayerIdx", RpcTarget.All, playerIndex);
 				photonView.RPC("SetTypeIdx", RpcTarget.All, typeIndex);
 				initialSpeed = DataManager.Instance.RoleInfos[typeIndex].MoveSpeed;
+
+
+
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
 				fpvCam = GameObject.Find( "FPV_Cam(Clone)" ).GetComponent<KSH_Lib.FPV_CameraController>();
 				fpvCam.InitCam(camTarget);
@@ -99,7 +104,29 @@ namespace GHJ_Lib
 			//처음 대기시간 주기( 이건 StageManger가 할일)
 			base.Start();
 
-			
+			switch (typeIndex) //5~9 일단 임시로 만들어 놓은것.
+			{
+				case 5:
+					{ }
+					break;
+				case 6:
+					{ }
+					break;
+				case 7:
+					{ }
+					break;
+				case 8:
+					{ }
+					break;
+				case 9:
+					{ }
+					break;
+			}
+
+			//아직 인형은 하나밖에없기 때문에 위 switch문은 보여주기만 할것
+			//ActiveSkill.PushSuccessorState();
+			//PassiveSkill.PushSuccessorState();
+				
 		}
 		protected override void Update()
 		{
@@ -214,6 +241,7 @@ namespace GHJ_Lib
 		{
 			photonView.RPC("_AddCondition", RpcTarget.AllViaServer, ConditionName);
 		}
+
 		public void CaughtDoll(GameObject ExorcistCamTarget)
 		{
 			characterModel.gameObject.SetActive(false);
@@ -228,8 +256,6 @@ namespace GHJ_Lib
 			CharacterLayerChange(characterObj, layer);
 			ChangeCamera(camTarget);
 		}
-
-		
 
 		public void ChangeCamera(GameObject camTarget)
 		{
@@ -270,6 +296,9 @@ namespace GHJ_Lib
 			
 
 		}
+
+	
+
 		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 		{
 
@@ -487,13 +516,11 @@ namespace GHJ_Lib
 			
 		}
 
-		/*
-		[PunRPC]
-		void sendNext(니정보,인덱스)
-		{
-			리스트(인덱스).정보 = 니정보
-		}
-		*/
-        /*--- Private Methods ---*/
-    }
+
+		/*--- Private Methods ---*/
+
+
+		/*--- IEumerator Methods ---*/
+		
+	}
 }
