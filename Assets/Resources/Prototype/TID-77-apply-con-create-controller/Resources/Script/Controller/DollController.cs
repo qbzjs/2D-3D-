@@ -25,9 +25,9 @@ namespace GHJ_Lib
 			get { return playerIndex; }
 		}
 		public Behavior<BasePlayerController> CurCharacterCondition	= new Behavior<BasePlayerController>();
-		public Behavior<BasePlayerController> CurCharacterAction		= new Behavior<BasePlayerController>();
-		public Behavior<BasePlayerController> ActiveSkill = new Behavior<BasePlayerController>();
-		public Behavior<BasePlayerController> PassiveSkill = new Behavior<BasePlayerController>();
+		public Behavior<BasePlayerController> CurCharacterAction	= new Behavior<BasePlayerController>();
+		//public Behavior<BasePlayerController> ActiveSkill			= new Behavior<BasePlayerController>();
+		//public Behavior<BasePlayerController> PassiveSkill			= new Behavior<BasePlayerController>();
 
 		[SerializeField]
 		protected GameObject GhostModel;
@@ -53,6 +53,10 @@ namespace GHJ_Lib
 		protected int typeIndex;
 		protected int playerIndex;
 		protected float initialSpeed;
+
+
+		protected GameObject skillBox;
+		protected bool useActiveSkill = false;
 		/*--- Private Fields ---*/
 		Interaction interactObj;
 		[PunRPC]
@@ -123,10 +127,12 @@ namespace GHJ_Lib
 					break;
 			}
 
+
 			//아직 인형은 하나밖에없기 때문에 위 switch문은 보여주기만 할것
-			//ActiveSkill.PushSuccessorState();
+			skillBox = transform.GetChild(2).gameObject;
+			skillBox.SetActive(false);
 			//PassiveSkill.PushSuccessorState();
-				
+
 		}
 		protected override void Update()
 		{
@@ -297,7 +303,34 @@ namespace GHJ_Lib
 
 		}
 
-	
+		/*---Skill---*/
+		[PunRPC]
+		public void DoActiveSkill()
+		{
+			StartCoroutine("ActiveSkillBox");
+		}
+
+		IEnumerator ActiveSkillBox()
+		{
+			useActiveSkill= true;
+			//스킬중
+			yield return new WaitForSeconds(0.2f);//선딜
+			skillBox.SetActive(true);
+			yield return new WaitForSeconds(0.8f);
+			skillBox.SetActive(false);
+			yield return new WaitForSeconds(0.2f);//후딜
+			//스킬끝
+			yield return new WaitForSeconds(13.8f); 
+			useActiveSkill = false;
+		}
+
+
+
+
+
+		
+
+
 
 		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 		{
@@ -328,7 +361,17 @@ namespace GHJ_Lib
 		protected void PlayerInput()
 		{
 
-			if (Input.GetKeyDown(KeyCode.LeftShift))
+			if (Input.GetKeyDown(KeyCode.Mouse1))
+			{
+				if (!useActiveSkill)
+				{ 
+					photonView.RPC("DoActiveSkill", RpcTarget.AllViaServer);
+				}
+			}
+			
+
+
+				if (Input.GetKeyDown(KeyCode.LeftShift))
 			{
 				DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = initialSpeed * 2;
 				DataManager.Instance.ShareRoleData();
@@ -499,6 +542,8 @@ namespace GHJ_Lib
 
 			
 		}
+
+
 
 		/*
 		[PunRPC]

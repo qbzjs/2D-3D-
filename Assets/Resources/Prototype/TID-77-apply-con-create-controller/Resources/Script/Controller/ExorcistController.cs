@@ -390,7 +390,9 @@ namespace GHJ_Lib
 		protected void _AddCondition(string ConditionName)
 		{
 			switch (ConditionName)
-			{ }
+			{
+				
+			}
 
 		}
 
@@ -403,7 +405,27 @@ namespace GHJ_Lib
 
 
 
+		/*---HIT_ KILL---*/
+		public void HitBy(string skillname)
+		{
+			switch (skillname)
+			{
+				case "wolfActSkill":
+					{
+						StartCoroutine("WolfActSkill");
+					}
+					break;
+			}
+		}
 
+
+		IEnumerator WolfActSkill()
+		{
+			CharacterLayerChange(characterModel, 6);
+			yield return new WaitForSeconds(5);
+			CharacterLayerChange(characterModel, 7);
+
+		}
 
 
 

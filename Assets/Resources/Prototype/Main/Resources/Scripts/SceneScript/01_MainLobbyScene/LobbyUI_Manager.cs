@@ -302,12 +302,12 @@ namespace KSH_Lib
                 case RoleData.RoleType.Doll:
                 {
                     //PhotonNetwork.JoinRandomRoom();
-                    PhotonNetwork.JoinRoom("DebugServer2");
+                    PhotonNetwork.JoinRoom("DebugServer");
                 }
                 break;
                 case RoleData.RoleType.Exorcist:
                 {
-                    PhotonNetwork.CreateRoom("DebugServer2", new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
+                    PhotonNetwork.CreateRoom("DebugServer", new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
                     //PhotonNetwork.CreateRoom( CreateRandomRoomName(), new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
                 }
                 break;
