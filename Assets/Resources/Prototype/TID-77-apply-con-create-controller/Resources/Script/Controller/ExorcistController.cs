@@ -212,7 +212,10 @@ namespace GHJ_Lib
 
 			if (Input.GetKeyDown(KeyCode.Mouse1))
 			{
-				
+				if (!useActiveSkill)
+				{
+					photonView.RPC("DoActiveSkill", RpcTarget.AllViaServer);
+				}
 			}
 
 			Debug.Log("CanPickUp : " + pickUpBox.CanPickUp());

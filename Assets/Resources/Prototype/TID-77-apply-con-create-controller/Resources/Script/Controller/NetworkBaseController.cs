@@ -58,10 +58,12 @@ namespace GHJ_Lib
 			{
 				typeIndex = (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder;
 				playerIndex = DataManager.Instance.PlayerIdx;
-				initialSpeed = DataManager.Instance.RoleInfos[typeIndex].MoveSpeed;
-				initialInteractSpeed = DataManager.Instance.RoleInfos[typeIndex].InteractionSpeed;
-				photonView.RPC("SetPlayerIdx", RpcTarget.All, playerIndex, typeIndex, initialSpeed);
+				photonView.RPC("SetPlayerIdx", RpcTarget.All, playerIndex, typeIndex);
+				
+				
 			}
+			initialSpeed = DataManager.Instance.RoleInfos[typeIndex].MoveSpeed;
+			initialInteractSpeed = DataManager.Instance.RoleInfos[typeIndex].InteractionSpeed;
 			base.Start();
 		}
 		protected override void Update()
@@ -94,14 +96,6 @@ namespace GHJ_Lib
 			CurCharacterCondition.Update(this, ref CurCharacterCondition);
 		}
 
-		
-
-		private void OnGUI()
-		{
-			GUI.Box(new Rect(200, 0, 150, 30), $"direction: {direction}");
-			GUI.Box(new Rect(200, 30, 150, 30), $"camTagetRot: {camTarget.transform.rotation}");
-			GUI.Box(new Rect(200, 60, 150, 30), $": {transform.rotation}");
-		}
 
 
 		/*--- Public Methods ---*/
@@ -120,14 +114,15 @@ namespace GHJ_Lib
 		}
 
 		/*--initial--*/
+
 		[PunRPC]
-		public virtual void SetPlayerIdx(int playerIdx, int typeIdx, float initialSpeed, int initialInteractSpeed)
+		public void SetPlayerIdx(int playerIdx, int typeIdx)
 		{
 			playerIndex = playerIdx;
 			typeIndex = typeIdx;
-			this.initialSpeed = initialSpeed;
-			this.initialInteractSpeed = initialInteractSpeed;
 		}
+
+		
 
 		/*---Skill---*/
 		[PunRPC]
@@ -180,7 +175,7 @@ namespace GHJ_Lib
 
 		}
 
-		protected override IEnumerator AutoCasting()
+		protected virtual IEnumerator AutoCasting()
 		{
 			if (IsAutoCasting)
 			{
@@ -201,7 +196,7 @@ namespace GHJ_Lib
 				}
 			}
 		}
-		protected override IEnumerator AutoCastingNull()
+		protected virtual IEnumerator AutoCastingNull()
 		{
 			if (IsAutoCasting)
 			{
@@ -237,6 +232,29 @@ namespace GHJ_Lib
 			switch (ConditionName)
 			{ }
 
+		}
+		public void Interact(string castType)
+		{
+			StartCoroutine(castType);
+		}
+
+
+		public void CharacterLayerChange(GameObject Model, int layer)
+		{
+			Model.layer = layer;
+			int count = Model.transform.childCount;
+			Debug.Log("count : " + count);
+			if (count != 0)
+			{
+				for (int i = 0; i < count; ++i)
+				{
+					CharacterLayerChange(Model.transform.GetChild(i).gameObject, layer);
+				}
+			}
+			else
+			{
+				return;
+			}
 		}
 		/*--- Private Methods ---*/
 	}

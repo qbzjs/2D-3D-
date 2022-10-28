@@ -75,10 +75,7 @@ namespace KSH_Lib
 			MoveCharacter();
 		}
 
-		public void Interact(string castType)
-		{
-			StartCoroutine(castType);
-		}
+		
 
 		/*--- Protected Methods ---*/
 		protected virtual void SetDirection()
@@ -104,32 +101,6 @@ namespace KSH_Lib
 			controller.Move( moveSpeed * Time.deltaTime * direction );
 		}
 
-
-		protected virtual IEnumerator AutoCasting()
-		{
-			yield break;
-		}
-		protected virtual IEnumerator AutoCastingNull()
-		{
-			yield break;
-		}
-
-		public void CharacterLayerChange(GameObject Model, int layer)
-		{
-			Model.layer = layer;
-			int count = Model.transform.childCount;
-			Debug.Log("count : " + count);
-			if (count != 0)
-			{
-				for (int i = 0; i < count; ++i)
-				{
-					CharacterLayerChange(Model.transform.GetChild(i).gameObject, layer);
-				}
-			}
-			else
-			{
-				return;
-			}
-		}
+		
 	}
 }

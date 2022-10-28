@@ -34,7 +34,7 @@ namespace GHJ_Lib
 			if (actor.photonView.IsMine)
 			{ 
 				BarUI.Instance.SetTarget(null);
-				actor.Interact("AutoCastingNull");
+				(actor as NetworkBaseController).Interact("AutoCastingNull");
 			}
 
 		}

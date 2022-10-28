@@ -16,7 +16,10 @@ namespace GHJ_Lib
 		{
 			get { return idle; }
 		}
-
+		public int CrossStack
+		{
+            get { return crossStack; }
+		}
 		[SerializeField]
 		protected GameObject GhostModel;
 		/*--- Protected Fields ---*/
@@ -29,9 +32,7 @@ namespace GHJ_Lib
 		protected BvPurified purified = new BvPurified();
 		protected BvEscape escape = new BvEscape();
 
-
-		protected GameObject actSkillBox;
-		protected GameObject psvSkillBox;
+		protected int crossStack = 0;
 
 		/*--- Private Fields ---*/
 
@@ -84,10 +85,6 @@ namespace GHJ_Lib
 
 
 			//아직 인형은 하나밖에없기 때문에 위 switch문은 보여주기만 할것
-			actSkillBox = transform.GetChild(2).gameObject;
-			actSkillBox.SetActive(false);
-			psvSkillBox = transform.GetChild(3).gameObject;
-			psvSkillBox.SetActive(false);
 			//PassiveSkill.PushSuccessorState();
 
 		}
@@ -213,28 +210,49 @@ namespace GHJ_Lib
 
 		}
 
-		/*---Skill---*/
-		[PunRPC]
-		public override void DoActiveSkill()
+
+		/*--HitByExorcistSkill--*/
+		public void AprrochCrossArea()
 		{
-			StartCoroutine("ActiveSkillBox");
+			crossStack++;
+			if (crossStack > 5)
+			{
+				crossStack = 5;
+				return;
+			}
+
+			switch (crossStack)
+			{
+				case 1:
+					{
+						//흔적 짙어짐
+						//흔적 유지시간 길어짐 (데이터테이블에 있을지) 없다면 코루틴으로 ...
+					}
+					break;
+				case 2:
+					{
+						//Hit Damageup
+					}
+					break;
+				case 3:
+					{
+						//접근시 이동속도증가
+					}
+					break;
+				case 4:
+					{
+						//범위내에 있을경우 위치표시
+					}
+					break;
+				case 5:
+					{
+						//이동속도증가 한번더 
+					}
+					break;
+
+			}
+			Log.Instance.WriteLog("crossStack" + crossStack.ToString(), 2);
 		}
-
-		protected override IEnumerator ActiveSkillBox()
-		{
-			useActiveSkill= true;
-			//스킬중
-			yield return new WaitForSeconds(0.2f);//선딜
-			actSkillBox.SetActive(true);
-			yield return new WaitForSeconds(0.8f);
-			actSkillBox.SetActive(false);
-			yield return new WaitForSeconds(0.2f);//후딜
-			//스킬끝
-			yield return new WaitForSeconds(13.8f); 
-			useActiveSkill = false;
-		}
-
-
 
 		public void HitWolfPasSkill(bool flag)
 		{
