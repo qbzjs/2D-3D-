@@ -177,11 +177,7 @@ namespace GHJ_Lib
 			useActiveSkill = true;
 			//½ºÅ³Áß
 			yield return new WaitForSeconds(0.2f);//¼±µô
-			actSkillBox.SetActive(true);
-			yield return new WaitForSeconds(0.8f);
-			actSkillBox.SetActive(false);
-			yield return new WaitForSeconds(0.2f);//ÈÄµô
-												  //½ºÅ³³¡
+			
 			yield return new WaitForSeconds(13.8f);
 			useActiveSkill = false;
 		}
