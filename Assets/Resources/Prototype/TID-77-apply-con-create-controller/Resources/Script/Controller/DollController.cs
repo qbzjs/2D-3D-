@@ -7,7 +7,7 @@ using Photon.Realtime;
 
 namespace GHJ_Lib
 {
-	public class DollController : BasePlayerController,IPunObservable
+	public class DollController : NetworkBaseController, IPunObservable
 	{
 
 		/*--- Public Fields ---*/
@@ -16,25 +16,10 @@ namespace GHJ_Lib
 		{
 			get { return idle; }
 		}
-		public int TypeIndex
-		{
-			get { return typeIndex; }
-		}
-		public int PlayerIndex
-		{
-			get { return playerIndex; }
-		}
-		public Behavior<BasePlayerController> CurCharacterCondition	= new Behavior<BasePlayerController>();
-		public Behavior<BasePlayerController> CurCharacterAction	= new Behavior<BasePlayerController>();
-		//public Behavior<BasePlayerController> ActiveSkill			= new Behavior<BasePlayerController>();
-		//public Behavior<BasePlayerController> PassiveSkill			= new Behavior<BasePlayerController>();
 
 		[SerializeField]
 		protected GameObject GhostModel;
 		/*--- Protected Fields ---*/
-
-
-		protected PhotonTransformViewClassic photonTransformView;
 
 		protected BvIdle idle					= new BvIdle();
 		protected BvDown down = new BvDown();
@@ -45,38 +30,17 @@ namespace GHJ_Lib
 		protected BvEscape escape = new BvEscape();
 
 
+		protected GameObject actSkillBox;
+		protected GameObject psvSkillBox;
 
-		protected KSH_Lib.FPV_CameraController	fpvCam;
-		protected TPV_CameraController			tpvCam;
-
-		protected bool canInteract = false;
-		protected int typeIndex;
-		protected int playerIndex;
-		protected float initialSpeed;
-
-
-		protected GameObject skillBox;
-		protected bool useActiveSkill = false;
 		/*--- Private Fields ---*/
-		Interaction interactObj;
-		[PunRPC]
-		public void SetPlayerIdx(int playerIdx)
-		{
-			playerIndex = playerIdx;
-			
-		}
 
-		[PunRPC]
-		public void SetTypeIdx( int typeIdx)
-		{
-			
-			typeIndex = typeIdx;
-		}
+
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
 		{
-			photonTransformView = GetComponent<PhotonTransformViewClassic>();
+			base.OnEnable();
 			//GhostModel.SetActive(false);
 			// 스테이터스 받아오기
 
@@ -85,14 +49,6 @@ namespace GHJ_Lib
 			// 카메라 설정하기
 			if (photonView.IsMine)
 			{
-				typeIndex = (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder;
-				playerIndex = DataManager.Instance.PlayerIdx;
-				photonView.RPC("SetPlayerIdx", RpcTarget.All, playerIndex);
-				photonView.RPC("SetTypeIdx", RpcTarget.All, typeIndex);
-				initialSpeed = DataManager.Instance.RoleInfos[typeIndex].MoveSpeed;
-
-
-
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
 				fpvCam = GameObject.Find( "FPV_Cam(Clone)" ).GetComponent<KSH_Lib.FPV_CameraController>();
 				fpvCam.InitCam(camTarget);
@@ -106,7 +62,6 @@ namespace GHJ_Lib
 			//CurCharacterCondition.PushSuccessorState
 
 			//처음 대기시간 주기( 이건 StageManger가 할일)
-			base.Start();
 
 			switch (typeIndex) //5~9 일단 임시로 만들어 놓은것.
 			{
@@ -129,48 +84,14 @@ namespace GHJ_Lib
 
 
 			//아직 인형은 하나밖에없기 때문에 위 switch문은 보여주기만 할것
-			skillBox = transform.GetChild(2).gameObject;
-			skillBox.SetActive(false);
+			actSkillBox = transform.GetChild(2).gameObject;
+			actSkillBox.SetActive(false);
+			psvSkillBox = transform.GetChild(3).gameObject;
+			psvSkillBox.SetActive(false);
 			//PassiveSkill.PushSuccessorState();
 
 		}
-		protected override void Update()
-		{
-			//게임 대기
-			//camTarget.transform.Rotate(Vector3.up, 30.0f, Space.World);
 
-
-			//상태에 따른 행동조건 -> 업데이트에서 했었으나 이젠 behavior 에서 할것.
-
-			if (photonView.IsMine)
-			{
-				//움직임 관련, 및 행동제한 부분
-				if (CurCharacterAction is BvIdle)
-				{
-					SetDirection();
-				}
-				else
-				{
-					Stop();
-				}
-				
-				PlayerInput();
-
-				//Stop();
-				var velocity = direction*DataManager.Instance.LocalPlayerData.roleData.MoveSpeed;
-				var turnSpeed = rotateSpeed;
-				photonTransformView.SetSynchronizedValues(velocity, turnSpeed);
-				
-			}
-			RotateToDirection();
-			MoveCharacter();
-
-
-			CurCharacterAction.Update(this, ref CurCharacterAction);
-			CurCharacterCondition.Update(this, ref CurCharacterCondition);
-			//HP동기화
-
-		}
 
         private void OnTriggerStay(Collider other)
         {
@@ -236,17 +157,6 @@ namespace GHJ_Lib
 
 		/*--- Public Methods ---*/
 
-		//행동은 한번에 하나씩 존재
-		public virtual void ChangeActionTo(string ActionName)
-		{
-			photonView.RPC("_ChangeActionTo", RpcTarget.AllViaServer, ActionName);
-		}
-
-		//상태는 중복존재가능
-		public virtual void AddCondition(string ConditionName)
-		{
-			photonView.RPC("_AddCondition", RpcTarget.AllViaServer, ConditionName);
-		}
 
 		public void CaughtDoll(GameObject ExorcistCamTarget)
 		{
@@ -305,19 +215,19 @@ namespace GHJ_Lib
 
 		/*---Skill---*/
 		[PunRPC]
-		public void DoActiveSkill()
+		public override void DoActiveSkill()
 		{
 			StartCoroutine("ActiveSkillBox");
 		}
 
-		IEnumerator ActiveSkillBox()
+		protected override IEnumerator ActiveSkillBox()
 		{
 			useActiveSkill= true;
 			//스킬중
 			yield return new WaitForSeconds(0.2f);//선딜
-			skillBox.SetActive(true);
+			actSkillBox.SetActive(true);
 			yield return new WaitForSeconds(0.8f);
-			skillBox.SetActive(false);
+			actSkillBox.SetActive(false);
 			yield return new WaitForSeconds(0.2f);//후딜
 			//스킬끝
 			yield return new WaitForSeconds(13.8f); 
@@ -326,39 +236,22 @@ namespace GHJ_Lib
 
 
 
-
-
-		
-
-
-
-		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+		public void HitWolfPasSkill(bool flag)
 		{
-
-			if (stream.IsWriting)
+			if (flag)
 			{
-
-				stream.SendNext(direction.x);
-				stream.SendNext(direction.y);
-				stream.SendNext(direction.z);
-
-				stream.SendNext(this.transform.position.x);
-				stream.SendNext(this.transform.position.y);
-				stream.SendNext(this.transform.position.z);
-
+				DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed += initialInteractSpeed * 0.05f;
 			}
-			if (stream.IsReading)
+			else
 			{
-				this.direction.x = (float)stream.ReceiveNext();
-				this.direction.y = (float)stream.ReceiveNext();
-				this.direction.z = (float)stream.ReceiveNext();
-
-				this.transform.position = new Vector3((float)stream.ReceiveNext(), (float)stream.ReceiveNext(), (float)stream.ReceiveNext());
+				DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed-= initialInteractSpeed * 0.05f;
 			}
 		}
 
+
+
 		/*--- Protected Methods ---*/
-		protected void PlayerInput()
+		protected override void PlayerInput()
 		{
 
 			if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -405,10 +298,7 @@ namespace GHJ_Lib
 			}
 
 		}
-		protected void Stop()
-		{
-			direction = Vector3.zero;
-		}
+
         protected override void SetDirection()
         {
 			inputDir = BasePlayerInputManager.Instance.GetPlayerMove();
@@ -458,50 +348,10 @@ namespace GHJ_Lib
 
 		}
 
-		protected override IEnumerator AutoCasting()
-		{
-			if (IsAutoCasting)
-			{
-				yield break;
-			}
-			IsAutoCasting = true;
-			BarUI.Instance.SetTarget(interactObj);
-			while (true)
-			{
-				
-				float ChargeVel = 3;//차지속도
-				interactObj.AddGauge(ChargeVel * Time.deltaTime);
-				yield return new WaitForEndOfFrame();
-				if (interactObj.GetGaugeRate >= 1.0f)
-				{
-					IsAutoCasting = false;
-					break;
-				}
-			}
-		}
-		protected override IEnumerator AutoCastingNull()
-		{
-			if (IsAutoCasting)
-			{
-				yield break;
-			}
-			IsAutoCasting = true;
-			BarUI.Instance.SetTarget(null);
-			while (true)
-			{
-				float ChargeVel = 3;
-				BarUI.Instance.UpdateValue(ChargeVel * Time.deltaTime);
-				yield return new WaitForEndOfFrame();
-				if (BarUI.Instance.GetValue >= 1.0f)
-				{
-					IsAutoCasting = false;
-					break;
-				}
-			}
-		}
+
 
 		[PunRPC]
-		protected void _ChangeActionTo(string ActionName)
+		protected override void _ChangeActionTo(string ActionName)
 		{
 			switch (ActionName)
 			{
@@ -545,16 +395,8 @@ namespace GHJ_Lib
 
 
 
-		/*
 		[PunRPC]
-		protected void _ChangeActionTo(Behavior<BasePlayerController> Action)
-		{
-			CurcharacterAction.PushSuccessorState(Action);
-		}
-		*/
-
-		[PunRPC]
-		protected void _AddCondition(string ConditionName)
+		protected override void _AddCondition(string ConditionName)
 		{
 			switch (ConditionName)
 			{ }

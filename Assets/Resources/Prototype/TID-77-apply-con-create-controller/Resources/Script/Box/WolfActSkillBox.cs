@@ -23,7 +23,7 @@ namespace GHJ_Lib
             {
                 ExorcistController exorcist = other.GetComponent<ExorcistController>();
 
-                exorcist.HitBy("wolfActSkill");
+                exorcist.HitSkillBy("wolfActSkill");
             }
         }
 

@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 namespace GHJ_Lib
 {
-	public class ExorcistController: BasePlayerController ,IPunObservable
+	public class ExorcistController: NetworkBaseController, IPunObservable
 	{
 		/*--- Public Fields ---*/
 	
@@ -16,11 +16,7 @@ namespace GHJ_Lib
 		public PickUpBox pickUpBox;
 		public AttackBox attackBox;
 
-		public Behavior<BasePlayerController> CurcharacterCondition = new Behavior<BasePlayerController>();
-		public Behavior<BasePlayerController> CurcharacterAction = new Behavior<BasePlayerController>();
-
 		/*--- Protected Fields ---*/
-		protected PhotonTransformViewClassic photonTransformView;
 
 		protected BvIdle idle = new BvIdle();
 		protected BvAttack attack = new BvAttack();
@@ -28,28 +24,18 @@ namespace GHJ_Lib
 		protected BvCatch catchDoll = new BvCatch();
 		protected BvImprison imprison = new BvImprison();
 
-		protected KSH_Lib.FPV_CameraController fpvCam;
-		protected TPV_CameraController tpvCam;
+
 
 		protected GameObject caughtDoll;
-		protected bool canInteract = false;
-		protected int typeIndex;
-		protected float initialSpeed;
 
 		/*--- Private Fields ---*/
-		Interaction interactObj;
 
 		/*--- MonoBehaviour Callbacks ---*/
-		[PunRPC]
-		public void SetExorcistTypeIdx( int typeIdx)
-		{
-			typeIndex = typeIdx;
-		}
+
 
 		public override void OnEnable()
 		{
-			photonTransformView = GetComponent<PhotonTransformViewClassic>();
-			animator = GetComponent<Animator>();
+			base.OnEnable();
 			// 스테이터스 받아오기
 
 			//애니매이터 받기 -> behavior에서 할예정
@@ -57,11 +43,8 @@ namespace GHJ_Lib
 			// 카메라 설정하기
 			if (photonView.IsMine)
 			{
-				typeIndex = (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder;
-				photonView.RPC("SetExorcistTypeIdx", RpcTarget.All, typeIndex);
-				//photonView.ViewID = DataManager.Instance.PlayerIdx;
 				Debug.Log($"TypeIndex: {typeIndex}");
-				initialSpeed = DataManager.Instance.RoleInfos[typeIndex].MoveSpeed;
+
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
 				fpvCam = GameObject.Find( "FPV_Cam(Clone)" ).GetComponent<KSH_Lib.FPV_CameraController>();
 				if(fpvCam == null)
@@ -69,10 +52,8 @@ namespace GHJ_Lib
 					Debug.LogError( "ExorcistController.OnEnable: Can not find FPVCamController" );
 					return;
                 }
-
 				fpvCam.InitCam(camTarget);
 				fpvCam.gameObject.SetActive(true);
-
 				tpvCam = GameObject.Find( "TPV_Cam(Clone)" ).GetComponent<TPV_CameraController>();
 				if ( tpvCam == null )
 				{
@@ -83,11 +64,9 @@ namespace GHJ_Lib
 				tpvCam.gameObject.SetActive(false);
 			}
 			// CurcharacterAction, CurcharacterCondition,  초기설정하기
-			CurcharacterAction.PushSuccessorState(idle);
+			CurCharacterAction.PushSuccessorState(idle);
 
 
-			//처음 대기시간 주기( 이건 StageManger가 할일)
-			base.Start();
 		}
 		protected override void Update()
 		{
@@ -97,7 +76,7 @@ namespace GHJ_Lib
 			{
 				//움직임 관련, 및 행동제한 부분
 				PlayerInput();
-				if (CurcharacterAction is BvIdle|| CurcharacterAction is BvCatch)
+				if (CurCharacterAction is BvIdle|| CurCharacterAction is BvCatch)
 				{
 					SetDirection();
 				}
@@ -114,8 +93,8 @@ namespace GHJ_Lib
 			MoveCharacter();
 			
 
-			CurcharacterCondition.Update(this, ref CurcharacterCondition);
-			CurcharacterAction.Update(this, ref CurcharacterAction);
+			CurCharacterCondition.Update(this, ref CurCharacterCondition);
+			CurCharacterAction.Update(this, ref CurCharacterAction);
 			//HP동기화
 		}
 
@@ -142,7 +121,7 @@ namespace GHJ_Lib
 					canInteract = true;
 					BarUI.Instance.SliderVisible(true);
 					BarUI.Instance.TextVisible(false);
-					if (!interactObj.CanActiveToDoll)
+					if (!interactObj.CanActiveToExorcist)
 					{
 						canInteract = false;
 					}
@@ -150,7 +129,7 @@ namespace GHJ_Lib
 				}
 				else
 				{
-					if (CurcharacterAction is BvCharacterInteraction)
+					if (CurCharacterAction is BvCharacterInteraction)
 					{
 						ChangeActionTo("Idle");
 					}
@@ -182,61 +161,66 @@ namespace GHJ_Lib
 			}
 		}
 
-        private void OnGUI()
-        {
-			GUI.Box(new Rect(200, 0, 150, 30), $"direction: {direction}");
-			GUI.Box(new Rect(200, 30, 150, 30), $"camTagetRot: {camTarget.transform.rotation}");
-			GUI.Box(new Rect(200, 60, 150, 30), $": {transform.rotation}");
+
+		/*--- Public Methods ---*/
+
+
+		/*---Skill---*/
+		[PunRPC]
+		public override void DoActiveSkill()
+		{
+			StartCoroutine("ActiveSkillBox");
 		}
 
-        /*--- Public Methods ---*/
-        //행동은 한번에 하나씩 존재
-        public virtual void ChangeActionTo(string ActionName)
+		protected override IEnumerator ActiveSkillBox()
 		{
-			photonView.RPC("_ChangeActionTo", RpcTarget.AllViaServer, ActionName);
+			useActiveSkill = true;
+			//스킬중
+			yield return new WaitForSeconds(0.2f);//선딜
+			actSkillBox.SetActive(true);
+			yield return new WaitForSeconds(0.8f);
+			actSkillBox.SetActive(false);
+			yield return new WaitForSeconds(0.2f);//후딜
+												  //스킬끝
+			yield return new WaitForSeconds(13.8f);
+			useActiveSkill = false;
 		}
 
-		//상태는 중복존재가능
-		public virtual void AddCondition(string ConditionName)
-		{
-			photonView.RPC("_AddCondition", RpcTarget.AllViaServer, ConditionName);
-		}
 
-		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-		{
 
-			if (stream.IsWriting)
+		/*---HIT_ KILL---*/
+		public void HitSkillBy(string skillname)
+		{
+			switch (skillname)
 			{
-
-				stream.SendNext(direction.x);
-				stream.SendNext(direction.y);
-				stream.SendNext(direction.z);
-
-				stream.SendNext(this.transform.position.x);
-				stream.SendNext(this.transform.position.y);
-				stream.SendNext(this.transform.position.z);
-
-			}
-			if (stream.IsReading)
-			{
-				this.direction.x = (float)stream.ReceiveNext();
-				this.direction.y = (float)stream.ReceiveNext();
-				this.direction.z = (float)stream.ReceiveNext();
-
-				this.transform.position = new Vector3((float)stream.ReceiveNext(), (float)stream.ReceiveNext(), (float)stream.ReceiveNext());
+				case "wolfActSkill":
+					{
+						StartCoroutine("WolfActSkill");
+					}
+					break;
 			}
 		}
 
+
+		IEnumerator WolfActSkill()
+		{
+			CharacterLayerChange(characterModel, 6);
+			yield return new WaitForSeconds(5);
+			CharacterLayerChange(characterModel, 7);
+
+		}
 
 		/*--- Protected Methods ---*/
-		protected void Stop()
+		protected override void PlayerInput()
 		{
-			direction = Vector3.zero;
-		}
-		protected void PlayerInput()
-		{
+
+			if (Input.GetKeyDown(KeyCode.Mouse1))
+			{
+				
+			}
+
 			Debug.Log("CanPickUp : " + pickUpBox.CanPickUp());
-			if (pickUpBox.CanPickUp()&&(CurcharacterAction is not BvCatch))
+			if (pickUpBox.CanPickUp()&&(CurCharacterAction is not BvCatch))
 			{
 				if (Input.GetKeyDown(KeyCode.Mouse0))
 				{
@@ -303,82 +287,42 @@ namespace GHJ_Lib
 			}
 		}
 
-		protected override IEnumerator AutoCasting()
-		{
-			if (IsAutoCasting)
-			{
-				yield break;
-			}
-			IsAutoCasting = true;
-			BarUI.Instance.SetTarget(interactObj);
-			while (true)
-			{
-
-				float ChargeVel = 3;//차지속도
-				interactObj.AddGauge(ChargeVel * Time.deltaTime);
-				yield return new WaitForEndOfFrame();
-				if (interactObj.GetGaugeRate >= 1.0f)
-				{
-					IsAutoCasting = false;
-					break;
-				}
-			}
-		}
-		protected override IEnumerator AutoCastingNull()
-		{
-			if (IsAutoCasting)
-			{
-				yield break;
-			}
-			IsAutoCasting = true;
-			BarUI.Instance.SetTarget(null);
-			while (true)
-			{
-				float ChargeVel = 3;
-				BarUI.Instance.UpdateValue(ChargeVel * Time.deltaTime);
-				yield return new WaitForEndOfFrame();
-				if (BarUI.Instance.GetValue >= 1.0f)
-				{
-					IsAutoCasting = false;
-					break;
-				}
-			}
-		}
+	
 
 		[PunRPC]
-		protected void _ChangeActionTo(string ActionName)
+		protected override void _ChangeActionTo(string ActionName)
 		{
 			switch (ActionName)
 			{
 				case "Idle":
 					{
-						CurcharacterAction.PushSuccessorState(idle);
+						CurCharacterAction.PushSuccessorState(idle);
 					}
 					break;
 				case "Attack":
 					{
-						CurcharacterAction.PushSuccessorState(attack);
+						CurCharacterAction.PushSuccessorState(attack);
 					}
 					break;
 				case "Interact":
 					{
-						if (CurcharacterAction is BvIdle)
+						if (CurCharacterAction is BvIdle)
 						{
 							interact.SetInteractObj(interactObj);
-							CurcharacterAction.PushSuccessorState(interact);
+							CurCharacterAction.PushSuccessorState(interact);
 						}
-						if (CurcharacterAction is BvCatch)
+						if (CurCharacterAction is BvCatch)
 						{
 							imprison.SetCaughtDoll(caughtDoll);
 							imprison.SetInteractObj(interactObj);
-							CurcharacterAction.PushSuccessorState(imprison);
+							CurCharacterAction.PushSuccessorState(imprison);
 						}
 					}
 					break; 
 				case "Catch":
 					{
 						caughtDoll = pickUpBox.FindNearestFallDownDoll();
-						CurcharacterAction.PushSuccessorState(catchDoll);
+						CurCharacterAction.PushSuccessorState(catchDoll);
 					}
 					break;
 			}
@@ -387,7 +331,7 @@ namespace GHJ_Lib
 		}
 
 		[PunRPC]
-		protected void _AddCondition(string ConditionName)
+		protected override void _AddCondition(string ConditionName)
 		{
 			switch (ConditionName)
 			{
@@ -400,32 +344,6 @@ namespace GHJ_Lib
 		/*--- Private Methods ---*/
 
 
-
-
-
-
-
-		/*---HIT_ KILL---*/
-		public void HitBy(string skillname)
-		{
-			switch (skillname)
-			{
-				case "wolfActSkill":
-					{
-						StartCoroutine("WolfActSkill");
-					}
-					break;
-			}
-		}
-
-
-		IEnumerator WolfActSkill()
-		{
-			CharacterLayerChange(characterModel, 6);
-			yield return new WaitForSeconds(5);
-			CharacterLayerChange(characterModel, 7);
-
-		}
 
 
 
