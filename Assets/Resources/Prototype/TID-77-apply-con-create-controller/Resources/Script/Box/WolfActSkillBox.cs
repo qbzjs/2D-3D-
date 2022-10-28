@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GHJ_Lib
 {
-	public class WolfSkillBox: MonoBehaviour
+	public class WolfActSkillBox: MonoBehaviour
 	{
 		/*--- Public Fields ---*/
         
