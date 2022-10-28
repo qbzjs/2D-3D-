@@ -4,24 +4,20 @@ using UnityEngine;
 using Photon;
 using Photon.Pun;
 using Photon.Realtime;
+
 using KSH_Lib;
 using KSH_Lib.Data;
-
 namespace LSH_Lib
 {
-	public class Metal : Item
+	public class Neckless : Item
 	{
         protected override void InitItemData()
         {
-            data = DataManager.Instance.ItemInfos[(int)Item.ItemOrder.Metal];
+            throw new System.NotImplementedException();
         }
         protected override void ActionContent()
         {
-            (DataManager.Instance.LocalPlayerData.roleData as DollData).MoveSpeed *= 1.20f;
-            if(GameManager.Instance.DollControllers[DataManager.Instance.PlayerIdx].CurCharacterAction.ToString() == "caught")
-            {
-                (DataManager.Instance.LocalPlayerData.roleData as ExorcistData).MoveSpeed *= 0.75f;
-            }
+            throw new System.NotImplementedException();
         }
         public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
