@@ -4,28 +4,20 @@ using UnityEngine;
 using Photon;
 using Photon.Pun;
 using Photon.Realtime;
+using KSH_Lib;
+using KSH_Lib.Data;
 namespace LSH_Lib
 {
 	public class CottonPiece : Item
 	{
         protected override void InitItemData()
         {
-            ItemDataLoader.Instance.GetDollItem("CottonPiece");
+            data = DataManager.Instance.ItemInfos[(int)Item.ItemOrder.CottonPiece];
         }
-        private void Update()
+        protected override void ActionContent()
         {
-            if (Input.GetKey(KeyCode.Space))
-            {
-                if (photonView.IsMine)
-                {
-                    DoAction();
-                }
-            }
-        }
-        protected override void DoAction()
-        {
-            ItemManager.Instance.Doll.CottonPiece();
-            Destroy(this.gameObject);
+            (DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP += 25;
+            DataManager.Instance.ShareRoleData();
         }
         public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {

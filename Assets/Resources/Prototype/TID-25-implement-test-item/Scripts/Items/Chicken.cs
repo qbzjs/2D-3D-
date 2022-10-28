@@ -4,6 +4,9 @@ using UnityEngine;
 using Photon;
 using Photon.Pun;
 using Photon.Realtime;
+
+using KSH_Lib;
+
 namespace LSH_Lib
 {
 	public class Chicken : Item
@@ -14,49 +17,46 @@ namespace LSH_Lib
         protected override void Start()
         {
             base.Start();
-            chickenaudio = this.gameObject.GetComponent<AudioSource>();
-            mesh = this.gameObject.GetComponent<MeshRenderer>();
+            chickenaudio = gameObject.GetComponent<AudioSource>();
+            mesh = gameObject.GetComponent<MeshRenderer>();
         }
-        private void Update()
+        protected override void Update()
         {
-            KeyDown();
-        }
-        void KeyDown()
-        {
-
-            if(Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                if(photonView.IsMine)
+                if (photonView.IsMine)
                 {
-                    this.gameObject.transform.position = ItemManager.Instance.Doll.transform.position;
+                    //gameObject.transform.position = ItemManager.Instance.Doll.transform.position;
+                    gameObject.transform.position = GameManager.Instance.DollControllers[DataManager.Instance.PlayerIdx].transform.position;
                 }
             }
         }
         protected override void InitItemData()
         {
-            ItemDataLoader.Instance.GetDollItem("Chicken");
+            data = DataManager.Instance.ItemInfos[(int)Item.ItemOrder.Chicken];
         }
-        
-        
-        private void OnTriggerEnter(Collider other)
-        {
-            if(other.gameObject.CompareTag("Exorcist"))
-            {
-                DoAction();
-            }
-        }
-        protected override void DoAction()
+
+        protected override void ActionContent()
         {
             chickenaudio.Play();
             mesh.enabled = false;
             StartCoroutine("Audio");
-            
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.gameObject.CompareTag("Exorcist"))
+            {
+                ActionContent();
+            }
         }
         IEnumerator Audio()
         {
             yield return new WaitForSeconds(3.0f);
             Destroy(this.gameObject);
         }
+
+
 
         public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
