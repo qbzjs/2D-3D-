@@ -100,6 +100,10 @@ namespace KSH_Lib
 			{
 				Debug.LogError("DataManager.RoleDatas: Can't get role Datas from CSV");
 			}
+			if(!SetItemDatasFromCSV(ItemDataCSV))
+            {
+				Debug.LogError("DataManager.ItemDataInfos: Can't get item Datas from csv");
+            }
 		}
 
 		/*--- Public Methods ---*/
