@@ -5,7 +5,7 @@ using KSH_Lib;
 using KSH_Lib.Data;
 namespace GHJ_Lib
 {
-    public class BvPurified : Behavior<BasePlayerController>
+    public class BvPurified : Behavior<NetworkBaseController>
     {
         /*--- Public Fields ---*/
 
@@ -21,9 +21,9 @@ namespace GHJ_Lib
             purificationBox = puriBox;
         }
         /*--- Protected Methods ---*/
-        protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
+        protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            Behavior<BasePlayerController> Bv = PassIfHasSuccessor();
+            Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
             if (Bv is BvEscape)
             {
                 purificationBox.EscapePurifyDoll();

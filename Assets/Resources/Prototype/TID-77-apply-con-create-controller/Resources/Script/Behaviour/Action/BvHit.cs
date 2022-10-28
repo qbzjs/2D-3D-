@@ -5,7 +5,7 @@ using KSH_Lib;
 using KSH_Lib.Data;
 namespace GHJ_Lib
 {
-	public class BvHit: Behavior<BasePlayerController>
+	public class BvHit: Behavior<NetworkBaseController>
 	{
         /*--- Public Fields ---*/
 
@@ -23,7 +23,7 @@ namespace GHJ_Lib
         }
 
         /*--- Protected Methods ---*/
-        protected override void Activate(in BasePlayerController actor)
+        protected override void Activate(in NetworkBaseController actor)
         {
             
             actor.BaseAnimator.Play("Hit");
@@ -40,7 +40,7 @@ namespace GHJ_Lib
             }
         }
 
-        protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
+        protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
             //PassIfHasSuccessor();
             if ((DataManager.Instance.PlayerDatas[playerIdx].roleData as DollData).DollHP<0.0f)

@@ -5,7 +5,7 @@ using KSH_Lib;
 
 namespace GHJ_Lib
 {
-	public class BvCatch: Behavior<BasePlayerController>
+	public class BvCatch: Behavior<NetworkBaseController>
 	{
 		/*--- Public Fields ---*/
 
@@ -23,14 +23,14 @@ namespace GHJ_Lib
         }
 
         /*--- Protected Methods ---*/
-        protected override void Activate(in BasePlayerController actor)
+        protected override void Activate(in NetworkBaseController actor)
         {
             actor.BaseAnimator.Play("Pickup");
         }
 
-        protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
+        protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            Behavior<BasePlayerController> Bv = PassIfHasSuccessor();
+            Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
 
             if (Bv is BvImprison)
             {

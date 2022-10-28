@@ -5,7 +5,7 @@ using KSH_Lib;
 
 namespace GHJ_Lib
 {
-	public class BvCharacterInteraction: Behavior<BasePlayerController>
+	public class BvCharacterInteraction: Behavior<NetworkBaseController>
 	{
 		/*--- Public Fields ---*/
 
@@ -21,7 +21,7 @@ namespace GHJ_Lib
 			this.interactionObj = interaction;
 		}
 		/*--- Protected Methods ---*/
-		protected override void Activate(in BasePlayerController actor)
+		protected override void Activate(in NetworkBaseController actor)
 		{
 			if (actor is DollController)
 			{
@@ -34,14 +34,14 @@ namespace GHJ_Lib
 			castingType = interactionObj.GetCastingType(actor);
 		}
 
-        protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
+        protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
 			if (actor.IsAutoCasting)
 			{
 				return null;
 			}
 
-			Behavior<BasePlayerController> behavior = PassIfHasSuccessor();
+			Behavior<NetworkBaseController> behavior = PassIfHasSuccessor();
 
 			if (behavior is BvIdle)
 			{
@@ -65,13 +65,13 @@ namespace GHJ_Lib
 				case CastingType.AutoCasting:
 					{
 						BarUI.Instance.SetTarget(interactionObj);
-						(actor as NetworkBaseController).Interact("AutoCasting");
+						actor.Interact("AutoCasting");
 					}
 					break;
 				case CastingType.AutoCastingNull:
 					{
 						BarUI.Instance.SetTarget(null);
-						(actor as NetworkBaseController).Interact("AutoCastingNull");
+						actor.Interact("AutoCastingNull");
 					}
 					break;
 				case CastingType.NotCasting:

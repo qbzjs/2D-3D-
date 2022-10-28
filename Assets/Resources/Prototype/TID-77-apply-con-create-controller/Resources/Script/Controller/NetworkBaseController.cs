@@ -18,8 +18,8 @@ namespace GHJ_Lib
 		{
 			get { return playerIndex; }
 		}
-		public Behavior<BasePlayerController> CurCharacterCondition = new Behavior<BasePlayerController>();
-		public Behavior<BasePlayerController> CurCharacterAction = new Behavior<BasePlayerController>();
+		public Behavior<NetworkBaseController> CurCharacterCondition = new Behavior<NetworkBaseController>();
+		public Behavior<NetworkBaseController> CurCharacterAction = new Behavior<NetworkBaseController>();
 		/*--- Protected Fields ---*/
 
 		/*--photon--*/

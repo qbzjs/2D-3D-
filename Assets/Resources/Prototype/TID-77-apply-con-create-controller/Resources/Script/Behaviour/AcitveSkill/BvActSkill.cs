@@ -6,7 +6,7 @@ using KSH_Lib.Data;
 
 namespace GHJ_Lib
 {
-	public class BvActSkill: Behavior<BasePlayerController>
+	public class BvActSkill: Behavior<NetworkBaseController>
 	{
         /*--- Public Fields ---*/
 
@@ -22,12 +22,12 @@ namespace GHJ_Lib
 
 
         /*--- Protected Methods ---*/
-        protected override void Activate(in BasePlayerController actor)
+        protected override void Activate(in NetworkBaseController actor)
         {
             actor.BaseAnimator.Play("install Cross");
         }
 
-        protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
+        protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
             return null;
         }

@@ -5,7 +5,7 @@ using KSH_Lib;
 
 namespace GHJ_Lib
 {
-    public class BvImprison : Behavior<BasePlayerController>
+    public class BvImprison : Behavior<NetworkBaseController>
     {
 		/*--- Public Fields ---*/
 
@@ -25,7 +25,7 @@ namespace GHJ_Lib
 			doll = dollObj.GetComponent<DollController>();
 		}
 		/*--- Protected Methods ---*/
-		protected override void Activate(in BasePlayerController actor)
+		protected override void Activate(in NetworkBaseController actor)
 		{
 			if (actor is ExorcistController)
 			{
@@ -34,12 +34,12 @@ namespace GHJ_Lib
 			if (actor.photonView.IsMine)
 			{ 
 				BarUI.Instance.SetTarget(null);
-				(actor as NetworkBaseController).Interact("AutoCastingNull");
+				actor.Interact("AutoCastingNull");
 			}
 
 		}
 
-        protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
+        protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
 			if (actor.IsAutoCasting)
 			{

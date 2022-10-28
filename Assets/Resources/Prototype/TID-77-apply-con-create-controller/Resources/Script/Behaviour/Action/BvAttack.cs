@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GHJ_Lib
 {
-	public class BvAttack: Behavior<BasePlayerController>
+	public class BvAttack: Behavior<NetworkBaseController>
     {
         /*--- Public Fields ---*/
 
@@ -19,7 +19,7 @@ namespace GHJ_Lib
 
 
         /*--- Protected Methods ---*/
-        protected override void Activate(in BasePlayerController actor)
+        protected override void Activate(in NetworkBaseController actor)
         {
             if (actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
             {
@@ -30,7 +30,7 @@ namespace GHJ_Lib
         }
 
         
-        protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
+        protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
             if (actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime>=0.9)
             {

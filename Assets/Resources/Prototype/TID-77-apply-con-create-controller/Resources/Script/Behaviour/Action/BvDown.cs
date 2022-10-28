@@ -4,7 +4,7 @@ using UnityEngine;
 using KSH_Lib;
 namespace GHJ_Lib
 {
-	public class BvDown: Behavior<BasePlayerController>
+	public class BvDown: Behavior<NetworkBaseController>
 	{
         /*--- Public Fields ---*/
 
@@ -19,15 +19,16 @@ namespace GHJ_Lib
 
 
         /*--- Protected Methods ---*/
-        protected override void Activate(in BasePlayerController actor)
+        protected override void Activate(in NetworkBaseController actor)
         {
             UpGauge = 0.0f;
             actor.BaseAnimator.Play("Death");
         }
 
-        protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
+        protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            PassIfHasSuccessor();
+            Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
+
             if (UpGauge >= 1.0f)
             {
                 return new BvIdle();

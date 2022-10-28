@@ -4,7 +4,7 @@ using UnityEngine;
 using KSH_Lib;
 namespace GHJ_Lib
 {
-	public class BvCaught: Behavior<BasePlayerController>
+	public class BvCaught: Behavior<NetworkBaseController>
 	{
         /*--- Public Fields ---*/
 
@@ -19,17 +19,17 @@ namespace GHJ_Lib
 
 
         /*--- Protected Methods ---*/
-        protected override void Activate(in BasePlayerController actor)
+        protected override void Activate(in NetworkBaseController actor)
         {
             
             resistGauge = 0.0f;
 
         }
 
-        protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
+        protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
 
-            Behavior<BasePlayerController> Bv =  PassIfHasSuccessor();
+            Behavior<NetworkBaseController> Bv =  PassIfHasSuccessor();
             if (Bv is BvPurified)
             {
                 return Bv;
