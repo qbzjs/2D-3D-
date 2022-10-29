@@ -18,13 +18,13 @@ namespace KSH_Lib
 
         [Header("GameObject Settings")]
         [SerializeField]
-        GameObject startTextObj;
+        GameObject startButtonObj;
 
         [Header("CanvasGroup Settings")]
         [SerializeField]
         CanvasGroup panelCanvasGroup;
         [SerializeField]
-        CanvasGroup startTextCanvasGroup;
+        CanvasGroup startCanvasGroup;
 
         [Header("Animation Settings")]
         [SerializeField]
@@ -39,11 +39,18 @@ namespace KSH_Lib
         float sceneFadeOutTime = 1.5f;
 
 
+        [SerializeField]
+        float startRecoverTime = 0.2f;
+        [SerializeField]
+        float startFlickerTime = 0.05f;
+        [Range(1,3)]
+        [SerializeField]
+        int startFlickerCount = 2;
+
+
         /*--- Private Fields ---*/
-
-        //AsyncOperation async;
         bool isConnectedToServer = false;
-
+        Coroutine flikerCoroutine;
 
         /*--- MonoBehaviour Callbacks ---*/
         private void Awake()
@@ -56,11 +63,11 @@ namespace KSH_Lib
         }
         private void Start()
         {
-            StartCoroutine( UIEffector.Fade( panelCanvasGroup, sceneFadeInTime, 0.0f, 1.0f ) );
-            startTextCanvasGroup.alpha = 0;
-            startTextObj.SetActive(false);
+            StartCoroutine( UIEffector.Fade( panelCanvasGroup, sceneFadeInTime, 1.0f ) );
+            startCanvasGroup.alpha = 0;
+            startButtonObj.SetActive(false);
 
-            StartCoroutine( FadeInOut() );
+            flikerCoroutine = StartCoroutine( FadeInOut() );
         }
 
 
@@ -75,7 +82,8 @@ namespace KSH_Lib
         /*--- Public Methods ---*/
         public void OnStartButtonClick()
         {
-            startTextObj.SetActive(false);
+            startCanvasGroup.interactable = false;
+            StopCoroutine( flikerCoroutine );
             StartCoroutine(ChangeScene());
         }
 
@@ -91,20 +99,26 @@ namespace KSH_Lib
                 yield return null;
             }
 
-            if ( startTextObj.activeInHierarchy == false )
+            if ( startButtonObj.activeInHierarchy == false )
             {
-                startTextObj.SetActive( true );
-                yield return true;
+                startButtonObj.SetActive( true );
+                yield return null;
             }
 
-            yield return UIEffector.Fliker( startTextCanvasGroup, startButtonFadeTime, startButtonWaitTime, startButtonFadeTime );
+            yield return UIEffector.Fliker( startCanvasGroup, startButtonFadeTime, startButtonWaitTime, startButtonFadeTime );
         }
 
         IEnumerator ChangeScene()
         {
-            panelCanvasGroup.LeanAlpha(0.0f, sceneFadeOutTime);
-            yield return new WaitForSeconds(sceneFadeOutTime);
-            GameManager.Instance.LoadSceneImmediately(nextSceneName);
+            yield return UIEffector.Fade( startCanvasGroup, startRecoverTime, 1.0f );
+            yield return new WaitForSeconds( startRecoverTime * 2 );
+
+            yield return UIEffector.Fliker( startCanvasGroup, startFlickerTime, 0.0f, startFlickerTime, startFlickerCount, false );
+            yield return new WaitForSeconds( startFlickerTime * startFlickerCount * 2 );
+
+            panelCanvasGroup.LeanAlpha( 0.0f, sceneFadeOutTime );
+            yield return new WaitForSeconds( sceneFadeOutTime );
+            GameManager.Instance.LoadSceneImmediately( nextSceneName );
             yield return null;
         }
     }

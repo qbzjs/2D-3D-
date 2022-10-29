@@ -253,7 +253,7 @@ PrefabInstance:
     - target: {fileID: 4632545242784689106, guid: 90f5c61661109844c8a3aa2a308eb797,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4632545242784689106, guid: 90f5c61661109844c8a3aa2a308eb797,
         type: 3}
@@ -337,6 +337,16 @@ PrefabInstance:
       objectReference: {fileID: 1696418728}
     - target: {fileID: 7601249150815759267, guid: 90f5c61661109844c8a3aa2a308eb797,
         type: 3}
+      propertyPath: startCanvasGroup
+      value: 
+      objectReference: {fileID: 931078378}
+    - target: {fileID: 7601249150815759267, guid: 90f5c61661109844c8a3aa2a308eb797,
+        type: 3}
+      propertyPath: startFlickerTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7601249150815759267, guid: 90f5c61661109844c8a3aa2a308eb797,
+        type: 3}
       propertyPath: videoCanvasGroup
       value: 
       objectReference: {fileID: 1696418728}
@@ -387,7 +397,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -10.409973, y: 0}
+  m_AnchoredPosition: {x: -10.409912, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &444362475
@@ -1037,7 +1047,7 @@ RectTransform:
   m_Children:
   - {fileID: 444362474}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
