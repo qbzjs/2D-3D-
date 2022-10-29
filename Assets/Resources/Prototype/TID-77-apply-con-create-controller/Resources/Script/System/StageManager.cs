@@ -49,6 +49,7 @@ namespace GHJ_Lib
 		[Header("UI")]
 		public DollUI dollUI;
 		public ExorcistUI exorcistUI;
+		public BarUI_Controller BarUI;
 
 		//protected NetworkGenerator playerGenerator;
 		//protected NetworkGenerator normalAltarGenerator;
@@ -58,6 +59,7 @@ namespace GHJ_Lib
 		/*--- Private Fields ---*/
 		static StageManager instance;
 		bool activeDebugGUI;
+
 
 		/*--- MonoBehaviour Callbacks ---*/
 		void Awake()

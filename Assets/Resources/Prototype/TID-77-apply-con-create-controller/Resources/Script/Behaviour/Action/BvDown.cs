@@ -27,13 +27,13 @@ namespace GHJ_Lib
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
+            
             Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
-
             if (UpGauge >= 1.0f)
             {
                 return new BvIdle();
             }
-
+            
             return null;
         }
 

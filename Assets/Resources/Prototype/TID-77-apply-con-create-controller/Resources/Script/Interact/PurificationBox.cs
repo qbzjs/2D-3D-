@@ -4,7 +4,7 @@ using UnityEngine;
 using KSH_Lib;
 namespace GHJ_Lib
 {
-    public class PurificationBox : Interaction
+    public class PurificationBox : InteractionObj
     {
         /*--- Public Fields ---*/
         public GameObject[] DollModels;
@@ -28,34 +28,25 @@ namespace GHJ_Lib
             
         }
 
-        public override CastingType GetCastingType(BasePlayerController player)
+        public override CastingType GetCastingType(NetworkBaseController player)
         {
             if (player is DollController)
             {
-                if ((player as DollController).CurCharacterAction is BvIdle)
+                if (player.CurCharacterAction is BvIdle && DollInBox)
                 {
-                    return CastingType.Casting;
-                }
-                else
-                {
-                    return CastingType.NotCasting;
+                    return CastingType.ManualCasting;
                 }
             }
 
             if (player is ExorcistController)
             {
-                if ((player as ExorcistController).CurCharacterAction is BvCatch)
+                if (player.CurCharacterAction is BvCatch && !DollInBox)
                 {
-                    return CastingType.AutoCastingNull;
+                    return CastingType.LocalAutoCasting;
                 }
-                else
-                {
-                    return CastingType.NotCasting;
-                }
-
             }
 
-            Debug.LogError("Error get Casting Type");
+           
             return CastingType.NotCasting;
         }
 
@@ -112,12 +103,12 @@ namespace GHJ_Lib
         {
             if (controller is DollController)
             {
-                BarUI.Instance.SetTarget(this);
+                BarUI_Controller.Instance.SetTarget(this);
                 Casting(controller);
             }
             if (controller is ExorcistController)
             {
-                BarUI.Instance.SetTarget(null);
+                BarUI_Controller.Instance.SetTarget(null);
                 AutoCasting(controller);
             }
         }

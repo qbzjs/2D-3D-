@@ -5,7 +5,7 @@ using KSH_Lib;
 
 namespace GHJ_Lib
 {
-	public class ExitAltar: Interaction
+	public class ExitAltar: InteractionObj
 	{
 		/*--- Public Fields ---*/
 		public GameObject ExitAltarModel;
@@ -36,32 +36,36 @@ namespace GHJ_Lib
 
 		/*--- Public Methods ---*/
 
-		public override CastingType GetCastingType(BasePlayerController player)
+		public override CastingType GetCastingType(NetworkBaseController player)
 		{
 			if (player is DollController)
 			{
-				return CastingType.AutoCastingNull;
+				return CastingType.LocalAutoCasting;
 			}
 
 			if (player is ExorcistController)
 			{
-				return CastingType.AutoCasting;
+				if (GetGaugeRate >= 1.0f)
+				{
+					return CastingType.ManualCasting;
+				}
+				return CastingType.SharedAutoCasting;
 			}
 
 			Debug.LogError("Error get Casting Type");
-			return CastingType.Casting;
+			return CastingType.NotCasting;
 		}
 
 		public override void Interact(BasePlayerController controller)
 		{
 			if (controller is DollController)
 			{
-				BarUI.Instance.SetTarget(null);
+				BarUI_Controller.Instance.SetTarget(null);
 				AutoCasting(controller);
 			}
 			if (controller is ExorcistController)
 			{
-				BarUI.Instance.SetTarget(this);
+				BarUI_Controller.Instance.SetTarget(this);
 				AutoCasting(controller);
 			}
 		}

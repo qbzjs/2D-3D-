@@ -68,37 +68,9 @@ namespace GHJ_Lib
 
 
 		}
-		protected override void Update()
-		{
-			//상태에 따른 행동조건 -> 업데이트에서 했었으나 이젠 behavior 에서 할것.
-
-			if (photonView.IsMine)
-			{
-				//움직임 관련, 및 행동제한 부분
-				PlayerInput();
-				if (CurCharacterAction is BvIdle|| CurCharacterAction is BvCatch)
-				{
-					SetDirection();
-				}
-				else
-				{
-					Stop();
-				}
-				var velocity = controller.velocity;
-				var turnSpeed = rotateSpeed;
-				photonTransformView.SetSynchronizedValues(velocity, turnSpeed);
-			}
-
-			RotateToDirection();
-			MoveCharacter();
-			
-
-			CurCharacterCondition.Update(this, ref CurCharacterCondition);
-			CurCharacterAction.Update(this, ref CurCharacterAction);
-			//HP동기화
-		}
-
-		private void OnTriggerStay(Collider other)
+	
+		/*
+		protected override void OnTriggerStay(Collider other)
 		{
 
 			if (other.CompareTag("interactObj"))
@@ -152,7 +124,7 @@ namespace GHJ_Lib
 			}
 		}
 
-		private void OnTriggerExit(Collider other)
+		protected override void OnTriggerExit(Collider other)
 		{
 			if (other.CompareTag("interactObj"))
 			{
@@ -160,7 +132,7 @@ namespace GHJ_Lib
 				BarUI.Instance.SliderVisible(false);
 			}
 		}
-
+		*/
 
 		/*--- Public Methods ---*/
 
@@ -206,7 +178,25 @@ namespace GHJ_Lib
 
 		}
 
+
+
+
+
+		public virtual void DoPickUp()
+		{
+
+			if (Input.GetKeyDown(KeyCode.Mouse0))
+			{
+				ChangeActionTo("Catch");
+			}
+				
+			
+		}
+
+
 		/*--- Protected Methods ---*/
+
+
 		protected override void PlayerInput()
 		{
 
@@ -307,7 +297,7 @@ namespace GHJ_Lib
 					{
 						if (CurCharacterAction is BvIdle)
 						{
-							interact.SetInteractObj(interactObj);
+							//interact.SetInteractObj(interactObj);
 							CurCharacterAction.PushSuccessorState(interact);
 						}
 						if (CurCharacterAction is BvCatch)

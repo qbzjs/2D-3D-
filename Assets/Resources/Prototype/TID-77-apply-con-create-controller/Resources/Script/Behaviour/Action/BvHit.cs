@@ -11,16 +11,12 @@ namespace GHJ_Lib
 
 
         /*--- Protected Fields ---*/
-        protected int playerIdx;
 
         /*--- Private Fields ---*/
 
 
         /*--- Public Methods ---*/
-        public void SetPlayerIdx(int idx)
-        {
-            playerIdx = idx;
-        }
+
 
         /*--- Protected Methods ---*/
         protected override void Activate(in NetworkBaseController actor)
@@ -32,18 +28,14 @@ namespace GHJ_Lib
 
             if (actor.photonView.IsMine)
             {
-                Debug.Log("DollHP : " + (DataManager.Instance.PlayerDatas[playerIdx].roleData as DollData).DollHP);
-                (DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower;
-                Debug.Log("DollHP Damaged : " + (DataManager.Instance.PlayerDatas[playerIdx].roleData as DollData).DollHP);
-                DataManager.Instance.ShareRoleData();
-                Debug.Log("DollHP Shared : " + (DataManager.Instance.PlayerDatas[playerIdx].roleData as DollData).DollHP);
+                actor.DoHit();
             }
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
             //PassIfHasSuccessor();
-            if ((DataManager.Instance.PlayerDatas[playerIdx].roleData as DollData).DollHP<0.0f)
+           // if ((DataManager.Instance.PlayerDatas[playerIndex].roleData as DollData).DollHP<0.0f)
             {
                 return new BvDown();
             }    

@@ -15,7 +15,7 @@ namespace GHJ_Lib
 		protected CastingType castingType;
 		protected DollController doll;
 		/*--- Public Methods ---*/
-		public void SetInteractObj(Interaction interaction)
+		public void SetInteractObj(InteractionObj interaction)
 		{
 			this.interactionObj = interaction as PurificationBox;
 
@@ -33,8 +33,8 @@ namespace GHJ_Lib
 			}
 			if (actor.photonView.IsMine)
 			{ 
-				BarUI.Instance.SetTarget(null);
-				actor.Interact("AutoCastingNull");
+				BarUI_Controller.Instance.SetTarget(null);
+				//actor.Interact("AutoCastingNull");
 			}
 
 		}

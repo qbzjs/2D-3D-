@@ -6,10 +6,10 @@ using TMPro;
 
 namespace GHJ_Lib
 {
-	public class BarUI : MonoBehaviour
+	public class BarUI_Controller : MonoBehaviour
 	{
 		/*--- Public Fields ---*/
-		public static BarUI Instance
+		public static BarUI_Controller Instance
 		{
 			get { return instance; }
 		}
@@ -17,14 +17,14 @@ namespace GHJ_Lib
 		{
 			get { return bar.value; }
 		}
-		protected static BarUI instance;
+		protected static BarUI_Controller instance;
 
 		/*--- Private Fields ---*/
 		[SerializeField]
 		Slider bar;
 		[SerializeField]
 		TextMeshProUGUI interactionText;
-		private Interaction targetInteraction;
+		private InteractionObj targetInteraction;
 
 		/*--- MonoBehaviour Callbacks ---*/
 		void Start()
@@ -53,7 +53,7 @@ namespace GHJ_Lib
 		{
 			interactionText.gameObject.SetActive(flag);
 		}
-		public void SetTarget(Interaction interaction)
+		public void SetTarget(InteractionObj interaction)
 		{
 			targetInteraction = interaction;
 			if (targetInteraction == null)

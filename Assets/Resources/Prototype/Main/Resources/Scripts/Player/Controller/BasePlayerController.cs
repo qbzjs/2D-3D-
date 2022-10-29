@@ -50,9 +50,6 @@ namespace KSH_Lib
 		protected Vector3 camProjToPlane;
 		protected Vector3 camRight;
 
-		/*---CastingType---*/
-		public bool IsCasting = false;
-		public bool IsAutoCasting = false;
 
 		/*--- MonoBehaviour Callbacks ---*/
 		protected virtual void Awake()
