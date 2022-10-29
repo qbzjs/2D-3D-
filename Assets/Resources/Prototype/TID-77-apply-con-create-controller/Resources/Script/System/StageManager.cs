@@ -79,10 +79,14 @@ namespace GHJ_Lib
 			networkGenerator = new NetworkGenerator(
 				new GameObject[]{
 					DollPrefabs[0], ExorcistPrefabs[0],
+					DollPrefabs[1], ExorcistPrefabs[1],
+					DollPrefabs[2], ExorcistPrefabs[2],
+					DollPrefabs[3], ExorcistPrefabs[3],
+					DollPrefabs[4], ExorcistPrefabs[4],
 					NormalAltarPrefab, ExitAltarPrefab, FinalAltarPrefab,
 					PurificationBoxPrefab
 					}
-				);
+				); ;
 
 			//int number = PhotonNetwork.LocalPlayer.ActorNumber;
 			//if (number == 1)

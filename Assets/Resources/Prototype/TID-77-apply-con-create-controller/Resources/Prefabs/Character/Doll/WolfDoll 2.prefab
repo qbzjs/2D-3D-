@@ -131,10 +131,10 @@ GameObject:
   - component: {fileID: 6659749933101587933}
   - component: {fileID: 4915282357687828870}
   - component: {fileID: 5225310053779697468}
-  - component: {fileID: 7846505778061795488}
   - component: {fileID: -5592587432467510938}
+  - component: {fileID: -6640432334077104785}
   m_Layer: 7
-  m_Name: Doll
+  m_Name: WolfDoll 2
   m_TagString: Doll
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -214,8 +214,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 6659749933101587933}
   - {fileID: 5225310053779697468}
-  - {fileID: 7846505778061795488}
   - {fileID: -5592587432467510938}
+  - {fileID: -6640432334077104785}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -301,27 +301,6 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
---- !u!114 &7846505778061795488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8865846720936348896}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1346dd61c7586db42bd051b5eb39a84b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterObj: {fileID: 8865846720936348896}
-  characterModel: {fileID: 8865846721059509857}
-  camTarget: {fileID: 8865846721793731939}
-  moveSpeed: 6
-  rotateSpeed: 600
-  animator: {fileID: 4915282357687828870}
-  IsCasting: 0
-  IsAutoCasting: 0
-  GhostModel: {fileID: 0}
 --- !u!114 &-5592587432467510938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,6 +317,27 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 1
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!114 &-6640432334077104785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8865846720936348896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3de137db0b28e96459b83007e58b756b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterObj: {fileID: 8865846720936348896}
+  characterModel: {fileID: 8865846721059509857}
+  camTarget: {fileID: 8865846721793731939}
+  moveSpeed: 6
+  rotateSpeed: 600
+  animator: {fileID: 4915282357687828870}
+  IsCasting: 0
+  IsAutoCasting: 0
+  GhostModel: {fileID: 0}
 --- !u!1 &8865846721793731939
 GameObject:
   m_ObjectHideFlags: 0

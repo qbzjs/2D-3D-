@@ -44,7 +44,7 @@ namespace GHJ_Lib
 
             if (player is ExorcistController)
             {
-                if ((player as ExorcistController).CurcharacterAction is BvCatch)
+                if ((player as ExorcistController).CurCharacterAction is BvCatch)
                 {
                     return CastingType.AutoCastingNull;
                 }
@@ -80,8 +80,7 @@ namespace GHJ_Lib
             if (other.CompareTag("Exorcist"))
             {
                 ExorcistController exorcistController = other.GetComponent<ExorcistController>();
-
-                if (exorcistController.CurcharacterAction is BvCatch)
+                if (exorcistController.CurCharacterAction is BvCatch)
                 {
                     CanActiveToExorcist = true;
                 }

@@ -65,13 +65,13 @@ namespace GHJ_Lib
 				case CastingType.AutoCasting:
 					{
 						BarUI.Instance.SetTarget(interactionObj);
-						actor.Interact("AutoCasting");
+						(actor as NetworkBaseController).Interact("AutoCasting");
 					}
 					break;
 				case CastingType.AutoCastingNull:
 					{
 						BarUI.Instance.SetTarget(null);
-						actor.Interact("AutoCastingNull");
+						(actor as NetworkBaseController).Interact("AutoCastingNull");
 					}
 					break;
 				case CastingType.NotCasting:
