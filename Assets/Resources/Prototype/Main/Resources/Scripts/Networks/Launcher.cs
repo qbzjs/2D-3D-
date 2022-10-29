@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 
+using KSH_Lib.UI;
+
 namespace KSH_Lib
 {
     public class Launcher : MonoBehaviourPunCallbacks
@@ -25,6 +27,8 @@ namespace KSH_Lib
         CanvasGroup startButtonCanvasGroup;
 
         [Header("Animation Settings")]
+        [SerializeField]
+        float sceneFadeInTime = 1.0f;
         [SerializeField]
         float videoFadeInTime = 0.5f;
         [SerializeField]
@@ -55,12 +59,15 @@ namespace KSH_Lib
         }
         private void Start()
         {
-            panelCanvasGroup.alpha = 0;
-            panelCanvasGroup.LeanAlpha(1, 1.0f);
+            //panelCanvasGroup.alpha = 0;
+            //panelCanvasGroup.LeanAlpha(1, 1.0f);
+            StartCoroutine( UIEffector.Fade( panelCanvasGroup, sceneFadeInTime, 0.0f, 1.0f ) );
             startButtonCanvasGroup.alpha = 0;
             startButtonObj.SetActive(false);
 
-            StartCoroutine(FadeInOut());
+            StartCoroutine( FadeInOut() );
+
+            //StartCoroutine(FadeInOut());
         }
 
 
@@ -92,30 +99,44 @@ namespace KSH_Lib
 
         IEnumerator FadeInOut()
         {
-            while(true)
+            if(panelCanvasGroup.alpha < 1.0f || !isConnectedToServer)
             {
-                if (panelCanvasGroup.alpha >= 1.0f && isConnectedToServer)
-                {
-                    if (startButtonObj.activeInHierarchy == false)
-                    {
-                        startButtonObj.SetActive(true);
-                        yield return true;
-                    }
+                yield return null;
+            }
 
-                    if (startButtonCanvasGroup.alpha <= 0.0f)
-                    {
-                        startButtonCanvasGroup.LeanAlpha(1.0f, startButtonFadeTime);
-                        yield return true;
-                    }
-                    else if (startButtonCanvasGroup.alpha >= 1.0f)
-                    {
-                        yield return new WaitForSeconds(startButtonWaitTime);
-                        startButtonCanvasGroup.LeanAlpha(0.0f, startButtonFadeTime);
-                        yield return true;
-                    }
-                }
+            if ( startButtonObj.activeInHierarchy == false )
+            {
+                startButtonObj.SetActive( true );
                 yield return true;
             }
+
+            yield return UIEffector.Fliker( startButtonCanvasGroup, startButtonFadeTime, startButtonWaitTime, startButtonFadeTime );
+
+
+            //while ( true )
+            //{
+            //    if ( panelCanvasGroup.alpha >= 1.0f && isConnectedToServer )
+            //    {
+            //        if ( startButtonObj.activeInHierarchy == false )
+            //        {
+            //            startButtonObj.SetActive( true );
+            //            yield return true;
+            //        }
+
+            //        if ( startButtonCanvasGroup.alpha <= 0.0f )
+            //        {
+            //            startButtonCanvasGroup.LeanAlpha( 1.0f, startButtonFadeTime );
+            //            yield return true;
+            //        }
+            //        else if ( startButtonCanvasGroup.alpha >= 1.0f )
+            //        {
+            //            yield return new WaitForSeconds( startButtonWaitTime );
+            //            startButtonCanvasGroup.LeanAlpha( 0.0f, startButtonFadeTime );
+            //            yield return true;
+            //        }
+            //    }
+            //    yield return true;
+            //}
         }
 
         IEnumerator ChangeScene()
