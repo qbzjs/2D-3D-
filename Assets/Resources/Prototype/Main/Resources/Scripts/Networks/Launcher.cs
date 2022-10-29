@@ -18,13 +18,13 @@ namespace KSH_Lib
 
         [Header("GameObject Settings")]
         [SerializeField]
-        GameObject startButtonObj;
+        GameObject startTextObj;
 
         [Header("CanvasGroup Settings")]
         [SerializeField]
         CanvasGroup panelCanvasGroup;
         [SerializeField]
-        CanvasGroup startButtonCanvasGroup;
+        CanvasGroup startTextCanvasGroup;
 
         [Header("Animation Settings")]
         [SerializeField]
@@ -43,9 +43,6 @@ namespace KSH_Lib
 
         //AsyncOperation async;
         bool isConnectedToServer = false;
-        bool activeStartButton;
-
-        float timer;
 
 
         /*--- MonoBehaviour Callbacks ---*/
@@ -59,15 +56,11 @@ namespace KSH_Lib
         }
         private void Start()
         {
-            //panelCanvasGroup.alpha = 0;
-            //panelCanvasGroup.LeanAlpha(1, 1.0f);
             StartCoroutine( UIEffector.Fade( panelCanvasGroup, sceneFadeInTime, 0.0f, 1.0f ) );
-            startButtonCanvasGroup.alpha = 0;
-            startButtonObj.SetActive(false);
+            startTextCanvasGroup.alpha = 0;
+            startTextObj.SetActive(false);
 
             StartCoroutine( FadeInOut() );
-
-            //StartCoroutine(FadeInOut());
         }
 
 
@@ -82,17 +75,11 @@ namespace KSH_Lib
         /*--- Public Methods ---*/
         public void OnStartButtonClick()
         {
-            //GameManager.Instance.LoadSceneImmediately(NextSceneName);
-            startButtonObj.SetActive(false);
+            startTextObj.SetActive(false);
             StartCoroutine(ChangeScene());
         }
 
         /*--- Private Methods ---*/
-        void TurnOnStartButton()
-        {
-            startButtonObj.SetActive(true);
-            activeStartButton = true;
-        }
 
 
         /*--- IEnumerators ---*/
@@ -104,39 +91,13 @@ namespace KSH_Lib
                 yield return null;
             }
 
-            if ( startButtonObj.activeInHierarchy == false )
+            if ( startTextObj.activeInHierarchy == false )
             {
-                startButtonObj.SetActive( true );
+                startTextObj.SetActive( true );
                 yield return true;
             }
 
-            yield return UIEffector.Fliker( startButtonCanvasGroup, startButtonFadeTime, startButtonWaitTime, startButtonFadeTime );
-
-
-            //while ( true )
-            //{
-            //    if ( panelCanvasGroup.alpha >= 1.0f && isConnectedToServer )
-            //    {
-            //        if ( startButtonObj.activeInHierarchy == false )
-            //        {
-            //            startButtonObj.SetActive( true );
-            //            yield return true;
-            //        }
-
-            //        if ( startButtonCanvasGroup.alpha <= 0.0f )
-            //        {
-            //            startButtonCanvasGroup.LeanAlpha( 1.0f, startButtonFadeTime );
-            //            yield return true;
-            //        }
-            //        else if ( startButtonCanvasGroup.alpha >= 1.0f )
-            //        {
-            //            yield return new WaitForSeconds( startButtonWaitTime );
-            //            startButtonCanvasGroup.LeanAlpha( 0.0f, startButtonFadeTime );
-            //            yield return true;
-            //        }
-            //    }
-            //    yield return true;
-            //}
+            yield return UIEffector.Fliker( startTextCanvasGroup, startButtonFadeTime, startButtonWaitTime, startButtonFadeTime );
         }
 
         IEnumerator ChangeScene()
