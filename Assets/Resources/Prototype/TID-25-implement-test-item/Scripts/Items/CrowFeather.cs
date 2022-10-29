@@ -39,9 +39,9 @@ namespace LSH_Lib
             DataManager.Instance.ShareRoleData();
         }
 
-        public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-            throw new System.NotImplementedException();
-        }
+        //public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
     }
 }

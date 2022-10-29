@@ -9,19 +9,33 @@ using KSH_Lib.Data;
 
 namespace LSH_Lib
 {
-	public class Oil : Item
-	{
+    public class Oil : Item
+    {
+        [SerializeField]
+        int stack;
         protected override void InitItemData()
         {
-            throw new System.NotImplementedException();
+            data = DataManager.Instance.ItemInfos[(int)Item.ItemOrder.Oil];
         }
         protected override void ActionContent()
         {
-            throw new System.NotImplementedException();
+            StartCoroutine(OilAction());
         }
-        public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        IEnumerator OilAction()
         {
-            throw new System.NotImplementedException();
+            yield return new WaitForSeconds(120.0f);
+            if(GameManager.Instance.DollControllers[DataManager.Instance.PlayerIdx].CurCharacterAction.ToString() == "Grab")
+            {
+                //상호작용 시작되면
+                //--stack;
+                GameManager.Instance.DollControllers[DataManager.Instance.PlayerIdx].Escape(GameManager.Instance.ExorcistController.transform,1);
+                //if stack == 0;
+                //destroy(this.gameobject);
+            }
         }
+        //public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
     }
 }

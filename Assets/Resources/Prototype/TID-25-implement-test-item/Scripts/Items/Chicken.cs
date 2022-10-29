@@ -56,11 +56,9 @@ namespace LSH_Lib
             Destroy(this.gameObject);
         }
 
-
-
-        public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-            throw new System.NotImplementedException();
-        }
+        //public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
     }
 }

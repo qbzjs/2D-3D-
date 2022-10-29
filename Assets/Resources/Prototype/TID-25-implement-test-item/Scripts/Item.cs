@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 namespace LSH_Lib
 {
-    public abstract class Item : MonoBehaviourPunCallbacks, IPunObservable
+    public abstract class Item : MonoBehaviourPunCallbacks//, IPunObservable
     {
         [System.Serializable]
         public struct ItemData
@@ -70,6 +70,6 @@ namespace LSH_Lib
             PhotonNetwork.Destroy(gameObject);
         }
 
-        public abstract void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info);
+        //public abstract void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info);
     }
 }

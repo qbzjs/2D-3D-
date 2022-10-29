@@ -23,9 +23,9 @@ namespace LSH_Lib
                 (DataManager.Instance.LocalPlayerData.roleData as ExorcistData).MoveSpeed *= 0.75f;
             }
         }
-        public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-            throw new System.NotImplementedException();
-        }
+        //public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
     }
 }

@@ -25,9 +25,9 @@ namespace LSH_Lib
             DataManager.Instance.ShareRoleData();
         }
 
-        public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
+        //public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        //{
             
-        }
+        //}
     }
 }

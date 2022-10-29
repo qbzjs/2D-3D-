@@ -9,7 +9,7 @@ namespace LSH_Lib
     public class Inventory : MonoBehaviourPunCallbacks
     {
         [SerializeField]
-        static string ItemPath = "Prototype/TID-25-implement-test-item/Prefabs/";
+        static string ItemPath = "Prototype/TID-25-implement-test-item/Prefabs/Items/";
         GameObject inventory;
 
         public void AddToInventory(GameObject obj)

@@ -40,9 +40,9 @@ namespace LSH_Lib
             yield return new WaitForSeconds(2.0f);
             Destroy(this.gameObject);
         }
-        public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-            throw new System.NotImplementedException();
-        }
+        //public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
     }
 }
