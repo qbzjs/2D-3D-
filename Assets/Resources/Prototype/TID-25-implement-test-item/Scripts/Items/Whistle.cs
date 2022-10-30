@@ -4,6 +4,8 @@ using UnityEngine;
 using Photon;
 using Photon.Pun;
 using Photon.Realtime;
+using KSH_Lib;
+
 namespace LSH_Lib
 {
 	public class Whistle : Item
@@ -16,7 +18,7 @@ namespace LSH_Lib
         }
         protected override void InitItemData()
         {
-            ItemDataLoader.Instance.GetDollItem("Whistle");
+            data = DataManager.Instance.ItemInfos[(int)Item.ItemOrder.Whistle];
         }
         private void Update()
         {
@@ -24,11 +26,11 @@ namespace LSH_Lib
             {
                 if (photonView.IsMine)
                 {
-                    DoAction();
+                    ActionContent();
                 }
             }
         }
-        protected override void DoAction()
+        protected override void ActionContent()
         {
             whistleaudio.Play();
             StartCoroutine("Audio");
@@ -38,9 +40,9 @@ namespace LSH_Lib
             yield return new WaitForSeconds(2.0f);
             Destroy(this.gameObject);
         }
-        public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-            throw new System.NotImplementedException();
-        }
+        //public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
     }
 }

@@ -4,21 +4,15 @@ using UnityEngine;
 using Photon;
 using Photon.Pun;
 using Photon.Realtime;
-
 using KSH_Lib;
-
+using KSH_Lib.Data;
 namespace LSH_Lib
 {
-	public class Chicken : Item
-    {
-
-        AudioSource chickenaudio;
-        MeshRenderer mesh;
+	public class Bond : Item
+	{
         protected override void Start()
         {
             base.Start();
-            chickenaudio = gameObject.GetComponent<AudioSource>();
-            mesh = gameObject.GetComponent<MeshRenderer>();
         }
         protected override void Update()
         {
@@ -33,16 +27,8 @@ namespace LSH_Lib
         }
         protected override void InitItemData()
         {
-            data = DataManager.Instance.ItemInfos[(int)Item.ItemOrder.Chicken];
+            data = DataManager.Instance.ItemInfos[(int)Item.ItemOrder.Bond];
         }
-
-        protected override void ActionContent()
-        {
-            chickenaudio.Play();
-            mesh.enabled = false;
-            StartCoroutine("Audio");
-        }
-
         private void OnTriggerEnter(Collider other)
         {
             if(other.gameObject.CompareTag("Exorcist"))
@@ -50,12 +36,18 @@ namespace LSH_Lib
                 ActionContent();
             }
         }
-        IEnumerator Audio()
+        protected override void ActionContent()
         {
-            yield return new WaitForSeconds(3.0f);
-            Destroy(this.gameObject);
+            StartCoroutine(Slow());
         }
-
+        IEnumerator Slow()
+        {
+            (DataManager.Instance.LocalPlayerData.roleData as ExorcistData).MoveSpeed *= 0.8f;
+            DataManager.Instance.ShareRoleData();
+            yield return new WaitForSeconds(20.0f);
+            (DataManager.Instance.LocalPlayerData.roleData as ExorcistData).MoveSpeed = DataManager.Instance.RoleInfos[0].MoveSpeed;
+            DataManager.Instance.ShareRoleData();
+        }
         //public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         //{
         //    throw new System.NotImplementedException();

@@ -7,9 +7,11 @@ using DEM;
 
 using Photon.Pun;
 
+using KSH_Lib;
+using GHJ_Lib;
+
 public class GameManager : MonoBehaviour
 {
-    #region Public Fields
     public static GameManager Instance
     {
         get
@@ -27,29 +29,79 @@ public class GameManager : MonoBehaviour
     public readonly byte MaxPlayerCount = 5;
     public int CurPlayerCount;
     public PlayerData Data;
-    #endregion
 
 
-    #region Private Fields
     const string LoadingSceneName = "LoadingScene";
     const string LoadingNetworkSceneName = "LoadingNetworkScene";
+    const string ExorcistTag = "Exorcist";
+    const string DollTag = "Doll";
 
     static GameManager instance;
     //add new script
     static int roomNumber = 0;
-    //
-    #endregion
+
+    public GameObject Exorcist
+    {
+        get
+        {
+            if (exorcist == null)
+            {
+                exorcist = GameObject.FindGameObjectWithTag("Exorcist");
+            }
+            return exorcist;
+        }
+    }
+    private GameObject exorcist;
+    public GameObject[] Dolls
+    {
+        get
+        {
+            if (dolls == null)
+            {
+                dolls = GameObject.FindGameObjectsWithTag("Doll");
+            }
+            return dolls;
+        }
+    }
+    GameObject[] dolls;
+
+    public ExorcistController ExorcistController
+    {
+        get
+        {
+            if(exorcistController == null)
+            {
+                exorcistController = Exorcist.GetComponent<ExorcistController>();
+            }
+            return exorcistController;
+        }
+    }
+    ExorcistController exorcistController;
+
+    public DollController[] DollControllers
+    {
+        get
+        {
+            if(dollControllers == null)
+            {
+                for(int i = 0; i < Dolls.Length; ++i)
+                {
+                    dollControllers[i] = Dolls[i].GetComponent<DollController>();
+                }
+            }
+            return dollControllers;
+        }
+    }
+    DollController[] dollControllers;
 
 
-    #region MonoBehaviour Callbacks
+
     private void Start()
     {
         DontDestroyOnLoad( gameObject );
     }
-    #endregion
 
 
-    #region Public Methods
     public void LoadScene(string sceneName)
     {
         NextSceneName = sceneName;
@@ -59,7 +111,6 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene( sceneName );
     }
-
     public void LoadPhotonScene( string sceneName )
     {
         NextSceneName = sceneName;
@@ -78,12 +129,4 @@ public class GameManager : MonoBehaviour
             return roomNumber;
         }
     }
-    //
-    #endregion
-
-
-    #region Private Methods
-    #endregion
-
-
 }

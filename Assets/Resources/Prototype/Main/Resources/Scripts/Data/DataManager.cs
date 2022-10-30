@@ -4,6 +4,7 @@ using UnityEngine;
 
 using Photon.Pun;
 using KSH_Lib.Data;
+using LSH_Lib;
 using MSLIMA.Serializer;
 
 namespace KSH_Lib
@@ -34,9 +35,18 @@ namespace KSH_Lib
 
 		/*--- Fields ---*/
 		const string CharcterStatusCSV = "Prototype/Main/Resources/Datas/CharacterStatus";
+		const string ItemDataCSV = "Prototype/Main/Resources/Datas/ItemData";
 
+		// Role Informations
 		public List<RoleData> RoleInfos { get { return roleInfos; } }
 		List<RoleData> roleInfos = new List<RoleData>();
+
+		// Item Datas
+		public List<Item.ItemData> ItemInfos { get { return itemInfos; } }
+		List<Item.ItemData> itemInfos = new List<Item.ItemData>();
+
+
+
 
 		// This For Room Settings
 		public RoleData.RoleType PreRoleType;
@@ -71,6 +81,10 @@ namespace KSH_Lib
 		}
 		List<bool> isInitedList = new List<bool>();
 
+
+
+
+
 		/*--- MonoBehaviour Callbacks ---*/
 		private void Awake()
 		{
@@ -86,6 +100,10 @@ namespace KSH_Lib
 			{
 				Debug.LogError("DataManager.RoleDatas: Can't get role Datas from CSV");
 			}
+			if(!SetItemDatasFromCSV(ItemDataCSV))
+            {
+				Debug.LogError("DataManager.ItemDataInfos: Can't get item Datas from csv");
+            }
 		}
 
 		/*--- Public Methods ---*/
@@ -196,8 +214,34 @@ namespace KSH_Lib
 			}
 			return true;
 		}
+		bool SetItemDatasFromCSV(string csvPath)
+		{
+			List<Dictionary<string, object>> data = Util.CSVReader.Read(csvPath);
+			if (data == null)
+			{
+				return false;
+			}
 
-		
+			for (var i = 0; i < data.Count; i++)
+			{
+				string type = data[i]["Type"].ToString();
+				string name = data[i]["Name"].ToString();
+				string number = data[i]["Number"].ToString();
+				string isUsing = data[i]["isUsing"].ToString();
+				int frequency = int.Parse(data[i]["Frequency"].ToString());
+
+				if (type == "D")
+				{
+					itemInfos.Add(new Item.ItemData(type, name, number, isUsing, frequency));
+				}
+				else if(type == "E")
+				{
+					itemInfos.Add(new Item.ItemData(type, name, number, isUsing, frequency));
+				}
+			}
+
+			return true;
+		}
 
 
 		/*--- RPC ---*/

@@ -4,20 +4,20 @@ using UnityEngine;
 using Photon;
 using Photon.Pun;
 using Photon.Realtime;
+
 using KSH_Lib;
 using KSH_Lib.Data;
 namespace LSH_Lib
 {
-	public class CottonPiece : Item
+	public class Neckless : Item
 	{
         protected override void InitItemData()
         {
-            data = DataManager.Instance.ItemInfos[(int)Item.ItemOrder.CottonPiece];
+            data = DataManager.Instance.ItemInfos[(int)Item.ItemOrder.Neckless];
         }
         protected override void ActionContent()
         {
-            (DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP += 25;
-            DataManager.Instance.ShareRoleData();
+            Debug.Log("Neckless");
         }
         //public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         //{
