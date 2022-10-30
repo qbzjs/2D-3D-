@@ -126,7 +126,12 @@ namespace GHJ_Lib
 		}
 		public void Imprisoned(PurificationBox puriBox)
 		{
+			characterModel.gameObject.SetActive(true);
 			puriBox.PurifyDoll(this);
+			characterModel.transform.SetPositionAndRotation(puriBox.CharacterPos.position, puriBox.CharacterPos.rotation);
+			BaseAnimator.Play("Fear");
+			CharacterLayerChange(characterObj, 0);
+
 			if (photonView.IsMine)
 			{
 				ChangeActionTo("Purified");
@@ -140,6 +145,7 @@ namespace GHJ_Lib
 			characterModel.gameObject.SetActive(true);
 			CharacterLayerChange(characterObj, layer);
 			ChangeCamera(camTarget);
+			ChangeActionTo("Idle");
 		}
 		public override void BecomeGhost()
 		{
@@ -165,7 +171,7 @@ namespace GHJ_Lib
 
         }
 
-
+		
 
 
 
@@ -337,7 +343,12 @@ namespace GHJ_Lib
 						CurCharacterAction.PushSuccessorState(purified);
 					}
 					break;
-					
+				case "Escape":
+					{
+						CurCharacterAction.PushSuccessorState(escape);
+					}
+					break;
+
 			}
 
 			

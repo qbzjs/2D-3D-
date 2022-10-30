@@ -24,8 +24,6 @@ namespace GHJ_Lib
 		protected BvCatch catchDoll = new BvCatch();
 		protected BvImprison imprison = new BvImprison();
 
-
-
 		protected GameObject caughtDoll;
 
 		/*--- Private Fields ---*/
@@ -156,7 +154,7 @@ namespace GHJ_Lib
 
 
 
-		/*---HIT_ KILL---*/
+		/*---HIT_SKILL---*/
 		public void HitSkillBy(string skillname)
 		{
 			switch (skillname)
@@ -267,6 +265,7 @@ namespace GHJ_Lib
 
         protected override void RotateToDirection()
 		{
+
 			if (direction.sqrMagnitude > 0.01f)
 			{
 				animator.SetFloat("MoveSpeed", direction.magnitude);
@@ -278,7 +277,11 @@ namespace GHJ_Lib
 			{
 				animator.SetFloat("MoveSpeed", 0);
 			}
-			characterModel.transform.rotation =  Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y,0.0f);
+
+			if (photonView.IsMine)
+			{ 
+				characterModel.transform.rotation =  Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y,0.0f);
+			}
 		}
 		protected override void MoveCharacter()
 		{

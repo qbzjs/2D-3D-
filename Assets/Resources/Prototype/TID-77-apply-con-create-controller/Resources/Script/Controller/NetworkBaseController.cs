@@ -129,6 +129,8 @@ namespace GHJ_Lib
 					if (viewAngle > maxViewAngle
 						|| viewAngle < 0)
 					{
+						barUI.SliderVisible(false);
+						barUI.TextVisible(false);
 						return;
 					}
 
@@ -319,10 +321,7 @@ namespace GHJ_Lib
 			return true;
 		}
 
-		public void Escape()
-		{
-			EscapeFrom(camTarget.transform, 0);
-		}
+
 		public virtual void EscapeFrom(Transform transform, int layer)
 		{
 			
@@ -469,8 +468,6 @@ namespace GHJ_Lib
 		protected virtual void PlayerInput()
 		{
 
-			
-
 		}
 
 		
@@ -498,7 +495,7 @@ namespace GHJ_Lib
 		{
 			Model.layer = layer;
 			int count = Model.transform.childCount;
-			Debug.Log("count : " + count);
+			//Debug.Log("count : " + count);
 			if (count != 0)
 			{
 				for (int i = 0; i < count; ++i)

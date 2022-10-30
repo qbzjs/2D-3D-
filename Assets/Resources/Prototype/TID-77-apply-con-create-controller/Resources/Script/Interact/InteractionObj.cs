@@ -59,56 +59,9 @@ namespace GHJ_Lib
 			curGauge = valueRate * maxGauge;
 		}
 
-		virtual public void Interact(BasePlayerController controller)
-		{
-			if (controller is DollController)
-			{
-				
-			}
-
-			if (controller is ExorcistController)
-			{
-				
-			}
-		}
-
-		public void FinishAutoCasting()
-		{
-			StartCoroutine("StartInteractCoolTime", 10);
-		}
 
 
 		/*--- Protected Methods ---*/
-		virtual protected void Casting(BasePlayerController controller)
-		{
-			
-		}
-		virtual protected void AutoCasting(BasePlayerController controller)
-		{
-			
-		}
-		virtual protected void Immediate(BasePlayerController controller)
-		{
-			
-		}
-
-		protected virtual IEnumerator StartInteractCoolTime(float CoolTime)
-		{
-			CanActiveToExorcist = false;
-			yield return new WaitForSeconds(CoolTime);
-			CanActiveToExorcist = true;
-		}
-
-		protected virtual IEnumerator AutoCasting(float CoolTime)
-		{
-			yield return new WaitForSeconds(CoolTime);
-		}
-
-		protected virtual IEnumerator AutoCastingNull(float CoolTime)
-		{
-			yield return new WaitForSeconds(CoolTime);
-		}
-
 
 
 		public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

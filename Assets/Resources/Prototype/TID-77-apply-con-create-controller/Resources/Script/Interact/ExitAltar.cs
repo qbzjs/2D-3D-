@@ -56,19 +56,6 @@ namespace GHJ_Lib
 			return CastingType.NotCasting;
 		}
 
-		public override void Interact(BasePlayerController controller)
-		{
-			if (controller is DollController)
-			{
-				BarUI_Controller.Instance.SetTarget(null);
-				AutoCasting(controller);
-			}
-			if (controller is ExorcistController)
-			{
-				BarUI_Controller.Instance.SetTarget(this);
-				AutoCasting(controller);
-			}
-		}
 		public void OpenExitAltar()
 		{
 			isOpen = true;
@@ -77,18 +64,7 @@ namespace GHJ_Lib
 			ExitAltarModel.SetActive(true);
 		}
 		/*--- Protected Methods ---*/
-		protected override void Casting(BasePlayerController controller)
-		{
-			//controller에서 PlayerData 를 호출하고 interact Velocity를 받은걸 사용.	
-			float velocity = 10.0f;
-			curGauge += velocity * Time.deltaTime;
-		}
-		protected override void AutoCasting(BasePlayerController controller)
-		{
-			//controller에서 PlayerData 를 호출하고 interact Velocity를 받은걸 사용.	
-			float velocity = 10.0f;
-			//Doll 이라면 끝날때 탈출을 넣어주기
-		}
+
 		/*--- Private Methods ---*/
 		void CheckGauge()
 		{
