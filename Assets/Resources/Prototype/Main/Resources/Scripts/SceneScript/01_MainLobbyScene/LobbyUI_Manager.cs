@@ -34,8 +34,8 @@ namespace KSH_Lib
         [Header( "MainLobby Buttons UI" )]
         [SerializeField]
         GameObject mainLobbyButtons;
-        [SerializeField]
-        GameObject playButtons;
+        //[SerializeField]
+        //GameObject playButtons;
         [SerializeField]
         GameObject quickMatchButtons;
 
@@ -177,17 +177,12 @@ namespace KSH_Lib
             {
                 case "Doll":
                 {
-                    //GameManager.Instance.Data.ChangeRole( RoleType.Doll );
-                    //22.10.24 TID-61 Added
                     DataManager.Instance.PreRoleType = RoleData.RoleType.Doll;
                     charaSelectCanvasController.SendMessage( "OnSelectRole" );
-
-
                 }
                 break;
                 case "Exorcist":
                 {
-                    //GameManager.Instance.Data.ChangeRole( RoleType.Exorcist );
                     DataManager.Instance.PreRoleType = RoleData.RoleType.Exorcist;
                     charaSelectCanvasController.SendMessage( "OnSelectRole" );
                 }
@@ -227,7 +222,7 @@ namespace KSH_Lib
         void DisableMainLobbyPanelAll()
         {
             mainLobbyButtons.SetActive( false );
-            playButtons.SetActive( false );
+            //playButtons.SetActive( false );
             quickMatchButtons.SetActive( false );
         }
         void ChangePlayerImage()
@@ -247,11 +242,11 @@ namespace KSH_Lib
             DisableMainLobbyPanelAll();
             mainLobbyButtons.SetActive( true );
         }
-        void EnablePlayButtonsPanel()
-        {
-            DisableMainLobbyPanelAll();
-            playButtons.SetActive( true );
-        }
+        //void EnablePlayButtonsPanel()
+        //{
+        //    DisableMainLobbyPanelAll();
+        //    //playButtons.SetActive( true );
+        //}
         void EnableQuickMatchButtonsPanel()
         {
             DisableMainLobbyPanelAll();
