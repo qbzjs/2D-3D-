@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace GHJ_Lib
 {
-	public class NormalAltar: Interaction
+	public class NormalAltar: InteractionObj
 	{
 		/*--- Public Fields ---*/
 
 
 		/*--- Protected Fields ---*/
-
+		protected bool isEnable = true;
 
 		/*--- Private Fields ---*/
 
@@ -20,12 +20,16 @@ namespace GHJ_Lib
 		void OnEnable()
 		{
 			curGauge = 0.0f;
-			CanActiveToExorcist = false;
-			CanActiveToDoll = true;
+			
 		}
 		void Update()
 		{
-			CheckGauge();
+			if (GetGaugeRate >= 1.0f && isEnable)
+			{
+				isEnable = false;
+				FinalAltar.Instance.DisableNormalAltar();
+			}
+			
 		}
 
 
@@ -34,28 +38,40 @@ namespace GHJ_Lib
 		/*--- Public Methods ---*/
 
 
-		public override CastingType GetCastingType(BasePlayerController player)
+		public override CastingType GetCastingType(NetworkBaseController player)
 		{
 			if (player is DollController)
 			{
-				return CastingType.Casting;
+				if (GetGaugeRate < 1.0f)
+				{
+					return CastingType.ManualCasting;
+				}
+				
 			}
 
 			if (player is ExorcistController)
 			{
-				return CastingType.AutoCastingNull;
+				if (GetGaugeRate > 0.3f)
+				{
+					return CastingType.LocalAutoCasting;
+				}
+				
 			}
 
-			Debug.LogError("Error get Casting Type");
-			return CastingType.Casting;
+			
+			return CastingType.NotCasting;
 		}
 
 
+
+
+
+
+		
 		public override void Interact(BasePlayerController controller)
         {
 			if (controller is DollController)
 			{
-				
 				Casting(controller);
 			}
 
@@ -72,14 +88,14 @@ namespace GHJ_Lib
 			//controller에서 PlayerData 를 호출하고 interact Velocity를 받음.	
 			float velocity=5.0f;
 			curGauge += velocity*Time.deltaTime;
-			BarUI.Instance.SetTarget(this);
-			BarUI.Instance.UpdateValue();
+			BarUI_Controller.Instance.SetTarget(this);
+			BarUI_Controller.Instance.UpdateValue();
 		}
         protected override void AutoCasting(BasePlayerController controller)
         {
 			//controller에서 PlayerData 를 호출하고 interact Velocity를 받음.	
 			float velocity = 1.0f;
-			BarUI.Instance.SetTarget(null);
+			BarUI_Controller.Instance.SetTarget(null);
 			StartCoroutine(AutoCastingNull(velocity));
 		}
 
@@ -100,44 +116,25 @@ namespace GHJ_Lib
 			while (true)
 			{ 
 				IsAutoCasting = true;
-				BarUI.Instance.UpdateValue(velocity);
+				BarUI_Controller.Instance.UpdateValue(velocity);
 				yield return new WaitForEndOfFrame();
-				if (BarUI.Instance.GetValue >= 1.0f)
+				if (BarUI_Controller.Instance.GetValue >= 1.0f)
 				{ 
 					IsAutoCasting = false;
 				}
 			}
 		}
 
-
+		
 
 
 		/*--- Private Methods ---*/
 		void CheckGauge()
 		{
-			
 			if (GetGaugeRate >= 1.0f&& CanActiveToDoll)
 			{
 				FinalAltar.Instance.DisableNormalAltar();
-				CanActiveToExorcist = false;
-				CanActiveToDoll = false;
 			}
-			else
-			{
-				if (!CanActiveToDoll)
-				{
-					return;
-				}
-				if (GetGaugeRate >= 0.3f)
-				{
-					CanActiveToExorcist = true;
-				}
-				else
-				{
-					CanActiveToExorcist = false;
-				}
-			}
-
 		}
 
 

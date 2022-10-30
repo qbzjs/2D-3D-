@@ -19472,6 +19472,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2699043354531443272, guid: ee82e430c2aaee7498c757189e954a71,
+        type: 3}
+      propertyPath: m_Name
+      value: BarUI
+      objectReference: {fileID: 0}
     - target: {fileID: 3714712830453485307, guid: ee82e430c2aaee7498c757189e954a71,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -19746,6 +19751,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57c64a8c180f4344888e52023cb05972, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1598040814 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4618339513008489990, guid: ee82e430c2aaee7498c757189e954a71,
+    type: 3}
+  m_PrefabInstance: {fileID: 1598040811}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cd7941e1030d0c468ea6ac8f530ab1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1616094330
@@ -21668,6 +21685,7 @@ MonoBehaviour:
   CenterPosition: {x: 0, y: 0, z: 0}
   dollUI: {fileID: 1598040813}
   exorcistUI: {fileID: 1598040812}
+  BarUI: {fileID: 1598040814}
 --- !u!1001 &1759105366
 PrefabInstance:
   m_ObjectHideFlags: 0

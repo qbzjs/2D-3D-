@@ -6,10 +6,11 @@ using Photon.Pun;
 using Photon.Realtime;
 namespace GHJ_Lib
 {
-	public enum CastingType { Casting, AutoCasting, AutoCastingNull,NotCasting };
 
-	public class Interaction :MonoBehaviourPun,IPunObservable
+	public class InteractionObj :MonoBehaviourPun,IPunObservable
 	{
+		public enum CastingType { ManualCasting, SharedAutoCasting, LocalAutoCasting,NotCasting };
+		
 		/*--- Public Fields ---*/
 		public bool CanActiveToExorcist = true;
 		public bool CanActiveToDoll = true;
@@ -30,18 +31,18 @@ namespace GHJ_Lib
 
 		/*--- Public Methods ---*/
 
-		public virtual CastingType GetCastingType(BasePlayerController player)
+		public virtual CastingType GetCastingType(NetworkBaseController player)
 		{
 			if (player is DollController)
 			{
-				return CastingType.Casting;
+				return CastingType.ManualCasting;
 			}
 
 			if (player is ExorcistController)
 			{
-				return CastingType.Casting;
+				return CastingType.ManualCasting;
 			}
-			return CastingType.Casting;
+			return CastingType.ManualCasting;
 		}
 
 		public void AddGauge(float Gauge)

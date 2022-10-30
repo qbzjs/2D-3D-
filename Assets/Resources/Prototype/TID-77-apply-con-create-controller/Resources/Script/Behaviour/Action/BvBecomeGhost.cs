@@ -5,25 +5,20 @@ using KSH_Lib;
 
 namespace GHJ_Lib
 {
-    public class BvBecomeGhost : Behavior<BasePlayerController>
+    public class BvBecomeGhost : Behavior<NetworkBaseController>
     {
         /*--- Public Fields ---*/
 
         /*--- Protected Fields ---*/
-        protected Transform initGhostPos;
+        
         /*--- Private Fields ---*/
 
         /*--- Public Methods---*/
-        public void SetInitGhostPos(Transform transform)
-        {
-            initGhostPos = transform;
-        }
+      
         /*--- Protected Methods ---*/
-        protected override void Activate(in BasePlayerController actor)
+        protected override void Activate(in NetworkBaseController actor)
         {
-            DollController doll = (actor as DollController);
-            doll.Escape(initGhostPos,8); //ghost layer = 8;
-            doll.BecomeGhost();
+            actor.SetMoveInput(true);
         }
     
         /*--- Private Methods ---*/

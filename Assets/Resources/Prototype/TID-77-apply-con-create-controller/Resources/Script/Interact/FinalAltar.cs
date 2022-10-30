@@ -7,7 +7,7 @@ using KSH_Lib;
 
 namespace GHJ_Lib
 {
-	public class FinalAltar: Interaction
+	public class FinalAltar: InteractionObj
 	{
 		/*--- Public Fields ---*/
 		public static FinalAltar Instance { get { return instance; } }
@@ -54,20 +54,23 @@ namespace GHJ_Lib
 			}
         }
 
-		public override CastingType GetCastingType(BasePlayerController player)
+		public override CastingType GetCastingType(NetworkBaseController player)
 		{
 			if (player is DollController)
 			{
-				return CastingType.Casting;
-			}
+				if (curGauge >= 1.0f)
+				{
+					return CastingType.NotCasting;
+				}
 
-			if (player is ExorcistController)
-			{
-				return CastingType.NotCasting;
-			}
+				if (canOpenDoor)
+				{ 
+					return CastingType.ManualCasting;
+				}
 
-			Debug.LogError("Error get Casting Type");
-			return CastingType.Casting;
+				
+			}		
+			return CastingType.NotCasting;
 		}
 
 		/*--- Interaction Methods ---*/
@@ -97,12 +100,12 @@ namespace GHJ_Lib
 		{
 			if (controller is DollController)
 			{
-				BarUI.Instance.SetTarget(this);
+				BarUI_Controller.Instance.SetTarget(this);
 				Casting(controller);
 			}
 			if (controller is ExorcistController)
 			{
-				BarUI.Instance.SetTarget(null);
+				BarUI_Controller.Instance.SetTarget(null);
 				AutoCasting(controller);
 			}
 		}

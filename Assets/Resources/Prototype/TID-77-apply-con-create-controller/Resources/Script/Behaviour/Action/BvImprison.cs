@@ -5,49 +5,41 @@ using KSH_Lib;
 
 namespace GHJ_Lib
 {
-    public class BvImprison : Behavior<BasePlayerController>
+    public class BvImprison : Behavior<NetworkBaseController>
     {
 		/*--- Public Fields ---*/
 
 		/*--- Protected Fields ---*/
 
-		protected PurificationBox interactionObj;
-		protected CastingType castingType;
-		protected DollController doll;
+		//protected PurificationBox interactionObj;
+		//protected InteractionObj.CastingType castingType;
+		//protected DollController doll;
 		/*--- Public Methods ---*/
-		public void SetInteractObj(Interaction interaction)
-		{
-			this.interactionObj = interaction as PurificationBox;
 
-		}
-		public void SetCaughtDoll(GameObject dollObj)
-		{
-			doll = dollObj.GetComponent<DollController>();
-		}
+
 		/*--- Protected Methods ---*/
-		protected override void Activate(in BasePlayerController actor)
+		protected override void Activate(in NetworkBaseController actor)
 		{
 			if (actor is ExorcistController)
 			{
 				actor.BaseAnimator.Play("Imprison");
 			}
 			if (actor.photonView.IsMine)
-			{ 
-				BarUI.Instance.SetTarget(null);
-				(actor as NetworkBaseController).Interact("AutoCastingNull");
+			{
+				actor.StartCoroutine("AutoCastingNull");
+				//actor.Interact("AutoCastingNull");
 			}
-
+			actor.SetMoveInput(false);
 		}
 
-        protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
+        protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
 			if (actor.IsAutoCasting)
 			{
 				return null;
 			}
-			(actor as ExorcistController).ImprisonDoll(interactionObj.CamTarget);
-			interactionObj.PurifyDoll(doll);
-			doll.Imprisoned(interactionObj);
+			actor.Imprison();
+
 			return new BvIdle();
         }
 

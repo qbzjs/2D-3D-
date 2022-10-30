@@ -5,25 +5,21 @@ using KSH_Lib;
 using KSH_Lib.Data;
 namespace GHJ_Lib
 {
-	public class BvHit: Behavior<BasePlayerController>
+	public class BvHit: Behavior<NetworkBaseController>
 	{
         /*--- Public Fields ---*/
 
 
         /*--- Protected Fields ---*/
-        protected int playerIdx;
 
         /*--- Private Fields ---*/
 
 
         /*--- Public Methods ---*/
-        public void SetPlayerIdx(int idx)
-        {
-            playerIdx = idx;
-        }
+
 
         /*--- Protected Methods ---*/
-        protected override void Activate(in BasePlayerController actor)
+        protected override void Activate(in NetworkBaseController actor)
         {
             
             actor.BaseAnimator.Play("Hit");
@@ -32,21 +28,21 @@ namespace GHJ_Lib
 
             if (actor.photonView.IsMine)
             {
-                Debug.Log("DollHP : " + (DataManager.Instance.PlayerDatas[playerIdx].roleData as DollData).DollHP);
-                (DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower;
-                Debug.Log("DollHP Damaged : " + (DataManager.Instance.PlayerDatas[playerIdx].roleData as DollData).DollHP);
-                DataManager.Instance.ShareRoleData();
-                Debug.Log("DollHP Shared : " + (DataManager.Instance.PlayerDatas[playerIdx].roleData as DollData).DollHP);
+                actor.DoHit();
             }
+            actor.SetMoveInput(true);
         }
 
-        protected override Behavior<BasePlayerController> DoBehavior(in BasePlayerController actor)
+        protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
             //PassIfHasSuccessor();
-            if ((DataManager.Instance.PlayerDatas[playerIdx].roleData as DollData).DollHP<0.0f)
+
+
+            if ((DataManager.Instance.PlayerDatas[actor.PlayerIndex].roleData as DollData).DollHP<0.0f)
             {
                 return new BvDown();
-            }    
+            }
+               
             
             if (actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f)
             {

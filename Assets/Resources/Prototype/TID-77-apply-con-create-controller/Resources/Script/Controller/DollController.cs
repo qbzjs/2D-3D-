@@ -4,6 +4,7 @@ using UnityEngine;
 using KSH_Lib;
 using Photon.Pun;
 using Photon.Realtime;
+using KSH_Lib.Data;
 
 namespace GHJ_Lib
 {
@@ -33,7 +34,7 @@ namespace GHJ_Lib
 		protected BvEscape escape = new BvEscape();
 
 		protected int crossStack = 0;
-
+		
 		/*--- Private Fields ---*/
 
 
@@ -90,67 +91,9 @@ namespace GHJ_Lib
 		}
 
 
-        private void OnTriggerStay(Collider other)
-        {
-			
+       
 
-			if (other.CompareTag("interactObj"))
-			{
-				interactObj =  other.GetComponent<Interaction>();
-
-				if (!photonView.IsMine)
-				{
-					return;
-				}
-
-				if (IsAutoCasting)
-				{
-					canInteract = false;
-					BarUI.Instance.SliderVisible(true);
-					BarUI.Instance.TextVisible(false);
-					return;
-				}
-				else if(IsCasting)
-				{ 
-					canInteract = true;
-					BarUI.Instance.SliderVisible(true);
-					BarUI.Instance.TextVisible(false);
-					if (!interactObj.CanActiveToDoll)
-					{
-						canInteract = false;
-					}
-					return;
-				}
-				else
-				{
-					BarUI.Instance.SliderVisible(false);
-				}
-
-				if (Vector3.Dot(forward, Vector3.ProjectOnPlane((other.transform.position - this.transform.position), Vector3.up))>0&&
-					interactObj.CanActiveToDoll)
-				{
-					BarUI.Instance.TextVisible(true);
-					canInteract = true;
-					
-				}
-				else
-				{
-					BarUI.Instance.TextVisible(false);
-					canInteract = false;
-				}
-				
-			}
-        }
-
-		private void OnTriggerExit(Collider other)
-		{
-			if (other.CompareTag("interactObj"))
-			{
-				BarUI.Instance.TextVisible(false);
-				BarUI.Instance.SliderVisible(false);
-			}
-		}
-
+		
 
 		/*--- Public Methods ---*/
 
@@ -161,14 +104,7 @@ namespace GHJ_Lib
 			ChangeCamera(ExorcistCamTarget);
 			ChangeActionTo("Caught");
 		}
-		public void Escape(Transform transform, int layer)
-		{
-			this.transform.position = transform.position;
-			this.transform.rotation = transform.rotation;
-			characterModel.gameObject.SetActive(true);
-			CharacterLayerChange(characterObj, layer);
-			ChangeCamera(camTarget);
-		}
+		
 
 		public void ChangeCamera(GameObject camTarget)
 		{
@@ -190,29 +126,64 @@ namespace GHJ_Lib
 		}
 		public void Imprisoned(PurificationBox puriBox)
 		{
-			purified.SetPuriBox(puriBox);
+			puriBox.PurifyDoll(this);
 			if (photonView.IsMine)
 			{
 				ChangeActionTo("Purified");
 			}
 		}
-		public void BecomeGhost()
+
+		public override void Escape(Transform transform, int layer)
 		{
+			this.transform.position = transform.position;
+			this.transform.rotation = transform.rotation;
+			characterModel.gameObject.SetActive(true);
+			CharacterLayerChange(characterObj, layer);
+			ChangeCamera(camTarget);
+		}
+		public override void BecomeGhost()
+		{
+			//tpvCam.virtualCam.
+			//Escape(initGhostPos, 8); //ghost layer = 8;
 			//에셋이 바뀐다
 			characterModel.SetActive(false);
 			GhostModel.SetActive(true);
 			CharacterLayerChange(GhostModel, 8);
 			ChangeActionTo("Idle");
 			BaseAnimator.enabled = false;
-
 			GhostModel.GetComponent<Animator>().Play("GhostIdle");
-			
-
 		}
 
+        public override bool DoResist()
+        {
+			if (Input.GetKeyDown(KeyCode.LeftArrow)
+				|| Input.GetKeyDown(KeyCode.LeftArrow))
+			{
+				return true;
+			}
+			return false;
 
-		/*--HitByExorcistSkill--*/
-		public void AprrochCrossArea()
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*--HitByExorcistSkill--*/
+        public void AprrochCrossArea()
 		{
 			crossStack++;
 			if (crossStack > 5)
@@ -268,52 +239,14 @@ namespace GHJ_Lib
 
 
 
+
+
 		/*--- Protected Methods ---*/
 		protected override void PlayerInput()
 		{
 
-			if (Input.GetKeyDown(KeyCode.Mouse1))
-			{
-				if (!useActiveSkill)
-				{ 
-					photonView.RPC("DoActiveSkill", RpcTarget.AllViaServer);
-				}
-			}
+		
 			
-
-
-				if (Input.GetKeyDown(KeyCode.LeftShift))
-			{
-				DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = initialSpeed * 2;
-				DataManager.Instance.ShareRoleData();
-			}
-			if (Input.GetKeyUp(KeyCode.LeftShift))
-			{
-				DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = initialSpeed;
-				DataManager.Instance.ShareRoleData();
-			}
-
-
-			if (canInteract)
-			{
-				if (Input.GetKeyDown(KeyCode.Mouse0))
-				{
-					ChangeActionTo("Interact");
-
-				}
-				if (Input.GetKeyUp(KeyCode.Mouse0))
-				{
-					ChangeActionTo("Idle");
-				}
-			}
-			else
-			{
-				if (!(CurCharacterAction is BvIdle))
-				{
-					ChangeActionTo("Idle");
-
-				}
-			}
 
 		}
 
@@ -380,7 +313,7 @@ namespace GHJ_Lib
 					break;
 				case "Interact":
 					{
-						interaction.SetInteractObj(interactObj);
+						//interaction.SetInteractObj(interactObj);
 						CurCharacterAction.PushSuccessorState(interaction);
 					}
 					break;
@@ -391,7 +324,6 @@ namespace GHJ_Lib
 					break;
 				case "Hit":
 					{
-						hit.SetPlayerIdx(playerIndex);
 						CurCharacterAction.PushSuccessorState(hit);
 					}
 					break;
