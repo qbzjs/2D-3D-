@@ -51,7 +51,7 @@ namespace KSH_Lib.UI
 
 		CanvasGroup errMsgCanvasGroup;
 		TextMeshProUGUI errMsgText;
-		UI_Effect uiEffect;
+		//UIEffector uiEffect;
 
 
 		/*--- MonoBehaviour Callbacks ---*/
@@ -71,7 +71,7 @@ namespace KSH_Lib.UI
 		{
 			ActiveLoginScreen();
 			LoadingPanelObj.SetActive( false );
-			uiEffect = new UI_Effect(errMsgCanvasGroup);
+			//uiEffect = new UIEffector(errMsgCanvasGroup);
 		}
 
 
@@ -203,7 +203,8 @@ namespace KSH_Lib.UI
 		{
 			LoadingPanelObj.SetActive( false );
 			errMsgText.text = msg;
-			StartCoroutine(uiEffect.PopUp(FadeInTime, WaitTime, FadeOutTime));
+			//StartCoroutine(uiEffect.PopUp(FadeInTime, WaitTime, FadeOutTime));
+			StartCoroutine( UIEffector.PopUp( errMsgCanvasGroup, FadeInTime, WaitTime, FadeOutTime ) );
 		}
 
 		WWWForm InitLoginForm()

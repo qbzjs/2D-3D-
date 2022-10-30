@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 
+using KSH_Lib.UI;
+
 namespace KSH_Lib
 {
     public class Launcher : MonoBehaviourPunCallbacks
@@ -22,9 +24,11 @@ namespace KSH_Lib
         [SerializeField]
         CanvasGroup panelCanvasGroup;
         [SerializeField]
-        CanvasGroup startButtonCanvasGroup;
+        CanvasGroup startCanvasGroup;
 
         [Header("Animation Settings")]
+        [SerializeField]
+        float sceneFadeInTime = 1.0f;
         [SerializeField]
         float videoFadeInTime = 0.5f;
         [SerializeField]
@@ -35,14 +39,18 @@ namespace KSH_Lib
         float sceneFadeOutTime = 1.5f;
 
 
+        [SerializeField]
+        float startRecoverTime = 0.2f;
+        [SerializeField]
+        float startFlickerTime = 0.05f;
+        [Range(1,3)]
+        [SerializeField]
+        int startFlickerCount = 2;
+
+
         /*--- Private Fields ---*/
-
-        //AsyncOperation async;
         bool isConnectedToServer = false;
-        bool activeStartButton;
-
-        float timer;
-
+        Coroutine flikerCoroutine;
 
         /*--- MonoBehaviour Callbacks ---*/
         private void Awake()
@@ -55,12 +63,11 @@ namespace KSH_Lib
         }
         private void Start()
         {
-            panelCanvasGroup.alpha = 0;
-            panelCanvasGroup.LeanAlpha(1, 1.0f);
-            startButtonCanvasGroup.alpha = 0;
+            StartCoroutine( UIEffector.Fade( panelCanvasGroup, sceneFadeInTime, 1.0f ) );
+            startCanvasGroup.alpha = 0;
             startButtonObj.SetActive(false);
 
-            StartCoroutine(FadeInOut());
+            flikerCoroutine = StartCoroutine( FadeInOut() );
         }
 
 
@@ -75,54 +82,43 @@ namespace KSH_Lib
         /*--- Public Methods ---*/
         public void OnStartButtonClick()
         {
-            //GameManager.Instance.LoadSceneImmediately(NextSceneName);
-            startButtonObj.SetActive(false);
+            startCanvasGroup.interactable = false;
+            StopCoroutine( flikerCoroutine );
             StartCoroutine(ChangeScene());
         }
 
         /*--- Private Methods ---*/
-        void TurnOnStartButton()
-        {
-            startButtonObj.SetActive(true);
-            activeStartButton = true;
-        }
 
 
         /*--- IEnumerators ---*/
 
         IEnumerator FadeInOut()
         {
-            while(true)
+            if(panelCanvasGroup.alpha < 1.0f || !isConnectedToServer)
             {
-                if (panelCanvasGroup.alpha >= 1.0f && isConnectedToServer)
-                {
-                    if (startButtonObj.activeInHierarchy == false)
-                    {
-                        startButtonObj.SetActive(true);
-                        yield return true;
-                    }
-
-                    if (startButtonCanvasGroup.alpha <= 0.0f)
-                    {
-                        startButtonCanvasGroup.LeanAlpha(1.0f, startButtonFadeTime);
-                        yield return true;
-                    }
-                    else if (startButtonCanvasGroup.alpha >= 1.0f)
-                    {
-                        yield return new WaitForSeconds(startButtonWaitTime);
-                        startButtonCanvasGroup.LeanAlpha(0.0f, startButtonFadeTime);
-                        yield return true;
-                    }
-                }
-                yield return true;
+                yield return null;
             }
+
+            if ( startButtonObj.activeInHierarchy == false )
+            {
+                startButtonObj.SetActive( true );
+                yield return null;
+            }
+
+            yield return UIEffector.Fliker( startCanvasGroup, startButtonFadeTime, startButtonWaitTime, startButtonFadeTime );
         }
 
         IEnumerator ChangeScene()
         {
-            panelCanvasGroup.LeanAlpha(0.0f, sceneFadeOutTime);
-            yield return new WaitForSeconds(sceneFadeOutTime);
-            GameManager.Instance.LoadSceneImmediately(nextSceneName);
+            yield return UIEffector.Fade( startCanvasGroup, startRecoverTime, 1.0f );
+            yield return new WaitForSeconds( startRecoverTime * 2 );
+
+            yield return UIEffector.Fliker( startCanvasGroup, startFlickerTime, 0.0f, startFlickerTime, startFlickerCount, false );
+            yield return new WaitForSeconds( startFlickerTime * startFlickerCount * 2 );
+
+            panelCanvasGroup.LeanAlpha( 0.0f, sceneFadeOutTime );
+            yield return new WaitForSeconds( sceneFadeOutTime );
+            GameManager.Instance.LoadSceneImmediately( nextSceneName );
             yield return null;
         }
     }
