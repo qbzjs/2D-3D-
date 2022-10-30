@@ -319,7 +319,11 @@ namespace GHJ_Lib
 			return true;
 		}
 
-		public virtual void Escape(Transform transform, int layer)
+		public void Escape()
+		{
+			EscapeFrom(camTarget.transform, 0);
+		}
+		public virtual void EscapeFrom(Transform transform, int layer)
 		{
 			
 		}
@@ -338,7 +342,7 @@ namespace GHJ_Lib
 				yield break;
 			}
 			IsCasting = true;
-			BarUI_Controller.Instance.SetTarget(interactObj);
+			barUI.SetTarget(interactObj);
 			while (true)
 			{
 				float ChargeVel = 3.0f;//차지속도
@@ -359,7 +363,7 @@ namespace GHJ_Lib
 				yield break;
 			}
 			IsAutoCasting = true;
-			BarUI_Controller.Instance.SetTarget(interactObj);
+			barUI.SetTarget(interactObj);
 			while (true)
 			{
 
@@ -380,11 +384,11 @@ namespace GHJ_Lib
 				yield break;
 			}
 			IsAutoCasting = true;
-			BarUI_Controller.Instance.SetTarget(null);
+			barUI.SetTarget(null);
 			while (true)
 			{
 				float ChargeVel = 3;
-				BarUI_Controller.Instance.UpdateValue(ChargeVel * Time.deltaTime);
+				barUI.UpdateValue(ChargeVel * Time.deltaTime);
 				yield return new WaitForEndOfFrame();
 				if (BarUI_Controller.Instance.GetValue >= 1.0f)
 				{

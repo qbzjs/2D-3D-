@@ -133,7 +133,7 @@ namespace GHJ_Lib
 			}
 		}
 
-		public override void Escape(Transform transform, int layer)
+		public override void EscapeFrom(Transform transform, int layer)
 		{
 			this.transform.position = transform.position;
 			this.transform.rotation = transform.rotation;
