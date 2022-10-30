@@ -45,8 +45,6 @@ namespace GHJ_Lib
                     return CastingType.LocalAutoCasting;
                 }
             }
-
-           
             return CastingType.NotCasting;
         }
 
@@ -66,65 +64,65 @@ namespace GHJ_Lib
         }
 
 
-        private void OnTriggerStay(Collider other)
-        {
-            if (other.CompareTag("Exorcist"))
-            {
-                ExorcistController exorcistController = other.GetComponent<ExorcistController>();
-                if (exorcistController.CurCharacterAction is BvCatch)
-                {
-                    CanActiveToExorcist = true;
-                }
-                else
-                {
-                    CanActiveToExorcist = false;
-                }
-            }
-            if (other.CompareTag("Doll"))
-            {
-                DollController dollController = other.GetComponent<DollController>();
+        //private void OnTriggerStay(Collider other)
+        //{
+        //    if (other.CompareTag("Exorcist"))
+        //    {
+        //        ExorcistController exorcistController = other.GetComponent<ExorcistController>();
+        //        if (exorcistController.CurCharacterAction is BvCatch)
+        //        {
+        //            CanActiveToExorcist = true;
+        //        }
+        //        else
+        //        {
+        //            CanActiveToExorcist = false;
+        //        }
+        //    }
+        //    if (other.CompareTag("Doll"))
+        //    {
+        //        DollController dollController = other.GetComponent<DollController>();
 
-                if (dollController.CurCharacterAction is BvIdle && DollInBox)
-                {
-                    CanActiveToDoll = true;
-                }
-                else
-                {
-                    CanActiveToDoll = false;
-                }
-            }
-        }
+        //        if (dollController.CurCharacterAction is BvIdle && DollInBox)
+        //        {
+        //            CanActiveToDoll = true;
+        //        }
+        //        else
+        //        {
+        //            CanActiveToDoll = false;
+        //        }
+        //    }
+        //}
 
 
 
 
         /*--- Public Methods---*/
-        public override void Interact(BasePlayerController controller)
-        {
-            if (controller is DollController)
-            {
-                BarUI_Controller.Instance.SetTarget(this);
-                Casting(controller);
-            }
-            if (controller is ExorcistController)
-            {
-                BarUI_Controller.Instance.SetTarget(null);
-                AutoCasting(controller);
-            }
-        }
+        //public override void Interact(BasePlayerController controller)
+        //{
+        //    if (controller is DollController)
+        //    {
+        //        BarUI_Controller.Instance.SetTarget(this);
+        //        Casting(controller);
+        //    }
+        //    if (controller is ExorcistController)
+        //    {
+        //        BarUI_Controller.Instance.SetTarget(null);
+        //        AutoCasting(controller);
+        //    }
+        //}
 
-        /*--- Protected Methods ---*/
-        protected override void Casting(BasePlayerController controller)
-        {
-            //controller에서 PlayerData 를 호출하고 interact Velocity를 받음.	
-            float velocity = 10.0f;
-            curGauge += velocity * Time.deltaTime;
-        }
-        protected override void AutoCasting(BasePlayerController controller)
-        {
-            //controller에서 PlayerData 를 호출하고 interact Velocity를 받음.	
-            float velocity = 10.0f;
-        }
+        ///*--- Protected Methods ---*/
+        //protected override void Casting(BasePlayerController controller)
+        //{
+        //    //controller에서 PlayerData 를 호출하고 interact Velocity를 받음.	
+        //    float velocity = 10.0f;
+        //    curGauge += velocity * Time.deltaTime;
+        //}
+        //protected override void AutoCasting(BasePlayerController controller)
+        //{
+        //    //controller에서 PlayerData 를 호출하고 interact Velocity를 받음.	
+        //    float velocity = 10.0f;
+        //}
 
         /*--- Private Methods ---*/
     }

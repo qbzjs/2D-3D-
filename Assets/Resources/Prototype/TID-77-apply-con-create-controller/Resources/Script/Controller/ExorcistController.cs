@@ -193,13 +193,10 @@ namespace GHJ_Lib
 
 		public virtual void DoPickUp()
 		{
-
 			if (Input.GetKeyDown(KeyCode.Mouse0))
 			{
 				ChangeActionTo("Catch");
 			}
-				
-			
 		}
 
 		public override void Imprison()
@@ -216,7 +213,6 @@ namespace GHJ_Lib
 
 		protected override void PlayerInput()
 		{
-
 			if (Input.GetKeyDown(KeyCode.Mouse1))
 			{
 				if (!useActiveSkill)

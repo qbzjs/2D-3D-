@@ -25,35 +25,9 @@ namespace GHJ_Lib
 			}
 
 			if (actor.photonView.IsMine)
-			{ 
-				switch (actor.castingType)
-				{
-
-					case InteractionObj.CastingType.ManualCasting:
-						{
-							actor.StartCoroutine("Cast");
-						}
-						break;
-					case InteractionObj.CastingType.SharedAutoCasting:
-						{
-							actor.StartCoroutine("AutoCasting");
-						}
-						break;
-					case InteractionObj.CastingType.LocalAutoCasting:
-						{
-							actor.StartCoroutine("AutoCastingNull");
-						}
-						break;
-					case InteractionObj.CastingType.NotCasting:
-						{
-							Debug.LogError("Wrong interact");
-						}
-						break;
-			
-				}
+			{
+				actor.InteractBy(actor.castingType);
 			}
-
-
 
 			actor.SetMoveInput(false);
 		}

@@ -28,6 +28,10 @@ namespace GHJ_Lib
 		protected float curGauge = 0;
 		/*--- Private Fields ---*/
 
+		//
+		protected bool isVerified;
+
+		//
 
 		/*--- Public Methods ---*/
 

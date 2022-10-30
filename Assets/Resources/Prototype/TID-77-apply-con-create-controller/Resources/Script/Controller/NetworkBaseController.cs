@@ -87,7 +87,6 @@ namespace GHJ_Lib
 			initialInteractSpeed = DataManager.Instance.RoleInfos[typeIndex].InteractionSpeed;
 			base.Start();
 			SetMoveInput(true);
-
 		}
 		protected override void Update()
 		{
@@ -107,16 +106,12 @@ namespace GHJ_Lib
 			RotateToDirection();
 			MoveCharacter();
 
-
-
 			CurCharacterAction.Update(this, ref CurCharacterAction);
 			CurCharacterCondition.Update(this, ref CurCharacterCondition);
 		}
 
 		protected virtual void OnTriggerStay(Collider other)
 		{
-
-			
 			if (other.CompareTag("interactObj"))
 			{
 				interactObj = other.GetComponent<InteractionObj>();
@@ -133,7 +128,6 @@ namespace GHJ_Lib
 					}
 
 					castingType = interactObj.GetCastingType(this);
-
 
 					switch (castingType)
 					{
@@ -198,7 +192,6 @@ namespace GHJ_Lib
 			}
 			
 		}
-
 		protected virtual void OnTriggerExit(Collider other)
 		{
 			if (!photonView.IsMine)
@@ -217,8 +210,8 @@ namespace GHJ_Lib
 
 
 		/*--- Public Methods ---*/
-		/*--Input Controll--*/
 
+		/*--Input Controll--*/
 		public void SetMoveInput(bool flag)
 		{
 			if (flag)
@@ -253,8 +246,6 @@ namespace GHJ_Lib
 				DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = initialSpeed;
 				DataManager.Instance.ShareRoleData();
 			}
-
-			
 		}
 
 		public virtual void DoSkill()
@@ -267,7 +258,6 @@ namespace GHJ_Lib
 					photonView.RPC("DoActiveSkill", RpcTarget.AllViaServer);
 				}
 			}
-			
 		}
 
 		public virtual void DoInteract()
@@ -277,12 +267,10 @@ namespace GHJ_Lib
 				ChangeActionTo("Interact");
 
 			}
-
 		}
 
 		public void DoAttack()
 		{
-
 			if (Input.GetKeyDown(KeyCode.Mouse0))
 			{
 				if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
@@ -292,46 +280,48 @@ namespace GHJ_Lib
 				}
 
 			}
-			
 		}
 
-		public virtual void DoImprison()
+		public virtual void DoImprison(){}
+        public virtual void BecomeGhost(){}
+		public virtual bool DoResist(){return false;}
+		public virtual bool HelpUp(){return true;}
+		public virtual void Escape(Transform transform, int layer){}
+		public virtual void Imprison(){}
+		public virtual void InteractBy(InteractionObj.CastingType type)
 		{
-			
-		}
-
-
-
-
-
-        public virtual void BecomeGhost()
+			StartCoroutine(_InteractBy(type));
+        }
+		protected virtual IEnumerator _InteractBy(InteractionObj.CastingType type)
 		{
-			
+			switch (type)
+			{
+				case InteractionObj.CastingType.ManualCasting:
+				{
+					yield return Cast();
+				}
+				break;
+				case InteractionObj.CastingType.SharedAutoCasting:
+				{
+					yield return SharedAutoCasting();
+				}
+				break;
+				case InteractionObj.CastingType.LocalAutoCasting:
+				{
+					yield return LocalAutoCasting();
+				}
+				break;
+				case InteractionObj.CastingType.NotCasting:
+				{
+					Debug.LogError("Wrong interact");
+				}
+				break;
+
+			}
 		}
 
-		public virtual bool DoResist()
-		{
-			return false;
-		}
 
-		public virtual bool HelpUp()
-		{
-			return true;
-		}
-
-		public virtual void Escape(Transform transform, int layer)
-		{
-			
-		}
-
-		public virtual void Imprison()
-		{
-			
-		}
-
-
-
-		public virtual IEnumerator Cast()
+		protected virtual IEnumerator Cast()
 		{
 			if (IsCasting)
 			{
@@ -352,7 +342,7 @@ namespace GHJ_Lib
 			}
 		}
 
-		protected virtual IEnumerator AutoCasting()
+		protected virtual IEnumerator SharedAutoCasting()
 		{
 			if (IsAutoCasting)
 			{
@@ -373,7 +363,7 @@ namespace GHJ_Lib
 				}
 			}
 		}
-		protected virtual IEnumerator AutoCastingNull()
+		protected virtual IEnumerator LocalAutoCasting()
 		{
 			if (IsAutoCasting)
 			{

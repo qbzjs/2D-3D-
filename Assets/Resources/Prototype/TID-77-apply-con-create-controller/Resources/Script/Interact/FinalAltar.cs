@@ -42,19 +42,19 @@ namespace GHJ_Lib
 
         void Update()
         {
-			if (!canOpenDoor)
-			{
-				return;
-			}
+            if (!canOpenDoor)
+            {
+                return;
+            }
 
-			if (curGauge >= 1.0f)
-			{
-				CanActiveToDoll = false;
-				OpenDoor();
-			}
+            if (curGauge >= 1.0f)
+            {
+                CanActiveToDoll = false;
+                OpenDoor();
+            }
         }
 
-		public override CastingType GetCastingType(NetworkBaseController player)
+        public override CastingType GetCastingType(NetworkBaseController player)
 		{
 			if (player is DollController)
 			{
