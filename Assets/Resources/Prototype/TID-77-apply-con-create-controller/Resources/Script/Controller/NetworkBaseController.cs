@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using KSH_Lib;
 using KSH_Lib.Data;
+using Cinemachine;
 
 namespace GHJ_Lib
 {
@@ -27,8 +28,17 @@ namespace GHJ_Lib
 		protected PhotonTransformViewClassic photonTransformView;
 
 		/*--Cam--*/
+		[SerializeField]
+		GameObject FPV_Cam;
+		[SerializeField]
+		GameObject TPV_Cam;
+
+
 		protected KSH_Lib.FPV_CameraController fpvCam;
 		protected TPV_CameraController tpvCam;
+
+		
+
 
 		/*--initailData--*/
 		protected int typeIndex;
@@ -58,12 +68,25 @@ namespace GHJ_Lib
 		protected DelPlayerInput moveInput;
 
 		protected BarUI_Controller barUI;
-		/*--- Private Fields ---*/
+        /*--- Private Fields ---*/
+        protected override void Awake()
+        {
+			Instantiate(FPV_Cam);
+			Instantiate(TPV_Cam);
 
+			FPV_Cam.GetComponent<CinemachineVirtualCamera>().Follow = camTarget.transform;
+			FPV_Cam.GetComponent<BaseCameraController>().SetCamTarget(camTarget);
 
-		/*--- MonoBehaviour Callbacks ---*/
-		public override void OnEnable()
+			TPV_Cam.GetComponent<CinemachineVirtualCamera>().Follow = camTarget.transform;
+			TPV_Cam.GetComponent<BaseCameraController>().SetCamTarget(camTarget);
+			base.Awake();
+		}
+
+        /*--- MonoBehaviour Callbacks ---*/
+        public override void OnEnable()
 		{
+			
+
 			barUI = StageManager.Instance.BarUI;
 			Debug.Log("BarUI : " + barUI.name);
 			if (barUI == null)
@@ -346,6 +369,8 @@ namespace GHJ_Lib
 			{
 				float ChargeVel = 3.0f;//차지속도
 				interactObj.AddGauge(ChargeVel * Time.deltaTime);
+				Debug.Log(interactObj.name);
+				Debug.Log(interactObj.GetGaugeRate);
 				yield return new WaitForEndOfFrame();
 				if (!Input.GetKey(KeyCode.Mouse0))
 				{
@@ -436,7 +461,7 @@ namespace GHJ_Lib
 		}
 
 		/*--IpunObserve--*/
-		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+		public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 		{
 
 			if (stream.IsWriting)

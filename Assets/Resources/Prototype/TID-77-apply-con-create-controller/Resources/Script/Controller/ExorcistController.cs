@@ -41,24 +41,12 @@ namespace GHJ_Lib
 			// 카메라 설정하기
 			if (photonView.IsMine)
 			{
-				Debug.Log($"TypeIndex: {typeIndex}");
-
-				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
-				fpvCam = GameObject.Find( "FPV_Cam(Clone)" ).GetComponent<KSH_Lib.FPV_CameraController>();
-				if(fpvCam == null)
-                {
-					Debug.LogError( "ExorcistController.OnEnable: Can not find FPVCamController" );
-					return;
-                }
-				fpvCam.InitCam(camTarget);
 				fpvCam.gameObject.SetActive(true);
-				tpvCam = GameObject.Find( "TPV_Cam(Clone)" ).GetComponent<TPV_CameraController>();
-				if ( tpvCam == null )
-				{
-					Debug.LogError( "ExorcistController.OnEnable: Can not find TPVCamController" );
-					return;
-				}
-				tpvCam.InitCam(camTarget);
+				tpvCam.gameObject.SetActive(false);
+			}
+			else
+			{
+				fpvCam.gameObject.SetActive(false);
 				tpvCam.gameObject.SetActive(false);
 			}
 			// CurcharacterAction, CurcharacterCondition,  초기설정하기
@@ -204,7 +192,7 @@ namespace GHJ_Lib
 		{
 			DollController doll = caughtDoll.GetComponent<DollController>();
 			CatchObj[doll.TypeIndex - 5].gameObject.SetActive(false);
-			doll.ChangeCamera((interactObj as PurificationBox).CamTarget);
+			//doll.ChangeCamera((interactObj as PurificationBox).Cam);
 			doll.Imprisoned((interactObj as PurificationBox));
 		}
 
@@ -364,7 +352,36 @@ namespace GHJ_Lib
 			DollController doll = caughtDoll.GetComponent<DollController>();
 			CatchObj[doll.TypeIndex-5].gameObject.SetActive(true);
 			CharacterLayerChange(caughtDoll, 8);
-			doll.CaughtDoll(camTarget);
+			doll.CaughtDoll(fpvCam);
 		}
-	}
+
+
+
+        public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+			if (stream.IsWriting)
+			{
+
+				stream.SendNext(characterModel.transform.rotation.x);
+				stream.SendNext(characterModel.transform.rotation.y);
+				stream.SendNext(characterModel.transform.rotation.z);
+
+				stream.SendNext(this.transform.position.x);
+				stream.SendNext(this.transform.position.y);
+				stream.SendNext(this.transform.position.z);
+
+			}
+			if (stream.IsReading)
+			{
+				float x	= (float)stream.ReceiveNext();
+				float y = (float)stream.ReceiveNext();
+				float z = (float)stream.ReceiveNext();
+
+				characterModel.transform.rotation = Quaternion.Euler(new Vector3(x, y, z));  
+
+
+				this.transform.position = new Vector3((float)stream.ReceiveNext(), (float)stream.ReceiveNext(), (float)stream.ReceiveNext());
+			}
+		}
+    }
 }

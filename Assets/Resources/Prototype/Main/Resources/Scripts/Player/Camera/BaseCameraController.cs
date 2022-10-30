@@ -135,5 +135,12 @@ namespace KSH_Lib
                 camTarget.transform.eulerAngles = new Vector3( 360.0f + minAngleY, angles.y, angles.z );
             }
         }
+
+
+        //GHJ 
+        public void SetCamTarget(GameObject camTarget)
+        {
+            this.camTarget = camTarget;
+        }
     }
 }

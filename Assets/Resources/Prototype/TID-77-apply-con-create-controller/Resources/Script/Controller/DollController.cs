@@ -52,12 +52,13 @@ namespace GHJ_Lib
 			if (photonView.IsMine)
 			{
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
-				fpvCam = GameObject.Find( "FPV_Cam(Clone)" ).GetComponent<KSH_Lib.FPV_CameraController>();
-				fpvCam.InitCam(camTarget);
 				fpvCam.gameObject.SetActive(false);
-				tpvCam = GameObject.Find( "TPV_Cam(Clone)" ).GetComponent<TPV_CameraController>();
-				tpvCam.InitCam(camTarget);
 				tpvCam.gameObject.SetActive(true);
+			}
+			else
+			{
+				fpvCam.gameObject.SetActive(false);
+				tpvCam.gameObject.SetActive(false);
 			}
 			// CurcharacterAction, CurcharacterCondition,  초기설정하기
 			CurCharacterAction.PushSuccessorState(idle);
@@ -98,19 +99,22 @@ namespace GHJ_Lib
 		/*--- Public Methods ---*/
 
 
-		public void CaughtDoll(GameObject ExorcistCamTarget)
+		public void CaughtDoll(BaseCameraController cam)
 		{
 			characterModel.gameObject.SetActive(false);
-			ChangeCamera(ExorcistCamTarget);
+			ChangeCamera(cam);
 			ChangeActionTo("Caught");
 		}
 		
 
-		public void ChangeCamera(GameObject camTarget)
+		public void ChangeCamera(BaseCameraController cam )
 		{
 			if (photonView.IsMine)
 			{
-				tpvCam.InitCam(camTarget);
+				fpvCam.gameObject.SetActive(false);
+				tpvCam.gameObject.SetActive(false);
+
+				cam.gameObject.SetActive(true);
 			}
 		}
 		public void HitDamage()
@@ -131,7 +135,7 @@ namespace GHJ_Lib
 			characterModel.transform.SetPositionAndRotation(puriBox.CharacterPos.position, puriBox.CharacterPos.rotation);
 			BaseAnimator.Play("Fear");
 			CharacterLayerChange(characterObj, 0);
-
+			ChangeCamera(tpvCam);
 			if (photonView.IsMine)
 			{
 				ChangeActionTo("Purified");
@@ -144,7 +148,7 @@ namespace GHJ_Lib
 			this.transform.rotation = transform.rotation;
 			characterModel.gameObject.SetActive(true);
 			CharacterLayerChange(characterObj, layer);
-			ChangeCamera(camTarget);
+			ChangeCamera(tpvCam);
 			ChangeActionTo("Idle");
 		}
 		public override void BecomeGhost()

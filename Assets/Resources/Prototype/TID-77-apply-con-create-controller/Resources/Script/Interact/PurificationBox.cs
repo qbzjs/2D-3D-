@@ -9,6 +9,7 @@ namespace GHJ_Lib
         /*--- Public Fields ---*/
         public Transform CharacterPos;
         public GameObject CamTarget;
+        public BaseCameraController Cam;
         /*--- Protected Fields ---*/
         protected DollController DollInBox = null;
         /*--- Private Fields ---*/
@@ -39,7 +40,7 @@ namespace GHJ_Lib
         {
             if (player is DollController)
             {
-                if (player.CurCharacterAction is BvIdle && DollInBox)
+                if (DollInBox)
                 {
                     return CastingType.ManualCasting;
                 }

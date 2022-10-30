@@ -20,9 +20,6 @@ namespace GHJ_Lib
 				return instance; 
 			}
 		}
-		[Header("Camera")]
-		public GameObject FPV_Cam;
-		public GameObject TPV_Cam;
 
 		[Header("Prefabs")]
 		public GameObject[] DollPrefabs;
@@ -66,9 +63,6 @@ namespace GHJ_Lib
         {
 			DataManager.Instance.InitPlayerDatas();
 			DataManager.Instance.ShareAllData();
-
-			Instantiate(FPV_Cam);
-			Instantiate(TPV_Cam);
 		}
         void Start()
 		{

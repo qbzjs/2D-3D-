@@ -85,6 +85,7 @@ namespace GHJ_Lib
 					case InteractionObj.CastingType.NotCasting:
 						{
 							Debug.LogError("Wrong interact");
+							actor.ChangeActionTo("Idle");
 						}
 						break;
 				}
