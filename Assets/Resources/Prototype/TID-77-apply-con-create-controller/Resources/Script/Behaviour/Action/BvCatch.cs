@@ -11,25 +11,29 @@ namespace GHJ_Lib
 
 
 		/*--- Protected Fields ---*/
-		protected DollController nearestDoll;
+		
 
         /*--- Private Fields ---*/
 
 
         /*--- Public Methods ---*/
-        public void SetNearestDoll(GameObject doll)
-        {
-            nearestDoll = doll.GetComponent<DollController>();
-        }
+      
 
         /*--- Protected Methods ---*/
         protected override void Activate(in NetworkBaseController actor)
         {
             actor.BaseAnimator.Play("Pickup");
+            actor.SetMoveInput(true);
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
+            if (actor.photonView.IsMine)
+            {
+                actor.DoImprison();
+            }
+
+
             Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
 
             if (Bv is BvImprison)

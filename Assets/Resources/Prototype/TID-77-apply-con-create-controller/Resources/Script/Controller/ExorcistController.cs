@@ -180,7 +180,16 @@ namespace GHJ_Lib
 
 
 
-
+		public override void DoImprison()
+		{
+			if(Input.GetKeyDown(KeyCode.Mouse0))
+			{
+				if (canInteract)
+				{
+					ChangeActionTo("Interact");
+				}
+			}
+		}
 
 		public virtual void DoPickUp()
 		{
@@ -191,6 +200,14 @@ namespace GHJ_Lib
 			}
 				
 			
+		}
+
+		public override void Imprison()
+		{
+			DollController doll = caughtDoll.GetComponent<DollController>();
+			CatchObj[doll.TypeIndex - 5].gameObject.SetActive(false);
+			doll.ChangeCamera((interactObj as PurificationBox).CamTarget);
+			doll.Imprisoned((interactObj as PurificationBox));
 		}
 
 
@@ -297,13 +314,11 @@ namespace GHJ_Lib
 					{
 						if (CurCharacterAction is BvIdle)
 						{
-							//interact.SetInteractObj(interactObj);
 							CurCharacterAction.PushSuccessorState(interact);
 						}
 						if (CurCharacterAction is BvCatch)
 						{
-							imprison.SetCaughtDoll(caughtDoll);
-							imprison.SetInteractObj(interactObj);
+
 							CurCharacterAction.PushSuccessorState(imprison);
 						}
 					}
@@ -340,13 +355,7 @@ namespace GHJ_Lib
 
 
 		/*--- AnimationCallbacks Methods ---*/
-		public void ImprisonDoll(GameObject camTarget)
-        {
-			DollController doll = caughtDoll.GetComponent<DollController>();
-			CatchObj[doll.TypeIndex-5].gameObject.SetActive(false);
-			doll.ChangeCamera(camTarget);
 
-		}
 		public void PickUp()
 		{
 			DollController doll = caughtDoll.GetComponent<DollController>();

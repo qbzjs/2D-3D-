@@ -10,20 +10,15 @@ namespace GHJ_Lib
         /*--- Public Fields ---*/
 
         /*--- Protected Fields ---*/
-        protected Transform initGhostPos;
+        
         /*--- Private Fields ---*/
 
         /*--- Public Methods---*/
-        public void SetInitGhostPos(Transform transform)
-        {
-            initGhostPos = transform;
-        }
+      
         /*--- Protected Methods ---*/
         protected override void Activate(in NetworkBaseController actor)
         {
-            DollController doll = (actor as DollController);
-            doll.Escape(initGhostPos,8); //ghost layer = 8;
-            doll.BecomeGhost();
+            actor.SetMoveInput(true);
         }
     
         /*--- Private Methods ---*/

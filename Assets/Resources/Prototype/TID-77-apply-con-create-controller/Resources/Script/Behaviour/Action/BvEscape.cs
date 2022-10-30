@@ -10,24 +10,16 @@ namespace GHJ_Lib
         /*--- Public Fields ---*/
 
         /*--- Protected Fields ---*/
-        protected Transform escapePos;
+        
         /*--- Private Fields ---*/
 
         /*--- Public Methods---*/
-        public void SetEscapePos(Transform transform)
-        {
-            escapePos = transform;
-        }
+      
         /*--- Protected Methods ---*/
         protected override void Activate(in NetworkBaseController actor)
         {
-            if (escapePos == null)
-            {
-                Debug.LogError("you Do not SetEscapePos");
-                return;
-            }
-            //애니매이션이 있다면 그에따라 pos를 변경.
-            (actor as DollController).Escape(escapePos,0); //Default layer = 0;
+            //actor.Escape(escapePos,0); //Default layer = 0;
+            actor.SetMoveInput(false);
         }
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {

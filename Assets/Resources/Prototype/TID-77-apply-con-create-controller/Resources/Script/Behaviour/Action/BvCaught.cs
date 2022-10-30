@@ -23,20 +23,28 @@ namespace GHJ_Lib
         {
             
             resistGauge = 0.0f;
-
+            actor.SetMoveInput(false);
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
+            if (actor.photonView.IsMine)
+            {
+                if (actor.DoResist())
+                {
+                    resistGauge += 1.0f;
+                }
+            }
+
+            if (resistGauge > 10.0f)
+            {
+                //actor.Escape
+            }
 
             Behavior<NetworkBaseController> Bv =  PassIfHasSuccessor();
             if (Bv is BvPurified)
             {
                 return Bv;
-            }
-            if (resistGauge > 1.0f)
-            {
-                //escape
             }
 
             return null;

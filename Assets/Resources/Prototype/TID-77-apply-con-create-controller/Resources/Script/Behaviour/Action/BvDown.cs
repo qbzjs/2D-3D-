@@ -23,6 +23,7 @@ namespace GHJ_Lib
         {
             UpGauge = 0.0f;
             actor.BaseAnimator.Play("Death");
+            actor.SetMoveInput(false);
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
@@ -33,7 +34,13 @@ namespace GHJ_Lib
             {
                 return new BvIdle();
             }
-            
+
+            if (Bv is BvCaught)
+            {
+                return Bv;
+            }
+
+
             return null;
         }
 

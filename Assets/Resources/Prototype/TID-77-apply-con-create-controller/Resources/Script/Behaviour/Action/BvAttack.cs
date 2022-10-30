@@ -27,6 +27,8 @@ namespace GHJ_Lib
             }
             actor.BaseAnimator.Play("Attack");
             (actor as ExorcistController).attackBox.gameObject.SetActive(true);
+
+            actor.SetMoveInput(false);
         }
 
         

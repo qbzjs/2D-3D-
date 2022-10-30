@@ -294,6 +294,43 @@ namespace GHJ_Lib
 			}
 			
 		}
+
+		public virtual void DoImprison()
+		{
+			
+		}
+
+
+
+
+
+        public virtual void BecomeGhost()
+		{
+			
+		}
+
+		public virtual bool DoResist()
+		{
+			return false;
+		}
+
+		public virtual bool HelpUp()
+		{
+			return true;
+		}
+
+		public virtual void Escape(Transform transform, int layer)
+		{
+			
+		}
+
+		public virtual void Imprison()
+		{
+			
+		}
+
+
+
 		public virtual IEnumerator Cast()
 		{
 			if (IsCasting)

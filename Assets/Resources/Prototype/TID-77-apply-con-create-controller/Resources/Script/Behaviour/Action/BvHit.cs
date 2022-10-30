@@ -30,15 +30,19 @@ namespace GHJ_Lib
             {
                 actor.DoHit();
             }
+            actor.SetMoveInput(true);
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
             //PassIfHasSuccessor();
-           // if ((DataManager.Instance.PlayerDatas[playerIndex].roleData as DollData).DollHP<0.0f)
+
+
+            if ((DataManager.Instance.PlayerDatas[actor.PlayerIndex].roleData as DollData).DollHP<0.0f)
             {
                 return new BvDown();
-            }    
+            }
+               
             
             if (actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f)
             {

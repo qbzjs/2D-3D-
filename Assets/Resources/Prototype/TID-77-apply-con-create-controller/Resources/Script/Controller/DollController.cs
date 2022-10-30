@@ -104,14 +104,7 @@ namespace GHJ_Lib
 			ChangeCamera(ExorcistCamTarget);
 			ChangeActionTo("Caught");
 		}
-		public void Escape(Transform transform, int layer)
-		{
-			this.transform.position = transform.position;
-			this.transform.rotation = transform.rotation;
-			characterModel.gameObject.SetActive(true);
-			CharacterLayerChange(characterObj, layer);
-			ChangeCamera(camTarget);
-		}
+		
 
 		public void ChangeCamera(GameObject camTarget)
 		{
@@ -133,29 +126,64 @@ namespace GHJ_Lib
 		}
 		public void Imprisoned(PurificationBox puriBox)
 		{
-			purified.SetPuriBox(puriBox);
+			puriBox.PurifyDoll(this);
 			if (photonView.IsMine)
 			{
 				ChangeActionTo("Purified");
 			}
 		}
-		public void BecomeGhost()
+
+		public override void Escape(Transform transform, int layer)
 		{
+			this.transform.position = transform.position;
+			this.transform.rotation = transform.rotation;
+			characterModel.gameObject.SetActive(true);
+			CharacterLayerChange(characterObj, layer);
+			ChangeCamera(camTarget);
+		}
+		public override void BecomeGhost()
+		{
+			//tpvCam.virtualCam.
+			//Escape(initGhostPos, 8); //ghost layer = 8;
 			//에셋이 바뀐다
 			characterModel.SetActive(false);
 			GhostModel.SetActive(true);
 			CharacterLayerChange(GhostModel, 8);
 			ChangeActionTo("Idle");
 			BaseAnimator.enabled = false;
-
 			GhostModel.GetComponent<Animator>().Play("GhostIdle");
-			
-
 		}
 
+        public override bool DoResist()
+        {
+			if (Input.GetKeyDown(KeyCode.LeftArrow)
+				|| Input.GetKeyDown(KeyCode.LeftArrow))
+			{
+				return true;
+			}
+			return false;
 
-		/*--HitByExorcistSkill--*/
-		public void AprrochCrossArea()
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*--HitByExorcistSkill--*/
+        public void AprrochCrossArea()
 		{
 			crossStack++;
 			if (crossStack > 5)

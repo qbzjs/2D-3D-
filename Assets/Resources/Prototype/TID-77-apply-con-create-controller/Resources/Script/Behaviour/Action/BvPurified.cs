@@ -10,24 +10,23 @@ namespace GHJ_Lib
         /*--- Public Fields ---*/
 
         /*--- Protected Fields ---*/
-        protected PurificationBox purificationBox;
+
 
         /*--- Private Fields ---*/
 
 
         /*--- Public Methods---*/
-        public void SetPuriBox(PurificationBox puriBox)
+        protected override void Activate(in NetworkBaseController actor)
         {
-            purificationBox = puriBox;
+            actor.SetMoveInput(false);
         }
         /*--- Protected Methods ---*/
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
+            
             Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
             if (Bv is BvEscape)
             {
-                purificationBox.EscapePurifyDoll();
-                (Bv as BvEscape).SetEscapePos(purificationBox.CharacterPos);
                 return Bv;
             }
 
@@ -38,9 +37,7 @@ namespace GHJ_Lib
 
                 if ((DataManager.Instance.LocalPlayerData.roleData as DollData).DevilHP < 0.0f)
                 {
-                    BvBecomeGhost becomeGhost = new BvBecomeGhost();
-                    becomeGhost.SetInitGhostPos(purificationBox.CharacterPos);
-                    return becomeGhost;
+                    return new BvBecomeGhost();
                 }
             }
 
