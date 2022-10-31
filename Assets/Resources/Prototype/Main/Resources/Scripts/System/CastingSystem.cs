@@ -19,6 +19,7 @@ namespace KSH_Lib
         public bool IsFinshCasting { get; private set; }
         public bool IsCoolDown { get; private set; }
         public float CurCoolTime { get; private set; }
+        public float SliderVal { get { return slider.value; } }
 
         public bool isManualCoroutineStarted;
 
@@ -70,7 +71,7 @@ namespace KSH_Lib
                 return;
             }
 
-            if( IsInputNow() && !isManualCoroutineStarted )
+            else if( !isManualCoroutineStarted )
             {
                 Debug.Log( $"Start Manual Casting Now  (delta = {deltaRatio}, CoolTime = {coolTime}) " );
                 StartCoroutine( ManualCastingByRatio( IsInputNow, deltaRatio, destRatio, coolTime ) );
@@ -102,8 +103,7 @@ namespace KSH_Lib
         }
         IEnumerator ManualCastingByRatio( Func<bool> IsInputNow, float deltaCastingRatio, float destRatio, float? coolTime )
         {
-            StartCasting();
-            slider.enabled = true;
+            castingSliderObj.SetActive( true );
             isManualCoroutineStarted = true;
 
             while ( true )
@@ -113,13 +113,12 @@ namespace KSH_Lib
                 if ( slider.value >= destRatio )
                 {
                     Debug.Log( $"Value is {slider.value}" );
-
+                    IsCoolDown = true;
                     EndCasting( destRatio, coolTime );
                     yield return null;
                 }
 
                 slider.value += deltaCastingRatio * Time.deltaTime;
-                Debug.Log( $"slider Value is {slider.value}" );
                 yield return new WaitForEndOfFrame();
 
                 if (!IsInputNow())
@@ -129,7 +128,6 @@ namespace KSH_Lib
             }
 
             isManualCoroutineStarted = false;
-            IsCoolDown = false;
             castingSliderObj.SetActive( false );
             yield return null;
         }
@@ -161,7 +159,6 @@ namespace KSH_Lib
                 StartCoroutine( CoolDown( coolTime ) );
             }
         }
-
         public void ResetCasting()
         {
             if ( !IsFinshCasting )

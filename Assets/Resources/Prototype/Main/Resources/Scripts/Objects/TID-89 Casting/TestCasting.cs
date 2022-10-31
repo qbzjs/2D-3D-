@@ -45,7 +45,7 @@ namespace KSH_Lib.Test
                 castingSystem.StartAutoCastingByRatio( 1.0f );
             }
          
-             castingSystem.StartManualCastingByRatio( IsInputNow, 0.1f );
+             castingSystem.StartManualCastingByRatio( IsInputNow, 0.3f, 3.0f );
 
 
             if ( Input.GetKeyDown( KeyCode.Alpha0 ) )
@@ -60,6 +60,7 @@ namespace KSH_Lib.Test
             GUI.Box( new Rect( 0, 0, 150, 30 ), $"IsFinishCasting: {castingSystem.IsFinshCasting}" );
             GUI.Box( new Rect( 0, 30, 150, 30 ), $"IsCoolDown: {castingSystem.IsCoolDown}" );
             GUI.Box( new Rect( 0, 60, 150, 30 ), $"Cooltime: {castingSystem.CurCoolTime}" );
+            GUI.Box( new Rect( 0, 90, 150, 30 ), $"Slider: {castingSystem.SliderVal}" );
         }
 
         private void OnTriggerEnter( Collider other )
