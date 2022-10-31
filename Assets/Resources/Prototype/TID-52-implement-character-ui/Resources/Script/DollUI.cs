@@ -85,8 +85,8 @@ namespace GHJ_Lib
             {
                 if (myIdx == i)
                 {
-                    PlayerDollHP.fillAmount = (DataManager.Instance.PlayerDatas[myIdx].roleData as DollData).DollHP / maxDollHP[myIdx-1];
-                    PlayerDevilHP.fillAmount = (DataManager.Instance.PlayerDatas[myIdx].roleData as DollData).DevilHP / maxDevilHP[myIdx-1];
+                    PlayerDollHP.fillAmount = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i-1];
+                    PlayerDevilHP.fillAmount = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i-1];
                    
                 }
                 else

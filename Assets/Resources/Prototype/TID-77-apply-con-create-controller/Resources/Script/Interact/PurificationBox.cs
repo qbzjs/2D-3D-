@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
+using Photon.Pun;
 namespace GHJ_Lib
 {
     public class PurificationBox : InteractionObj
@@ -11,6 +12,7 @@ namespace GHJ_Lib
         public GameObject CamTarget;
         public BaseCameraController Cam;
         /*--- Protected Fields ---*/
+        [SerializeField]
         protected DollController DollInBox = null;
         /*--- Private Fields ---*/
 
@@ -26,15 +28,22 @@ namespace GHJ_Lib
         {
             if (DollInBox)
             {
+                Debug.Log("GaugeRate :" + GetGaugeRate);
                 if (GetGaugeRate >= 1.0f)
                 {
-                    Debug.Log("Escape Doll");
                     DollInBox.EscapeFrom(this.transform, 7);
+                    if (photonView.IsMine)
+                    { 
                     DollInBox.ChangeActionTo("Escape");
+                    }
+                    
                     DollInBox = null;
                 }
             }
         }
+
+  
+
 
         public override CastingType GetCastingType(NetworkBaseController player)
         {
@@ -52,6 +61,7 @@ namespace GHJ_Lib
 
             if (player is ExorcistController)
             {
+                Debug.Log("DollInBox : " + DollInBox);
                 if (player.CurCharacterAction is BvCatch && !DollInBox)
                 {
                     return CastingType.LocalAutoCasting;
@@ -72,9 +82,6 @@ namespace GHJ_Lib
             DollModels[DollInBox.TypeIndex - 5].GetComponent<Animator>().Play("fear");
             */
         }
-
-
-
 
         /*--- Private Methods ---*/
     }

@@ -24,6 +24,7 @@ namespace GHJ_Lib
 		}
 		void Update()
 		{
+			Debug.Log("Normal CurGauge :" + curGauge);
 			if (GetGaugeRate >= 1.0f && isEnable)
 			{
 				isEnable = false;

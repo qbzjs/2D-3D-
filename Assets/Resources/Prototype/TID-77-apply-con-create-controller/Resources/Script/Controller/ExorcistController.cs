@@ -320,7 +320,6 @@ namespace GHJ_Lib
 						}
 						if (CurCharacterAction is BvCatch)
 						{
-
 							CurCharacterAction.PushSuccessorState(imprison);
 						}
 					}

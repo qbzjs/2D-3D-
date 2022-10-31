@@ -174,12 +174,12 @@ namespace GHJ_Lib
 
 		public override void EscapeFrom(Transform transform, int layer)
 		{
+			
 			this.transform.position = transform.position;
 			this.transform.rotation = transform.rotation;
 			characterModel.gameObject.SetActive(true);
 			CharacterLayerChange(characterObj, layer);
 			ChangeCamera(tpvCam);
-			ChangeActionTo("Idle");
 		}
 		public override void BecomeGhost()
 		{

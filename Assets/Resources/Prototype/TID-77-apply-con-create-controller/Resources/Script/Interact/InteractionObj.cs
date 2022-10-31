@@ -52,10 +52,12 @@ namespace GHJ_Lib
 		public void AddGauge(float Gauge)
 		{
 			curGauge += Gauge;
+			photonView.RPC("SynchronizeGauge", RpcTarget.AllViaServer, curGauge);
 		}			
 		public void UpdateCurGauge(float Gauge)
 		{
 			curGauge = Gauge;
+			photonView.RPC("SynchronizeGauge", RpcTarget.AllViaServer, curGauge);
 		}
 
 		public void UpdateCurGaugeRate(float valueRate)
@@ -63,22 +65,18 @@ namespace GHJ_Lib
 			curGauge = valueRate * maxGauge;
 		}
 
-
+		[PunRPC]
+		public void SynchronizeGauge(float Gauge)
+		{
+			curGauge = Gauge;
+		}
 
 		/*--- Protected Methods ---*/
 
 
 		public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 		{
-			if (stream.IsWriting)
-			{
-				stream.SendNext(curGauge);
-				
-			}
-			if (stream.IsReading)
-			{
-				curGauge = (float)stream.ReceiveNext();
-			}
+
         }
         /*--- Private Methods ---*/
     }
