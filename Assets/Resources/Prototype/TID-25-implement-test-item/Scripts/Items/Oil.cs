@@ -28,7 +28,7 @@ namespace LSH_Lib
             {
                 //상호작용 시작되면
                 //--stack;
-                GameManager.Instance.DollControllers[DataManager.Instance.PlayerIdx].Escape(GameManager.Instance.ExorcistController.transform,1);
+                GameManager.Instance.DollControllers[DataManager.Instance.PlayerIdx].EscapeFrom(GameManager.Instance.ExorcistController.transform,1);
                 //if stack == 0;
                 //destroy(this.gameobject);
             }

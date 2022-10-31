@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using KSH_Lib;
 using KSH_Lib.Data;
+using Cinemachine;
 
 namespace GHJ_Lib
 {
@@ -27,8 +28,16 @@ namespace GHJ_Lib
 		protected PhotonTransformViewClassic photonTransformView;
 
 		/*--Cam--*/
+
+
+		[SerializeField]
 		protected KSH_Lib.FPV_CameraController fpvCam;
+		[SerializeField]
 		protected TPV_CameraController tpvCam;
+
+		protected BaseCameraController curCam;
+		
+
 
 		/*--initailData--*/
 		protected int typeIndex;
@@ -58,12 +67,14 @@ namespace GHJ_Lib
 		protected DelPlayerInput moveInput;
 
 		protected BarUI_Controller barUI;
-		/*--- Private Fields ---*/
+        /*--- Private Fields ---*/
 
 
-		/*--- MonoBehaviour Callbacks ---*/
-		public override void OnEnable()
+        /*--- MonoBehaviour Callbacks ---*/
+        public override void OnEnable()
 		{
+			
+
 			barUI = StageManager.Instance.BarUI;
 			Debug.Log("BarUI : " + barUI.name);
 			if (barUI == null)
@@ -87,6 +98,7 @@ namespace GHJ_Lib
 			initialInteractSpeed = DataManager.Instance.RoleInfos[typeIndex].InteractionSpeed;
 			base.Start();
 			SetMoveInput(true);
+
 		}
 		protected override void Update()
 		{
@@ -106,12 +118,16 @@ namespace GHJ_Lib
 			RotateToDirection();
 			MoveCharacter();
 
+
+
 			CurCharacterAction.Update(this, ref CurCharacterAction);
 			CurCharacterCondition.Update(this, ref CurCharacterCondition);
 		}
 
 		protected virtual void OnTriggerStay(Collider other)
 		{
+
+			
 			if (other.CompareTag("interactObj"))
 			{
 				interactObj = other.GetComponent<InteractionObj>();
@@ -124,10 +140,13 @@ namespace GHJ_Lib
 					if (viewAngle > maxViewAngle
 						|| viewAngle < 0)
 					{
+						barUI.SliderVisible(false);
+						barUI.TextVisible(false);
 						return;
 					}
 
 					castingType = interactObj.GetCastingType(this);
+
 
 					switch (castingType)
 					{
@@ -192,6 +211,7 @@ namespace GHJ_Lib
 			}
 			
 		}
+
 		protected virtual void OnTriggerExit(Collider other)
 		{
 			if (!photonView.IsMine)
@@ -210,8 +230,8 @@ namespace GHJ_Lib
 
 
 		/*--- Public Methods ---*/
-
 		/*--Input Controll--*/
+
 		public void SetMoveInput(bool flag)
 		{
 			if (flag)
@@ -246,6 +266,8 @@ namespace GHJ_Lib
 				DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = initialSpeed;
 				DataManager.Instance.ShareRoleData();
 			}
+
+			
 		}
 
 		public virtual void DoSkill()
@@ -258,6 +280,7 @@ namespace GHJ_Lib
 					photonView.RPC("DoActiveSkill", RpcTarget.AllViaServer);
 				}
 			}
+			
 		}
 
 		public virtual void DoInteract()
@@ -267,10 +290,12 @@ namespace GHJ_Lib
 				ChangeActionTo("Interact");
 
 			}
+
 		}
 
 		public void DoAttack()
 		{
+
 			if (Input.GetKeyDown(KeyCode.Mouse0))
 			{
 				if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
@@ -280,59 +305,60 @@ namespace GHJ_Lib
 				}
 
 			}
+			
 		}
 
-		public virtual void DoImprison(){}
-        public virtual void BecomeGhost(){}
-		public virtual bool DoResist(){return false;}
-		public virtual bool HelpUp(){return true;}
-		public virtual void Escape(Transform transform, int layer){}
-		public virtual void Imprison(){}
-		public virtual void InteractBy(InteractionObj.CastingType type)
+		public virtual void DoImprison()
 		{
-			StartCoroutine(_InteractBy(type));
-        }
-		protected virtual IEnumerator _InteractBy(InteractionObj.CastingType type)
-		{
-			switch (type)
-			{
-				case InteractionObj.CastingType.ManualCasting:
-				{
-					yield return Cast();
-				}
-				break;
-				case InteractionObj.CastingType.SharedAutoCasting:
-				{
-					yield return SharedAutoCasting();
-				}
-				break;
-				case InteractionObj.CastingType.LocalAutoCasting:
-				{
-					yield return LocalAutoCasting();
-				}
-				break;
-				case InteractionObj.CastingType.NotCasting:
-				{
-					Debug.LogError("Wrong interact");
-				}
-				break;
-
-			}
+			
 		}
 
 
-		protected virtual IEnumerator Cast()
+
+
+
+        public virtual void BecomeGhost()
+		{
+			
+		}
+
+		public virtual bool DoResist()
+		{
+			return false;
+		}
+
+		public virtual bool HelpUp()
+		{
+			return true;
+		}
+
+
+		public virtual void EscapeFrom(Transform transform, int layer)
+		{
+			
+		}
+
+		public virtual void Imprison()
+		{
+			
+		}
+
+
+
+		public virtual IEnumerator Cast()
 		{
 			if (IsCasting)
 			{
 				yield break;
 			}
 			IsCasting = true;
-			BarUI_Controller.Instance.SetTarget(interactObj);
+			barUI.SetTarget(interactObj);
 			while (true)
 			{
 				float ChargeVel = 3.0f;//차지속도
 				interactObj.AddGauge(ChargeVel * Time.deltaTime);
+				Debug.Log(interactObj.name);
+				Debug.Log(interactObj.GetGaugeRate);
 				yield return new WaitForEndOfFrame();
 				if (!Input.GetKey(KeyCode.Mouse0))
 				{
@@ -342,14 +368,14 @@ namespace GHJ_Lib
 			}
 		}
 
-		protected virtual IEnumerator SharedAutoCasting()
+		protected virtual IEnumerator AutoCasting()
 		{
 			if (IsAutoCasting)
 			{
 				yield break;
 			}
 			IsAutoCasting = true;
-			BarUI_Controller.Instance.SetTarget(interactObj);
+			barUI.SetTarget(interactObj);
 			while (true)
 			{
 
@@ -363,18 +389,18 @@ namespace GHJ_Lib
 				}
 			}
 		}
-		protected virtual IEnumerator LocalAutoCasting()
+		protected virtual IEnumerator AutoCastingNull()
 		{
 			if (IsAutoCasting)
 			{
 				yield break;
 			}
 			IsAutoCasting = true;
-			BarUI_Controller.Instance.SetTarget(null);
+			barUI.SetTarget(null);
 			while (true)
 			{
 				float ChargeVel = 3;
-				BarUI_Controller.Instance.UpdateValue(ChargeVel * Time.deltaTime);
+				barUI.UpdateValue(ChargeVel * Time.deltaTime);
 				yield return new WaitForEndOfFrame();
 				if (BarUI_Controller.Instance.GetValue >= 1.0f)
 				{
@@ -423,7 +449,7 @@ namespace GHJ_Lib
 		}
 
 		/*--IpunObserve--*/
-		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+		public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 		{
 
 			if (stream.IsWriting)
@@ -455,8 +481,6 @@ namespace GHJ_Lib
 		protected virtual void PlayerInput()
 		{
 
-			
-
 		}
 
 		
@@ -484,7 +508,7 @@ namespace GHJ_Lib
 		{
 			Model.layer = layer;
 			int count = Model.transform.childCount;
-			Debug.Log("count : " + count);
+			//Debug.Log("count : " + count);
 			if (count != 0)
 			{
 				for (int i = 0; i < count; ++i)

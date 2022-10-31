@@ -18,7 +18,8 @@ namespace GHJ_Lib
         /*--- Protected Methods ---*/
         protected override void Activate(in NetworkBaseController actor)
         {
-            //actor.Escape(escapePos,0); //Default layer = 0;
+            //애니매이션이 있다면 play를 시킴.
+             //Default layer = 0;
             actor.SetMoveInput(false);
         }
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)

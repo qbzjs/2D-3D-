@@ -96,32 +96,7 @@ namespace GHJ_Lib
 			}
 		}
 		
-		public override void Interact(BasePlayerController controller)
-		{
-			if (controller is DollController)
-			{
-				BarUI_Controller.Instance.SetTarget(this);
-				Casting(controller);
-			}
-			if (controller is ExorcistController)
-			{
-				BarUI_Controller.Instance.SetTarget(null);
-				AutoCasting(controller);
-			}
-		}
-
 		
-		protected override void Casting(BasePlayerController controller)
-		{
-			//controller에서 PlayerData 를 호출하고 interact Velocity를 받음.	
-			float velocity = 10.0f;
-			curGauge += velocity * Time.deltaTime;
-		}
-		protected override void AutoCasting(BasePlayerController controller)
-		{
-			//controller에서 PlayerData 를 호출하고 interact Velocity를 받음.	
-			float velocity = 10.0f;
-		}
 
 
 		/*---EndManager---*/

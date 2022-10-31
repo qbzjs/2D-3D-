@@ -24,8 +24,6 @@ namespace GHJ_Lib
 		protected BvCatch catchDoll = new BvCatch();
 		protected BvImprison imprison = new BvImprison();
 
-
-
 		protected GameObject caughtDoll;
 
 		/*--- Private Fields ---*/
@@ -43,32 +41,33 @@ namespace GHJ_Lib
 			// 카메라 설정하기
 			if (photonView.IsMine)
 			{
-				Debug.Log($"TypeIndex: {typeIndex}");
-
-				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
-				fpvCam = GameObject.Find( "FPV_Cam(Clone)" ).GetComponent<KSH_Lib.FPV_CameraController>();
-				if(fpvCam == null)
-                {
-					Debug.LogError( "ExorcistController.OnEnable: Can not find FPVCamController" );
-					return;
-                }
 				fpvCam.InitCam(camTarget);
-				fpvCam.gameObject.SetActive(true);
-				tpvCam = GameObject.Find( "TPV_Cam(Clone)" ).GetComponent<TPV_CameraController>();
-				if ( tpvCam == null )
-				{
-					Debug.LogError( "ExorcistController.OnEnable: Can not find TPVCamController" );
-					return;
-				}
 				tpvCam.InitCam(camTarget);
-				tpvCam.gameObject.SetActive(false);
+				StartCoroutine("CameraActive");
+				//tpvCam.gameObject.SetActive(false);
+			}
+			else
+			{
+				fpvCam.InitCam(camTarget);
+				tpvCam.InitCam(camTarget);
+				//fpvCam.gameObject.SetActive(false);
+				//tpvCam.gameObject.SetActive(false);
 			}
 			// CurcharacterAction, CurcharacterCondition,  초기설정하기
 			CurCharacterAction.PushSuccessorState(idle);
 
 
 		}
-	
+
+
+		IEnumerator CameraActive()
+		{
+
+			yield return new WaitForSeconds(3);
+			fpvCam.gameObject.SetActive(true);
+			curCam = fpvCam;
+		}
+
 		/*
 		protected override void OnTriggerStay(Collider other)
 		{
@@ -156,7 +155,7 @@ namespace GHJ_Lib
 
 
 
-		/*---HIT_ KILL---*/
+		/*---HIT_SKILL---*/
 		public void HitSkillBy(string skillname)
 		{
 			switch (skillname)
@@ -203,7 +202,7 @@ namespace GHJ_Lib
 		{
 			DollController doll = caughtDoll.GetComponent<DollController>();
 			CatchObj[doll.TypeIndex - 5].gameObject.SetActive(false);
-			doll.ChangeCamera((interactObj as PurificationBox).CamTarget);
+			//doll.ChangeCamera((interactObj as PurificationBox).Cam);
 			doll.Imprisoned((interactObj as PurificationBox));
 		}
 
@@ -263,6 +262,7 @@ namespace GHJ_Lib
 
         protected override void RotateToDirection()
 		{
+
 			if (direction.sqrMagnitude > 0.01f)
 			{
 				animator.SetFloat("MoveSpeed", direction.magnitude);
@@ -274,7 +274,11 @@ namespace GHJ_Lib
 			{
 				animator.SetFloat("MoveSpeed", 0);
 			}
-			characterModel.transform.rotation =  Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y,0.0f);
+
+			if (photonView.IsMine)
+			{ 
+				characterModel.transform.rotation =  Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y,0.0f);
+			}
 		}
 		protected override void MoveCharacter()
 		{
@@ -357,7 +361,36 @@ namespace GHJ_Lib
 			DollController doll = caughtDoll.GetComponent<DollController>();
 			CatchObj[doll.TypeIndex-5].gameObject.SetActive(true);
 			CharacterLayerChange(caughtDoll, 8);
-			doll.CaughtDoll(camTarget);
+			doll.CaughtDoll(tpvCam);
 		}
-	}
+
+
+
+        public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+			if (stream.IsWriting)
+			{
+
+				stream.SendNext(characterModel.transform.rotation.x);
+				stream.SendNext(characterModel.transform.rotation.y);
+				stream.SendNext(characterModel.transform.rotation.z);
+
+				stream.SendNext(this.transform.position.x);
+				stream.SendNext(this.transform.position.y);
+				stream.SendNext(this.transform.position.z);
+
+			}
+			if (stream.IsReading)
+			{
+				float x	= (float)stream.ReceiveNext();
+				float y = (float)stream.ReceiveNext();
+				float z = (float)stream.ReceiveNext();
+
+				characterModel.transform.rotation = Quaternion.Euler(new Vector3(x, y, z));  
+
+
+				this.transform.position = new Vector3((float)stream.ReceiveNext(), (float)stream.ReceiveNext(), (float)stream.ReceiveNext());
+			}
+		}
+    }
 }
