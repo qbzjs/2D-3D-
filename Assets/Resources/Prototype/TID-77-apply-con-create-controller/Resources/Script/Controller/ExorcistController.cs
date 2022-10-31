@@ -41,11 +41,15 @@ namespace GHJ_Lib
 			// 카메라 설정하기
 			if (photonView.IsMine)
 			{
+				fpvCam.InitCam(camTarget);
+				tpvCam.InitCam(camTarget);
 				fpvCam.gameObject.SetActive(true);
 				tpvCam.gameObject.SetActive(false);
 			}
 			else
 			{
+				fpvCam.InitCam(camTarget);
+				tpvCam.InitCam(camTarget);
 				fpvCam.gameObject.SetActive(false);
 				tpvCam.gameObject.SetActive(false);
 			}

@@ -28,13 +28,11 @@ namespace GHJ_Lib
 		protected PhotonTransformViewClassic photonTransformView;
 
 		/*--Cam--*/
-		[SerializeField]
-		GameObject FPV_Cam;
-		[SerializeField]
-		GameObject TPV_Cam;
 
 
+		[SerializeField]
 		protected KSH_Lib.FPV_CameraController fpvCam;
+		[SerializeField]
 		protected TPV_CameraController tpvCam;
 
 		
@@ -69,18 +67,7 @@ namespace GHJ_Lib
 
 		protected BarUI_Controller barUI;
         /*--- Private Fields ---*/
-        protected override void Awake()
-        {
-			Instantiate(FPV_Cam);
-			Instantiate(TPV_Cam);
 
-			FPV_Cam.GetComponent<CinemachineVirtualCamera>().Follow = camTarget.transform;
-			FPV_Cam.GetComponent<BaseCameraController>().SetCamTarget(camTarget);
-
-			TPV_Cam.GetComponent<CinemachineVirtualCamera>().Follow = camTarget.transform;
-			TPV_Cam.GetComponent<BaseCameraController>().SetCamTarget(camTarget);
-			base.Awake();
-		}
 
         /*--- MonoBehaviour Callbacks ---*/
         public override void OnEnable()
