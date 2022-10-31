@@ -32,12 +32,17 @@ namespace GHJ_Lib
 
             if (actor.photonView.IsMine)
             {
-                (DataManager.Instance.LocalPlayerData.roleData as DollData).DevilHP -= 1.0f*Time.deltaTime;
+                DollData dollData = DataManager.Instance.LocalPlayerData.roleData as DollData;
+                dollData.DevilHP -= 5.0f*Time.deltaTime;
                 DataManager.Instance.ShareRoleData();
 
-                if ((DataManager.Instance.LocalPlayerData.roleData as DollData).DevilHP < 0.0f)
+                if (dollData.DevilHP < 0.0f)
                 {
-                    return new BvBecomeGhost();
+                    actor.BecomeGhost();
+                    if (Bv is BvIdle)
+                    { 
+                        return Bv;
+                    }
                 }
             }
 

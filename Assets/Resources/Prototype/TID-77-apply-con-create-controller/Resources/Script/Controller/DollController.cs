@@ -12,7 +12,6 @@ namespace GHJ_Lib
 	{
 
 		/*--- Public Fields ---*/
-		
 		public BvIdle GetIdle
 		{
 			get { return idle; }
@@ -23,6 +22,8 @@ namespace GHJ_Lib
 		}
 		[SerializeField]
 		protected GameObject GhostModel;
+		[SerializeField]
+		protected Material GhostMaterial;
 		/*--- Protected Fields ---*/
 
 		protected BvIdle idle					= new BvIdle();
@@ -98,13 +99,6 @@ namespace GHJ_Lib
 
 		}
 
-		IEnumerator CameraActive()
-		{
-
-			yield return new WaitForSeconds(3);
-			tpvCam.gameObject.SetActive(true);
-			curCam = tpvCam;
-		}
 
 
 
@@ -183,17 +177,37 @@ namespace GHJ_Lib
 		}
 		public override void BecomeGhost()
 		{
-			//tpvCam.virtualCam.
-			//Escape(initGhostPos, 8); //ghost layer = 8;
+			//UI ¹Ù²ï´Ù
+			photonView.RPC("_BecomeGhost", RpcTarget.All);
+			photonView.RPC("DecreaseDollCount", RpcTarget.All);
+			
+			ChangeActionTo("Idle");
+			
+		}
+
+		[PunRPC]
+		public void _BecomeGhost()
+		{
 			//¿¡¼ÂÀÌ ¹Ù²ï´Ù
 			characterModel.SetActive(false);
 			GhostModel.SetActive(true);
-			CharacterLayerChange(GhostModel, 8);
-			ChangeActionTo("Idle");
-			BaseAnimator.enabled = false;
+			//Layer°¡ ¹Ù²ï´Ù
+			CharacterLayerChange(GhostModel, 8);//8 : Ghost Layer
 			GhostModel.GetComponent<Animator>().Play("GhostIdle");
+
+			if (DataManager.Instance.LocalPlayerData.roleData.Type == RoleData.RoleType.Exorcist)
+			{
+				GhostModel.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().material = GhostMaterial;
+			}
+
+
 		}
 
+		[PunRPC]
+		public void DecreaseDollCount()
+		{
+			StageManager.Instance.DollCountDecrease();
+		}
         public override bool DoResist()
         {
 			if (Input.GetKeyDown(KeyCode.LeftArrow)

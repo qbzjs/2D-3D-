@@ -28,7 +28,7 @@ namespace GHJ_Lib
         {
             if (DollInBox)
             {
-                Debug.Log("GaugeRate :" + GetGaugeRate);
+
                 if (GetGaugeRate >= 1.0f)
                 {
                     DollInBox.EscapeFrom(this.transform, 7);

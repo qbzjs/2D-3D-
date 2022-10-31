@@ -28,7 +28,9 @@ namespace GHJ_Lib
 			if (GetGaugeRate >= 1.0f && isEnable)
 			{
 				isEnable = false;
-				FinalAltar.Instance.DisableNormalAltar();
+
+				StageManager.Instance.DecreaseAltarCount();
+				
 			}
 			
 		}
@@ -71,7 +73,7 @@ namespace GHJ_Lib
 		{
 			if (GetGaugeRate >= 1.0f&& CanActiveToDoll)
 			{
-				FinalAltar.Instance.DisableNormalAltar();
+				StageManager.Instance.DecreaseAltarCount();
 			}
 		}
 

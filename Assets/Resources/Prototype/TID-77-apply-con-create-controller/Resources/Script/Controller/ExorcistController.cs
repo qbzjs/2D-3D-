@@ -209,6 +209,7 @@ namespace GHJ_Lib
 		}
 
 
+
 		/*--- Protected Methods ---*/
 
 
@@ -392,6 +393,20 @@ namespace GHJ_Lib
 
 				this.transform.position = new Vector3((float)stream.ReceiveNext(), (float)stream.ReceiveNext(), (float)stream.ReceiveNext());
 			}
+		}
+
+
+
+		/*----Use ESC Menu---*/
+		public override void ExitGame()
+		{
+			photonView.RPC("ExitAll", RpcTarget.All);
+		}
+
+		[PunRPC]
+		public void ExitAll()
+		{
+			StageManager.Instance.EndGame();
 		}
     }
 }

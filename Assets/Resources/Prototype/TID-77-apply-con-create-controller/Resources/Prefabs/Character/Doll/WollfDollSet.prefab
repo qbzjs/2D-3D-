@@ -51,6 +51,21 @@ PrefabInstance:
       propertyPath: tpvCam
       value: 
       objectReference: {fileID: 6660267726584973846}
+    - target: {fileID: -6640432334077104785, guid: 19fd1157d6de21c4e8ab429af46836ab,
+        type: 3}
+      propertyPath: GhostModel
+      value: 
+      objectReference: {fileID: 3718527647470570008}
+    - target: {fileID: -6640432334077104785, guid: 19fd1157d6de21c4e8ab429af46836ab,
+        type: 3}
+      propertyPath: GhostMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 4df79f2ce0b610d4683912e33f928d20, type: 2}
+    - target: {fileID: 3524342140334959655, guid: 19fd1157d6de21c4e8ab429af46836ab,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8865846720936348896, guid: 19fd1157d6de21c4e8ab429af46836ab,
         type: 3}
       propertyPath: m_Name
@@ -111,8 +126,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8865846721059509857, guid: 19fd1157d6de21c4e8ab429af46836ab,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19fd1157d6de21c4e8ab429af46836ab, type: 3}
+--- !u!1 &3718527647470570008 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3524342140334959655, guid: 19fd1157d6de21c4e8ab429af46836ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 248304572356437567}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8681804492033764060 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8865846720936348899, guid: 19fd1157d6de21c4e8ab429af46836ab,

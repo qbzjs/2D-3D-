@@ -5,12 +5,13 @@ using KSH_Lib;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
+using GHJ_Lib;
 namespace LSH_Lib{
     public class EscMenu : MonoBehaviour
     {
         public GameObject ExitButton;
         public GameObject OptionUIPanel;
-        public FinalAltarInteraction finalAltar;
+        public NetworkBaseController controller;
         private bool isInputKey = false;
 
         private void Update()
@@ -27,11 +28,10 @@ namespace LSH_Lib{
                     Cursor.visible = true;
 
 
-                    TPV_PlayerInputManager.instance.enabled = false;
-                   
-                    FPV_InputManager.instance.enabled = false;
-
-                    PlayerInputManager.instance.enabled = false;
+                    //TPV_PlayerInputManager.instance.enabled = false;
+                    //FPV_InputManager.instance.enabled = false;
+                    //PlayerInputManager.instance.enabled = false;
+                    KSH_Lib.BasePlayerInputManager.Instance.enabled = false;
 
                     isInputKey = true;
                     OnSetActive(isInputKey);
@@ -42,11 +42,10 @@ namespace LSH_Lib{
                     Cursor.lockState = CursorLockMode.Locked;
                     Cursor.visible = false;
 
-                    TPV_PlayerInputManager.instance.enabled = true;
-
-                    FPV_InputManager.instance.enabled = true;
-
-                    PlayerInputManager.instance.enabled = true;
+                    //TPV_PlayerInputManager.instance.enabled = true;
+                    //FPV_InputManager.instance.enabled = true;
+                    //PlayerInputManager.instance.enabled = true;
+                    KSH_Lib.BasePlayerInputManager.Instance.enabled = true;
 
                     isInputKey = false;
                     OnSetActive(isInputKey);
@@ -60,13 +59,7 @@ namespace LSH_Lib{
         }
         public void OnExitButton()
         {
-            if (!finalAltar)
-            {
-                finalAltar = GameObject.FindObjectOfType<FinalAltarInteraction>();
-            }
-            finalAltar.ExitPlayer();
-            PhotonNetwork.LeaveRoom();
-            GameManager.Instance.LoadScene("99_GameResultScene");
+            controller.ExitGame();
         }
     }
 }
