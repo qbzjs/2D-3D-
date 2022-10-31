@@ -51,14 +51,19 @@ namespace GHJ_Lib
 			// 카메라 설정하기
 			if (photonView.IsMine)
 			{
+				fpvCam.InitCam(camTarget);
+				tpvCam.InitCam(camTarget);
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
-				fpvCam.gameObject.SetActive(false);
-				tpvCam.gameObject.SetActive(true);
+				//fpvCam.gameObject.SetActive(false);
+				//tpvCam.gameObject.SetActive(true);
+				StartCoroutine("CameraActive");
 			}
 			else
 			{
-				fpvCam.gameObject.SetActive(false);
-				tpvCam.gameObject.SetActive(false);
+				fpvCam.InitCam(camTarget);
+				tpvCam.InitCam(camTarget);
+				//fpvCam.gameObject.SetActive(false);
+				//tpvCam.gameObject.SetActive(false);
 			}
 			// CurcharacterAction, CurcharacterCondition,  초기설정하기
 			CurCharacterAction.PushSuccessorState(idle);
@@ -91,10 +96,16 @@ namespace GHJ_Lib
 
 		}
 
+		IEnumerator CameraActive()
+		{
 
-       
+			yield return new WaitForSeconds(3);
+			tpvCam.gameObject.SetActive(true);
+			curCam = tpvCam;
+		}
 
-		
+
+
 
 		/*--- Public Methods ---*/
 
@@ -111,9 +122,9 @@ namespace GHJ_Lib
 		{
 			if (photonView.IsMine)
 			{
-				fpvCam.gameObject.SetActive(false);
-				tpvCam.gameObject.SetActive(false);
 
+				curCam.gameObject.SetActive(false);
+				curCam = cam;
 				cam.gameObject.SetActive(true);
 			}
 		}
@@ -132,7 +143,9 @@ namespace GHJ_Lib
 		{
 			characterModel.gameObject.SetActive(true);
 			puriBox.PurifyDoll(this);
-			characterModel.transform.SetPositionAndRotation(puriBox.CharacterPos.position, puriBox.CharacterPos.rotation);
+			//characterObj.transform.SetPositionAndRotation(puriBox.CharacterPos.position, puriBox.CharacterPos.rotation);
+			characterObj.transform.position = puriBox.CharacterPos.position;
+			characterObj.transform.rotation = puriBox.CharacterPos.rotation;
 			BaseAnimator.Play("Fear");
 			CharacterLayerChange(characterObj, 0);
 			ChangeCamera(tpvCam);

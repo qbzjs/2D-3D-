@@ -43,22 +43,31 @@ namespace GHJ_Lib
 			{
 				fpvCam.InitCam(camTarget);
 				tpvCam.InitCam(camTarget);
-				fpvCam.gameObject.SetActive(true);
-				tpvCam.gameObject.SetActive(false);
+				StartCoroutine("CameraActive");
+				//tpvCam.gameObject.SetActive(false);
 			}
 			else
 			{
 				fpvCam.InitCam(camTarget);
 				tpvCam.InitCam(camTarget);
-				fpvCam.gameObject.SetActive(false);
-				tpvCam.gameObject.SetActive(false);
+				//fpvCam.gameObject.SetActive(false);
+				//tpvCam.gameObject.SetActive(false);
 			}
 			// CurcharacterAction, CurcharacterCondition,  초기설정하기
 			CurCharacterAction.PushSuccessorState(idle);
 
 
 		}
-	
+
+
+		IEnumerator CameraActive()
+		{
+
+			yield return new WaitForSeconds(3);
+			fpvCam.gameObject.SetActive(true);
+			curCam = fpvCam;
+		}
+
 		/*
 		protected override void OnTriggerStay(Collider other)
 		{
@@ -356,7 +365,7 @@ namespace GHJ_Lib
 			DollController doll = caughtDoll.GetComponent<DollController>();
 			CatchObj[doll.TypeIndex-5].gameObject.SetActive(true);
 			CharacterLayerChange(caughtDoll, 8);
-			doll.CaughtDoll(fpvCam);
+			doll.CaughtDoll(tpvCam);
 		}
 
 

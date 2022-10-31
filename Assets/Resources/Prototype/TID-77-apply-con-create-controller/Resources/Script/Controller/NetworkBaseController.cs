@@ -35,6 +35,7 @@ namespace GHJ_Lib
 		[SerializeField]
 		protected TPV_CameraController tpvCam;
 
+		protected BaseCameraController curCam;
 		
 
 
