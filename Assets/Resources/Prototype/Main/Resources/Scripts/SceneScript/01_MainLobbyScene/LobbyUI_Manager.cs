@@ -71,6 +71,8 @@ namespace KSH_Lib
         private GameObject lshSkipButtonObj;
         [SerializeField]
         private GameObject kshSkipButtonObj;
+        [SerializeField]
+        string roomName = "Debug";
 
         [SerializeField]
         string lshSceneName = "";
@@ -297,12 +299,12 @@ namespace KSH_Lib
                 case RoleData.RoleType.Doll:
                 {
                     //PhotonNetwork.JoinRandomRoom();
-                    PhotonNetwork.JoinRoom("DebugServer");
+                    PhotonNetwork.JoinRoom( roomName );
                 }
                 break;
                 case RoleData.RoleType.Exorcist:
                 {
-                    PhotonNetwork.CreateRoom("DebugServer", new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
+                    PhotonNetwork.CreateRoom( roomName, new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
                     //PhotonNetwork.CreateRoom( CreateRandomRoomName(), new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
                 }
                 break;
