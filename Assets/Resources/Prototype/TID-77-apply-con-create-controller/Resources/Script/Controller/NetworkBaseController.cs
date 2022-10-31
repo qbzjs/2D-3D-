@@ -244,7 +244,6 @@ namespace GHJ_Lib
 			}
 		}
 
-
 		/*--Do--*/
 
 		public virtual void DoHit()
@@ -343,7 +342,36 @@ namespace GHJ_Lib
 			
 		}
 
-
+		public virtual void InteractBy( InteractionObj.CastingType type )
+		{
+			StartCoroutine( _InteractBy( type ) );
+		}
+		protected virtual IEnumerator _InteractBy( InteractionObj.CastingType type )
+		{
+			switch ( type )
+			{
+				case InteractionObj.CastingType.ManualCasting:
+				{
+					yield return Cast();
+				}
+				break;
+				case InteractionObj.CastingType.SharedAutoCasting:
+				{
+					yield return SharedAutoCasting();
+				}
+				break;
+				case InteractionObj.CastingType.LocalAutoCasting:
+				{
+					yield return LocalAutoCasting();
+				}
+				break;
+				case InteractionObj.CastingType.NotCasting:
+				{
+					Debug.LogError( "Wrong interact" );
+				}
+				break;
+			}
+		}
 
 		public virtual IEnumerator Cast()
 		{
@@ -368,7 +396,7 @@ namespace GHJ_Lib
 			}
 		}
 
-		protected virtual IEnumerator AutoCasting()
+		protected virtual IEnumerator SharedAutoCasting()
 		{
 			if (IsAutoCasting)
 			{
@@ -389,7 +417,7 @@ namespace GHJ_Lib
 				}
 			}
 		}
-		protected virtual IEnumerator AutoCastingNull()
+		protected virtual IEnumerator LocalAutoCasting()
 		{
 			if (IsAutoCasting)
 			{
