@@ -43,7 +43,9 @@ namespace GHJ_Lib
 			{
 				fpvCam.InitCam(camTarget);
 				tpvCam.InitCam(camTarget);
-				StartCoroutine("CameraActive");
+				fpvCam.gameObject.SetActive(true);
+				curCam = fpvCam;
+				//StartCoroutine("CameraActive");
 				//tpvCam.gameObject.SetActive(false);
 			}
 			else

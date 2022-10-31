@@ -40,6 +40,10 @@ namespace GHJ_Lib
         {
             if (player is DollController)
             {
+                if (player.CurCharacterAction is BvPurified)
+                {
+                    return CastingType.NotCasting; 
+                }
                 if (DollInBox)
                 {
                     return CastingType.ManualCasting;

@@ -56,7 +56,9 @@ namespace GHJ_Lib
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
 				//fpvCam.gameObject.SetActive(false);
 				//tpvCam.gameObject.SetActive(true);
-				StartCoroutine("CameraActive");
+				//StartCoroutine("CameraActive");
+				tpvCam.gameObject.SetActive(true);
+				curCam = tpvCam;
 			}
 			else
 			{
@@ -143,16 +145,31 @@ namespace GHJ_Lib
 		{
 			characterModel.gameObject.SetActive(true);
 			puriBox.PurifyDoll(this);
-			//characterObj.transform.SetPositionAndRotation(puriBox.CharacterPos.position, puriBox.CharacterPos.rotation);
-			characterObj.transform.position = puriBox.CharacterPos.position;
-			characterObj.transform.rotation = puriBox.CharacterPos.rotation;
+
+
+			//characterObj.transform.rotation = puriBox.CharacterPos.rotation;
+
+
+
 			BaseAnimator.Play("Fear");
 			CharacterLayerChange(characterObj, 0);
 			ChangeCamera(tpvCam);
 			if (photonView.IsMine)
 			{
+
+				//characterObj.transform.position = puriBox.CharacterPos.position;
+				float x = puriBox.CharacterPos.position.x;
+				float z = puriBox.CharacterPos.position.z;
+				photonView.RPC("ChangeTransform", RpcTarget.AllViaServer, x, z);
 				ChangeActionTo("Purified");
 			}
+				characterModel.transform.rotation = puriBox.CharacterPos.rotation;
+		}
+
+		[PunRPC]
+		public void ChangeTransform(float x, float z)
+		{
+			characterObj.transform.position = new Vector3(x, characterObj.transform.position.y, z);
 		}
 
 		public override void EscapeFrom(Transform transform, int layer)

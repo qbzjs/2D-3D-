@@ -119,7 +119,6 @@ namespace GHJ_Lib
 			MoveCharacter();
 
 
-
 			CurCharacterAction.Update(this, ref CurCharacterAction);
 			CurCharacterCondition.Update(this, ref CurCharacterCondition);
 		}
