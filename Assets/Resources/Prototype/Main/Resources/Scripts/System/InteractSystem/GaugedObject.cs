@@ -20,9 +20,9 @@ namespace KSH_Lib
 		[field: SerializeField] public float ReducedGauge { get; protected set; }
 		[field: SerializeField] public float CoolTime { get; protected set; }
 		[field: SerializeField] public bool IsInRange { get; protected set; }
-		[field: SerializeField] public bool CanInteract { get { return IsInRange && castingSystem.IsReset; } }
-		public float Gauge { get; protected set; }
-		public float RateOfGauage { get { return Gauge / MaxGauge; } }
+		public bool CanInteract { get { return IsInRange && castingSystem.IsReset; } }
+		public float RateOfGauge { get; protected set; }
+		public float OriginGauge { get { return RateOfGauge * MaxGauge; } }
 
 		[SerializeField]
 		protected CastingSystem castingSystem;
@@ -87,28 +87,16 @@ namespace KSH_Lib
         {
 			textTMP.text = Message;
 			TextUI.SetActive( true );
-			IsInRange = true;
 		}
 		protected virtual void InactiveText()
         {
 			TextUI.SetActive( false );
-			IsInRange = false;
 		}
 
-		protected virtual void AddGauage( float value )
+		protected virtual void SyncGauge( float gauge )
 		{
-			Gauge += value;
-			photonView.RPC( "ShareGauge", RpcTarget.AllViaServer, Gauge );
-		}
-		protected virtual void SetGauge( float gauge )
-		{
-			Gauge = gauge;
-			photonView.RPC( "ShareGauge", RpcTarget.AllViaServer, Gauge );
-		}
-		protected virtual void AddGaugeByRate( float rate )
-		{
-			Gauge = rate * MaxGauge;
-			photonView.RPC( "ShareGauge", RpcTarget.AllViaServer, Gauge );
+			RateOfGauge = gauge;
+			photonView.RPC( "ShareGauge", RpcTarget.AllViaServer, RateOfGauge );
 		}
 
 
@@ -116,7 +104,7 @@ namespace KSH_Lib
 		[PunRPC]
 		public void ShareGauge(float gauge_in)
         {
-			Gauge = gauge_in;
+			RateOfGauge = gauge_in;
         }
 
 		protected virtual void HandleTriggerEnter( Collider other ){}

@@ -15,13 +15,14 @@ namespace KSH_Lib
         public bool IsReset { get { return !IsFinshCasting && !IsCoolDown; } }
         public float CurCoolTime { get; private set; }
         public float SliderVal { get { return slider.value; } }
+        public bool IsCoroutineRunning { get; private set; }
     
 
         /*--- Private Fields ---*/
         [SerializeField]
         GameObject castingSliderObj;
         Slider slider;
-        bool isManualCoroutineStarted;
+        //bool isManualCoroutineStarted;
         Coroutine curCoroutine;
 
 
@@ -63,7 +64,7 @@ namespace KSH_Lib
                 return;
             }
 
-            else if( !isManualCoroutineStarted )
+            else if( !IsCoroutineRunning )
             {
                 Debug.Log( $"Start Manual Casting Now  (delta = {deltaRatio}");
                 curCoroutine = StartCoroutine( ManualCastingByRatio( IsInputNow, deltaRatio, destRatio, SyncDataWith ) );
@@ -86,6 +87,7 @@ namespace KSH_Lib
             }
 
             IsFinshCasting = false;
+            IsCoroutineRunning = false;
             slider.value = 0.0f;
             IsCoolDown = false;
             CurCoolTime = 0.0f;
@@ -96,6 +98,7 @@ namespace KSH_Lib
         void StartCasting()
         {
             castingSliderObj.SetActive( true );
+            IsCoroutineRunning = true;
             IsCoolDown = true;
         }
         void EndCasting( float destRatio, float? coolTime = null )
@@ -116,12 +119,11 @@ namespace KSH_Lib
 
             while ( slider.value < destRatio )
             {
-                float deltaValue = deltaCastingRatio * Time.deltaTime;
+                slider.value += deltaCastingRatio * Time.deltaTime;
                 if (SyncDataWith != null)
                 {
-                    SyncDataWith( deltaValue );
+                    SyncDataWith( slider.value );
                 }
-                slider.value += deltaValue;
                 yield return null;
             }
 
@@ -137,7 +139,7 @@ namespace KSH_Lib
         IEnumerator ManualCastingByRatio( Func<bool> IsInputNow, float deltaCastingRatio, float destRatio, Action<float> SyncDataWith )
         {
             castingSliderObj.SetActive( true );
-            isManualCoroutineStarted = true;
+            IsCoroutineRunning = true;
 
             while ( true )
             {
@@ -149,12 +151,11 @@ namespace KSH_Lib
                     yield return null;
                 }
 
-                float deltaValue = deltaCastingRatio * Time.deltaTime;
-                if(SyncDataWith != null)
+                slider.value += deltaCastingRatio * Time.deltaTime;
+                if (SyncDataWith != null)
                 {
-                    SyncDataWith( deltaValue );
+                    SyncDataWith( slider.value );
                 }
-                slider.value += deltaValue;
                 yield return new WaitForEndOfFrame();
 
                 if (!IsInputNow())
@@ -163,7 +164,7 @@ namespace KSH_Lib
                 }
             }
 
-            isManualCoroutineStarted = false;
+            IsCoroutineRunning = false;
             castingSliderObj.SetActive( false );
             yield return null;
         }
