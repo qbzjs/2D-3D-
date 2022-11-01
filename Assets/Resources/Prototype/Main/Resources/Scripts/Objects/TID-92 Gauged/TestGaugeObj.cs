@@ -49,12 +49,11 @@ namespace KSH_Lib.Test
 
         public override void DoResult()
         {
-           // throw new System.NotImplementedException();
+            Debug.Log("Finish Casting!!!");
         }
         public override bool ResultCondition()
         {
-            return false;
-            //throw new System.NotImplementedException();
+            return castingSystem.IsFinshCasting;
         }
 
         protected override void HandleTriggerEnter( Collider other )
@@ -79,12 +78,12 @@ namespace KSH_Lib.Test
         void StartAutoCasting()
         {
             InactiveText();
-            castingSystem.StartAutoCastingByTime( 3.0f, 0.1f, SyncDataWith: SyncGauge );
+            castingSystem.StartAutoCasting( CastingSystem.Cast.CreateByTime(3.0f, coolTime: 1.0f), SyncDataWith: SyncGauge );
         }
         void StartManualCasting()
         {
             InactiveText();
-            castingSystem.StartManualCastingByRatio( IsInputNow, 0.1f, SyncDataWith: SyncGauge );
+            castingSystem.StartManualCastingByRatio( CastingSystem.Cast.CreateByRatio(0.3f), IsInputNow, SyncDataWith: SyncGauge );
         }
         bool IsInputNow()
         {

@@ -9,20 +9,43 @@ namespace KSH_Lib
 {
     public class CastingSystem : MonoBehaviour
     {
+        public struct Cast
+        {
+            Cast(float deltaRatio, float destRatio = 1.0f, float? coolTime = null)
+            {
+                this.deltaRatio = deltaRatio;
+                this.destRatio = destRatio;
+                this.coolTime = coolTime;
+            }
+
+            public float deltaRatio { get; private set; }
+            public float destRatio { get; private set; }
+            public float? coolTime { get; private set; }
+
+            public static Cast CreateByRatio(float deltaRatio, float destRatio = 1.0f, float? coolTime = null)
+            {
+                return new Cast(deltaRatio, destRatio, coolTime);
+            }
+            public static Cast CreateByTime(float castTime, float destRatio = 1.0f, float? coolTime = null)
+            {
+                return new Cast(1 / castTime, destRatio, coolTime);
+            }
+        }
+
+
         /*--- Public Fields ---*/
         public bool IsFinshCasting { get; private set; }
         public bool IsCoolDown { get; private set; }
         public bool IsReset { get { return !IsFinshCasting && !IsCoolDown; } }
+        public bool IsCoroutineRunning { get; private set; }
         public float CurCoolTime { get; private set; }
         public float SliderVal { get { return slider.value; } }
-        public bool IsCoroutineRunning { get; private set; }
     
 
         /*--- Private Fields ---*/
         [SerializeField]
         GameObject castingSliderObj;
         Slider slider;
-        //bool isManualCoroutineStarted;
         Coroutine curCoroutine;
 
 
@@ -39,38 +62,28 @@ namespace KSH_Lib
 
 
         /*--- Public Methods ---*/
-        public void StartAutoCastingByRatio( float deltaRatio, float? coolTime = null, float destRatio = 1.0f, Action<float> SyncDataWith = null )
+        public void StartAutoCasting( Cast cast, Action<float> SyncDataWith = null )
         {
             if( IsCoolDown )
             {
-                Debug.LogWarning( "CastingSystem.StartAutoCastingByRatio: castingSlider is already activated!" );
+                Debug.LogWarning( "CastingSystem.StartAutoCasting: castingSlider is already activated!" );
                 return;
             }
-            curCoroutine = StartCoroutine( AutoCastingByRatio( deltaRatio, coolTime, destRatio, SyncDataWith ) );
+            curCoroutine = StartCoroutine( AutoCastingByRatio( cast, SyncDataWith ) );
         }
-        public void StartAutoCastingByTime( float castTime, float? coolTime = null, float destRatio = 1.0f, Action<float> SyncDataWith = null )
-        {
-            if ( IsCoolDown )
-            {
-                Debug.LogWarning( "CastingSystem.StartAutoCastingByTime: castingSlider is already activated!" );
-                return;
-            }
-            curCoroutine = StartCoroutine( AutoCastingByTime( castTime, coolTime, destRatio, SyncDataWith ) );
-        }
-        public void StartManualCastingByRatio( Func<bool> IsInputNow, float deltaRatio, float destRatio = 1.0f, Action<float> SyncDataWith = null )
+        public void StartManualCastingByRatio( Cast cast, Func<bool> IsInputNow,  Action<float> SyncDataWith = null )
         {
             if ( IsCoolDown || !IsInputNow() )
             {
                 return;
             }
-
             else if( !IsCoroutineRunning )
             {
-                Debug.Log( $"Start Manual Casting Now  (delta = {deltaRatio}");
-                curCoroutine = StartCoroutine( ManualCastingByRatio( IsInputNow, deltaRatio, destRatio, SyncDataWith ) );
+                Debug.Log( $"Start Manual Casting Now  (delta = {cast.deltaRatio}");
+                curCoroutine = StartCoroutine( ManualCastingByRatio( cast, IsInputNow, SyncDataWith ) );
             }
         }
-        public void ForceSetCastingTo(float ratio)
+        public void ForceSetRatioTo(float ratio)
         {
             slider.value = ratio;
         }
@@ -113,13 +126,13 @@ namespace KSH_Lib
             }
         }
 
-        IEnumerator AutoCastingByRatio( float deltaCastingRatio, float? coolTime, float destRatio, Action<float> SyncDataWith )
+        IEnumerator AutoCastingByRatio( Cast cast, Action<float> SyncDataWith )
         {
             StartCasting();
 
-            while ( slider.value < destRatio )
+            while ( slider.value < cast.destRatio )
             {
-                slider.value += deltaCastingRatio * Time.deltaTime;
+                slider.value += cast.deltaRatio * Time.deltaTime;
                 if (SyncDataWith != null)
                 {
                     SyncDataWith( slider.value );
@@ -127,31 +140,25 @@ namespace KSH_Lib
                 yield return null;
             }
 
-            EndCasting( destRatio, coolTime );
+            EndCasting( cast.destRatio, cast.coolTime );
             yield return null;
         }
-
-        IEnumerator AutoCastingByTime( float castTime, float? coolTime, float destRatio, Action<float> SyncDataWith )
-        {
-            float deltaCastingRatio = 1 / castTime;
-            yield return AutoCastingByRatio( deltaCastingRatio, coolTime, destRatio, SyncDataWith );
-        }
-        IEnumerator ManualCastingByRatio( Func<bool> IsInputNow, float deltaCastingRatio, float destRatio, Action<float> SyncDataWith )
+        IEnumerator ManualCastingByRatio(Cast cast, Func<bool> IsInputNow, Action<float> SyncDataWith )
         {
             castingSliderObj.SetActive( true );
             IsCoroutineRunning = true;
 
             while ( true )
             {
-                if ( slider.value >= destRatio )
+                if ( slider.value >= cast.destRatio )
                 {
                     Debug.Log( $"Value is {slider.value}" );
                     IsCoolDown = true;
-                    EndCasting( destRatio );
+                    EndCasting(cast.destRatio );
                     yield return null;
                 }
 
-                slider.value += deltaCastingRatio * Time.deltaTime;
+                slider.value += cast.deltaRatio * Time.deltaTime;
                 if (SyncDataWith != null)
                 {
                     SyncDataWith( slider.value );

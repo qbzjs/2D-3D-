@@ -12,42 +12,34 @@ namespace KSH_Lib
 	[RequireComponent( typeof( PhotonView ) )]
 	public abstract class GaugedObject : MonoBehaviourPun, IPunObservable
 	{
-		enum TriggerState { Null, Enter, Stay, Exit }
-
 		/*--- Public Fields ---*/
 		[field: SerializeField] public float MaxGauge { get; protected set; }
 		[field: SerializeField] public float AddedGauge { get; protected set; }
 		[field: SerializeField] public float ReducedGauge { get; protected set; }
 		[field: SerializeField] public float CoolTime { get; protected set; }
 		[field: SerializeField] public bool IsInRange { get; protected set; }
-		public bool CanInteract { get { return IsInRange && castingSystem.IsReset; } }
 		public float RateOfGauge { get; protected set; }
 		public float OriginGauge { get { return RateOfGauge * MaxGauge; } }
+		public bool CanInteract { get { return IsInRange && castingSystem.IsReset; } }
 
 		[SerializeField]
 		protected CastingSystem castingSystem;
 
-
 		[Header( "Trigger Setting" )]
 		[SerializeField]
-		protected GameObject TextUI;
+		protected GameObject textUI;
 		[SerializeField]
-		protected string Message = "Press L Click to Interact";
+		protected string message = "Press L Click to Interact";
 		
 
 		/*--- Protected Fields ---*/
-		protected float rateAddGauge;
 		protected TextMeshProUGUI textTMP;
-
-
-		/*--- Private Fields ---*/
 
 
 		/*--- MonoBehaviour Callbacks ---*/
 		protected virtual void Start()
         {
-			rateAddGauge = AddedGauge / MaxGauge;
-			textTMP = TextUI.GetComponent<TextMeshProUGUI>();
+			textTMP = textUI.GetComponent<TextMeshProUGUI>();
 			if(textTMP == null)
             {
 				Debug.LogError( "GaugedObject.Start: Can not find textTMP" );
@@ -85,12 +77,12 @@ namespace KSH_Lib
 		/*--- Protected Methods ---*/
 		protected virtual void ActiveText()
         {
-			textTMP.text = Message;
-			TextUI.SetActive( true );
+			textTMP.text = message;
+			textUI.SetActive( true );
 		}
 		protected virtual void InactiveText()
         {
-			TextUI.SetActive( false );
+			textUI.SetActive( false );
 		}
 
 		protected virtual void SyncGauge( float gauge )
