@@ -15,10 +15,6 @@ namespace GHJ_Lib
         /*--- Private Fields ---*/
 
         /*--- MonoBehaviour CallBacks ---*/
-        void OnEnable()
-        {
-
-        }
 
     
         void Update()

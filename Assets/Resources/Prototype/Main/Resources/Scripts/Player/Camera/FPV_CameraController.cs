@@ -61,5 +61,22 @@ namespace KSH_Lib
                 camTarget.transform.eulerAngles = new Vector3(360.0f + minAngleY, angles.y, angles.z);
             }
         }
+
+        public override void InitCam(GameObject camTarget)
+        {
+            if (camTarget == null)
+            {
+                Debug.LogError("BaseCameraController.InitCam(): No camTarget Inited");
+                return;
+            }
+
+            this.camTarget = camTarget;
+
+            virtualCam.AddCinemachineComponent<CinemachineHardLockToTarget>();
+            virtualCam.AddCinemachineComponent<CinemachineSameAsFollowTarget>();
+            virtualCam.Follow = this.camTarget.transform;
+
+            canUpdate = true;
+        }
     }
 }

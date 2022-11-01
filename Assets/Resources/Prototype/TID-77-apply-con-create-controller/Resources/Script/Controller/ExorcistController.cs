@@ -44,8 +44,8 @@ namespace GHJ_Lib
 			// 카메라 설정하기
 			if (photonView.IsMine)
 			{
-				fpvCam.InitCam(camTarget);
-				tpvCam.InitCam(camTarget);
+				//fpvCam.InitCam(camTarget);
+				//tpvCam.InitCam(camTarget);
 				fpvCam.gameObject.SetActive(true);
 				curCam = fpvCam;
 				//StartCoroutine("CameraActive");
@@ -53,14 +53,13 @@ namespace GHJ_Lib
 			}
 			else
 			{
-				fpvCam.InitCam(camTarget);
-				tpvCam.InitCam(camTarget);
+				//fpvCam.InitCam(camTarget);
+				//tpvCam.InitCam(camTarget);
 				//fpvCam.gameObject.SetActive(false);
 				//tpvCam.gameObject.SetActive(false);
 			}
 			// CurcharacterAction, CurcharacterCondition,  초기설정하기
 			CurCharacterAction.PushSuccessorState(idle);
-
 
 		}
 
@@ -369,9 +368,10 @@ namespace GHJ_Lib
 			if (stream.IsWriting)
 			{
 
-				stream.SendNext(characterModel.transform.rotation.x);
-				stream.SendNext(characterModel.transform.rotation.y);
-				stream.SendNext(characterModel.transform.rotation.z);
+				
+				stream.SendNext(characterModel.transform.rotation.eulerAngles.x);
+				stream.SendNext(characterModel.transform.rotation.eulerAngles.y);
+				stream.SendNext(characterModel.transform.rotation.eulerAngles.z);
 
 				stream.SendNext(this.transform.position.x);
 				stream.SendNext(this.transform.position.y);
@@ -384,7 +384,7 @@ namespace GHJ_Lib
 				float y = (float)stream.ReceiveNext();
 				float z = (float)stream.ReceiveNext();
 
-				characterModel.transform.rotation = Quaternion.Euler(new Vector3(x, y, z));  
+				characterModel.transform.rotation = Quaternion.Euler(new Vector3(x,y,z));  
 
 
 				this.transform.position = new Vector3((float)stream.ReceiveNext(), (float)stream.ReceiveNext(), (float)stream.ReceiveNext());

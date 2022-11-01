@@ -24,12 +24,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 102432981751865916}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.247, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.2470001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6023530114998782611}
+  m_Father: {fileID: 1557595160446799499}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &6484730779870877246
@@ -70,13 +70,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1513817430182983885}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.455, z: 0.764}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6023530114998782611}
-  m_RootOrder: 6
+  m_Father: {fileID: 1557595160446799499}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &4098065298299631884
 BoxCollider:
@@ -113,7 +113,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5817863161708207313}
   - component: {fileID: 2818235443378774753}
-  - component: {fileID: 761800027552297657}
+  - component: {fileID: 4823198974784190753}
   m_Layer: 7
   m_Name: AttackRange
   m_TagString: AttackArea
@@ -128,12 +128,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3021153679058623732}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.514, z: 0.832}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.514, z: 0.8320001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6023530114998782611}
+  m_Father: {fileID: 1557595160446799499}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &2818235443378774753
@@ -149,7 +149,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.06, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &761800027552297657
+--- !u!114 &4823198974784190753
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,7 +158,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3021153679058623732}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03d707fb89085e641b05eceb0324d3b0, type: 3}
+  m_Script: {fileID: 11500000, guid: 7864bc25a8cb3e74495bff03d3b73ff7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3150440021692976751
@@ -254,11 +254,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5859184686368719836}
   m_LocalRotation: {x: 0.39589208, y: -0, z: -0, w: 0.91829705}
-  m_LocalPosition: {x: 0.006, y: 0.842, z: 0.049}
+  m_LocalPosition: {x: 0.0060000005, y: 0.84200007, z: 0.049000002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6023530114998782611}
+  m_Father: {fileID: 1557595160446799499}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 46.643, y: 0, z: 0}
 --- !u!108 &3788903047059792402
@@ -412,11 +412,7 @@ Transform:
   m_Children:
   - {fileID: 1557595160446799499}
   - {fileID: 6023530114879361927}
-  - {fileID: 8226592562457009560}
-  - {fileID: 5817863161708207313}
-  - {fileID: 5227056953356839450}
   - {fileID: 3503726953427640487}
-  - {fileID: 1172639960562601707}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -549,7 +545,7 @@ MonoBehaviour:
     ExtrapolateNumberOfStoredPositions: 1
   m_RotationModel:
     SynchronizeEnabled: 1
-    InterpolateOption: 2
+    InterpolateOption: 0
     InterpolateRotateTowardsSpeed: 180
     InterpolateLerpSpeed: 5
   m_ScaleModel:
@@ -591,8 +587,8 @@ MonoBehaviour:
   moveSpeed: 6
   rotateSpeed: 600
   animator: {fileID: 8668095482253011849}
-  FPV_Cam: {fileID: 8738915056233939025, guid: 632f4754a4c6db345bc46b5a34b79834, type: 3}
-  TPV_Cam: {fileID: 6359358172108833380, guid: f09e66da3944c8d4ca0339452d801cc4, type: 3}
+  fpvCam: {fileID: 0}
+  tpvCam: {fileID: 0}
   IsCasting: 0
   IsAutoCasting: 0
   castingType: 3
@@ -604,7 +600,7 @@ MonoBehaviour:
   - {fileID: 7387218197880563467}
   - {fileID: 2343872668782761354}
   pickUpBox: {fileID: 6256557472273879880}
-  attackBox: {fileID: 761800027552297657}
+  attackBox: {fileID: 4823198974784190753}
   CrossPrefab: {fileID: 3140797463898650407, guid: c00977437c472244a94f3502d7ecc1b5,
     type: 3}
 --- !u!1 &6374633949899727702
@@ -1363,7 +1359,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4188839590830638, guid: feb4d09285788714e8498144ecedc2a4, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4188839590830638, guid: feb4d09285788714e8498144ecedc2a4, type: 3}
       propertyPath: m_LocalPosition.x

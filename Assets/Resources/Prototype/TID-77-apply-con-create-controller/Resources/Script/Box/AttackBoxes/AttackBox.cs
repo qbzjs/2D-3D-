@@ -7,18 +7,17 @@ namespace GHJ_Lib
 {
 	public class AttackBox: MonoBehaviour
 	{
-		/*--- Public Fields ---*/
+        /*--- Public Fields ---*/
 
 
-		/*--- Protected Fields ---*/
+        /*--- Protected Fields ---*/
+
+        /*--- Private Fields ---*/
 
 
-		/*--- Private Fields ---*/
+        /*--- MonoBehaviour Callbacks ---*/
 
-
-		/*--- MonoBehaviour Callbacks ---*/
-
-        private void OnTriggerStay(Collider other)
+        protected virtual void OnTriggerStay(Collider other)
         {
 			if (other.CompareTag("Doll"))
 			{
@@ -28,8 +27,7 @@ namespace GHJ_Lib
         }
 
         /*--- Public Methods ---*/
-
-
+  
         /*--- Protected Methods ---*/
 
 

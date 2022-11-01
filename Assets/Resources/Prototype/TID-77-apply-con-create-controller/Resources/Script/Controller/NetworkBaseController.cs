@@ -267,7 +267,6 @@ namespace GHJ_Lib
 
 
 		/*--Do--*/
-
 		public virtual void DoHit()
 		{
 			(DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower;

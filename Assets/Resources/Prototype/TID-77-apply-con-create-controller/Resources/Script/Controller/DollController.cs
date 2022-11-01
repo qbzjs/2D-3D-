@@ -52,8 +52,8 @@ namespace GHJ_Lib
 			// 카메라 설정하기
 			if (photonView.IsMine)
 			{
-				fpvCam.InitCam(camTarget);
-				tpvCam.InitCam(camTarget);
+				//fpvCam.InitCam(camTarget);
+				//tpvCam.InitCam(camTarget);
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
 				//fpvCam.gameObject.SetActive(false);
 				//tpvCam.gameObject.SetActive(true);
@@ -63,8 +63,8 @@ namespace GHJ_Lib
 			}
 			else
 			{
-				fpvCam.InitCam(camTarget);
-				tpvCam.InitCam(camTarget);
+				//fpvCam.InitCam(camTarget);
+				//tpvCam.InitCam(camTarget);
 				//fpvCam.gameObject.SetActive(false);
 				//tpvCam.gameObject.SetActive(false);
 			}
@@ -125,6 +125,12 @@ namespace GHJ_Lib
 			}
 			
 		}
+
+		public void HitDamageToDevil(int Damage)
+		{
+			
+		}
+
 		public void Imprisoned(PurificationBox puriBox)
 		{
 			characterModel.gameObject.SetActive(true);
