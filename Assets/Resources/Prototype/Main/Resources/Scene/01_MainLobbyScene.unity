@@ -584,12 +584,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 3318612789891555253}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &570544124 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1685225020714705686, guid: b244aeb317ce81d4fa49f502414e8b2e,
-    type: 3}
-  m_PrefabInstance: {fileID: 1685225021418240625}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &756407132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1539,7 +1533,6 @@ MonoBehaviour:
   customRoomCanvas: {fileID: 1380215531}
   customRoomLobbyCanvas: {fileID: 1714633036}
   mainLobbyButtons: {fileID: 118574231}
-  playButtons: {fileID: 570544124}
   quickMatchButtons: {fileID: 1408732258}
   roleText: {fileID: 1307670492}
   loadSceneName: MainGameDev
@@ -1558,6 +1551,7 @@ MonoBehaviour:
   skipButtonObj: {fileID: 1767312898}
   lshSkipButtonObj: {fileID: 1291329339}
   kshSkipButtonObj: {fileID: 462210573}
+  roomName: GHJ_Debug
   lshSceneName: 03_MainGameScene
   kshSceneName: 03_MainGameScene
 --- !u!1 &1232533299
@@ -4119,7 +4113,7 @@ PrefabInstance:
     - target: {fileID: 1685225020239550384, guid: b244aeb317ce81d4fa49f502414e8b2e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0007691748
+      value: 0.0006028974
       objectReference: {fileID: 0}
     - target: {fileID: 1685225020288632405, guid: b244aeb317ce81d4fa49f502414e8b2e,
         type: 3}

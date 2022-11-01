@@ -112,14 +112,14 @@ namespace GHJ_Lib
 			ChangeCamera(cam);
 			ChangeActionTo("Caught");
 		}
-		
 
-		public void HitFrom()
+
+		public void HitBy()
 		{
 			if (CurCharacterAction is not BvHit)
 			{
 				if (photonView.IsMine)
-				{ 
+				{
 					ChangeActionTo("Hit");
 				}
 			}
@@ -138,7 +138,6 @@ namespace GHJ_Lib
 
 
 
-			BaseAnimator.Play("Fear");
 			CharacterLayerChange(characterObj, 0);
 			ChangeCamera(tpvCam);
 			if (photonView.IsMine)
@@ -286,13 +285,18 @@ namespace GHJ_Lib
 
 		public void HitWolfPasSkill(bool flag)
 		{
-			if (flag)
-			{
-				DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed += initialInteractSpeed * 0.05f;
-			}
-			else
-			{
-				DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed-= initialInteractSpeed * 0.05f;
+			if (photonView.IsMine)
+			{ 
+				if (flag)
+				{
+					DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed += initialInteractSpeed * 0.05f;
+
+				}
+				else
+				{
+					DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed-= initialInteractSpeed * 0.05f;
+				}
+				DataManager.Instance.ShareRoleData();
 			}
 		}
 

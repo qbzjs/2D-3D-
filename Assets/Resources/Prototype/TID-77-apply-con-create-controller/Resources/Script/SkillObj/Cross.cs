@@ -5,7 +5,7 @@ using UnityEngine;
 namespace GHJ_Lib
 {
 	public class Cross: MonoBehaviour
-	{
+    {
 		/*--- Public Fields ---*/
 
 

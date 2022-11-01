@@ -21,13 +21,23 @@ namespace GHJ_Lib
         {
 			if (other.CompareTag("Doll"))
 			{
-				other.GetComponent<DollController>().HitFrom();
-				this.gameObject.SetActive(false);
+                DollController doll =  other.GetComponent<DollController>();
+                doll.HitBy();
+                doll.doHit = Hit;
+                this.gameObject.SetActive(false);
 			}
         }
 
+        public virtual void Hit(DollData targetData)
+        {
+            targetData.DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower;
+            DataManager.Instance.ShareRoleData();
+        }
+
+
+
         /*--- Public Methods ---*/
-  
+
         /*--- Protected Methods ---*/
 
 

@@ -13,8 +13,7 @@ namespace GHJ_Lib
 
 
 		/*--- Protected Fields ---*/
-		protected GameObject actSkillBox;
-		protected GameObject psvSkillBox;
+		
 
 		/*--- Private Fields ---*/
 
@@ -24,10 +23,11 @@ namespace GHJ_Lib
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			actSkillBox = transform.GetChild(2).gameObject;
-			actSkillBox.SetActive(false);
-			psvSkillBox = transform.GetChild(3).gameObject;
-			psvSkillBox.SetActive(false);
+
+			//actSkillBox = transform.GetChild(2).gameObject;
+			//actSkillBox.SetActive(false);
+			//psvSkillBox = transform.GetChild(3).gameObject;
+			//psvSkillBox.SetActive(true);
 		}
 			
 		/*--- Public Methods ---*/
@@ -39,7 +39,7 @@ namespace GHJ_Lib
 		{
 			StartCoroutine("ActiveSkillBox");
 		}
-
+		/*
 		protected override IEnumerator ActiveSkillBox()
 		{
 			useActiveSkill = true;
@@ -53,7 +53,7 @@ namespace GHJ_Lib
 			yield return new WaitForSeconds(13.8f);
 			useActiveSkill = false;
 		}
-
+		*/
 		/*--- Protected Methods ---*/
 
 

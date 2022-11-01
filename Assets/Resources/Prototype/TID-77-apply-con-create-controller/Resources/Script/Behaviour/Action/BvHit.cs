@@ -28,7 +28,7 @@ namespace GHJ_Lib
 
             if (actor.photonView.IsMine)
             {
-                actor.DoHit();
+                actor.doHit(DataManager.Instance.LocalPlayerData.roleData as DollData);
             }
             actor.SetMoveInput(true);
         }

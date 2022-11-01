@@ -60,6 +60,7 @@ namespace GHJ_Lib
 		public InteractionObj.CastingType castingType = InteractionObj.CastingType.NotCasting;
 
 		/*--Skill--*/
+		protected Skill skill = new Skill();
 		protected bool useActiveSkill = false;
 
 
@@ -267,12 +268,9 @@ namespace GHJ_Lib
 
 
 		/*--Do--*/
-		public virtual void DoHit()
-		{
-			(DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower;
-			DataManager.Instance.ShareRoleData();
-		}
-
+		public delegate void DoHit(DollData dollData);
+		public DoHit doHit;
+		
 		public virtual void DoSprint()
 		{
 			
@@ -574,7 +572,7 @@ namespace GHJ_Lib
 		
 
 
-		public void CharacterLayerChange(GameObject Model, int layer)
+		public static void CharacterLayerChange(GameObject Model, int layer)
 		{
 			Model.layer = layer;
 			int count = Model.transform.childCount;
