@@ -204,15 +204,22 @@ namespace GHJ_Lib
 			}
 		}
 
+		public void Disappear(GameObject gameObject)
+		{
+			gameObject.SetActive(false);
+		}
+
 
 
 
 
 
 		/*---End Field---*/
+
 		public EscMenu EscMenu;
 		FinalAltar finalAltar;
 		ExitAltar exitAltar;
+		[SerializeField]
 		protected int dollCount;
 		int needAltarCount = 4;
 		/*---End Func---*/

@@ -39,10 +39,7 @@ namespace GHJ_Lib
                 if (dollData.DevilHP < 0.0f)
                 {
                     actor.BecomeGhost();
-                    if (Bv is BvIdle)
-                    { 
-                        return Bv;
-                    }
+                    return new BvIdle();
                 }
             }
 
