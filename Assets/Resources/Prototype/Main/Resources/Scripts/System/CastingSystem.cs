@@ -9,27 +9,19 @@ namespace KSH_Lib
 {
     public class CastingSystem : MonoBehaviour
     {
-        public enum CastingType
-        {
-            Manual,
-            Auto,
-        }
-
         /*--- Public Fields ---*/
         public bool IsFinshCasting { get; private set; }
         public bool IsCoolDown { get; private set; }
         public float CurCoolTime { get; private set; }
         public float SliderVal { get { return slider.value; } }
 
-        public bool isManualCoroutineStarted;
-
-        /*--- Protected Fields ---*/
-
+    
 
         /*--- Private Fields ---*/
         [SerializeField]
         GameObject castingSliderObj;
         Slider slider;
+        bool isManualCoroutineStarted;
 
 
         /*--- MonoBehaviour Callbacks ---*/
@@ -64,7 +56,7 @@ namespace KSH_Lib
             }
             StartCoroutine( AutoCastingByTime( castTime, destRatio, coolTime ) );
         }
-        public void StartManualCastingByRatio( Func<bool> IsInputNow, float deltaRatio, float? coolTime = null,  float destRatio = 1.0f)
+        public void StartManualCastingByRatio( Func<bool> IsInputNow, float deltaRatio, float destRatio = 1.0f )// float? coolTime = null,  float destRatio = 1.0f)
         {
             if ( IsCoolDown || !IsInputNow() )
             {
@@ -73,9 +65,22 @@ namespace KSH_Lib
 
             else if( !isManualCoroutineStarted )
             {
-                Debug.Log( $"Start Manual Casting Now  (delta = {deltaRatio}, CoolTime = {coolTime}) " );
-                StartCoroutine( ManualCastingByRatio( IsInputNow, deltaRatio, destRatio, coolTime ) );
+                Debug.Log( $"Start Manual Casting Now  (delta = {deltaRatio}");//, CoolTime = {coolTime}) " );
+                StartCoroutine( ManualCastingByRatio( IsInputNow, deltaRatio, destRatio ) );//, coolTime ) );
             }
+        }
+        public void ResetCasting()
+        {
+            if ( !IsFinshCasting )
+            {
+                Debug.LogWarning( "CastingSystem.ResetCasting: Called Reset when not finishing Casting" );
+                return;
+            }
+
+            IsFinshCasting = false;
+            slider.value = 0.0f;
+            IsCoolDown = false;
+            CurCoolTime = 0.0f;
         }
 
         /*--- Protected Methods ---*/
@@ -101,20 +106,18 @@ namespace KSH_Lib
             float deltaCastingRatio = 1 / castTime;
             yield return AutoCastingByRatio( deltaCastingRatio, destRatio, coolTime );
         }
-        IEnumerator ManualCastingByRatio( Func<bool> IsInputNow, float deltaCastingRatio, float destRatio, float? coolTime )
+        IEnumerator ManualCastingByRatio( Func<bool> IsInputNow, float deltaCastingRatio, float destRatio)//, float? coolTime )
         {
             castingSliderObj.SetActive( true );
             isManualCoroutineStarted = true;
 
             while ( true )
             {
-                Debug.Log( "ManualCastingByRatio Coroutine is working" );   
-
                 if ( slider.value >= destRatio )
                 {
                     Debug.Log( $"Value is {slider.value}" );
                     IsCoolDown = true;
-                    EndCasting( destRatio, coolTime );
+                    EndCasting( destRatio );//, coolTime );
                     yield return null;
                 }
 
@@ -158,19 +161,6 @@ namespace KSH_Lib
             {
                 StartCoroutine( CoolDown( coolTime ) );
             }
-        }
-        public void ResetCasting()
-        {
-            if ( !IsFinshCasting )
-            {
-                Debug.LogWarning( "CastingSystem.ResetCasting: Called Reset when not finishing Casting" );
-                return;
-            }
-
-            IsFinshCasting = false;
-            slider.value = 0.0f;
-            IsCoolDown = false;
-            CurCoolTime = 0.0f;
         }
     }
 }
