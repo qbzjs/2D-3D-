@@ -35,6 +35,11 @@ namespace GHJ_Lib
 
 		public override CastingType GetCastingType(NetworkBaseController player)
 		{
+			if (!isOpen)
+			{
+				return CastingType.NotCasting;
+			}
+
 			if (player is DollController)
 			{
 
@@ -50,8 +55,8 @@ namespace GHJ_Lib
 				}
 				return CastingType.SharedAutoCasting;
 			}
+			
 
-			Debug.LogError("Error get Casting Type");
 			return CastingType.NotCasting;
 		}
 
