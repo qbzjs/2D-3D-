@@ -124,6 +124,11 @@ namespace KSH_Lib
             camTarget.transform.Rotate( Vector3.up, camAxis.x * mouseSpeed, Space.World );
             camTarget.transform.Rotate( Vector3.right, camAxis.y * mouseSpeed, Space.Self );
 
+            if(camTarget.transform.rotation.eulerAngles.z != 0.0f)
+            {
+                camTarget.transform.rotation = Quaternion.Euler( camTarget.transform.rotation.eulerAngles.x, camTarget.transform.rotation.eulerAngles.y, 0.0f );
+            }
+
             angles = camTarget.transform.eulerAngles;
             float angleVertical = angles.x;
             if ( angleVertical >= maxAngleY && angleVertical <= 180.0f )
