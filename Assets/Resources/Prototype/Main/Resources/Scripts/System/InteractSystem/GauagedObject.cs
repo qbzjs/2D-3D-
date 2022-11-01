@@ -52,15 +52,7 @@ namespace KSH_Lib
 		public abstract bool ResultCondition();
 
 		public void OnPhotonSerializeView( PhotonStream stream, PhotonMessageInfo info )
-		{
-			if ( stream.IsWriting )
-			{
-				stream.SendNext( Gauage );
-			}
-			if ( stream.IsReading )
-			{
-				Gauage = (float)stream.ReceiveNext();
-			}
+		{	
 		}
 
 		/*--- Protected Methods ---*/
