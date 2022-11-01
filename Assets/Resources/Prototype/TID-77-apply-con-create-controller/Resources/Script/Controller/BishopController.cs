@@ -13,7 +13,7 @@ namespace GHJ_Lib
 		public GameObject CrossPrefab;
 
 		/*--- Protected Fields ---*/
-		protected BvActSkill actSkill = new BvActSkill();
+		
 
 		protected int maxCrossCount = 5;
 		protected float CollectRadius = 4.0f;

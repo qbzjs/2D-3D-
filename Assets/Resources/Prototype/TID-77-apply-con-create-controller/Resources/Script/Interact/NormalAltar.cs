@@ -24,10 +24,13 @@ namespace GHJ_Lib
 		}
 		void Update()
 		{
+			Debug.Log("Normal CurGauge :" + curGauge);
 			if (GetGaugeRate >= 1.0f && isEnable)
 			{
 				isEnable = false;
-				FinalAltar.Instance.DisableNormalAltar();
+
+				StageManager.Instance.DecreaseAltarCount();
+				
 			}
 			
 		}
@@ -66,13 +69,7 @@ namespace GHJ_Lib
 
 
 		/*--- Private Methods ---*/
-		void CheckGauge()
-		{
-			if (GetGaugeRate >= 1.0f&& CanActiveToDoll)
-			{
-				FinalAltar.Instance.DisableNormalAltar();
-			}
-		}
+
 
 
 		

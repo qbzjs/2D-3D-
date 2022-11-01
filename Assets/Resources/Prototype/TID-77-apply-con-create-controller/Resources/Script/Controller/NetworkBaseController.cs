@@ -119,9 +119,16 @@ namespace GHJ_Lib
 			MoveCharacter();
 
 
-
 			CurCharacterAction.Update(this, ref CurCharacterAction);
 			CurCharacterCondition.Update(this, ref CurCharacterCondition);
+		}
+
+		protected virtual void OnTriggerEnter(Collider other)
+		{
+			if (other.CompareTag("ExitArea"))
+			{
+				ExitGame();
+			}
 		}
 
 		protected virtual void OnTriggerStay(Collider other)
@@ -232,6 +239,8 @@ namespace GHJ_Lib
 		/*--- Public Methods ---*/
 		/*--Input Controll--*/
 
+
+
 		public void SetMoveInput(bool flag)
 		{
 			if (flag)
@@ -244,8 +253,20 @@ namespace GHJ_Lib
 			}
 		}
 
-		/*--Do--*/
+		public void ChangeCamera(BaseCameraController cam)
+		{
+			if (photonView.IsMine)
+			{
 
+				curCam.gameObject.SetActive(false);
+				curCam = cam;
+				cam.gameObject.SetActive(true);
+			}
+		}
+
+
+
+		/*--Do--*/
 		public virtual void DoHit()
 		{
 			(DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower;
@@ -385,6 +406,7 @@ namespace GHJ_Lib
 			{
 				float ChargeVel = 3.0f;//차지속도
 				interactObj.AddGauge(ChargeVel * Time.deltaTime);
+
 				Debug.Log(interactObj.name);
 				Debug.Log(interactObj.GetGaugeRate);
 				yield return new WaitForEndOfFrame();
@@ -433,10 +455,17 @@ namespace GHJ_Lib
 				if (BarUI_Controller.Instance.GetValue >= 1.0f)
 				{
 					IsAutoCasting = false;
+
+					if (interactObj is ExitAltar)
+					{
+						ExitGame();
+					}
+
 					break;
 				}
 			}
 		}
+
 
 		/*--Action--*/
 		//행동은 한번에 하나씩 존재
@@ -501,6 +530,19 @@ namespace GHJ_Lib
 				this.transform.position = new Vector3((float)stream.ReceiveNext(), (float)stream.ReceiveNext(), (float)stream.ReceiveNext());
 			}
 		}
+
+		// Exit
+		public virtual void ExitGame()
+		{
+			photonView.RPC("_ExitGame", RpcTarget.All);
+		}
+
+		[PunRPC]
+		public void _ExitGame()
+		{
+			StageManager.Instance.DoExit(this);
+		}
+
 		/*--- Protected Methods ---*/
 		protected void Stop()
 		{
@@ -549,6 +591,11 @@ namespace GHJ_Lib
 				return;
 			}
 		}
+
 		/*--- Private Methods ---*/
+
+		
+
+
 	}
 }

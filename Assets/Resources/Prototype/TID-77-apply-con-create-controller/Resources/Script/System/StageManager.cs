@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using KSH_Lib;
+using LSH_Lib;
 namespace GHJ_Lib
 {
 	public class StageManager : MonoBehaviour
@@ -116,11 +117,17 @@ namespace GHJ_Lib
 			}
 
 			GameObject Player = networkGenerator.Generate( targetPrefab, PlayerGenPos[number].position, PlayerGenPos[number].rotation );
-			Log.Instance.SetPlayer(Player);
+			Log.Instance.SetPlayer(Player.transform.GetChild(0).gameObject);
 
 
-
-
+			// end Filed 
+			dollCount = PhotonNetwork.CurrentRoom.PlayerCount;
+			if (!EscMenu)
+			{
+				Debug.LogError(" EscMenu is Null");
+			}
+			EscMenu.controller = Player.transform.GetChild(0).gameObject.GetComponent<NetworkBaseController>();
+			// 
 
 			if (!PhotonNetwork.IsMasterClient)
 			{
@@ -156,8 +163,7 @@ namespace GHJ_Lib
 			
 		}
 
-
-        private void Update()
+		private void Update()
         {
             if(Input.GetKeyDown(KeyCode.Alpha0))
             {
@@ -198,7 +204,91 @@ namespace GHJ_Lib
 			}
 		}
 
-		
+
+
+
+
+
+		/*---End Field---*/
+		public EscMenu EscMenu;
+		FinalAltar finalAltar;
+		ExitAltar exitAltar;
+		protected int dollCount;
+		int needAltarCount = 4;
+		/*---End Func---*/
+		public void SetAltar(InteractionObj InterObj)
+		{
+			if (InterObj is FinalAltar)
+			{
+				finalAltar = InterObj as FinalAltar;
+			}
+
+			if (InterObj is ExitAltar)
+			{
+				exitAltar = InterObj as ExitAltar;
+			}
+		}
+
+
+		public void DecreaseAltarCount() //normalAltar활성화 됐을때
+		{
+			if (needAltarCount > 0)
+			{
+				needAltarCount--;
+			}
+
+			if (needAltarCount <= 0)
+			{
+				finalAltar.CanOpenDoor();
+			}
+		}
+
+
+		public void DollCountDecrease() //Ghost가 될떄 (단 부를때 객체에서 바로부르는것이 아닌 RPC로 불러야함)
+		{
+			if (dollCount > 0)
+			{
+				--dollCount;
+			}
+
+			if (dollCount == 2)
+			{
+				exitAltar.OpenExitAltar();
+			}
+
+			if (dollCount == 1)
+			{
+				EndGame();
+			}
+		}
+
+		public void EndGame()
+		{
+			Cursor.visible = true;
+			Cursor.lockState = CursorLockMode.None;
+			PhotonNetwork.LeaveRoom();
+			GameManager.Instance.LoadScene("99_GameResultScene");
+		}
+
+		public void DoExit(NetworkBaseController controller) // 비상탈출구로 나갈때, 탈출구로 나갈때, 빡종할때 (단 부를때 객체에서 바로부르는것이 아닌 RPC로 불러야함)
+		{
+			if (controller is DollController)
+			{
+
+				DollCountDecrease();
+				if (controller.photonView.IsMine)
+				{
+					EndGame();
+				}
+				else
+				{
+					controller.transform.parent.gameObject.SetActive(false);
+				}
+
+			}
+
+
+		}
 
 		/*--- Protected Methods ---*/
 

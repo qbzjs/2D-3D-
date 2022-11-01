@@ -6,7 +6,7 @@ using KSH_Lib.Data;
 
 namespace GHJ_Lib
 {
-	public class BvActSkill: Behavior<NetworkBaseController>
+	public class BvBishopActSkill: Behavior<NetworkBaseController>
 	{
         /*--- Public Fields ---*/
 

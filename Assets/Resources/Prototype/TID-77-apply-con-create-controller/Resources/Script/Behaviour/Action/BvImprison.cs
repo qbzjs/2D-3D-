@@ -26,7 +26,7 @@ namespace GHJ_Lib
 			}
 			if (actor.photonView.IsMine)
 			{
-				actor.StartCoroutine("AutoCastingNull");
+				actor.StartCoroutine("LocalAutoCasting");
 				//actor.Interact("AutoCastingNull");
 			}
 			actor.SetMoveInput(false);

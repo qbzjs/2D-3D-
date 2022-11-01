@@ -24,6 +24,9 @@ namespace GHJ_Lib
 		protected BvCatch catchDoll = new BvCatch();
 		protected BvImprison imprison = new BvImprison();
 
+
+		protected BvBishopActSkill actSkill = new BvBishopActSkill();
+
 		protected GameObject caughtDoll;
 
 		/*--- Private Fields ---*/
@@ -41,32 +44,25 @@ namespace GHJ_Lib
 			// 카메라 설정하기
 			if (photonView.IsMine)
 			{
-				fpvCam.InitCam(camTarget);
-				tpvCam.InitCam(camTarget);
-				StartCoroutine("CameraActive");
+				//fpvCam.InitCam(camTarget);
+				//tpvCam.InitCam(camTarget);
+				fpvCam.gameObject.SetActive(true);
+				curCam = fpvCam;
+				//StartCoroutine("CameraActive");
 				//tpvCam.gameObject.SetActive(false);
 			}
 			else
 			{
-				fpvCam.InitCam(camTarget);
-				tpvCam.InitCam(camTarget);
+				//fpvCam.InitCam(camTarget);
+				//tpvCam.InitCam(camTarget);
 				//fpvCam.gameObject.SetActive(false);
 				//tpvCam.gameObject.SetActive(false);
 			}
 			// CurcharacterAction, CurcharacterCondition,  초기설정하기
 			CurCharacterAction.PushSuccessorState(idle);
 
-
 		}
 
-
-		IEnumerator CameraActive()
-		{
-
-			yield return new WaitForSeconds(3);
-			fpvCam.gameObject.SetActive(true);
-			curCam = fpvCam;
-		}
 
 		/*
 		protected override void OnTriggerStay(Collider other)
@@ -207,6 +203,7 @@ namespace GHJ_Lib
 		}
 
 
+
 		/*--- Protected Methods ---*/
 
 
@@ -318,7 +315,6 @@ namespace GHJ_Lib
 						}
 						if (CurCharacterAction is BvCatch)
 						{
-
 							CurCharacterAction.PushSuccessorState(imprison);
 						}
 					}
@@ -362,6 +358,7 @@ namespace GHJ_Lib
 			CatchObj[doll.TypeIndex-5].gameObject.SetActive(true);
 			CharacterLayerChange(caughtDoll, 8);
 			doll.CaughtDoll(tpvCam);
+			
 		}
 
 
@@ -371,9 +368,10 @@ namespace GHJ_Lib
 			if (stream.IsWriting)
 			{
 
-				stream.SendNext(characterModel.transform.rotation.x);
-				stream.SendNext(characterModel.transform.rotation.y);
-				stream.SendNext(characterModel.transform.rotation.z);
+				
+				stream.SendNext(characterModel.transform.rotation.eulerAngles.x);
+				stream.SendNext(characterModel.transform.rotation.eulerAngles.y);
+				stream.SendNext(characterModel.transform.rotation.eulerAngles.z);
 
 				stream.SendNext(this.transform.position.x);
 				stream.SendNext(this.transform.position.y);
@@ -386,11 +384,25 @@ namespace GHJ_Lib
 				float y = (float)stream.ReceiveNext();
 				float z = (float)stream.ReceiveNext();
 
-				characterModel.transform.rotation = Quaternion.Euler(new Vector3(x, y, z));  
+				characterModel.transform.rotation = Quaternion.Euler(new Vector3(x,y,z));  
 
 
 				this.transform.position = new Vector3((float)stream.ReceiveNext(), (float)stream.ReceiveNext(), (float)stream.ReceiveNext());
 			}
+		}
+
+
+
+		/*----Use ESC Menu---*/
+		public override void ExitGame()
+		{
+			photonView.RPC("ExitAll", RpcTarget.All);
+		}
+
+		[PunRPC]
+		public void ExitAll()
+		{
+			StageManager.Instance.EndGame();
 		}
     }
 }

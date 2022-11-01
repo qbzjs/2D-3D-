@@ -113,7 +113,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5817863161708207313}
   - component: {fileID: 2818235443378774753}
-  - component: {fileID: 761800027552297657}
+  - component: {fileID: 8019914463537521912}
   m_Layer: 7
   m_Name: AttackRange
   m_TagString: AttackArea
@@ -149,7 +149,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.06, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &761800027552297657
+--- !u!114 &8019914463537521912
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,7 +158,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3021153679058623732}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03d707fb89085e641b05eceb0324d3b0, type: 3}
+  m_Script: {fileID: 11500000, guid: 7864bc25a8cb3e74495bff03d3b73ff7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3150440021692976751
@@ -549,7 +549,7 @@ MonoBehaviour:
     ExtrapolateNumberOfStoredPositions: 1
   m_RotationModel:
     SynchronizeEnabled: 1
-    InterpolateOption: 2
+    InterpolateOption: 0
     InterpolateRotateTowardsSpeed: 180
     InterpolateLerpSpeed: 5
   m_ScaleModel:
@@ -575,8 +575,11 @@ MonoBehaviour:
   moveSpeed: 6
   rotateSpeed: 600
   animator: {fileID: 8668095482253011849}
+  fpvCam: {fileID: 0}
+  tpvCam: {fileID: 0}
   IsCasting: 0
   IsAutoCasting: 0
+  castingType: 3
   Ayra: {fileID: 3615976796478522397}
   CatchObj:
   - {fileID: 4473424413195934546}
@@ -585,7 +588,7 @@ MonoBehaviour:
   - {fileID: 7387218197880563467}
   - {fileID: 2343872668782761354}
   pickUpBox: {fileID: 6256557472273879880}
-  attackBox: {fileID: 761800027552297657}
+  attackBox: {fileID: 0}
 --- !u!114 &5642758962536604753
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -19,12 +19,9 @@ namespace GHJ_Lib
 		/*--- MonoBehaviour Callbacks ---*/
 		void OnEnable()
 		{
+			StageManager.Instance.SetAltar(this);
 			ExitAltarModel.SetActive(false);
 			curGauge = 0.0f;
-			CanActiveToExorcist = false;
-			CanActiveToDoll = false;
-
-			OpenExitAltar(); //디버그를 위해 
 		}
 		void Update()
 		{
@@ -38,9 +35,16 @@ namespace GHJ_Lib
 
 		public override CastingType GetCastingType(NetworkBaseController player)
 		{
+			if (!isOpen)
+			{
+				return CastingType.NotCasting;
+			}
+
 			if (player is DollController)
 			{
+
 				return CastingType.LocalAutoCasting;
+
 			}
 
 			if (player is ExorcistController)
@@ -51,16 +55,14 @@ namespace GHJ_Lib
 				}
 				return CastingType.SharedAutoCasting;
 			}
+			
 
-			Debug.LogError("Error get Casting Type");
 			return CastingType.NotCasting;
 		}
 
 		public void OpenExitAltar()
 		{
 			isOpen = true;
-			CanActiveToExorcist = true;
-			CanActiveToDoll = true;
 			ExitAltarModel.SetActive(true);
 		}
 		/*--- Protected Methods ---*/
@@ -70,8 +72,6 @@ namespace GHJ_Lib
 		{
 			if (GetGaugeRate >= 1.0f)
 			{
-				CanActiveToExorcist = false;
-				CanActiveToDoll = false;
 				isOpen = false;
 			}
 		

@@ -12,7 +12,6 @@ namespace GHJ_Lib
 	{
 
 		/*--- Public Fields ---*/
-		
 		public BvIdle GetIdle
 		{
 			get { return idle; }
@@ -23,6 +22,8 @@ namespace GHJ_Lib
 		}
 		[SerializeField]
 		protected GameObject GhostModel;
+		[SerializeField]
+		protected Material GhostMaterial;
 		/*--- Protected Fields ---*/
 
 		protected BvIdle idle					= new BvIdle();
@@ -51,17 +52,19 @@ namespace GHJ_Lib
 			// 카메라 설정하기
 			if (photonView.IsMine)
 			{
-				fpvCam.InitCam(camTarget);
-				tpvCam.InitCam(camTarget);
+				//fpvCam.InitCam(camTarget);
+				//tpvCam.InitCam(camTarget);
 				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
 				//fpvCam.gameObject.SetActive(false);
 				//tpvCam.gameObject.SetActive(true);
-				StartCoroutine("CameraActive");
+				//StartCoroutine("CameraActive");
+				tpvCam.gameObject.SetActive(true);
+				curCam = tpvCam;
 			}
 			else
 			{
-				fpvCam.InitCam(camTarget);
-				tpvCam.InitCam(camTarget);
+				//fpvCam.InitCam(camTarget);
+				//tpvCam.InitCam(camTarget);
 				//fpvCam.gameObject.SetActive(false);
 				//tpvCam.gameObject.SetActive(false);
 			}
@@ -96,13 +99,6 @@ namespace GHJ_Lib
 
 		}
 
-		IEnumerator CameraActive()
-		{
-
-			yield return new WaitForSeconds(3);
-			tpvCam.gameObject.SetActive(true);
-			curCam = tpvCam;
-		}
 
 
 
@@ -118,16 +114,6 @@ namespace GHJ_Lib
 		}
 		
 
-		public void ChangeCamera(BaseCameraController cam )
-		{
-			if (photonView.IsMine)
-			{
-
-				curCam.gameObject.SetActive(false);
-				curCam = cam;
-				cam.gameObject.SetActive(true);
-			}
-		}
 		public void HitDamage()
 		{
 			if (CurCharacterAction is not BvHit)
@@ -139,44 +125,85 @@ namespace GHJ_Lib
 			}
 			
 		}
+
+		public void HitDamageToDevil(int Damage)
+		{
+			
+		}
+
 		public void Imprisoned(PurificationBox puriBox)
 		{
 			characterModel.gameObject.SetActive(true);
 			puriBox.PurifyDoll(this);
-			//characterObj.transform.SetPositionAndRotation(puriBox.CharacterPos.position, puriBox.CharacterPos.rotation);
-			characterObj.transform.position = puriBox.CharacterPos.position;
-			characterObj.transform.rotation = puriBox.CharacterPos.rotation;
+
+
+			//characterObj.transform.rotation = puriBox.CharacterPos.rotation;
+
+
+
 			BaseAnimator.Play("Fear");
 			CharacterLayerChange(characterObj, 0);
 			ChangeCamera(tpvCam);
 			if (photonView.IsMine)
 			{
+
+				//characterObj.transform.position = puriBox.CharacterPos.position;
+				float x = puriBox.CharacterPos.position.x;
+				float z = puriBox.CharacterPos.position.z;
+				photonView.RPC("ChangeTransform", RpcTarget.AllViaServer, x, z);
 				ChangeActionTo("Purified");
 			}
+				characterModel.transform.rotation = puriBox.CharacterPos.rotation;
+		}
+
+		[PunRPC]
+		public void ChangeTransform(float x, float z)
+		{
+			characterObj.transform.position = new Vector3(x, characterObj.transform.position.y, z);
 		}
 
 		public override void EscapeFrom(Transform transform, int layer)
 		{
+			
 			this.transform.position = transform.position;
 			this.transform.rotation = transform.rotation;
 			characterModel.gameObject.SetActive(true);
 			CharacterLayerChange(characterObj, layer);
 			ChangeCamera(tpvCam);
-			ChangeActionTo("Idle");
 		}
 		public override void BecomeGhost()
 		{
-			//tpvCam.virtualCam.
-			//Escape(initGhostPos, 8); //ghost layer = 8;
+			//UI 바뀐다
+			photonView.RPC("_BecomeGhost", RpcTarget.All);
+			photonView.RPC("DecreaseDollCount", RpcTarget.All);
+			
+			ChangeActionTo("Idle");
+			
+		}
+
+		[PunRPC]
+		public void _BecomeGhost()
+		{
 			//에셋이 바뀐다
 			characterModel.SetActive(false);
 			GhostModel.SetActive(true);
-			CharacterLayerChange(GhostModel, 8);
-			ChangeActionTo("Idle");
-			BaseAnimator.enabled = false;
+			//Layer가 바뀐다
+			CharacterLayerChange(GhostModel, 8);//8 : Ghost Layer
 			GhostModel.GetComponent<Animator>().Play("GhostIdle");
+
+			if (DataManager.Instance.LocalPlayerData.roleData.Type == RoleData.RoleType.Exorcist)
+			{
+				GhostModel.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().material = GhostMaterial;
+			}
+
+
 		}
 
+		[PunRPC]
+		public void DecreaseDollCount()
+		{
+			StageManager.Instance.DollCountDecrease();
+		}
         public override bool DoResist()
         {
 			if (Input.GetKeyDown(KeyCode.LeftArrow)

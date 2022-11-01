@@ -60,17 +60,17 @@ namespace GHJ_Lib
                 {
                     ExorcistController exorcist = (actor as ExorcistController);
 
-                    if (actor.CanInteract)
+                    if (exorcist.pickUpBox.CanPickUp())
+                    {
+                        exorcist.DoPickUp();
+                    }
+                    else if (actor.CanInteract)
                     {
                         actor.DoInteract();
                     }
                     else
                     {
                         actor.DoAttack();
-                    }
-                    if (exorcist.pickUpBox.CanPickUp())
-                    {
-                        exorcist.DoPickUp();
                     }
 
                 }
