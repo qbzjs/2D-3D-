@@ -49,6 +49,18 @@ namespace KSH_Lib
         GameObject dollsInformation;
         [SerializeField]
         GameObject exorcistInformation;
+
+        [Header("Dolls Information UI")]
+        [SerializeField]
+        GameObject rabbitInformation;
+        [SerializeField]
+        GameObject turtleInformation;
+        [SerializeField]
+        GameObject wolfInformation;
+        [SerializeField]
+        GameObject monkeyInformation;
+        [SerializeField]
+        GameObject penguinInformation;
         
         [Header( "Character Select UI" )]
         [SerializeField]
@@ -240,6 +252,11 @@ namespace KSH_Lib
             informationButtons.SetActive(false);
             dollsInformation.SetActive(false);
             exorcistInformation.SetActive(false);
+            rabbitInformation.SetActive(false);
+            turtleInformation.SetActive(false);
+            wolfInformation.SetActive(false);
+            monkeyInformation.SetActive(false);
+            penguinInformation.SetActive(false);
 
         }
         void ChangePlayerImage()
@@ -306,6 +323,31 @@ namespace KSH_Lib
         {
             DisableMainLobbyPanelAll();
             exorcistInformation.SetActive(true);
+        }
+        void EnableRabbitInformation()
+        {
+            DisableMainLobbyPanelAll();
+            rabbitInformation.SetActive(true);
+        }
+        void EnableTurtleInformation()
+        {
+            DisableMainLobbyPanelAll();
+            turtleInformation.SetActive(true);
+        }
+        void EnableWolfInformation()
+        {
+            DisableMainLobbyPanelAll();
+            wolfInformation.SetActive(true);
+        }
+        void EnableMonkeyInformation()
+        {
+            DisableMainLobbyPanelAll();
+            monkeyInformation.SetActive(true);
+        }
+        void EnablePenguinInformation()
+        {
+            DisableMainLobbyPanelAll();
+            penguinInformation.SetActive(true);
         }
         //
         void ChangePlayerCountText()

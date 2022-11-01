@@ -356,6 +356,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 43092238}
   m_CullTransparentMesh: 1
+--- !u!1 &47422065 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4464289056269725107, guid: 2ded5675bfcae534793a3469f7c751cc,
+    type: 3}
+  m_PrefabInstance: {fileID: 4464289056256912713}
+  m_PrefabAsset: {fileID: 0}
 --- !u!223 &80350573 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 4050852882245067145, guid: 04fce2ced45700d448c0765b74482037,
@@ -375,6 +381,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1899779215}
     m_Modifications:
+    - target: {fileID: 4979738841996116222, guid: 6e110b0edfcbaf74a95d4f007d13cd51,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1137325631}
+    - target: {fileID: 4979738841996116222, guid: 6e110b0edfcbaf74a95d4f007d13cd51,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SendMessage
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979738841996116222, guid: 6e110b0edfcbaf74a95d4f007d13cd51,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: EnableDollInformationPanel
+      objectReference: {fileID: 0}
     - target: {fileID: 4981663405053188734, guid: 6e110b0edfcbaf74a95d4f007d13cd51,
         type: 3}
       propertyPath: m_Sprite
@@ -3099,6 +3120,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687423690}
   m_CullTransparentMesh: 1
+--- !u!1 &704564194 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4981663405073059375, guid: 6e110b0edfcbaf74a95d4f007d13cd51,
+    type: 3}
+  m_PrefabInstance: {fileID: 4981663405847646474}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &745627597
 GameObject:
   m_ObjectHideFlags: 0
@@ -3596,6 +3623,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1899779215}
     m_Modifications:
+    - target: {fileID: 4979738841996116222, guid: 6e110b0edfcbaf74a95d4f007d13cd51,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1137325631}
+    - target: {fileID: 4979738841996116222, guid: 6e110b0edfcbaf74a95d4f007d13cd51,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SendMessage
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979738841996116222, guid: 6e110b0edfcbaf74a95d4f007d13cd51,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: EnableDollInformationPanel
+      objectReference: {fileID: 0}
     - target: {fileID: 4981663405053188734, guid: 6e110b0edfcbaf74a95d4f007d13cd51,
         type: 3}
       propertyPath: m_Sprite
@@ -4436,7 +4478,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 949017498}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1137325631}
+        m_TargetAssemblyTypeName: UnityEngine.Component, UnityEngine
+        m_MethodName: SendMessage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: EnableWolfInformation
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &949017498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5792,7 +5846,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1087022540}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1137325631}
+        m_TargetAssemblyTypeName: UnityEngine.Component, UnityEngine
+        m_MethodName: SendMessage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: EnableMonkeyInformation
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1087022540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5823,6 +5889,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &1092873088 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4981663405073059375, guid: 6e110b0edfcbaf74a95d4f007d13cd51,
+    type: 3}
+  m_PrefabInstance: {fileID: 87933525}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1096421778 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4981663405073059375, guid: 6e110b0edfcbaf74a95d4f007d13cd51,
+    type: 3}
+  m_PrefabInstance: {fileID: 874061928}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1137325629
 GameObject:
   m_ObjectHideFlags: 0
@@ -5877,6 +5955,11 @@ MonoBehaviour:
   informationButtons: {fileID: 2117769198}
   dollsInformation: {fileID: 1541496919}
   exorcistInformation: {fileID: 329660269}
+  rabbitInformation: {fileID: 704564194}
+  turtleInformation: {fileID: 1092873088}
+  wolfInformation: {fileID: 47422065}
+  monkeyInformation: {fileID: 1620362846}
+  penguinInformation: {fileID: 1096421778}
   roleText: {fileID: 1307670492}
   loadSceneName: MainGameDev
   userCntTMP: {fileID: 3318612789891555260}
@@ -7708,7 +7791,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1541496920
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7867,6 +7950,12 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 16319426849522234, guid: 8a1b0c4646f44904ca3b0340627313df,
     type: 3}
   m_PrefabInstance: {fileID: 1874853516}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1620362846 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4981663405073059375, guid: 6e110b0edfcbaf74a95d4f007d13cd51,
+    type: 3}
+  m_PrefabInstance: {fileID: 1711584070}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1621904665
 GameObject:
@@ -8706,7 +8795,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1686068995}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1137325631}
+        m_TargetAssemblyTypeName: UnityEngine.Component, UnityEngine
+        m_MethodName: SendMessage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: EnableTurtleInformation
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1686068995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8744,6 +8845,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1899779215}
     m_Modifications:
+    - target: {fileID: 4979738841996116222, guid: 6e110b0edfcbaf74a95d4f007d13cd51,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1137325631}
+    - target: {fileID: 4979738841996116222, guid: 6e110b0edfcbaf74a95d4f007d13cd51,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SendMessage
+      objectReference: {fileID: 0}
+    - target: {fileID: 4979738841996116222, guid: 6e110b0edfcbaf74a95d4f007d13cd51,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: EnableDollInformationPanel
+      objectReference: {fileID: 0}
     - target: {fileID: 4981663405053188734, guid: 6e110b0edfcbaf74a95d4f007d13cd51,
         type: 3}
       propertyPath: m_Sprite
@@ -10286,7 +10402,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1917820673}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1137325631}
+        m_TargetAssemblyTypeName: UnityEngine.Component, UnityEngine
+        m_MethodName: SendMessage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: EnablePenguinInformation
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1917820673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10695,7 +10823,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2090241528}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1137325631}
+        m_TargetAssemblyTypeName: UnityEngine.Component, UnityEngine
+        m_MethodName: SendMessage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: EnableRabbitInformation
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2090241528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12085,6 +12225,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1137325631}
+    - target: {fileID: 4050852882006927996, guid: 04fce2ced45700d448c0765b74482037,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4050852882006927997, guid: 04fce2ced45700d448c0765b74482037,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -12271,6 +12416,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1137325631}
+    - target: {fileID: 4453406169433080619, guid: 2ded5675bfcae534793a3469f7c751cc,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: EnableDollInformationPanel
+      objectReference: {fileID: 0}
     - target: {fileID: 4464289056269725106, guid: 2ded5675bfcae534793a3469f7c751cc,
         type: 3}
       propertyPath: m_Pivot.x
@@ -12470,6 +12620,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1137325631}
+    - target: {fileID: 4979738841996116222, guid: 6e110b0edfcbaf74a95d4f007d13cd51,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: EnableDollInformationPanel
+      objectReference: {fileID: 0}
     - target: {fileID: 4981663405073059372, guid: 6e110b0edfcbaf74a95d4f007d13cd51,
         type: 3}
       propertyPath: m_Pivot.x
