@@ -24,6 +24,9 @@ namespace GHJ_Lib
 		protected BvCatch catchDoll = new BvCatch();
 		protected BvImprison imprison = new BvImprison();
 
+
+		protected BvBishopActSkill actSkill = new BvBishopActSkill();
+
 		protected GameObject caughtDoll;
 
 		/*--- Private Fields ---*/
@@ -61,14 +64,6 @@ namespace GHJ_Lib
 
 		}
 
-
-		IEnumerator CameraActive()
-		{
-
-			yield return new WaitForSeconds(3);
-			fpvCam.gameObject.SetActive(true);
-			curCam = fpvCam;
-		}
 
 		/*
 		protected override void OnTriggerStay(Collider other)
@@ -364,6 +359,7 @@ namespace GHJ_Lib
 			CatchObj[doll.TypeIndex-5].gameObject.SetActive(true);
 			CharacterLayerChange(caughtDoll, 8);
 			doll.CaughtDoll(tpvCam);
+			
 		}
 
 

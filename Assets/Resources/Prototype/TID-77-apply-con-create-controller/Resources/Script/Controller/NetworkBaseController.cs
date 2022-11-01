@@ -239,6 +239,8 @@ namespace GHJ_Lib
 		/*--- Public Methods ---*/
 		/*--Input Controll--*/
 
+
+
 		public void SetMoveInput(bool flag)
 		{
 			if (flag)
@@ -250,6 +252,19 @@ namespace GHJ_Lib
 				moveInput = Stop;
 			}
 		}
+
+		public void ChangeCamera(BaseCameraController cam)
+		{
+			if (photonView.IsMine)
+			{
+
+				curCam.gameObject.SetActive(false);
+				curCam = cam;
+				cam.gameObject.SetActive(true);
+			}
+		}
+
+
 
 		/*--Do--*/
 

@@ -9,8 +9,6 @@ namespace GHJ_Lib
     {
         /*--- Public Fields ---*/
         public Transform CharacterPos;
-        public GameObject CamTarget;
-        public BaseCameraController Cam;
         /*--- Protected Fields ---*/
         [SerializeField]
         protected DollController DollInBox = null;
@@ -19,8 +17,7 @@ namespace GHJ_Lib
         /*--- MonoBehaviour CallBacks ---*/
         void OnEnable()
         {
-            CanActiveToDoll = false;
-            CanActiveToExorcist = false;
+
         }
 
     

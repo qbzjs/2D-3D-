@@ -12,10 +12,6 @@ namespace GHJ_Lib
 		public enum CastingType { ManualCasting, SharedAutoCasting, LocalAutoCasting,NotCasting };
 		
 		/*--- Public Fields ---*/
-		public bool CanActiveToExorcist = true;
-		public bool CanActiveToDoll = true;
-		public bool IsCasting = false;
-		public bool IsAutoCasting = false;
 		public float GetGaugeRate
 		{
 			get { return curGauge / maxGauge; }

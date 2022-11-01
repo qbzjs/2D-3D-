@@ -114,16 +114,6 @@ namespace GHJ_Lib
 		}
 		
 
-		public void ChangeCamera(BaseCameraController cam )
-		{
-			if (photonView.IsMine)
-			{
-
-				curCam.gameObject.SetActive(false);
-				curCam = cam;
-				cam.gameObject.SetActive(true);
-			}
-		}
 		public void HitDamage()
 		{
 			if (CurCharacterAction is not BvHit)

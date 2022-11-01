@@ -23,8 +23,6 @@ namespace GHJ_Lib
 		{
 			StageManager.Instance.SetAltar(this);
 			curGauge = 0.0f;
-			CanActiveToExorcist = false;
-			CanActiveToDoll = false;
 		}
 
         void Update()

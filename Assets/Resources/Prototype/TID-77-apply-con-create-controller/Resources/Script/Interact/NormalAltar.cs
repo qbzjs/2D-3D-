@@ -69,13 +69,7 @@ namespace GHJ_Lib
 
 
 		/*--- Private Methods ---*/
-		void CheckGauge()
-		{
-			if (GetGaugeRate >= 1.0f&& CanActiveToDoll)
-			{
-				StageManager.Instance.DecreaseAltarCount();
-			}
-		}
+
 
 
 		
