@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class ResultUIManager : MonoBehaviour
 {
     #region Public Fields
+    public string NextSceneName;
     #endregion
 
     #region Private Fields
@@ -26,7 +27,7 @@ public class ResultUIManager : MonoBehaviour
     #region Public Methods
     public void ReturnToHome()
     {
-        SceneManager.LoadScene("01_MainLobbyScene");
+        SceneManager.LoadScene(NextSceneName);
     }
     #endregion
 
