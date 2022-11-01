@@ -1,20 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 namespace LSH_Lib
 {
 	public class UITest : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
-        Vector3 maxSize = new Vector3(1.4f, 1.4f, 1.0f);
+        public float imagesize;
+        Vector3 maxSize;
+        [SerializeField]
+        GameObject text;
+        
+        private void Start()
+        {
+            maxSize.x = imagesize;
+            maxSize.y = imagesize;
+            maxSize.z = 1;
+            //this.gameObject.GetComponent<Image>().enabled = false;
+        }
         public void OnPointerEnter(PointerEventData eventData)
         {
-            transform.LeanScale(maxSize, 0.5f).setEaseInOutCubic();
+            //this.gameObject.GetComponent<Image>().enabled = true;
+            text.gameObject.transform.LeanScale(maxSize, 0.1f).setEaseInOutCubic();
+            this.gameObject.transform.LeanScale(maxSize, 0.0f).setEaseInOutCubic();
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            transform.LeanScale(Vector3.one, 0.5f).setEaseInOutCubic();
+            //this.gameObject.GetComponent<Image>().enabled = false;
+            text.gameObject.transform.LeanScale(Vector3.one, 0.1f).setEaseInOutCubic();
+            this.gameObject.transform.LeanScale(Vector3.one, 0.0f).setEaseInOutCubic();
         }
 
     }
