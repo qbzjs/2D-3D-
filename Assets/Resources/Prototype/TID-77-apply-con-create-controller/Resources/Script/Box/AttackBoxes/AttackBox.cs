@@ -21,7 +21,7 @@ namespace GHJ_Lib
         {
 			if (other.CompareTag("Doll"))
 			{
-				other.GetComponent<DollController>().HitDamage();
+				other.GetComponent<DollController>().HitFrom();
 				this.gameObject.SetActive(false);
 			}
         }

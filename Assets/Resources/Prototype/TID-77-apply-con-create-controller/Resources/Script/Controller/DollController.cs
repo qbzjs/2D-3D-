@@ -114,7 +114,7 @@ namespace GHJ_Lib
 		}
 		
 
-		public void HitDamage()
+		public void HitFrom()
 		{
 			if (CurCharacterAction is not BvHit)
 			{
@@ -126,10 +126,7 @@ namespace GHJ_Lib
 			
 		}
 
-		public void HitDamageToDevil(int Damage)
-		{
-			
-		}
+		
 
 		public void Imprisoned(PurificationBox puriBox)
 		{
@@ -176,10 +173,12 @@ namespace GHJ_Lib
 			//UI ¹Ù²ï´Ù
 			photonView.RPC("_BecomeGhost", RpcTarget.All);
 			photonView.RPC("DecreaseDollCount", RpcTarget.All);
-			
+			photonView.RPC("DisappearPurificationBox",RpcTarget.All);
 			ChangeActionTo("Idle");
 			
 		}
+		
+		
 
 		[PunRPC]
 		public void _BecomeGhost()
@@ -203,6 +202,7 @@ namespace GHJ_Lib
 		public void DecreaseDollCount()
 		{
 			StageManager.Instance.DollCountDecrease();
+
 		}
         public override bool DoResist()
         {
@@ -215,7 +215,16 @@ namespace GHJ_Lib
 
         }
 
-		
+		[PunRPC]
+		public void DisappearPurificationBox()
+		{
+			if (interactObj is not PurificationBox)
+			{
+				Debug.LogError("the nearest interactObj is not Purification Box");
+				return;
+			}
+			StageManager.Instance.Disappear(interactObj.gameObject);
+		}
 
 
 
@@ -232,8 +241,8 @@ namespace GHJ_Lib
 
 
 
-        /*--HitByExorcistSkill--*/
-        public void AprrochCrossArea()
+		/*--HitByExorcistSkill--*/
+		public void AprrochCrossArea()
 		{
 			crossStack++;
 			if (crossStack > 5)

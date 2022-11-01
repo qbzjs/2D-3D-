@@ -27,7 +27,7 @@ namespace GHJ_Lib
                     DollInBox.EscapeFrom(this.transform, 7);
                     if (photonView.IsMine)
                     { 
-                    DollInBox.ChangeActionTo("Escape");
+                        DollInBox.ChangeActionTo("Escape");
                     }
                     
                     DollInBox = null;
