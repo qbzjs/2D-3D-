@@ -6,35 +6,49 @@ namespace LSH_Lib
 {
 	public class UIAnimationTest : MonoBehaviour
 	{
+        //[SerializeField]
+        //int count;
         [SerializeField]
         GameObject background;
-
-
-        public GameObject[] gameObjects;
+        public GameObject[] cover;
 
         private void Awake()
         {
-            
         }
         public void Start()
         {
-            //this.gameObject.GetComponent<Image>().enabled = true;
+
+        }
+        void AnimationStart()
+        {
             StartCoroutine("StartAnimation");
-            
         }
         IEnumerator StartAnimation()
         {
             BackgroundAnimation();
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(0.3f);
             ImageAnimation();
         }
         void BackgroundAnimation()
         {
-            background.gameObject.transform.LeanScale(Vector3.one, 1.0f).setEaseInOutCubic();
+            background.gameObject.transform.LeanScale(Vector3.one, 0.3f).setEaseInOutCubic();
         }
         void ImageAnimation()
         {
-            cover.gameObject.transform.LeanScale(new Vector3(1.0f, 0.0f, 1.0f), 0.8f).setEaseInOutCubic();
+            StartCoroutine(CoverAnimation());
+        }
+        IEnumerator CoverAnimation()
+        {
+            cover[0].gameObject.transform.LeanScale(new Vector3(1.0f, 0.0f, 1.0f), 0.6f).setEaseInOutCubic();
+            yield return new WaitForSeconds(0.1f);
+            cover[1].gameObject.transform.LeanScale(new Vector3(1.0f, 0.0f, 1.0f), 0.6f).setEaseInOutCubic();
+            yield return new WaitForSeconds(0.1f);
+            cover[2].gameObject.transform.LeanScale(new Vector3(1.0f, 0.0f, 1.0f), 0.6f).setEaseInOutCubic();
+            yield return new WaitForSeconds(0.1f);
+            cover[3].gameObject.transform.LeanScale(new Vector3(1.0f, 0.0f, 1.0f), 0.6f).setEaseInOutCubic();
+            yield return new WaitForSeconds(0.1f);
+            cover[4].gameObject.transform.LeanScale(new Vector3(1.0f, 0.0f, 1.0f), 0.6f).setEaseInOutCubic();
+
         }
     }
 }
