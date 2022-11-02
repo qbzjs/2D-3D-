@@ -186,16 +186,16 @@ namespace GHJ_Lib
 		protected int dollCount;
 		int needAltarCount = 4;
 		/*---End Func---*/
-		public void SetAltar(InteractionObj InterObj)
+		public void SetAltar(GaugedObject gaugedObj)
 		{
-			if (InterObj is FinalAltar)
+			if ( gaugedObj is FinalAltar)
 			{
-				finalAltar = InterObj as FinalAltar;
+				finalAltar = gaugedObj as FinalAltar;
 			}
 
-			if (InterObj is ExitAltar)
+			if ( gaugedObj is ExitAltar)
 			{
-				exitAltar = InterObj as ExitAltar;
+				exitAltar = gaugedObj as ExitAltar;
 			}
 		}
 

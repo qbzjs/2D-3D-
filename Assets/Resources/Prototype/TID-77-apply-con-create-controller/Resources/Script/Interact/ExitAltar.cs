@@ -5,7 +5,7 @@ using KSH_Lib;
 
 namespace GHJ_Lib
 {
-	public class ExitAltar: InteractionObj
+	public class ExitAltar : GaugedObject
 	{
 		/*--- Public Fields ---*/
 		public GameObject ExitAltarModel;
@@ -19,65 +19,26 @@ namespace GHJ_Lib
 		/*--- MonoBehaviour Callbacks ---*/
 		void OnEnable()
 		{
-			StageManager.Instance.SetAltar(this);
-			ExitAltarModel.SetActive(false);
-			curGauge = 0.0f;
+			StageManager.Instance.SetAltar( this );
+			ExitAltarModel.SetActive( false );
+			castingSystem.ResetCasting();
 		}
-		void Update()
+
+		protected override void DoResult()
 		{
-			if (isOpen)
-			{ 
-				CheckGauge();
-			}
+			isOpen = false;
+		}
+		protected override bool ResultCondition()
+		{
+			return isOpen && castingSystem.IsFinshCasting;
 		}
 
 		/*--- Public Methods ---*/
-
-		public override CastingType GetCastingType(NetworkBaseController player)
-		{
-			if (!isOpen)
-			{
-				return CastingType.NotCasting;
-			}
-
-			if (player is DollController)
-			{
-
-				return CastingType.LocalAutoCasting;
-
-			}
-
-			if (player is ExorcistController)
-			{
-				if (GetGaugeRate >= 1.0f)
-				{
-					return CastingType.ManualCasting;
-				}
-				return CastingType.SharedAutoCasting;
-			}
-			
-
-			return CastingType.NotCasting;
-		}
-
 		public void OpenExitAltar()
 		{
 			isOpen = true;
-			ExitAltarModel.SetActive(true);
+			ExitAltarModel.SetActive( true );
 		}
-		/*--- Protected Methods ---*/
-
-		/*--- Private Methods ---*/
-		void CheckGauge()
-		{
-			if (GetGaugeRate >= 1.0f)
-			{
-				isOpen = false;
-			}
-		
-
-		}
-
 	
 	}
 }

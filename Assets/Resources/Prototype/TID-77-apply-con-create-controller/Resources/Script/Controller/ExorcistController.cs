@@ -14,7 +14,7 @@ namespace GHJ_Lib
 		[SerializeField] public AttackBox AttackBox { get; protected set; }
 
 		protected GameObject caughtDoll;
-
+		protected GaugedObject targetObj;
 
 		// Behaviors
 		protected BvIdle idle = new BvIdle();
@@ -46,7 +46,7 @@ namespace GHJ_Lib
 		{
 			DollController doll = caughtDoll.GetComponent<DollController>();
 			CatchObj[doll.TypeIndex - 5].gameObject.SetActive( false );
-			doll.ChangeBvToBePurifying((interactObj as PurificationBox));
+			//doll.ChangeBvToBePurifying((interactObj as PurificationBox));
 		}
 
 		// Behavior Conditions

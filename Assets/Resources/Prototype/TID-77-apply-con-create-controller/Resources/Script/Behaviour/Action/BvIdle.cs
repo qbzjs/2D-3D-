@@ -23,7 +23,7 @@ namespace GHJ_Lib
 
             actor.DoSkill();
 
-            if ( actor.CanInteract )
+            //if ( actor.CanInteract )
             {
                 if ( Input.GetKeyDown( KeyCode.G ) )
                 {
