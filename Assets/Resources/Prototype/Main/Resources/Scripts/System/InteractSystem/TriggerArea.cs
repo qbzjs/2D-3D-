@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Photon.Pun;
-
 namespace KSH_Lib
 {
     public abstract class TriggerArea<T> : MonoBehaviour where T: MonoBehaviour
@@ -29,7 +27,6 @@ namespace KSH_Lib
                 Debug.LogError( "TriggerArea.OnTriggerEnter: gaugedObj is null" );
                 return;
             }
-            target.SendMessage( "HandleTriggerEnter", other );
         }
         protected virtual void OnTriggerStay( Collider other )
         {
@@ -38,7 +35,6 @@ namespace KSH_Lib
                 Debug.LogError( "TriggerArea.OnTriggerStay: gaugedObj is null" );
                 return;
             }
-            target.SendMessage( "HandleTriggerStay", other );
         }
         protected virtual void OnTriggerExit( Collider other )
         {
@@ -47,7 +43,6 @@ namespace KSH_Lib
                 Debug.LogError( "TriggerArea.OnTriggerExit: gaugedObj is null" );
                 return;
             }
-            target.SendMessage( "HandleTriggerExit", other );
         }
     }
 }

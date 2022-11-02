@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using System;
 using UnityEngine.UI;
 
@@ -11,27 +10,24 @@ namespace KSH_Lib
     {
         public struct Cast
         {
-            Cast(float deltaRatio, float destRatio = 1.0f, float? coolTime = null)
+            Cast( float deltaRatio, float destRatio, float? coolTime )
             {
                 this.deltaRatio = deltaRatio;
                 this.destRatio = destRatio;
                 this.coolTime = coolTime;
             }
-
             public float deltaRatio { get; private set; }
             public float destRatio { get; private set; }
             public float? coolTime { get; private set; }
-
-            public static Cast CreateByRatio(float deltaRatio, float destRatio = 1.0f, float? coolTime = null)
+            public static Cast CreateByRatio( float deltaRatio, float destRatio = 1.0f, float? coolTime = null )
             {
-                return new Cast(deltaRatio, destRatio, coolTime);
+                return new Cast( deltaRatio, destRatio, coolTime );
             }
-            public static Cast CreateByTime(float castTime, float destRatio = 1.0f, float? coolTime = null)
+            public static Cast CreateByTime( float castTime, float destRatio = 1.0f, float? coolTime = null )
             {
-                return new Cast(1 / castTime, destRatio, coolTime);
+                return new Cast( 1 / castTime, destRatio, coolTime );
             }
         }
-
 
         /*--- Public Fields ---*/
         public bool IsFinshCasting { get; private set; }
@@ -69,9 +65,9 @@ namespace KSH_Lib
                 Debug.LogWarning( "CastingSystem.StartAutoCasting: castingSlider is already activated!" );
                 return;
             }
-            curCoroutine = StartCoroutine( AutoCastingByRatio( cast, SyncDataWith ) );
+            curCoroutine = StartCoroutine( AutoCasting( cast, SyncDataWith ) );
         }
-        public void StartManualCastingByRatio( Cast cast, Func<bool> IsInputNow,  Action<float> SyncDataWith = null )
+        public void StartManualCasting( Cast cast, Func<bool> IsInputNow,  Action<float> SyncDataWith = null )
         {
             if ( IsCoolDown || !IsInputNow() )
             {
@@ -80,7 +76,7 @@ namespace KSH_Lib
             else if( !IsCoroutineRunning )
             {
                 Debug.Log( $"Start Manual Casting Now  (delta = {cast.deltaRatio}");
-                curCoroutine = StartCoroutine( ManualCastingByRatio( cast, IsInputNow, SyncDataWith ) );
+                curCoroutine = StartCoroutine( ManualCasting( cast, IsInputNow, SyncDataWith ) );
             }
         }
         public void ForceSetRatioTo(float ratio)
@@ -126,7 +122,7 @@ namespace KSH_Lib
             }
         }
 
-        IEnumerator AutoCastingByRatio( Cast cast, Action<float> SyncDataWith )
+        IEnumerator AutoCasting( Cast cast, Action<float> SyncDataWith )
         {
             StartCasting();
 
@@ -143,7 +139,7 @@ namespace KSH_Lib
             EndCasting( cast.destRatio, cast.coolTime );
             yield return null;
         }
-        IEnumerator ManualCastingByRatio(Cast cast, Func<bool> IsInputNow, Action<float> SyncDataWith )
+        IEnumerator ManualCasting(Cast cast, Func<bool> IsInputNow, Action<float> SyncDataWith )
         {
             castingSliderObj.SetActive( true );
             IsCoroutineRunning = true;

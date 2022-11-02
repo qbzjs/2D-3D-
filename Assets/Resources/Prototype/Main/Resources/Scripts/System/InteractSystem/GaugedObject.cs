@@ -12,13 +12,14 @@ namespace KSH_Lib
 	[RequireComponent( typeof( PhotonView ) )]
 	public abstract class GaugedObject : MonoBehaviourPun, IPunObservable
 	{
-		/*--- Public Fields ---*/
+		/*--- Fields ---*/
 		[field: SerializeField] public float MaxGauge { get; protected set; }
 		[field: SerializeField] public float AddedGauge { get; protected set; }
 		[field: SerializeField] public float ReducedGauge { get; protected set; }
 		[field: SerializeField] public float CoolTime { get; protected set; }
 		[field: SerializeField] public bool IsInRange { get; protected set; }
 		public float RateOfGauge { get; protected set; }
+		public bool IsFinishResult { get; protected set; }
 		public float OriginGauge { get { return RateOfGauge * MaxGauge; } }
 		public bool CanInteract { get { return IsInRange && castingSystem.IsReset; } }
 
@@ -30,9 +31,6 @@ namespace KSH_Lib
 		protected GameObject textUI;
 		[SerializeField]
 		protected string message = "Press L Click to Interact";
-		
-
-		/*--- Protected Fields ---*/
 		protected TextMeshProUGUI textTMP;
 
 
@@ -47,27 +45,25 @@ namespace KSH_Lib
 		}
         protected virtual void Update()
 		{
-			if ( ResultCondition() )
+			if ( ResultCondition() && !IsFinishResult)
 			{
 				DoResult();
+				IsFinishResult = true;
 			}
 		}
 
-        /*--- Public Methods ---*/
 
-		/* Examples
-        public void StartAutoCasting()
+		/*--- Public Methods ---*/
+		public virtual void ResetResult()
         {
-			castingSystem.StartAutoCastingByRatio( rateAddGauge, CoolTime, SyncDataWith: AddGauage );
-        }
+			IsFinishResult = false;
+		}
 
-		public void DoManualCasting( System.Func<bool> IsInputNow )
-        {
-			castingSystem.StartManualCastingByRatio( IsInputNow, rateAddGauge, SyncDataWith: AddGauage );
-        }
-		*/
-		public abstract void DoResult();
-		public abstract bool ResultCondition();
+		[PunRPC]
+		public void ShareGauge( float gauge )
+		{
+			RateOfGauge = gauge;
+		}
 
 		public void OnPhotonSerializeView( PhotonStream stream, PhotonMessageInfo info )
 		{	
@@ -75,6 +71,9 @@ namespace KSH_Lib
 
 
 		/*--- Protected Methods ---*/
+		protected abstract void DoResult();
+		protected abstract bool ResultCondition();
+
 		protected virtual void ActiveText()
         {
 			textTMP.text = message;
@@ -84,23 +83,14 @@ namespace KSH_Lib
         {
 			textUI.SetActive( false );
 		}
-
 		protected virtual void SyncGauge( float gauge )
 		{
 			RateOfGauge = gauge;
 			photonView.RPC( "ShareGauge", RpcTarget.AllViaServer, RateOfGauge );
 		}
 
-
-		/*--- Private Methods ---*/
-		[PunRPC]
-		public void ShareGauge(float gauge_in)
-        {
-			RateOfGauge = gauge_in;
-        }
-
-		protected virtual void HandleTriggerEnter( Collider other ){}
-		protected virtual void HandleTriggerStay( Collider other ){}
-		protected virtual void HandleTriggerExit( Collider other ){}
+		protected virtual void HandleTriggerEnter( Collider other ) { }
+		protected virtual void HandleTriggerStay( Collider other ) { }
+		protected virtual void HandleTriggerExit( Collider other ) { }
 	}
 }

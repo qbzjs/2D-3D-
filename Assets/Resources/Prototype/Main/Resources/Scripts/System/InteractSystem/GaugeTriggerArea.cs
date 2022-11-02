@@ -6,20 +6,20 @@ namespace KSH_Lib
 {
     public class GaugeTriggerArea : TriggerArea<GaugedObject>
     {
-        //protected override void OnTriggerEnter( Collider other )
-        //{
-        //    base.OnTriggerEnter( other );
-        //    target.HandleTriggerEnter(other);
-        //}
-        //protected override void OnTriggerStay( Collider other )
-        //{
-        //    base.OnTriggerStay( other );
-        //    target.HandleTriggerStay( other );
-        //}
-        //protected override void OnTriggerExit( Collider other )
-        //{
-        //    base.OnTriggerExit( other );
-        //    target.HandleTriggerExit( other );
-        //}
+        protected override void OnTriggerEnter( Collider other )
+        {
+            base.OnTriggerEnter( other );
+            target.SendMessage( "HandleTriggerEnter", other );
+        }
+        protected override void OnTriggerStay( Collider other )
+        {
+            base.OnTriggerStay( other );
+            target.SendMessage( "HandleTriggerStay", other );
+        }
+        protected override void OnTriggerExit( Collider other )
+        {
+            base.OnTriggerExit( other );
+            target.SendMessage( "HandleTriggerExit", other );
+        }
     }
 }

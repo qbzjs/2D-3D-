@@ -47,11 +47,11 @@ namespace KSH_Lib.Test
             GUI.Box( new Rect( 0, 240, 150, 30 ), $"RateOfGauge: {OriginGauge}" );
         }
 
-        public override void DoResult()
+        protected override void DoResult()
         {
             Debug.Log("Finish Casting!!!");
         }
-        public override bool ResultCondition()
+        protected override bool ResultCondition()
         {
             return castingSystem.IsFinshCasting;
         }
@@ -78,12 +78,12 @@ namespace KSH_Lib.Test
         void StartAutoCasting()
         {
             InactiveText();
-            castingSystem.StartAutoCasting( CastingSystem.Cast.CreateByTime(3.0f, coolTime: 1.0f), SyncDataWith: SyncGauge );
+            castingSystem.StartAutoCasting( CastingSystem.Cast.CreateByTime(3.0f, coolTime: CoolTime), SyncDataWith: SyncGauge );
         }
         void StartManualCasting()
         {
             InactiveText();
-            castingSystem.StartManualCastingByRatio( CastingSystem.Cast.CreateByRatio(0.3f), IsInputNow, SyncDataWith: SyncGauge );
+            castingSystem.StartManualCasting( CastingSystem.Cast.CreateByRatio(0.3f), IsInputNow, SyncDataWith: SyncGauge );
         }
         bool IsInputNow()
         {
