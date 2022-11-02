@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using KSH_Lib;
 namespace GHJ_Lib
 {
-	public class SkillPart
+	public class Sk_Default : Behavior<NetworkBaseController>
 	{
 		/*--- Public Fields ---*/
 
@@ -15,11 +15,11 @@ namespace GHJ_Lib
 		/*--- Private Fields ---*/
 
 
+		/*--- MonoBehaviour Callbacks ---*/
+
+
 		/*--- Public Methods ---*/
-		public virtual void Excute()
-		{
-			
-		}
+
 
 		/*--- Protected Methods ---*/
 

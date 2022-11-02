@@ -13,18 +13,30 @@ namespace GHJ_Lib
 		public GameObject CrossPrefab;
 
 		/*--- Protected Fields ---*/
-		
-
+		protected Cross canCollectCross = null;
+		protected List<Cross> installcrosses = new List<Cross>();
 		protected int maxCrossCount = 5;
 		protected float CollectRadius = 4.0f;
 
-		protected Cross canCollectCross = null;
-		protected List<Cross> installcrosses = new List<Cross>();
+
+		protected Sk_Default skDefault = new Sk_Default();
+		protected SK_InstallCross skInstallCross = new SK_InstallCross();
+
+		protected List<Behavior<NetworkBaseController>> BishopSkill = new List<Behavior<NetworkBaseController>>();
+
+
+
+
+
 		/*--- Private Fields ---*/
 
 
 		/*--- MonoBehaviour Callbacks ---*/
-
+		public override void OnEnable()
+		{
+			base.OnEnable();
+			SkillSetting();
+		}
 
 		/*---Skill---*/
 		[PunRPC]
@@ -45,6 +57,24 @@ namespace GHJ_Lib
 			}
 
 		}
+
+		protected override IEnumerator ActiveSkillBox()
+		{
+			useActiveSkill = true;
+			//½ºÅ³Áß
+			yield return new WaitForSeconds(0.2f);//¼±µô
+
+			while (ActiveSkill.Count != 0)
+			{
+				ActiveSkill.Update(this, ref ActiveSkill);
+			}
+			SkillSetting();
+			yield return new WaitForSeconds(0.2f);//ÈÄµô
+												  //½ºÅ³³¡
+			yield return new WaitForSeconds(14.6f);
+			useActiveSkill = false;
+		}
+
 
 		protected Cross GetCanCollectCross()
 		{
@@ -92,5 +122,11 @@ namespace GHJ_Lib
 
 
 		/*--- Private Methods ---*/
+		private void SkillSetting()
+		{
+			BishopSkill.Add(skInstallCross);
+			BishopSkill.Add(skDefault);
+			ActiveSkill.PushSuccessorStates(BishopSkill);
+		}
 	}
 }

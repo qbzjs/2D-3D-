@@ -138,7 +138,7 @@ namespace GHJ_Lib
 
 
 
-			CharacterLayerChange(characterObj, 0);
+			StageManager.CharacterLayerChange(characterObj, 0);
 			ChangeCamera(tpvCam);
 			if (photonView.IsMine)
 			{
@@ -164,7 +164,7 @@ namespace GHJ_Lib
 			this.transform.position = transform.position;
 			this.transform.rotation = transform.rotation;
 			characterModel.gameObject.SetActive(true);
-			CharacterLayerChange(characterObj, layer);
+			StageManager.CharacterLayerChange(characterObj, layer);
 			ChangeCamera(tpvCam);
 		}
 		public override void BecomeGhost()
@@ -186,7 +186,7 @@ namespace GHJ_Lib
 			characterModel.SetActive(false);
 			GhostModel.SetActive(true);
 			//Layer°¡ ¹Ù²ï´Ù
-			CharacterLayerChange(GhostModel, 8);//8 : Ghost Layer
+			StageManager.CharacterLayerChange(GhostModel, 8);//8 : Ghost Layer
 			GhostModel.GetComponent<Animator>().Play("GhostIdle");
 
 			if (DataManager.Instance.LocalPlayerData.roleData.Type == RoleData.RoleType.Exorcist)

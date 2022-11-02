@@ -20,8 +20,9 @@ namespace GHJ_Lib
 		{
 			get { return playerIndex; }
 		}
-		public Behavior<NetworkBaseController> CurCharacterCondition = new Behavior<NetworkBaseController>();
+		//public Behavior<NetworkBaseController> CurCharacterCondition = new Behavior<NetworkBaseController>();
 		public Behavior<NetworkBaseController> CurCharacterAction = new Behavior<NetworkBaseController>();
+		public Behavior<NetworkBaseController> ActiveSkill = new Behavior<NetworkBaseController>();
 		/*--- Protected Fields ---*/
 
 		/*--photon--*/
@@ -60,7 +61,6 @@ namespace GHJ_Lib
 		public InteractionObj.CastingType castingType = InteractionObj.CastingType.NotCasting;
 
 		/*--Skill--*/
-		protected Skill skill = new Skill();
 		protected bool useActiveSkill = false;
 
 
@@ -121,7 +121,7 @@ namespace GHJ_Lib
 
 
 			CurCharacterAction.Update(this, ref CurCharacterAction);
-			CurCharacterCondition.Update(this, ref CurCharacterCondition);
+			//CurCharacterCondition.Update(this, ref CurCharacterCondition);
 		}
 
 		protected virtual void OnTriggerEnter(Collider other)
@@ -487,9 +487,19 @@ namespace GHJ_Lib
 			typeIndex = typeIdx;
 		}
 
-		
+
 
 		/*---Skill---*/
+
+		public void HitSkillBy(System.Action<GameObject> Skill)
+		{
+			Skill(characterModel);
+		}
+		public void HitSkillBy(System.Func<GameObject,IEnumerator> Skill)
+		{
+			StartCoroutine(Skill(characterModel));
+		}
+
 		[PunRPC]
 		public virtual void DoActiveSkill()
 		{
@@ -572,23 +582,7 @@ namespace GHJ_Lib
 		
 
 
-		public static void CharacterLayerChange(GameObject Model, int layer)
-		{
-			Model.layer = layer;
-			int count = Model.transform.childCount;
-			//Debug.Log("count : " + count);
-			if (count != 0)
-			{
-				for (int i = 0; i < count; ++i)
-				{
-					CharacterLayerChange(Model.transform.GetChild(i).gameObject, layer);
-				}
-			}
-			else
-			{
-				return;
-			}
-		}
+		
 
 		/*--- Private Methods ---*/
 

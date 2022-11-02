@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using KSH_Lib;
 namespace GHJ_Lib
 {
-	public class SP_CrossObs: SkillPart
+	public class SK_InstallCross: Behavior<NetworkBaseController>
 	{
 		/*--- Public Fields ---*/
 
@@ -15,15 +15,6 @@ namespace GHJ_Lib
 		/*--- Private Fields ---*/
 
 
-		/*--- MonoBehaviour Callbacks ---*/
-		void Start()
-		{
-		
-		}
-		void Update()
-		{
-		
-		}
 
 
 		/*--- Public Methods ---*/

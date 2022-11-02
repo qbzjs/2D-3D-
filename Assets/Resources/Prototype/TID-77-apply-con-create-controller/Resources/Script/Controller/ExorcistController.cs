@@ -154,12 +154,6 @@ namespace GHJ_Lib
 		/*---HIT_SKILL---*/
 
 
-		public void HitSkillBy(System.Action<GameObject> Skill)
-		{
-			Skill(characterModel);
-		}
-
-
 
 
 
@@ -345,7 +339,7 @@ namespace GHJ_Lib
 		{
 			DollController doll = caughtDoll.GetComponent<DollController>();
 			CatchObj[doll.TypeIndex-5].gameObject.SetActive(true);
-			CharacterLayerChange(caughtDoll, 8);
+			StageManager.CharacterLayerChange(caughtDoll, 8);
 			doll.CaughtDoll(tpvCam);
 			
 		}
