@@ -152,26 +152,9 @@ namespace GHJ_Lib
 
 
 		/*---HIT_SKILL---*/
-		public void HitSkillBy(string skillname)
-		{
-			switch (skillname)
-			{
-				case "wolfActSkill":
-					{
-						StartCoroutine("WolfActSkill");
-					}
-					break;
-			}
-		}
 
 
-		IEnumerator WolfActSkill()
-		{
-			CharacterLayerChange(characterModel, 6);
-			yield return new WaitForSeconds(5);
-			CharacterLayerChange(characterModel, 7);
 
-		}
 
 
 
@@ -356,7 +339,7 @@ namespace GHJ_Lib
 		{
 			DollController doll = caughtDoll.GetComponent<DollController>();
 			CatchObj[doll.TypeIndex-5].gameObject.SetActive(true);
-			CharacterLayerChange(caughtDoll, 8);
+			StageManager.CharacterLayerChange(caughtDoll, 8);
 			doll.CaughtDoll(tpvCam);
 			
 		}
@@ -367,8 +350,10 @@ namespace GHJ_Lib
         {
 			if (stream.IsWriting)
 			{
+				stream.SendNext(direction.x);
+				stream.SendNext(direction.y);
+				stream.SendNext(direction.z);
 
-				
 				stream.SendNext(characterModel.transform.rotation.eulerAngles.x);
 				stream.SendNext(characterModel.transform.rotation.eulerAngles.y);
 				stream.SendNext(characterModel.transform.rotation.eulerAngles.z);
@@ -377,17 +362,28 @@ namespace GHJ_Lib
 				stream.SendNext(this.transform.position.y);
 				stream.SendNext(this.transform.position.z);
 
+
+
 			}
 			if (stream.IsReading)
 			{
+				direction.x = (float)stream.ReceiveNext();
+				direction.y = (float)stream.ReceiveNext();
+				direction.z = (float)stream.ReceiveNext();
+
+
 				float x	= (float)stream.ReceiveNext();
 				float y = (float)stream.ReceiveNext();
 				float z = (float)stream.ReceiveNext();
 
-				characterModel.transform.rotation = Quaternion.Euler(new Vector3(x,y,z));  
+				characterModel.transform.rotation = Quaternion.Euler(new Vector3(x,y,z));
+
+				x = (float)stream.ReceiveNext();
+				y = (float)stream.ReceiveNext();
+				z = (float)stream.ReceiveNext();
+				this.transform.position = new Vector3(x, y, z);
 
 
-				this.transform.position = new Vector3((float)stream.ReceiveNext(), (float)stream.ReceiveNext(), (float)stream.ReceiveNext());
 			}
 		}
 

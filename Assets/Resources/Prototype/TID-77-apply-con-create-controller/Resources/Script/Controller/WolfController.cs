@@ -10,11 +10,15 @@ namespace GHJ_Lib
 	public class WolfController: DollController
 	{
 		/*--- Public Fields ---*/
-
+		public WolfActSkillBox actSkillBox;
+		public WolfPsvSkillBox psvSkillBox;
 
 		/*--- Protected Fields ---*/
-		protected GameObject actSkillBox;
-		protected GameObject psvSkillBox;
+		protected Sk_Default skDefault = new Sk_Default();
+		protected Sk_Detected skDetected = new Sk_Detected();
+
+		protected List<Behavior<NetworkBaseController>> wolfSkill = new List<Behavior<NetworkBaseController>>();
+
 
 		/*--- Private Fields ---*/
 
@@ -24,14 +28,10 @@ namespace GHJ_Lib
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			actSkillBox = transform.GetChild(2).gameObject;
-			actSkillBox.SetActive(false);
-			psvSkillBox = transform.GetChild(3).gameObject;
-			psvSkillBox.SetActive(false);
+			SkillSetting();
 		}
-			
-		/*--- Public Methods ---*/
 
+		/*--- Public Methods ---*/
 
 		/*---Skill---*/
 		[PunRPC]
@@ -45,12 +45,15 @@ namespace GHJ_Lib
 			useActiveSkill = true;
 			//½ºÅ³Áß
 			yield return new WaitForSeconds(0.2f);//¼±µô
-			actSkillBox.SetActive(true);
-			yield return new WaitForSeconds(0.8f);
-			actSkillBox.SetActive(false);
+
+			while (ActiveSkill.Count != 0)
+			{
+				ActiveSkill.Update(this, ref ActiveSkill);
+			}
+			SkillSetting();
 			yield return new WaitForSeconds(0.2f);//ÈÄµô
 												  //½ºÅ³³¡
-			yield return new WaitForSeconds(13.8f);
+			yield return new WaitForSeconds(14.6f);
 			useActiveSkill = false;
 		}
 
@@ -58,5 +61,16 @@ namespace GHJ_Lib
 
 
 		/*--- Private Methods ---*/
+		private void SkillSetting()
+		{
+			wolfSkill.Add(skDetected);
+			wolfSkill.Add(skDefault);
+			ActiveSkill.PushSuccessorStates(wolfSkill);
+		}
+		
+
+		
+
+
 	}
 }

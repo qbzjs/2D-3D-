@@ -18,6 +18,7 @@ namespace GHJ_Lib
         /*--- Public Methods---*/
         protected override void Activate(in NetworkBaseController actor)
         {
+            actor.BaseAnimator.Play("Fear");
             actor.SetMoveInput(false);
         }
         /*--- Protected Methods ---*/
