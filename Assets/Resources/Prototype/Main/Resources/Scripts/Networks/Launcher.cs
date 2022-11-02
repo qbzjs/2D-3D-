@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 
 using KSH_Lib.UI;
-
+using LSH_Lib;
 namespace KSH_Lib
 {
     public class Launcher : MonoBehaviourPunCallbacks
@@ -66,8 +66,10 @@ namespace KSH_Lib
             StartCoroutine( UIEffector.Fade( panelCanvasGroup, sceneFadeInTime, 1.0f ) );
             startCanvasGroup.alpha = 0;
             startButtonObj.SetActive(false);
-
+            
             flikerCoroutine = StartCoroutine( FadeInOut() );
+
+            AudioManager.instance.Play("Launcher");
         }
 
 
@@ -83,6 +85,7 @@ namespace KSH_Lib
         public void OnStartButtonClick()
         {
             startCanvasGroup.interactable = false;
+            AudioManager.instance.Play("GameStart");
             StopCoroutine( flikerCoroutine );
             StartCoroutine(ChangeScene());
         }
