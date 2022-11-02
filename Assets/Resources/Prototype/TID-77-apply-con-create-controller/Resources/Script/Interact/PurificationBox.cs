@@ -27,7 +27,7 @@ namespace GHJ_Lib
                     DollInBox.EscapeFrom(this.transform, 7);
                     if (photonView.IsMine)
                     { 
-                        DollInBox.ChangeActionTo("Escape");
+                        DollInBox.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Escape);
                     }
                     
                     DollInBox = null;
@@ -42,7 +42,7 @@ namespace GHJ_Lib
         {
             if (player is DollController)
             {
-                if (player.CurCharacterAction is BvPurified)
+                if (player.CurBehavior is BvBePurifying)
                 {
                     return CastingType.NotCasting; 
                 }
@@ -55,7 +55,7 @@ namespace GHJ_Lib
             if (player is ExorcistController)
             {
                 Debug.Log("DollInBox : " + DollInBox);
-                if (player.CurCharacterAction is BvCatch && !DollInBox)
+                if (player.CurBehavior is BvCatch && !DollInBox)
                 {
                     return CastingType.LocalAutoCasting;
                 }
@@ -65,18 +65,11 @@ namespace GHJ_Lib
             return CastingType.NotCasting;
         }
 
-        public void PurifyDoll(DollController doll)
+        public void SetDoll(DollController doll)
         {
             curGauge = 0.0f;
             DollInBox = doll;
-            /*
-            DollModels[DollInBox.TypeIndex - 5].SetActive(true);
-            DollModels[DollInBox.TypeIndex - 5].GetComponent<Animator>().enabled = true;
-            DollModels[DollInBox.TypeIndex - 5].GetComponent<Animator>().Play("fear");
-            */
         }
-
-        /*--- Private Methods ---*/
     }
 }
 

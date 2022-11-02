@@ -7,20 +7,11 @@ namespace GHJ_Lib
 {
     public class BvEscape : Behavior<NetworkBaseController>
     {
-        /*--- Public Fields ---*/
-
-        /*--- Protected Fields ---*/
-        
-        /*--- Private Fields ---*/
-
-        /*--- Public Methods---*/
-      
-        /*--- Protected Methods ---*/
         protected override void Activate(in NetworkBaseController actor)
         {
             //애니매이션이 있다면 play를 시킴.
              //Default layer = 0;
-            actor.SetMoveInput(false);
+            actor.ChangeMoveFunc(false);
         }
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {

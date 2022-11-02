@@ -24,7 +24,7 @@ namespace LSH_Lib
         IEnumerator OilAction()
         {
             yield return new WaitForSeconds(120.0f);
-            if(GameManager.Instance.DollControllers[DataManager.Instance.PlayerIdx].CurCharacterAction.ToString() == "Grab")
+            if(GameManager.Instance.DollControllers[DataManager.Instance.PlayerIdx].CurBehavior.ToString() == "Grab")
             {
                 //상호작용 시작되면
                 //--stack;

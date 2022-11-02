@@ -6,18 +6,13 @@ namespace GHJ_Lib
 {
     public class PickUpBox : MonoBehaviour
     {
-        /*--- Public Fields ---*/
-
-        /*--- Protected Fields ---*/
         protected List<GameObject> Dolls = new List<GameObject>();
-        /*--- Private Fields ---*/
 
-        /*--- MonoBehaviour CallBacks ---*/ 
         private void OnTriggerStay(Collider other)
         {
             if (other.CompareTag("Doll"))
             {
-                if (other.GetComponent<DollController>().CurCharacterAction is BvDown)
+                if (other.GetComponent<DollController>().CurBehavior is BvCollapse)
                 {
                     if (!Dolls.Contains(other.gameObject))
                     { 
@@ -39,10 +34,7 @@ namespace GHJ_Lib
             }
         }
 
-        /*--- Public Methods---*/
-
-        /*--- Protected Methods ---*/
-        public GameObject FindNearestFallDownDoll()
+        public GameObject FindNearestCollapsedDoll()
         {
             GameObject nearestDoll = null;
             foreach (GameObject downDoll in Dolls)
@@ -58,10 +50,8 @@ namespace GHJ_Lib
                     {
                         nearestDoll = downDoll;
                     }
-
                 }
             }
-
             return nearestDoll;
         }
 
@@ -76,8 +66,6 @@ namespace GHJ_Lib
                 return true;
             }
         }
-        /*--- Private Methods ---*/
     }
-
 }
 

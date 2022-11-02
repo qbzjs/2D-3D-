@@ -4,46 +4,28 @@ using UnityEngine;
 using KSH_Lib;
 namespace GHJ_Lib
 {
-	public class BvDown: Behavior<NetworkBaseController>
+	public class BvCollapse: Behavior<NetworkBaseController>
 	{
-        /*--- Public Fields ---*/
-
-
-        /*--- Protected Fields ---*/
-        protected float UpGauge=0.0f;
-
-        /*--- Private Fields ---*/
-
-
-        /*--- Public Methods ---*/
-
-
-        /*--- Protected Methods ---*/
         protected override void Activate(in NetworkBaseController actor)
         {
-            UpGauge = 0.0f;
             actor.BaseAnimator.Play("Death");
-            actor.SetMoveInput(false);
+            actor.ChangeMoveFunc(false);
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            
             Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
-            if (UpGauge >= 1.0f)
-            {
-                return new BvIdle();
-            }
+            //if (recoverRate >= 1.0f)
+            //{
+            //    return new BvIdle();
+            //}
 
-            if (Bv is BvCaught)
+            if (Bv is BvBeCaught)
             {
                 return Bv;
             }
 
-
             return null;
         }
-
-        /*--- Private Methods ---*/
     }
 }

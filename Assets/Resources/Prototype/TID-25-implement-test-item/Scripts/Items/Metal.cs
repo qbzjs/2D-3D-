@@ -18,7 +18,7 @@ namespace LSH_Lib
         protected override void ActionContent()
         {
             (DataManager.Instance.LocalPlayerData.roleData as DollData).MoveSpeed *= 1.20f;
-            if(GameManager.Instance.DollControllers[DataManager.Instance.PlayerIdx].CurCharacterAction.ToString() == "caught")
+            if(GameManager.Instance.DollControllers[DataManager.Instance.PlayerIdx].CurBehavior.ToString() == "caught")
             {
                 (DataManager.Instance.LocalPlayerData.roleData as ExorcistData).MoveSpeed *= 0.75f;
             }

@@ -7,30 +7,20 @@ namespace GHJ_Lib
 {
 	public class BvCatch: Behavior<NetworkBaseController>
 	{
-		/*--- Public Fields ---*/
-
-
-		/*--- Protected Fields ---*/
-		
-
-        /*--- Private Fields ---*/
-
-
-        /*--- Public Methods ---*/
-      
-
-        /*--- Protected Methods ---*/
         protected override void Activate(in NetworkBaseController actor)
         {
             actor.BaseAnimator.Play("Pickup");
-            actor.SetMoveInput(true);
+            actor.ChangeMoveFunc(true);
         }
-
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
             if (actor.photonView.IsMine)
             {
-                actor.DoImprison();
+                if ( Input.GetKeyDown( KeyCode.Mouse0 ) )
+                {
+                    //if() CanInteract
+                    actor.ChangeBvToImprison();
+                }
             }
 
 
@@ -43,7 +33,5 @@ namespace GHJ_Lib
             return null;
 
         }
-
-        /*--- Private Methods ---*/
     }
 }

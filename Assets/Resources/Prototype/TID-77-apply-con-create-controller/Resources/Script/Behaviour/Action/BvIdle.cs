@@ -6,73 +6,50 @@ namespace GHJ_Lib
 {
 	public class BvIdle: Behavior<NetworkBaseController>
 	{
-        /*--- Public Fields ---*/
-
-
-        /*--- Protected Fields ---*/
-
-
-        /*--- Private Fields ---*/
-
-
-        /*--- Public Methods ---*/
-
-
-        /*--- Protected Methods ---*/
         protected override void Activate(in NetworkBaseController actor)
         {
-            if (actor is DollController)
-            {
-                actor.BaseAnimator.Play("Idle_A");
-                
-            }
-
-            if (actor is ExorcistController)
-            {
-                actor.BaseAnimator.Play("Idle");
-            }
-
-
-            actor.SetMoveInput(true);
-            
+            PlayAnimation( actor );
+            actor.ChangeMoveFunc(true);
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            if (actor.photonView.IsMine)
-            { 
-                actor.DoSkill();
-                if (actor is DollController)
+            if( !actor.photonView.IsMine )
+            {
+                return PassIfHasSuccessor();
+            }
+
+            // °øÅë
+
+            actor.DoSkill();
+
+            if ( actor.CanInteract )
+            {
+                if ( Input.GetKeyDown( KeyCode.G ) )
                 {
-                    actor.DoSprint();
-                
-                    if (actor.CanInteract)
-                    {
-                        actor.DoInteract();
-                    }
-                    else
-                    {
-                    
-                    }
+                    actor.ChangeBvToInteract();
                 }
+            }
 
-                if (actor is ExorcistController)
+
+            if ( actor is DollController )
+            {
+                DoDollSprint( actor );
+            }
+            else if ( actor is ExorcistController )
+            {
+                ExorcistController exorcist = (actor as ExorcistController);
+
+                if ( Input.GetKeyDown( KeyCode.Mouse0 ) )
                 {
-                    ExorcistController exorcist = (actor as ExorcistController);
-
-                    if (exorcist.pickUpBox.CanPickUp())
+                    if ( exorcist.PickUpBox.CanPickUp() )
                     {
-                        exorcist.DoPickUp();
-                    }
-                    else if (actor.CanInteract)
-                    {
-                        actor.DoInteract();
+                        exorcist.ChangeBvToCatch();
                     }
                     else
                     {
-                        actor.DoAttack();
+                        exorcist.ChangeBehaviorToAttack();
                     }
-
                 }
             }
 
@@ -81,10 +58,28 @@ namespace GHJ_Lib
         }
 
 
+        void DoDollSprint( in NetworkBaseController actor )
+        {
+            if ( Input.GetKeyDown( KeyCode.LeftShift ) )
+            {
+                actor.ChangeMoveSpeed( 2.0f );
+            }
+            else if ( Input.GetKeyUp( KeyCode.LeftShift ) )
+            {
+                actor.ChangeMoveSpeed( 1.0f );
+            }
+        }
 
-
-
-
-        /*--- Private Methods ---*/
+        void PlayAnimation( in NetworkBaseController actor )
+        {
+            if ( actor is DollController )
+            {
+                actor.BaseAnimator.Play( "Idle_A" );
+            }
+            if ( actor is ExorcistController )
+            {
+                actor.BaseAnimator.Play( "Idle" );
+            }
+        }
     }
 }

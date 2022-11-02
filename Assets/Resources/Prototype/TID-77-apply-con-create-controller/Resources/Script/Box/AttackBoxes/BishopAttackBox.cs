@@ -25,8 +25,8 @@ namespace GHJ_Lib
 			if (other.CompareTag("Doll"))
 			{
 				DollController doll = other.GetComponent<DollController>();
-				doll.HitBy();
-				doll.doHit = Hit;
+				doll.ChangeBvToGetHit();
+				//doll.doHit = Hit;
 				this.gameObject.SetActive(false);
 			}
 		}

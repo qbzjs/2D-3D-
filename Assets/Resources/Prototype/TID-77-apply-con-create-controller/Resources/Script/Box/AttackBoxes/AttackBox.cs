@@ -7,23 +7,13 @@ namespace GHJ_Lib
 {
 	public class AttackBox: MonoBehaviour
 	{
-        /*--- Public Fields ---*/
-
-
-        /*--- Protected Fields ---*/
-
-        /*--- Private Fields ---*/
-
-
-        /*--- MonoBehaviour Callbacks ---*/
-
         protected virtual void OnTriggerStay(Collider other)
         {
 			if (other.CompareTag("Doll"))
 			{
                 DollController doll =  other.GetComponent<DollController>();
-                doll.HitBy();
-                doll.doHit = Hit;
+                doll.ChangeBvToGetHit();
+                //doll.doHit = Hit;
                 this.gameObject.SetActive(false);
 			}
         }
@@ -33,14 +23,5 @@ namespace GHJ_Lib
             targetData.DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower;
             DataManager.Instance.ShareRoleData();
         }
-
-
-
-        /*--- Public Methods ---*/
-
-        /*--- Protected Methods ---*/
-
-
-        /*--- Private Methods ---*/
     }
 }

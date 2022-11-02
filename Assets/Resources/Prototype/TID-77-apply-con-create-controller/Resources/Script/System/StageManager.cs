@@ -49,11 +49,8 @@ namespace GHJ_Lib
 		public ExorcistUI exorcistUI;
 		public BarUI_Controller BarUI;
 
-		//protected NetworkGenerator playerGenerator;
-		//protected NetworkGenerator normalAltarGenerator;
-		//protected NetworkGenerator exitAltarGenerator;
-		//protected NetworkGenerator finalAltarGenerator;
-		//protected NetworkGenerator purificationBoxGenerator;
+		[field: SerializeField] public CastingSystem CastSystem { get; private set; }
+
 		/*--- Private Fields ---*/
 		static StageManager instance;
 		bool activeDebugGUI;
@@ -84,24 +81,6 @@ namespace GHJ_Lib
 					PurificationBoxPrefab
 					}
 				); ;
-
-			//int number = PhotonNetwork.LocalPlayer.ActorNumber;
-			//if (number == 1)
-			//{
-			//	playerGenerator = new NetworkGenerator(DollPrefabs[0]);
-			//	playerGenerator = new NetworkGenerator(ExorcistPrefabs[0]);
-
-			//}
-			//else
-			//{
-			//	playerGenerator = new NetworkGenerator(ExorcistPrefabs[0]);
-			//	playerGenerator = new NetworkGenerator(DollPrefabs[0]);
-			//}
-
-
-			//PlayerData 에서 퇴마사라면 퇴마사의 위치 0 , 인형이라면 순서대로 1,2,3,4 위치로
-			//각 인형들이 들어온 순서대로 배열또는 리스트에 넣었기 때문에 해당 인덱스를 이용.
-			//GameObject Player = playerGenerator.Generate(PlayerGenPos[number]);
 			int number = DataManager.Instance.PlayerIdx;
 
 			GameObject targetPrefab;
@@ -138,26 +117,10 @@ namespace GHJ_Lib
 			networkGenerator.GenerateRandomly( ExitAltarPrefab, ExitAltarGenPos );
 			networkGenerator.Generate( FinalAltarPrefab, FinalAltarGenPos.transform.position, FinalAltarGenPos.rotation );
 
-
-
-			//normalAltarGenerator = new NetworkGenerator(NormalAltarPrefab);
-			//exitAltarGenerator = new NetworkGenerator(ExitAltarPrefab);
-			//finalAltarGenerator = new NetworkGenerator(FinalAltarPrefab);
-			//purificationBoxGenerator = new NetworkGenerator(PurificationBoxPrefab);
-			//normalAltarGenerator.GenerateByAlgorithm(Count, NormalAltarGenPos, InitAreaRadius, CenterPosition);
-			//exitAltarGenerator.GenerateRandomly(ExitAltarGenPos);
-			//finalAltarGenerator.Generate(FinalAltarGenPos.transform.position, Quaternion.Euler(FinalAltarGenPos.transform.rotation.eulerAngles));
-
 			foreach ( var purificationBoxGenPos in PurificationBoxGenPos )
 			{
 				networkGenerator.Generate( PurificationBoxPrefab, purificationBoxGenPos.transform.position, purificationBoxGenPos.transform.rotation );
 			}
-
-
-			//foreach ( GameObject purificationBoxGenPos in PurificationBoxGenPos)
-			//{
-			//	purificationBoxGenerator.Generate(purificationBoxGenPos.transform.position, Quaternion.Euler(purificationBoxGenPos.transform.rotation.eulerAngles));
-			//}
 
 
 			

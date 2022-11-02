@@ -10,146 +10,71 @@ namespace GHJ_Lib
 {
 	public class DollController : NetworkBaseController, IPunObservable
 	{
-
 		/*--- Public Fields ---*/
-		public BvIdle GetIdle
-		{
-			get { return idle; }
-		}
-		public int CrossStack
-		{
-            get { return crossStack; }
-		}
+		public int CrossStack { get { return crossStack; } }
 		[SerializeField]
 		protected GameObject GhostModel;
 		[SerializeField]
 		protected Material GhostMaterial;
-		/*--- Protected Fields ---*/
 
-		protected BvIdle idle					= new BvIdle();
-		protected BvDown down = new BvDown();
-		protected BvHit hit = new BvHit();
-		protected BvCaught caught = new BvCaught();
-		protected BvCharacterInteraction interaction	= new BvCharacterInteraction();
-		protected BvPurified purified = new BvPurified();
+
+		/*--- Protected Fields ---*/
+		protected BvIdle idle = new BvIdle();
+		protected BvCollapse down = new BvCollapse();
+		protected BvGetHit hit = new BvGetHit();
+		protected BvBeCaught caught = new BvBeCaught();
+		protected BvInteract interaction	= new BvInteract();
+		protected BvBePurifying purified = new BvBePurifying();
 		protected BvEscape escape = new BvEscape();
 
 		protected int crossStack = 0;
-		
-		/*--- Private Fields ---*/
-
-
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			//GhostModel.SetActive(false);
-			// 스테이터스 받아오기
-
-			//애니매이터 받기 -> behavior에서 할예정
-
-			// 카메라 설정하기
 			if (photonView.IsMine)
 			{
-				//fpvCam.InitCam(camTarget);
-				//tpvCam.InitCam(camTarget);
-				//인형인지 퇴마사인지에 따라서 Setactive 를 해줄것.
-				//fpvCam.gameObject.SetActive(false);
-				//tpvCam.gameObject.SetActive(true);
-				//StartCoroutine("CameraActive");
 				tpvCam.gameObject.SetActive(true);
 				curCam = tpvCam;
 			}
-			else
-			{
-				//fpvCam.InitCam(camTarget);
-				//tpvCam.InitCam(camTarget);
-				//fpvCam.gameObject.SetActive(false);
-				//tpvCam.gameObject.SetActive(false);
-			}
-			// CurcharacterAction, CurcharacterCondition,  초기설정하기
-			CurCharacterAction.PushSuccessorState(idle);
-			//CurCharacterCondition.PushSuccessorState
-
-			//처음 대기시간 주기( 이건 StageManger가 할일)
-
-			switch (typeIndex) //5~9 일단 임시로 만들어 놓은것.
-			{
-				case 5:
-					{ }
-					break;
-				case 6:
-					{ }
-					break;
-				case 7:
-					{ }
-					break;
-				case 8:
-					{ }
-					break;
-				case 9:
-					{ }
-					break;
-			}
-
-
-			//아직 인형은 하나밖에없기 때문에 위 switch문은 보여주기만 할것
-			//PassiveSkill.PushSuccessorState();
-
+			CurBehavior.PushSuccessorState(idle);
 		}
-
-
-
 
 
 		/*--- Public Methods ---*/
-
-
-		public void CaughtDoll(BaseCameraController cam)
+		public void ChangeBvToBeCaught(BaseCameraController cam)
 		{
 			characterModel.gameObject.SetActive(false);
 			ChangeCamera(cam);
-			ChangeActionTo("Caught");
+			ChangeBehaviorTo(BehaviorType.BeCaught);
 		}
-
-
-		public void HitBy()
+		public void ChangeBvToGetHit()
 		{
-			if (CurCharacterAction is not BvHit)
+			if (CurBehavior is not BvGetHit)
 			{
 				if (photonView.IsMine)
 				{
-					ChangeActionTo("Hit");
+					ChangeBehaviorTo(BehaviorType.GetHit);
 				}
 			}
-			
 		}
-
-		
-
-		public void Imprisoned(PurificationBox puriBox)
+		public void ChangeBvToBePurifying(PurificationBox puriBox)
 		{
 			characterModel.gameObject.SetActive(true);
-			puriBox.PurifyDoll(this);
+			puriBox.SetDoll(this);
 
-
-			//characterObj.transform.rotation = puriBox.CharacterPos.rotation;
-
-
-
-			StageManager.CharacterLayerChange(characterObj, 0);
-			ChangeCamera(tpvCam);
-			if (photonView.IsMine)
+			if ( photonView.IsMine )
 			{
-
-				//characterObj.transform.position = puriBox.CharacterPos.position;
 				float x = puriBox.CharacterPos.position.x;
 				float z = puriBox.CharacterPos.position.z;
-				photonView.RPC("ChangeTransform", RpcTarget.AllViaServer, x, z);
-				ChangeActionTo("Purified");
+				photonView.RPC( "ChangeTransform", RpcTarget.AllViaServer, x, z );
+				ChangeBehaviorTo( BehaviorType.BePurifying );
 			}
-				characterModel.transform.rotation = puriBox.CharacterPos.rotation;
+			characterModel.transform.rotation = puriBox.CharacterPos.rotation;
+
+			StageManager.CharacterLayerChange(characterObj, LayerMask.NameToLayer( "Player" ) );
+			ChangeCamera(tpvCam);
 		}
 
 		[PunRPC]
@@ -160,7 +85,6 @@ namespace GHJ_Lib
 
 		public override void EscapeFrom(Transform transform, int layer)
 		{
-			
 			this.transform.position = transform.position;
 			this.transform.rotation = transform.rotation;
 			characterModel.gameObject.SetActive(true);
@@ -173,8 +97,7 @@ namespace GHJ_Lib
 			photonView.RPC("_BecomeGhost", RpcTarget.All);
 			photonView.RPC("DecreaseDollCount", RpcTarget.All);
 			photonView.RPC("DisappearPurificationBox",RpcTarget.All);
-			ChangeActionTo("Idle");
-			
+			ChangeBehaviorTo(BehaviorType.Idle);
 		}
 		
 		
@@ -193,15 +116,12 @@ namespace GHJ_Lib
 			{
 				GhostModel.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().material = GhostMaterial;
 			}
-
-
 		}
 
 		[PunRPC]
 		public void DecreaseDollCount()
 		{
 			StageManager.Instance.DollCountDecrease();
-
 		}
         public override bool DoResist()
         {
@@ -211,31 +131,18 @@ namespace GHJ_Lib
 				return true;
 			}
 			return false;
-
         }
 
 		[PunRPC]
 		public void DisappearPurificationBox()
 		{
-			if (interactObj is not PurificationBox)
-			{
-				Debug.LogError("the nearest interactObj is not Purification Box");
-				return;
-			}
-			StageManager.Instance.Disappear(interactObj.gameObject);
+			//if (interactObj is not PurificationBox)
+			//{
+			//	Debug.LogError("the nearest interactObj is not Purification Box");
+			//	return;
+			//}
+			//StageManager.Instance.Disappear(interactObj.gameObject);
 		}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -289,12 +196,11 @@ namespace GHJ_Lib
 			{ 
 				if (flag)
 				{
-					DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed += initialInteractSpeed * 0.05f;
-
+					DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed += DataManager.Instance.RoleInfos[TypeIndex].InteractionSpeed * 0.05f;
 				}
 				else
 				{
-					DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed-= initialInteractSpeed * 0.05f;
+					DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed-= DataManager.Instance.RoleInfos[TypeIndex].InteractionSpeed * 0.05f;
 				}
 				DataManager.Instance.ShareRoleData();
 			}
@@ -302,17 +208,7 @@ namespace GHJ_Lib
 
 
 
-
-
 		/*--- Protected Methods ---*/
-		protected override void PlayerInput()
-		{
-
-		
-			
-
-		}
-
         protected override void SetDirection()
         {
 			inputDir = BasePlayerInputManager.Instance.GetPlayerMove();
@@ -321,35 +217,31 @@ namespace GHJ_Lib
 			camProjToPlane = Vector3.ProjectOnPlane(camForward, Vector3.up);
 			camRight = camTarget.transform.right;
 			direction = (inputDir.x * camRight + inputDir.y * camProjToPlane).normalized;
-		
 		}
 		protected override void RotateToDirection()
         {
 			if (direction.sqrMagnitude > 0.01f)
 			{
-				
 				forward = Vector3.Slerp(characterModel.transform.forward, direction,
 					rotateSpeed * Time.deltaTime / Vector3.Angle(characterModel.transform.forward, direction));
 				characterModel.transform.LookAt(characterModel.transform.position + forward);
 			}
-
-			
 		}
         protected override void MoveCharacter()
 		{
 			if (controller.enabled == false)
 			{
 				BaseAnimator.SetFloat("Move", 0);
-				Stop();
+				CannotMove();
 				return;
 			}
 
-			if(DataManager.Instance.PlayerDatas[playerIndex].roleData == null)
+			if(DataManager.Instance.PlayerDatas[PlayerIndex].roleData == null)
             {
 				return;
             }
 
-			controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[playerIndex].roleData.MoveSpeed);
+			controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed);
 
 			if (direction.sqrMagnitude <= 0)
 			{
@@ -357,75 +249,52 @@ namespace GHJ_Lib
 			}
 			else
 			{
-				BaseAnimator.SetFloat("Move", DataManager.Instance.PlayerDatas[playerIndex].roleData.MoveSpeed);
+				BaseAnimator.SetFloat("Move", DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed);
 			}
-
 		}
 
 
-
 		[PunRPC]
-		protected override void _ChangeActionTo(string ActionName)
+		protected override void ChangeBehaviorTo_RPC( BehaviorType type )
 		{
-			switch (ActionName)
+			switch ( type )
 			{
-				case "Idle":
-					{
-						CurCharacterAction.PushSuccessorState(idle);
-					}
-					break;
-				case "Interact":
-					{
-						//interaction.SetInteractObj(interactObj);
-						CurCharacterAction.PushSuccessorState(interaction);
-					}
-					break;
-				case "Down":
-					{
-						CurCharacterAction.PushSuccessorState(down);
-					}
-					break;
-				case "Hit":
-					{
-						CurCharacterAction.PushSuccessorState(hit);
-					}
-					break;
-				case "Caught":
-					{
-						CurCharacterAction.PushSuccessorState(caught);
-					}
-					break;
-				case "Purified":
-					{
-						CurCharacterAction.PushSuccessorState(purified);
-					}
-					break;
-				case "Escape":
-					{
-						CurCharacterAction.PushSuccessorState(escape);
-					}
-					break;
-
+				case BehaviorType.Idle:
+				{
+					CurBehavior.PushSuccessorState( idle );
+				}
+				break;
+				case BehaviorType.Interact:
+				{
+					CurBehavior.PushSuccessorState( interaction );
+				}
+				break;
+				case BehaviorType.Collapse:
+				{
+					CurBehavior.PushSuccessorState( down );
+				}
+				break;
+				case BehaviorType.GetHit:
+				{
+					CurBehavior.PushSuccessorState( hit );
+				}
+				break;
+				case BehaviorType.BeCaught:
+				{
+					CurBehavior.PushSuccessorState( caught );
+				}
+				break;
+				case BehaviorType.BePurifying:
+				{
+					CurBehavior.PushSuccessorState( purified );
+				}
+				break;
+				case BehaviorType.Escape:
+				{
+					CurBehavior.PushSuccessorState( escape );
+				}
+				break;
 			}
-
-			
 		}
-
-
-
-		[PunRPC]
-		protected override void _AddCondition(string ConditionName)
-		{
-			switch (ConditionName)
-			{ }
-			
-		}
-
-
-		/*--- Private Methods ---*/
-
-
-		/*--- IEumerator Methods ---*/
-		
 	}
 }

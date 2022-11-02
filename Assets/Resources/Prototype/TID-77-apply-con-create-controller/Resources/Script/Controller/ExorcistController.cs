@@ -8,253 +8,69 @@ namespace GHJ_Lib
 {
 	public class ExorcistController: NetworkBaseController, IPunObservable
 	{
-		/*--- Public Fields ---*/
-	
-		public ParticleSystem Ayra;
-		public GameObject[] CatchObj;
-
-		public PickUpBox pickUpBox;
-		public AttackBox attackBox;
-
-		/*--- Protected Fields ---*/
-
-		protected BvIdle idle = new BvIdle();
-		protected BvAttack attack = new BvAttack();
-		protected BvCharacterInteraction interact = new BvCharacterInteraction();
-		protected BvCatch catchDoll = new BvCatch();
-		protected BvImprison imprison = new BvImprison();
-
-
-		protected BvBishopActSkill actSkill = new BvBishopActSkill();
+		[field: SerializeField] public ParticleSystem Aura { get; protected set; }
+		[SerializeField] private GameObject[] CatchObj;
+		[SerializeField] public PickUpBox PickUpBox { get; protected set; }
+		[SerializeField] public AttackBox AttackBox { get; protected set; }
 
 		protected GameObject caughtDoll;
 
-		/*--- Private Fields ---*/
+
+		// Behaviors
+		protected BvIdle idle = new BvIdle();
+		protected BvAttack attack = new BvAttack();
+		protected BvInteract interact = new BvInteract();
+		protected BvCatch catchDoll = new BvCatch();
+		protected BvImprison imprison = new BvImprison();
+
+		// Skills
+		protected BvBishopActSkill actSkill = new BvBishopActSkill();
+
 
 		/*--- MonoBehaviour Callbacks ---*/
-
-
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			// 스테이터스 받아오기
 
-			//애니매이터 받기 -> behavior에서 할예정
-
-			// 카메라 설정하기
 			if (photonView.IsMine)
 			{
-				//fpvCam.InitCam(camTarget);
-				//tpvCam.InitCam(camTarget);
 				fpvCam.gameObject.SetActive(true);
 				curCam = fpvCam;
-				//StartCoroutine("CameraActive");
-				//tpvCam.gameObject.SetActive(false);
 			}
-			else
-			{
-				//fpvCam.InitCam(camTarget);
-				//tpvCam.InitCam(camTarget);
-				//fpvCam.gameObject.SetActive(false);
-				//tpvCam.gameObject.SetActive(false);
-			}
-			// CurcharacterAction, CurcharacterCondition,  초기설정하기
-			CurCharacterAction.PushSuccessorState(idle);
-
+			CurBehavior.PushSuccessorState(idle);
 		}
 
 
-		/*
-		protected override void OnTriggerStay(Collider other)
-		{
-
-			if (other.CompareTag("interactObj"))
-			{
-				interactObj = other.GetComponent<Interaction>();
-				
-				if (!photonView.IsMine)
-				{
-					return;
-				}
-				Log.Instance.WriteLog(interactObj.name.ToString(), 1);
-				if (IsAutoCasting)
-				{
-					canInteract = false;
-					BarUI.Instance.SliderVisible(true);
-					BarUI.Instance.TextVisible(false);
-				}
-				else if (IsCasting)
-				{
-					canInteract = true;
-					BarUI.Instance.SliderVisible(true);
-					BarUI.Instance.TextVisible(false);
-					if (!interactObj.CanActiveToExorcist)
-					{
-						canInteract = false;
-					}
-					return;
-				}
-				else
-				{
-					if (CurCharacterAction is BvCharacterInteraction)
-					{
-						ChangeActionTo("Idle");
-					}
-					BarUI.Instance.SliderVisible(false);
-				}
-
-				if (Vector3.Dot(forward, Vector3.ProjectOnPlane((other.transform.position - this.transform.position), Vector3.up)) > 0 &&
-					interactObj.CanActiveToExorcist)
-				{
-					BarUI.Instance.TextVisible(true);
-					canInteract = true;
-
-				}
-				else
-				{
-					BarUI.Instance.TextVisible(false);
-					canInteract = false;
-				}
-
-			}
-		}
-
-		protected override void OnTriggerExit(Collider other)
-		{
-			if (other.CompareTag("interactObj"))
-			{
-				BarUI.Instance.TextVisible(false);
-				BarUI.Instance.SliderVisible(false);
-			}
-		}
-		*/
-
-		/*--- Public Methods ---*/
-
-
-		/*---Skill---*/
-		[PunRPC]
-		public override void DoActiveSkill()
-		{
-			StartCoroutine("ActiveSkillBox");
-		}
-
-		protected override IEnumerator ActiveSkillBox()
-		{
-			useActiveSkill = true;
-			//스킬중
-			yield return new WaitForSeconds(0.2f);//선딜
-			
-			yield return new WaitForSeconds(13.8f);
-			useActiveSkill = false;
-		}
-
-
-
-		/*---HIT_SKILL---*/
-
-
-
-
-
-
-		public override void DoImprison()
-		{
-			if(Input.GetKeyDown(KeyCode.Mouse0))
-			{
-				if (canInteract)
-				{
-					ChangeActionTo("Interact");
-				}
-			}
-		}
-
-		public virtual void DoPickUp()
-		{
-			if (Input.GetKeyDown(KeyCode.Mouse0))
-			{
-				ChangeActionTo("Catch");
-			}
-		}
-
-		public override void Imprison()
+		// Behavior Callbacks
+		public override void ImprisonDoll()
 		{
 			DollController doll = caughtDoll.GetComponent<DollController>();
-			CatchObj[doll.TypeIndex - 5].gameObject.SetActive(false);
-			//doll.ChangeCamera((interactObj as PurificationBox).Cam);
-			doll.Imprisoned((interactObj as PurificationBox));
+			CatchObj[doll.TypeIndex - 5].gameObject.SetActive( false );
+			doll.ChangeBvToBePurifying((interactObj as PurificationBox));
 		}
 
+		// Behavior Conditions
+		public override void ChangeBvToImprison()
+		{
+			ChangeBehaviorTo(BehaviorType.Interact);
+		}
+		public virtual void ChangeBvToCatch()
+		{
+			ChangeBehaviorTo(BehaviorType.Catch);
+		}
 
 
 		/*--- Protected Methods ---*/
-
-
-		protected override void PlayerInput()
-		{
-			if (Input.GetKeyDown(KeyCode.Mouse1))
-			{
-				if (!useActiveSkill)
-				{
-					photonView.RPC("DoActiveSkill", RpcTarget.AllViaServer);
-				}
-			}
-
-			Debug.Log("CanPickUp : " + pickUpBox.CanPickUp());
-			if (pickUpBox.CanPickUp()&&(CurCharacterAction is not BvCatch))
-			{
-				if (Input.GetKeyDown(KeyCode.Mouse0))
-				{
-					ChangeActionTo("Catch");
-					return;
-				}
-			}
-
-			if (canInteract)
-			{
-				if (Input.GetKeyDown(KeyCode.Mouse0))
-				{
-
-					ChangeActionTo("Interact");
-					return;
-				}
-				if (Input.GetKeyUp(KeyCode.Mouse0))
-				{
-
-					ChangeActionTo("Idle");
-					return;
-				}
-			}
-			else
-			{ 
-				if (Input.GetKeyDown(KeyCode.Mouse0))
-				{
-					if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-					{
-						ChangeActionTo("Attack");
-						return;
-					}
-				
-				}
-			}
-
-		}
-
         protected override void RotateToDirection()
 		{
-
 			if (direction.sqrMagnitude > 0.01f)
 			{
-				animator.SetFloat("MoveSpeed", direction.magnitude);
-				//forward = Vector3.Slerp(characterModel.transform.forward, direction,
-				//	rotateSpeed * Time.deltaTime / Vector3.Angle(characterModel.transform.forward, direction));
-				//characterModel.transform.LookAt(characterModel.transform.position + forward);
+				BaseAnimator.SetFloat("MoveSpeed", direction.magnitude);
 			}
 			else
 			{
-				animator.SetFloat("MoveSpeed", 0);
+				BaseAnimator.SetFloat("MoveSpeed", 0);
 			}
-
 			if (photonView.IsMine)
 			{ 
 				characterModel.transform.rotation =  Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y,0.0f);
@@ -266,84 +82,58 @@ namespace GHJ_Lib
 			{
 				return;
 			}
-
 			if(DataManager.Instance.PlayerDatas[0].roleData != null)
 			{
 				controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[0].roleData.MoveSpeed);
 			}
 		}
 
-	
 
 		[PunRPC]
-		protected override void _ChangeActionTo(string ActionName)
+		protected override void ChangeBehaviorTo_RPC(BehaviorType behaviorType)
 		{
-			switch (ActionName)
+			switch ( behaviorType )
 			{
-				case "Idle":
+				case BehaviorType.Idle:
 					{
-						CurCharacterAction.PushSuccessorState(idle);
+						CurBehavior.PushSuccessorState(idle);
 					}
 					break;
-				case "Attack":
+				case BehaviorType.Attack:
 					{
-						CurCharacterAction.PushSuccessorState(attack);
+						CurBehavior.PushSuccessorState(attack);
 					}
 					break;
-				case "Interact":
+				case BehaviorType.Interact:
 					{
-						if (CurCharacterAction is BvIdle)
+						if (CurBehavior is BvIdle)
 						{
-							CurCharacterAction.PushSuccessorState(interact);
+							CurBehavior.PushSuccessorState(interact);
 						}
-						if (CurCharacterAction is BvCatch)
+						else if (CurBehavior is BvCatch)
 						{
-							CurCharacterAction.PushSuccessorState(imprison);
+							CurBehavior.PushSuccessorState(imprison);
 						}
 					}
 					break; 
-				case "Catch":
+				case BehaviorType.Catch:
 					{
-						caughtDoll = pickUpBox.FindNearestFallDownDoll();
-						CurCharacterAction.PushSuccessorState(catchDoll);
+						caughtDoll = PickUpBox.FindNearestCollapsedDoll();
+						CurBehavior.PushSuccessorState(catchDoll);
 					}
 					break;
 			}
-
-
 		}
-
-		[PunRPC]
-		protected override void _AddCondition(string ConditionName)
-		{
-			switch (ConditionName)
-			{
-				
-			}
-
-		}
-
-
-		/*--- Private Methods ---*/
-
-
-
-
-
-
 
 
 		/*--- AnimationCallbacks Methods ---*/
-
 		public void PickUp()
 		{
 			DollController doll = caughtDoll.GetComponent<DollController>();
 			CatchObj[doll.TypeIndex-5].gameObject.SetActive(true);
 			StageManager.CharacterLayerChange(caughtDoll, 8);
-			doll.CaughtDoll(tpvCam);
-			
+			doll.ChangeBvToBeCaught(tpvCam);
 		}
-
 
 
         public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -361,16 +151,12 @@ namespace GHJ_Lib
 				stream.SendNext(this.transform.position.x);
 				stream.SendNext(this.transform.position.y);
 				stream.SendNext(this.transform.position.z);
-
-
-
 			}
 			if (stream.IsReading)
 			{
 				direction.x = (float)stream.ReceiveNext();
 				direction.y = (float)stream.ReceiveNext();
 				direction.z = (float)stream.ReceiveNext();
-
 
 				float x	= (float)stream.ReceiveNext();
 				float y = (float)stream.ReceiveNext();
@@ -382,11 +168,8 @@ namespace GHJ_Lib
 				y = (float)stream.ReceiveNext();
 				z = (float)stream.ReceiveNext();
 				this.transform.position = new Vector3(x, y, z);
-
-
 			}
 		}
-
 
 
 		/*----Use ESC Menu---*/

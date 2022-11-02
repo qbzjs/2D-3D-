@@ -91,13 +91,13 @@ namespace GHJ_Lib
 		protected IEnumerator installCross()
 		{
 			useActiveSkill = true;
-			CurCharacterAction.PushSuccessorState(actSkill);
+			CurBehavior.PushSuccessorState(actSkill);
 			yield return new WaitForSeconds(2.0f);//¼±µô
 			GameObject crossObj = Instantiate(CrossPrefab, new Vector3(transform.position.x, 0, transform.position.z) + forward*10.0f, transform.rotation); ;
 			Cross cross = crossObj.GetComponent<Cross>();
 			installcrosses.Add(cross);
 			yield return new WaitForSeconds(2.0f);
-			CurCharacterAction = idle;
+			CurBehavior = idle;
 			yield return new WaitForSeconds(1.0f);
 			useActiveSkill = false;
 		}
@@ -105,12 +105,12 @@ namespace GHJ_Lib
 		protected IEnumerator CollectCross()
 		{
 			useActiveSkill = true;
-			CurCharacterAction.PushSuccessorState(actSkill);
+			CurBehavior.PushSuccessorState(actSkill);
 			yield return new WaitForSeconds(2.0f);//¼±µô
 			installcrosses.Remove(canCollectCross);
 			Destroy(canCollectCross.gameObject);
 			yield return new WaitForSeconds(2.0f);
-			CurCharacterAction = idle;
+			CurBehavior = idle;
 			yield return new WaitForSeconds(1.0f);
 			useActiveSkill = false;
 		}

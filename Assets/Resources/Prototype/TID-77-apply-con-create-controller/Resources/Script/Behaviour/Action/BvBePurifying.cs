@@ -5,27 +5,17 @@ using KSH_Lib;
 using KSH_Lib.Data;
 namespace GHJ_Lib
 {
-    public class BvPurified : Behavior<NetworkBaseController>
+    public class BvBePurifying : Behavior<NetworkBaseController>
     {
-        /*--- Public Fields ---*/
-
-        /*--- Protected Fields ---*/
-
-
-        /*--- Private Fields ---*/
-
-
-        /*--- Public Methods---*/
         protected override void Activate(in NetworkBaseController actor)
         {
             actor.BaseAnimator.Play("Fear");
-            actor.SetMoveInput(false);
+            actor.ChangeMoveFunc(false);
         }
-        /*--- Protected Methods ---*/
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            
             Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
+
             if (Bv is BvEscape)
             {
                 return Bv;
@@ -47,7 +37,6 @@ namespace GHJ_Lib
             
             return null;
         }
-        /*--- Private Methods ---*/
     }
 
 }
