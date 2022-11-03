@@ -2177,7 +2177,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1033325121}
-  m_RootOrder: 24
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &81006629
 PrefabInstance:
@@ -13579,6 +13579,7 @@ Transform:
   m_LocalScale: {x: 0.05, y: 1, z: 0.05}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 78267323}
   - {fileID: 1932496017}
   - {fileID: 1848672853}
   - {fileID: 819451294}
@@ -13603,7 +13604,6 @@ Transform:
   - {fileID: 715333274}
   - {fileID: 121122616}
   - {fileID: 1720297351}
-  - {fileID: 78267323}
   - {fileID: 57950318}
   - {fileID: 380853837}
   - {fileID: 1316349093}
@@ -15725,6 +15725,51 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1211672931}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1221735460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1221735461}
+  - component: {fileID: 1221735462}
+  m_Layer: 0
+  m_Name: CastingSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1221735461
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221735460}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1221735462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221735460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a060efe6dcbbb4abee6f9e734a46ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  castingSliderObj: {fileID: 1598040814}
 --- !u!1001 &1249297474
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19738,7 +19783,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3641732494010046043, guid: ee82e430c2aaee7498c757189e954a71, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ee82e430c2aaee7498c757189e954a71, type: 3}
 --- !u!114 &1598040812 stripped
 MonoBehaviour:
@@ -19767,6 +19813,12 @@ MonoBehaviour:
 --- !u!1 &1598040814 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7876457208675426503, guid: ee82e430c2aaee7498c757189e954a71,
+    type: 3}
+  m_PrefabInstance: {fileID: 1598040811}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1598040816 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9138402003287385247, guid: ee82e430c2aaee7498c757189e954a71,
     type: 3}
   m_PrefabInstance: {fileID: 1598040811}
   m_PrefabAsset: {fileID: 0}
@@ -21689,10 +21741,8 @@ MonoBehaviour:
   CenterPosition: {x: 0, y: 0, z: 0}
   dollUI: {fileID: 1598040813}
   exorcistUI: {fileID: 1598040812}
-  CastingUIObj: {fileID: 0}
-  CastingSliderObj: {fileID: 0}
-  InteractUIObj: {fileID: 0}
-  <CastSystem>k__BackingField: {fileID: 0}
+  InteractUIObj: {fileID: 1598040816}
+  <CastSystem>k__BackingField: {fileID: 1221735462}
   EscMenu: {fileID: 1421461046}
   dollCount: 0
 --- !u!1001 &1759105366

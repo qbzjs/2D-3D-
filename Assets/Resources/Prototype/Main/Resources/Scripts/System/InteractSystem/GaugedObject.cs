@@ -44,12 +44,21 @@ namespace KSH_Lib
 
 		protected virtual void OnEnable()
         {
+			if(castingSystem == null)
+            {
+				castingSystem = GHJ_Lib.StageManager.Instance.CastSystem;
+				if(castingSystem == null)
+				{
+					Debug.LogError("GuageObject.Enable: Can not find CastingSystem");
+				}
+			}
+
 			if(textUI == null)
             {
 				textUI = GHJ_Lib.StageManager.Instance.InteractUIObj;
 				if(textUI == null)
                 {
-					Debug.LogError("GuageObject.Enable: Can not find StageManager");
+					Debug.LogError("GuageObject.Enable: Can not find textUI");
                 }
             }
 

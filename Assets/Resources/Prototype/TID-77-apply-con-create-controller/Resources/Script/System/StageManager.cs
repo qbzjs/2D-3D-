@@ -47,10 +47,7 @@ namespace GHJ_Lib
 		[Header("UI")]
 		public DollUI dollUI;
 		public ExorcistUI exorcistUI;
-		public GameObject CastingUIObj;
-		public GameObject CastingSliderObj;
 		public GameObject InteractUIObj;
-
 
 		[field: SerializeField] public CastingSystem CastSystem { get; private set; }
 
