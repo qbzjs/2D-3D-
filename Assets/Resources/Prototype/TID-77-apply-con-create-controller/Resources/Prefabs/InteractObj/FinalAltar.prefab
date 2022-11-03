@@ -233,8 +233,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2af0cb4ba615a546ae7cb8769aeaa1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxGauge: 10
-  reduction: 0.5
+  <MaxGauge>k__BackingField: 0
+  <AddedGauge>k__BackingField: 0
+  <ReducedGauge>k__BackingField: 0
+  <CoolTime>k__BackingField: 0
+  <IsInRange>k__BackingField: 0
+  castingSystem: {fileID: 0}
+  textUI: {fileID: 0}
+  message: Press L Click to Interact
 --- !u!1 &5844849328176278625
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,6 +251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 905972141207490715}
   - component: {fileID: 8524851158925315615}
+  - component: {fileID: 7176310802452000987}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -280,3 +287,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10, y: 0.5, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7176310802452000987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5844849328176278625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19460ed231fe8644cbda4d23ab77f62f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: -7217604943741660181}
