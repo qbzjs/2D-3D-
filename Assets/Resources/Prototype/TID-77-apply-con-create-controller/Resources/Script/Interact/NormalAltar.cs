@@ -24,5 +24,10 @@ namespace GHJ_Lib
         {
             return isEnable && castingSystem.IsFinshCasting;
         }
+
+        protected override void TryInteract()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

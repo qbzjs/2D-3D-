@@ -37,6 +37,11 @@ namespace GHJ_Lib
             return true;
         }
 
+        protected override void TryInteract()
+        {
+            throw new System.NotImplementedException();
+        }
+
         /*--- Interaction Methods ---*/
         public void CanOpenDoor()
 		{

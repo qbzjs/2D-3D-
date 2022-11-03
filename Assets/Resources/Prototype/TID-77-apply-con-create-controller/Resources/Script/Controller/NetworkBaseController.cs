@@ -104,7 +104,6 @@ namespace GHJ_Lib
 		{
 			direction = Vector3.zero;
 		}
-
 		public void ChangeCamera(BaseCameraController cam)
 		{
 			if (photonView.IsMine)
@@ -113,6 +112,17 @@ namespace GHJ_Lib
 				curCam = cam;
 				cam.gameObject.SetActive(true);
 			}
+		}
+		public virtual bool IsWatching(string tag)
+		{
+			RaycastHit hit;
+			Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width, Screen.height) / 2);
+
+			if (Physics.Raycast(ray, out hit))
+			{
+				return hit.transform.CompareTag(tag);
+			}
+			return false;
 		}
 
 		[PunRPC]

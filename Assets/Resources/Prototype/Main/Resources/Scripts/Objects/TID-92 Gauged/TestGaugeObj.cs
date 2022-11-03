@@ -75,6 +75,11 @@ namespace KSH_Lib.Test
             }
         }
 
+        protected override void TryInteract()
+        {
+            throw new System.NotImplementedException();
+        }
+
         void StartAutoCasting()
         {
             InactiveText();

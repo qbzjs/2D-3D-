@@ -13,6 +13,8 @@ namespace KSH_Lib
 	[RequireComponent( typeof( PhotonView ) )]
 	public abstract class GaugedObject : MonoBehaviourPun, IPunObservable
 	{
+		public enum InteractTarget { Null, Exorcist, Doll,  };
+
 		/*--- Fields ---*/
 		[field: SerializeField] public float MaxGauge { get; protected set; }
 		[field: SerializeField] public float AddedGauge { get; protected set; }
@@ -22,7 +24,8 @@ namespace KSH_Lib
 		public float RateOfGauge { get; protected set; }
 		public bool IsFinishResult { get; protected set; }
 		public float OriginGauge { get { return RateOfGauge * MaxGauge; } }
-		public bool CanInteract { get { return IsInRange && castingSystem.IsReset; } }
+		//public bool CanInteract { get { return IsInRange && castingSystem.IsReset; } }
+		public bool CanInteract { get; protected set; }
 
 		[SerializeField]
 		protected CastingSystem castingSystem;
@@ -34,6 +37,8 @@ namespace KSH_Lib
 		protected string message = "Press L Click to Interact";
 		protected TextMeshProUGUI textTMP;
 
+
+		protected InteractTarget interactTarget;
 
 		/*--- MonoBehaviour Callbacks ---*/
 
@@ -57,6 +62,16 @@ namespace KSH_Lib
 
         protected virtual void Update()
 		{
+			if (CanInteract)
+            {
+				ActiveText();
+				TryInteract();
+            }
+			else
+            {
+				InactiveText();
+            }
+
 			if ( ResultCondition() && !IsFinishResult)
 			{
 				DoResult();
@@ -66,6 +81,8 @@ namespace KSH_Lib
 
 
 		/*--- Public Methods ---*/
+
+
 		public virtual void ResetResult()
         {
 			IsFinishResult = false;
@@ -85,6 +102,8 @@ namespace KSH_Lib
 		/*--- Protected Methods ---*/
 		protected abstract void DoResult();
 		protected abstract bool ResultCondition();
+
+		protected abstract void TryInteract();
 
 		protected virtual void ActiveText()
         {

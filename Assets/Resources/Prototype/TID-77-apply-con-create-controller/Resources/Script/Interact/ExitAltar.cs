@@ -34,8 +34,14 @@ namespace GHJ_Lib
 			return isOpen && castingSystem.IsFinshCasting;
 		}
 
-		/*--- Public Methods ---*/
-		public void OpenExitAltar()
+		protected override void TryInteract()
+        {
+            throw new System.NotImplementedException();
+        }
+
+
+        /*--- Public Methods ---*/
+        public void OpenExitAltar()
 		{
 			isOpen = true;
 			ExitAltarModel.SetActive( true );

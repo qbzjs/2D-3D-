@@ -51,6 +51,7 @@ namespace GHJ_Lib
 		public GameObject CastingSliderObj;
 		public GameObject InteractUIObj;
 
+
 		[field: SerializeField] public CastingSystem CastSystem { get; private set; }
 
 		NetworkGenerator networkGenerator;

@@ -31,7 +31,7 @@ namespace GHJ_Lib
         }
         protected override bool ResultCondition()
         {
-            return DollInBox != null;
+            return DollInBox != null && castingSystem.IsFinshCasting;
         }
 
         public void SetDoll(DollController doll)
@@ -39,6 +39,68 @@ namespace GHJ_Lib
             castingSystem.ResetCasting();
             DollInBox = doll;
             animator.Play( "CloseDoor" );
+        }
+
+        protected override void TryInteract()
+        {
+            if(interactTarget != InteractTarget.Doll)
+            {
+                return;
+            }
+
+            if(!castingSystem.IsCoroutineRunning)
+            {
+                castingSystem.StartManualCasting(CastingSystem.Cast.CreateByRatio(AddedGauge), IsInputNow, SyncDataWith: SyncGauge);
+            }
+            else
+            {
+                InactiveText();
+            }
+        }
+
+        bool IsInputNow()
+        {
+            return Input.GetKey(KeyCode.G);
+        }
+
+
+        protected override void HandleTriggerStay(Collider other)
+        {
+            if(other.gameObject.CompareTag(GameManager.DollTag))
+            {
+                if(DollInBox == null)
+                {
+                    CanInteract = false;
+                    return;
+                }
+
+                interactTarget = InteractTarget.Doll;
+                CanInteract = other.GetComponent<NetworkBaseController>().IsWatching(gameObject.tag);
+            }
+            else if(other.gameObject.CompareTag(GameManager.ExorcistTag))
+            {
+                ExorcistController exorcist = other.GetComponent<ExorcistController>();
+
+                if (DollInBox != null || (exorcist.CurBehavior is not BvCatch))
+                {
+                    CanInteract = false;
+                    return;
+                }
+
+                interactTarget = InteractTarget.Exorcist;
+                CanInteract = exorcist.IsWatching(gameObject.tag);
+            }
+        }
+        protected override void HandleTriggerExit(Collider other)
+        {
+            if (other.gameObject.CompareTag(GameManager.DollTag))
+            {
+                CanInteract = false;
+            }
+            else if (other.gameObject.CompareTag(GameManager.ExorcistTag))
+            {
+                CanInteract = false;
+            }
         }
     }
 }
