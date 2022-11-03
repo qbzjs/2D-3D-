@@ -13,11 +13,16 @@ namespace GHJ_Lib
 		/*--- Protected Fields ---*/
 		protected bool isOpen = false;
 
-		/*--- Private Fields ---*/
+        /*--- Private Fields ---*/
 
 
-		/*--- MonoBehaviour Callbacks ---*/
-		void OnEnable()
+        /*--- MonoBehaviour Callbacks ---*/
+        protected override void Start()
+		{
+			castingSystem = StageManager.Instance.CastSystem;
+			base.Start();
+		}
+        void OnEnable()
 		{
 			StageManager.Instance.SetAltar( this );
 			ExitAltarModel.SetActive( false );

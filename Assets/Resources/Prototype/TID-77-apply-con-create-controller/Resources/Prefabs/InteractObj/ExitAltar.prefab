@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1842867194680541324}
   - component: {fileID: 8474241406655015305}
+  - component: {fileID: 5403187610411412051}
   m_Layer: 0
   m_Name: TriggerRange
   m_TagString: Untagged
@@ -45,6 +46,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 1, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5403187610411412051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3655353818233674321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19460ed231fe8644cbda4d23ab77f62f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 3277198471345640387}
 --- !u!1 &5114522174893634951
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,8 +128,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec36b2905c0e1854ba543753a4410c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxGauge: 10
-  reduction: 0.5
+  <MaxGauge>k__BackingField: 0
+  <AddedGauge>k__BackingField: 0
+  <ReducedGauge>k__BackingField: 0
+  <CoolTime>k__BackingField: 0
+  <IsInRange>k__BackingField: 0
+  castingSystem: {fileID: 0}
+  textUI: {fileID: 0}
+  message: Press L Click to Interact
   ExitAltarModel: {fileID: 6745513177134003140}
 --- !u!1 &6745513177134003140
 GameObject:

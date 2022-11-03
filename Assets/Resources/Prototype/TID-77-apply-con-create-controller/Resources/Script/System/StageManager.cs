@@ -9,7 +9,8 @@ namespace GHJ_Lib
 {
 	public class StageManager : MonoBehaviour
 	{
-		/*--- Public Fields ---*/
+
+		/*--- Fields ---*/
 		public static StageManager Instance
 		{
 			get
@@ -22,6 +23,7 @@ namespace GHJ_Lib
 			}
 		}
 
+		/*--- Prefabs ---*/
 		[Header("Prefabs")]
 		public GameObject[] DollPrefabs;
 		public GameObject[] ExorcistPrefabs;
@@ -41,15 +43,17 @@ namespace GHJ_Lib
 		public int Count;
 		public float InitAreaRadius;
 		public Vector3 CenterPosition;
-		/*--- Protected Fields ---*/
-		protected NetworkGenerator networkGenerator;
 
 		[Header("UI")]
 		public DollUI dollUI;
 		public ExorcistUI exorcistUI;
-		public BarUI_Controller BarUI;
+		public GameObject CastingUIObj;
+		public GameObject CastingSliderObj;
+		public GameObject InteractUIObj;
 
 		[field: SerializeField] public CastingSystem CastSystem { get; private set; }
+
+		NetworkGenerator networkGenerator;
 
 		/*--- Private Fields ---*/
 		static StageManager instance;
