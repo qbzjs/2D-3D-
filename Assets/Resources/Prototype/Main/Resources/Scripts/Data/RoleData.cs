@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 using MSLIMA.Serializer;
 
 namespace KSH_Lib.Data
@@ -54,25 +54,30 @@ namespace KSH_Lib.Data
 		public float InteractionSpeed;
 		public float ProjectileSpeed;
 
-		
-
-		//public int Score
-  //      {
-		//	get { return roleScore.GetRoleScore();  }
-  //      }
-
-		/*--- Protected Fields ---*/
-		//private RoleScore roleScore;
-
-		/*--- Private Fields ---*/
+        public virtual RoleData Clone()
+        {
+			return new RoleData(Type, TypeOrder, MoveSpeed, InteractionSpeed, ProjectileSpeed);
+		}
 
 
-		/*--- Public Methods ---*/
-		//public abstract int GetCharacterScore();
 
-		/*--- Protected Methods ---*/
+        //public int Score
+        //      {
+        //	get { return roleScore.GetRoleScore();  }
+        //      }
+
+        /*--- Protected Fields ---*/
+        //private RoleScore roleScore;
+
+        /*--- Private Fields ---*/
 
 
-		/*--- Private Methods ---*/
-	}
+        /*--- Public Methods ---*/
+        //public abstract int GetCharacterScore();
+
+        /*--- Protected Methods ---*/
+
+
+        /*--- Private Methods ---*/
+    }
 }

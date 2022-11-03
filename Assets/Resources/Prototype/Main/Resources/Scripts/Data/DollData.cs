@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DEM;
+using System;
 
 using MSLIMA.Serializer;
 
@@ -12,7 +13,7 @@ namespace KSH_Lib.Data
 	{
 		/*--- Constructor ---*/
 		public DollData() { }
-		public DollData( RoleTypeOrder roleTypeOrder, float moveSpeed, float interactionSpeed, float projectileSpeed, int dollHP, int devilHP )
+		public DollData( RoleTypeOrder roleTypeOrder, float moveSpeed, float interactionSpeed, float projectileSpeed, float dollHP, float devilHP )
 		:
 			base( RoleType.Doll, roleTypeOrder, moveSpeed, interactionSpeed, projectileSpeed)
 		{
@@ -57,6 +58,9 @@ namespace KSH_Lib.Data
 
             return o;
         }
-
+        public override RoleData Clone()
+        {
+            return new DollData(TypeOrder, MoveSpeed, InteractionSpeed, ProjectileSpeed, DollHP, DevilHP);
+        }
     }
 }

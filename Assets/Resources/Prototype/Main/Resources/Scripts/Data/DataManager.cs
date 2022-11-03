@@ -132,7 +132,7 @@ namespace KSH_Lib
 
 		public void InitLocalRoleData()
         {
-			LocalPlayerData.roleData = roleInfos[(int)PreRoleTypeOrder];
+			LocalPlayerData.roleData = roleInfos[(int)PreRoleTypeOrder].Clone();
         }
 		public void ResetLocalRoleData()
         {

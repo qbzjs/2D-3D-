@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DEM;
 
+using System;
+
 using MSLIMA.Serializer;
 
 namespace KSH_Lib.Data
@@ -59,6 +61,12 @@ namespace KSH_Lib.Data
 
             return o;
         }
+
+        public override RoleData Clone()
+        {
+            return new ExorcistData(TypeOrder, MoveSpeed, InteractionSpeed, ProjectileSpeed, AttackPower, AttackSpeed);
+        }
+
     }
 
 	
