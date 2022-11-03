@@ -11,6 +11,7 @@ namespace GHJ_Lib
 
         protected override void OnEnable()
 		{
+            base.OnEnable();
 			castingSystem.ResetCasting();
 		}
 

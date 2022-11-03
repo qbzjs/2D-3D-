@@ -19,6 +19,7 @@ namespace GHJ_Lib
         /*--- MonoBehaviour Callbacks ---*/
         protected override void OnEnable()
 		{
+			base.OnEnable();
 			castingSystem = StageManager.Instance.CastSystem;
 			StageManager.Instance.SetAltar( this );
 			ExitAltarModel.SetActive( false );
@@ -34,7 +35,7 @@ namespace GHJ_Lib
 			return isOpen && castingSystem.IsFinshCasting;
 		}
 
-		protected override void TryInteract()
+        protected override void TryInteract()
         {
             throw new System.NotImplementedException();
         }

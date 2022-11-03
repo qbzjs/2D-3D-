@@ -11,8 +11,9 @@ namespace GHJ_Lib
 
         /*--- MonoBehaviour Callbacks ---*/
         protected override void OnEnable()
-		{
-			StageManager.Instance.SetAltar(this);
+        {
+            base.OnEnable();
+            StageManager.Instance.SetAltar(this);
 			castingSystem.ResetCasting();
 		}
 
