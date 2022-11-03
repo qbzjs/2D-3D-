@@ -10,8 +10,8 @@ namespace GHJ_Lib
 	{
 		[field: SerializeField] public ParticleSystem Aura { get; protected set; }
 		[SerializeField] private GameObject[] CatchObj;
-		[SerializeField] public PickUpBox PickUpBox { get; protected set; }
-		[SerializeField] public AttackBox AttackBox { get; protected set; }
+		[field: SerializeField] public PickUpBox PickUpBox { get; protected set; }
+		[field: SerializeField] public AttackBox AttackBox { get; protected set; }
 
 		protected GameObject caughtDoll;
 		protected GaugedObject targetObj;
