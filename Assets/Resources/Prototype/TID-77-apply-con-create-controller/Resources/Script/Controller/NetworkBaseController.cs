@@ -49,6 +49,7 @@ namespace GHJ_Lib
 		public delegate void DelPlayerInput();
 		protected DelPlayerInput SetDirectionFunc;
 
+		protected RoleData initData = new RoleData();
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
@@ -67,6 +68,10 @@ namespace GHJ_Lib
 				PlayerIndex = DataManager.Instance.PlayerIdx;
 				photonView.RPC( "SetPlayerIdx", RpcTarget.All, PlayerIndex, TypeIndex );
 			}
+
+			initData = DataManager.Instance.RoleInfos[TypeIndex];
+
+
 
 			ChangeMoveFunc( true );
 		}
@@ -136,7 +141,7 @@ namespace GHJ_Lib
 		// Behavior Callback
 		public virtual void ChangeMoveSpeed(float speedRate)
         {
-			DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = DataManager.Instance.RoleInfos[TypeIndex].MoveSpeed * speedRate;
+			DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = initData.MoveSpeed * speedRate;
 			DataManager.Instance.ShareRoleData();
 		}
 
