@@ -2177,7 +2177,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1033325121}
-  m_RootOrder: 79
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &81006629
 PrefabInstance:
@@ -13603,6 +13603,7 @@ Transform:
   - {fileID: 715333274}
   - {fileID: 121122616}
   - {fileID: 1720297351}
+  - {fileID: 78267323}
   - {fileID: 57950318}
   - {fileID: 380853837}
   - {fileID: 1316349093}
@@ -13658,7 +13659,6 @@ Transform:
   - {fileID: 1658237277}
   - {fileID: 712492304}
   - {fileID: 55845553}
-  - {fileID: 78267323}
   - {fileID: 244208129}
   - {fileID: 1109282113}
   - {fileID: 852662581}
@@ -21648,7 +21648,7 @@ MonoBehaviour:
     type: 3}
   FinalAltarPrefab: {fileID: 5096332420961059722, guid: 12c927baa119cf247a9262b5de09d0e4,
     type: 3}
-  PurificationBoxPrefab: {fileID: 516919569534408220, guid: 4acd644341216a043bb3d6c7cd13056a,
+  PurificationBoxPrefab: {fileID: 100000, guid: 7a30459b1d3579843b2577b6cc2c8b28,
     type: 3}
   PlayerGenPos:
   - {fileID: 421929495}
@@ -21689,7 +21689,10 @@ MonoBehaviour:
   CenterPosition: {x: 0, y: 0, z: 0}
   dollUI: {fileID: 1598040813}
   exorcistUI: {fileID: 1598040812}
-  BarUI: {fileID: 0}
+  CastingUIObj: {fileID: 0}
+  CastingSliderObj: {fileID: 0}
+  InteractUIObj: {fileID: 0}
+  <CastSystem>k__BackingField: {fileID: 0}
   EscMenu: {fileID: 1421461046}
   dollCount: 0
 --- !u!1001 &1759105366
