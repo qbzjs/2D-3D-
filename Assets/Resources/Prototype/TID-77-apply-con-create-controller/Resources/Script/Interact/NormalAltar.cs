@@ -9,7 +9,7 @@ namespace GHJ_Lib
 	{
 		protected bool isEnable = true;
 
-		void OnEnable()
+        protected override void OnEnable()
 		{
 			castingSystem.ResetCasting();
 		}

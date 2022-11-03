@@ -6,6 +6,7 @@ using Photon.Pun;
 using TMPro;
 
 using KSH_Lib.Util;
+using GHJ_Lib;
 
 namespace KSH_Lib
 {
@@ -35,14 +36,25 @@ namespace KSH_Lib
 
 
 		/*--- MonoBehaviour Callbacks ---*/
-		protected virtual void Start()
+
+		protected virtual void OnEnable()
         {
-			textTMP = textUI.GetComponent<TextMeshProUGUI>();
-			if(textTMP == null)
+			if(textUI == null)
             {
-				Debug.LogError( "GaugedObject.Start: Can not find textTMP" );
+				textUI = GHJ_Lib.StageManager.Instance.InteractUIObj;
+				if(textUI == null)
+                {
+					Debug.LogError("GuageObject.Enable: Can not find StageManager");
+                }
             }
+
+			textTMP = textUI.GetComponent<TextMeshProUGUI>();
+			if (textTMP == null)
+			{
+				Debug.LogError("GaugedObject.Enable: Can not find textTMP");
+			}
 		}
+
         protected virtual void Update()
 		{
 			if ( ResultCondition() && !IsFinishResult)

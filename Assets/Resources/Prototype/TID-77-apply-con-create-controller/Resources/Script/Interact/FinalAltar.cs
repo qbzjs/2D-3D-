@@ -9,8 +9,8 @@ namespace GHJ_Lib
 	{
 		bool canOpenDoor = false;
 
-		/*--- MonoBehaviour Callbacks ---*/
-		void OnEnable()
+        /*--- MonoBehaviour Callbacks ---*/
+        protected override void OnEnable()
 		{
 			StageManager.Instance.SetAltar(this);
 			castingSystem.ResetCasting();
