@@ -55,7 +55,7 @@ namespace KSH_Lib
 
 			if(textUI == null)
             {
-				textUI = GHJ_Lib.StageManager.Instance.InteractUIObj;
+				textUI = GHJ_Lib.StageManager.Instance.InteractTextUI;
 				if(textUI == null)
                 {
 					Debug.LogError("GuageObject.Enable: Can not find textUI");

@@ -19623,6 +19623,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4792538855105856691, guid: ee82e430c2aaee7498c757189e954a71,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5649543303376313438, guid: ee82e430c2aaee7498c757189e954a71,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -19781,7 +19786,7 @@ PrefabInstance:
     - target: {fileID: 9138402003287385247, guid: ee82e430c2aaee7498c757189e954a71,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3641732494010046043, guid: ee82e430c2aaee7498c757189e954a71, type: 3}
@@ -19816,9 +19821,9 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1598040811}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1598040816 stripped
+--- !u!1 &1598040815 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 9138402003287385247, guid: ee82e430c2aaee7498c757189e954a71,
+  m_CorrespondingSourceObject: {fileID: 4792538855105856691, guid: ee82e430c2aaee7498c757189e954a71,
     type: 3}
   m_PrefabInstance: {fileID: 1598040811}
   m_PrefabAsset: {fileID: 0}
@@ -21741,7 +21746,7 @@ MonoBehaviour:
   CenterPosition: {x: 0, y: 0, z: 0}
   dollUI: {fileID: 1598040813}
   exorcistUI: {fileID: 1598040812}
-  InteractUIObj: {fileID: 1598040816}
+  InteractTextUI: {fileID: 1598040815}
   <CastSystem>k__BackingField: {fileID: 1221735462}
   EscMenu: {fileID: 1421461046}
   dollCount: 0
