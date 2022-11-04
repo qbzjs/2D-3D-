@@ -62,7 +62,8 @@ namespace KSH_Lib
         GameObject monkeyInformation;
         [SerializeField]
         GameObject penguinInformation;
-        
+        //
+
         [Header( "Character Select UI" )]
         [SerializeField]
         TextMeshProUGUI roleText;
@@ -253,13 +254,13 @@ namespace KSH_Lib
             //playButtons.SetActive( false );
             quickMatchButtons.SetActive( false );
             informationButtons.SetActive(false);
-            dollsInformation.SetActive(false);
-            exorcistInformation.SetActive(false);
-            rabbitInformation.SetActive(false);
-            turtleInformation.SetActive(false);
-            wolfInformation.SetActive(false);
-            monkeyInformation.SetActive(false);
-            penguinInformation.SetActive(false);
+            //dollsInformation.SetActive(false);
+            //exorcistInformation.SetActive(false);
+            //rabbitInformation.SetActive(false);
+            //turtleInformation.SetActive(false);
+            //wolfInformation.SetActive(false);
+            //monkeyInformation.SetActive(false);
+            //penguinInformation.SetActive(false);
 
         }
         void ChangePlayerImage()
@@ -290,10 +291,15 @@ namespace KSH_Lib
             quickMatchButtons.SetActive( true );
         }
         //suhyeon
-        void EnableInformationButtonsPanel()
+        void EnableInformationButtonPanel()
         {
             DisableMainLobbyPanelAll();
             informationButtons.SetActive(true);
+        }
+        void EnableInformationCanvas()
+        {
+            DisableCanvasesAll();
+            informationCanvas.enabled = true;
         }
         //
         void EnableMainLobbyCanvas()
@@ -317,11 +323,7 @@ namespace KSH_Lib
             customRoomLobbyCanvas.enabled = true;
         }
         //suhyeon
-        void EnableInformationCanvas()
-        {
-            DisableCanvasesAll();
-            informationCanvas.enabled = true;
-        }
+        
         void EnableDollInformationPanel()
         {
             DisableMainLobbyPanelAll();
