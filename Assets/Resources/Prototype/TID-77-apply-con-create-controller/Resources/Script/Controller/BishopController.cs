@@ -10,9 +10,13 @@ namespace GHJ_Lib
 	public class BishopController: ExorcistController
 	{
 		public GameObject CrossPrefab;
-		protected Sk_Default skDefault = new Sk_Default();
-		protected SK_InstallCross skInstallCross = new SK_InstallCross();
+		public float InstallRange { get; protected set; } = 4.0f;
+		public int CrossMaxCount = 5;
+		public int InstallCross = 0;
 
+		protected Sk_Default skDefault = new Sk_Default();
+		protected Sk_InstallCross skInstallCross = new Sk_InstallCross();
+		protected Sk_CollectCross skCollectCross = new Sk_CollectCross();
 
 		/*--- Private Fields ---*/
 
@@ -21,7 +25,7 @@ namespace GHJ_Lib
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			SkillSetting();
+			SkillSettingToInstallCross();
 		}
 
 		/*---Skill---*/
@@ -36,11 +40,6 @@ namespace GHJ_Lib
 			photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.AllViaServer);
 		}
 
-		[PunRPC]
-        protected void ChangeSkillBehaviorTo_RPC()
-        {
-			//CurBehavior.PushSuccessorState(actSkill);
-		}
         protected override IEnumerator ExcuteActiveSkil()
 		{
 			useActiveSkill = true;
@@ -50,17 +49,18 @@ namespace GHJ_Lib
 			{
 				ActiveSkill.Update(this, ref ActiveSkill);
 			}
-			SkillSetting();
 			yield return new WaitForSeconds(0.2f);//ÈÄµô
 			ChangeBehaviorTo(BehaviorType.Idle);//½ºÅ³³¡
 			yield return new WaitForSeconds(14.6f);
 			useActiveSkill = false;
 		}
-		private void SkillSetting()
+		private void SkillSettingToInstallCross()
 		{
-			ActiveSkill.PushSuccessorState(skDefault);
-			ActiveSkill.PushSuccessorState(skInstallCross);
-			
+			ActiveSkill.SetSuccessorStates(new List<Behavior<NetworkBaseController>>() {skDefault,skInstallCross });
+		}
+		private void SkillSettingToCollectCross()
+		{
+			ActiveSkill.SetSuccessorStates(new List<Behavior<NetworkBaseController>>() { skDefault, skCollectCross });
 		}
 	}
 }

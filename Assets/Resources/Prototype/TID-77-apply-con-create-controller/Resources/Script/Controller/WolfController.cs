@@ -59,7 +59,6 @@ namespace GHJ_Lib
 		{
 			ActiveSkill.PushSuccessorState(skDefault);
 			ActiveSkill.PushSuccessorState(skDetected);
-			
 		}
 		
 

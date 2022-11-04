@@ -15,11 +15,11 @@ namespace GHJ_Lib
 		{
 			get
 			{
-				if ( instance == null )
+				if (instance == null)
 				{
 					Debug.LogError("Not Exist StageManger!");
 				}
-				return instance; 
+				return instance;
 			}
 		}
 
@@ -60,11 +60,11 @@ namespace GHJ_Lib
 
 		/*--- MonoBehaviour Callbacks ---*/
 		void Awake()
-        {
+		{
 			DataManager.Instance.InitPlayerDatas();
 			DataManager.Instance.ShareAllData();
 		}
-        void Start()
+		void Start()
 		{
 			instance = this;
 
@@ -87,7 +87,7 @@ namespace GHJ_Lib
 
 			GameObject targetPrefab;
 			if (number == 0)
-            {
+			{
 				targetPrefab = ExorcistPrefabs[(int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder];
 				exorcistUI.gameObject.SetActive(true);
 			}
@@ -97,7 +97,7 @@ namespace GHJ_Lib
 				dollUI.gameObject.SetActive(true);
 			}
 
-			GameObject Player = networkGenerator.Generate( targetPrefab, PlayerGenPos[number].position, PlayerGenPos[number].rotation );
+			GameObject Player = networkGenerator.Generate(targetPrefab, PlayerGenPos[number].position, PlayerGenPos[number].rotation);
 			Log.Instance.SetPlayer(Player.transform.GetChild(0).gameObject);
 
 
@@ -115,41 +115,41 @@ namespace GHJ_Lib
 				return;
 			}
 
-			networkGenerator.GenerateSpread( NormalAltarPrefab, NormalAltarGenPos, Count, InitAreaRadius, CenterPosition );
-			networkGenerator.GenerateRandomly( ExitAltarPrefab, ExitAltarGenPos );
-			networkGenerator.Generate( FinalAltarPrefab, FinalAltarGenPos.transform.position, FinalAltarGenPos.rotation );
+			networkGenerator.GenerateSpread(NormalAltarPrefab, NormalAltarGenPos, Count, InitAreaRadius, CenterPosition);
+			networkGenerator.GenerateRandomly(ExitAltarPrefab, ExitAltarGenPos);
+			networkGenerator.Generate(FinalAltarPrefab, FinalAltarGenPos.transform.position, FinalAltarGenPos.rotation);
 
-			foreach ( var purificationBoxGenPos in PurificationBoxGenPos )
+			foreach (var purificationBoxGenPos in PurificationBoxGenPos)
 			{
-				networkGenerator.Generate( PurificationBoxPrefab, purificationBoxGenPos.transform.position, purificationBoxGenPos.transform.rotation );
+				networkGenerator.Generate(PurificationBoxPrefab, purificationBoxGenPos.transform.position, purificationBoxGenPos.transform.rotation);
 			}
 
 
-			
+
 		}
 
 		private void Update()
-        {
-            if(Input.GetKeyDown(KeyCode.Alpha0))
-            {
+		{
+			if (Input.GetKeyDown(KeyCode.Alpha0))
+			{
 				activeDebugGUI = !activeDebugGUI;
 			}
-        }
+		}
 
-        private void OnGUI()
+		private void OnGUI()
 		{
-            if (activeDebugGUI)
-            {
-                GUI.Box(new Rect(300, 160, 150, 30), $"Local MoveSpeed: {DataManager.Instance.LocalPlayerData.roleData.MoveSpeed}");
-                GUI.Box(new Rect(460, 160, 150, 30), $"Local sheetIdx: {DataManager.Instance.LocalPlayerData.accountData.SheetIdx}");
+			if (activeDebugGUI)
+			{
+				GUI.Box(new Rect(300, 160, 150, 30), $"Local MoveSpeed: {DataManager.Instance.LocalPlayerData.roleData.MoveSpeed}");
+				GUI.Box(new Rect(460, 160, 150, 30), $"Local sheetIdx: {DataManager.Instance.LocalPlayerData.accountData.SheetIdx}");
 
-                for (int i = 0; i < DataManager.Instance.PlayerDatas.Count; ++i)
-                {
-                    GUI.Box(new Rect(300, i * 30, 150, 30), $"MoveSpeed[{i}]: {DataManager.Instance.PlayerDatas[i].roleData.MoveSpeed}");
-                    GUI.Box(new Rect(460, i * 30, 150, 30), $"sheetIdx[{i}]: {DataManager.Instance.PlayerDatas[i].accountData.SheetIdx}");
-                }
-            }
-        }
+				for (int i = 0; i < DataManager.Instance.PlayerDatas.Count; ++i)
+				{
+					GUI.Box(new Rect(300, i * 30, 150, 30), $"MoveSpeed[{i}]: {DataManager.Instance.PlayerDatas[i].roleData.MoveSpeed}");
+					GUI.Box(new Rect(460, i * 30, 150, 30), $"sheetIdx[{i}]: {DataManager.Instance.PlayerDatas[i].accountData.SheetIdx}");
+				}
+			}
+		}
 
 		/*--- Public Methods ---*/
 		public static void CharacterLayerChange(GameObject Model, int layer)
@@ -174,7 +174,10 @@ namespace GHJ_Lib
 			gameObject.SetActive(false);
 		}
 
-
+		public void DestroyObj(GameObject gameObject)
+		{
+			Destroy(gameObject);
+		}
 
 
 

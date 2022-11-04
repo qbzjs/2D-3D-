@@ -168,7 +168,7 @@ namespace GHJ_Lib
 		{
 			if (Input.GetKeyDown(KeyCode.Mouse1))
 			{
-				if (!useActiveSkill)
+				if (!useActiveSkill&&CurBehavior is BvIdle)
 				{
 					photonView.RPC("DoActiveSkill", RpcTarget.AllViaServer);
 				}
