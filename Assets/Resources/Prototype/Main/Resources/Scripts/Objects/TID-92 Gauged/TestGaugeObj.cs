@@ -36,9 +36,9 @@ namespace KSH_Lib.Test
 
         private void OnGUI()
         {
-            GUI.Box( new Rect( 0, 0, 150, 30 ), $"IsCoolDown: {castingSystem.IsCoolDown}" );
+            //GUI.Box( new Rect( 0, 0, 150, 30 ), $"IsCoolDown: {castingSystem.CanCasting}" );
             GUI.Box( new Rect( 0, 30, 150, 30 ), $"IsFinshCasting: {castingSystem.IsFinshCasting}" );
-            GUI.Box( new Rect( 0, 60, 150, 30 ), $"IsReset: {castingSystem.IsReset}" );
+            //GUI.Box( new Rect( 0, 60, 150, 30 ), $"IsReset: {castingSystem.IsReset}" );
             GUI.Box( new Rect( 0, 90, 150, 30 ), $"CanInteract: {CanInteract}" );
             GUI.Box( new Rect( 0, 120, 150, 30 ), $"IsInRange: {IsInRange}" );
             GUI.Box( new Rect( 0, 150, 150, 30 ), $"curCoolTime: {castingSystem.CurCoolTime}" );
@@ -83,12 +83,12 @@ namespace KSH_Lib.Test
         void StartAutoCasting()
         {
             ActivateText( false );
-            castingSystem.StartAutoCasting( CastingSystem.Cast.CreateByTime(3.0f, coolTime: CoolTime), SyncDataWith: SyncGauge );
+            //castingSystem.StartAutoCasting( CastingSystem.Cast.CreateByTime(3.0f, coolTime: CoolTime), SyncDataWith: SyncGauge );
         }
         void StartManualCasting()
         {
             ActivateText( false );
-            castingSystem.StartManualCasting( CastingSystem.Cast.CreateByRatio(0.3f), IsInputNow, SyncDataWith: SyncGauge );
+            //castingSystem.StartManualCasting( CastingSystem.Cast.CreateByRatio(0.3f), IsInputNow, SyncDataWith: SyncGauge );
         }
         bool IsInputNow()
         {

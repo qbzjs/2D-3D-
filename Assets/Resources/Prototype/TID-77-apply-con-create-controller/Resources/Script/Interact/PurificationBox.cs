@@ -50,7 +50,7 @@ namespace GHJ_Lib
 
             if(!castingSystem.IsCoroutineRunning)
             {
-                castingSystem.StartManualCasting(CastingSystem.Cast.CreateByRatio(AddedGauge), IsInputNow, SyncDataWith: SyncGauge);
+                //castingSystem.StartManualCasting(CastingSystem.Cast.CreateByRatio(AddedGauge), IsInputNow, SyncDataWith: SyncGauge);
             }
             else
             {

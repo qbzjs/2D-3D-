@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Photon.Pun;
+
 namespace GHJ_Lib
 {
 	public class NormalAltar: GaugedObject
@@ -20,7 +22,7 @@ namespace GHJ_Lib
         protected override void OnEnable()
 		{
             base.OnEnable();
-			castingSystem.ResetCasting();
+			//castingSystem.ResetCasting();
 		}
 
 
@@ -41,21 +43,36 @@ namespace GHJ_Lib
             {
                 case InteractTarget.Doll:
                 {
-                    castingSystem.StartManualCasting(
-                        CastingSystem.Cast.CreateByTime( dollInteractTime ),
-                        targetController.IsInteractionKeyHold,
-                        SyncGauge,
-                        DollFinishAction,
-                        DollFinishAction
+                    //castingSystem.ForceSetRatioTo( RateOfGauge );
+                    //castingSystem.StartManualCasting(
+                    //    CastingSystem.Cast.CreateByTime( dollInteractTime ),
+                    //    targetController.IsInteractionKeyHold,
+                    //    SyncGauge,
+                    //    DollFinishAction,
+                    //    DollFinishAction
+                    //    );
+                    castingSystem.ForceSetRatioTo( RateOfGauge );
+                    castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractTime ),
+                        new CastingSystem.CastFuncSet( SyncGauge, targetController.IsInteractionKeyHold, DollFinishAction, DollFinishAction )
                         );
                 }
                 break;
                 case InteractTarget.Exorcist:
                 {
-                    if(targetController.IsInteractionKeyDown())
+                    if ( targetController.IsInteractionKeyDown() )
                     {
-                        castingSystem.StartAutoCasting( CastingSystem.Cast.CreateByTime( exorcistCastingTime, coolTime: 1.0f ), FinishAction:ExorcistFinishAction );
+                        //castingSystem.StartAutoCasting( CastingSystem.Cast.CreateByTime( exorcistCastingTime, coolTime: 1.0f ), FinishAction:ExorcistFinishAction );
+                        castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( exorcistCastingTime, coolTime: 1.0f ),
+                            new CastingSystem.CastFuncSet( FinishAction: ExorcistFinishAction )
+                            );
                     }
+
+                    //castingSystem.ForceSetRatioTo( RateOfGauge );
+                    //castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractTime ),
+                    //    new CastingSystem.CastFuncSet( SyncGauge, targetController.IsInteractionKeyHold, DollFinishAction, DollFinishAction )
+                    //    );
+
+
                 }
                 break;
                 default:
@@ -76,7 +93,6 @@ namespace GHJ_Lib
             photonView.RPC( "ShareGauge", Photon.Pun.RpcTarget.AllViaServer, RateOfGauge );
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
         }
-
 
         protected override void HandleTriggerStay( Collider other )
         {
@@ -102,10 +118,16 @@ namespace GHJ_Lib
                     ActivateText( CanInteract );
                     return;
                 }
+                //if ( RateOfGauge >= 1.0f )
+                //{
+                //    CanInteract = false;
+                //    ActivateText( CanInteract );
+                //    return;
+                //}
 
                 targetController = other.GetComponent<ExorcistController>();
-                interactTarget = InteractTarget.Exorcist;
                 CanInteract = targetController.IsWatching( gameObject.tag );
+                interactTarget = InteractTarget.Exorcist;
                 ActivateText( CanInteract );
             }
         }

@@ -14,7 +14,7 @@ namespace GHJ_Lib
         {
             base.OnEnable();
             StageManager.Instance.SetAltar(this);
-			castingSystem.ResetCasting();
+			//castingSystem.ResetCasting();
 		}
 
         protected override void Update()

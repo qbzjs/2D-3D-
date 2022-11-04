@@ -8,7 +8,7 @@ namespace KSH_Lib
 {
     public class CastingSystem : MonoBehaviour
     {
-        public struct Cast
+        public class Cast
         {
             Cast( float deltaRatio, float destRatio, float? coolTime )
             {
@@ -28,11 +28,25 @@ namespace KSH_Lib
                 return new Cast( 1 / castTime, destRatio, coolTime );
             }
         }
+        public struct CastFuncSet
+        {
+            public CastFuncSet( Action<float> SyncDataWith = null, Func<bool> RunningCondition = null, Action PauseAction = null, Action FinishAction = null )
+            {
+                this.SyncDataWith = SyncDataWith;
+                this.RunningCondition = RunningCondition;
+                this.PauseAction = PauseAction;
+                this.FinishAction = FinishAction;
+            }
+            public Action<float> SyncDataWith { get; private set; }
+            public Func<bool> RunningCondition { get; private set; }
+            public Action PauseAction { get; private set; }
+            public Action FinishAction { get; private set; }
+        }
 
         /*--- Public Fields ---*/
         public bool IsFinshCasting { get; private set; }
-        public bool IsCoolDown { get; private set; }
-        public bool IsReset { get { return !IsFinshCasting && !IsCoolDown; } }
+        //public bool CanCasting { get; private set; }
+        //public bool IsReset { get { return !IsFinshCasting && !CanCasting; } }
         public bool IsCoroutineRunning { get; private set; }
         public float CurCoolTime { get; private set; }
         public float SliderVal { get { return slider.value; } }
@@ -54,31 +68,53 @@ namespace KSH_Lib
                 Debug.LogError( "CastingSystem.Start: No Slider Found" );
             }
             castingSliderObj.SetActive( false );
+
         }
 
 
         /*--- Public Methods ---*/
-        public void StartAutoCasting( Cast cast, Action<float> SyncDataWith = null, Action FinishAction = null)
+        //public void StartAutoCasting( Cast cast, CastFuncSet funcSet)
+        //{
+        //    if( !CanCasting )
+        //    {
+        //        Debug.LogWarning( "CastingSystem.StartAutoCasting: castingSlider is already activated!" );
+        //        return;
+        //    }
+        //    curCoroutine = StartCoroutine( AutoCasting( cast, funcSet ) );
+        //}
+        //public void StartManualCasting( Cast cast, Func<bool> IsInputNow, Action<float> SyncDataWith = null, Action PauseAction = null, Action FinishAction = null )
+        //{
+        //    if ( !CanCasting || !IsInputNow() )
+        //    {
+        //        return;
+        //    }
+        //    else if ( !IsCoroutineRunning )
+        //    {
+        //        Debug.Log( $"Start Manual Casting Now  (delta = {cast.deltaRatio}" );
+        //        curCoroutine = StartCoroutine( ManualCasting( cast, IsInputNow, SyncDataWith, PauseAction, FinishAction ) );
+        //    }
+        //}
+
+        public void StartCasting( Cast cast, CastFuncSet funcSet )
         {
-            if( IsCoolDown )
+            if ( IsCoroutineRunning )
             {
-                Debug.LogWarning( "CastingSystem.StartAutoCasting: castingSlider is already activated!" );
+                Debug.LogWarning( "CastingSystem.StartCasting: castingSlider is already activated!" );
                 return;
             }
-            curCoroutine = StartCoroutine( AutoCasting( cast, SyncDataWith, FinishAction ) );
-        }
-        public void StartManualCasting( Cast cast, Func<bool> IsInputNow, Action<float> SyncDataWith = null, Action PauseAction = null, Action FinishAction = null )
-        {
-            if ( IsCoolDown || !IsInputNow() )
+
+            if(funcSet.RunningCondition != null)
             {
-                return;
+                if(!funcSet.RunningCondition())
+                {
+                    Debug.Log( "CastingSystem.StartCasting: runnig condition is false" );
+                    return;
+                }
             }
-            else if ( !IsCoroutineRunning )
-            {
-                Debug.Log( $"Start Manual Casting Now  (delta = {cast.deltaRatio}" );
-                curCoroutine = StartCoroutine( ManualCasting( cast, IsInputNow, SyncDataWith, PauseAction, FinishAction ) );
-            }
+
+            curCoroutine = StartCoroutine( Casting( cast, funcSet ) );
         }
+
         public void ForceSetRatioTo(float ratio)
         {
             slider.value = ratio;
@@ -89,108 +125,202 @@ namespace KSH_Lib
         }
         public void ResetCasting()
         {
-            if ( !IsFinshCasting )
-            {
-                Debug.LogWarning( "CastingSystem.ResetCasting: Called Reset when not finishing Casting" );
-                return;
-            }
+            //if ( !IsFinshCasting )
+            //{
+            //    Debug.LogWarning( "CastingSystem.ResetCasting: Called Reset when not finishing Casting" );
+            //    return;
+            //}
 
-            IsFinshCasting = false;
-            IsCoroutineRunning = false;
+            //IsFinshCasting = false;
+            //IsCoroutineRunning = false;
+            //slider.value = 0.0f;
+            //IsCoolDown = false;
+            //CurCoolTime = 0.0f;
+
             slider.value = 0.0f;
-            IsCoolDown = false;
             CurCoolTime = 0.0f;
+            IsCoroutineRunning = false;
+
         }
 
 
         /*--- Private Methods ---*/
-        void StartCasting()
+        void StartCasting(Cast cast)
+        {
+            //castingSliderObj.SetActive( true );
+            //IsCoroutineRunning = true;
+            //IsCoolDown = true;
+
+        }
+        void EndCasting( Cast cast, CastFuncSet castFunc )
+        {
+            //slider.value = cast.destRatio;
+            //IsFinshCasting = true;
+            //castingSliderObj.SetActive( false );
+
+            //if(EndAction != null)
+            //{
+            //    EndAction();
+            //}
+
+            //if ( cast.coolTime != null )
+            //{
+            //    StartCoroutine( CoolDown( cast.coolTime ) );
+            //}
+
+        }
+
+
+        //IEnumerator AutoCasting( Cast cast, CastFuncSet castFunc )
+        //{
+        //    StartCasting();
+
+        //    while ( slider.value < cast.destRatio )
+        //    {
+        //        slider.value += cast.deltaRatio * Time.deltaTime;
+        //        if ( castFunc.SyncDataWith != null)
+        //        {
+        //            castFunc.SyncDataWith( slider.value );
+        //        }
+        //        yield return null;
+        //    }
+        //    EndCasting( cast, castFunc.FinishAction );
+        //    yield return null;
+        //}
+        //IEnumerator AutoCasting( Cast cast, CastFuncSet castFunc )
+        //{
+        //    StartCasting();
+
+        //    while ( slider.value < cast.destRatio )
+        //    {
+        //        slider.value += cast.deltaRatio * Time.deltaTime;
+        //        if ( castFunc.SyncDataWith != null )
+        //        {
+        //            castFunc.SyncDataWith( slider.value );
+        //        }
+
+        //        if ( castFunc.PauseCond != null ) 
+        //        {
+        //            EndCasting( cast, castFunc.PauseAction );
+        //        }
+
+        //        yield return null;
+        //    }
+        //    EndCasting( cast, castFunc.FinishAction );
+        //    yield return null;
+        //}
+
+        IEnumerator Casting( Cast cast, CastFuncSet castFunc )
         {
             castingSliderObj.SetActive( true );
             IsCoroutineRunning = true;
-            IsCoolDown = true;
+
+            while ( slider.value < cast.destRatio )
+            {
+                // Change Value and Sync
+                slider.value += cast.deltaRatio * Time.deltaTime;
+                if ( castFunc.SyncDataWith != null )
+                {
+                    castFunc.SyncDataWith( slider.value );
+                }
+
+                // Check Runnig Condition
+                if ( castFunc.RunningCondition != null )
+                {
+                    if(!castFunc.RunningCondition())
+                    {
+                        FinishCasting( cast, castFunc, false );
+                        break;
+                    }
+                }
+                yield return null;
+            }
+
+            FinishCasting( cast, castFunc, true );
+            yield return null;
         }
-        void EndCasting( Cast cast, Action EndAction = null )
+
+
+        void FinishCasting(Cast cast, CastFuncSet castFunc, bool isFinish)
         {
-            slider.value = cast.destRatio;
-            IsFinshCasting = true;
             castingSliderObj.SetActive( false );
 
-            if(EndAction != null)
+            castingSliderObj.SetActive( false );
+            IsFinshCasting = isFinish;
+
+            if (isFinish)
             {
-                EndAction();
+                if ( castFunc.FinishAction != null )
+                {
+                    castFunc.FinishAction();
+                }
+                slider.value = 0.0f;
+                CurCoolTime = 0.0f;
+            }
+            else
+            {
+                if(castFunc.PauseAction != null)
+                {
+                    castFunc.PauseAction();
+                }
             }
 
             if ( cast.coolTime != null )
             {
                 StartCoroutine( CoolDown( cast.coolTime ) );
             }
+            else
+            {
+                IsCoroutineRunning = false;
+            }
         }
 
+        //IEnumerator ManualCasting(Cast cast, Func<bool> IsInputNow, Action<float> SyncDataWith, Action PauseAction, Action FinishAction )
+        //{
+        //    castingSliderObj.SetActive( true );
+        //    IsCoroutineRunning = true;
 
-        IEnumerator AutoCasting( Cast cast, Action<float> SyncDataWith, Action FinishAction )
-        {
-            StartCasting();
+        //    while ( true )
+        //    {
+        //        if ( slider.value >= cast.destRatio )
+        //        {
+        //            Debug.Log( $"Value is {slider.value}" );
+        //            IsCoolDown = true;
+        //            EndCasting( cast, PauseAction );
+        //            yield return null;
+        //        }
 
-            while ( slider.value < cast.destRatio )
-            {
-                slider.value += cast.deltaRatio * Time.deltaTime;
-                if (SyncDataWith != null)
-                {
-                    SyncDataWith( slider.value );
-                }
-                yield return null;
-            }
+        //        slider.value += cast.deltaRatio * Time.deltaTime;
+        //        if (SyncDataWith != null)
+        //        {
+        //            SyncDataWith( slider.value );
+        //        }
+        //        yield return new WaitForEndOfFrame();
 
-            EndCasting( cast, FinishAction );
-            yield return null;
-        }
-        IEnumerator ManualCasting(Cast cast, Func<bool> IsInputNow, Action<float> SyncDataWith, Action PauseAction, Action FinishAction )
-        {
-            castingSliderObj.SetActive( true );
-            IsCoroutineRunning = true;
+        //        if (!IsInputNow())
+        //        {
+        //            break;  
+        //        }
+        //    }
 
-            while ( true )
-            {
-                if ( slider.value >= cast.destRatio )
-                {
-                    Debug.Log( $"Value is {slider.value}" );
-                    IsCoolDown = true;
-                    EndCasting( cast, PauseAction );
-                    yield return null;
-                }
-
-                slider.value += cast.deltaRatio * Time.deltaTime;
-                if (SyncDataWith != null)
-                {
-                    SyncDataWith( slider.value );
-                }
-                yield return new WaitForEndOfFrame();
-
-                if (!IsInputNow())
-                {
-                    break;  
-                }
-            }
-
-            if(FinishAction != null)
-            {
-                FinishAction();
-            }
-            IsCoroutineRunning = false;
-            castingSliderObj.SetActive( false );
-            yield return null;
-        }
+        //    if(FinishAction != null)
+        //    {
+        //        FinishAction();
+        //    }
+        //    IsCoroutineRunning = false;
+        //    castingSliderObj.SetActive( false );
+        //    yield return null;
+        //}
         
 
-        IEnumerator CoolDown(float? destTime)
+        IEnumerator CoolDown(float? coolTime)
         {
-            while( CurCoolTime < destTime)
+            while(CurCoolTime < coolTime )
             {
                 CurCoolTime += Time.deltaTime;
+                ResetCasting();
                 yield return null;
             }
-            ResetCasting();
             yield return null;
         }
     }

@@ -23,7 +23,7 @@ namespace GHJ_Lib
 			castingSystem = StageManager.Instance.CastSystem;
 			StageManager.Instance.SetAltar( this );
 			ExitAltarModel.SetActive( false );
-			castingSystem.ResetCasting();
+			//castingSystem.ResetCasting();
 		}
 
 		protected override void DoResult()

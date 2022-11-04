@@ -54,7 +54,7 @@ namespace KSH_Lib.Test
         private void OnGUI()
         {
             GUI.Box( new Rect( 0, 0, 150, 30 ), $"IsFinishCasting: {castingSystem.IsFinshCasting}" );
-            GUI.Box( new Rect( 0, 30, 150, 30 ), $"IsCoolDown: {castingSystem.IsCoolDown}" );
+            //GUI.Box( new Rect( 0, 30, 150, 30 ), $"IsCoolDown: {castingSystem.CanCasting}" );
             GUI.Box( new Rect( 0, 60, 150, 30 ), $"Cooltime: {castingSystem.CurCoolTime}" );
             GUI.Box( new Rect( 0, 90, 150, 30 ), $"Slider: {castingSystem.SliderVal}" );
         }
