@@ -120,12 +120,16 @@ namespace GHJ_Lib
 		}
 		public virtual bool IsWatching(string tag)
 		{
-			RaycastHit hit;
-			Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width, Screen.height) / 2);
+			if(photonView.IsMine)
+            {
+				RaycastHit hit;
+				Ray ray = Camera.main.ScreenPointToRay( new Vector2( Screen.width, Screen.height ) / 2 );
 
-			if (Physics.Raycast(ray, out hit))
-			{
-				return hit.transform.CompareTag(tag);
+				if ( Physics.Raycast( ray, out hit ) )
+				{
+					return hit.transform.CompareTag( tag );
+				}
+				return false;
 			}
 			return false;
 		}
