@@ -10,14 +10,9 @@ namespace GHJ_Lib
 	public class WolfController: DollController
 	{
 		/*--- Public Fields ---*/
-		public WolfActSkillBox actSkillBox;
-		public WolfPsvSkillBox psvSkillBox;
-
 		/*--- Protected Fields ---*/
 		protected Sk_Default skDefault = new Sk_Default();
 		protected Sk_Detected skDetected = new Sk_Detected();
-
-		protected List<Behavior<NetworkBaseController>> wolfSkill = new List<Behavior<NetworkBaseController>>();
 
 
 		/*--- Private Fields ---*/
@@ -30,17 +25,16 @@ namespace GHJ_Lib
 			base.OnEnable();
 			SkillSetting();
 		}
+        /*--- Public Methods ---*/
 
-		/*--- Public Methods ---*/
-
-		/*---Skill---*/
-		[PunRPC]
+        /*---Skill---*/
+        [PunRPC]
 		public override void DoActiveSkill()
 		{
-			StartCoroutine("ActiveSkillBox");
+			StartCoroutine("ExcuteActiveSkil");
 		}
 
-		protected override IEnumerator ActiveSkillBox()
+		protected override IEnumerator ExcuteActiveSkil()
 		{
 			useActiveSkill = true;
 			//½ºÅ³Áß
@@ -63,9 +57,9 @@ namespace GHJ_Lib
 		/*--- Private Methods ---*/
 		private void SkillSetting()
 		{
-			wolfSkill.Add(skDetected);
-			wolfSkill.Add(skDefault);
-			ActiveSkill.PushSuccessorStates(wolfSkill);
+			ActiveSkill.PushSuccessorState(skDefault);
+			ActiveSkill.PushSuccessorState(skDetected);
+			
 		}
 		
 

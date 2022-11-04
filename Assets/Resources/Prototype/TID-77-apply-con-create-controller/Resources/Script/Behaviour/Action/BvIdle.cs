@@ -42,7 +42,7 @@ namespace GHJ_Lib
 
                 if ( Input.GetKeyDown( KeyCode.Mouse0 ) )
                 {
-                    if ( exorcist.PickUpBox.CanPickUp() )
+                    if ( exorcist.pickUpArea.CanGetTarget() )
                     {
                         exorcist.ChangeBvToCatch();
                     }
