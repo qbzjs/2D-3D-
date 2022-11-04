@@ -30,7 +30,8 @@ namespace KSH_Lib
         Canvas customRoomCanvas;
         [SerializeField]
         Canvas customRoomLobbyCanvas;
-
+        [SerializeField]
+        Canvas informationCanvas;
 
 
         [Header( "MainLobby Buttons UI" )]
@@ -235,6 +236,7 @@ namespace KSH_Lib
             matchingCanvas.gameObject.SetActive( true );
             customRoomCanvas.gameObject.SetActive( true );
             customRoomLobbyCanvas.gameObject.SetActive( true );
+            informationCanvas.gameObject.SetActive(true);
         }
         void DisableCanvasesAll()
         {
@@ -243,6 +245,7 @@ namespace KSH_Lib
             matchingCanvas.enabled = false;
             customRoomCanvas.enabled = false;
             customRoomLobbyCanvas.enabled = false;
+            informationCanvas.enabled = false;
         }
         void DisableMainLobbyPanelAll()
         {
@@ -314,6 +317,11 @@ namespace KSH_Lib
             customRoomLobbyCanvas.enabled = true;
         }
         //suhyeon
+        void EnableInformationCanvas()
+        {
+            DisableCanvasesAll();
+            informationCanvas.enabled = true;
+        }
         void EnableDollInformationPanel()
         {
             DisableMainLobbyPanelAll();
