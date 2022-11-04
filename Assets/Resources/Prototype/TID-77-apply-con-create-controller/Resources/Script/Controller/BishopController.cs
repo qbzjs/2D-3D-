@@ -42,23 +42,22 @@ namespace GHJ_Lib
 		[PunRPC]
 		public override void DoActiveSkill()
 		{
-			if (installcrosses.Count > 5)
-			{
-				return;
-			}
-
 			if (GetCanCollectCross())
 			{
 				StartCoroutine("CollectCross");
 			}
 			else
 			{
+				if (installcrosses.Count > 5)
+				{
+					return;
+				}
 				StartCoroutine("installCross");
 			}
 
 		}
 
-		protected override IEnumerator ActiveSkillBox()
+		protected override IEnumerator ExcuteActiveSkil()
 		{
 			useActiveSkill = true;
 			//½ºÅ³Áß

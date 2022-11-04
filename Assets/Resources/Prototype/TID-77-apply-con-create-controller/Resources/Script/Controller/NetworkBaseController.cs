@@ -6,6 +6,7 @@ using Photon.Realtime;
 using KSH_Lib;
 using KSH_Lib.Data;
 using Cinemachine;
+using System;
 
 namespace GHJ_Lib
 {
@@ -44,12 +45,18 @@ namespace GHJ_Lib
 		protected TPV_CameraController tpvCam;
 		protected BaseCameraController curCam;
 
-		protected bool useActiveSkill = false;
 
 		public delegate void DelPlayerInput();
 		protected DelPlayerInput SetDirectionFunc;
 
 		protected RoleData initData = new RoleData();
+
+
+		/*---Skill Component---*/
+		public EffectArea actSkillArea;
+		protected bool useActiveSkill = false;
+
+
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
@@ -210,20 +217,34 @@ namespace GHJ_Lib
 
 
 		/*---Skill---*/
-		public void HitSkillBy(System.Action<GameObject> Skill)
+
+		public void DoActionBy(Action ActionFunc)
+        {
+			ActionFunc();
+        }
+		public void DoActionBy(Action<GameObject> AcionFunc)
 		{
-			Skill(characterModel);
+			AcionFunc(characterModel);
 		}
-		public void HitSkillBy(System.Func<GameObject,IEnumerator> Skill)
+		public void DoActionBy(Func<GameObject,IEnumerator> AcionFunc)
 		{
-			StartCoroutine(Skill(characterModel));
+			StartCoroutine(AcionFunc(characterModel));
 		}
+		public void DoActionBy(Action<DollData> AcionFunc)
+		{
+			if (photonView.IsMine)
+			{ 
+				AcionFunc(DataManager.Instance.LocalPlayerData.roleData as DollData);
+				DataManager.Instance.ShareRoleData();
+			}
+		}
+
 		[PunRPC]
 		public virtual void DoActiveSkill()
 		{
-			StartCoroutine("ActiveSkillBox");
+			StartCoroutine("ExcuteActiveSkil");
 		}
-		protected virtual IEnumerator ActiveSkillBox()
+		protected virtual IEnumerator ExcuteActiveSkil()
 		{
 			yield return new WaitForSeconds(0.2f);
 		}

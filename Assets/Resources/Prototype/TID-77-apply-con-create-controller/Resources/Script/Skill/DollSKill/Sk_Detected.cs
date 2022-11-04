@@ -11,7 +11,7 @@ namespace GHJ_Lib
 
 
         /*--- Protected Fields ---*/
-        protected WolfController wolfController;
+        protected EffectArea effectArea;
 
         /*--- Private Fields ---*/
 
@@ -21,15 +21,15 @@ namespace GHJ_Lib
         /*--- Protected Methods ---*/
         protected override void Activate(in NetworkBaseController actor)
         {
-            wolfController = (actor as WolfController);
+            effectArea = actor.actSkillArea;
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            ExorcistController exorcistController = wolfController.actSkillBox.OntriigerExorcist();
-            if (exorcistController != null)
+           
+            if (effectArea.CanGetTarget())
             {
-               exorcistController.HitSkillBy(Detected);
+               effectArea.Targets[0].GetComponent<ExorcistController>().DoActionBy(Detected);
             }
             return PassIfHasSuccessor();
 

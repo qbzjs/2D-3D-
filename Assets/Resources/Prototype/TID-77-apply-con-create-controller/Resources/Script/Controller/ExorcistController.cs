@@ -10,8 +10,8 @@ namespace GHJ_Lib
 	{
 		[field: SerializeField] public ParticleSystem Aura { get; protected set; }
 		[SerializeField] private GameObject[] CatchObj;
-		[field: SerializeField] public PickUpBox PickUpBox { get; protected set; }
-		[field: SerializeField] public AttackBox AttackBox { get; protected set; }
+		[field: SerializeField] public PickUpArea pickUpArea { get; protected set; }
+		[field: SerializeField] public AttackArea attackArea { get; protected set; }
 
 		protected GameObject caughtDoll;
 		protected GaugedObject targetObj;
@@ -118,7 +118,7 @@ namespace GHJ_Lib
 					break; 
 				case BehaviorType.Catch:
 					{
-						caughtDoll = PickUpBox.FindNearestCollapsedDoll();
+						caughtDoll = pickUpArea.GetNearestTarget();
 						CurBehavior.PushSuccessorState(catchDoll);
 					}
 					break;

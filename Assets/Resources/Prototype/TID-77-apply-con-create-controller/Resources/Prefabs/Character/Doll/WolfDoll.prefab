@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5953402977567493753}
   - component: {fileID: 8894376863457089245}
-  - component: {fileID: 4228255712801602834}
   m_Layer: 0
   m_Name: WolfPsvSkillBox
   m_TagString: Untagged
@@ -46,18 +45,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4228255712801602834
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 820720001717156300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8b7719eb03f95942809591bb90598f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6867184407977903959
 GameObject:
   m_ObjectHideFlags: 0
@@ -68,7 +55,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7266832010063278621}
   - component: {fileID: 362502698945189121}
-  - component: {fileID: 2012844085656145204}
+  - component: {fileID: 7230680059782147258}
   m_Layer: 7
   m_Name: WolfActSkillBox
   m_TagString: Untagged
@@ -104,7 +91,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2012844085656145204
+--- !u!114 &7230680059782147258
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -113,7 +100,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6867184407977903959}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b67b60c42e88bab4ab03300ead0f1ca0, type: 3}
+  m_Script: {fileID: 11500000, guid: ca6e0aea008228644ac23f4412b62d69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8865846720936348896
@@ -335,14 +322,12 @@ MonoBehaviour:
   camTarget: {fileID: 8865846721793731939}
   moveSpeed: 6
   rotateSpeed: 600
-  animator: {fileID: 4915282357687828870}
+  <BaseAnimator>k__BackingField: {fileID: 4915282357687828870}
   fpvCam: {fileID: 0}
   tpvCam: {fileID: 0}
-  IsCasting: 0
-  IsAutoCasting: 0
-  castingType: 3
-  GhostModel: {fileID: 0}
-  GhostMaterial: {fileID: 0}
+  actSkillArea: {fileID: 7230680059782147258}
+  GhostModel: {fileID: 3524342140334959655}
+  GhostMaterial: {fileID: 2100000, guid: 4df79f2ce0b610d4683912e33f928d20, type: 2}
 --- !u!1 &8865846721793731939
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,6 +433,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f111ccf281e83a4dac5e4d814e92b39, type: 3}
+--- !u!1 &3524342140334959655 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2206866562141495322, guid: 1f111ccf281e83a4dac5e4d814e92b39,
+    type: 3}
+  m_PrefabInstance: {fileID: 3335100185695702077}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3524342140335124487 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2206866562141797434, guid: 1f111ccf281e83a4dac5e4d814e92b39,
