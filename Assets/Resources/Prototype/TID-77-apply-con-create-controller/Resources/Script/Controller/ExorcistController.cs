@@ -23,8 +23,7 @@ namespace GHJ_Lib
 		protected BvCatch catchDoll = new BvCatch();
 		protected BvImprison imprison = new BvImprison();
 
-		// Skills
-		protected BvBishopActSkill actSkill = new BvBishopActSkill();
+
 
 
 		/*--- MonoBehaviour Callbacks ---*/
