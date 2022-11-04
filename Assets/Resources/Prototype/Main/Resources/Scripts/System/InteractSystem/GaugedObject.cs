@@ -21,7 +21,7 @@ namespace KSH_Lib
 		[field: SerializeField] public float ReducedGauge { get; protected set; }
 		[field: SerializeField] public float CoolTime { get; protected set; }
 		[field: SerializeField] public bool IsInRange { get; protected set; }
-		public float RateOfGauge { get; protected set; }
+		[field: SerializeField] public float RateOfGauge { get; protected set; }
 		public bool IsFinishResult { get; protected set; }
 		public float OriginGauge { get { return RateOfGauge * MaxGauge; } }
 		//public bool CanInteract { get { return IsInRange && castingSystem.IsReset; } }
@@ -71,12 +71,12 @@ namespace KSH_Lib
 
         protected virtual void Update()
 		{
-			if (CanInteract)
+            if ( CanInteract )
             {
-				TryInteract();
+                TryInteract();
             }
 
-			if ( ResultCondition() && !IsFinishResult)
+            if ( ResultCondition() && !IsFinishResult)
 			{
 				DoResult();
 				IsFinishResult = true;
@@ -108,6 +108,12 @@ namespace KSH_Lib
 		protected abstract bool ResultCondition();
 
 		protected abstract void TryInteract();
+
+		//protected virtual bool IsInputNow()
+		//{
+		//	return Input.GetKey( KeyCode.G );
+		//}
+
 
 		protected virtual void ActivateText( bool canInteract )
         {

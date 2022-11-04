@@ -11,21 +11,12 @@ namespace GHJ_Lib
 		{
 			PlayAnimation( actor );
 
-			if (actor.photonView.IsMine)
-			{
-				//actor.InteractBy(actor.castingType);
-			}
 
 			actor.ChangeMoveFunc(false);
 		}
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-			if (actor.photonView.IsMine)
-			{
-				// Interact ÇÏ¼¼¿ä
-			}
-
 			Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
 			if (Bv is BvIdle)
 			{

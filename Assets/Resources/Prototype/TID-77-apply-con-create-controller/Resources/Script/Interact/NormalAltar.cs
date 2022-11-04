@@ -15,11 +15,14 @@ namespace GHJ_Lib
         [SerializeField]
         float dollInteractTime = 50.0f;
 
+        public NetworkBaseController targetController;
+
         protected override void OnEnable()
 		{
             base.OnEnable();
 			castingSystem.ResetCasting();
 		}
+
 
         protected override void DoResult()
         {
@@ -38,12 +41,21 @@ namespace GHJ_Lib
             {
                 case InteractTarget.Doll:
                 {
-                    castingSystem.StartManualCasting( CastingSystem.Cast.CreateByTime( dollInteractTime ), IsInputNow, SyncGauge );
+                    castingSystem.StartManualCasting(
+                        CastingSystem.Cast.CreateByTime( dollInteractTime ),
+                        targetController.IsInteractionKeyHold,
+                        SyncGauge,
+                        DollFinishAction,
+                        DollFinishAction
+                        );
                 }
                 break;
                 case InteractTarget.Exorcist:
                 {
-                    castingSystem.StartAutoCasting( CastingSystem.Cast.CreateByTime( exorcistCastingTime, coolTime: 0.1f ), SyncGauge );
+                    if(targetController.IsInteractionKeyDown())
+                    {
+                        castingSystem.StartAutoCasting( CastingSystem.Cast.CreateByTime( exorcistCastingTime, coolTime: 1.0f ), FinishAction:ExorcistFinishAction );
+                    }
                 }
                 break;
                 default:
@@ -54,10 +66,17 @@ namespace GHJ_Lib
             }
         }
 
-        bool IsInputNow()
+        void DollFinishAction()
         {
-            return Input.GetKey( KeyCode.G );
+            targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
         }
+        void ExorcistFinishAction()
+        {
+            RateOfGauge -= exorcistInteractRate;
+            photonView.RPC( "ShareGauge", Photon.Pun.RpcTarget.AllViaServer, RateOfGauge );
+            targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
+        }
+
 
         protected override void HandleTriggerStay( Collider other )
         {
@@ -70,7 +89,8 @@ namespace GHJ_Lib
                     return;
                 }
 
-                CanInteract = other.GetComponent<NetworkBaseController>().IsWatching( gameObject.tag );
+                targetController = other.GetComponent<DollController>();
+                CanInteract = targetController.IsWatching( gameObject.tag );
                 interactTarget = InteractTarget.Doll;
                 ActivateText( CanInteract );
             }
@@ -83,9 +103,18 @@ namespace GHJ_Lib
                     return;
                 }
 
-                ExorcistController exorcist = other.GetComponent<ExorcistController>();
+                targetController = other.GetComponent<ExorcistController>();
                 interactTarget = InteractTarget.Exorcist;
-                CanInteract = exorcist.IsWatching( gameObject.tag );
+                CanInteract = targetController.IsWatching( gameObject.tag );
+                ActivateText( CanInteract );
+            }
+        }
+        protected override void HandleTriggerExit( Collider other )
+        {
+            if ( other.gameObject.CompareTag( GameManager.DollTag ) || other.gameObject.CompareTag( GameManager.ExorcistTag ) )
+            {
+                other.GetComponent<NetworkBaseController>().CanInteract = false;
+                CanInteract = false;
                 ActivateText( CanInteract );
             }
         }

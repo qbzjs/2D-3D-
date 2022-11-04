@@ -50,7 +50,7 @@ namespace GHJ_Lib
 		protected DelPlayerInput SetDirectionFunc;
 
 		protected RoleData initData = new RoleData();
-
+		public bool CanInteract;
 
 		/*---Skill Component---*/
 		public EffectArea actSkillArea;
@@ -139,14 +139,36 @@ namespace GHJ_Lib
                 {
 					if(hit.collider.CompareTag(tag))
                     {
-						return true;
+						CanInteract = true;
+						return CanInteract;
                     }
                 }
-				return false;
+				CanInteract = false;
+				return CanInteract;
 
 				//if ( Physics.Raycast( ray, out hit, maxDist, LayerMask.NameToLayer("Environment"), QueryTriggerInteraction.Ignore ) )
 			}
-			return false;
+			CanInteract = false;
+			return CanInteract;
+		}
+        //public virtual void DoInteract()
+        //      {
+        //	if ( InteractTargetObj == null )
+        //	{
+        //		Debug.Log( "NetworkBaseController.DoInteract: No Interact Target Obj" );
+        //		return;
+        //	}
+
+
+        //      }
+
+        public bool IsInteractionKeyHold()
+        {
+            return Input.GetKey( KeyCode.G );
+        }
+		public bool IsInteractionKeyDown()
+		{
+			return Input.GetKeyDown( KeyCode.G );
 		}
 
 		[PunRPC]
