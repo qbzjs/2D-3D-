@@ -122,14 +122,22 @@ namespace GHJ_Lib
 		{
 			if(photonView.IsMine)
             {
-				RaycastHit hit;
+				RaycastHit[] hits;
 				Ray ray = Camera.main.ScreenPointToRay( new Vector2( Screen.width, Screen.height ) / 2 );
 
-				if ( Physics.Raycast( ray, out hit ) )
-				{
-					return hit.transform.CompareTag( tag );
-				}
+				float maxDist = 10.0f;
+
+				hits = Physics.RaycastAll( ray, maxDist );
+				foreach(var hit in hits)
+                {
+					if(hit.collider.CompareTag(tag))
+                    {
+						return true;
+                    }
+                }
 				return false;
+
+				//if ( Physics.Raycast( ray, out hit, maxDist, LayerMask.NameToLayer("Environment"), QueryTriggerInteraction.Ignore ) )
 			}
 			return false;
 		}

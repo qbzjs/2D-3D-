@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2241548841074400751}
   - component: {fileID: 831934512007341270}
   - component: {fileID: 3164773535163312820}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RomanAltar-02_LOD3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 984275262267910978}
   - component: {fileID: 4859883272491229648}
   - component: {fileID: 2385012712850743287}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RomanAltar-02_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 1324324446860991393}
   - component: {fileID: 8224750059299622160}
   - component: {fileID: 2848739137150146725}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RomanAltar-02_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 6762081200085855404}
   - component: {fileID: 8161350787539865830}
   - component: {fileID: 1329894742520045910}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RomanAltar-02_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -402,7 +402,7 @@ GameObject:
   - component: {fileID: 6018126018020695988}
   - component: {fileID: 7876326547746169116}
   - component: {fileID: 5439260345798623699}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RomanAltar-02_LOD4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -487,7 +487,7 @@ GameObject:
   - component: {fileID: 6822809713992937127}
   - component: {fileID: 2554246014286976232}
   - component: {fileID: 4409495907326670622}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: NormalAltar
   m_TagString: interactObj
   m_Icon: {fileID: 0}
@@ -603,6 +603,10 @@ MonoBehaviour:
   <ReducedGauge>k__BackingField: 0
   <CoolTime>k__BackingField: 0
   <IsInRange>k__BackingField: 0
+  <CanInteract>k__BackingField: 0
   castingSystem: {fileID: 0}
   textUI: {fileID: 0}
   message: Press L Click to Interact
+  exorcistCastingTime: 3
+  exorcistInteractRate: 0.3
+  dollInteractTime: 50

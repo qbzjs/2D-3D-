@@ -25,7 +25,7 @@ namespace KSH_Lib
 		public bool IsFinishResult { get; protected set; }
 		public float OriginGauge { get { return RateOfGauge * MaxGauge; } }
 		//public bool CanInteract { get { return IsInRange && castingSystem.IsReset; } }
-		public bool CanInteract { get; protected set; }
+		[field: SerializeField] public bool CanInteract { get; protected set; }
 
 		[SerializeField]
 		protected CastingSystem castingSystem;
@@ -73,12 +73,7 @@ namespace KSH_Lib
 		{
 			if (CanInteract)
             {
-				ActiveText();
 				TryInteract();
-            }
-			else
-            {
-				InactiveText();
             }
 
 			if ( ResultCondition() && !IsFinishResult)
@@ -114,15 +109,19 @@ namespace KSH_Lib
 
 		protected abstract void TryInteract();
 
-		protected virtual void ActiveText()
+		protected virtual void ActivateText( bool canInteract )
         {
-			textTMP.text = message;
-			textUI.SetActive( true );
+			if ( canInteract )
+			{
+				textTMP.text = message;
+				textUI.SetActive( true );
+			}
+			else
+			{
+				textUI.SetActive( false );
+			}
 		}
-		protected virtual void InactiveText()
-        {
-			textUI.SetActive( false );
-		}
+
 		protected virtual void SyncGauge( float gauge )
 		{
 			RateOfGauge = gauge;

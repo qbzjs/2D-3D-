@@ -66,23 +66,27 @@ namespace GHJ_Lib
                 if ( RateOfGauge >= 1.0f )
                 {
                     CanInteract = false;
+                    ActivateText( CanInteract );
                     return;
                 }
 
                 CanInteract = other.GetComponent<NetworkBaseController>().IsWatching( gameObject.tag );
                 interactTarget = InteractTarget.Doll;
+                ActivateText( CanInteract );
             }
             else if ( other.gameObject.CompareTag( GameManager.ExorcistTag ) )
             {
                 if ( RateOfGauge <= 0.5f )
                 {
                     CanInteract = false;
+                    ActivateText( CanInteract );
                     return;
                 }
 
                 ExorcistController exorcist = other.GetComponent<ExorcistController>();
                 interactTarget = InteractTarget.Exorcist;
                 CanInteract = exorcist.IsWatching( gameObject.tag );
+                ActivateText( CanInteract );
             }
         }
     }

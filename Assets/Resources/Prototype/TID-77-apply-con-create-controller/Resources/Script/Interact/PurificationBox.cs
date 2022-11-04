@@ -54,7 +54,7 @@ namespace GHJ_Lib
             }
             else
             {
-                InactiveText();
+                ActivateText( false );
             }
         }
 
@@ -71,11 +71,14 @@ namespace GHJ_Lib
                 if(DollInBox == null)
                 {
                     CanInteract = false;
+                    ActivateText( CanInteract );
                     return;
                 }
 
                 interactTarget = InteractTarget.Doll;
                 CanInteract = other.GetComponent<NetworkBaseController>().IsWatching(gameObject.tag);
+
+                ActivateText( CanInteract );
             }
             else if(other.gameObject.CompareTag(GameManager.ExorcistTag))
             {
@@ -84,11 +87,14 @@ namespace GHJ_Lib
                 if (DollInBox != null || (exorcist.CurBehavior is not BvCatch))
                 {
                     CanInteract = false;
+                    ActivateText( CanInteract );
                     return;
                 }
 
                 interactTarget = InteractTarget.Exorcist;
                 CanInteract = exorcist.IsWatching(gameObject.tag);
+
+                ActivateText( CanInteract );
             }
         }
         protected override void HandleTriggerExit(Collider other)
@@ -101,6 +107,7 @@ namespace GHJ_Lib
             {
                 CanInteract = false;
             }
+            
         }
     }
 }

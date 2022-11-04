@@ -13,11 +13,11 @@ namespace KSH_Lib.Test
             {
                 if(castingSystem.IsCoroutineRunning)
                 {
-                    InactiveText();
+                    ActivateText( false );
                 }
                 else
                 {
-                    ActiveText();
+                    ActivateText( true);
                 }
 
                 if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -62,7 +62,7 @@ namespace KSH_Lib.Test
             {
                 Debug.Log( "Trigger Entered" );
                 IsInRange = true;
-                ActiveText();
+                ActivateText( true );
             }
         }
         protected override void HandleTriggerExit( Collider other )
@@ -71,7 +71,7 @@ namespace KSH_Lib.Test
             {
                 Debug.Log( "Trigger Exited" );
                 IsInRange = false;
-                InactiveText();
+                ActivateText( false );
             }
         }
 
@@ -82,12 +82,12 @@ namespace KSH_Lib.Test
 
         void StartAutoCasting()
         {
-            InactiveText();
+            ActivateText( false );
             castingSystem.StartAutoCasting( CastingSystem.Cast.CreateByTime(3.0f, coolTime: CoolTime), SyncDataWith: SyncGauge );
         }
         void StartManualCasting()
         {
-            InactiveText();
+            ActivateText( false );
             castingSystem.StartManualCasting( CastingSystem.Cast.CreateByRatio(0.3f), IsInputNow, SyncDataWith: SyncGauge );
         }
         bool IsInputNow()
@@ -97,7 +97,7 @@ namespace KSH_Lib.Test
         protected void SyncGaugeAndTurnOffText( float gauge )
         {
             base.SyncGauge( gauge );
-            InactiveText();
+            ActivateText( false );
         }
     }
 }
