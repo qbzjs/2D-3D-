@@ -77,7 +77,7 @@ namespace GHJ_Lib
 
         bool DollPauseConditon()
         {
-            return targetController.IsInteractionKeyHold() || isExorcistIn;
+            return targetController.IsInteractionKeyHold() && !isExorcistIn;
         }
 
         void DollPauseAction()
