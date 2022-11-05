@@ -71,8 +71,9 @@ namespace KSH_Lib
 
         protected virtual void Update()
 		{
-            if ( CanInteract )
+            if ( CanInteract && castingSystem.WasReset )
             {
+				Debug.Log( "Trying Interact" );
                 TryInteract();
             }
 
@@ -108,11 +109,6 @@ namespace KSH_Lib
 		protected abstract bool ResultCondition();
 
 		protected abstract void TryInteract();
-
-		//protected virtual bool IsInputNow()
-		//{
-		//	return Input.GetKey( KeyCode.G );
-		//}
 
 
 		protected virtual void ActivateText( bool canInteract )

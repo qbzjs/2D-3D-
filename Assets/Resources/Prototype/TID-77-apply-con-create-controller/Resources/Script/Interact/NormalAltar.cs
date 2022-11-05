@@ -43,14 +43,6 @@ namespace GHJ_Lib
             {
                 case InteractTarget.Doll:
                 {
-                    //castingSystem.ForceSetRatioTo( RateOfGauge );
-                    //castingSystem.StartManualCasting(
-                    //    CastingSystem.Cast.CreateByTime( dollInteractTime ),
-                    //    targetController.IsInteractionKeyHold,
-                    //    SyncGauge,
-                    //    DollFinishAction,
-                    //    DollFinishAction
-                    //    );
                     castingSystem.ForceSetRatioTo( RateOfGauge );
                     castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractTime ),
                         new CastingSystem.CastFuncSet( SyncGauge, targetController.IsInteractionKeyHold, DollFinishAction, DollFinishAction )
@@ -61,18 +53,10 @@ namespace GHJ_Lib
                 {
                     if ( targetController.IsInteractionKeyDown() )
                     {
-                        //castingSystem.StartAutoCasting( CastingSystem.Cast.CreateByTime( exorcistCastingTime, coolTime: 1.0f ), FinishAction:ExorcistFinishAction );
                         castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( exorcistCastingTime, coolTime: 1.0f ),
                             new CastingSystem.CastFuncSet( FinishAction: ExorcistFinishAction )
                             );
                     }
-
-                    //castingSystem.ForceSetRatioTo( RateOfGauge );
-                    //castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractTime ),
-                    //    new CastingSystem.CastFuncSet( SyncGauge, targetController.IsInteractionKeyHold, DollFinishAction, DollFinishAction )
-                    //    );
-
-
                 }
                 break;
                 default:
@@ -106,8 +90,9 @@ namespace GHJ_Lib
                 }
 
                 targetController = other.GetComponent<DollController>();
-                CanInteract = targetController.IsWatching( gameObject.tag );
                 interactTarget = InteractTarget.Doll;
+                CanInteract = targetController.IsWatching( gameObject.tag ) && castingSystem.WasReset;
+                targetController.SetCanInteract( CanInteract );
                 ActivateText( CanInteract );
             }
             else if ( other.gameObject.CompareTag( GameManager.ExorcistTag ) )
@@ -118,16 +103,11 @@ namespace GHJ_Lib
                     ActivateText( CanInteract );
                     return;
                 }
-                //if ( RateOfGauge >= 1.0f )
-                //{
-                //    CanInteract = false;
-                //    ActivateText( CanInteract );
-                //    return;
-                //}
 
                 targetController = other.GetComponent<ExorcistController>();
-                CanInteract = targetController.IsWatching( gameObject.tag );
                 interactTarget = InteractTarget.Exorcist;
+                CanInteract = targetController.IsWatching( gameObject.tag ) && castingSystem.WasReset;
+                targetController.SetCanInteract( CanInteract );
                 ActivateText( CanInteract );
             }
         }
@@ -140,5 +120,6 @@ namespace GHJ_Lib
                 ActivateText( CanInteract );
             }
         }
+
     }
 }

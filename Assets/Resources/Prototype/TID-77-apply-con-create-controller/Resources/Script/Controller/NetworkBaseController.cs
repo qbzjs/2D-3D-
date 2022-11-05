@@ -139,28 +139,19 @@ namespace GHJ_Lib
                 {
 					if(hit.collider.CompareTag(tag))
                     {
-						CanInteract = true;
-						return CanInteract;
+						return true;
                     }
                 }
-				CanInteract = false;
-				return CanInteract;
+				return false;
 
 				//if ( Physics.Raycast( ray, out hit, maxDist, LayerMask.NameToLayer("Environment"), QueryTriggerInteraction.Ignore ) )
 			}
-			CanInteract = false;
-			return CanInteract;
+			return false;
 		}
-        //public virtual void DoInteract()
-        //      {
-        //	if ( InteractTargetObj == null )
-        //	{
-        //		Debug.Log( "NetworkBaseController.DoInteract: No Interact Target Obj" );
-        //		return;
-        //	}
-
-
-        //      }
+		public void SetCanInteract(bool canInteract)
+        {
+			CanInteract = canInteract;
+        }
 
         public bool IsInteractionKeyHold()
         {
