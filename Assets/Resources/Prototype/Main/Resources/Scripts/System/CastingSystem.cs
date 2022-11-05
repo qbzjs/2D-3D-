@@ -153,8 +153,14 @@ namespace KSH_Lib
             castingSliderObj.SetActive( true );
             IsCoroutineRunning = true;
 
-            while ( slider.value < cast.destRatio )
+            while ( true )
             {
+                if( slider.value >= cast.destRatio )
+                {
+                    FinishCasting( cast, castFunc, true );
+                    break;
+                }
+
                 // Change Value and Sync
                 slider.value += cast.deltaRatio * Time.deltaTime;
                 if ( castFunc.SyncDataWith != null )
@@ -173,8 +179,6 @@ namespace KSH_Lib
                 }
                 yield return null;
             }
-
-            FinishCasting( cast, castFunc, true );
             yield return null;
         }
 

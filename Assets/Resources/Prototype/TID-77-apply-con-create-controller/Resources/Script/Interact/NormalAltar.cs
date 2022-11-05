@@ -97,12 +97,12 @@ namespace GHJ_Lib
             }
             else if ( other.gameObject.CompareTag( GameManager.ExorcistTag ) )
             {
-                if ( RateOfGauge <= 0.5f )
-                {
-                    CanInteract = false;
-                    ActivateText( CanInteract );
-                    return;
-                }
+                //if ( RateOfGauge <= 0.5f )
+                //{
+                //    CanInteract = false;
+                //    ActivateText( CanInteract );
+                //    return;
+                //}
 
                 targetController = other.GetComponent<ExorcistController>();
                 interactTarget = InteractTarget.Exorcist;
