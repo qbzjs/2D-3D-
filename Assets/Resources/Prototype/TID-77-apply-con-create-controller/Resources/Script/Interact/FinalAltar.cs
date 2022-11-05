@@ -37,7 +37,10 @@ namespace GHJ_Lib
         {
             return true;
         }
-
+        protected override bool InteractCondition()
+        {
+            return false;
+        }
         protected override void TryInteract()
         {
             throw new System.NotImplementedException();

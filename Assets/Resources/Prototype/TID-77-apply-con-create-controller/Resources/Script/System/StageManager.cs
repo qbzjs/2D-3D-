@@ -53,6 +53,39 @@ namespace GHJ_Lib
 
 		NetworkGenerator networkGenerator;
 
+
+		public ExorcistController Exorcist
+		{
+			get
+			{
+				if ( exorcist == null )
+				{
+					GameObject exor = GameObject.FindGameObjectWithTag( "Exorcist" );
+					exorcist = exor.GetComponent<ExorcistController>();
+				}
+				return exorcist;
+			}
+		}
+		ExorcistController exorcist;
+		public List<DollController> Dolls
+		{
+			get
+			{
+				if ( dolls == null )
+				{
+					GameObject[] dollObjects = GameObject.FindGameObjectsWithTag( "Doll" );
+					foreach ( var d in dollObjects )
+					{
+						dolls.Add( d.GetComponent<DollController>() );
+					}
+					dolls.Sort( ( lhs, rhs ) => lhs.PlayerIndex.CompareTo( rhs.PlayerIndex ) );
+				}
+				return dolls;
+			}
+		}
+		List<DollController> dolls;
+
+
 		/*--- Private Fields ---*/
 		static StageManager instance;
 		bool activeDebugGUI;

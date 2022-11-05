@@ -18,6 +18,7 @@ namespace GHJ_Lib
         float dollInteractTime = 50.0f;
 
         public NetworkBaseController targetController;
+        bool isNeedToChangeState = false;
 
         protected override void OnEnable()
 		{
@@ -39,9 +40,16 @@ namespace GHJ_Lib
 
         protected override void TryInteract()
         {
-            switch ( interactTarget )
+            if(!targetController.IsInteractionKeyDown())
             {
-                case InteractTarget.Doll:
+                return;
+            }
+
+            targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Interact);
+
+            switch ( targetType )
+            {
+                case InteractTargetType.Doll:
                 {
                     castingSystem.ForceSetRatioTo( RateOfGauge );
                     castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractTime ),
@@ -49,7 +57,7 @@ namespace GHJ_Lib
                         );
                 }
                 break;
-                case InteractTarget.Exorcist:
+                case InteractTargetType.Exorcist:
                 {
                     if ( targetController.IsInteractionKeyDown() )
                     {
@@ -57,6 +65,7 @@ namespace GHJ_Lib
                             new CastingSystem.CastFuncSet( FinishAction: ExorcistFinishAction )
                             );
                     }
+
                 }
                 break;
                 default:
@@ -78,47 +87,130 @@ namespace GHJ_Lib
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
         }
 
-        protected override void HandleTriggerStay( Collider other )
+        protected override bool InteractCondition()
         {
-            if(other.gameObject.CompareTag(GameManager.DollTag))
+            bool condition = CheckInteract();
+            
+            if(targetController != null)
+            {
+                targetController.SetCanInteract( condition );
+            }
+            return condition;
+        }
+        bool CheckInteract()
+        {
+            if ( targetController == null )
+            {
+                return false;
+            }
+
+            if ( !IsInRange )
+            {
+                return false;
+            }
+
+            if ( targetType == InteractTargetType.Doll )
             {
                 if ( RateOfGauge >= 1.0f )
                 {
-                    CanInteract = false;
-                    ActivateText( CanInteract );
-                    return;
+                    return false;
                 }
+            }
+            else if ( targetType == InteractTargetType.Exorcist )
+            {
+                if ( RateOfGauge <= 0.5f )
+                {
+                    return false;
+                }
+                if ( RateOfGauge >= 1.0f )
+                {
+                    return false;
+                }
+            }
 
+            return targetController.IsWatching( gameObject.tag );
+        }
+
+
+        protected override void HandleTriggerStay( Collider other )
+        {
+            if ( other.gameObject.CompareTag( GameManager.DollTag ) )
+            {
+                IsInRange = true;
                 targetController = other.GetComponent<DollController>();
-                interactTarget = InteractTarget.Doll;
-                CanInteract = targetController.IsWatching( gameObject.tag ) && castingSystem.WasReset;
-                targetController.SetCanInteract( CanInteract );
-                ActivateText( CanInteract );
+                targetType = InteractTargetType.Doll;
+
+                ActivateText( CheckInteract() );
             }
             else if ( other.gameObject.CompareTag( GameManager.ExorcistTag ) )
             {
-                //if ( RateOfGauge <= 0.5f )
-                //{
-                //    CanInteract = false;
-                //    ActivateText( CanInteract );
-                //    return;
-                //}
-
+                IsInRange = true;
                 targetController = other.GetComponent<ExorcistController>();
-                interactTarget = InteractTarget.Exorcist;
-                CanInteract = targetController.IsWatching( gameObject.tag ) && castingSystem.WasReset;
-                targetController.SetCanInteract( CanInteract );
-                ActivateText( CanInteract );
+                targetType = InteractTargetType.Exorcist;
+
+                ActivateText( CheckInteract() );
             }
+
+            //if(other.gameObject.CompareTag(GameManager.DollTag))
+            //{
+            //    if ( RateOfGauge >= 1.0f )
+            //    {
+            //        CanInteract = false;
+            //        ActivateText( CanInteract );
+            //        targetController.SetCanInteract( CanInteract );
+            //        return;
+            //    }
+
+            //    targetController = other.GetComponent<DollController>();
+            //    interactTarget = InteractTarget.Doll;
+            //    CanInteract = targetController.IsWatching( gameObject.tag ) && castingSystem.WasReset;
+            //    ActivateText( CanInteract );
+            //    targetController.SetCanInteract( CanInteract );
+
+            //    var Controller = other.GetComponent<DollController>();
+
+
+            //}
+            //if ( other.gameObject.CompareTag( GameManager.ExorcistTag ) )
+            //{
+            //    if ( RateOfGauge <= 0.5f )
+            //    {
+            //        CanInteract = false;
+            //        ActivateText( CanInteract );
+            //        targetController.SetCanInteract( CanInteract );
+            //        return;
+            //    }
+
+            //    targetController = other.GetComponent<ExorcistController>();
+            //    interactTarget = InteractTarget.Exorcist;
+            //    CanInteract = targetController.IsWatching( gameObject.tag ) && castingSystem.WasReset;
+            //    ActivateText( CanInteract );
+            //    targetController.SetCanInteract( CanInteract );
+            //}
         }
         protected override void HandleTriggerExit( Collider other )
         {
-            if ( other.gameObject.CompareTag( GameManager.DollTag ) || other.gameObject.CompareTag( GameManager.ExorcistTag ) )
+            if ( other.gameObject.CompareTag( GameManager.DollTag ) && targetController is DollController )
             {
-                other.GetComponent<NetworkBaseController>().CanInteract = false;
-                CanInteract = false;
-                ActivateText( CanInteract );
+                IsInRange = false;
+                targetController = null;
+                ActivateText( false );
             }
+            else if( other.gameObject.CompareTag( GameManager.ExorcistTag ) && targetController is ExorcistController )
+            {
+                IsInRange = false;
+                targetController = null;
+                ActivateText( false );
+            }
+
+
+            //if ( other.gameObject.CompareTag( GameManager.DollTag ) || other.gameObject.CompareTag( GameManager.ExorcistTag ) )
+            //{
+            //    other.GetComponent<NetworkBaseController>().CanInteract = false;
+            //    CanInteract = false;
+            //    ActivateText( CanInteract );
+            //    targetController.SetCanInteract( CanInteract );
+            //}
         }
 
     }

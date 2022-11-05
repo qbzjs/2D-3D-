@@ -23,13 +23,13 @@ namespace GHJ_Lib
 
             actor.DoSkill();
 
-            if ( actor.CanInteract )
-            {
-                if ( actor.IsInteractionKeyHold() )
-                {
-                    actor.ChangeBvToInteract();
-                }
-            }
+            //if ( actor.CanInteract )
+            //{
+            //    if ( actor.IsInteractionKeyHold() )
+            //    {
+            //        actor.ChangeBvToInteract();
+            //    }
+            //}
 
 
             if ( actor is DollController )

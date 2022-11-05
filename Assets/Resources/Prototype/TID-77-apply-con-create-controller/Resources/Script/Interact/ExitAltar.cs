@@ -34,7 +34,10 @@ namespace GHJ_Lib
 		{
 			return isOpen && castingSystem.IsFinshCasting;
 		}
-
+        protected override bool InteractCondition()
+		{
+			return false;
+		}
         protected override void TryInteract()
         {
             throw new System.NotImplementedException();

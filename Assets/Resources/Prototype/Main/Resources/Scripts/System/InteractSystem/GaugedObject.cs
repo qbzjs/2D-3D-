@@ -13,7 +13,7 @@ namespace KSH_Lib
 	[RequireComponent( typeof( PhotonView ) )]
 	public abstract class GaugedObject : MonoBehaviourPun, IPunObservable
 	{
-		public enum InteractTarget { Null, Exorcist, Doll,  };
+		public enum InteractTargetType { Null, Exorcist, Doll,  };
 
 		/*--- Fields ---*/
 		[field: SerializeField] public float MaxGauge { get; protected set; }
@@ -25,7 +25,7 @@ namespace KSH_Lib
 		public bool IsFinishResult { get; protected set; }
 		public float OriginGauge { get { return RateOfGauge * MaxGauge; } }
 		//public bool CanInteract { get { return IsInRange && castingSystem.IsReset; } }
-		[field: SerializeField] public bool CanInteract { get; protected set; }
+		//[field: SerializeField] public bool CanInteract { get; protected set; }
 
 		[SerializeField]
 		protected CastingSystem castingSystem;
@@ -38,7 +38,7 @@ namespace KSH_Lib
 		protected TextMeshProUGUI textTMP;
 
 
-		protected InteractTarget interactTarget;
+		protected InteractTargetType targetType;
 
 		/*--- MonoBehaviour Callbacks ---*/
 
@@ -71,7 +71,8 @@ namespace KSH_Lib
 
         protected virtual void Update()
 		{
-            if ( CanInteract && castingSystem.WasReset )
+            //if ( CanInteract && castingSystem.WasReset )
+			if( InteractCondition() && castingSystem.WasReset )
             {
 				Debug.Log( "Trying Interact" );
                 TryInteract();
@@ -107,12 +108,18 @@ namespace KSH_Lib
 		/*--- Protected Methods ---*/
 		protected abstract void DoResult();
 		protected abstract bool ResultCondition();
-
 		protected abstract void TryInteract();
+		protected abstract bool InteractCondition();
 
 
 		protected virtual void ActivateText( bool canInteract )
         {
+			if( castingSystem.IsCoroutineRunning )
+			{
+				textUI.SetActive( false );
+				return;
+			}
+
 			if ( canInteract )
 			{
 				textTMP.text = message;

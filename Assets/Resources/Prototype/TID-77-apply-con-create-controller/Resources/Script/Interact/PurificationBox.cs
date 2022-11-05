@@ -41,21 +41,25 @@ namespace GHJ_Lib
             animator.Play( "CloseDoor" );
         }
 
+        protected override bool InteractCondition()
+        {
+            return false;
+        }
         protected override void TryInteract()
         {
-            if(interactTarget != InteractTarget.Doll)
-            {
-                return;
-            }
+            //if(interactTarget != InteractTarget.Doll)
+            //{
+            //    return;
+            //}
 
-            if(!castingSystem.IsCoroutineRunning)
-            {
-                //castingSystem.StartManualCasting(CastingSystem.Cast.CreateByRatio(AddedGauge), IsInputNow, SyncDataWith: SyncGauge);
-            }
-            else
-            {
-                ActivateText( false );
-            }
+            //if(!castingSystem.IsCoroutineRunning)
+            //{
+            //    //castingSystem.StartManualCasting(CastingSystem.Cast.CreateByRatio(AddedGauge), IsInputNow, SyncDataWith: SyncGauge);
+            //}
+            //else
+            //{
+            //    ActivateText( false );
+            //}
         }
 
         bool IsInputNow()
@@ -66,47 +70,47 @@ namespace GHJ_Lib
 
         protected override void HandleTriggerStay(Collider other)
         {
-            if(other.gameObject.CompareTag(GameManager.DollTag))
-            {
-                if(DollInBox == null)
-                {
-                    CanInteract = false;
-                    ActivateText( CanInteract );
-                    return;
-                }
+            //if(other.gameObject.CompareTag(GameManager.DollTag))
+            //{
+            //    if(DollInBox == null)
+            //    {
+            //        CanInteract = false;
+            //        ActivateText( CanInteract );
+            //        return;
+            //    }
 
-                interactTarget = InteractTarget.Doll;
-                CanInteract = other.GetComponent<NetworkBaseController>().IsWatching(gameObject.tag);
+            //    interactTarget = InteractTarget.Doll;
+            //    CanInteract = other.GetComponent<NetworkBaseController>().IsWatching(gameObject.tag);
 
-                ActivateText( CanInteract );
-            }
-            else if(other.gameObject.CompareTag(GameManager.ExorcistTag))
-            {
-                ExorcistController exorcist = other.GetComponent<ExorcistController>();
+            //    ActivateText( CanInteract );
+            //}
+            //else if(other.gameObject.CompareTag(GameManager.ExorcistTag))
+            //{
+            //    ExorcistController exorcist = other.GetComponent<ExorcistController>();
 
-                if (DollInBox != null || (exorcist.CurBehavior is not BvCatch))
-                {
-                    CanInteract = false;
-                    ActivateText( CanInteract );
-                    return;
-                }
+            //    if (DollInBox != null || (exorcist.CurBehavior is not BvCatch))
+            //    {
+            //        CanInteract = false;
+            //        ActivateText( CanInteract );
+            //        return;
+            //    }
 
-                interactTarget = InteractTarget.Exorcist;
-                CanInteract = exorcist.IsWatching(gameObject.tag);
+            //    interactTarget = InteractTarget.Exorcist;
+            //    CanInteract = exorcist.IsWatching(gameObject.tag);
 
-                ActivateText( CanInteract );
-            }
+            //    ActivateText( CanInteract );
+            //}
         }
         protected override void HandleTriggerExit(Collider other)
         {
-            if (other.gameObject.CompareTag(GameManager.DollTag))
-            {
-                CanInteract = false;
-            }
-            else if (other.gameObject.CompareTag(GameManager.ExorcistTag))
-            {
-                CanInteract = false;
-            }
+            //if (other.gameObject.CompareTag(GameManager.DollTag))
+            //{
+            //    CanInteract = false;
+            //}
+            //else if (other.gameObject.CompareTag(GameManager.ExorcistTag))
+            //{
+            //    CanInteract = false;
+            //}
             
         }
     }

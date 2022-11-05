@@ -9,27 +9,27 @@ namespace KSH_Lib.Test
 	{
         protected override void Update()
         {
-            if(CanInteract)
-            {
-                if(castingSystem.IsCoroutineRunning)
-                {
-                    ActivateText( false );
-                }
-                else
-                {
-                    ActivateText( true);
-                }
+            //if(CanInteract)
+            //{
+            //    if(castingSystem.IsCoroutineRunning)
+            //    {
+            //        ActivateText( false );
+            //    }
+            //    else
+            //    {
+            //        ActivateText( true);
+            //    }
 
-                if (Input.GetKeyDown(KeyCode.Mouse0))
-                {
-                    StartAutoCasting();
-                }
+            //    if (Input.GetKeyDown(KeyCode.Mouse0))
+            //    {
+            //        StartAutoCasting();
+            //    }
 
-                if(Input.GetKeyDown(KeyCode.Mouse1))
-                {
-                    StartManualCasting();
-                }
-            }
+            //    if(Input.GetKeyDown(KeyCode.Mouse1))
+            //    {
+            //        StartManualCasting();
+            //    }
+            //}
 
             base.Update();
         }
@@ -37,16 +37,19 @@ namespace KSH_Lib.Test
         private void OnGUI()
         {
             //GUI.Box( new Rect( 0, 0, 150, 30 ), $"IsCoolDown: {castingSystem.CanCasting}" );
-            GUI.Box( new Rect( 0, 30, 150, 30 ), $"IsFinshCasting: {castingSystem.IsFinshCasting}" );
-            //GUI.Box( new Rect( 0, 60, 150, 30 ), $"IsReset: {castingSystem.IsReset}" );
-            GUI.Box( new Rect( 0, 90, 150, 30 ), $"CanInteract: {CanInteract}" );
-            GUI.Box( new Rect( 0, 120, 150, 30 ), $"IsInRange: {IsInRange}" );
-            GUI.Box( new Rect( 0, 150, 150, 30 ), $"curCoolTime: {castingSystem.CurCoolTime}" );
-            GUI.Box( new Rect( 0, 180, 150, 30 ), $"Slider: {castingSystem.SliderVal}" );
-            GUI.Box( new Rect( 0, 210, 150, 30 ), $"Gauge: {RateOfGauge}" );
-            GUI.Box( new Rect( 0, 240, 150, 30 ), $"RateOfGauge: {OriginGauge}" );
+            //GUI.Box( new Rect( 0, 30, 150, 30 ), $"IsFinshCasting: {castingSystem.IsFinshCasting}" );
+            ////GUI.Box( new Rect( 0, 60, 150, 30 ), $"IsReset: {castingSystem.IsReset}" );
+            //GUI.Box( new Rect( 0, 90, 150, 30 ), $"CanInteract: {CanInteract}" );
+            //GUI.Box( new Rect( 0, 120, 150, 30 ), $"IsInRange: {IsInRange}" );
+            //GUI.Box( new Rect( 0, 150, 150, 30 ), $"curCoolTime: {castingSystem.CurCoolTime}" );
+            //GUI.Box( new Rect( 0, 180, 150, 30 ), $"Slider: {castingSystem.SliderVal}" );
+            //GUI.Box( new Rect( 0, 210, 150, 30 ), $"Gauge: {RateOfGauge}" );
+            //GUI.Box( new Rect( 0, 240, 150, 30 ), $"RateOfGauge: {OriginGauge}" );
         }
-
+        protected override bool InteractCondition()
+        {
+            throw new System.NotImplementedException();
+        }
         protected override void DoResult()
         {
             Debug.Log("Finish Casting!!!");
