@@ -38,6 +38,47 @@ namespace GHJ_Lib
             return isEnable && castingSystem.IsFinshCasting;
         }
 
+        protected override bool InteractCondition()
+        {
+            if ( targetController == null )
+            {
+                return false;
+            }
+
+            if ( !IsInRange )
+            {
+                return false;
+            }
+
+            if ( targetType == InteractTargetType.Doll )
+            {
+                if ( RateOfGauge >= 1.0f )
+                {
+                    return false;
+                }
+
+                if ( isExorcistIn )
+                {
+                    if(castingSystem.IsCoroutineRunning)
+                    {
+                        castingSystem.ForceStopCasting();
+                    }
+                    return false;
+                }
+            }
+            else if ( targetType == InteractTargetType.Exorcist )
+            {
+                if ( RateOfGauge <= 0.5f )
+                {
+                    return false;
+                }
+                if ( RateOfGauge >= 1.0f )
+                {
+                    return false;
+                }
+            }
+            return targetController.IsWatching( gameObject.tag );
+        }
         protected override void TryInteract()
         {
             if(!targetController.IsInteractionKeyDown())
@@ -52,8 +93,8 @@ namespace GHJ_Lib
                 case InteractTargetType.Doll:
                 {
                     castingSystem.ForceSetRatioTo( RateOfGauge );
-                    castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractTime ),
-                        new CastingSystem.CastFuncSet( SyncGauge, DollPauseConditon, DollPauseAction, DollFinishAction )
+                    castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractTime, coolTime: 0.5f ),
+                        new CastingSystem.CastFuncSet( SyncGauge, targetController.IsInteractionKeyHold, DollPauseAction, DollFinishAction )
                         );
                 }
                 break;
@@ -75,10 +116,6 @@ namespace GHJ_Lib
             }
         }
 
-        bool DollPauseConditon()
-        {
-            return targetController.IsInteractionKeyHold() && !isExorcistIn;
-        }
 
         void DollPauseAction()
         {
@@ -96,38 +133,6 @@ namespace GHJ_Lib
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
         }
 
-        protected override bool InteractCondition()
-        {
-            if ( targetController == null )
-            {
-                return false;
-            }
-
-            if ( !IsInRange )
-            {
-                return false;
-            }
-
-            if ( targetType == InteractTargetType.Doll )
-            {
-                if ( RateOfGauge >= 1.0f )
-                {
-                    return false;
-                }
-            }
-            else if ( targetType == InteractTargetType.Exorcist )
-            {
-                if ( RateOfGauge <= 0.5f )
-                {
-                    return false;
-                }
-                if ( RateOfGauge >= 1.0f )
-                {
-                    return false;
-                }
-            }
-            return targetController.IsWatching( gameObject.tag );
-        }
 
         protected override void HandleTriggerStay( Collider other )
         {
@@ -145,7 +150,7 @@ namespace GHJ_Lib
 
                 ActivateText( InteractCondition() );
             }
-            else if ( other.gameObject.CompareTag( GameManager.ExorcistTag ) )
+            if ( other.gameObject.CompareTag( GameManager.ExorcistTag ) )
             {
                 isExorcistIn = true;
                 var target = other.GetComponent<ExorcistController>();
@@ -171,7 +176,7 @@ namespace GHJ_Lib
                 targetController = null;
                 ActivateText( false );
             }
-            else if( other.gameObject.CompareTag( GameManager.ExorcistTag ) && targetController is ExorcistController )
+            if( other.gameObject.CompareTag( GameManager.ExorcistTag ) && targetController is ExorcistController )
             {
                 isExorcistIn = false;
                 if ( !targetController.IsMine )
