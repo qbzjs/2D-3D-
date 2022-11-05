@@ -33,7 +33,11 @@ namespace GHJ_Lib
 		public int PlayerIndex { get; protected set; }
 
 		public Behavior<NetworkBaseController> CurBehavior = new Behavior<NetworkBaseController>();
-		public Behavior<NetworkBaseController> ActiveSkill = new Behavior<NetworkBaseController>();
+		protected BvIdle idle = new BvIdle();
+		protected BvInteract interact = new BvInteract();
+		protected Behavior<NetworkBaseController> BvActiveSkill = new Behavior<NetworkBaseController>(); //스킬을 상속받을때 바뀔예정.. 컴포넌트로 나눌때 없어질수 있음.
+		public Behavior<NetworkBaseController> ActiveSkill = new Behavior<NetworkBaseController>(); //스킬 파츠를 합친행동(스킬 컴포넌트로 옮겨질 예정)
+
 		protected PhotonTransformViewClassic photonTransformView;
 
 		[field: SerializeField] public Animator BaseAnimator { get; protected set; }
@@ -202,8 +206,11 @@ namespace GHJ_Lib
 		}
 		[PunRPC]
 		protected virtual void ChangeBehaviorTo_RPC( BehaviorType type ) { }
-
-
+		[PunRPC]
+		public void ChangeSkillBehaviorTo_RPC()
+		{
+			CurBehavior.PushSuccessorState(BvActiveSkill);
+		}
 		// Exit
 		public virtual void ExitGame()
 		{
@@ -242,7 +249,7 @@ namespace GHJ_Lib
 		[PunRPC]
 		public virtual void DoActiveSkill()
 		{
-			StartCoroutine("ExcuteActiveSkil");
+			photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.AllViaServer);
 		}
 		protected virtual IEnumerator ExcuteActiveSkil()
 		{

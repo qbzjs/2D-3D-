@@ -17,40 +17,24 @@ namespace GHJ_Lib
 		protected Sk_Default skDefault = new Sk_Default();
 		protected Sk_InstallCross skInstallCross = new Sk_InstallCross();
 		protected Sk_CollectCross skCollectCross = new Sk_CollectCross();
-
-		/*--- Private Fields ---*/
-
-
-		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
 		{
 			base.OnEnable();
+			BvActiveSkill = new BvBishopActSkill(); // 스킬은 각 직업, 및 캐릭터별로 바뀔것.
 			SkillSettingToInstallCross();
 		}
 
 		/*---Skill---*/
-		[PunRPC]
-		public override void DoActiveSkill()
-		{
-			StartCoroutine("ExcuteActiveSkil");
-		}
 
-		public virtual void ChangeSkillBehaviorTo()
-		{
-			photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.AllViaServer);
-		}
-
-        protected override IEnumerator ExcuteActiveSkil()
+		protected override IEnumerator ExcuteActiveSkil()
 		{
 			useActiveSkill = true;
-			ChangeSkillBehaviorTo();
 			yield return new WaitForSeconds(0.2f);//선딜
 			while (ActiveSkill.Count != 0)
 			{
 				ActiveSkill.Update(this, ref ActiveSkill);
 			}
 			yield return new WaitForSeconds(0.2f);//후딜
-			ChangeBehaviorTo(BehaviorType.Idle);//스킬끝
 			yield return new WaitForSeconds(14.6f);
 			useActiveSkill = false;
 		}
@@ -61,6 +45,24 @@ namespace GHJ_Lib
 		private void SkillSettingToCollectCross()
 		{
 			ActiveSkill.SetSuccessorStates(new List<Behavior<NetworkBaseController>>() { skDefault, skCollectCross });
+		}
+		IEnumerator SetCross()
+		{
+			if (ActiveSkill is not Sk_InstallCross)
+			{
+				yield break;
+			}
+			while (true)
+			{
+				yield return new WaitForEndOfFrame();
+				if (BaseAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f)
+				{
+					GameObject cross = GameObject.Instantiate(CrossPrefab, transform);
+					cross.transform.SetParent(this.transform.parent);
+					break;
+				}
+			}
+			
 		}
 	}
 }

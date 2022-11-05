@@ -17,12 +17,9 @@ namespace GHJ_Lib
 		protected GaugedObject targetObj;
 
 		// Behaviors
-		protected BvIdle idle = new BvIdle();
 		protected BvAttack attack = new BvAttack();
-		protected BvInteract interact = new BvInteract();
 		protected BvCatch catchDoll = new BvCatch();
 		protected BvImprison imprison = new BvImprison();
-
 
 
 
