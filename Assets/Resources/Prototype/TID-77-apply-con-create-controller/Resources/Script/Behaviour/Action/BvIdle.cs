@@ -17,6 +17,7 @@ namespace GHJ_Lib
         {
             if( !actor.photonView.IsMine )
             {
+                actor.BaseAnimator.StopPlayback();
                 return PassIfHasSuccessor();
             }
 
@@ -52,6 +53,7 @@ namespace GHJ_Lib
                     }
                 }
             }
+            actor.BaseAnimator.StopPlayback();
             return PassIfHasSuccessor();
         }
 
@@ -70,6 +72,7 @@ namespace GHJ_Lib
 
         void PlayAnimation( in NetworkBaseController actor )
         {
+            
             if ( actor is DollController )
             {
                 //actor.BaseAnimator.CrossFade("Idle_A", 0.5f);

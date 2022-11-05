@@ -184,7 +184,6 @@ namespace GHJ_Lib
 		}
 		public void ChangeBehaviorToAttack()
 		{
-			BaseAnimator.StopPlayback();
 			ChangeBehaviorTo(BehaviorType.Attack);
 		}
 		public virtual void ChangeBvToImprison() { }

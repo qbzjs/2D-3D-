@@ -36,7 +36,7 @@ namespace GHJ_Lib
             Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
             if (Bv is BvIdle)
             {
-                actor.BaseAnimator.CrossFade("Attack", 0.5f);
+                actor.BaseAnimator.StopPlayback();
                 return Bv;
             }
             return null;
@@ -44,6 +44,7 @@ namespace GHJ_Lib
 
         void PlayAnimation( in NetworkBaseController actor )
         {
+            
             actor.BaseAnimator.CrossFade( "Attack" ,0.3f);
         }
 
