@@ -10,6 +10,7 @@ namespace GHJ_Lib
         {
             PlayAnimation( actor );
             actor.ChangeMoveFunc(true);
+            Debug.Log("Idle Activate");
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
@@ -39,7 +40,6 @@ namespace GHJ_Lib
             else if ( actor is ExorcistController )
             {
                 ExorcistController exorcist = (actor as ExorcistController);
-
                 if ( Input.GetKeyDown( KeyCode.Mouse0 ) )
                 {
                     if ( exorcist.pickUpArea.CanGetTarget() )
@@ -52,8 +52,6 @@ namespace GHJ_Lib
                     }
                 }
             }
-
-
             return PassIfHasSuccessor();
         }
 
@@ -74,11 +72,13 @@ namespace GHJ_Lib
         {
             if ( actor is DollController )
             {
+                //actor.BaseAnimator.CrossFade("Idle_A", 0.5f);
                 actor.BaseAnimator.Play( "Idle_A" );
             }
             if ( actor is ExorcistController )
             {
-                actor.BaseAnimator.Play( "Idle" );
+                actor.BaseAnimator.CrossFade("Idle", 0.5f);
+                //actor.BaseAnimator.Play( "Idle" );
             }
         }
     }

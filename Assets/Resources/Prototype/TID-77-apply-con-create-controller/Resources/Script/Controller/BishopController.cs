@@ -55,7 +55,8 @@ namespace GHJ_Lib
 			while (true)
 			{
 				yield return new WaitForEndOfFrame();
-				if (BaseAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f)
+				AnimatorStateInfo animatorState = BaseAnimator.GetCurrentAnimatorStateInfo(0);
+				if (animatorState.normalizedTime.Equals(1.0f))
 				{
 					GameObject cross = GameObject.Instantiate(CrossPrefab, transform);
 					cross.transform.SetParent(this.transform.parent);

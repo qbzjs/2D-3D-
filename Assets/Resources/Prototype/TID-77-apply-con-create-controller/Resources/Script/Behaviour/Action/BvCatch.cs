@@ -9,7 +9,7 @@ namespace GHJ_Lib
 	{
         protected override void Activate(in NetworkBaseController actor)
         {
-            actor.BaseAnimator.Play("Pickup");
+            actor.BaseAnimator.CrossFade("Pickup",0.5f);
             actor.ChangeMoveFunc(true);
         }
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)

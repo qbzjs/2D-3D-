@@ -92,11 +92,13 @@ namespace GHJ_Lib
 			{
 				case BehaviorType.Idle:
 					{
+						Debug.Log("Idle : " + idle);
 						CurBehavior.PushSuccessorState(idle);
 					}
 					break;
 				case BehaviorType.Attack:
 					{
+						Debug.Log("attack : " + attack);
 						CurBehavior.PushSuccessorState(attack);
 					}
 					break;

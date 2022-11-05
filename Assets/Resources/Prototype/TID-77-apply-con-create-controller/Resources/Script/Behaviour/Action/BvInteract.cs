@@ -39,11 +39,11 @@ namespace GHJ_Lib
         {
 			if ( actor is DollController )
 			{
-				actor.BaseAnimator.Play( "Attack" );
+				actor.BaseAnimator.CrossFade( "Attack" ,0.5f);
 			}
 			else if ( actor is ExorcistController )
 			{
-				actor.BaseAnimator.Play( "Kick" );
+				actor.BaseAnimator.CrossFade( "Kick" ,0.5f);
 			}
 		}
     }

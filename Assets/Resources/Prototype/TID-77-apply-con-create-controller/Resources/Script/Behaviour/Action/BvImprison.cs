@@ -11,7 +11,7 @@ namespace GHJ_Lib
 		{
 			if (actor is ExorcistController)
 			{
-				actor.BaseAnimator.Play("Imprison");
+				actor.BaseAnimator.CrossFade("Imprison",0.5f);
 			}
 
 			actor.ChangeMoveFunc(false);

@@ -10,13 +10,13 @@ namespace GHJ_Lib
 	{
         protected override void Activate(in NetworkBaseController actor)
         {
-            actor.BaseAnimator.Play("install Cross");
             (actor as BishopController).StartCoroutine("ExcuteActiveSkil");
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            if (actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
+            AnimatorStateInfo animatorState = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
+            if (animatorState.normalizedTime.Equals(1.0f))
             {
                 return new BvIdle();    
             }

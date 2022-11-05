@@ -20,7 +20,7 @@ namespace GHJ_Lib
 			}
 			else
 			{
-				actor.BaseAnimator.Play("install Cross");
+				actor.BaseAnimator.CrossFade("install Cross",0.5f);
 				actor.StartCoroutine("SetCross");
 				bishop.InstallCross++;
 			}

@@ -184,11 +184,8 @@ namespace GHJ_Lib
 		}
 		public void ChangeBehaviorToAttack()
 		{
-			if (!BaseAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-			{
-				ChangeBehaviorTo(BehaviorType.Attack);
-				return;
-			}
+			BaseAnimator.StopPlayback();
+			ChangeBehaviorTo(BehaviorType.Attack);
 		}
 		public virtual void ChangeBvToImprison() { }
 		public virtual void BecomeGhost() { }
@@ -202,6 +199,7 @@ namespace GHJ_Lib
 		//행동은 한번에 하나씩 존재
 		public virtual void ChangeBehaviorTo( BehaviorType type )
 		{
+			Debug.Log("Type : " + type);
 			photonView.RPC( "ChangeBehaviorTo_RPC", RpcTarget.AllViaServer, type );
 		}
 		[PunRPC]
