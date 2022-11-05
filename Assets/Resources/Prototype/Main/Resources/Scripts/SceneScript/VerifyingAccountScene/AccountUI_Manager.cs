@@ -20,6 +20,7 @@ namespace KSH_Lib.UI
 		public GameObject NicknameFieldObj;
 		public GameObject LoginButtonObj;
 		public GameObject RegisterButtonObj;
+		public GameObject RedRegisterButtonObj;
 		public GameObject BackButtonObj;
 		public GameObject MessageObj;
 		public GameObject LoadingPanelObj;
@@ -83,6 +84,7 @@ namespace KSH_Lib.UI
 			NicknameFieldObj.SetActive( false );
 			LoginButtonObj.SetActive( true );
 			RegisterButtonObj.SetActive( true );
+			RedRegisterButtonObj.SetActive(false);
 			BackButtonObj.SetActive( false );
 
 			errMsgCanvasGroup.alpha = 0.0f;
@@ -98,7 +100,8 @@ namespace KSH_Lib.UI
 			PasswordFieldObj.SetActive( true );
 			NicknameFieldObj.SetActive( true );
 			LoginButtonObj.SetActive( false );
-			RegisterButtonObj.SetActive( true );
+			RegisterButtonObj.SetActive( false );
+			RedRegisterButtonObj.SetActive(true);
 			BackButtonObj.SetActive( true );
 
 			curState = UI_State.Register;
