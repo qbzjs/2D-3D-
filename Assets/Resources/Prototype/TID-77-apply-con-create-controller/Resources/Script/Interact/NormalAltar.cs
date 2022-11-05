@@ -18,7 +18,7 @@ namespace GHJ_Lib
         float dollInteractTime = 50.0f;
 
         public NetworkBaseController targetController;
-        bool isNeedToChangeState = false;
+        public bool isExorcistIn;
 
         protected override void OnEnable()
 		{
@@ -53,7 +53,7 @@ namespace GHJ_Lib
                 {
                     castingSystem.ForceSetRatioTo( RateOfGauge );
                     castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractTime ),
-                        new CastingSystem.CastFuncSet( SyncGauge, targetController.IsInteractionKeyHold, DollFinishAction, DollFinishAction )
+                        new CastingSystem.CastFuncSet( SyncGauge, DollPauseConditon, DollPauseAction, DollFinishAction )
                         );
                 }
                 break;
@@ -65,7 +65,6 @@ namespace GHJ_Lib
                             new CastingSystem.CastFuncSet( FinishAction: ExorcistFinishAction )
                             );
                     }
-
                 }
                 break;
                 default:
@@ -76,9 +75,19 @@ namespace GHJ_Lib
             }
         }
 
+        bool DollPauseConditon()
+        {
+            return targetController.IsInteractionKeyHold() || isExorcistIn;
+        }
+
+        void DollPauseAction()
+        {
+            targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
+        }
         void DollFinishAction()
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
+            castingSystem.ResetCasting();
         }
         void ExorcistFinishAction()
         {
@@ -138,6 +147,7 @@ namespace GHJ_Lib
             }
             else if ( other.gameObject.CompareTag( GameManager.ExorcistTag ) )
             {
+                isExorcistIn = true;
                 var target = other.GetComponent<ExorcistController>();
                 if ( !target.IsMine )
                 {
@@ -163,6 +173,7 @@ namespace GHJ_Lib
             }
             else if( other.gameObject.CompareTag( GameManager.ExorcistTag ) && targetController is ExorcistController )
             {
+                isExorcistIn = false;
                 if ( !targetController.IsMine )
                 {
                     return;
