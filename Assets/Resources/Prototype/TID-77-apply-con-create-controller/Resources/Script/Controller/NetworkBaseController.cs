@@ -31,6 +31,7 @@ namespace GHJ_Lib
 
 		public int TypeIndex { get; protected set; }
 		public int PlayerIndex { get; protected set; }
+		public bool IsMine { get { return photonView.IsMine; } }
 
 		public Behavior<NetworkBaseController> CurBehavior = new Behavior<NetworkBaseController>();
 		public Behavior<NetworkBaseController> ActiveSkill = new Behavior<NetworkBaseController>();
@@ -50,7 +51,7 @@ namespace GHJ_Lib
 		protected DelPlayerInput SetDirectionFunc;
 
 		protected RoleData initData = new RoleData();
-		public bool CanInteract;
+		//public bool CanInteract;
 
 		/*---Skill Component---*/
 		public EffectArea actSkillArea;
@@ -148,10 +149,7 @@ namespace GHJ_Lib
 			}
 			return false;
 		}
-		public void SetCanInteract(bool canInteract)
-        {
-			CanInteract = canInteract;
-        }
+
 
         public bool IsInteractionKeyHold()
         {

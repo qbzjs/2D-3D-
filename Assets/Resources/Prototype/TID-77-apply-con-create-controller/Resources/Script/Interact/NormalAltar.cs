@@ -89,16 +89,6 @@ namespace GHJ_Lib
 
         protected override bool InteractCondition()
         {
-            bool condition = CheckInteract();
-            
-            if(targetController != null)
-            {
-                targetController.SetCanInteract( condition );
-            }
-            return condition;
-        }
-        bool CheckInteract()
-        {
             if ( targetController == null )
             {
                 return false;
@@ -127,77 +117,56 @@ namespace GHJ_Lib
                     return false;
                 }
             }
-
             return targetController.IsWatching( gameObject.tag );
         }
-
 
         protected override void HandleTriggerStay( Collider other )
         {
             if ( other.gameObject.CompareTag( GameManager.DollTag ) )
             {
+                var target = other.GetComponent<DollController>();
+                if ( !target.IsMine )
+                {
+                    return;
+                }
+
                 IsInRange = true;
-                targetController = other.GetComponent<DollController>();
+                targetController = target;
                 targetType = InteractTargetType.Doll;
 
-                ActivateText( CheckInteract() );
+                ActivateText( InteractCondition() );
             }
             else if ( other.gameObject.CompareTag( GameManager.ExorcistTag ) )
             {
+                var target = other.GetComponent<ExorcistController>();
+                if ( !target.IsMine )
+                {
+                    return;
+                }
                 IsInRange = true;
-                targetController = other.GetComponent<ExorcistController>();
+                targetController = target;
                 targetType = InteractTargetType.Exorcist;
-
-                ActivateText( CheckInteract() );
+                ActivateText( InteractCondition() );
             }
-
-            //if(other.gameObject.CompareTag(GameManager.DollTag))
-            //{
-            //    if ( RateOfGauge >= 1.0f )
-            //    {
-            //        CanInteract = false;
-            //        ActivateText( CanInteract );
-            //        targetController.SetCanInteract( CanInteract );
-            //        return;
-            //    }
-
-            //    targetController = other.GetComponent<DollController>();
-            //    interactTarget = InteractTarget.Doll;
-            //    CanInteract = targetController.IsWatching( gameObject.tag ) && castingSystem.WasReset;
-            //    ActivateText( CanInteract );
-            //    targetController.SetCanInteract( CanInteract );
-
-            //    var Controller = other.GetComponent<DollController>();
-
-
-            //}
-            //if ( other.gameObject.CompareTag( GameManager.ExorcistTag ) )
-            //{
-            //    if ( RateOfGauge <= 0.5f )
-            //    {
-            //        CanInteract = false;
-            //        ActivateText( CanInteract );
-            //        targetController.SetCanInteract( CanInteract );
-            //        return;
-            //    }
-
-            //    targetController = other.GetComponent<ExorcistController>();
-            //    interactTarget = InteractTarget.Exorcist;
-            //    CanInteract = targetController.IsWatching( gameObject.tag ) && castingSystem.WasReset;
-            //    ActivateText( CanInteract );
-            //    targetController.SetCanInteract( CanInteract );
-            //}
         }
         protected override void HandleTriggerExit( Collider other )
         {
             if ( other.gameObject.CompareTag( GameManager.DollTag ) && targetController is DollController )
             {
+                if ( !targetController.IsMine )
+                {
+                    return;
+                }
                 IsInRange = false;
                 targetController = null;
                 ActivateText( false );
             }
             else if( other.gameObject.CompareTag( GameManager.ExorcistTag ) && targetController is ExorcistController )
             {
+                if ( !targetController.IsMine )
+                {
+                    return;
+                }
                 IsInRange = false;
                 targetController = null;
                 ActivateText( false );
@@ -212,6 +181,7 @@ namespace GHJ_Lib
             //    targetController.SetCanInteract( CanInteract );
             //}
         }
+
 
     }
 }
