@@ -2,19 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using GHJ_Lib;
-
-namespace KSH_Lib
+namespace KSH_Lib.Object
 {
-    public class Interactable : MonoBehaviour
+    public class Interactor : MonoBehaviour
     {
         [SerializeField] protected Transform interactionPoint;
         [SerializeField] protected float interactionPointRadius = 0.5f;
         [SerializeField] protected LayerMask interactableMask;
         [Range(1, 10)][SerializeField] protected int findCapacity;
 
-        protected  Collider[] colliders;
         [SerializeField] protected int foundCount;
+        [SerializeField] protected KeyCode interactionKey;
+
+        [SerializeField] protected InteractionPromptUI interactionPromptUI;
+
+        protected Collider[] colliders;
+        IInteractable interactable;
+
 
         protected virtual void Awake()
         {
@@ -25,9 +29,20 @@ namespace KSH_Lib
             colliders = new Collider[findCapacity];
         }
 
+
         protected virtual void Update()
         {
             foundCount = Physics.OverlapSphereNonAlloc(interactionPoint.position, interactionPointRadius, colliders, interactableMask);
+
+            if(foundCount > 0)
+            {
+                interactable = colliders[0].GetComponent<IInteractable>();
+
+                if(interactable != null && Input.GetKeyDown(interactionKey))
+                {
+                    interactable.Interact(this);
+                }
+            }
         }
 
         protected virtual void OnDrawGizmosSelected()
