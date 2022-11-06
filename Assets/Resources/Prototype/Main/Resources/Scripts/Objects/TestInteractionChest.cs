@@ -12,22 +12,17 @@ namespace KSH_Lib.Test
         [SerializeField] CastingSystem castingSystem;
 
         public string InteractionPrompt => prompt;
-
-
+        public bool IsInteractNow { get => castingSystem.IsCoroutineRunning; }
         public bool Interact(Interactor interactor)
         {
-            Debug.Log("Interact With Test Chest");
+            castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(1.0f, coolTime: 1.0f), new CastingSystem.CastFuncSet(FinishAction: InteractAction));
+
             return true;
         }
 
-        IEnumerator InteractWhenFinishCasting()
+        void InteractAction()
         {
-            while(!castingSystem.IsFinshCasting)
-            {
-                yield return null;
-            }
-            
-            
+            Debug.Log("Interact With Test Chest");
         }
     }
 }

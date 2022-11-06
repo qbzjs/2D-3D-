@@ -9,7 +9,7 @@ namespace KSH_Lib.Object
         [SerializeField] protected Transform interactionPoint;
         [SerializeField] protected float interactionPointRadius = 0.5f;
         [SerializeField] protected LayerMask interactableMask;
-        [Range(1, 10)][SerializeField] protected int findCapacity;
+        [Range(1, 10)][SerializeField] protected int findCapacity = 3;
 
         [SerializeField] protected int foundCount;
         [SerializeField] protected KeyCode interactionKey;
@@ -37,6 +37,16 @@ namespace KSH_Lib.Object
             if(foundCount > 0)
             {
                 interactable = colliders[0].GetComponent<IInteractable>();
+
+                if(interactable != null)
+                {
+                    if(interactable.IsInteractNow)
+                    {
+
+                    }
+
+                    interactionPromptUI.Activate(interactable.InteractionPrompt);
+                }
 
                 if(interactable != null && Input.GetKeyDown(interactionKey))
                 {

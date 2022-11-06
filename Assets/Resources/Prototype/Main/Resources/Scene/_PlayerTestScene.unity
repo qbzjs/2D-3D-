@@ -598,6 +598,7 @@ MonoBehaviour:
   findCapacity: 3
   foundCount: 0
   interactionKey: 103
+  interactionPromptUI: {fileID: 0}
 --- !u!1 &340338732
 GameObject:
   m_ObjectHideFlags: 0
@@ -1279,7 +1280,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 740967d9a58dc7e459adcb5bc2f8ff6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prompt: 
+  prompt: Press G to Use
+  castingSystem: {fileID: 1007069388}
 --- !u!1 &1308462502
 GameObject:
   m_ObjectHideFlags: 0
