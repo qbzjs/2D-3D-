@@ -62,12 +62,6 @@ namespace GHJ_Lib
             //}
         }
 
-        bool IsInputNow()
-        {
-            return Input.GetKey(KeyCode.G);
-        }
-
-
         protected override void HandleTriggerStay(Collider other)
         {
             //if(other.gameObject.CompareTag(GameManager.DollTag))

@@ -24,8 +24,6 @@ namespace KSH_Lib
 		[field: SerializeField] public float RateOfGauge { get; protected set; }
 		public bool IsFinishResult { get; protected set; }
 		public float OriginGauge { get { return RateOfGauge * MaxGauge; } }
-		//public bool CanInteract { get { return IsInRange && castingSystem.IsReset; } }
-		//[field: SerializeField] public bool CanInteract { get; protected set; }
 
 		[SerializeField]
 		protected CastingSystem castingSystem;
@@ -71,7 +69,6 @@ namespace KSH_Lib
 
         protected virtual void Update()
 		{
-            //if ( CanInteract && castingSystem.WasReset )
 			if( InteractCondition() && castingSystem.WasReset )
             {
 				Debug.Log( "Trying Interact" );
