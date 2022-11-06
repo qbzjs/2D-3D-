@@ -166,7 +166,7 @@ namespace GHJ_Lib
         }
         protected override void HandleTriggerExit( Collider other )
         {
-            if ( other.gameObject.CompareTag( GameManager.DollTag ) && targetController is DollController )
+            if ( other.gameObject.CompareTag( GameManager.DollTag ) )
             {
                 if ( !targetController.IsMine )
                 {
@@ -176,7 +176,7 @@ namespace GHJ_Lib
                 targetController = null;
                 ActivateText( false );
             }
-            if( other.gameObject.CompareTag( GameManager.ExorcistTag ) && targetController is ExorcistController )
+            if( other.gameObject.CompareTag( GameManager.ExorcistTag ) )
             {
                 isExorcistIn = false;
                 if ( !targetController.IsMine )
@@ -197,7 +197,5 @@ namespace GHJ_Lib
             //    targetController.SetCanInteract( CanInteract );
             //}
         }
-
-
     }
 }
