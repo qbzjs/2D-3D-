@@ -256,8 +256,8 @@ namespace KSH_Lib
             //playButtons.SetActive( false );
             quickMatchButtons.SetActive( false );
             informationButtons.SetActive(false);
-            //dollsInformation.SetActive(false);
-            //exorcistInformation.SetActive(false);
+            dollsInformation.SetActive(false);
+            exorcistInformation.SetActive(false);
             //rabbitInformation.SetActive(false);
             //turtleInformation.SetActive(false);
             //wolfInformation.SetActive(false);
