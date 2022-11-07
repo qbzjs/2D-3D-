@@ -36,6 +36,7 @@ namespace KSH_Lib.Object
         {
             RateOfGauge += exorcistInteractRate;
             photonView.RPC( "ShareRate", RpcTarget.AllViaServer, RateOfGauge );
+            IsExorcistInteracting = false;
             photonView.RPC( "ShareExorcistInteract", RpcTarget.AllViaServer, IsExorcistInteracting );
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
         }
@@ -76,7 +77,7 @@ namespace KSH_Lib.Object
             {
                 castingSystem.ForceSetRatioTo( RateOfGauge );
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractTime, coolTime: CoolTime ),
-                    new CastingSystem.CastFuncSet( SyncGauge, targetController.IsInteractionKeyHold, DollPauseAction, DollFinishAction )
+                    new CastingSystem.CastFuncSet( SyncGauge, DollRunningCondition, DollPauseAction, DollFinishAction )
                     );
             }
             else if(interactor.gameObject.CompareTag(GameManager.ExorcistTag))
