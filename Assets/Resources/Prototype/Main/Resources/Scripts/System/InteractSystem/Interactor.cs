@@ -7,6 +7,7 @@ namespace KSH_Lib.Object
 {
     public class Interactor : MonoBehaviour
     {
+        public IInteractable Interactable { get; private set; }
         [SerializeField] protected Transform interactionPoint;
         [SerializeField] protected float interactionPointRadius = 0.5f;
         [SerializeField] protected LayerMask interactableMask;
@@ -20,7 +21,6 @@ namespace KSH_Lib.Object
 
         protected Collider[] colliders;
         
-        public IInteractable Interactable { get; private set; }
 
         protected virtual void OnEnable()
         {
