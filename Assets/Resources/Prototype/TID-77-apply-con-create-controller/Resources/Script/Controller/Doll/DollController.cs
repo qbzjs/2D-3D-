@@ -102,21 +102,25 @@ namespace GHJ_Lib
 		public virtual IEnumerator Hide()
 		{
 			Transform modelTrans = characterModel.transform;
-			BaseAnimator.speed = 0.0f;
+			BaseAnimator.SetBool("IsHide", true);
+			float rotZ = modelTrans.rotation.z;
+			float posY = modelTrans.localScale.x;
 			while (true)
 			{
-				float PosZ = modelTrans.rotation.z + 5.0f * Time.deltaTime;
-				if (PosZ >= 90.0f)
+				rotZ += 90.0f * Time.deltaTime; 
+
+				if (rotZ >= 90.0f)
 				{
-					PosZ = 90.0f;
+					rotZ = 90.0f;
 				}
-				modelTrans.rotation = Quaternion.Euler(characterModel.transform.rotation.x, characterModel.transform.rotation.y, PosZ);
-				modelTrans.position = new Vector3(
-					(modelTrans.position.x - Mathf.Cos(modelTrans.rotation.z) + Mathf.Cos(PosZ)) * modelTrans.localScale.x / 2,
-					(modelTrans.position.y - Mathf.Sin(modelTrans.rotation.z) + Mathf.Sin(PosZ)) * modelTrans.localScale.y / 2,
-					modelTrans.position.z);
+				modelTrans.rotation = Quaternion.Euler(modelTrans.rotation.x, modelTrans.rotation.y, rotZ);
+				modelTrans.position = new Vector3(modelTrans.position.x, posY/2, modelTrans.position.z);
+				//modelTrans.position = new Vector3(
+				//	(modelTrans.position.x - Mathf.Cos(modelTrans.rotation.z) + Mathf.Cos(PosZ)) * modelTrans.localScale.x / 2,
+				//	(modelTrans.position.y - Mathf.Sin(modelTrans.rotation.z) + Mathf.Sin(PosZ)) * modelTrans.localScale.y / 2,
+				//	modelTrans.position.z);
 				yield return new WaitForEndOfFrame();
-				if (PosZ.Equals(90.0f))
+				if (rotZ.Equals(90.0f))
 				{
 					bvHide.CompleteHide(true);
 					break;
@@ -127,22 +131,25 @@ namespace GHJ_Lib
 		public virtual IEnumerator UnHide()
 		{
 			Transform modelTrans = characterModel.transform;
+			float rotZ = modelTrans.rotation.z - 5.0f;
+			float posY = modelTrans.localScale.y;
 			while (true)
 			{
-				float PosZ = modelTrans.rotation.z - 5.0f * Time.deltaTime;
-				if (PosZ <= 0.0f)
+				rotZ -= 90.0f * Time.deltaTime;
+				if (rotZ <= 0.0f)
 				{
-					PosZ = 0.0f;
+					rotZ = 0.0f;
 				}
-				modelTrans.rotation = Quaternion.Euler(modelTrans.rotation.x, modelTrans.rotation.y, PosZ);
-				modelTrans.position = new Vector3(
-					(modelTrans.position.x - Mathf.Cos(modelTrans.rotation.z) + Mathf.Cos(PosZ)) * modelTrans.localScale.x / 2,
-					(modelTrans.position.y - Mathf.Sin(modelTrans.rotation.z) + Mathf.Sin(PosZ)) * modelTrans.localScale.y / 2,
-					modelTrans.position.z);
+				modelTrans.rotation = Quaternion.Euler(modelTrans.rotation.x, modelTrans.rotation.y, rotZ);
+				modelTrans.position = new Vector3(modelTrans.position.x, 0, modelTrans.position.z);
+				//modelTrans.position = new Vector3(
+				//	(modelTrans.position.x - Mathf.Cos(modelTrans.rotation.z) + Mathf.Cos(PosZ)) * modelTrans.localScale.x / 2,
+				//	(modelTrans.position.y - Mathf.Sin(modelTrans.rotation.z) + Mathf.Sin(PosZ)) * modelTrans.localScale.y / 2,
+				//	modelTrans.position.z);
 				yield return new WaitForEndOfFrame();
-				if (PosZ.Equals(0.0f))
+				if (rotZ.Equals(0.0f))
 				{
-					BaseAnimator.speed = 1.0f;
+					BaseAnimator.SetBool("IsHide", false);
 					ChangeBehaviorTo(BehaviorType.Idle);
 					break;
 				}
@@ -254,10 +261,43 @@ namespace GHJ_Lib
 			}
 		}
 
+		public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+		{
+			if (stream.IsWriting)
+			{
+				stream.SendNext(direction.x);
+				stream.SendNext(direction.y);
+				stream.SendNext(direction.z);
 
+				stream.SendNext(characterModel.transform.rotation.eulerAngles.x);
+				stream.SendNext(characterModel.transform.rotation.eulerAngles.y);
+				stream.SendNext(characterModel.transform.rotation.eulerAngles.z);
+
+				stream.SendNext(this.transform.position.x);
+				stream.SendNext(this.transform.position.y);
+				stream.SendNext(this.transform.position.z);
+			}
+			if (stream.IsReading)
+			{
+				direction.x = (float)stream.ReceiveNext();
+				direction.y = (float)stream.ReceiveNext();
+				direction.z = (float)stream.ReceiveNext();
+
+				float x = (float)stream.ReceiveNext();
+				float y = (float)stream.ReceiveNext();
+				float z = (float)stream.ReceiveNext();
+
+				characterModel.transform.rotation = Quaternion.Euler(new Vector3(x, y, z));
+
+				x = (float)stream.ReceiveNext();
+				y = (float)stream.ReceiveNext();
+				z = (float)stream.ReceiveNext();
+				this.transform.position = new Vector3(x, y, z);
+			}
+		}
 
 		/*--- Protected Methods ---*/
-        protected override void SetDirection()
+		protected override void SetDirection()
         {
 			inputDir = BasePlayerInputManager.Instance.GetPlayerMove();
 			
