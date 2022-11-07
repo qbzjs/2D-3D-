@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 5096332420961059727}
   - component: {fileID: 5096332420961059724}
   - component: {fileID: 5079529964185752407}
-  - component: {fileID: -7217604943741660181}
+  - component: {fileID: 6829489004775633719}
   m_Layer: 0
   m_Name: FinalAltar
   m_TagString: interactObj
@@ -217,11 +217,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: -7217604943741660181}
+  - {fileID: 6829489004775633719}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-7217604943741660181
+--- !u!114 &6829489004775633719
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -230,18 +230,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 5096332420961059722}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2af0cb4ba615a546ae7cb8769aeaa1c, type: 3}
+  m_Script: {fileID: 11500000, guid: 051cecc17a1e79f4b824ace7bd02d8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxGauge>k__BackingField: 100
-  <AddedGauge>k__BackingField: 10
-  <ReducedGauge>k__BackingField: 0
-  <CoolTime>k__BackingField: 0
-  <IsInRange>k__BackingField: 0
-  <RateOfGauge>k__BackingField: 0
+  prompt: Press G to Interact
   castingSystem: {fileID: 0}
-  textUI: {fileID: 0}
-  message: Press L Click to Interact
+  <IsExorcistInteracting>k__BackingField: 0
+  RateOfGauge: 30
+  <MaxGauge>k__BackingField: 0
+  <DecreaseRate>k__BackingField: 0
+  <CoolTime>k__BackingField: 0.5
+  dollInteractCostTime: 30
 --- !u!1 &5844849328176278625
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,4 +299,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19460ed231fe8644cbda4d23ab77f62f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: -7217604943741660181}
+  target: {fileID: 0}

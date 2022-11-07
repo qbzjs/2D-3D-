@@ -57,7 +57,7 @@ namespace GHJ_Lib
 				}
 			}
 		}
-		public void ChangeBvToBePurifying(PurificationBox puriBox)
+		public void ChangeBvToBePurifying(KSH_Lib.Object.PurificationBox puriBox)
 		{
 			characterModel.gameObject.SetActive(true);
 			puriBox.SetDoll(this);

@@ -20,7 +20,7 @@ namespace KSH_Lib.Object
 
         protected Collider[] colliders;
         
-        IInteractable interactable;
+        public IInteractable Interactable { get; private set; }
 
         protected virtual void OnEnable()
         {
@@ -61,15 +61,15 @@ namespace KSH_Lib.Object
 
             if ( foundCount > 0 )
             {
-                interactable = colliders[0].GetComponentInParent<IInteractable>();
+                Interactable = colliders[0].GetComponentInParent<IInteractable>();
 
-                if ( interactable != null )
+                if ( Interactable != null )
                 {
-                    bool canInteract = interactable.ActiveInteractPrompt( this, interactionPromptUI );
+                    bool canInteract = Interactable.ActiveInteractPrompt( this, interactionPromptUI );
 
                     if ( canInteract && Input.GetKeyDown( interactionKey ) )
                     {
-                        interactable.Interact( this );
+                        Interactable.Interact( this );
                     }
                 }
                 else
@@ -79,6 +79,7 @@ namespace KSH_Lib.Object
             }
             else
             {
+                Interactable = null;
                 interactionPromptUI.Inactivate();
             }
         }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400000}
   - component: {fileID: 1989094413335388512}
-  - component: {fileID: 5075032460835391180}
+  - component: {fileID: 3830672523517336045}
   m_Layer: 9
   m_Name: PurificationBox_KSH
   m_TagString: Untagged
@@ -34,6 +34,7 @@ Transform:
   - {fileID: 400002}
   - {fileID: 5012854424391647160}
   - {fileID: 8369327140534704796}
+  - {fileID: 4649686462735119458}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -56,11 +57,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 5075032460835391180}
+  - {fileID: 3830672523517336045}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &5075032460835391180
+--- !u!114 &3830672523517336045
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -69,21 +70,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f925025c87bd34478d794e93ec82ab5, type: 3}
+  m_Script: {fileID: 11500000, guid: 79ceb604b84eb354a9262073af91bb5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxGauge>k__BackingField: 100
-  <AddedGauge>k__BackingField: 10
-  <ReducedGauge>k__BackingField: 0
-  <CoolTime>k__BackingField: 0
-  <IsInRange>k__BackingField: 0
-  <RateOfGauge>k__BackingField: 0
+  prompt: Press G to Interact
   castingSystem: {fileID: 0}
-  textUI: {fileID: 0}
-  message: Press L Click to Interact
-  CharacterPos: {fileID: 0}
+  <IsExorcistInteracting>k__BackingField: 0
+  RateOfGauge: 0
+  <MaxGauge>k__BackingField: 30
+  <DecreaseRate>k__BackingField: 0
+  <CoolTime>k__BackingField: 0.5
+  CharacterPos: {fileID: 4649686462735119458}
+  dollInteractCostTime: 30
+  exorcistCastingTime: 3
   DollInBox: {fileID: 0}
-  animator: {fileID: 0}
+  animator: {fileID: 4805562750067249115}
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,6 +237,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: 7fd390176b19bd7458fd908cc198b8c6, type: 3}
+--- !u!1 &4500480134849248928
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4649686462735119458}
+  m_Layer: 0
+  m_Name: CharacterPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4649686462735119458
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4500480134849248928}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.204, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 400000}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7238341117790153126
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,10 +278,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8369327140534704796}
   - component: {fileID: 8517606271096126027}
-  - component: {fileID: 2044308568475914635}
   m_Layer: 0
   m_Name: TriggerRange
-  m_TagString: Untagged
+  m_TagString: interactObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -262,8 +293,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7238341117790153126}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.94, z: 1.721}
-  m_LocalScale: {x: 1.8384, y: 1.8199, z: 1.7209297}
+  m_LocalPosition: {x: 0, y: 0.94, z: 1.169}
+  m_LocalScale: {x: 1.8384, y: 1.8199, z: 0.367952}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 400000}
@@ -282,19 +313,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2044308568475914635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7238341117790153126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19460ed231fe8644cbda4d23ab77f62f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 5075032460835391180}
 --- !u!1 &8679177285052055577
 GameObject:
   m_ObjectHideFlags: 0

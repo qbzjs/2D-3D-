@@ -220,22 +220,22 @@ namespace GHJ_Lib
 		/*---End Field---*/
 
 		public EscMenu EscMenu;
-		FinalAltar finalAltar;
-		ExitAltar exitAltar;
+		KSH_Lib.Object.FinalAltar finalAltar;
+		KSH_Lib.Object.ExitAltar exitAltar;
 		[SerializeField]
 		protected int dollCount;
 		int needAltarCount = 4;
 		/*---End Func---*/
-		public void SetAltar(GaugedObject gaugedObj)
+		public void SetAltar(GaugedObj gaugedObj)
 		{
-			if ( gaugedObj is FinalAltar)
+			if ( gaugedObj is KSH_Lib.Object.FinalAltar)
 			{
-				finalAltar = gaugedObj as FinalAltar;
+				finalAltar = gaugedObj as KSH_Lib.Object.FinalAltar;
 			}
 
-			if ( gaugedObj is ExitAltar)
+			if ( gaugedObj is KSH_Lib.Object.ExitAltar )
 			{
-				exitAltar = gaugedObj as ExitAltar;
+				exitAltar = gaugedObj as KSH_Lib.Object.ExitAltar;
 			}
 		}
 
@@ -249,7 +249,7 @@ namespace GHJ_Lib
 
 			if (needAltarCount <= 0)
 			{
-				finalAltar.CanOpenDoor();
+				finalAltar.SetDoorState(KSH_Lib.Object.FinalAltar.AltarState.CanOpen);
 			}
 		}
 
@@ -263,7 +263,7 @@ namespace GHJ_Lib
 
 			if (dollCount == 2)
 			{
-				exitAltar.OpenExitAltar();
+				exitAltar.EnableExitAltar();
 			}
 
 			if (dollCount == 1)

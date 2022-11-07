@@ -12,7 +12,7 @@ namespace KSH_Lib.Object
         [Header( "Interaction Settings" )]
         [SerializeField] float exorcistInteractRate = -0.3f;
         [SerializeField] float exorcistCastingTime = 3.0f;
-        [SerializeField] float dollInteractTime = 50.0f;
+        [SerializeField] float dollInteractCostTime = 50.0f;
         public override bool CanInteract
         {
             get => !castingSystem.IsCoroutineRunning;
@@ -42,7 +42,7 @@ namespace KSH_Lib.Object
         }
 
 
-        protected override bool CheckIntractableByType( in InteractionPromptUI promptUI )
+        protected override bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
         {
             if ( RateOfGauge >= 1.0f )
             {
@@ -59,15 +59,16 @@ namespace KSH_Lib.Object
             }
             return true;
         }
-        public override bool ActiveInteractPrompt( Interactor interactor, InteractionPromptUI promptUI )
-        {
-			if( !base.ActiveInteractPrompt( interactor, promptUI ) )
-            {
-                return false;
-            }
-            promptUI.Activate(prompt);
-            return true;
-        }
+
+   //     public override bool ActiveInteractPrompt( Interactor interactor, InteractionPromptUI promptUI )
+   //     {
+			//if( !base.ActiveInteractPrompt( interactor, promptUI ) )
+   //         {
+   //             return false;
+   //         }
+   //         promptUI.Activate(prompt);
+   //         return true;
+   //     }
 
         public override bool Interact( Interactor interactor )
         {
@@ -76,9 +77,10 @@ namespace KSH_Lib.Object
             if ( interactor.gameObject.CompareTag(GameManager.DollTag))
             {
                 castingSystem.ForceSetRatioTo( RateOfGauge );
-                castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractTime, coolTime: CoolTime ),
+                castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractCostTime, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet( SyncGauge, DollRunningCondition, DollPauseAction, DollFinishAction )
                     );
+                return true;
             }
             else if(interactor.gameObject.CompareTag(GameManager.ExorcistTag))
             {
@@ -88,6 +90,7 @@ namespace KSH_Lib.Object
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( exorcistCastingTime, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet( FinishAction: ExorcistFinishAction )
                     );
+                return true;
             }
             else
             {

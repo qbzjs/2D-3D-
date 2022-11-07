@@ -42,8 +42,13 @@ namespace GHJ_Lib
 		{
 			DollController doll = caughtDoll.GetComponent<DollController>();
 			CatchObj[doll.TypeIndex - 5].gameObject.SetActive( false );
+			doll.ChangeBvToBePurifying( gameObject.GetComponentInChildren<KSH_Lib.Object.Interactor>().Interactable.GetGameObject.GetComponent<GaugedObj>() as KSH_Lib.Object.PurificationBox );
 			//doll.ChangeBvToBePurifying((interactObj as PurificationBox));
 		}
+		public DollController GetCaughtDoll()
+        {
+			return caughtDoll.GetComponent<DollController>();
+		}			
 
 		// Behavior Conditions
 		public override void ChangeBvToImprison()
@@ -104,16 +109,14 @@ namespace GHJ_Lib
 					break;
 				case BehaviorType.Interact:
 					{
-						if (CurBehavior is BvIdle)
-						{
-							CurBehavior.PushSuccessorState(interact);
-						}
-						else if (CurBehavior is BvCatch)
-						{
-							CurBehavior.PushSuccessorState(imprison);
-						}
+						CurBehavior.PushSuccessorState(interact);
 					}
-					break; 
+					break;
+				case BehaviorType.Imprison:
+                {
+					CurBehavior.PushSuccessorState( imprison );
+				}
+				break;
 				case BehaviorType.Catch:
 					{
 						caughtDoll = pickUpArea.GetNearestTarget();
