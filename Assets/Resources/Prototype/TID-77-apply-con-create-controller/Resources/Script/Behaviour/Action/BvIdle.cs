@@ -60,10 +60,12 @@ namespace GHJ_Lib
         {
             if ( Input.GetKeyDown( KeyCode.LeftShift ) )
             {
+                actor.BaseAnimator.SetBool("Run", true);
                 actor.ChangeMoveSpeed( 2.0f );
             }
             else if ( Input.GetKeyUp( KeyCode.LeftShift ) )
             {
+                actor.BaseAnimator.SetBool("Run", false);
                 actor.ChangeMoveSpeed( 1.0f );
             }
         }
