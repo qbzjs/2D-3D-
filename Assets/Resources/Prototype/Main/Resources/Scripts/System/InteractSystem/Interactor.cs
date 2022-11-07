@@ -38,21 +38,27 @@ namespace KSH_Lib.Object
             {
                 interactable = colliders[0].GetComponent<IInteractable>();
 
-                if(interactable != null)
+
+                if ( interactable != null)
                 {
-                    if(interactable.IsInteractNow)
+                    bool canInteract = interactable.ActiveInteractPrompt( this, interactionPromptUI );
+
+                    if(canInteract && Input.GetKeyDown(interactionKey))
                     {
-
+                        interactable.Interact( this );
                     }
-
-                    interactionPromptUI.Activate(interactable.InteractionPrompt);
                 }
-
-                if(interactable != null && Input.GetKeyDown(interactionKey))
+                else
                 {
-                    interactable.Interact(this);
+                    interactionPromptUI.Inactivate();
                 }
             }
+            else
+            {
+                interactionPromptUI.Inactivate();
+            }
+
+
         }
 
         protected virtual void OnDrawGizmosSelected()
