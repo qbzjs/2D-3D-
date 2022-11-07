@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using GHJ_Lib;
 namespace KSH_Lib.Object
 {
     public class Interactor : MonoBehaviour
@@ -15,14 +16,23 @@ namespace KSH_Lib.Object
         [SerializeField] protected KeyCode interactionKey;
 
         [SerializeField] protected InteractionPromptUI interactionPromptUI;
+        [SerializeField] NetworkBaseController controller;
 
         protected Collider[] colliders;
+        
         IInteractable interactable;
-
 
         protected virtual void OnEnable()
         {
-            if(interactionPoint == null)
+            if ( interactionPromptUI == null )
+            {
+                interactionPromptUI = GHJ_Lib.StageManager.Instance.InteractionPrompt;
+                if ( interactionPromptUI == null )
+                {
+                    Debug.LogError( "GuageObject.Enable: Can not find textUI" );
+                }
+            }
+            if (interactionPoint == null)
             {
                 interactionPoint = transform;
             }
@@ -30,7 +40,10 @@ namespace KSH_Lib.Object
         }
         protected virtual void Update()
         {
-            TryInteract();
+            if(controller.IsMine)
+            {
+                TryInteract();
+            }
         }
         protected virtual void OnDrawGizmosSelected()
         {
@@ -48,7 +61,7 @@ namespace KSH_Lib.Object
 
             if ( foundCount > 0 )
             {
-                interactable = colliders[0].GetComponent<IInteractable>();
+                interactable = colliders[0].GetComponentInParent<IInteractable>();
 
                 if ( interactable != null )
                 {

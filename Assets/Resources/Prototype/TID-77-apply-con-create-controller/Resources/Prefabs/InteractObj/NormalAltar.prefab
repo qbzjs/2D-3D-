@@ -342,14 +342,13 @@ GameObject:
   m_Component:
   - component: {fileID: 547655240154657711}
   - component: {fileID: 4025379137024278546}
-  - component: {fileID: 3818352218586734446}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TriggerRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &547655240154657711
 Transform:
   m_ObjectHideFlags: 0
@@ -378,19 +377,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3818352218586734446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6517458644373323018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19460ed231fe8644cbda4d23ab77f62f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 4409495907326670622}
 --- !u!1 &7181692836480189538
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,7 +472,6 @@ GameObject:
   - component: {fileID: 7549054717332285974}
   - component: {fileID: 6822809713992937127}
   - component: {fileID: 2554246014286976232}
-  - component: {fileID: 4409495907326670622}
   - component: {fileID: 6360342565007285476}
   m_Layer: 9
   m_Name: NormalAltar
@@ -583,37 +568,10 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 4409495907326670622}
   - {fileID: 6360342565007285476}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &4409495907326670622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8117757689588326004}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ac16c04afb4412478ddb0a9407f1d25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <MaxGauge>k__BackingField: 100
-  <AddedGauge>k__BackingField: 10
-  <ReducedGauge>k__BackingField: 0
-  <CoolTime>k__BackingField: 0
-  <IsInRange>k__BackingField: 0
-  <RateOfGauge>k__BackingField: 0
-  castingSystem: {fileID: 0}
-  textUI: {fileID: 0}
-  message: Press L Click to Interact
-  exorcistCastingTime: 3
-  exorcistInteractRate: 0.3
-  dollInteractTime: 10
-  targetController: {fileID: 0}
-  isExorcistIn: 0
 --- !u!114 &6360342565007285476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -630,7 +588,7 @@ MonoBehaviour:
   castingSystem: {fileID: 0}
   <IsExorcistInteracting>k__BackingField: 0
   RateOfGauge: 0
-  <MaxGauge>k__BackingField: 50
+  <MaxGauge>k__BackingField: 100
   <DecreaseRate>k__BackingField: 0
   <CoolTime>k__BackingField: 1
   exorcistInteractRate: -0.3

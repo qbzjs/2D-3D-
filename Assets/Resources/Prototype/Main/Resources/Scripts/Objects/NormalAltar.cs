@@ -30,7 +30,8 @@ namespace KSH_Lib.Object
         void ExorcistFinishAction()
         {
             RateOfGauge += exorcistInteractRate;
-            photonView.RPC( "ShareGauge", Photon.Pun.RpcTarget.AllViaServer, RateOfGauge );
+            photonView.RPC( "ShareRate", RpcTarget.AllViaServer, RateOfGauge );
+            photonView.RPC( "ShareExorcistInteract", RpcTarget.AllViaServer, IsExorcistInteracting );
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
         }
 
@@ -58,6 +59,7 @@ namespace KSH_Lib.Object
             {
                 return false;
             }
+            promptUI.Activate(prompt);
             return true;
         }
 

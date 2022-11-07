@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using KSH_Lib;
 using LSH_Lib;
+using KSH_Lib.Object;
 namespace GHJ_Lib
 {
 	public class StageManager : MonoBehaviour
@@ -48,6 +49,7 @@ namespace GHJ_Lib
 		public DollUI dollUI;
 		public ExorcistUI exorcistUI;
 		public GameObject InteractTextUI;
+		public InteractionPromptUI InteractionPrompt;
 
 		[field: SerializeField] public CastingSystem CastSystem { get; private set; }
 

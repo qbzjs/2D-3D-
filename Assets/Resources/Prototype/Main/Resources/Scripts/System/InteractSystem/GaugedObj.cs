@@ -46,12 +46,18 @@ namespace KSH_Lib
         protected virtual void SyncGauge( float gauge )
         {
             RateOfGauge = gauge;
-            photonView.RPC( "ShareGauge", RpcTarget.AllViaServer, RateOfGauge );
+            photonView.RPC( "ShareRate", RpcTarget.AllViaServer, RateOfGauge );
         }
         protected virtual bool CheckIntractableByType( in InteractionPromptUI promptUI ) { return true; }
         bool CheckController(in Interactor interactor, in InteractionPromptUI promptUI )
         {
-            var controller = interactor.gameObject.GetComponent<NetworkBaseController>();
+            if(!CanInteract)
+            {
+                promptUI.Inactivate();
+                return false;
+            }
+
+            var controller = interactor.gameObject.GetComponentInParent<NetworkBaseController>();
             if ( controller == null )
             {
                 promptUI.Inactivate();
@@ -88,13 +94,13 @@ namespace KSH_Lib
         }
 
         [PunRPC]
-        public void ShareGauge( float gauge )
+        public void ShareRate( float gauge )
         {
             RateOfGauge = gauge;
         }
 
         [PunRPC]
-        void ShareExorcistInteract( bool interacting )
+        public void ShareExorcistInteract( bool interacting )
         {
             IsExorcistInteracting = interacting;
         }

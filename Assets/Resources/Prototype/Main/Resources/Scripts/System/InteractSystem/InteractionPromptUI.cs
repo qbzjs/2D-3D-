@@ -9,25 +9,15 @@ namespace KSH_Lib.Object
     public class InteractionPromptUI : MonoBehaviour
     {
         [SerializeField] GameObject uiObj;
-
         TextMeshProUGUI promptText;
         public bool IsDisplay { get { return uiObj.activeInHierarchy; } }
 
         private void OnEnable()
         {
-            if ( uiObj == null )
-            {
-                uiObj = GHJ_Lib.StageManager.Instance.InteractTextUI;
-                if ( uiObj == null )
-                {
-                    Debug.LogError( "GuageObject.Enable: Can not find textUI" );
-                }
-            }
-
             promptText = uiObj.GetComponent<TextMeshProUGUI>();
             if(promptText == null)
             {
-                Debug.LogError("InteractionPromptUI.Start(): Can not find TextMeshPro Component");
+                Debug.LogError( "InteractionPromptUI.OnEnable(): Can not find TextMeshPro Component" );
                 return;
             }
         }
@@ -36,10 +26,12 @@ namespace KSH_Lib.Object
         {
             this.promptText.text = promptText;
             uiObj.SetActive(true);
+            Debug.Log( "Activate prompt" );
         }
         public void Inactivate()
         {
             uiObj.SetActive(false);
+            Debug.Log( "Inactivate prompt" );
         }
     }
 
