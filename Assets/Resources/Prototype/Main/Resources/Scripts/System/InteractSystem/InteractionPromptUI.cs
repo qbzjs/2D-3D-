@@ -13,8 +13,17 @@ namespace KSH_Lib.Object
         TextMeshProUGUI promptText;
         public bool IsDisplay { get { return uiObj.activeInHierarchy; } }
 
-        private void Start()
+        private void OnEnable()
         {
+            if ( uiObj == null )
+            {
+                uiObj = GHJ_Lib.StageManager.Instance.InteractTextUI;
+                if ( uiObj == null )
+                {
+                    Debug.LogError( "GuageObject.Enable: Can not find textUI" );
+                }
+            }
+
             promptText = uiObj.GetComponent<TextMeshProUGUI>();
             if(promptText == null)
             {

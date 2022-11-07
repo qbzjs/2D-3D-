@@ -7,7 +7,7 @@ namespace KSH_Lib.Object
     public interface IInteractable
     {
         public string InteractionPrompt { get; }
-        public bool IsInteractNow { get; }
+        public bool CanInteract { get; }
 
         public bool ActiveInteractPrompt( Interactor interactor, InteractionPromptUI promptUI );
         public bool Interact(Interactor interactor);

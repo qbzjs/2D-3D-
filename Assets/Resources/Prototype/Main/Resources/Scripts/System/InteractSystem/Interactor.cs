@@ -20,7 +20,7 @@ namespace KSH_Lib.Object
         IInteractable interactable;
 
 
-        protected virtual void Awake()
+        protected virtual void OnEnable()
         {
             if(interactionPoint == null)
             {
@@ -28,22 +28,33 @@ namespace KSH_Lib.Object
             }
             colliders = new Collider[findCapacity];
         }
-
-
         protected virtual void Update()
         {
-            foundCount = Physics.OverlapSphereNonAlloc(interactionPoint.position, interactionPointRadius, colliders, interactableMask);
+            TryInteract();
+        }
+        protected virtual void OnDrawGizmosSelected()
+        {
+            if ( interactionPoint == null )
+            {
+                return;
+            }
+            Gizmos.color = new Color32( 0, 0, 255, 100 );
+            Gizmos.DrawSphere( interactionPoint.position, interactionPointRadius );
+        }
 
-            if(foundCount > 0)
+        protected virtual void TryInteract()
+        {
+            foundCount = Physics.OverlapSphereNonAlloc( interactionPoint.position, interactionPointRadius, colliders, interactableMask );
+
+            if ( foundCount > 0 )
             {
                 interactable = colliders[0].GetComponent<IInteractable>();
 
-
-                if ( interactable != null)
+                if ( interactable != null )
                 {
                     bool canInteract = interactable.ActiveInteractPrompt( this, interactionPromptUI );
 
-                    if(canInteract && Input.GetKeyDown(interactionKey))
+                    if ( canInteract && Input.GetKeyDown( interactionKey ) )
                     {
                         interactable.Interact( this );
                     }
@@ -57,18 +68,6 @@ namespace KSH_Lib.Object
             {
                 interactionPromptUI.Inactivate();
             }
-
-
-        }
-
-        protected virtual void OnDrawGizmosSelected()
-        {
-            if(interactionPoint == null)
-            {
-                return;
-            }
-            Gizmos.color = new Color32(0, 0, 255, 100);
-            Gizmos.DrawSphere(interactionPoint.position, interactionPointRadius);
         }
     }
 }

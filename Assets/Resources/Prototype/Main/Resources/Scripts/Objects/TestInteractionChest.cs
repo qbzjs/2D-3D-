@@ -6,7 +6,7 @@ using KSH_Lib.Object;
 
 namespace KSH_Lib.Test
 {
-    public class TestInteractionChest : MonoBehaviour, IInteractable
+    public class TestInteractionChest : MonoBehaviour//, IInteractable
     {
         [SerializeField] string prompt;
         [SerializeField] CastingSystem castingSystem;
