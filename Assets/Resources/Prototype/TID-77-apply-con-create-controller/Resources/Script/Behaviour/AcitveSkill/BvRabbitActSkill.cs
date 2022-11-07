@@ -6,11 +6,11 @@ using KSH_Lib.Data;
 
 namespace GHJ_Lib
 {
-	public class BvWolfActSkill: Behavior<NetworkBaseController>
+	public class BvRabbitActSkill: Behavior<NetworkBaseController>
 	{
         protected override void Activate(in NetworkBaseController actor)
         {
-            (actor as WolfController).StartCoroutine("ExcuteActiveSkil");
+            (actor as RabbitController).StartCoroutine("ExcuteActiveSkil");
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
