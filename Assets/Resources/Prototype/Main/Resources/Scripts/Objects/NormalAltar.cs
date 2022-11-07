@@ -18,6 +18,11 @@ namespace KSH_Lib.Object
             get => !castingSystem.IsCoroutineRunning;
         }
 
+        bool DollRunningCondition()
+        {
+            return targetController.IsInteractionKeyHold() && !IsExorcistInteracting;
+        }
+
         void DollPauseAction()
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
