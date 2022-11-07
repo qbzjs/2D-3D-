@@ -19468,6 +19468,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 643473233, guid: ee82e430c2aaee7498c757189e954a71, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 643473233, guid: ee82e430c2aaee7498c757189e954a71, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 643473234, guid: ee82e430c2aaee7498c757189e954a71, type: 3}
       propertyPath: m_Camera
       value: 
@@ -19636,6 +19644,61 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2855591078254930016, guid: ee82e430c2aaee7498c757189e954a71,
+        type: 3}
+      propertyPath: m_Name
+      value: Cancel Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 2855591078292461479, guid: ee82e430c2aaee7498c757189e954a71,
+        type: 3}
+      propertyPath: m_Name
+      value: Option Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 2855591078718369179, guid: ee82e430c2aaee7498c757189e954a71,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2855591078718369179, guid: ee82e430c2aaee7498c757189e954a71,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2855591078718369179, guid: ee82e430c2aaee7498c757189e954a71,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1421461046}
+    - target: {fileID: 2855591078718369179, guid: ee82e430c2aaee7498c757189e954a71,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2855591078718369179, guid: ee82e430c2aaee7498c757189e954a71,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SendMessage
+      objectReference: {fileID: 0}
+    - target: {fileID: 2855591078718369179, guid: ee82e430c2aaee7498c757189e954a71,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.Component, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2855591078718369179, guid: ee82e430c2aaee7498c757189e954a71,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: OnExitButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 2855591078718369179, guid: ee82e430c2aaee7498c757189e954a71,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2855591078718369181, guid: ee82e430c2aaee7498c757189e954a71,
+        type: 3}
+      propertyPath: m_Name
+      value: Exit Button
       objectReference: {fileID: 0}
     - target: {fileID: 3641732494010046043, guid: ee82e430c2aaee7498c757189e954a71,
         type: 3}

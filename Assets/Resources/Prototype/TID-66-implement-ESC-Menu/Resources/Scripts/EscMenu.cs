@@ -27,7 +27,6 @@ namespace LSH_Lib{
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
 
-
                     //TPV_PlayerInputManager.instance.enabled = false;
                     //FPV_InputManager.instance.enabled = false;
                     //PlayerInputManager.instance.enabled = false;
@@ -57,7 +56,7 @@ namespace LSH_Lib{
             ExitButton.SetActive(isInput);
             OptionUIPanel.SetActive(isInput);
         }
-        public void OnExitButton()
+        void OnExitButton()
         {
             controller.ExitGame();
         }
