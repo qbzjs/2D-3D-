@@ -71,11 +71,6 @@ namespace KSH_Lib
 
         }
 
-        private void OnGUI()
-        {
-            GUI.Box( new Rect( 300, 0, 150, 30 ), $"WasReset={WasReset}" );
-        }
-
 
         /*--- Public Methods ---*/
         public void StartCasting( Cast cast, CastFuncSet funcSet )
