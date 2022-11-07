@@ -60,16 +60,6 @@ namespace KSH_Lib.Object
             return true;
         }
 
-   //     public override bool ActiveInteractPrompt( Interactor interactor, InteractionPromptUI promptUI )
-   //     {
-			//if( !base.ActiveInteractPrompt( interactor, promptUI ) )
-   //         {
-   //             return false;
-   //         }
-   //         promptUI.Activate(prompt);
-   //         return true;
-   //     }
-
         public override bool Interact( Interactor interactor )
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Interact );

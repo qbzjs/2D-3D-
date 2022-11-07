@@ -14,7 +14,6 @@ namespace GHJ_Lib
 		[field: SerializeField] public AttackArea attackArea { get; protected set; }
 
 		protected GameObject caughtDoll;
-		protected GaugedObject targetObj;
 
 		// Behaviors
 		protected BvAttack attack = new BvAttack();

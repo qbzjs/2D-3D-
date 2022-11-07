@@ -24,14 +24,20 @@ namespace KSH_Lib.Object
 
         public void Activate(string promptText)
         {
+            if(uiObj.activeInHierarchy)
+            {
+                return;
+            }
             this.promptText.text = promptText;
             uiObj.SetActive(true);
-            Debug.Log( "Activate prompt" );
         }
         public void Inactivate()
         {
+            if ( !uiObj.activeInHierarchy )
+            {
+                return;
+            }
             uiObj.SetActive(false);
-            Debug.Log( "Inactivate prompt" );
         }
     }
 
