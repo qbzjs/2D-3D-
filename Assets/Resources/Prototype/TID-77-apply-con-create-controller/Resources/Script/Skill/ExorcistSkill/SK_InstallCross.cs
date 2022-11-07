@@ -20,15 +20,16 @@ namespace GHJ_Lib
 			}
 			else
 			{
-				actor.BaseAnimator.CrossFade("install Cross",0.5f);
+				actor.BaseAnimator.SetBool("IsInstallCross", true);
 				actor.StartCoroutine("SetCross");
 				bishop.InstallCross++;
 			}
+
+			actor.ChangeMoveFunc(false);
 		}
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-			
 			return PassIfHasSuccessor();
         }
 	}

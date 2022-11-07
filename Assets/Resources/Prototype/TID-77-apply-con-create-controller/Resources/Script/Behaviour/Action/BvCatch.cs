@@ -9,16 +9,29 @@ namespace GHJ_Lib
 	{
         protected override void Activate(in NetworkBaseController actor)
         {
-            actor.BaseAnimator.CrossFade("Pickup",0.5f);
-            actor.ChangeMoveFunc(true);
+            actor.BaseAnimator.SetBool("IsCatch", true);
+            actor.ChangeMoveFunc(false);
         }
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
+            AnimatorStateInfo animatorStateInfo = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
+
+            if (animatorStateInfo.IsName("Idle"))
+            {
+                actor.ChangeMoveFunc(true);
+            }
+            else
+            {
+                if (animatorStateInfo.normalizedTime >= 0.5f)
+                {
+                    actor.BaseAnimator.SetBool("IsCatch", false);
+                }
+            }
+
             if (actor.photonView.IsMine)
             {
                 if ( Input.GetKeyDown( KeyCode.Mouse0 ) )
                 {
-                    //if() CanInteract
                     actor.ChangeBvToImprison();
                 }
             }

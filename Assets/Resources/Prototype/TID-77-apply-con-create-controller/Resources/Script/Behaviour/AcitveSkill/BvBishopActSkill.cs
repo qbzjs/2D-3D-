@@ -15,14 +15,17 @@ namespace GHJ_Lib
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            AnimatorStateInfo animatorState = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
-            if (animatorState.normalizedTime.Equals(1.0f))
+            if (!actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             {
-                return new BvIdle();    
+                return null;
+            }
+
+            Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
+            if (Bv is BvIdle)
+            {
+                return Bv;
             }
             return null;
         }
-        
-
     }
 }

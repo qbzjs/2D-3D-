@@ -8,16 +8,15 @@ namespace GHJ_Lib
 	{
         protected override void Activate(in NetworkBaseController actor)
         {
-            PlayAnimation( actor );
+            //PlayAnimation( actor );
             actor.ChangeMoveFunc(true);
-            Debug.Log("Idle Activate");
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
             if( !actor.photonView.IsMine )
             {
-                actor.BaseAnimator.StopPlayback();
+                //actor.BaseAnimator.StopPlayback();
                 return PassIfHasSuccessor();
             }
 
@@ -53,7 +52,6 @@ namespace GHJ_Lib
                     }
                 }
             }
-            actor.BaseAnimator.StopPlayback();
             return PassIfHasSuccessor();
         }
 
@@ -69,7 +67,7 @@ namespace GHJ_Lib
                 actor.ChangeMoveSpeed( 1.0f );
             }
         }
-
+        /*
         void PlayAnimation( in NetworkBaseController actor )
         {
             
@@ -84,5 +82,6 @@ namespace GHJ_Lib
                 //actor.BaseAnimator.Play( "Idle" );
             }
         }
+        */
     }
 }

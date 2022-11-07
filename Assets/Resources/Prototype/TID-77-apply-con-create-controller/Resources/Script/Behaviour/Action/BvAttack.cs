@@ -8,8 +8,6 @@ namespace GHJ_Lib
 {
 	public class BvAttack: Behavior<NetworkBaseController>
     {
-        const float animationEndPoint = 1.0f;
-        
         bool BishopPassive = false;
         const float BishopPassiveRate = 0.15f;
         protected override void Activate(in NetworkBaseController actor)
@@ -33,19 +31,23 @@ namespace GHJ_Lib
         
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
-            if (Bv is BvIdle)
+            AnimatorStateInfo animatorStateInfo = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
+            if (animatorStateInfo.normalizedTime >= 0.5f)
             {
-                actor.BaseAnimator.StopPlayback();
-                return Bv;
+                actor.BaseAnimator.SetBool("IsAttack", false);
+            }
+
+            if(animatorStateInfo.IsName("Idle"))
+            {
+                actor.BaseAnimator.SetBool("IsAttack", false);
+                return new BvIdle();
             }
             return null;
         }
 
         void PlayAnimation( in NetworkBaseController actor )
         {
-            
-            actor.BaseAnimator.CrossFade( "Attack" ,0.3f);
+            actor.BaseAnimator.SetBool("IsAttack", true);
         }
 
         public virtual void Attack(DollData targetData)

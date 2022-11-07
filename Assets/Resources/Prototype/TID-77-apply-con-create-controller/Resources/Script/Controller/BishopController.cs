@@ -56,14 +56,15 @@ namespace GHJ_Lib
 			{
 				yield return new WaitForEndOfFrame();
 				AnimatorStateInfo animatorState = BaseAnimator.GetCurrentAnimatorStateInfo(0);
-				if (animatorState.normalizedTime.Equals(1.0f))
+				if (animatorState.normalizedTime >=0.6f)
 				{
+					ChangeBehaviorTo(BehaviorType.Idle);
+					BaseAnimator.SetBool("IsInstallCross", false);
 					GameObject cross = GameObject.Instantiate(CrossPrefab, transform);
 					cross.transform.SetParent(this.transform.parent);
 					break;
 				}
 			}
-			
 		}
 	}
 }
