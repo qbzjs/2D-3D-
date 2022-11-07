@@ -8,7 +8,7 @@ namespace GHJ_Lib
 	{
         protected override void Activate(in NetworkBaseController actor)
         {
-            PlayAnimation( actor );
+            //PlayAnimation( actor );
             actor.ChangeMoveFunc(true);
         }
 
@@ -16,6 +16,7 @@ namespace GHJ_Lib
         {
             if( !actor.photonView.IsMine )
             {
+                //actor.BaseAnimator.StopPlayback();
                 return PassIfHasSuccessor();
             }
 
@@ -39,7 +40,6 @@ namespace GHJ_Lib
             else if ( actor is ExorcistController )
             {
                 ExorcistController exorcist = (actor as ExorcistController);
-
                 if ( Input.GetKeyDown( KeyCode.Mouse0 ) )
                 {
                     if ( exorcist.pickUpArea.CanGetTarget() )
@@ -52,8 +52,6 @@ namespace GHJ_Lib
                     }
                 }
             }
-
-
             return PassIfHasSuccessor();
         }
 
@@ -69,17 +67,21 @@ namespace GHJ_Lib
                 actor.ChangeMoveSpeed( 1.0f );
             }
         }
-
+        /*
         void PlayAnimation( in NetworkBaseController actor )
         {
+            
             if ( actor is DollController )
             {
+                //actor.BaseAnimator.CrossFade("Idle_A", 0.5f);
                 actor.BaseAnimator.Play( "Idle_A" );
             }
             if ( actor is ExorcistController )
             {
-                actor.BaseAnimator.Play( "Idle" );
+                actor.BaseAnimator.CrossFade("Idle", 0.5f);
+                //actor.BaseAnimator.Play( "Idle" );
             }
         }
+        */
     }
 }

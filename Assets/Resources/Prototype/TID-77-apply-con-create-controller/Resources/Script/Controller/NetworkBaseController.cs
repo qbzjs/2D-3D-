@@ -34,7 +34,11 @@ namespace GHJ_Lib
 		public bool IsMine { get { return photonView.IsMine; } }
 
 		public Behavior<NetworkBaseController> CurBehavior = new Behavior<NetworkBaseController>();
-		public Behavior<NetworkBaseController> ActiveSkill = new Behavior<NetworkBaseController>();
+		protected BvIdle idle = new BvIdle();
+		protected BvInteract interact = new BvInteract();
+		protected Behavior<NetworkBaseController> BvActiveSkill = new Behavior<NetworkBaseController>(); //스킬을 상속받을때 바뀔예정.. 컴포넌트로 나눌때 없어질수 있음.
+		public Behavior<NetworkBaseController> ActiveSkill = new Behavior<NetworkBaseController>(); //스킬 파츠를 합친행동(스킬 컴포넌트로 옮겨질 예정)
+
 		protected PhotonTransformViewClassic photonTransformView;
 
 		[field: SerializeField] public Animator BaseAnimator { get; protected set; }
@@ -179,7 +183,7 @@ namespace GHJ_Lib
 		{
 			if (Input.GetKeyDown(KeyCode.Mouse1))
 			{
-				if (!useActiveSkill)
+				if (!useActiveSkill&&CurBehavior is BvIdle)
 				{
 					photonView.RPC("DoActiveSkill", RpcTarget.AllViaServer);
 				}
@@ -191,11 +195,7 @@ namespace GHJ_Lib
 		}
 		public void ChangeBehaviorToAttack()
 		{
-			if (!BaseAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-			{
-				ChangeBehaviorTo(BehaviorType.Attack);
-				return;
-			}
+			ChangeBehaviorTo(BehaviorType.Attack);
 		}
 		public virtual void ChangeBvToImprison() { }
 		public virtual void BecomeGhost() { }
@@ -209,12 +209,16 @@ namespace GHJ_Lib
 		//행동은 한번에 하나씩 존재
 		public virtual void ChangeBehaviorTo( BehaviorType type )
 		{
+			Debug.Log("Type : " + type);
 			photonView.RPC( "ChangeBehaviorTo_RPC", RpcTarget.AllViaServer, type );
 		}
 		[PunRPC]
 		protected virtual void ChangeBehaviorTo_RPC( BehaviorType type ) { }
-
-
+		[PunRPC]
+		public void ChangeSkillBehaviorTo_RPC()
+		{
+			CurBehavior.PushSuccessorState(BvActiveSkill);
+		}
 		// Exit
 		public virtual void ExitGame()
 		{
@@ -253,7 +257,7 @@ namespace GHJ_Lib
 		[PunRPC]
 		public virtual void DoActiveSkill()
 		{
-			StartCoroutine("ExcuteActiveSkil");
+			photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.AllViaServer);
 		}
 		protected virtual IEnumerator ExcuteActiveSkil()
 		{

@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib.Data;
+
 namespace GHJ_Lib
 {
 	public class BvAttack: Behavior<NetworkBaseController>
     {
-        const float animationEndPoint = 0.9f;
-        
         bool BishopPassive = false;
         const float BishopPassiveRate = 0.15f;
         protected override void Activate(in NetworkBaseController actor)
@@ -32,11 +31,15 @@ namespace GHJ_Lib
         
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-        
+            AnimatorStateInfo animatorStateInfo = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
+            if (animatorStateInfo.normalizedTime >= 0.5f)
+            {
+                actor.BaseAnimator.SetBool("IsAttack", false);
+            }
 
-
-            if (actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime>= animationEndPoint )
-            { 
+            if(animatorStateInfo.IsName("Idle"))
+            {
+                actor.BaseAnimator.SetBool("IsAttack", false);
                 return new BvIdle();
             }
             return null;
@@ -44,11 +47,7 @@ namespace GHJ_Lib
 
         void PlayAnimation( in NetworkBaseController actor )
         {
-            if ( actor.BaseAnimator.GetCurrentAnimatorStateInfo( 0 ).IsName( "Attack" ) )
-            {
-                return;
-            }
-            actor.BaseAnimator.Play( "Attack" );
+            actor.BaseAnimator.SetBool("IsAttack", true);
         }
 
         public virtual void Attack(DollData targetData)

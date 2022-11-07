@@ -17,14 +17,10 @@ namespace GHJ_Lib
 		protected GaugedObject targetObj;
 
 		// Behaviors
-		protected BvIdle idle = new BvIdle();
 		protected BvAttack attack = new BvAttack();
-		protected BvInteract interact = new BvInteract();
 		protected BvCatch catchDoll = new BvCatch();
 		protected BvImprison imprison = new BvImprison();
 
-		// Skills
-		protected BvBishopActSkill actSkill = new BvBishopActSkill();
 
 
 		/*--- MonoBehaviour Callbacks ---*/
@@ -96,11 +92,13 @@ namespace GHJ_Lib
 			{
 				case BehaviorType.Idle:
 					{
+						Debug.Log("Idle : " + idle);
 						CurBehavior.PushSuccessorState(idle);
 					}
 					break;
 				case BehaviorType.Attack:
 					{
+						Debug.Log("attack : " + attack);
 						CurBehavior.PushSuccessorState(attack);
 					}
 					break;

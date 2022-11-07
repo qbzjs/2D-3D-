@@ -28,11 +28,6 @@ namespace GHJ_Lib
         /*--- Public Methods ---*/
 
         /*---Skill---*/
-        [PunRPC]
-		public override void DoActiveSkill()
-		{
-			StartCoroutine("ExcuteActiveSkil");
-		}
 
 		protected override IEnumerator ExcuteActiveSkil()
 		{
@@ -59,7 +54,6 @@ namespace GHJ_Lib
 		{
 			ActiveSkill.PushSuccessorState(skDefault);
 			ActiveSkill.PushSuccessorState(skDetected);
-			
 		}
 		
 

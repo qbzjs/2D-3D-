@@ -8,29 +8,24 @@ namespace GHJ_Lib
 {
 	public class BvBishopActSkill: Behavior<NetworkBaseController>
 	{
-        /*--- Public Fields ---*/
-
-
-        /*--- Protected Fields ---*/
-
-
-        /*--- Private Fields ---*/
-
-
-
-        /*--- Public Methods ---*/
-
-
-        /*--- Protected Methods ---*/
         protected override void Activate(in NetworkBaseController actor)
         {
-            actor.BaseAnimator.Play("install Cross");
+            (actor as BishopController).StartCoroutine("ExcuteActiveSkil");
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
+            if (!actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            {
+                return null;
+            }
+
+            Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
+            if (Bv is BvIdle)
+            {
+                return Bv;
+            }
             return null;
         }
-        /*--- Private Methods ---*/
     }
 }

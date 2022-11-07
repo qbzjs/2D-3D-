@@ -11,7 +11,7 @@ namespace GHJ_Lib
 		{
 			if (actor is ExorcistController)
 			{
-				actor.BaseAnimator.Play("Imprison");
+				actor.BaseAnimator.SetBool("IsImprison", true);
 			}
 
 			actor.ChangeMoveFunc(false);
@@ -19,8 +19,18 @@ namespace GHJ_Lib
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-			actor.ImprisonDoll();
-			return new BvIdle();
+			AnimatorStateInfo animatorStateInfo = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
+			if (animatorStateInfo.normalizedTime >= 0.5f)
+			{
+				actor.BaseAnimator.SetBool("IsImprison", false);
+				actor.ImprisonDoll();
+			}
+
+			if (animatorStateInfo.IsName("Idle"))
+			{
+				return new BvIdle();
+			}
+			return null;
         }
 	}
 

@@ -6,24 +6,23 @@ namespace GHJ_Lib
 {
 	public class Sk_Default : Behavior<NetworkBaseController>
 	{
-		/*--- Public Fields ---*/
+        /*--- Public Fields ---*/
 
 
-		/*--- Protected Fields ---*/
+        /*--- Protected Fields ---*/
 
 
-		/*--- Private Fields ---*/
+        /*--- Private Fields ---*/
 
 
-		/*--- MonoBehaviour Callbacks ---*/
+        /*--- MonoBehaviour Callbacks ---*/
 
 
-		/*--- Public Methods ---*/
+        /*--- Public Methods ---*/
 
 
-		/*--- Protected Methods ---*/
+        /*--- Protected Methods ---*/
 
-
-		/*--- Private Methods ---*/
-	}
+        /*--- Private Methods ---*/
+    }
 }

@@ -19,11 +19,9 @@ namespace GHJ_Lib
 
 
 		/*--- Protected Fields ---*/
-		protected BvIdle idle = new BvIdle();
 		protected BvCollapse down = new BvCollapse();
 		protected BvGetHit hit = new BvGetHit();
 		protected BvBeCaught caught = new BvBeCaught();
-		protected BvInteract interaction	= new BvInteract();
 		protected BvBePurifying purified = new BvBePurifying();
 		protected BvEscape escape = new BvEscape();
 
@@ -266,7 +264,7 @@ namespace GHJ_Lib
 				break;
 				case BehaviorType.Interact:
 				{
-					CurBehavior.PushSuccessorState( interaction );
+					CurBehavior.PushSuccessorState(interact);
 				}
 				break;
 				case BehaviorType.Collapse:

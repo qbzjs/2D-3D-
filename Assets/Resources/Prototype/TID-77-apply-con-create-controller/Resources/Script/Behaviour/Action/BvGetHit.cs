@@ -26,7 +26,8 @@ namespace GHJ_Lib
                 return new BvCollapse();
             }
 
-            if (actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > AnimationFinishPoint )
+            AnimatorStateInfo animatorStateInfo = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
+            if (animatorStateInfo.normalizedTime.Equals(1.0f) )
             {
                 return new BvIdle();
             }

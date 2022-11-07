@@ -8,8 +8,18 @@ namespace GHJ_Lib
 	public class WolfPassiveSkillArea: EffectArea
 	{
         protected float PassiveRate = 1.05f;
+        bool isEnabled = false;
+        private void OnEnable()
+        {
+            isEnabled = true;
+        }
         protected override void OnTriggerEnter(Collider other)
         {
+            if (!isEnabled)
+            {
+                return;
+            }
+
             var target = FindTargets(other);
             if (target == null)
             {

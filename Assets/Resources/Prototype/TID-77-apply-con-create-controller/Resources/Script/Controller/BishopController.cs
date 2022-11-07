@@ -9,123 +9,62 @@ namespace GHJ_Lib
 {
 	public class BishopController: ExorcistController
 	{
-		/*--- Public Fields ---*/
 		public GameObject CrossPrefab;
-
-		/*--- Protected Fields ---*/
-		protected Cross canCollectCross = null;
-		protected List<Cross> installcrosses = new List<Cross>();
-		protected int maxCrossCount = 5;
-		protected float CollectRadius = 4.0f;
-
+		public float InstallRange { get; protected set; } = 4.0f;
+		public int CrossMaxCount = 5;
+		public int InstallCross = 0;
 
 		protected Sk_Default skDefault = new Sk_Default();
-		protected SK_InstallCross skInstallCross = new SK_InstallCross();
-
-		protected List<Behavior<NetworkBaseController>> BishopSkill = new List<Behavior<NetworkBaseController>>();
-
-
-
-
-
-		/*--- Private Fields ---*/
-
-
-		/*--- MonoBehaviour Callbacks ---*/
+		protected Sk_InstallCross skInstallCross = new Sk_InstallCross();
+		protected Sk_CollectCross skCollectCross = new Sk_CollectCross();
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			SkillSetting();
+			BvActiveSkill = new BvBishopActSkill(); // 스킬은 각 직업, 및 캐릭터별로 바뀔것.
+			SkillSettingToInstallCross();
 		}
 
 		/*---Skill---*/
-		[PunRPC]
-		public override void DoActiveSkill()
-		{
-			if (GetCanCollectCross())
-			{
-				StartCoroutine("CollectCross");
-			}
-			else
-			{
-				if (installcrosses.Count > 5)
-				{
-					return;
-				}
-				StartCoroutine("installCross");
-			}
-
-		}
 
 		protected override IEnumerator ExcuteActiveSkil()
 		{
 			useActiveSkill = true;
-			//스킬중
 			yield return new WaitForSeconds(0.2f);//선딜
-
 			while (ActiveSkill.Count != 0)
 			{
 				ActiveSkill.Update(this, ref ActiveSkill);
 			}
-			SkillSetting();
 			yield return new WaitForSeconds(0.2f);//후딜
-												  //스킬끝
 			yield return new WaitForSeconds(14.6f);
 			useActiveSkill = false;
 		}
-
-
-		protected Cross GetCanCollectCross()
+		private void SkillSettingToInstallCross()
 		{
-			foreach (var cross in installcrosses)
+			ActiveSkill.SetSuccessorStates(new List<Behavior<NetworkBaseController>>() {skDefault,skInstallCross });
+		}
+		private void SkillSettingToCollectCross()
+		{
+			ActiveSkill.SetSuccessorStates(new List<Behavior<NetworkBaseController>>() { skDefault, skCollectCross });
+		}
+		IEnumerator SetCross()
+		{
+			if (ActiveSkill is not Sk_InstallCross)
 			{
-				if((cross.transform.position - this.transform.position).magnitude < CollectRadius)
+				yield break;
+			}
+			while (true)
+			{
+				yield return new WaitForEndOfFrame();
+				AnimatorStateInfo animatorState = BaseAnimator.GetCurrentAnimatorStateInfo(0);
+				if (animatorState.normalizedTime >=0.6f)
 				{
-					return cross;
+					ChangeBehaviorTo(BehaviorType.Idle);
+					BaseAnimator.SetBool("IsInstallCross", false);
+					GameObject cross = GameObject.Instantiate(CrossPrefab, transform);
+					cross.transform.SetParent(this.transform.parent);
+					break;
 				}
 			}
-			return null;
-		}
-
-		protected IEnumerator installCross()
-		{
-			useActiveSkill = true;
-			CurBehavior.PushSuccessorState(actSkill);
-			yield return new WaitForSeconds(2.0f);//선딜
-			GameObject crossObj = Instantiate(CrossPrefab, new Vector3(transform.position.x, 0, transform.position.z) + forward*10.0f, transform.rotation); ;
-			Cross cross = crossObj.GetComponent<Cross>();
-			installcrosses.Add(cross);
-			yield return new WaitForSeconds(2.0f);
-			CurBehavior = idle;
-			yield return new WaitForSeconds(1.0f);
-			useActiveSkill = false;
-		}
-
-		protected IEnumerator CollectCross()
-		{
-			useActiveSkill = true;
-			CurBehavior.PushSuccessorState(actSkill);
-			yield return new WaitForSeconds(2.0f);//선딜
-			installcrosses.Remove(canCollectCross);
-			Destroy(canCollectCross.gameObject);
-			yield return new WaitForSeconds(2.0f);
-			CurBehavior = idle;
-			yield return new WaitForSeconds(1.0f);
-			useActiveSkill = false;
-		}
-
-		/*--- Public Methods ---*/
-
-
-		/*--- Protected Methods ---*/
-
-
-		/*--- Private Methods ---*/
-		private void SkillSetting()
-		{
-			BishopSkill.Add(skInstallCross);
-			BishopSkill.Add(skDefault);
-			ActiveSkill.PushSuccessorStates(BishopSkill);
 		}
 	}
 }
