@@ -14,7 +14,6 @@ namespace GHJ_Lib
 		protected Sk_Default skDefault = new Sk_Default();
 		protected Sk_Detected skDetected = new Sk_Detected();
 
-
 		/*--- Private Fields ---*/
 
 
@@ -23,6 +22,7 @@ namespace GHJ_Lib
 		public override void OnEnable()
 		{
 			base.OnEnable();
+			BvActiveSkill = new BvWolfActSkill();
 			SkillSetting();
 		}
         /*--- Public Methods ---*/
@@ -41,7 +41,7 @@ namespace GHJ_Lib
 			}
 			SkillSetting();
 			yield return new WaitForSeconds(0.2f);//ÈÄµô
-												  //½ºÅ³³¡
+			ChangeBehaviorTo(BehaviorType.Idle);
 			yield return new WaitForSeconds(14.6f);
 			useActiveSkill = false;
 		}
@@ -55,10 +55,5 @@ namespace GHJ_Lib
 			ActiveSkill.PushSuccessorState(skDefault);
 			ActiveSkill.PushSuccessorState(skDetected);
 		}
-		
-
-		
-
-
 	}
 }

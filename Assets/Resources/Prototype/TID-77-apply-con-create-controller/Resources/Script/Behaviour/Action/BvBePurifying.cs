@@ -18,6 +18,7 @@ namespace GHJ_Lib
 
             if (Bv is BvEscape)
             {
+                actor.BaseAnimator.Play("Idle_A");
                 return Bv;
             }
 
@@ -29,6 +30,7 @@ namespace GHJ_Lib
 
                 if (dollData.DevilHP < 0.0f)
                 {
+                    actor.BaseAnimator.Play("Idle_A");
                     actor.BecomeGhost();
                     return new BvIdle();
                 }

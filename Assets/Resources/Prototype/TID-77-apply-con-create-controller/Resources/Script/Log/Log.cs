@@ -58,13 +58,13 @@ namespace GHJ_Lib
 			if (curPlayer is DollController)
 			{
 				doll = curPlayer as DollController;
-				GUI.Box(new Rect(0, 0, 100, 30), doll.CurBehavior.ToString());
+				GUI.Box(new Rect(0, 0, doll.CurBehavior.ToString().Length*10, 30), doll.CurBehavior.ToString());
 			}
 
 			if (curPlayer is ExorcistController)
 			{
 				exorcist = curPlayer as ExorcistController;
-				GUI.Box(new Rect(0, 0, 100, 30), exorcist.CurBehavior.ToString());
+				GUI.Box(new Rect(0, 0, exorcist.CurBehavior.ToString().Length*10, 30), exorcist.CurBehavior.ToString());
 			}
 
 			if (isWrite)

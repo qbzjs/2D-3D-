@@ -24,6 +24,7 @@ namespace GHJ_Lib
 		protected BvBeCaught caught = new BvBeCaught();
 		protected BvBePurifying purified = new BvBePurifying();
 		protected BvEscape escape = new BvEscape();
+		protected BvHide bvHide = new BvHide();
 
 		protected int crossStack = 0;
 
@@ -62,16 +63,16 @@ namespace GHJ_Lib
 			characterModel.gameObject.SetActive(true);
 			puriBox.SetDoll(this);
 
-			if ( photonView.IsMine )
+			if (photonView.IsMine)
 			{
 				float x = puriBox.CharacterPos.position.x;
 				float z = puriBox.CharacterPos.position.z;
-				photonView.RPC( "ChangeTransform", RpcTarget.AllViaServer, x, z );
-				ChangeBehaviorTo( BehaviorType.BePurifying );
+				photonView.RPC("ChangeTransform", RpcTarget.AllViaServer, x, z);
+				ChangeBehaviorTo(BehaviorType.BePurifying);
 			}
 			characterModel.transform.rotation = puriBox.CharacterPos.rotation;
 
-			StageManager.CharacterLayerChange(characterObj, LayerMask.NameToLayer( "Player" ) );
+			StageManager.CharacterLayerChange(characterObj, LayerMask.NameToLayer("Player"));
 			ChangeCamera(tpvCam);
 		}
 
@@ -94,11 +95,60 @@ namespace GHJ_Lib
 			//UI ¹Ù²ï´Ù
 			photonView.RPC("_BecomeGhost", RpcTarget.All);
 			photonView.RPC("DecreaseDollCount", RpcTarget.All);
-			photonView.RPC("DisappearPurificationBox",RpcTarget.All);
+			photonView.RPC("DisappearPurificationBox", RpcTarget.All);
 			ChangeBehaviorTo(BehaviorType.Idle);
 		}
-		
-		
+
+		public virtual IEnumerator Hide()
+		{
+			Transform modelTrans = characterModel.transform;
+			BaseAnimator.speed = 0.0f;
+			while (true)
+			{
+				float PosZ = modelTrans.rotation.z + 5.0f * Time.deltaTime;
+				if (PosZ >= 90.0f)
+				{
+					PosZ = 90.0f;
+				}
+				modelTrans.rotation = Quaternion.Euler(characterModel.transform.rotation.x, characterModel.transform.rotation.y, PosZ);
+				modelTrans.position = new Vector3(
+					(modelTrans.position.x - Mathf.Cos(modelTrans.rotation.z) + Mathf.Cos(PosZ)) * modelTrans.localScale.x / 2,
+					(modelTrans.position.y - Mathf.Sin(modelTrans.rotation.z) + Mathf.Sin(PosZ)) * modelTrans.localScale.y / 2,
+					modelTrans.position.z);
+				yield return new WaitForEndOfFrame();
+				if (PosZ.Equals(90.0f))
+				{
+					bvHide.CompleteHide(true);
+					break;
+				}
+			}
+		}
+
+		public virtual IEnumerator UnHide()
+		{
+			Transform modelTrans = characterModel.transform;
+			while (true)
+			{
+				float PosZ = modelTrans.rotation.z - 5.0f * Time.deltaTime;
+				if (PosZ <= 0.0f)
+				{
+					PosZ = 0.0f;
+				}
+				modelTrans.rotation = Quaternion.Euler(modelTrans.rotation.x, modelTrans.rotation.y, PosZ);
+				modelTrans.position = new Vector3(
+					(modelTrans.position.x - Mathf.Cos(modelTrans.rotation.z) + Mathf.Cos(PosZ)) * modelTrans.localScale.x / 2,
+					(modelTrans.position.y - Mathf.Sin(modelTrans.rotation.z) + Mathf.Sin(PosZ)) * modelTrans.localScale.y / 2,
+					modelTrans.position.z);
+				yield return new WaitForEndOfFrame();
+				if (PosZ.Equals(0.0f))
+				{
+					BaseAnimator.speed = 1.0f;
+					ChangeBehaviorTo(BehaviorType.Idle);
+					break;
+				}
+			}
+		}
+
 
 		[PunRPC]
 		public void _BecomeGhost()
@@ -292,6 +342,11 @@ namespace GHJ_Lib
 					CurBehavior.PushSuccessorState( escape );
 				}
 				break;
+				case BehaviorType.Hide:
+					{
+						CurBehavior.PushSuccessorState(bvHide);
+					}
+					break;
 			}
 		}
 	}

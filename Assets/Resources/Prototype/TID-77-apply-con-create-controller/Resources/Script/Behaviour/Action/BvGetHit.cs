@@ -27,7 +27,7 @@ namespace GHJ_Lib
             }
 
             AnimatorStateInfo animatorStateInfo = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
-            if (animatorStateInfo.normalizedTime.Equals(1.0f) )
+            if (animatorStateInfo.IsName("Idle_A"))
             {
                 return new BvIdle();
             }

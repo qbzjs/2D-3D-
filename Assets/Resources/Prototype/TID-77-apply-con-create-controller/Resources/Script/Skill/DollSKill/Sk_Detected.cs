@@ -21,6 +21,7 @@ namespace GHJ_Lib
         /*--- Protected Methods ---*/
         protected override void Activate(in NetworkBaseController actor)
         {
+            actor.BaseAnimator.Play("Skill");
             effectArea = actor.actSkillArea;
         }
 

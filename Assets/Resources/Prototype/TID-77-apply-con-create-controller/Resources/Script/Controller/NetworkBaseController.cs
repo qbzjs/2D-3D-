@@ -25,7 +25,8 @@ namespace GHJ_Lib
 			Collapse,
 			BeCaught,
 			BePurifying,
-			Escape
+			Escape,
+			Hide
 		}
 
 
