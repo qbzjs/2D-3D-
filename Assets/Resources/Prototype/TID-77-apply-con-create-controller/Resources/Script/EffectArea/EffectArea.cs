@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
 namespace GHJ_Lib
 {
-	public abstract class EffectArea: MonoBehaviour
+	public abstract class EffectArea: MonoBehaviourPun
 	{
 		public List<GameObject> Targets { get { return targets; } }
 		protected List<GameObject> targets = new List<GameObject>();

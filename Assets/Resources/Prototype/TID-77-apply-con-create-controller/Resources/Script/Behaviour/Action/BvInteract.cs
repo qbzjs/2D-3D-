@@ -20,6 +20,7 @@ namespace GHJ_Lib
 			Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
 			if (Bv is BvIdle)
 			{
+				actor.BaseAnimator.SetBool("IsInteract", false);
 				return Bv;
 			}
 			return null;
@@ -28,15 +29,7 @@ namespace GHJ_Lib
 
 		void PlayAnimation( in NetworkBaseController actor )
         {
-			if ( actor is DollController )
-			{
-
-				//actor.BaseAnimator.CrossFade( "Attack" ,0.5f);
-			}
-			else if ( actor is ExorcistController )
-			{
-				//actor.BaseAnimator.CrossFade( "Kick" ,0.5f);
-			}
+			actor.BaseAnimator.SetBool("IsInteract", true);
 		}
     }
 }

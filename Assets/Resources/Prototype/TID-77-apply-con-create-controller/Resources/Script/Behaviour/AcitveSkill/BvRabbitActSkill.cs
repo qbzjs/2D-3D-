@@ -11,18 +11,15 @@ namespace GHJ_Lib
         protected override void Activate(in NetworkBaseController actor)
         {
             (actor as RabbitController).StartCoroutine("ExcuteActiveSkil");
+            actor.BaseAnimator.SetBool("IsSkill",true);
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            if (!actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle_A"))
-            {
-                return null;
-            }
-
             Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
-            if (Bv is BvIdle)
+            if (Bv is BvIdle||Bv is BvGetHit)
             {
+                actor.BaseAnimator.SetBool("IsSkill", false);
                 return Bv;
             }
             return null;

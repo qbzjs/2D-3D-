@@ -246,6 +246,10 @@ namespace GHJ_Lib
 		{
 			StartCoroutine(AcionFunc(characterModel));
 		}
+		public void DoActionBy(Action<PhotonView> AcionFunc)
+		{
+			AcionFunc(photonView);
+		}
 		public void DoActionBy(Action<DollData> AcionFunc)
 		{
 			if (photonView.IsMine)

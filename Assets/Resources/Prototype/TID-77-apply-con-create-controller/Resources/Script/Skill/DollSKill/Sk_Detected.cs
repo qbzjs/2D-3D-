@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
+using Photon.Pun;
 
 namespace GHJ_Lib
 {
@@ -30,13 +31,21 @@ namespace GHJ_Lib
            
             if (effectArea.CanGetTarget())
             {
-               effectArea.Targets[0].GetComponent<ExorcistController>().DoActionBy(Detected);
+               effectArea.Targets[0].GetComponent<ExorcistController>().DoActionBy(DetectedTo_RPC);
             }
             return PassIfHasSuccessor();
 
         }
 
+        void DetectedTo_RPC(PhotonView TargetPhotonView)
+        {
+            if (TargetPhotonView.IsMine)
+            {
+                TargetPhotonView.RPC("Detected", RpcTarget.Others);
+            }
+        }
 
+        [PunRPC]
         IEnumerator Detected(GameObject characterModel)
         {
             StageManager.CharacterLayerChange(characterModel, 6); //6 : ºû³ª´Â°Å

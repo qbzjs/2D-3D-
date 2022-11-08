@@ -6,9 +6,12 @@ using KSH_Lib;
 using KSH_Lib.Data;
 namespace GHJ_Lib
 {
-	public class InteractableDoll: GaugedObj
+	public class InteractableDoll
     {
-        public override bool ActiveInteractPrompt(Interactor interactor, InteractionPromptUI promptUI)
+        /*
+        float healRatio = 0.1f;
+        public bool CanInteract { get => !castingSystem.IsCoroutineRunning; }
+        public bool ActiveInteractPrompt(Interactor interactor, InteractionPromptUI promptUI)
         {
             if (interactor.CompareTag(GameManager.DollTag))
             {
@@ -20,23 +23,17 @@ namespace GHJ_Lib
             }
             return false;
         }
-
         public override bool Interact(Interactor interactor)
         {
-            var controller = interactor.gameObject.GetComponentInParent<NetworkBaseController>();
-            //controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.);
+            NetworkBaseController interactee = GetComponent<NetworkBaseController>();
+            float maxHP = (DataManager.Instance.RoleInfos[interactee.TypeIndex] as DollData).DollHP;
+            float curHP = (DataManager.Instance.PlayerDatas[interactee.PlayerIndex].roleData  as DollData).DollHP;
+            
 
-            DollData dollData;
-            if (controller.IsMine)
-            {
-                dollData = DataManager.Instance.LocalPlayerData.roleData as DollData;
-            }
-            /*
             if (interactor.gameObject.CompareTag(GameManager.DollTag))
             {
-                castingSystem.ForceSetRatioTo(RateOfGauge);
-                castingSystem.StartCasting(CastingSystem.Cast.CreateByRatio(dollInteractCostTime, coolTime: CoolTime),
-                    new CastingSystem.CastFuncSet(SyncGauge, DollRunningCondition, DollPauseAction, DollFinishAction)
+                castingSystem.StartCasting(CastingSystem.Cast.CreateByRatio(healRatio,1.0f - (curHP/maxHP), coolTime: CoolTime),
+                    new CastingSystem.CastFuncSet(SyncHP, DollRunningCondition, DollPauseAction, DollFinishAction)
                     );
                 return true;
             }
@@ -44,8 +41,14 @@ namespace GHJ_Lib
             {
                 Debug.LogError("NormalAltar.Interact: No Interact Target Tags, Please check target's interactor tag");
             }
-            */
+            
             return false;
         }
+        
+        private void SyncHP(float HPRatio)
+        {
+            castingSystem
+        }
+        */
 	}
 }
