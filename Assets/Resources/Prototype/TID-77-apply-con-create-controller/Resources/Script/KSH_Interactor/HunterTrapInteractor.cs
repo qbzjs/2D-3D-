@@ -55,6 +55,7 @@ namespace GHJ_Lib
                 {
                     if (Input.GetKeyDown(interactionKey))
                     {
+                        hunter.DoSkill();
                         castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(1.0f,2.3f,5.0f), new CastingSystem.CastFuncSet(null, RunningCondition, PauseAction, FinishAction) ); // RunningCondition : Input.getKey / PauseAction : Idle∑Œ πŸ≤„¡‹ /  FinishAction : Idle πŸ≤„¡÷∞Ì º≥ƒ°
                     }
                 }
