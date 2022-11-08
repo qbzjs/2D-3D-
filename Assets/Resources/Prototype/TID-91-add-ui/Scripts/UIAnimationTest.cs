@@ -18,7 +18,7 @@ namespace LSH_Lib
         }
         public void Start()
         {
-            
+            CoverReset();
 
         }
         void AnimationStart()
@@ -56,7 +56,7 @@ namespace LSH_Lib
         {
             for (var i = 0; i < cover.Length; ++i)
             {
-                cover[i].transform.position.Scale(new Vector3(1, 1, 1));
+                cover[i].gameObject.transform.LeanScale(new Vector3(1.0f, 1.0f, 1.0f),0.0f);
             }
         }
     }

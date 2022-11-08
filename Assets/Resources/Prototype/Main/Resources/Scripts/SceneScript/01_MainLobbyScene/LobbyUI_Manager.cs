@@ -258,11 +258,11 @@ namespace KSH_Lib
             informationButtons.SetActive(false);
             dollsInformation.SetActive(false);
             exorcistInformation.SetActive(false);
-            //rabbitInformation.SetActive(false);
-            //turtleInformation.SetActive(false);
-            //wolfInformation.SetActive(false);
-            //monkeyInformation.SetActive(false);
-            //penguinInformation.SetActive(false);
+            rabbitInformation.SetActive(false);
+            turtleInformation.SetActive(false);
+            wolfInformation.SetActive(false);
+            monkeyInformation.SetActive(false);
+            penguinInformation.SetActive(false);
 
         }
         void ChangePlayerImage()

@@ -15,25 +15,35 @@ namespace GHJ_Lib
 
 
         [Header("PlayerHP")]
-        public Image PlayerDollHP;
-        public Image PlayerDevilHP;
+        public Slider PlayerDollHP;
+        public Slider PlayerDevilHP;
+        //public Image PlayerDollHP;
+        //public Image PlayerDevilHP;
 
         [Header("Friend1 HP")]
-        public Image Friend1DollHP;
-        public Image Friend1DevilHP;
+        //public Image Friend1DollHP;
+        //public Image Friend1DevilHP;
+        public Slider Friend1DollHP;
+        public Slider Friend1DevilHP;
         [Header("Friend2 HP")]
-        public Image Friend2DollHP;
-        public Image Friend2DevilHP;
+        //public Image Friend2DollHP;
+        //public Image Friend2DevilHP;
+        public Slider Friend2DollHP;
+        public Slider Friend2DevilHP;
         [Header("Friend3 HP")]
-        public Image Friend3DollHP;
-        public Image Friend3DevilHP;
+        //public Image Friend3DollHP;
+        //public Image Friend3DevilHP;
+        public Slider Friend3DollHP;
+        public Slider Friend3DevilHP;
 
         #endregion
 
         #region Private Fields
 
-        private List<Image> friendDollHP=new List<Image>();
-        private List<Image> friendDevilHP = new List<Image>();
+        //private List<Image> friendDollHP=new List<Image>();
+        //private List<Image> friendDevilHP = new List<Image>();
+        private List<Slider> friendDollHP = new List<Slider>();
+        private List<Slider> friendDevilHP = new List<Slider>();
 
         private List<float> maxDollHP = new List<float>();
         private List<float> maxDevilHP = new List<float>();
@@ -85,14 +95,15 @@ namespace GHJ_Lib
             {
                 if (myIdx == i)
                 {
-                    PlayerDollHP.fillAmount = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i-1];
-                    PlayerDevilHP.fillAmount = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i-1];
-                   
+                    //PlayerDollHP.fillAmount = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i-1];
+                    //PlayerDevilHP.fillAmount = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i-1];
+                    PlayerDollHP.value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i - 1];
+                    PlayerDevilHP.value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i - 1];
                 }
                 else
                 {
-                    friendDollHP[j].fillAmount = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i-1];
-                    friendDevilHP[j].fillAmount = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i-1];
+                    friendDollHP[j].value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i-1];
+                    friendDevilHP[j].value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i-1];
                     j++;
                 }
                 
