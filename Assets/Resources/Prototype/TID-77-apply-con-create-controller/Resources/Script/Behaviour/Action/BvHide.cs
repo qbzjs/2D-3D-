@@ -8,21 +8,22 @@ namespace GHJ_Lib
 {
 	public class BvHide: Behavior<NetworkBaseController>
 	{
-        bool hide = false;
+        bool ishide = false;
         protected override void Activate(in NetworkBaseController actor)
         {
             actor.ChangeMoveFunc(false);
-            hide = false;
+            ishide = false;
             if (actor.photonView.IsMine)
             { 
                 actor.StartCoroutine("Hide");
             }
+
             actor.ChangeMoveFunc(false);
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            if (!hide)
+            if (!ishide)
             {
                 return null;
             }
@@ -55,7 +56,7 @@ namespace GHJ_Lib
         }
         public void CompleteHide(bool isHide)
         {
-            hide = isHide;
+            ishide = isHide;
         }
     }
 }

@@ -6,6 +6,8 @@ namespace GHJ_Lib
 {
     public class RabbitPassiveSkillArea : EffectArea
     {
+        public RabbitController rabbit;
+        bool canMoveInHide = false;
         protected override GameObject FindTargets(Collider other)
         {
             if (other.CompareTag(GameManager.ExorcistTag))
@@ -26,5 +28,42 @@ namespace GHJ_Lib
                 return false;
             }
         }
+
+        protected override void OnTriggerEnter(Collider other)
+        {
+            var target = FindTargets(other);
+            if (target == null)
+            {
+                return;
+            }
+            if (!targets.Contains(target))
+            {
+                rabbit.ChangeMoveFunc(true);
+                targets.Add(target);
+            }
+        }
+        protected override void OnTriggerExit(Collider other)
+        {
+            if (targets.Remove(FindTargets(other)))
+            {
+                //move Coroutine
+            }
+        }
+        /*
+        IEnumerator MoveInHide(float time)
+        {
+            if (!canMoveInHide)
+            {
+                canMoveInHide = true;
+            }
+
+            while (true)
+            {
+                yield return
+            }
+
+      
+        }
+        */
     }
 }
