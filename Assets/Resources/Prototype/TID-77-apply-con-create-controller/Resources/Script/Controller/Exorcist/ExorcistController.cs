@@ -120,7 +120,6 @@ namespace GHJ_Lib
 					break;
 				case BehaviorType.Imprison:
                 {
-					caughtDoll = null;
 					CurBehavior.PushSuccessorState( imprison );
 				}
 				break;
