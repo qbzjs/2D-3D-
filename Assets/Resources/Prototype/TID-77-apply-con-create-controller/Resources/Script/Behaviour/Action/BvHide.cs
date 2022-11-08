@@ -13,7 +13,6 @@ namespace GHJ_Lib
         {
             actor.ChangeMoveFunc(false);
             hide = false;
-            //토끼 패시브 넣을곳
             if (actor.photonView.IsMine)
             { 
                 actor.StartCoroutine("Hide");

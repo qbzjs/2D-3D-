@@ -103,7 +103,7 @@ namespace GHJ_Lib
 		{
 			Transform modelTrans = characterModel.transform;
 			BaseAnimator.SetBool("IsHide", true);
-			float rotZ = modelTrans.rotation.z;
+			float rotZ = modelTrans.localRotation.z;
 			float posY = modelTrans.localScale.x;
 			while (true)
 			{
@@ -113,8 +113,8 @@ namespace GHJ_Lib
 				{
 					rotZ = 90.0f;
 				}
-				modelTrans.rotation = Quaternion.Euler(modelTrans.rotation.x, modelTrans.rotation.y, rotZ);
-				modelTrans.position = new Vector3(modelTrans.position.x, posY/2, modelTrans.position.z);
+				modelTrans.localRotation = Quaternion.Euler(modelTrans.localRotation.eulerAngles.x, modelTrans.localRotation.eulerAngles.y, rotZ);
+				modelTrans.localPosition = new Vector3(modelTrans.localPosition.x, posY/2, modelTrans.localPosition.z);
 				//modelTrans.position = new Vector3(
 				//	(modelTrans.position.x - Mathf.Cos(modelTrans.rotation.z) + Mathf.Cos(PosZ)) * modelTrans.localScale.x / 2,
 				//	(modelTrans.position.y - Mathf.Sin(modelTrans.rotation.z) + Mathf.Sin(PosZ)) * modelTrans.localScale.y / 2,
@@ -131,8 +131,7 @@ namespace GHJ_Lib
 		public virtual IEnumerator UnHide()
 		{
 			Transform modelTrans = characterModel.transform;
-			float rotZ = modelTrans.rotation.z - 5.0f;
-			float posY = modelTrans.localScale.y;
+			float rotZ = modelTrans.localRotation.z;
 			while (true)
 			{
 				rotZ -= 90.0f * Time.deltaTime;
@@ -140,8 +139,8 @@ namespace GHJ_Lib
 				{
 					rotZ = 0.0f;
 				}
-				modelTrans.rotation = Quaternion.Euler(modelTrans.rotation.x, modelTrans.rotation.y, rotZ);
-				modelTrans.position = new Vector3(modelTrans.position.x, 0, modelTrans.position.z);
+				modelTrans.localRotation = Quaternion.Euler(modelTrans.localRotation.eulerAngles.x, modelTrans.localRotation.eulerAngles.y, rotZ);
+				modelTrans.localPosition = new Vector3(modelTrans.localPosition.x, 0, modelTrans.localPosition.z);
 				//modelTrans.position = new Vector3(
 				//	(modelTrans.position.x - Mathf.Cos(modelTrans.rotation.z) + Mathf.Cos(PosZ)) * modelTrans.localScale.x / 2,
 				//	(modelTrans.position.y - Mathf.Sin(modelTrans.rotation.z) + Mathf.Sin(PosZ)) * modelTrans.localScale.y / 2,
