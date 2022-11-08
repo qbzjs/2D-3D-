@@ -40,6 +40,7 @@ namespace GHJ_Lib
 		{
 			IsHeal = false;
 		}
+
         protected override IEnumerator ExcuteActiveSkil()
 		{
 			useActiveSkill = true;
