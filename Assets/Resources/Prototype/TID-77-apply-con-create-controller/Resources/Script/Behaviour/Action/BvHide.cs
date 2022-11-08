@@ -13,8 +13,11 @@ namespace GHJ_Lib
         {
             actor.ChangeMoveFunc(false);
             hide = false;
-            //토끼 패시브 넣을곳
-            actor.StartCoroutine("Hide");
+            if (actor.photonView.IsMine)
+            { 
+                actor.StartCoroutine("Hide");
+            }
+            actor.ChangeMoveFunc(false);
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
@@ -23,24 +26,33 @@ namespace GHJ_Lib
             {
                 return null;
             }
-            DoUnHide(actor);
+
+            //if()외부의 조건
+            // 이동, 상호작용,아이템사용, 퇴마사로부터 피격 
+            if (actor.photonView.IsMine)
+            {
+                DoUnHide(actor);
+            }
 
             Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
-            if (Bv is BvIdle)
+            if (Bv is not null)
             {
+                if (actor.photonView.IsMine)
+                {
+                    actor.StartCoroutine("UnHide");
+                }
                 return Bv;
             }
             return null; 
         }
 
-        void DoUnHide(in NetworkBaseController actor)
+        private void DoUnHide(in NetworkBaseController actor)
         {
-            if (!Input.GetKeyDown(KeyCode.B))
+            if (Input.anyKey)
             {
-                actor.StartCoroutine("UnHide");
+                actor.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
             }
         }
-
         public void CompleteHide(bool isHide)
         {
             hide = isHide;

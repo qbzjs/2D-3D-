@@ -52,7 +52,7 @@ namespace GHJ_Lib
 		// Behavior Conditions
 		public override void ChangeBvToImprison()
 		{
-			ChangeBehaviorTo(BehaviorType.Interact);
+			ChangeBehaviorTo(BehaviorType.Imprison);
 		}
 		public virtual void ChangeBvToCatch()
 		{
@@ -113,6 +113,7 @@ namespace GHJ_Lib
 					break;
 				case BehaviorType.Imprison:
                 {
+					caughtDoll = null;
 					CurBehavior.PushSuccessorState( imprison );
 				}
 				break;

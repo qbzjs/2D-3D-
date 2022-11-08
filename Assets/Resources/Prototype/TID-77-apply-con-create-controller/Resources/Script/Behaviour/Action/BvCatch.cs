@@ -28,13 +28,13 @@ namespace GHJ_Lib
                 }
             }
 
-            if (actor.photonView.IsMine)
-            {
-                if ( Input.GetKeyDown( KeyCode.Mouse0 ) )
-                {
-                    actor.ChangeBvToImprison();
-                }
-            }
+            //if (actor.photonView.IsMine)
+            //{
+            //    if ( Input.GetKeyDown( KeyCode.Mouse0 ) )//내가 정화상자에 충분히 가까이 있는지, 보고있는지
+            //    {
+            //        actor.ChangeBvToImprison();
+            //    }
+            //}
 
 
             Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
