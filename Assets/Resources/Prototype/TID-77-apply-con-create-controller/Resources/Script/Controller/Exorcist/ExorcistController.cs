@@ -24,6 +24,7 @@ namespace GHJ_Lib
 		protected BvImprison imprison = new BvImprison();
 
 
+		[SerializeField] Transform headPos;
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
@@ -34,10 +35,11 @@ namespace GHJ_Lib
 			{
 				fpvCam.gameObject.SetActive(true);
 				curCam = fpvCam;
-				foreach(var obj in hideObjects)
-                {
-					obj.SetActive( false );
-                }
+
+				//foreach(var obj in hideObjects)
+    //            {
+				//	obj.SetActive( false );
+    //            }
 			}
 			CurBehavior.PushSuccessorState(idle);
 		}
@@ -81,6 +83,7 @@ namespace GHJ_Lib
 			if (photonView.IsMine)
 			{ 
 				characterModel.transform.rotation =  Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y,0.0f);
+				//headPos.LookAt( fpvCam.camIK.transform );
 			}
 		}
 		protected override void MoveCharacter()
