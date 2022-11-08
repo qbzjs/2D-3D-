@@ -12,11 +12,11 @@ namespace LSH_Lib
 		[SerializeField]
 		GameObject dokkaebiInformation;
 		[SerializeField]
-		GameObject HunterInformation;
+		GameObject hunterInformation;
 		[SerializeField]
-		GameObject PhotoGrapherInformation;
+		GameObject photographerInformation;
 		[SerializeField]
-		GameObject PriestInformation;
+		GameObject priestInformation;
 
 		[Header("ExorcistInformationButton")]
 		[SerializeField]
