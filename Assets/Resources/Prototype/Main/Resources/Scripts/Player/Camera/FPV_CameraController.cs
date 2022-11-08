@@ -84,5 +84,10 @@ namespace KSH_Lib
 
             canUpdate = true;
         }
+
+        public float GetCamAxisX()
+        {
+            return camAxis.x;
+        }
     }
 }
