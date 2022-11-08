@@ -15,6 +15,8 @@ namespace KSH_Lib
 
         [field: SerializeField] public GameObject camIK { get; protected set; }
 
+        Transform ikLastTransform;
+
         /*--- Monobehviour Callbacks ---*/
         protected override void LateUpdate()
         {
@@ -52,19 +54,30 @@ namespace KSH_Lib
             //camTarget.transform.Rotate(Vector3.up, camAxis.x, Space.World);
             //camTarget.transform.Rotate(Vector3.right, camAxis.y, Space.Self);
 
-            camIK.transform.RotateAround(camTarget.transform.position, Vector3.up, camAxis.x);
-            camIK.transform.RotateAround(camTarget.transform.position, Vector3.right, camAxis.y );
-            camTarget.transform.LookAt( camIK.transform );
+            //camIK.transform.RotateAround(camTarget.transform.position, camTarget.transform.up, camAxis.x);
+
+
+
+            //camIK.transform.LookAt(camTarget.transform);
+            camTarget.transform.LookAt(camIK.transform);
 
             angles = camTarget.transform.eulerAngles;
             float angleVertical = angles.x;
-            if (angleVertical >= maxAngleY && angleVertical <= 180.0f)
+            if (angleVertical > maxAngleY && angleVertical < 180.0f)
             {
                 camTarget.transform.eulerAngles = new Vector3(maxAngleY, angles.y, angles.z);
+                //camIK.transform.RotateAround(camTarget.transform.position, camTarget.transform.right, -1f);
             }
-            else if (angleVertical <= 360.0f + minAngleY && angleVertical >= 180.0f)
+            else if (angleVertical < 360.0f + minAngleY && angleVertical > 180.0f)
             {
                 camTarget.transform.eulerAngles = new Vector3(360.0f + minAngleY, angles.y, angles.z);
+                //camIK.transform.RotateAround(camTarget.transform.position, camTarget.transform.right, 1f);
+            }
+            else
+            {
+                camIK.transform.RotateAround(camTarget.transform.position, Vector3.up, camAxis.x);
+                camIK.transform.RotateAround(camTarget.transform.position, camTarget.transform.right, camAxis.y);
+                ikLastTransform = camIK.transform;
             }
         }
 
@@ -89,5 +102,6 @@ namespace KSH_Lib
         {
             return camAxis.x;
         }
+
     }
 }

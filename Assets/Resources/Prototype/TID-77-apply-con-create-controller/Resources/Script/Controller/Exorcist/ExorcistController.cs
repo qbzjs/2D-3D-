@@ -36,11 +36,11 @@ namespace GHJ_Lib
 				fpvCam.gameObject.SetActive(true);
 				curCam = fpvCam;
 
-				//foreach(var obj in hideObjects)
-    //            {
-				//	obj.SetActive( false );
-    //            }
-			}
+                foreach (var obj in hideObjects)
+                {
+                    obj.SetActive(false);
+                }
+            }
 			CurBehavior.PushSuccessorState(idle);
 		}
 
