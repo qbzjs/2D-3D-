@@ -155,8 +155,32 @@ namespace GHJ_Lib
 			return false;
 		}
 
+		public virtual bool IsWatching(GameObject gameObject)
+		{
+			if (photonView.IsMine)
+			{
+				RaycastHit[] hits;
+				Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width, Screen.height) / 2);
 
-        public bool IsInteractionKeyHold()
+				float maxDist = 10.0f;
+
+				hits = Physics.RaycastAll(ray, maxDist);
+				foreach (var hit in hits)
+				{
+					if (hit.collider.gameObject == gameObject)
+					{
+						return true;
+					}
+				}
+				return false;
+
+				//if ( Physics.Raycast( ray, out hit, maxDist, LayerMask.NameToLayer("Environment"), QueryTriggerInteraction.Ignore ) )
+			}
+			return false;
+		}
+
+
+		public bool IsInteractionKeyHold()
         {
             return Input.GetKey( KeyCode.G );
         }
