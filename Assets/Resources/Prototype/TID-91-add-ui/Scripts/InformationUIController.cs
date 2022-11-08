@@ -18,21 +18,56 @@ namespace LSH_Lib
 		[SerializeField]
 		GameObject priestInformation;
 
+		[Header("Character Select Buttons")]
+		[SerializeField]
+		GameObject dollSelectButtons;
+		[SerializeField]
+		GameObject exorcistSelectButtons;
+
 		[Header("ExorcistInformationButton")]
 		[SerializeField]
 		GameObject exorcistInformationPanel;
 		void DisableAllPanel()
         {
 			bishopInformation.SetActive(false);
-        }
-		void EnabelBishopInformation()
-        {
-			bishopInformation.SetActive(true);
+			dokkaebiInformation.SetActive(false);
+			hunterInformation.SetActive(false);
+			photographerInformation.SetActive(false);
+			priestInformation.SetActive(false);
+			dollSelectButtons.SetActive(false);
+			exorcistSelectButtons.SetActive(false);
         }
 		void EnbaleExorcistInformationPanel()
         {
 			DisableAllPanel();
 			exorcistInformationPanel.SetActive(true);
+			exorcistSelectButtons.SetActive(true);
+
+		}
+		void EnabelBishopInformation()
+		{
+			DisableAllPanel();
+			bishopInformation.SetActive(true);
+		}
+		void EnableDokkaebiInformation()
+        {
+			DisableAllPanel();
+			dokkaebiInformation.SetActive(true);
+        }
+		void EnableHunterInformation()
+        {
+			DisableAllPanel();
+			hunterInformation.SetActive(true);
+        }
+		void EnablePhotographerInformation()
+        {
+			DisableAllPanel();
+			photographerInformation.SetActive(true);
+        }
+		void EnablePriestInformation()
+        {
+			DisableAllPanel();
+			priestInformation.SetActive(true);
         }
 	}
 }
