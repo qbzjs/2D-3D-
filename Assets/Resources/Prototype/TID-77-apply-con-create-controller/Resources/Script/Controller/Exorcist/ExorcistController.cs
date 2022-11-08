@@ -8,6 +8,9 @@ namespace GHJ_Lib
 {
 	public class ExorcistController: NetworkBaseController, IPunObservable
 	{
+		[Header( "Object Hide Setting" )]
+		[SerializeField] protected GameObject[] hideObjects;
+
 		[field: SerializeField] public ParticleSystem Aura { get; protected set; }
 		[SerializeField] private GameObject[] CatchObj;
 		[field: SerializeField] public PickUpArea pickUpArea { get; protected set; }
@@ -31,6 +34,10 @@ namespace GHJ_Lib
 			{
 				fpvCam.gameObject.SetActive(true);
 				curCam = fpvCam;
+				foreach(var obj in hideObjects)
+                {
+					obj.SetActive( false );
+                }
 			}
 			CurBehavior.PushSuccessorState(idle);
 		}
