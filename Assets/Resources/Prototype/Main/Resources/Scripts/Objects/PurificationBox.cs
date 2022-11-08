@@ -42,7 +42,7 @@ namespace KSH_Lib.Object
 
         public override bool Interact( Interactor interactor )
         {
-            targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Interact );
+            targetController.ChangeBvToImprison();
             if (interactor.gameObject.CompareTag(GameManager.DollTag))
             {
                 IsInteracting = true;

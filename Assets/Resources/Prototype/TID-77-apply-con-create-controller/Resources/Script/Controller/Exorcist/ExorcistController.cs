@@ -8,6 +8,9 @@ namespace GHJ_Lib
 {
 	public class ExorcistController: NetworkBaseController, IPunObservable
 	{
+		[Header( "Object Hide Setting" )]
+		[SerializeField] protected GameObject[] hideObjects;
+
 		[field: SerializeField] public ParticleSystem Aura { get; protected set; }
 		[SerializeField] private GameObject[] CatchObj;
 		[field: SerializeField] public PickUpArea pickUpArea { get; protected set; }
@@ -21,6 +24,7 @@ namespace GHJ_Lib
 		protected BvImprison imprison = new BvImprison();
 
 
+		[SerializeField] Transform headPos;
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
@@ -31,6 +35,11 @@ namespace GHJ_Lib
 			{
 				fpvCam.gameObject.SetActive(true);
 				curCam = fpvCam;
+
+				//foreach(var obj in hideObjects)
+    //            {
+				//	obj.SetActive( false );
+    //            }
 			}
 			CurBehavior.PushSuccessorState(idle);
 		}
@@ -74,6 +83,7 @@ namespace GHJ_Lib
 			if (photonView.IsMine)
 			{ 
 				characterModel.transform.rotation =  Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y,0.0f);
+				//headPos.LookAt( fpvCam.camIK.transform );
 			}
 		}
 		protected override void MoveCharacter()
@@ -113,7 +123,6 @@ namespace GHJ_Lib
 					break;
 				case BehaviorType.Imprison:
                 {
-					caughtDoll = null;
 					CurBehavior.PushSuccessorState( imprison );
 				}
 				break;

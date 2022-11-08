@@ -13,6 +13,8 @@ namespace KSH_Lib
         [SerializeField]
         protected float maxSpeedY = 5.0f;
 
+        [field: SerializeField] public GameObject camIK { get; protected set; }
+
         /*--- Monobehviour Callbacks ---*/
         protected override void LateUpdate()
         {
@@ -47,8 +49,12 @@ namespace KSH_Lib
                 camAxis.y = -maxSpeedY;
             }
 
-            camTarget.transform.Rotate(Vector3.up, camAxis.x, Space.World);
-            camTarget.transform.Rotate(Vector3.right, camAxis.y, Space.Self);
+            //camTarget.transform.Rotate(Vector3.up, camAxis.x, Space.World);
+            //camTarget.transform.Rotate(Vector3.right, camAxis.y, Space.Self);
+
+            camIK.transform.RotateAround(camTarget.transform.position, Vector3.up, camAxis.x);
+            camIK.transform.RotateAround(camTarget.transform.position, Vector3.right, camAxis.y );
+            camTarget.transform.LookAt( camIK.transform );
 
             angles = camTarget.transform.eulerAngles;
             float angleVertical = angles.x;
