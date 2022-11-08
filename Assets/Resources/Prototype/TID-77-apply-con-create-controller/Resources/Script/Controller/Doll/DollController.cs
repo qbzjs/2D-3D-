@@ -26,6 +26,7 @@ namespace GHJ_Lib
 		protected BvEscape escape = new BvEscape();
 		protected BvHide bvHide = new BvHide();
 
+
 		protected int crossStack = 0;
 
 		/*--- MonoBehaviour Callbacks ---*/

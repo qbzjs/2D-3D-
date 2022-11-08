@@ -10,18 +10,10 @@ namespace GHJ_Lib
     {
         bool BishopPassive = false;
         const float BishopPassiveRate = 0.15f;
+        float attackTime = 0.5f;
         protected override void Activate(in NetworkBaseController actor)
         {
             PlayAnimation( actor );
-            AttackArea attackArea = (actor as ExorcistController).attackArea;
-            if (attackArea.CanGetTarget())
-            {
-                GameObject target = attackArea.GetNearestTarget();
-                DollController doll = target.GetComponent<DollController>();
-                doll.DoActionBy(Attack);
-                doll.ChangeBvToGetHit();
-                
-            }
             if (actor is BishopController)
             {
                 BishopPassive = true;
@@ -32,8 +24,16 @@ namespace GHJ_Lib
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
             AnimatorStateInfo animatorStateInfo = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
-            if (animatorStateInfo.normalizedTime >= 0.5f)
+            if (animatorStateInfo.normalizedTime >= attackTime && actor.BaseAnimator.GetBool("IsAttack")) 
             {
+                AttackArea attackArea = (actor as ExorcistController).attackArea;
+                if (attackArea.CanGetTarget())
+                {
+                    GameObject target = attackArea.GetNearestTarget();
+                    DollController doll = target.GetComponent<DollController>();
+                    doll.DoActionBy(Attack);
+                    doll.ChangeBvToGetHit();
+                }
                 actor.BaseAnimator.SetBool("IsAttack", false);
             }
 

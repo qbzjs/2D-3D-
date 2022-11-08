@@ -18,9 +18,14 @@ namespace GHJ_Lib
 			SkillSetting();
 		}
 
-		/*---Skill---*/
+        /*---Skill---*/
 
-		protected override IEnumerator ExcuteActiveSkil()
+        public override void DoSkill()
+        {
+			base.DoSkill();
+        }
+
+        protected override IEnumerator ExcuteActiveSkil()
 		{
 			useActiveSkill = true;
 			//½ºÅ³Áß
