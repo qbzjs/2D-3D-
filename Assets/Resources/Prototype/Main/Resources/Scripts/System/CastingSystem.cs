@@ -62,17 +62,33 @@ namespace KSH_Lib
         /*--- MonoBehaviour Callbacks ---*/
         private void Start()
         {
-            slider = castingSliderObj.GetComponent<Slider>();
             if(slider == null)
             {
-                Debug.LogError( "CastingSystem.Start: No Slider Found" );
+                slider = castingSliderObj.GetComponent<Slider>();
+                if ( slider == null )
+                {
+                    Debug.LogError( "CastingSystem.Start: No Slider Found" );
+                }
             }
             castingSliderObj.SetActive( false );
-
         }
 
 
         /*--- Public Methods ---*/
+        public void ChangeSlider(GameObject sliderUI)
+        {
+            var oldSliderObj = castingSliderObj;
+            var oldSlider = slider;
+
+            castingSliderObj = sliderUI;
+            slider = sliderUI.GetComponent<Slider>();
+            if ( slider == null )
+            {
+                Debug.LogWarning( "CastingSystem.ChangeSlider: No Slider Found" );
+                castingSliderObj = oldSliderObj;
+                slider = oldSlider;
+            }
+        }
         public void StartCasting( Cast cast, CastFuncSet funcSet )
         {
             if ( IsCoroutineRunning )
