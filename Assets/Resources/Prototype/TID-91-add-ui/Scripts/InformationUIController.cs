@@ -6,6 +6,10 @@ namespace LSH_Lib
 {
 	public class InformationUIController : MonoBehaviour
 	{
+		[Header("Information Canvas")]
+		[SerializeField]
+		Canvas informationCanvas;
+
 		[Header("Exorcist Roll Infromation Panel")]
 		[SerializeField]
 		GameObject bishopInformation;
@@ -27,6 +31,10 @@ namespace LSH_Lib
 		[Header("ExorcistInformationButton")]
 		[SerializeField]
 		GameObject exorcistInformationPanel;
+
+		[Header("Item Information")]
+		[SerializeField]
+		GameObject itemInformationPanel;
 		void DisableAllPanel()
         {
 			bishopInformation.SetActive(false);
@@ -36,6 +44,7 @@ namespace LSH_Lib
 			priestInformation.SetActive(false);
 			dollSelectButtons.SetActive(false);
 			exorcistSelectButtons.SetActive(false);
+			itemInformationPanel.SetActive(false);
         }
 		void EnbaleExorcistInformationPanel()
         {
@@ -44,6 +53,12 @@ namespace LSH_Lib
 			exorcistSelectButtons.SetActive(true);
 
 		}
+		void EnalbeItemInformationPanel()
+        {
+			DisableAllPanel();
+			informationCanvas.gameObject.GetComponent<Canvas>().enabled = true;
+			itemInformationPanel.SetActive(true);
+        }
 		void EnabelBishopInformation()
 		{
 			DisableAllPanel();
@@ -69,5 +84,6 @@ namespace LSH_Lib
 			DisableAllPanel();
 			priestInformation.SetActive(true);
         }
+		
 	}
 }
