@@ -125,10 +125,10 @@ namespace GHJ_Lib
 					}
 					break;
 				case BehaviorType.Imprison:
-                {
-					CurBehavior.PushSuccessorState( imprison );
-				}
-				break;
+					{
+						CurBehavior.PushSuccessorState( imprison );
+					}
+					break;
 				case BehaviorType.Catch:
 					{
 						caughtDoll = pickUpArea.GetNearestTarget();
@@ -144,6 +144,10 @@ namespace GHJ_Lib
 		{
 			DollController doll = caughtDoll.GetComponent<DollController>();
 			CatchObj[doll.TypeIndex-5].gameObject.SetActive(true);
+			if (doll.CurBehavior is BvbeTrapped)
+			{
+				//해당 트랩 회수
+			}
 			StageManager.CharacterLayerChange(caughtDoll, 8);
 			doll.ChangeBvToBeCaught(tpvCam);
 		}

@@ -25,7 +25,7 @@ namespace GHJ_Lib
 		protected BvBePurifying purified = new BvBePurifying();
 		protected BvEscape escape = new BvEscape();
 		protected BvHide bvHide = new BvHide();
-
+		protected BvbeTrapped bvbeTrapped = new BvbeTrapped();
 
 		protected int crossStack = 0;
 
@@ -387,6 +387,12 @@ namespace GHJ_Lib
 						CurBehavior.PushSuccessorState(bvHide);
 					}
 					break;
+				case BehaviorType.BeTrapped:
+				{
+					CurBehavior.PushSuccessorState(bvbeTrapped);
+					
+				}
+				break;
 			}
 		}
 	}

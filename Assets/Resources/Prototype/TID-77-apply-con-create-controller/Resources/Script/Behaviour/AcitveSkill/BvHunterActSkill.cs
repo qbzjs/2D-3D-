@@ -10,11 +10,17 @@ namespace GHJ_Lib
         protected override void Activate(in NetworkBaseController actor)
         {
             //actor.BaseAnimator.SetBool(); 수집 또는 설치 애니매이션 
+            (actor.skill as HunterSkill).StartCoroutine("ExcuteActiveSkill");
+            actor.ChangeMoveFunc(false);
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            //끝나면 
+            Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
+            if (Bv is BvIdle)
+            {
+                return Bv;
+            }
             return null;
         }
     }

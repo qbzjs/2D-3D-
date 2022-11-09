@@ -9,9 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7356072819033418862}
-  m_Layer: 0
+  - component: {fileID: 3016189061802106038}
+  - component: {fileID: 7976452020468269883}
+  - component: {fileID: 6920489446269234892}
+  m_Layer: 10
   m_Name: TrapSet
-  m_TagString: Untagged
+  m_TagString: SkillObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2323415351255118185}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.08471249, y: -1.2488484, z: 0.8308356}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -32,6 +35,63 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3016189061802106038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2323415351255118185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11d18db3f0dc35f40becd51e74d57743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prompt: Press G to Interact
+  castingSystem: {fileID: 0}
+  <IsExorcistInteracting>k__BackingField: 0
+  RateOfGauge: 0
+  <MaxGauge>k__BackingField: 100
+  <DecreaseRate>k__BackingField: 0.3
+  <CoolTime>k__BackingField: 0.5
+  ExitTrapVel: 8.3
+  ClearTrapVel: 4.2
+--- !u!135 &7976452020468269883
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2323415351255118185}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.24
+  m_Center: {x: -0.05, y: 0.23, z: 0.05}
+--- !u!114 &6920489446269234892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2323415351255118185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 3016189061802106038}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &3549713807779833744
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,7 +103,7 @@ GameObject:
   - component: {fileID: 3549713807779806192}
   - component: {fileID: 3549713807783230444}
   - component: {fileID: 3549713807782099244}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Trap_RightSide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,7 +186,7 @@ GameObject:
   - component: {fileID: 3549713807779806194}
   - component: {fileID: 3549713807783230446}
   - component: {fileID: 3549713807782099246}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Trap_LeftSide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,7 +268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3549713807779806144}
   - component: {fileID: 3549713807789347890}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TrapModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,8 +282,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3549713807779833824}
-  m_LocalRotation: {x: -0.004406319, y: -0, z: -0, w: 0.9999903}
-  m_LocalPosition: {x: -0.6259307, y: 1.3132548, z: 1.8096118}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.0254, y: 0.025400002, z: 0.025400002}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -266,7 +326,7 @@ GameObject:
   - component: {fileID: 3549713807779806148}
   - component: {fileID: 3549713807783230432}
   - component: {fileID: 3549713807782099232}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Trap_1 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -349,7 +409,7 @@ GameObject:
   - component: {fileID: 3549713807779806150}
   - component: {fileID: 3549713807783230434}
   - component: {fileID: 3549713807782099234}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Trap_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -432,7 +492,7 @@ GameObject:
   - component: {fileID: 3549713807779806152}
   - component: {fileID: 3549713807783230436}
   - component: {fileID: 3549713807782099236}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Trap_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -515,7 +575,7 @@ GameObject:
   - component: {fileID: 3549713807779806154}
   - component: {fileID: 3549713807783230438}
   - component: {fileID: 3549713807782099238}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Trap_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -598,7 +658,7 @@ GameObject:
   - component: {fileID: 3549713807779806156}
   - component: {fileID: 3549713807783230440}
   - component: {fileID: 3549713807782099240}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Trap_Cross
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -683,7 +743,7 @@ GameObject:
   - component: {fileID: 3549713807779806158}
   - component: {fileID: 3549713807783230442}
   - component: {fileID: 3549713807782099242}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Trap_Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
