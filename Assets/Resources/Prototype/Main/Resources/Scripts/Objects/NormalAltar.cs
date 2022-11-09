@@ -42,10 +42,10 @@ namespace KSH_Lib.Object
             {
                 if (i < curLightCount)
                 {
-                    if (candleLights[i].activeInHierarchy) candleLights[i].SetActive(true);
+                    if (!candleLights[i].activeInHierarchy) candleLights[i].SetActive(true);
                     continue;
                 }
-                if (!candleLights[i].activeInHierarchy) candleLights[i].SetActive(false);
+                if (candleLights[i].activeInHierarchy) candleLights[i].SetActive(false);
             }
         }
 
