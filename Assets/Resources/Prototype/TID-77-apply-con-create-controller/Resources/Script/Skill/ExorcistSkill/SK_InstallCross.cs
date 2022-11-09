@@ -6,15 +6,15 @@ namespace GHJ_Lib
 {
 	public class Sk_InstallCross: Behavior<NetworkBaseController>
 	{
-		protected BishopController bishop;
+		protected BishopSkill bishopSkill;
 		
 		protected override void Activate(in NetworkBaseController actor)
         {
-			if (bishop == null)
+			if (bishopSkill == null)
 			{
-				bishop = (actor as BishopController);
+				bishopSkill = (actor.skill as BishopSkill);
 			}
-			if (bishop.InstallCross >= bishop.CrossMaxCount ) // 주변에 십자가가 있을 시( 주변범위는 4) 설치 불가 -> interact범위로 해줄것.
+			if (bishopSkill.InstallCross >= bishopSkill.CrossMaxCount ) // 주변에 십자가가 있을 시( 주변범위는 4) 설치 불가 -> interact범위로 해줄것.
 			{
 				return;
 			}
@@ -22,7 +22,7 @@ namespace GHJ_Lib
 			{
 				actor.BaseAnimator.SetBool("IsInstallCross", true);
 				actor.StartCoroutine("SetCross");
-				bishop.InstallCross++;
+				bishopSkill.InstallCross++;
 			}
 
 			actor.ChangeMoveFunc(false);

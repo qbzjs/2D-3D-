@@ -9,7 +9,7 @@ namespace GHJ_Lib
 	{
         protected override void Activate(in NetworkBaseController actor)
         {
-            //actor.BaseAnimator.SetBool(); 수집 또는 성치 애니매이션 
+            //actor.BaseAnimator.SetBool(); 수집 또는 설치 애니매이션 
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)

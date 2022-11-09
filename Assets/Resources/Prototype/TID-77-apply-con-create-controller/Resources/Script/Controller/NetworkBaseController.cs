@@ -37,8 +37,7 @@ namespace GHJ_Lib
 		public Behavior<NetworkBaseController> CurBehavior = new Behavior<NetworkBaseController>();
 		protected BvIdle idle = new BvIdle();
 		protected BvInteract interact = new BvInteract();
-		protected Behavior<NetworkBaseController> BvActiveSkill = new Behavior<NetworkBaseController>(); //스킬을 상속받을때 바뀔예정.. 컴포넌트로 나눌때 없어질수 있음.
-		public Behavior<NetworkBaseController> ActiveSkill = new Behavior<NetworkBaseController>(); //스킬 파츠를 합친행동(스킬 컴포넌트로 옮겨질 예정)
+		protected Behavior<NetworkBaseController> BvActiveSkill = new Behavior<NetworkBaseController>(); 
 
 		protected PhotonTransformViewClassic photonTransformView;
 
@@ -51,24 +50,16 @@ namespace GHJ_Lib
 		protected TPV_CameraController tpvCam;
 		protected BaseCameraController curCam;
 
-
+		//move 여부
 		public delegate void DelPlayerInput();
 		protected DelPlayerInput SetDirectionFunc;
 
-		protected RoleData initData = new RoleData();
-		//public bool CanInteract;
-
-		/*---Skill Component---*/
-		public EffectArea actSkillArea;
-		protected bool useActiveSkill = false;
-
-
-
+		//skill Component
+		public BaseSkill skill;
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
 		{
 			base.Start();
-
 			photonTransformView = GetComponent<PhotonTransformViewClassic>();
 			if ( photonTransformView == null )
 			{
@@ -81,11 +72,6 @@ namespace GHJ_Lib
 				PlayerIndex = DataManager.Instance.PlayerIdx;
 				photonView.RPC( "SetPlayerIdx", RpcTarget.All, PlayerIndex, TypeIndex );
 			}
-
-			initData = DataManager.Instance.RoleInfos[TypeIndex];
-
-
-
 			ChangeMoveFunc( true );
 		}
 		protected override void Update()
@@ -101,7 +87,6 @@ namespace GHJ_Lib
 			RotateToDirection();
 			MoveCharacter();
 
-			// Behavior
 			CurBehavior.Update( this, ref CurBehavior );
 		}
 
@@ -200,7 +185,7 @@ namespace GHJ_Lib
 		// Behavior Callback
 		public virtual void ChangeMoveSpeed(float speedRate)
         {
-			DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = initData.MoveSpeed * speedRate;
+			DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = DataManager.Instance.RoleInfos[TypeIndex].MoveSpeed * speedRate;
 			DataManager.Instance.ShareRoleData();
 		}
 
@@ -208,12 +193,13 @@ namespace GHJ_Lib
 		{
 			if (Input.GetKeyDown(KeyCode.Mouse1))
 			{
-				if (!useActiveSkill&&CurBehavior is BvIdle)
+				if (!skill.IsCoolTime && CurBehavior is BvIdle&& skill.CanActiveSkill())
 				{
-					photonView.RPC("DoActiveSkill", RpcTarget.AllViaServer);
+					photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.AllViaServer);
 				}
 			}
 		}
+
 		public virtual void ChangeBvToInteract()
 		{	
 			ChangeBehaviorTo(BehaviorType.Interact);
@@ -256,6 +242,10 @@ namespace GHJ_Lib
 		}
 
 
+		public void AllocSkill(Behavior<NetworkBaseController> skillBehavior)
+		{
+			BvActiveSkill = skillBehavior;
+		}
 		/*---Skill---*/
 
 		public void DoActionBy(Action ActionFunc)
@@ -282,17 +272,6 @@ namespace GHJ_Lib
 				DataManager.Instance.ShareRoleData();
 			}
 		}
-
-		[PunRPC]
-		public virtual void DoActiveSkill()
-		{
-			photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.AllViaServer);
-		}
-		protected virtual IEnumerator ExcuteActiveSkil()
-		{
-			yield return new WaitForSeconds(0.2f);
-		}
-
 
 		/*--IpunObserve--*/
 		public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

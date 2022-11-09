@@ -58,6 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fef01fe77bd848e419b102d4e318b057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targets: []
 --- !u!1 &744313207208591628
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,6 +800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca6e0aea008228644ac23f4412b62d69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targets: []
 --- !u!1 &6344832464827346386
 GameObject:
   m_ObjectHideFlags: 0
@@ -895,6 +897,7 @@ MonoBehaviour:
   isInvertVertical: 1
   maxSpeedX: 5
   maxSpeedY: 5
+  <camIK>k__BackingField: {fileID: 0}
 --- !u!1 &6344832465882119549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,8 +1016,8 @@ GameObject:
   - component: {fileID: 6176556702926028092}
   - component: {fileID: 5615198860231008615}
   - component: {fileID: 4710660828957102045}
-  - component: {fileID: 4303336244390193543}
   - component: {fileID: 3027499934071246222}
+  - component: {fileID: 819067107215865435}
   m_Layer: 7
   m_Name: WolfDoll
   m_TagString: Doll
@@ -1098,8 +1101,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 6176556702926028092}
   - {fileID: 4710660828957102045}
-  - {fileID: 4303336244390193543}
-  - {fileID: 3027499934071246222}
+  - {fileID: 819067107215865435}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1127,6 +1129,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: IsHide
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsInteract
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -1185,22 +1190,6 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
---- !u!114 &4303336244390193543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8273805488487672833}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 1
-  m_TeleportEnabled: 1
-  m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &3027499934071246222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1213,6 +1202,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3de137db0b28e96459b83007e58b756b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actSkillArea: {fileID: 7891203660935695451}
+  psvSkillArea: {fileID: 3507965375796044402}
+  Controller: {fileID: 819067107215865435}
+--- !u!114 &819067107215865435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8273805488487672833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1346dd61c7586db42bd051b5eb39a84b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   characterObj: {fileID: 8273805488487672833}
   characterModel: {fileID: 5728598774184566324}
   camTarget: {fileID: 8273805487214333314}
@@ -1221,9 +1225,9 @@ MonoBehaviour:
   <BaseAnimator>k__BackingField: {fileID: 5615198860231008615}
   fpvCam: {fileID: 6344832464827346390}
   tpvCam: {fileID: 1656420190374648682}
-  actSkillArea: {fileID: 7891203660935695451}
-  GhostModel: {fileID: 4121739647973838022}
-  GhostMaterial: {fileID: 2100000, guid: 4df79f2ce0b610d4683912e33f928d20, type: 2}
+  skill: {fileID: 3027499934071246222}
+  GhostModel: {fileID: 0}
+  GhostMaterial: {fileID: 0}
 --- !u!1 &8614758592521025531
 GameObject:
   m_ObjectHideFlags: 0
@@ -1277,7 +1281,7 @@ MonoBehaviour:
   foundCount: 0
   interactionKey: 103
   interactionPromptUI: {fileID: 0}
-  controller: {fileID: 3027499934071246222}
+  controller: {fileID: 819067107215865435}
 --- !u!1001 &5728598774184663170
 PrefabInstance:
   m_ObjectHideFlags: 0

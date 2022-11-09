@@ -14,7 +14,7 @@ namespace GHJ_Lib
         protected override void Activate(in NetworkBaseController actor)
         {
             PlayAnimation( actor );
-            if (actor is BishopController)
+            if (actor is BishopSkill)
             {
                 BishopPassive = true;
             }

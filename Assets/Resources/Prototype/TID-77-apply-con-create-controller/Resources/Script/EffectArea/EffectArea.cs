@@ -7,7 +7,7 @@ namespace GHJ_Lib
 	public abstract class EffectArea: MonoBehaviourPun
 	{
 		public List<GameObject> Targets { get { return targets; } }
-		protected List<GameObject> targets = new List<GameObject>();
+		[SerializeField]protected List<GameObject> targets = new List<GameObject>();
 		public GameObject GetNearestTarget()
 		{
 			GameObject nearestTarget = null;

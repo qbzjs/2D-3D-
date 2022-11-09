@@ -7,7 +7,6 @@ namespace GHJ_Lib
     public class PickUpArea : EffectArea
     {
         //protected List<GameObject> Dolls = new List<GameObject>();
-
         protected override void OnTriggerEnter(Collider other)
         {
             
@@ -16,7 +15,6 @@ namespace GHJ_Lib
         {
             if (other.CompareTag("Doll"))
             {
-               
                 if (other.gameObject.GetComponent<NetworkBaseController>().CurBehavior is BvCollapse)
                 {
                     if (!targets.Contains(other.gameObject))

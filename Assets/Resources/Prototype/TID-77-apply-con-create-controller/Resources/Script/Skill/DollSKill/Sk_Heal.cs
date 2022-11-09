@@ -10,17 +10,17 @@ namespace GHJ_Lib
 	public class Sk_Heal : Behavior<NetworkBaseController>
 	{
         protected EffectArea effectArea;
-        protected RabbitController rabbit;
+        protected RabbitSkill rabbit;
         protected override void Activate(in NetworkBaseController actor)
         {
             if (effectArea == null)
             {
-                effectArea = actor.actSkillArea;
+                effectArea = actor.skill.actSkillArea;
             }
 
             if (rabbit == null)
             {
-                rabbit = actor as RabbitController;
+                rabbit = actor.skill as RabbitSkill;
             }
         }
 

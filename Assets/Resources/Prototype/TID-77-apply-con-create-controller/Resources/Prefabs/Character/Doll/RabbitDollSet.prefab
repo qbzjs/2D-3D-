@@ -1219,6 +1219,7 @@ GameObject:
   - component: {fileID: 5685482425181133111}
   - component: {fileID: 5874212156666462991}
   - component: {fileID: 8842860077883511446}
+  - component: {fileID: 7184935316068418518}
   m_Layer: 7
   m_Name: RabbitPassiveSkillArea
   m_TagString: Untagged
@@ -1267,6 +1268,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7184935316068418518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4757389491474547039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e26071572560730468f0248ea71f9e60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rabbit: {fileID: 0}
 --- !u!1 &5171643520874515199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1313,8 +1327,8 @@ GameObject:
   - component: {fileID: 6962742835767228993}
   - component: {fileID: 8717308325710325274}
   - component: {fileID: 8379097947852130464}
-  - component: {fileID: 1058255353504558842}
   - component: {fileID: 2523616179706623431}
+  - component: {fileID: 5635292189464165282}
   m_Layer: 7
   m_Name: RabbitDoll
   m_TagString: Doll
@@ -1400,8 +1414,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 6962742835767228993}
   - {fileID: 8379097947852130464}
-  - {fileID: 1058255353504558842}
-  - {fileID: 2523616179706623431}
+  - {fileID: 5635292189464165282}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1478,22 +1491,6 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
---- !u!114 &1058255353504558842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5171643521589291900}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 1
-  m_TeleportEnabled: 1
-  m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &2523616179706623431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1506,19 +1503,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78149bfedc7da36499bc247b9bec4f91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actSkillArea: {fileID: 1359897886811668245}
+  psvSkillArea: {fileID: 5874212156666462991}
+  Controller: {fileID: 5635292189464165282}
+  HealAmount: 10
+  IsHeal: 0
+--- !u!114 &5635292189464165282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5171643521589291900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1346dd61c7586db42bd051b5eb39a84b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   characterObj: {fileID: 5171643521589291900}
   characterModel: {fileID: 4358257972407204485}
   camTarget: {fileID: 5171643520874515199}
   moveSpeed: 6
   rotateSpeed: 600
-  <BaseAnimator>k__BackingField: {fileID: 8717308325710325274}
+  <BaseAnimator>k__BackingField: {fileID: 0}
   fpvCam: {fileID: 7861727637496785579}
   tpvCam: {fileID: 2588410091664006167}
-  actSkillArea: {fileID: 1359897886811668245}
-  GhostModel: {fileID: 874952318819519419}
+  skill: {fileID: 2523616179706623431}
+  GhostModel: {fileID: 0}
   GhostMaterial: {fileID: 0}
-  HealAmount: 10
-  IsHeal: 0
 --- !u!1 &7002252690917335513
 GameObject:
   m_ObjectHideFlags: 0
@@ -1857,4 +1869,4 @@ MonoBehaviour:
   foundCount: 0
   interactionKey: 103
   interactionPromptUI: {fileID: 0}
-  controller: {fileID: 2523616179706623431}
+  controller: {fileID: 5635292189464165282}

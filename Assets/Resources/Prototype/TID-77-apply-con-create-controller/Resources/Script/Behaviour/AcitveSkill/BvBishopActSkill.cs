@@ -10,7 +10,7 @@ namespace GHJ_Lib
 	{
         protected override void Activate(in NetworkBaseController actor)
         {
-            (actor as BishopController).StartCoroutine("ExcuteActiveSkil");
+            (actor.skill as BishopSkill).StartCoroutine("ExcuteActiveSkil");
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)

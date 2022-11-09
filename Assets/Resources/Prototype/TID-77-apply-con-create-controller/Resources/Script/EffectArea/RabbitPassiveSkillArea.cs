@@ -7,7 +7,7 @@ namespace GHJ_Lib
 {
     public class RabbitPassiveSkillArea : EffectArea
     {
-        public RabbitController rabbit;
+        public RabbitSkill rabbit;
         bool isReadyToBuff = false;
         bool isWaitToBuff = false;
         bool isOnBuff = false;
@@ -51,7 +51,7 @@ namespace GHJ_Lib
             }
             if (!targets.Contains(target))
             {
-                if(rabbit.CurBehavior is BvHide)
+                if(rabbit.Controller.CurBehavior is BvHide)
                 {
                     StartCoroutine("ReadyToMoveInHide");
                 }
@@ -92,10 +92,10 @@ namespace GHJ_Lib
             }
             isReadyToBuff = false;
             isOnBuff = true;
-            rabbit.ChangeMoveSpeed(1.5f);
+            rabbit.Controller.ChangeMoveSpeed(1.5f);
             yield return new WaitForSeconds(time);
             isOnBuff = false;
-            rabbit.ChangeMoveSpeed(1.0f);
+            rabbit.Controller.ChangeMoveSpeed(1.0f);
         }
     }
 }

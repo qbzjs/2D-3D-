@@ -10,7 +10,7 @@ namespace GHJ_Lib
 	{
         protected override void Activate(in NetworkBaseController actor)
         {
-            (actor as RabbitController).StartCoroutine("ExcuteActiveSkil");
+            (actor.skill as RabbitSkill).StartCoroutine("ExcuteActiveSkil");
             actor.BaseAnimator.SetBool("IsSkill",true);
         }
 
