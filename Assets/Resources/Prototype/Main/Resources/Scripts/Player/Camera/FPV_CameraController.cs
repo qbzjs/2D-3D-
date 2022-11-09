@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using KSH_Lib.Util;
 
 namespace KSH_Lib
 {
@@ -12,11 +13,18 @@ namespace KSH_Lib
         protected float maxSpeedX = 5.0f;
         [SerializeField]
         protected float maxSpeedY = 5.0f;
-
-        [field: SerializeField] public GameObject camIK { get; protected set; }
-
+        
+        [field: SerializeField] public GameObject camAim { get; protected set; }
+        //Vector3 nextCamAimPos;
+        Vector3 initialVector;
+        float angleY;
 
         /*--- Monobehviour Callbacks ---*/
+        private void OnEnable()
+        {
+            initialVector = camAim.transform.position - camTarget.transform.position;
+            initialVector.x = 0.0f;
+        }
         protected override void LateUpdate()
         {
             if(canUpdate)
@@ -24,60 +32,29 @@ namespace KSH_Lib
                 base.LateUpdate();
             }
         }
-
         protected override void RotateCamera()
         {
-            if(camTarget == null)
+            if ( camTarget == null )
             {
                 return;
             }
             camAxis *= mouseSpeed;
 
-            if(camAxis.x > maxSpeedX)
-            {
-                camAxis.x = maxSpeedX;
-            }
-            else if(camAxis.x < -maxSpeedX)
-            {
-                camAxis.x = -maxSpeedX;
-            }
-            if(camAxis.y > maxSpeedY)
-            {
-                camAxis.y = maxSpeedY;
-            }
-            else if (camAxis.y < -maxSpeedY)
-            {
-                camAxis.y = -maxSpeedY;
-            }
+            camAxis.x = Mathf.Clamp( camAxis.x, -maxSpeedX, maxSpeedX );
+            camAxis.y = Mathf.Clamp( camAxis.y, -maxSpeedY, maxSpeedY );
 
-            //camTarget.transform.Rotate(Vector3.up, camAxis.x, Space.World);
-            //camTarget.transform.Rotate(Vector3.right, camAxis.y, Space.Self);
+            angleY += camAxis.y;
 
-            //camIK.transform.RotateAround(camTarget.transform.position, camTarget.transform.up, camAxis.x);
-
-
-
-            //camIK.transform.LookAt(camTarget.transform);
-            camTarget.transform.LookAt(camIK.transform);
-
-            angles = camTarget.transform.eulerAngles;
-            float angleVertical = angles.x;
-            if (angleVertical > maxAngleY && angleVertical < 180.0f)
+            camAim.transform.RotateAround( camTarget.transform.position, Vector3.up, camAxis.x );
+            if ( angleY < maxAngleY && angleY > minAngleY )
             {
-                camTarget.transform.eulerAngles = new Vector3(maxAngleY, angles.y, angles.z);
-                camIK.transform.RotateAround(camTarget.transform.position, camTarget.transform.right, -1f);
-            }
-            else if (angleVertical < 360.0f + minAngleY && angleVertical > 180.0f)
-            {
-                camTarget.transform.eulerAngles = new Vector3(360.0f + minAngleY, angles.y, angles.z);
-                camIK.transform.RotateAround(camTarget.transform.position, camTarget.transform.right, 1f);
+                camAim.transform.RotateAround( camTarget.transform.position, camTarget.transform.right, camAxis.y );
             }
             else
             {
-                camIK.transform.RotateAround(camTarget.transform.position, Vector3.up, camAxis.x);
-                camIK.transform.RotateAround(camTarget.transform.position, camTarget.transform.right, camAxis.y);
+                angleY -= camAxis.y;
             }
-            // https://answers.unity.com/questions/1370422/limit-y-axis-transformrotatearound.html
+            camTarget.transform.LookAt( camAim.transform ); 
         }
 
         public override void InitCam(GameObject camTarget)
@@ -101,6 +78,5 @@ namespace KSH_Lib
         {
             return camAxis.x;
         }
-
     }
 }

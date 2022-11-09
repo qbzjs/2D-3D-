@@ -82,9 +82,6 @@ namespace GHJ_Lib
 			if (photonView.IsMine)
 			{
 				characterModel.transform.rotation =  Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y,0.0f);
-				//characterModel.transform.Rotate( Vector3.up, fpvCam.GetCamAxisX() );
-				//camTarget.transform.rotation = characterModel.transform.rotation;
-
 			}
 		}
 		protected override void MoveCharacter()
