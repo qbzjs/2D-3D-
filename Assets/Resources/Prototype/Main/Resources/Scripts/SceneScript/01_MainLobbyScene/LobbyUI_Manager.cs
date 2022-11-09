@@ -46,7 +46,7 @@ namespace KSH_Lib
         [SerializeField]
         GameObject quickMatchButtons;
 
-        //Suhyeon
+        //>>Suhyeon
         [Header("Information UI")]
         [SerializeField]
         GameObject informationButtons;
@@ -66,7 +66,15 @@ namespace KSH_Lib
         GameObject monkeyInformation;
         [SerializeField]
         GameObject penguinInformation;
-        //
+
+        [Header("Developer UI")]
+        [SerializeField]
+        GameObject developerCanvas;
+
+        [Header("Option UI")]
+        [SerializeField]
+        GameObject optionCanvas;
+        //<<Suhyeon
 
         [Header( "Character Select UI" )]
         [SerializeField]
@@ -94,34 +102,13 @@ namespace KSH_Lib
         TextMeshProUGUI actionButtonTMP;
 
 
-        //>>suhyeon
-        //[Header("Debug Only")]
-        //[SerializeField]
-        //public GameObject skipButtonObj;
-        //[SerializeField]
-        //protected GameObject lshSkipButtonObj;
-        //[SerializeField]
-        //protected GameObject kshSkipButtonObj;
-        //[SerializeField]
-        //public string roomName = "Debug";
-
-        //[SerializeField]
-        //protected string lshSceneName = "";
-        //[SerializeField]
-        //protected string kshSceneName = "";
-
-
-        ///*--- Private Fields ---*/
-        //protected bool isJoinedRoom = false;
-        //<<suhyeon
-
-        //[Header("Debug Only")]
+        [Header("Debug Only")]
         [SerializeField]
         private GameObject skipButtonObj;
-        //[SerializeField]
-        //private GameObject lshSkipButtonObj;
-        //[SerializeField]
-        //private GameObject kshSkipButtonObj;
+        [SerializeField]
+        private GameObject lshSkipButtonObj;
+        [SerializeField]
+        private GameObject kshSkipButtonObj;
         [SerializeField]
         public string roomName = "Debug";
 
@@ -265,6 +252,7 @@ namespace KSH_Lib
             customRoomCanvas.gameObject.SetActive( true );
             customRoomLobbyCanvas.gameObject.SetActive( true );
             informationCanvas.gameObject.SetActive(true);
+            
         }
         public void DisableCanvasesAll()
         {
@@ -274,6 +262,7 @@ namespace KSH_Lib
             customRoomCanvas.enabled = false;
             customRoomLobbyCanvas.enabled = false;
             informationCanvas.enabled = false;
+            
         }
         void DisableMainLobbyPanelAll()
         {
@@ -317,7 +306,7 @@ namespace KSH_Lib
             DisableMainLobbyPanelAll();
             quickMatchButtons.SetActive( true );
         }
-        //suhyeon
+        //>>suhyeon
         void EnableInformationButtonPanel()
         {
             DisableMainLobbyPanelAll();
@@ -327,6 +316,22 @@ namespace KSH_Lib
         {
             DisableCanvasesAll();
             informationCanvas.enabled = true;
+        }
+        void EnableDeveloperCanvas()
+        {
+            developerCanvas.SetActive(true);
+        }
+        void DisableDeveloperCanvas()
+        {
+            developerCanvas.SetActive(false);
+        }
+        void EnableOptionCanvas()
+        {
+            optionCanvas.SetActive(true);
+        }
+        void DisableOptionCanvas()
+        {
+            optionCanvas.SetActive(false);
         }
         //
         void EnableMainLobbyCanvas()
@@ -349,7 +354,8 @@ namespace KSH_Lib
             DisableCanvasesAll();
             customRoomLobbyCanvas.enabled = true;
         }
-        //suhyeon
+        
+        //<<suhyeon
         
         void EnableDollInformationPanel()
         {
