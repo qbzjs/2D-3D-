@@ -24,7 +24,7 @@ namespace GHJ_Lib
 		protected BvImprison imprison = new BvImprison();
 
 
-		[SerializeField] Transform headPos;
+		//[SerializeField] Transform headPos;
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
@@ -36,17 +36,16 @@ namespace GHJ_Lib
 				fpvCam.gameObject.SetActive(true);
 				curCam = fpvCam;
 
-				//foreach(var obj in hideObjects)
-    //            {
-				//	obj.SetActive( false );
-    //            }
-			}
+                foreach (var obj in hideObjects)
+                {
+                    obj.SetActive(false);
+                }
+            }
 			CurBehavior.PushSuccessorState(idle);
 		}
 
-
-		// Behavior Callbacks
-		public override void ImprisonDoll()
+        // Behavior Callbacks
+        public override void ImprisonDoll()
 		{
 			DollController doll = caughtDoll.GetComponent<DollController>();
 			CatchObj[doll.TypeIndex - 5].gameObject.SetActive( false );
@@ -81,9 +80,8 @@ namespace GHJ_Lib
 				BaseAnimator.SetFloat("MoveSpeed", 0);
 			}
 			if (photonView.IsMine)
-			{ 
+			{
 				characterModel.transform.rotation =  Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y,0.0f);
-				//headPos.LookAt( fpvCam.camIK.transform );
 			}
 		}
 		protected override void MoveCharacter()
@@ -102,6 +100,11 @@ namespace GHJ_Lib
 		[PunRPC]
 		protected override void ChangeBehaviorTo_RPC(BehaviorType behaviorType)
 		{
+			if(behaviorType != BehaviorType.Idle && IsMine)
+			{
+				BaseAnimator.SetFloat( "AnimationSpeed", 1.0f );
+			}
+
 			switch ( behaviorType )
 			{
 				case BehaviorType.Idle:

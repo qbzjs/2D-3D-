@@ -10,6 +10,10 @@ namespace GHJ_Lib
         {
             //PlayAnimation( actor );
             actor.ChangeMoveFunc(true);
+            if(actor.IsMine && actor is ExorcistController)
+            {
+                actor.BaseAnimator.SetFloat( "AnimationSpeed", 0.0f );
+            }
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
@@ -45,6 +49,7 @@ namespace GHJ_Lib
                 {
                     if ( exorcist.pickUpArea.CanGetTarget() )
                     {
+
                         exorcist.ChangeBvToCatch();
                     }
                     else
