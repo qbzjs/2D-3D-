@@ -19,6 +19,7 @@ namespace KSH_Lib.Object
         Animator animator;
         [SerializeField] public bool IsInteracting { get; private set; }
 
+
         protected override bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
         {
             if(targetController.gameObject.CompareTag(GameManager.DollTag))
@@ -90,6 +91,7 @@ namespace KSH_Lib.Object
             }
             DollInBox = null;
         }
+
         [PunRPC]
         void ShareInteractingInPurificationBox_RPC( bool isInteracting )
         {

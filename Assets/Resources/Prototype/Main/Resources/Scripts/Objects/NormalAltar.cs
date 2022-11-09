@@ -13,16 +13,46 @@ namespace KSH_Lib.Object
         [SerializeField] float exorcistInteractRate = -0.3f;
         [SerializeField] float exorcistCastingTime = 3.0f;
         [SerializeField] float dollInteractCostTime = 50.0f;
+        [SerializeField] GameObject[] candleLights;
         public override bool CanInteract
         {
             get => !castingSystem.IsCoroutineRunning;
+        }
+
+        float distribution;
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            foreach (var light in candleLights)
+            {
+                light.SetActive(false);
+            }
+            distribution = 1.0f / (float)(candleLights.Length);
+        }
+
+        void ChangeCandleLights()
+        {
+            int curLightCount = (int)OriginGauge / (int)(distribution * MaxGauge);
+
+            Debug.Log($"curLightCount: {curLightCount}");
+
+            for (int i = 0; i < candleLights.Length; ++i)
+            {
+                if (i < curLightCount)
+                {
+                    if (candleLights[i].activeInHierarchy) candleLights[i].SetActive(true);
+                    continue;
+                }
+                if (!candleLights[i].activeInHierarchy) candleLights[i].SetActive(false);
+            }
         }
 
         bool DollRunningCondition()
         {
             return targetController.IsInteractionKeyHold() && !IsExorcistInteracting;
         }
-
         void DollPauseAction()
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
@@ -38,6 +68,8 @@ namespace KSH_Lib.Object
             photonView.RPC( "ShareRate", RpcTarget.AllViaServer, RateOfGauge );
             IsExorcistInteracting = false;
             photonView.RPC( "ShareExorcistInteract", RpcTarget.AllViaServer, IsExorcistInteracting );
+
+            ChangeCandleLights();
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
         }
 
@@ -68,7 +100,7 @@ namespace KSH_Lib.Object
             {
                 castingSystem.ForceSetRatioTo( RateOfGauge );
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractCostTime, coolTime: CoolTime ),
-                    new CastingSystem.CastFuncSet( SyncGauge, DollRunningCondition, DollPauseAction, DollFinishAction )
+                    new CastingSystem.CastFuncSet( SyncGauge, DollRunningCondition, ChangeCandleLights, DollPauseAction, DollFinishAction )
                     );
                 return true;
             }

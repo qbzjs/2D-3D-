@@ -30,15 +30,18 @@ namespace KSH_Lib
         }
         public struct CastFuncSet
         {
-            public CastFuncSet( Action<float> SyncDataWith = null, Func<bool> RunningCondition = null, Action PauseAction = null, Action FinishAction = null )
+            public CastFuncSet( Action<float> SyncDataWith = null, Func<bool> RunningCondition = null,
+                Action RunningAction = null, Action PauseAction = null, Action FinishAction = null )
             {
                 this.SyncDataWith = SyncDataWith;
                 this.RunningCondition = RunningCondition;
+                this.RunningAction = RunningAction;
                 this.PauseAction = PauseAction;
                 this.FinishAction = FinishAction;
             }
             public Action<float> SyncDataWith { get; private set; }
             public Func<bool> RunningCondition { get; private set; }
+            public Action RunningAction { get; private set; }
             public Action PauseAction { get; private set; }
             public Action FinishAction { get; private set; }
         }
@@ -166,17 +169,11 @@ namespace KSH_Lib
 
             while ( true )
             {
+                // Check Finish Condition
                 if( slider.value >= cast.destRatio )
                 {
                     FinishCasting( cast, castFunc, true );
                     break;
-                }
-
-                // Change Value and Sync
-                slider.value += cast.deltaRatio * Time.deltaTime;
-                if ( castFunc.SyncDataWith != null )
-                {
-                    castFunc.SyncDataWith( slider.value );
                 }
 
                 // Check Runnig Condition
@@ -188,6 +185,19 @@ namespace KSH_Lib
                         break;
                     }
                 }
+
+                // Change Value and Sync
+                slider.value += cast.deltaRatio * Time.deltaTime;
+                if (castFunc.SyncDataWith != null)
+                {
+                    castFunc.SyncDataWith(slider.value);
+                    
+                    if(castFunc.RunningAction != null)
+                    {
+                        castFunc.RunningAction();
+                    }
+                }
+
                 yield return null;
             }
             yield return null;
