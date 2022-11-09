@@ -707,6 +707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fef01fe77bd848e419b102d4e318b057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targets: []
 --- !u!1 &4358257972407204481
 GameObject:
   m_ObjectHideFlags: 0
@@ -1254,7 +1255,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e26071572560730468f0248ea71f9e60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rabbit: {fileID: 2523616179706623431}
+  targets: []
+  rabbit: {fileID: 0}
 --- !u!135 &8842860077883511446
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1280,6 +1282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e26071572560730468f0248ea71f9e60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targets: []
   rabbit: {fileID: 0}
 --- !u!1 &5171643520874515199
 GameObject:
@@ -1525,7 +1528,7 @@ MonoBehaviour:
   camTarget: {fileID: 5171643520874515199}
   moveSpeed: 6
   rotateSpeed: 600
-  <BaseAnimator>k__BackingField: {fileID: 0}
+  <BaseAnimator>k__BackingField: {fileID: 8717308325710325274}
   fpvCam: {fileID: 7861727637496785579}
   tpvCam: {fileID: 2588410091664006167}
   skill: {fileID: 2523616179706623431}
@@ -1589,6 +1592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cfb30714fd4a1e4d8cbcfb34e732c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targets: []
 --- !u!1 &7170202480865796299
 GameObject:
   m_ObjectHideFlags: 0
@@ -1647,6 +1651,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca6e0aea008228644ac23f4412b62d69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targets: []
 --- !u!1 &7861727637496785583
 GameObject:
   m_ObjectHideFlags: 0
@@ -1743,7 +1748,7 @@ MonoBehaviour:
   isInvertVertical: 1
   maxSpeedX: 5
   maxSpeedY: 5
-  <camIK>k__BackingField: {fileID: 0}
+  <camAim>k__BackingField: {fileID: 0}
 --- !u!1 &7861727638555949568
 GameObject:
   m_ObjectHideFlags: 0

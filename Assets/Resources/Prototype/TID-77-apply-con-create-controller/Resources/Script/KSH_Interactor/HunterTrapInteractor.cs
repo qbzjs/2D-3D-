@@ -10,7 +10,7 @@ namespace GHJ_Lib
 	{
         CastingSystem castingSystem;
         public IInteractable Trap { get; private set; }
-        [SerializeField] protected HunterController hunter;
+        [SerializeField] protected ExorcistController hunter;
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -51,7 +51,7 @@ namespace GHJ_Lib
             else
             {
                 interactionPromptUI.Inactivate();
-                if (hunter.TrapCount > 0)
+                if ((hunter.skill as HunterSkill).TrapCount > 0)
                 {
                     if (Input.GetKeyDown(interactionKey))
                     {
@@ -74,7 +74,7 @@ namespace GHJ_Lib
         private void FinishAction()
         {
             hunter.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
-            Instantiate(hunter.TrapPrefab, hunter.transform);
+            Instantiate((hunter.skill as HunterSkill).TrapPrefab, hunter.transform);
         }
     }
 }
