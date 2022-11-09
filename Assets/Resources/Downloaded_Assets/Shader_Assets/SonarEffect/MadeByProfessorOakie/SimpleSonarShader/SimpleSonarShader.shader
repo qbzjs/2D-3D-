@@ -33,7 +33,7 @@ Shader "MadeByProfessorOakie/SimpleSonarShader" {
 			#define SonarPass 0
 			#pragma vertex SonarVert
 			#pragma fragment SonarFrag
-			#include "Assets\MadeByProfessorOakie\SimpleSonarShader\SimpleSonarCore.hlsl"
+			#include "Assets\Resources\Downloaded_Assets\Shader_Assets\SonarEffect\MadeByProfessorOakie\SimpleSonarShader\SimpleSonarCore.hlsl"
 
 		ENDHLSL
 		}
@@ -49,7 +49,7 @@ Shader "MadeByProfessorOakie/SimpleSonarShader" {
 			#define SonarPass 1
 			#pragma vertex SonarVert
 			#pragma fragment SonarFrag
-			#include "Assets\MadeByProfessorOakie\SimpleSonarShader\SimpleSonarCore.hlsl"
+			#include "Assets\Resources\Downloaded_Assets\Shader_Assets\SonarEffect\MadeByProfessorOakie\SimpleSonarShader\SimpleSonarCore.hlsl"
 
 		ENDHLSL
 		}

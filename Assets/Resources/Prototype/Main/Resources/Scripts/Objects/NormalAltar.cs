@@ -64,7 +64,7 @@ namespace KSH_Lib.Object
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Interact );
 
-            if ( interactor.gameObject.CompareTag(GameManager.DollTag))
+            if ( targetController.gameObject.CompareTag(GameManager.DollTag))
             {
                 castingSystem.ForceSetRatioTo( RateOfGauge );
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractCostTime, coolTime: CoolTime ),
@@ -72,7 +72,7 @@ namespace KSH_Lib.Object
                     );
                 return true;
             }
-            else if(interactor.gameObject.CompareTag(GameManager.ExorcistTag))
+            else if(targetController.gameObject.CompareTag(GameManager.ExorcistTag))
             {
                 IsExorcistInteracting = true;
                 photonView.RPC( "ShareExorcistInteract", RpcTarget.AllViaServer, IsExorcistInteracting );

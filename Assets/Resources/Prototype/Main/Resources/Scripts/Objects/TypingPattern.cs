@@ -25,6 +25,8 @@ namespace KSH_Lib
 
         void StartPattern(float coolTime, float limitTime)
         {
+            
+
             typingCasting.ForceSetRatioTo( 1.0f );
             //typingCasting.StartCasting(CastingSystem.Cast.CreateByTime(-limitTime, 0.0f, 0.1f),
             //    CastingSystem.CastFuncSet(SyncData,))

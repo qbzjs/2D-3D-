@@ -99,7 +99,7 @@ namespace GHJ_Lib
                 {
                     castingSystem.ForceSetRatioTo( RateOfGauge );
                     castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractTime, coolTime: 0.5f ),
-                        new CastingSystem.CastFuncSet( SyncGauge, , DollPauseAction, DollFinishAction )
+                        new CastingSystem.CastFuncSet( SyncGauge, targetController.IsInteractionKeyHold, DollPauseAction, DollFinishAction )
                         );
                 }
                 break;
