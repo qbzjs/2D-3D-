@@ -15,16 +15,9 @@ namespace KSH_Lib
         protected float maxSpeedY = 5.0f;
         
         [field: SerializeField] public GameObject camAim { get; protected set; }
-        //Vector3 nextCamAimPos;
-        Vector3 initialVector;
         float angleY;
 
         /*--- Monobehviour Callbacks ---*/
-        private void OnEnable()
-        {
-            initialVector = camAim.transform.position - camTarget.transform.position;
-            initialVector.x = 0.0f;
-        }
         protected override void LateUpdate()
         {
             if(canUpdate)
