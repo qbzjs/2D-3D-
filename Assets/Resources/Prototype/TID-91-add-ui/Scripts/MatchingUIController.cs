@@ -14,8 +14,8 @@ using KSH_Lib.UI;
 
 namespace LSH_Lib
 {
-	public class MatchingUIController : MonoBehaviourPunCallbacks
-	{
+    public class MatchingUIController : MonoBehaviourPunCallbacks
+    {
         [Header("Matching UI")]
         [SerializeField]
         private string loadSceneName = "02_MainGameScene";
@@ -24,7 +24,11 @@ namespace LSH_Lib
         [SerializeField]
         private Sprite refPlayerOnSprite;
         [SerializeField]
+        private Sprite exorcistOnSprite;
+        [SerializeField]
         private Sprite refPlayerOffSprite;
+        [SerializeField]
+        private Sprite exorcistOffSprite;
         [SerializeField]
         private Image[] playerLoadImgs;
         [SerializeField]
@@ -63,6 +67,19 @@ namespace LSH_Lib
                 }
             }
         }
+        public void EnableCharacterSelectCanvas()
+        {
+            LobbyUI_Manager.Instace.DisableCanvasesAll();
+            characterSelectCanvas.enabled = true;
+            if(DataManager.Instance.PreRoleType.Equals("Exorcist"))
+            {
+                charaSelectCanvasController.SendMessage("OnSelectRole");
+            }
+            else if(DataManager.Instance.PreRoleType.Equals("Doll"))
+            {
+                charaSelectCanvasController.SendMessage("OnSelectRole");
+            }
+        }
         public void EnableCharacterSelectCanvas(string roleName)
         {
             LobbyUI_Manager.Instace.DisableCanvasesAll();
@@ -90,32 +107,38 @@ namespace LSH_Lib
                     break;
             }
         }
-        public void OnMatchingStartButton(string roleType)
-        {
-            if (roleType == "Exorcist")
-            {
-                DataManager.Instance.PreRoleType = RoleData.RoleType.Exorcist;
-                PhotonNetwork.CreateRoom(LobbyUI_Manager.Instace.roomName, new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
-            }
-            else if (roleType == "Doll")
-            {
-                DataManager.Instance.PreRoleType = RoleData.RoleType.Doll;
-                PhotonNetwork.JoinRoom(LobbyUI_Manager.Instace.roomName);
-            }
-            else
-            {
-                Debug.LogWarning("LobbyUI_Manager: Need to Select role");
-                return;
-            }
-        }
+        //public void OnMatchingStartButton(string roleType)
+        //{
+        //    if (roleType == "Exorcist")
+        //    {
+        //        DataManager.Instance.PreRoleType = RoleData.RoleType.Exorcist;
+        //        PhotonNetwork.CreateRoom(LobbyUI_Manager.Instace.roomName, new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
+        //    }
+        //    else if (roleType == "Doll")
+        //    {
+        //        DataManager.Instance.PreRoleType = RoleData.RoleType.Doll;
+        //        PhotonNetwork.JoinRoom(LobbyUI_Manager.Instace.roomName);
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning("LobbyUI_Manager: Need to Select role");
+        //        return;
+        //    }
+        //}
         void ChangePlayerImage()
-        {
+        {   
+            
             for (int i = 0; i < GameManager.Instance.CurPlayerCount; ++i)
             {
+                
                 playerLoadImgs[i].sprite = refPlayerOnSprite;
+                
             }
+            playerLoadImgs[4].sprite = exorcistOnSprite;
+
             for (int i = GameManager.Instance.CurPlayerCount; i < GameManager.Instance.MaxPlayerCount; ++i)
             {
+                
                 playerLoadImgs[i].sprite = refPlayerOffSprite;
             }
         }

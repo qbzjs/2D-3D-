@@ -401,38 +401,38 @@ namespace KSH_Lib
         {
             return $"RandomRoom{PhotonNetwork.CountOfRooms + 1}";
         }
-        void OnMatchingStartButton()
-        {
-            if(DataManager.Instance.PreRoleType == RoleData.RoleType.Null)
-            {
-                Debug.LogWarning( "LobbyUI_Manager: Need to Select role" );
-                return;
-            }
+        //void OnMatchingStartButton()
+        //{
+        //    if(DataManager.Instance.PreRoleType == RoleData.RoleType.Null)
+        //    {
+        //        Debug.LogWarning( "LobbyUI_Manager: Need to Select role" );
+        //        return;
+        //    }
 
-            DataManager.Instance.InitLocalRoleData();
+        //    DataManager.Instance.InitLocalRoleData();
 
 
-            switch ( DataManager.Instance.PreRoleType )
-            {
-                case RoleData.RoleType.Doll:
-                {
-                    //PhotonNetwork.JoinRandomRoom();
-                    PhotonNetwork.JoinRoom( roomName );
-                }
-                break;
-                case RoleData.RoleType.Exorcist:
-                {
-                    PhotonNetwork.CreateRoom( roomName, new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
-                    //PhotonNetwork.CreateRoom( CreateRandomRoomName(), new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
-                }
-                break;
-                default:
-                {
-                    Debug.LogWarning( "LobbyUI_Manager: Need to Select role" );
-                }
-                break;
-            }
-        }
+        //    switch ( DataManager.Instance.PreRoleType )
+        //    {
+        //        case RoleData.RoleType.Doll:
+        //        {
+        //            //PhotonNetwork.JoinRandomRoom();
+        //            PhotonNetwork.JoinRoom( roomName );
+        //        }
+        //        break;
+        //        case RoleData.RoleType.Exorcist:
+        //        {
+        //            PhotonNetwork.CreateRoom( roomName, new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
+        //            //PhotonNetwork.CreateRoom( CreateRandomRoomName(), new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
+        //        }
+        //        break;
+        //        default:
+        //        {
+        //            Debug.LogWarning( "LobbyUI_Manager: Need to Select role" );
+        //        }
+        //        break;
+        //    }
+        //}
         public void OnMatchingStartButton(string roleType)
         {
             if(roleType == "Exorcist")

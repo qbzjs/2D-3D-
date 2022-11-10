@@ -98,15 +98,15 @@ namespace KSH_Lib.UI
                     break;
                 case "Hunter":
                     DisablAllInformation();
-                    bishopInformation.SetActive(true);
+                    hunterInformation.SetActive(true);
                     break;
                 case "Photographer":
                     DisablAllInformation();
-                    bishopInformation.SetActive(true);
+                    photographerInformation.SetActive(true);
                     break;
                 case "Priest":
                     DisablAllInformation();
-                    bishopInformation.SetActive(true);
+                    priestInformation.SetActive(true);
                     break;
             }
         }
