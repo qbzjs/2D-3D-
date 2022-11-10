@@ -85,7 +85,7 @@ namespace GHJ_Lib
 				return dolls;
 			}
 		}
-		List<DollController> dolls;
+		List<DollController> dolls = new List<DollController>();
 
 
 		/*--- Private Fields ---*/
