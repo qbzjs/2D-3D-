@@ -92,13 +92,19 @@ namespace KSH_Lib.Object
             DollInBox.EscapeFrom( transform, LayerMask.NameToLayer( "Player" ) );
             DollInBox.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Escape );
             animator.Play( "OpenDoor" );
-            DollInBox = null;
+            photonView.RPC("ShareDollInBox_RPC", RpcTarget.AllViaServer);
         }
 
         [PunRPC]
         void ShareInteractingInPurificationBox_RPC( bool isInteracting )
         {
             IsInteracting = isInteracting;
+        }
+
+        [PunRPC]
+        void ShareDollInBox_RPC()
+        {
+            DollInBox = null;
         }
     }
 }
