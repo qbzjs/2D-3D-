@@ -47,10 +47,16 @@ namespace GHJ_Lib
         // Behavior Callbacks
         public override void ImprisonDoll()
 		{
+			Log.Instance.WriteLog("ImprisonDoll()", 2);
+
 			DollController doll = caughtDoll.GetComponent<DollController>();
 			CatchObj[doll.TypeIndex - 5].gameObject.SetActive( false );
-			doll.ChangeBvToBePurifying( gameObject.GetComponentInChildren<KSH_Lib.Object.Interactor>().Interactable.GetGameObject.GetComponent<GaugedObj>() as KSH_Lib.Object.PurificationBox );
+			if (IsMine)
+			{ 
+				doll.ChangeBvToBePurifying( gameObject.GetComponentInChildren<KSH_Lib.Object.Interactor>().Interactable.GetGameObject.GetComponent<GaugedObj>() as KSH_Lib.Object.PurificationBox );
+			}
 			//doll.ChangeBvToBePurifying((interactObj as PurificationBox));
+			caughtDoll = null;
 		}
 		public DollController GetCaughtDoll()
         {

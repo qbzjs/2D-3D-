@@ -24,7 +24,7 @@ namespace GHJ_Lib
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
             AnimatorStateInfo animatorStateInfo = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
-            if (animatorStateInfo.normalizedTime >= attackTime && actor.BaseAnimator.GetBool("IsAttack")) 
+            if (animatorStateInfo.normalizedTime >= attackTime && actor.BaseAnimator.GetBool("IsAttack")&& animatorStateInfo.IsName("Attack"))
             {
                 AttackArea attackArea = (actor as ExorcistController).attackArea;
                 if (attackArea.CanGetTarget())
@@ -36,15 +36,17 @@ namespace GHJ_Lib
                 }
                 actor.BaseAnimator.SetBool("IsAttack", false);
             }
-
-            if (!actor.BaseAnimator.GetBool("IsAttack"))
+            else
             {
-                return null;
-            }
-            if (animatorStateInfo.IsName("Idle"))
-            {
-                actor.BaseAnimator.SetBool("IsAttack", false);
-                return new BvIdle();
+                if (actor.BaseAnimator.GetBool("IsAttack"))
+                {
+                    return null;
+                }
+                if (animatorStateInfo.IsName("Idle"))
+                {
+                    actor.BaseAnimator.SetBool("IsAttack", false);
+                    return new BvIdle();
+                }
             }
             return null;
         }
