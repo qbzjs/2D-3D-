@@ -43,6 +43,7 @@ namespace KSH_Lib.Object
 
         public override bool Interact( Interactor interactor )
         {
+            targetController.ChangeBvToImprison();
             if (interactor.gameObject.CompareTag(GameManager.DollTag))
             {
                 IsInteracting = true;
@@ -53,7 +54,6 @@ namespace KSH_Lib.Object
             }
             else if(interactor.gameObject.CompareTag(GameManager.ExorcistTag))
             {
-                targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Imprison);
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( exorcistCastingTime, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet(FinishAction: ExorcistFinishAction ) );
             }
@@ -64,7 +64,6 @@ namespace KSH_Lib.Object
             }
             return true;
         }
-
         void PauseAction()
         {
             castingSystem.ResetCasting();

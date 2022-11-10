@@ -37,7 +37,7 @@ namespace GHJ_Lib
                 actor.BaseAnimator.SetBool("IsAttack", false);
             }
 
-            if (actor.BaseAnimator.GetBool("IsAttack"))
+            if (!actor.BaseAnimator.GetBool("IsAttack"))
             {
                 return null;
             }
