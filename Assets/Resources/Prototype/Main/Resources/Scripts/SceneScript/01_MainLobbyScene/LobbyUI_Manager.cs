@@ -11,6 +11,8 @@ using KSH_Lib;
 using KSH_Lib.Data;
 using KSH_Lib.UI;
 
+using LSH_Lib;
+
 using DEM;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -127,6 +129,9 @@ namespace KSH_Lib
             skipButtonObj.SetActive( false );
             lshSkipButtonObj.SetActive( false );
             kshSkipButtonObj.SetActive( false );
+
+            //LSH
+            AudioManager.instance.Play("LobbyBGM");
         }
         private void Update()
         {
@@ -404,6 +409,7 @@ namespace KSH_Lib
         }
         void OnMatchingCancelButton()
         {
+            AudioManager.instance.Play("Cancel");
             PhotonNetwork.LeaveRoom();
             isJoinedRoom = false;
             EnableMainLobbyCanvas();
