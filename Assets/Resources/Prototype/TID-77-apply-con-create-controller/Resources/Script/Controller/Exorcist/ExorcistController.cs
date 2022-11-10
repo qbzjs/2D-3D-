@@ -51,10 +51,13 @@ namespace GHJ_Lib
 
 			DollController doll = caughtDoll.GetComponent<DollController>();
 			CatchObj[doll.TypeIndex - 5].gameObject.SetActive( false );
+			
+
 			if (IsMine)
 			{ 
 				doll.ChangeBvToBePurifying( gameObject.GetComponentInChildren<KSH_Lib.Object.Interactor>().Interactable.GetGameObject.GetComponent<GaugedObj>() as KSH_Lib.Object.PurificationBox );
 			}
+			puriBox.SetDoll(this);
 			//doll.ChangeBvToBePurifying((interactObj as PurificationBox));
 			caughtDoll = null;
 		}
