@@ -20,6 +20,14 @@ namespace KSH_Lib.Object
         [SerializeField] public bool IsInteracting { get; private set; }
         bool isDollPurifying;
 
+        [SerializeField] KSH_Lib.Util.PhaseEffect phaseEffect;
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+        }
+
         protected override bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
         {
             if(targetController.gameObject.CompareTag(GameManager.DollTag))
@@ -111,6 +119,7 @@ namespace KSH_Lib.Object
                 else if(DollInBox.GetDollData.DevilHP <= 0.0f)
                 {
                     Debug.Log("Start Remove");
+
                     PhotonNetwork.Destroy(gameObject);
                     yield return null;
                 }
