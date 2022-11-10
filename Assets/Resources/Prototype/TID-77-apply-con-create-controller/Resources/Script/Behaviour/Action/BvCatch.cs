@@ -18,6 +18,7 @@ namespace GHJ_Lib
 
             if (animatorStateInfo.IsName("Idle"))
             {
+                actor.BaseAnimator.SetBool("IsCatch", false);
                 actor.ChangeMoveFunc(true);
             }
             else
