@@ -15,6 +15,7 @@ namespace GHJ_Lib
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
+
             if (!actor.BaseAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             {
                 return null;
