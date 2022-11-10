@@ -15,23 +15,9 @@ namespace KSH_Lib.Data
 	[System.Serializable]
 	public class PlayerData
 	{
-		/*--- Public Fields ---*/
 		public RoleData roleData;
 		public AccountData accountData;
 
-        /*--- Protected Fields ---*/
 
-
-        /*--- Private Fields ---*/
-
-
-
-        /*--- Public Methods ---*/
-  
-
-        /*--- Protected Methods ---*/
-
-
-        /*--- Private Methods ---*/
     }
 }
