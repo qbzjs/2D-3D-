@@ -14,6 +14,8 @@ namespace KSH_Lib.Object
         [SerializeField] float exorcistCastingTime = 3.0f;
         [SerializeField] float dollInteractCostTime = 50.0f;
         [SerializeField] GameObject[] candleLights;
+        [SerializeField] GameObject finishLight;
+
         public override bool CanInteract
         {
             get => !castingSystem.IsCoroutineRunning;
@@ -29,24 +31,8 @@ namespace KSH_Lib.Object
             {
                 light.SetActive(false);
             }
+            finishLight.SetActive(false);
             distribution = 1.0f / (float)(candleLights.Length);
-        }
-
-        void ChangeCandleLights()
-        {
-            int curLightCount = (int)OriginGauge / (int)(distribution * MaxGauge);
-
-            Debug.Log($"curLightCount: {curLightCount}");
-
-            for (int i = 0; i < candleLights.Length; ++i)
-            {
-                if (i < curLightCount)
-                {
-                    if (!candleLights[i].activeInHierarchy) candleLights[i].SetActive(true);
-                    continue;
-                }
-                if (candleLights[i].activeInHierarchy) candleLights[i].SetActive(false);
-            }
         }
 
         bool DollRunningCondition()
@@ -61,6 +47,8 @@ namespace KSH_Lib.Object
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
             castingSystem.ResetCasting();
+            finishLight.SetActive(true);
+            photonView.RPC("ActiveFinishLightRPC", RpcTarget.AllViaServer);
         }
         void ExorcistFinishAction()
         {
@@ -69,7 +57,9 @@ namespace KSH_Lib.Object
             IsExorcistInteracting = false;
             photonView.RPC( "ShareExorcistInteract", RpcTarget.AllViaServer, IsExorcistInteracting );
 
-            ChangeCandleLights();
+
+            ChangeCandleLightsToEveryone();
+
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
         }
 
@@ -100,7 +90,7 @@ namespace KSH_Lib.Object
             {
                 castingSystem.ForceSetRatioTo( RateOfGauge );
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractCostTime, coolTime: CoolTime ),
-                    new CastingSystem.CastFuncSet( SyncGauge, DollRunningCondition, ChangeCandleLights, DollPauseAction, DollFinishAction )
+                    new CastingSystem.CastFuncSet( SyncGauge, DollRunningCondition, ChangeCandleLightsToEveryone, DollPauseAction, DollFinishAction )
                     );
                 return true;
             }
@@ -120,5 +110,38 @@ namespace KSH_Lib.Object
             }
             return false;
 		}
+
+        void ChangeCandleLightsLocal()
+        {
+            int curLightCount = (int)OriginGauge / (int)(distribution * MaxGauge);
+
+            Debug.Log($"curLightCount: {curLightCount}");
+
+            for (int i = 0; i < candleLights.Length; ++i)
+            {
+                if (i < curLightCount)
+                {
+                    if (!candleLights[i].activeInHierarchy) candleLights[i].SetActive(true);
+                    continue;
+                }
+                if (candleLights[i].activeInHierarchy) candleLights[i].SetActive(false);
+            }
+        }
+        void ChangeCandleLightsToEveryone()
+        {
+            ChangeCandleLightsLocal();
+            photonView.RPC("ChangeCandleLightsRPC", RpcTarget.AllViaServer);
+        }
+
+        [PunRPC]
+        public void ChangeCandleLightsRPC()
+        {
+            ChangeCandleLightsLocal();
+        }
+        [PunRPC]
+        public void ActiveFinishLightRPC()
+        {
+            finishLight.SetActive(true);
+        }
 	}
 }
