@@ -13,6 +13,12 @@ namespace GHJ_Lib
 	{
 		/*--- Public Fields ---*/
 		public int CrossStack { get { return crossStack; } }
+		protected int crossStack = 0;
+
+		public bool IsCrowDebuff { get; set; } = true;
+		public float CrowGauge { get; set; } = 0.0f;
+
+
 		[SerializeField]
 		protected GameObject GhostModel;
 		[SerializeField]
@@ -28,7 +34,7 @@ namespace GHJ_Lib
 		protected BvHide bvHide = new BvHide();
 		protected BvbeTrapped bvbeTrapped = new BvbeTrapped();
 
-		protected int crossStack = 0;
+		
 
 		public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
 

@@ -39,7 +39,7 @@ namespace GHJ_Lib
 		public Transform[] ExitAltarGenPos;
 		public Transform FinalAltarGenPos;
 		public Transform[] PurificationBoxGenPos;
-
+		public Transform[] CrowGenPos;
 		[Header("NormalAltarSetting")]
 		public int Count;
 		public float InitAreaRadius;

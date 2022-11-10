@@ -14,6 +14,7 @@ namespace GHJ_Lib
 			{
 				bishopSkill = (actor.skill as BishopSkill);
 			}
+
 			if (bishopSkill.InstallCross >= bishopSkill.CrossMaxCount ) // 주변에 십자가가 있을 시( 주변범위는 4) 설치 불가 -> interact범위로 해줄것.
 			{
 				return;
@@ -21,7 +22,7 @@ namespace GHJ_Lib
 			else
 			{
 				actor.BaseAnimator.SetBool("IsInstallCross", true);
-				actor.StartCoroutine("SetCross");
+				bishopSkill.StartCoroutine("SetCross");
 				bishopSkill.InstallCross++;
 			}
 

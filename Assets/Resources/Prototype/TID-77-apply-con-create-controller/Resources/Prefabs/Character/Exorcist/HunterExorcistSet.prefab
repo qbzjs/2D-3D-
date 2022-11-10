@@ -17387,7 +17387,7 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_Follow: {fileID: 7847286036082317859}
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
@@ -17419,7 +17419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canUpdate: 1
-  camTarget: {fileID: 0}
+  camTarget: {fileID: 7724858755544314335}
   virtualCam: {fileID: 2979686419641793210}
   mouseSpeed: 0.3
   mouseAccel: 0.1
@@ -21364,6 +21364,8 @@ MonoBehaviour:
   Controller: {fileID: 8589422641747266009}
   TrapPrefab: {fileID: 2323415351255118185, guid: 94ab14a458db1914fb4ecef104c741e8,
     type: 3}
+  CrowPrefab: {fileID: 4886148007179125637, guid: 70ecfd9829fe6b34cb345fab8b30773f,
+    type: 3}
 --- !u!114 &8589422641747266009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21398,6 +21400,7 @@ MonoBehaviour:
   CatchObj: []
   <pickUpArea>k__BackingField: {fileID: 7833536140955860914}
   <attackArea>k__BackingField: {fileID: 2569236917105950495}
+  InteractObject: {fileID: 0}
 --- !u!1 &7708037418563653430
 GameObject:
   m_ObjectHideFlags: 0
