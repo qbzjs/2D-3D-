@@ -16,11 +16,17 @@ namespace KSH_Lib.Util
         [SerializeField] Material[] matOrgins;
         [SerializeField] Material[] matDissolves;
         [SerializeField] Material[] matPhases;
-        [SerializeField] float targetHeight = 2.0f;
-        [SerializeField] float fadeTime = 2.0f;
         [SerializeField] EffectType effectType;
 
-        private void Start()
+        void LoopMaterial(Renderer[] renderers, Material[] materials)
+        {
+            for (var i = 0; i < renderers.Length; ++i)
+            {
+                renderers[i].material = materials[i];
+            }
+        }
+
+        public void DoFade(float start, float dest, float time)
         {
             switch (effectType)
             {
@@ -36,18 +42,6 @@ namespace KSH_Lib.Util
                 break;
             }
 
-        }
-
-        void LoopMaterial(Renderer[] renderers, Material[] materials)
-        {
-            for (var i = 0; i < renderers.Length; ++i)
-            {
-                renderers[i].material = materials[i];
-            }
-        }
-
-        public void DoFade(float start, float dest, float time)
-        {
             iTween.ValueTo(gameObject,
                 iTween.Hash(
                     "from", start,

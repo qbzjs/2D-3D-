@@ -13,14 +13,23 @@ namespace KSH_Lib.Object
 
         [SerializeField] float dollInteractCostTime = 30.0f;
         [SerializeField] float exorcistCastingTime = 3.0f;
-        [SerializeField]
-        protected DollController DollInBox = null;
-        [SerializeField]
-        Animator animator;
+        [SerializeField] protected DollController DollInBox = null;
+        [SerializeField] Animator animator;
         [SerializeField] public bool IsInteracting { get; private set; }
+
+        [SerializeField] float damagePerSecond = 20.0f;
+
+
+
+        [Header("Destroy Effect")]
+        [SerializeField] KSH_Lib.Util.PhaseEffect phaseEffect;
+        [SerializeField] float destroyTime = 1.5f;
+        [SerializeField] float startHeight = 5.2f;
+
         bool isDollPurifying;
 
-        [SerializeField] KSH_Lib.Util.PhaseEffect phaseEffect;
+        //Coroutine damageCoroutine;
+
 
         protected override void OnEnable()
         {
@@ -65,6 +74,7 @@ namespace KSH_Lib.Object
                 targetController.ChangeBvToImprison();
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( exorcistCastingTime, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet(FinishAction: ExorcistFinishAction ) );
+                //damageCoroutine = StartCoroutine(DamageDoll());
                 if(!isDollPurifying)
                 {
                     StartCoroutine(DestroyIfDollDead());
@@ -101,6 +111,8 @@ namespace KSH_Lib.Object
         {
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 
+            //StopCoroutine(damageCoroutine);
+
             DollInBox.EscapeFrom( transform, LayerMask.NameToLayer( "Player" ) );
             DollInBox.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Escape );
             animator.Play( "OpenDoor" );
@@ -112,20 +124,43 @@ namespace KSH_Lib.Object
             isDollPurifying = true;
             while (true)
             {
-                if(DollInBox == null)
+                yield return null;
+                if (DollInBox == null)
                 {
                     yield return null;
                 }
-                else if(DollInBox.GetDollData.DevilHP <= 0.0f)
+                else if (DollInBox.GetDollData.DevilHP <= 0.0f)
                 {
                     Debug.Log("Start Remove");
+                    phaseEffect.DoFade(startHeight, 0.0f, destroyTime);
+
+                    yield return new WaitForSeconds(destroyTime);
 
                     PhotonNetwork.Destroy(gameObject);
-                    yield return null;
                 }
                 yield return null;
             }
         }
+
+        //IEnumerator DamageDoll()
+        //{
+        //    while(true)
+        //    {
+        //        yield return null;
+
+        //        if(DollInBox == null)
+        //        {
+        //            yield return null;
+        //        }
+
+        //        if(DollInBox.GetDollData.DevilHP <= 0.0f)
+        //        {
+        //            yield return null;
+        //        }
+
+        //        DollInBox.AddDevilHP(damagePerSecond * Time.deltaTime);
+        //    }
+        //}
 
         [PunRPC]
         void ShareInteractingInPurificationBox_RPC( bool isInteracting )

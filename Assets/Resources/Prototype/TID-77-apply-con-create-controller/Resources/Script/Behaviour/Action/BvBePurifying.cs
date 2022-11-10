@@ -25,7 +25,7 @@ namespace GHJ_Lib
             if (actor.photonView.IsMine)
             {
                 DollData dollData = DataManager.Instance.LocalPlayerData.roleData as DollData;
-                dollData.DevilHP -= 5.0f*Time.deltaTime;
+                dollData.DevilHP -= 5.0f * Time.deltaTime;
                 DataManager.Instance.ShareRoleData();
 
                 if (dollData.DevilHP < 0.0f)

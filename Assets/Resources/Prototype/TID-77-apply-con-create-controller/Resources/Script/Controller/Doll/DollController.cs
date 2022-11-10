@@ -162,6 +162,19 @@ namespace GHJ_Lib
 		}
 
 
+		public void AddDevilHP(float power)
+        {
+			GetDollData.DevilHP += power;
+			DataManager.Instance.ShareRoleData();
+
+			if(GetDollData.DevilHP <= 0.0f)
+            {
+				BaseAnimator.Play("Idle_A");
+				BecomeGhost();
+				CurBehavior.PushSuccessorState(new BvIdle());
+			}
+		}
+
 		[PunRPC]
 		public void _BecomeGhost()
 		{
