@@ -26,7 +26,8 @@ namespace GHJ_Lib
 			BeCaught,
 			BePurifying,
 			Escape,
-			Hide
+			Hide,
+			BeTrapped
 		}
 
 

@@ -3,18 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
 using KSH_Lib.Object;
-
+using Photon.Pun;
 namespace GHJ_Lib
 {
 	public class HunterTrapInteractor: Interactor
 	{
         CastingSystem castingSystem;
         public IInteractable Trap { get; private set; }
-        [SerializeField] protected HunterController hunter;
+        [SerializeField] protected ExorcistController hunter;
         protected override void OnEnable()
         {
             base.OnEnable();
             castingSystem = StageManager.Instance.CastSystem;
+            interactionPromptUI.Inactivate();
+        }
+        protected override void Update()
+        {
+            if (hunter.IsMine)
+            {
+                TryInteract();
+            }
         }
         protected override void TryInteract()
         {
@@ -24,6 +32,11 @@ namespace GHJ_Lib
             {
                 foreach (Collider collider in colliders)
                 {
+                    if (!collider)
+                    {
+                        continue;
+                    }
+
                     if (hunter.IsWatching(collider.gameObject))
                     {
                         Trap = collider.GetComponentInParent<IInteractable>();
@@ -34,12 +47,13 @@ namespace GHJ_Lib
                         Trap = null;
                     }
                 }
+
                 if (Trap != null)
                 {
                     bool canInteract = Trap.ActiveInteractPrompt(this, interactionPromptUI);//isWatching ±Ó¡ˆ ≥÷æÓ¡Ÿ∞Õ.
-
                     if (canInteract && Input.GetKeyDown(interactionKey))
                     {
+                        hunter.photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.AllViaServer);
                         Trap.Interact(this); //Manual Casting
                     }
                 }
@@ -51,30 +65,30 @@ namespace GHJ_Lib
             else
             {
                 interactionPromptUI.Inactivate();
-                if (hunter.TrapCount > 0)
+                if ((hunter.skill as HunterSkill).TrapCount > 0)
                 {
-                    if (Input.GetKeyDown(interactionKey))
+                    if (Input.GetKeyDown(interactionKey)&&!castingSystem.IsCoroutineRunning)
                     {
-                        hunter.DoSkill();
-                        castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(1.0f,2.3f,5.0f), new CastingSystem.CastFuncSet(null, RunningCondition, PauseAction, FinishAction) ); // RunningCondition : Input.getKey / PauseAction : Idle∑Œ πŸ≤„¡‹ /  FinishAction : Idle πŸ≤„¡÷∞Ì º≥ƒ°
+                        Debug.Log("install Trap");
+                        hunter.photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.AllViaServer);
+                        castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(3.0f,coolTime : 5.0f), new CastingSystem.CastFuncSet(null, RunningCondition, PauseAction, FinishAction) ); // RunningCondition : Input.getKey / PauseAction : Idle∑Œ πŸ≤„¡‹ /  FinishAction : Idle πŸ≤„¡÷∞Ì º≥ƒ°
                     }
                 }
             }
 
         }
-
         private bool RunningCondition()
         {
-            return Input.GetKeyDown(interactionKey);
+            return Input.GetKey(interactionKey);
         }
         private void PauseAction()
         {
-            hunter.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
+            (hunter.skill as HunterSkill).Installfail();
         }
         private void FinishAction()
         {
-            hunter.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
-            Instantiate(hunter.TrapPrefab, hunter.transform);
+            (hunter.skill as HunterSkill).InstallTrap();
+            PhotonNetwork.Instantiate((hunter.skill as HunterSkill).TrapName,hunter.transform.position,hunter.transform.rotation);
         }
     }
 }

@@ -2,24 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
-using KSH_Lib.Data;
 
 namespace GHJ_Lib
 {
-	public class BvRabbitActSkill: Behavior<NetworkBaseController>
+	public class BvbeTrapped: Behavior<NetworkBaseController>
 	{
         protected override void Activate(in NetworkBaseController actor)
         {
-            (actor.skill as RabbitSkill).StartCoroutine("ExcuteActiveSkill");
-            actor.BaseAnimator.SetBool("IsSkill",true);
+            actor.ChangeMoveFunc(false);
         }
-
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
             Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
-            if (Bv is BvIdle||Bv is BvGetHit)
+            if (Bv is BvIdle)
             {
-                actor.BaseAnimator.SetBool("IsSkill", false);
+                return Bv;
+            }
+            else if (Bv is BvBeCaught)
+            {
                 return Bv;
             }
             return null;
