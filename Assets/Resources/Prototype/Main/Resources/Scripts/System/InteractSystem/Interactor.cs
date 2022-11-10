@@ -44,6 +44,10 @@ namespace KSH_Lib.Object
             {
                 TryInteract();
             }
+            else
+            {
+                TryFindInteractable();
+            }
         }
         protected virtual void OnDrawGizmosSelected()
         {
@@ -81,6 +85,19 @@ namespace KSH_Lib.Object
             {
                 Interactable = null;
                 interactionPromptUI.Inactivate();
+            }
+        }
+        protected virtual void TryFindInteractable()
+        {
+            foundCount = Physics.OverlapSphereNonAlloc(interactionPoint.position, interactionPointRadius, colliders, interactableMask);
+
+            if (foundCount > 0)
+            {
+                Interactable = colliders[0].GetComponentInParent<IInteractable>();
+            }
+            else
+            {
+                Interactable = null;
             }
         }
     }

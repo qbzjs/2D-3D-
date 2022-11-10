@@ -81,7 +81,7 @@ namespace GHJ_Lib
 					{
 						dollList.Add( d.GetComponent<DollController>() );
 					}
-					dollList.Sort( ( lhs, rhs ) => lhs.PlayerIndex.CompareTo( rhs.PlayerIndex ) );
+					//dollList.Sort( ( lhs, rhs ) => lhs.PlayerIndex.CompareTo( rhs.PlayerIndex ) );
 					dolls = dollList;
 				}
 				return dolls;
