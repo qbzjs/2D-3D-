@@ -75,12 +75,14 @@ namespace GHJ_Lib
 			{
 				if ( dolls == null )
 				{
+					List<DollController> dollList = new List<DollController>();
 					GameObject[] dollObjects = GameObject.FindGameObjectsWithTag( "Doll" );
 					foreach ( var d in dollObjects )
 					{
-						dolls.Add( d.GetComponent<DollController>() );
+						dollList.Add( d.GetComponent<DollController>() );
 					}
-					dolls.Sort( ( lhs, rhs ) => lhs.PlayerIndex.CompareTo( rhs.PlayerIndex ) );
+					//dollList.Sort( ( lhs, rhs ) => lhs.PlayerIndex.CompareTo( rhs.PlayerIndex ) );
+					dolls = dollList;
 				}
 				return dolls;
 			}

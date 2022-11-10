@@ -17,6 +17,7 @@ namespace GHJ_Lib
 		[field: SerializeField] public AttackArea attackArea { get; protected set; }
 
 		protected GameObject caughtDoll;
+		public GameObject InteractObject;
 
 		// Behaviors
 		protected BvAttack attack = new BvAttack();
@@ -47,10 +48,25 @@ namespace GHJ_Lib
         // Behavior Callbacks
         public override void ImprisonDoll()
 		{
+			Log.Instance.WriteLog("ImprisonDoll()", 2);
+
 			DollController doll = caughtDoll.GetComponent<DollController>();
 			CatchObj[doll.TypeIndex - 5].gameObject.SetActive( false );
-			doll.ChangeBvToBePurifying( gameObject.GetComponentInChildren<KSH_Lib.Object.Interactor>().Interactable.GetGameObject.GetComponent<GaugedObj>() as KSH_Lib.Object.PurificationBox );
-			//doll.ChangeBvToBePurifying((interactObj as PurificationBox));
+
+			var interactable = gameObject.GetComponentInChildren<KSH_Lib.Object.Interactor>().Interactable;
+			if(interactable == null)
+            {
+				Debug.LogError("ExorcistController.ImprisonDoll(): Can not find interactable");
+				return;
+            }
+			var purificationBox = interactable.GetGameObject.GetComponent<GaugedObj>() as KSH_Lib.Object.PurificationBox;
+			if (purificationBox == null)
+			{
+				Debug.LogError("ExorcistController.ImprisonDoll(): Can not find purificationBox");
+				return;
+			}
+			doll.ChangeBvToBePurifying(purificationBox);
+			caughtDoll = null;
 		}
 		public DollController GetCaughtDoll()
         {

@@ -8,6 +8,7 @@ namespace GHJ_Lib
 	public class HunterSkill: ExorcistSkill
 	{
 		public GameObject TrapPrefab;
+        public GameObject CrowPrefab;
 		public int TrapCount { get; protected set; }
         public string TrapName { get; protected set; }
         public bool isUse { get; protected set; }
@@ -66,6 +67,10 @@ namespace GHJ_Lib
                     break;
                 }
             }
+        }
+        protected void HunterPassiveSkill()
+        {
+            
         }
     }
 }

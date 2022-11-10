@@ -43,7 +43,6 @@ namespace KSH_Lib.Object
 
         public override bool Interact( Interactor interactor )
         {
-            targetController.ChangeBvToImprison();
             if (interactor.gameObject.CompareTag(GameManager.DollTag))
             {
                 IsInteracting = true;
@@ -54,6 +53,7 @@ namespace KSH_Lib.Object
             }
             else if(interactor.gameObject.CompareTag(GameManager.ExorcistTag))
             {
+                targetController.ChangeBvToImprison();
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( exorcistCastingTime, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet(FinishAction: ExorcistFinishAction ) );
             }
@@ -74,13 +74,21 @@ namespace KSH_Lib.Object
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
         }
-
-        public void SetDoll( DollController doll )
+        
+        public void SetDoll( int playerIndex )
         {
             castingSystem.ResetCasting();
-            DollInBox = doll;
+            photonView.RPC("AllocDollInBox", RpcTarget.AllViaServer, playerIndex);
             animator.Play( "CloseDoor" );
         }
+        [PunRPC]
+        public void AllocDollInBox(int playerIndex)
+        {
+            DollInBox = StageManager.Instance.Dolls[playerIndex];
+            DollInBox.transform.position = CharacterPos.position;
+            DollInBox.transform.rotation = CharacterPos.rotation;
+        }
+
         public void DollFinishAction()
         {
             DollInBox.EscapeFrom( transform, LayerMask.NameToLayer( "Player" ) );

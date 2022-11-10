@@ -108,6 +108,7 @@ namespace GHJ_Lib
 		{
 			direction = Vector3.zero;
 		}
+
 		public void ChangeCamera(BaseCameraController cam)
 		{
 			if (photonView.IsMine)

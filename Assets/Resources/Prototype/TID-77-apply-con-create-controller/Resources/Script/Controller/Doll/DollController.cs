@@ -59,28 +59,29 @@ namespace GHJ_Lib
 				}
 			}
 		}
+
+
 		public void ChangeBvToBePurifying(KSH_Lib.Object.PurificationBox puriBox)
 		{
+			photonView.RPC("ActiveCharacterTo_RPC", RpcTarget.AllViaServer);
+			puriBox.SetDoll(PlayerIndex);
+
+			ChangeBehaviorTo(BehaviorType.BePurifying);
+
+			photonView.RPC("ChangeCameraTo_RPC", RpcTarget.AllBufferedViaServer);
+		}
+		
+		[PunRPC]
+		public void ActiveCharacterTo_RPC()
+		{
 			characterModel.gameObject.SetActive(true);
-			puriBox.SetDoll(this);
-
-			if (photonView.IsMine)
-			{
-				float x = puriBox.CharacterPos.position.x;
-				float z = puriBox.CharacterPos.position.z;
-				photonView.RPC("ChangeTransform", RpcTarget.AllViaServer, x, z);
-				ChangeBehaviorTo(BehaviorType.BePurifying);
-			}
-			characterModel.transform.rotation = puriBox.CharacterPos.rotation;
-
 			StageManager.CharacterLayerChange(characterObj, LayerMask.NameToLayer("Player"));
-			ChangeCamera(tpvCam);
 		}
 
 		[PunRPC]
-		public void ChangeTransform(float x, float z)
+		public void ChangeCameraTo_RPC()
 		{
-			characterObj.transform.position = new Vector3(x, characterObj.transform.position.y, z);
+			ChangeCamera(tpvCam);
 		}
 
 		public override void EscapeFrom(Transform transform, int layer)
