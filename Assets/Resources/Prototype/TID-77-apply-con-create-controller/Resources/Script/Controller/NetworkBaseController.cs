@@ -183,6 +183,17 @@ namespace GHJ_Lib
 			TypeIndex = typeIdx;
 		}
 
+		public void ActivateCameraCollision(bool enable)
+        {
+			if(enable)
+            {
+				tpvCam.Cm3rdPersonFollow.CameraCollisionFilter.value = LayerMask.NameToLayer("Environment") | LayerMask.NameToLayer("Player");
+			}
+			else
+            {
+				tpvCam.Cm3rdPersonFollow.CameraCollisionFilter.value = -1;
+			}
+        }
 
 		// Behavior Callback
 		public virtual void ChangeMoveSpeed(float speedRate)

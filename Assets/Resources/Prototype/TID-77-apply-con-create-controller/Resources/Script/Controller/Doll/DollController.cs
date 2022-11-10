@@ -30,6 +30,8 @@ namespace GHJ_Lib
 
 		protected int crossStack = 0;
 
+		public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
+
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
 		{

@@ -10,6 +10,11 @@ namespace GHJ_Lib
         {
             //resistGauge = 0.0f;
             actor.ChangeMoveFunc(false);
+            
+            if(actor.IsMine)
+            {
+                actor.ActivateCameraCollision(false);
+            }
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)

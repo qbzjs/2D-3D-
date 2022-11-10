@@ -18,7 +18,7 @@ namespace KSH_Lib.Object
         [SerializeField]
         Animator animator;
         [SerializeField] public bool IsInteracting { get; private set; }
-
+        bool isDollPurifying;
 
         protected override bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
         {
@@ -57,6 +57,10 @@ namespace KSH_Lib.Object
                 targetController.ChangeBvToImprison();
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( exorcistCastingTime, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet(FinishAction: ExorcistFinishAction ) );
+                if(!isDollPurifying)
+                {
+                    StartCoroutine(DestroyIfDollDead());
+                }
             }
             else
             {
@@ -93,6 +97,25 @@ namespace KSH_Lib.Object
             DollInBox.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Escape );
             animator.Play( "OpenDoor" );
             photonView.RPC("ShareDollInBox_RPC", RpcTarget.AllViaServer);
+        }
+
+        IEnumerator DestroyIfDollDead()
+        {
+            isDollPurifying = true;
+            while (true)
+            {
+                if(DollInBox == null)
+                {
+                    yield return null;
+                }
+                else if(DollInBox.GetDollData.DevilHP <= 0.0f)
+                {
+                    Debug.Log("Start Remove");
+                    PhotonNetwork.Destroy(gameObject);
+                    yield return null;
+                }
+                yield return null;
+            }
         }
 
         [PunRPC]
