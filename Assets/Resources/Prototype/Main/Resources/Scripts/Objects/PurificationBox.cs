@@ -74,19 +74,12 @@ namespace KSH_Lib.Object
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
         }
-        
-        public void SetDoll( int playerIndex )
+
+        public void SetDoll(DollController doll)
         {
             castingSystem.ResetCasting();
-            photonView.RPC("AllocDollInBox", RpcTarget.AllViaServer, playerIndex);
+            DollInBox = doll;
             animator.Play( "CloseDoor" );
-        }
-        [PunRPC]
-        public void AllocDollInBox(int playerIndex)
-        {
-            DollInBox = StageManager.Instance.Dolls[playerIndex];
-            DollInBox.transform.position = CharacterPos.position;
-            DollInBox.transform.rotation = CharacterPos.rotation;
         }
 
         public void DollFinishAction()
