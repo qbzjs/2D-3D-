@@ -5,6 +5,7 @@ using KSH_Lib;
 using Photon.Pun;
 using Photon.Realtime;
 using KSH_Lib.Data;
+using MSLIMA.Serializer;
 
 namespace GHJ_Lib
 {
@@ -68,9 +69,9 @@ namespace GHJ_Lib
 
 			if (photonView.IsMine)
 			{
-				float x = puriBox.CharacterPos.position.x;
-				float z = puriBox.CharacterPos.position.z;
-				photonView.RPC("ChangeTransform", RpcTarget.AllViaServer, x, z);
+				byte[] bytes = new byte[0];
+				Serializer.Serialize(puriBox.CharacterPos.position, ref bytes);
+				photonView.RPC("ChangeTransform", RpcTarget.AllViaServer, bytes);
 				ChangeBehaviorTo(BehaviorType.BePurifying);
 			}
 			characterModel.transform.rotation = puriBox.CharacterPos.rotation;
@@ -79,9 +80,10 @@ namespace GHJ_Lib
 			StageManager.CharacterLayerChange(characterObj, LayerMask.NameToLayer("Player"));
 		}
 		[PunRPC]
-		public void ChangeTransform(float x, float z)
+		public void ChangeTransform(byte[] data)
 		{
-			characterObj.transform.position = new Vector3(x, characterObj.transform.position.y, z);
+			int offset = 0;
+			characterObj.transform.position = Serializer.DeserializeVector3(data, ref offset);
 		}
 
 		public override void EscapeFrom(Transform transform, int layer)
