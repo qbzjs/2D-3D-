@@ -85,11 +85,8 @@ namespace KSH_Lib.Object
         public void DollFinishAction()
         {
             DollInBox.EscapeFrom( transform, LayerMask.NameToLayer( "Player" ) );
-            if ( photonView.IsMine )
-            {
-                DollInBox.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Escape );
-                animator.Play( "OpenDoor" );
-            }
+            DollInBox.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Escape );
+            animator.Play( "OpenDoor" );
             DollInBox = null;
         }
 
