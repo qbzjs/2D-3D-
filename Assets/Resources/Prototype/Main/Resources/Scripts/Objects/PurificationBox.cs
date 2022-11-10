@@ -45,8 +45,9 @@ namespace KSH_Lib.Object
         {
             if (interactor.gameObject.CompareTag(GameManager.DollTag))
             {
+                targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Interact);
                 IsInteracting = true;
-                photonView.RPC( "ShareInteractingInFinalAltar_RPC", RpcTarget.AllViaServer, IsInteracting );
+                photonView.RPC("ShareInteractingInPurificationBox_RPC", RpcTarget.AllViaServer, IsInteracting );
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractCostTime, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet( RunningCondition: targetController.IsInteractionKeyHold, PauseAction: PauseAction, FinishAction: DollFinishAction)
                     );
@@ -69,6 +70,8 @@ namespace KSH_Lib.Object
             castingSystem.ResetCasting();
             IsInteracting = false;
             photonView.RPC( "ShareInteractingInFinalAltar_RPC", RpcTarget.AllViaServer, IsInteracting );
+
+            targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
         }
         void ExorcistFinishAction()
         {
@@ -84,12 +87,11 @@ namespace KSH_Lib.Object
 
         public void DollFinishAction()
         {
+            targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
+
             DollInBox.EscapeFrom( transform, LayerMask.NameToLayer( "Player" ) );
-            if ( photonView.IsMine )
-            {
-                DollInBox.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Escape );
-                animator.Play( "OpenDoor" );
-            }
+            DollInBox.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Escape );
+            animator.Play( "OpenDoor" );
             DollInBox = null;
         }
 
