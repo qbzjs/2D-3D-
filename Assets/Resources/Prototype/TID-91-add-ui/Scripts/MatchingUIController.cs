@@ -36,6 +36,7 @@ namespace LSH_Lib
         [SerializeField]
         TextMeshProUGUI roleText;
 
+        bool isJoinedRoom = false;
         CharacterSelectCanvasController charaSelectCanvasController;
 
         private void Update()
@@ -126,8 +127,13 @@ namespace LSH_Lib
         {
             LoadRoomScene();
         }
+        //void OnSkipButtonClicked()
+        //{
+
+        //}
         void LoadRoomScene()
         {
+            DataManager.Instance.InitLocalRoleData();
             cancelButtonObj.SetActive(false);
             PhotonNetwork.CurrentRoom.IsOpen = false;
             GameManager.Instance.LoadPhotonScene(loadSceneName);
