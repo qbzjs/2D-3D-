@@ -78,6 +78,12 @@ namespace GHJ_Lib
 			ChangeCamera(tpvCam);
 			StageManager.CharacterLayerChange(characterObj, LayerMask.NameToLayer("Player"));
 		}
+		[PunRPC]
+		public void ChangeTransform(float x, float z)
+		{
+			characterObj.transform.position = new Vector3(x, characterObj.transform.position.y, z);
+		}
+
 		public override void EscapeFrom(Transform transform, int layer)
 		{
 			this.transform.position = transform.position;
