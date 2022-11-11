@@ -18,9 +18,9 @@ namespace KSH_Lib
 {
     public class LobbyUI_Manager : MonoBehaviourPunCallbacks
     {
-        public static LobbyUI_Manager Instace { get { return instance; } }
+        //public static LobbyUI_Manager Instace { get { return instance; } }
 
-        private static LobbyUI_Manager instance;
+        //private static LobbyUI_Manager instance;
 
         /*--- Serialized Fields ---*/
         [Header( "Canvases" )]
@@ -453,6 +453,7 @@ namespace KSH_Lib
         void OnMatchingCancelButton()
         {
             PhotonNetwork.LeaveRoom();
+            
             IsJoinedRoom = false;
             //matchingUIController.isJoinedRoom = false;
             EnableMainLobbyCanvas();

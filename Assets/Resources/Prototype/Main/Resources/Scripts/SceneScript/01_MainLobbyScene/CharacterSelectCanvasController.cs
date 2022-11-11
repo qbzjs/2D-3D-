@@ -61,7 +61,7 @@ namespace KSH_Lib.UI
         [Header("Character Select Buttons")]
         public GameObject DollButtons;
         public GameObject ExorcistButtons;
-        [SerializeField] SelectInfo[] selectInfos = new SelectInfo[GameManager.Instance.CurPlayerCount];
+        [SerializeField] SelectInfo[] selectInfos;// = new SelectInfo[GameManager.Instance.CurPlayerCount];
 
         /*--- Protected Fields ---*/
         [SerializeField]
@@ -122,7 +122,10 @@ namespace KSH_Lib.UI
             DataManager.Instance.InitPlayerDatas();
             //bishopInformation.SetActive(true);
         }
-
+        private void Update()
+        {
+            selectInfos = new SelectInfo[GameManager.Instance.CurPlayerCount];
+        }
         /*--- Public Methods ---*/
         public void OnSelectRole()
         {

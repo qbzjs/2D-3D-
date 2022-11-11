@@ -74,6 +74,7 @@ namespace LSH_Lib
         {
             if ( uiManager.IsJoinedRoom )
             {
+                InitializedPlayerImages();
                 GameManager.Instance.CurPlayerCount = PhotonNetwork.CurrentRoom.PlayerCount;
                 ChangePlayerImage();
                 ChangePlayerCountText();
@@ -224,7 +225,13 @@ namespace LSH_Lib
             loadSceneName = kshSceneName;
             OnSkipButtonClicked();
         }
-
+        void InitializedPlayerImages()
+        {
+            for(var i = 0; i<playerLoadImgs.Length;++i)
+            {
+                playerLoadImgs[i].sprite = refPlayerOffSprite;
+            }
+        }
 
     }
 }
