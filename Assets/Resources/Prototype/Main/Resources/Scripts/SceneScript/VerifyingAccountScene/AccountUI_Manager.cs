@@ -75,7 +75,7 @@ namespace KSH_Lib.UI
 			LoadingPanelObj.SetActive( false );
 			//uiEffect = new UIEffector(errMsgCanvasGroup);
 
-			AudioManager.instance.Play("LoginBGM");
+			//AudioManager.instance.Play("LoginBGM");
 		}
 
 
