@@ -17,11 +17,13 @@ namespace KSH_Lib
         [SerializeField] protected CastingSystem castingSystem;
         [field: SerializeField] public bool IsExorcistInteracting { get; protected set; }
 
-        [Header("Gauge Settings")]
-        [SerializeField] protected float RateOfGauge;
         [field: SerializeField] public float MaxGauge { get; protected set; }
         [field: SerializeField] public float DecreaseRate { get; protected set; }
         [field: SerializeField] public float CoolTime { get; protected set; }
+
+
+        [Header( "Debug Only" )]
+        [SerializeField] protected float RateOfGauge;
         public float OriginGauge { get { return RateOfGauge * MaxGauge; } }
 
         /*--- Fields ---*/

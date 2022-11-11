@@ -16,6 +16,9 @@ namespace KSH_Lib.Object
         [SerializeField] public AltarState altarState { get; private set; }
         [SerializeField] public bool IsInteracting { get; private set; }
 
+        [SerializeField] Animator animator;
+
+
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -75,12 +78,7 @@ namespace KSH_Lib.Object
         [PunRPC]
         void OpenDoorRPC()
         {
-            if ( this.transform.position.y < -this.transform.localScale.y )
-            {
-                return;
-            }
-            this.transform.position -= new Vector3( 0, Time.deltaTime, 0 );
-            SetDoorState( AltarState.Opened );
+            animator.SetBool( "IsDoorOpen", true );
         }
     }
 }
