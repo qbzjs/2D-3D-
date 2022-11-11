@@ -161,8 +161,55 @@ namespace KSH_Lib.UI
                         "아타나시오", true
                         );
                 }
-
-
+                case RoleData.RoleTypeOrder.Hunter:
+                    {
+                        return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Hunter],
+                            DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                            "샬라이", true
+                            );
+                    }
+                case RoleData.RoleTypeOrder.Photographer:
+                    {
+                        return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Photographer],
+                            DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                            "강채율", true
+                            );
+                    }
+                case RoleData.RoleTypeOrder.Priest:
+                    {
+                        return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Priest],
+                            DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                            "알베르토 이든", true
+                            );
+                    }
+                case RoleData.RoleTypeOrder.Wolf:
+                    {
+                        return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Wolf],
+                            DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                            "라이", true
+                            );
+                    }
+                case RoleData.RoleTypeOrder.Rabbit:
+                    {
+                        return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Rabbit],
+                            DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                            "제니", true
+                            );
+                    }
+                case RoleData.RoleTypeOrder.Tortoise:
+                    {
+                        return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Tortoise],
+                            DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                            "태오", true
+                            );
+                    }
+                case RoleData.RoleTypeOrder.Penguin:
+                    {
+                        return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Penguin],
+                            DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                            "제임스", true
+                            );
+                    }
 
                 default:
                 {
