@@ -61,13 +61,10 @@ namespace KSH_Lib.UI
         [SerializeField]
         GameObject penguinInformation;
 
-
         [SerializeField]
         GameObject decideButtonObj;
 
         /*--- Private Fields ---*/
-
-        //GameObject[] DecideButtons;
 
         /*--- MonoBehaviour Callbacks ---*/
 
