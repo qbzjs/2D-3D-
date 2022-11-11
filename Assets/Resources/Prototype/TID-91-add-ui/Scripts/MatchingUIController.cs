@@ -40,12 +40,36 @@ namespace LSH_Lib
         [SerializeField]
         TextMeshProUGUI roleText;
 
+
+        [Header("Debug Only")]
+        [SerializeField]
+        private GameObject skipButtonObj;
+        [SerializeField]
+        private GameObject lshSkipButtonObj;
+        [SerializeField]
+        private GameObject kshSkipButtonObj;
+        [SerializeField]
+        public string roomName = "Debug";
+
+        [SerializeField]
+        string lshSceneName = "";
+        [SerializeField]
+        string kshSceneName = "";
+
         bool isJoinedRoom = false;
         CharacterSelectCanvasController charaSelectCanvasController;
 
+        private void Start()
+        {
+            // Deubg
+            isJoinedRoom = true;
+            skipButtonObj.SetActive(false);
+            lshSkipButtonObj.SetActive( false );
+            kshSkipButtonObj.SetActive( false );
+        }
         private void Update()
         {
-            //if (isJoinedRoom)
+            if (isJoinedRoom)
             {
                 GameManager.Instance.CurPlayerCount = PhotonNetwork.CurrentRoom.PlayerCount;
                 ChangePlayerImage();
@@ -58,18 +82,19 @@ namespace LSH_Lib
                         LoadRoomScene();
                     }
 
-                    //if (skipButtonObj.activeInHierarchy == false)
-                    //{
-                    //    skipButtonObj.SetActive(true);
-                    //    lshSkipButtonObj.SetActive(true);
-                    //    kshSkipButtonObj.SetActive(true);
-                    //}
+                    if (skipButtonObj.activeInHierarchy == false)
+                    {
+                        skipButtonObj.SetActive(true);
+                        lshSkipButtonObj.SetActive(true);
+                        kshSkipButtonObj.SetActive(true);
+                    }
                 }
             }
         }
+
         public void EnableCharacterSelectCanvas()
         {
-            LobbyUI_Manager.Instace.DisableCanvasesAll();
+            //LobbyUI_Manager.Instace.DisableCanvasesAll();
             characterSelectCanvas.enabled = true;
             if(DataManager.Instance.PreRoleType.Equals("Exorcist"))
             {
@@ -82,7 +107,7 @@ namespace LSH_Lib
         }
         public void EnableCharacterSelectCanvas(string roleName)
         {
-            LobbyUI_Manager.Instace.DisableCanvasesAll();
+            //LobbyUI_Manager.Instace.DisableCanvasesAll();
             characterSelectCanvas.enabled = true;
             roleText.text = roleName;
 
@@ -127,20 +152,26 @@ namespace LSH_Lib
         //}
         void ChangePlayerImage()
         {   
-            
-            for (int i = 0; i < GameManager.Instance.CurPlayerCount; ++i)
+            if(PhotonNetwork.IsMasterClient)
             {
-                
-                playerLoadImgs[i].sprite = refPlayerOnSprite;
-                
+                playerLoadImgs[4].sprite = exorcistOnSprite;
             }
-            playerLoadImgs[4].sprite = exorcistOnSprite;
+            else
+            {
+                for (int i =0; i < GameManager.Instance.CurPlayerCount-1; ++i)
+                {
 
-            for (int i = GameManager.Instance.CurPlayerCount; i < GameManager.Instance.MaxPlayerCount; ++i)
-            {
-                
-                playerLoadImgs[i].sprite = refPlayerOffSprite;
+                    playerLoadImgs[i].sprite = refPlayerOnSprite;
+
+                }
+
+                for (int i = GameManager.Instance.CurPlayerCount-1; i < GameManager.Instance.MaxPlayerCount-1; ++i)
+                {
+
+                    playerLoadImgs[i].sprite = refPlayerOffSprite;
+                }
             }
+            
         }
         void ChangePlayerCountText()
         {
@@ -150,10 +181,7 @@ namespace LSH_Lib
         {
             LoadRoomScene();
         }
-        //void OnSkipButtonClicked()
-        //{
 
-        //}
         void LoadRoomScene()
         {
             DataManager.Instance.InitLocalRoleData();
@@ -166,10 +194,10 @@ namespace LSH_Lib
         //    loadSceneName = lshSceneName;
         //    OnSkipButtonClicked();
         //}
-        //void OnKSHButtonClicked()
-        //{
-        //    loadSceneName = kshSceneName;
-        //    OnSkipButtonClicked();
-        //}
+        void OnKSHButtonClicked()
+        {
+            loadSceneName = kshSceneName;
+            OnSkipButtonClicked();
+        }
     }
 }

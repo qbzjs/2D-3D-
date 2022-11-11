@@ -102,20 +102,20 @@ namespace KSH_Lib
         TextMeshProUGUI actionButtonTMP;
 
 
-        [Header("Debug Only")]
-        [SerializeField]
-        private GameObject skipButtonObj;
-        [SerializeField]
-        private GameObject lshSkipButtonObj;
-        [SerializeField]
-        private GameObject kshSkipButtonObj;
+        //[Header("Debug Only")]
+        //[SerializeField]
+        //private GameObject skipButtonObj;
+        //[SerializeField]
+        //private GameObject lshSkipButtonObj;
+        //[SerializeField]
+        //private GameObject kshSkipButtonObj;
         [SerializeField]
         public string roomName = "Debug";
 
-        [SerializeField]
-        string lshSceneName = "";
-        [SerializeField]
-        string kshSceneName = "";
+        //[SerializeField]
+        //string lshSceneName = "";
+        //[SerializeField]
+        //string kshSceneName = "";
 
 
         /*--- Private Fields ---*/
@@ -136,33 +136,33 @@ namespace KSH_Lib
             EnableMainButtonsPanel();
 
             // Deubg
-            skipButtonObj.SetActive( true );
+            //skipButtonObj.SetActive( true );
             //lshSkipButtonObj.SetActive( false );
             //kshSkipButtonObj.SetActive( false );
         }
         //private void Update()
         //{
-        //    if ( isJoinedRoom )
-        //    {
-        //        GameManager.Instance.CurPlayerCount = PhotonNetwork.CurrentRoom.PlayerCount;
-        //        ChangePlayerImage();
-        //        ChangePlayerCountText();
+            //    if ( isJoinedRoom )
+            //    {
+            //        GameManager.Instance.CurPlayerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+            //        ChangePlayerImage();
+            //        ChangePlayerCountText();
 
-        //        if ( PhotonNetwork.IsMasterClient )
-        //        {
-        //            if (GameManager.Instance.CurPlayerCount == 5 )
-        //            {
-        //                LoadRoomScene();
-        //            }
+            //        if ( PhotonNetwork.IsMasterClient )
+            //        {
+            //            if (GameManager.Instance.CurPlayerCount == 5 )
+            //            {
+            //                LoadRoomScene();
+            //            }
 
-        //            if ( skipButtonObj.activeInHierarchy == false )
-        //            {
-        //                skipButtonObj.SetActive( true );
-        //                lshSkipButtonObj.SetActive( true );
-        //                kshSkipButtonObj.SetActive( true );
-        //            }
-        //        }
-        //    }
+            //            if ( skipButtonObj.activeInHierarchy == false )
+            //            {
+            //                skipButtonObj.SetActive( true );
+            //                lshSkipButtonObj.SetActive( true );
+            //                kshSkipButtonObj.SetActive( true );
+            //            }
+            //        }
+            //        }
         //}
 
 

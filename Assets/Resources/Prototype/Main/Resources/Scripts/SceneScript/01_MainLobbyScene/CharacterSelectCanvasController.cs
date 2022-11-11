@@ -1,16 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.UI;
+
+using Photon;
+using Photon.Pun;
+using Photon.Realtime;
 
 using KSH_Lib.Data;
 
 namespace KSH_Lib.UI
 {
-    public class CharacterSelectCanvasController : MonoBehaviour
+    public class CharacterSelectCanvasController : MonoBehaviourPunCallbacks
     {
         /*--- Public Fields ---*/
+
+        [SerializeField]
+        private string loadSceneName = "02_MainGameScene";
 
         [Header("Character Select Buttons")]
         public GameObject DollButtons;
@@ -36,15 +42,40 @@ namespace KSH_Lib.UI
         [SerializeField]
         GameObject priestInformation;
 
+        [Header("Doll Select UI")]
+        [SerializeField]
+        GameObject wolfButton;
+        [SerializeField]
+        GameObject rabbitButton;
+        [SerializeField]
+        GameObject tortoiseButton;
+        [SerializeField]
+        GameObject penguinButton;
+
+        [SerializeField]
+        GameObject wolfInformation;
+        [SerializeField]
+        GameObject rabbitInformation;
+        [SerializeField]
+        GameObject tortoiseInformation;
+        [SerializeField]
+        GameObject penguinInformation;
+
+
+        [SerializeField]
+        GameObject decideButtonObj;
+
         /*--- Private Fields ---*/
 
+        //GameObject[] DecideButtons;
 
         /*--- MonoBehaviour Callbacks ---*/
 
         private void Start()
         {
             DisablAllInformation();
-            bishopInformation.SetActive(true);
+            OnSelectRole();
+            //bishopInformation.SetActive(true);
         }
 
         /*--- Public Methods ---*/
@@ -54,10 +85,11 @@ namespace KSH_Lib.UI
             {
                 EnableDollButtons();
             }
-            else if (DataManager.Instance.PreRoleType == RoleData.RoleType.Exorcist)
+            if (DataManager.Instance.PreRoleType == RoleData.RoleType.Exorcist)
             {
                 EnableExorcistButtons();
             }
+
         }
 
         public void OnSelectCharacter(string name)
@@ -66,9 +98,7 @@ namespace KSH_Lib.UI
             Debug.Log($"Selected {DataManager.Instance.PreRoleTypeOrder}");
         }
 
-
         /*--- Protected Methods ---*/
-
 
         /*--- Private Methods ---*/
         void DisablAllInformation()
@@ -77,6 +107,12 @@ namespace KSH_Lib.UI
             hunterInformation.SetActive(false);
             photographerInformation.SetActive(false);
             priestInformation.SetActive(false);
+
+            wolfInformation.SetActive(false);
+            rabbitInformation.SetActive(false);
+            tortoiseInformation.SetActive(false);
+            penguinInformation.SetActive(false);
+
         }
         void EnableDollButtons()
         {
@@ -108,7 +144,43 @@ namespace KSH_Lib.UI
                     DisablAllInformation();
                     priestInformation.SetActive(true);
                     break;
+
+                case "Wolf":
+                    DisablAllInformation();
+                    wolfInformation.SetActive(true);
+                    break;
+
+                case "Rabbit":
+                    DisablAllInformation();
+                    rabbitInformation.SetActive(true);
+                    break;
+
+                case "Tortoise":
+                    DisablAllInformation();
+                    tortoiseInformation.SetActive(true);
+                    break;
+
+                case "Penguin":
+                    DisablAllInformation();
+                    penguinInformation.SetActive(true);
+                    break;
             }
+        }
+        void GameStart()
+        {
+            LoadRoomScene();
+        }
+        void LoadRoomScene()
+        {
+            DataManager.Instance.InitLocalRoleData();
+            decideButtonObj.SetActive(false);
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            GameManager.Instance.LoadPhotonScene(loadSceneName);
+        }
+        void DecideRoleType()
+        {
+            DataManager.Instance.InitLocalRoleData();
+            decideButtonObj.SetActive(false);
         }
     }
 }
