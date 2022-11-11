@@ -81,7 +81,7 @@ namespace GHJ_Lib
 				Serializer.Serialize(puriBox.CharacterPos.position, ref bytes);
 				photonView.RPC("ChangeTransform", RpcTarget.AllViaServer, bytes);
 				ChangeBehaviorTo(BehaviorType.BePurifying);
-				StartCoroutine( ChangeDevilHPByDeltaTime( puriBox.Damage, () => (CurBehavior is BvEscape) ) );
+				//StartCoroutine( ChangeDevilHPByDeltaTime( puriBox.Damage, () => (CurBehavior is BvEscape) ) );
 			}
 			characterModel.transform.rotation = puriBox.CharacterPos.rotation;
 
