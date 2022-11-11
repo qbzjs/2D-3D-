@@ -56,13 +56,13 @@ namespace LSH_Lib
         [SerializeField]
         string kshSceneName = "";
 
-        bool isJoinedRoom = false;
+        public bool isJoinedRoom = false;
         CharacterSelectCanvasController charaSelectCanvasController;
 
         private void Start()
         {
             // Deubg
-            isJoinedRoom = true;
+            //isJoinedRoom = true;
             skipButtonObj.SetActive(false);
             lshSkipButtonObj.SetActive( false );
             kshSkipButtonObj.SetActive( false );
@@ -199,5 +199,7 @@ namespace LSH_Lib
             loadSceneName = kshSceneName;
             OnSkipButtonClicked();
         }
+
+
     }
 }

@@ -122,13 +122,14 @@ namespace KSH_Lib
         bool isJoinedRoom = false;
 
         CharacterSelectCanvasController charaSelectCanvasController;
+        LSH_Lib.MatchingUIController matchingUIController;
 
 
         /*--- MonoBehaviour Callbacks ---*/
         private void Start()
         {
             charaSelectCanvasController = characterSelectCanvas.GetComponent<CharacterSelectCanvasController>();
-
+            matchingUIController = characterSelectCanvas.GetComponent<LSH_Lib.MatchingUIController>();
 
             EnableCanvasObjects();
             DisableCanvasesAll();
@@ -190,7 +191,8 @@ namespace KSH_Lib
             Debug.Log( "OnJoindRoom Called" );
             EnableMatchingCanvas();
             DataManager.Instance.SetPlayerIdx();
-            isJoinedRoom = true;
+            //isJoinedRoom = true;
+            matchingUIController.isJoinedRoom = true;
         }
         public override void OnJoinRoomFailed( short returnCode, string message )
         {
