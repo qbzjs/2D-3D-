@@ -14,7 +14,7 @@ using KSH_Lib.UI;
 
 namespace LSH_Lib
 {
-    public class MatchingUIController : MonoBehaviourPunCallbacks
+    public class MatchingUIController : MonoBehaviour//PunCallbacks
     {
         [Header("Matching UI")]
         [SerializeField]
@@ -33,6 +33,8 @@ namespace LSH_Lib
         private Image[] playerLoadImgs;
         [SerializeField]
         private GameObject cancelButtonObj;
+
+        [SerializeField] LobbyUI_Manager uiManager;
 
         [Header("CharacterSelectCanvas")]
         [SerializeField]
@@ -56,7 +58,7 @@ namespace LSH_Lib
         [SerializeField]
         string kshSceneName = "";
 
-        public bool isJoinedRoom = false;
+        //bool isJoinedRoom = false;
         CharacterSelectCanvasController charaSelectCanvasController;
 
         private void Start()
@@ -67,9 +69,10 @@ namespace LSH_Lib
             lshSkipButtonObj.SetActive( false );
             kshSkipButtonObj.SetActive( false );
         }
+
         private void Update()
         {
-            if (isJoinedRoom)
+            if ( uiManager.IsJoinedRoom )
             {
                 GameManager.Instance.CurPlayerCount = PhotonNetwork.CurrentRoom.PlayerCount;
                 ChangePlayerImage();

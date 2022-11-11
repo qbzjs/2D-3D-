@@ -119,17 +119,15 @@ namespace KSH_Lib
 
 
         /*--- Private Fields ---*/
-        bool isJoinedRoom = false;
+        public bool IsJoinedRoom { get; private set; }
 
         CharacterSelectCanvasController charaSelectCanvasController;
-        LSH_Lib.MatchingUIController matchingUIController;
 
 
         /*--- MonoBehaviour Callbacks ---*/
         private void Start()
         {
             charaSelectCanvasController = characterSelectCanvas.GetComponent<CharacterSelectCanvasController>();
-            matchingUIController = characterSelectCanvas.GetComponent<LSH_Lib.MatchingUIController>();
 
             EnableCanvasObjects();
             DisableCanvasesAll();
@@ -191,8 +189,7 @@ namespace KSH_Lib
             Debug.Log( "OnJoindRoom Called" );
             EnableMatchingCanvas();
             DataManager.Instance.SetPlayerIdx();
-            //isJoinedRoom = true;
-            matchingUIController.isJoinedRoom = true;
+            IsJoinedRoom = true;
         }
         public override void OnJoinRoomFailed( short returnCode, string message )
         {
@@ -456,7 +453,8 @@ namespace KSH_Lib
         void OnMatchingCancelButton()
         {
             PhotonNetwork.LeaveRoom();
-            isJoinedRoom = false;
+            IsJoinedRoom = false;
+            //matchingUIController.isJoinedRoom = false;
             EnableMainLobbyCanvas();
         }
 
