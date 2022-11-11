@@ -11,6 +11,10 @@ namespace GHJ_Lib
         {
             actor.BaseAnimator.Play("Fear");
             actor.ChangeMoveFunc(false);
+            if ( actor.IsMine )
+            {
+                actor.ActivateCameraCollision( false );
+            }
         }
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
@@ -19,6 +23,10 @@ namespace GHJ_Lib
             if (Bv is BvEscape)
             {
                 actor.BaseAnimator.Play("Idle_A");
+                if ( actor.IsMine )
+                {
+                    actor.ActivateCameraCollision( true );
+                }
                 return Bv;
             }
 
