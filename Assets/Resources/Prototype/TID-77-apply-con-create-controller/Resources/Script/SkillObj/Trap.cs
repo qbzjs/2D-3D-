@@ -31,20 +31,20 @@ namespace GHJ_Lib
                 castingSystem.ForceSetRatioTo(RateOfGauge);
                 if (targetController == beTrappedDoll)
                 {
-                    castingSystem.StartCasting(CastingSystem.Cast.CreateByRatio(ExitTrapRatio, coolTime: CoolTime),
-                        new CastingSystem.CastFuncSet(SyncGauge, DollRunningCondition, null, DollFinishAction));
+                    castingSystem.StartCasting(CastingSystem.Cast.CreateByRatio(deltaRatio: ExitTrapRatio, coolTime: CoolTime),
+                        new CastingSystem.CastFuncSet(SyncDataWith: SyncGauge, RunningCondition: DollRunningCondition,  FinishAction: DollFinishAction));
                     return true;
                 }
                 else
                 {
-                    castingSystem.StartCasting(CastingSystem.Cast.CreateByRatio(ClearTrapRatio, coolTime: CoolTime),
-                       new CastingSystem.CastFuncSet(SyncGauge, DollRunningCondition, null, DollFinishAction));
+                    castingSystem.StartCasting(CastingSystem.Cast.CreateByRatio(deltaRatio: ClearTrapRatio, coolTime: CoolTime),
+                       new CastingSystem.CastFuncSet(SyncDataWith: SyncGauge,RunningCondition: DollRunningCondition,FinishAction : DollFinishAction));
                     return true;
                 }
             }
             else if (interactor.CompareTag(GameManager.ExorcistTag))
             {
-                castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(collectTime),
+                castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(castTime : collectTime),
                     new CastingSystem.CastFuncSet(FinishAction: ExorcistFinishAction));
                 return true;
             }
