@@ -216,6 +216,10 @@ namespace GHJ_Lib
 			Destroy(gameObject);
 		}
 
+		public void DestroyObjFromPhoton(GameObject gameObject)
+		{
+			PhotonNetwork.Destroy(gameObject);
+		}
 
 
 

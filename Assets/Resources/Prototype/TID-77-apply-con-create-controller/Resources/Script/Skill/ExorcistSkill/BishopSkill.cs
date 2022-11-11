@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
+using KSH_Lib.Object;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -11,22 +12,71 @@ namespace GHJ_Lib
 	{
 		public GameObject CrossPrefab;
 		public float InstallRange { get; protected set; } = 4.0f;
+		public List<float> PoketInCross = new List<float>();
 		public int CrossMaxCount = 5;
-		public int InstallCross = 0;
+		public float RecoverGauge = 5.0f;
+		public float MaxCrossGauge = 60.0f;
+		protected string CrossPrefabName = "CrossModel";
 
+		protected GameObject targetCross;
 		protected Sk_InstallCross skInstallCross = new Sk_InstallCross();
 		protected Sk_CollectCross skCollectCross = new Sk_CollectCross();
+
 		protected override void OnEnable()
 		{
 			base.OnEnable();
+			PhotonNetwork.PrefabPool.RegisterPrefab(CrossPrefabName, CrossPrefab);
 			Controller.AllocSkill(new BvBishopActSkill());
 			SkillSettingToInstallCross();
+			
+			PoketInCross.Add(60.0f);
+			PoketInCross.Add(60.0f);
+			PoketInCross.Add(60.0f);
+			PoketInCross.Add(60.0f);
+			PoketInCross.Add(60.0f);
 		}
-
-		/*---Skill---*/
-		public override bool CanActiveSkill()
+        private void Update()
+        {
+			for(int i =0;i<PoketInCross.Count;++i)
+			{
+				if (MaxCrossGauge < PoketInCross[i])
+				{
+					PoketInCross[i] = MaxCrossGauge;
+				}
+				else if (MaxCrossGauge.Equals(PoketInCross[i]))
+				{
+					return;
+				}
+				else
+				{ 
+					PoketInCross[i] += Time.deltaTime * RecoverGauge;
+				}
+			}
+        }
+        /*---Skill---*/
+        public override bool CanActiveSkill()
 		{
-			return true;
+			if (actSkillArea.CanGetTarget())
+			{
+				GameObject target = actSkillArea.GetNearestTarget();
+				if (Controller.IsWatching(target))
+				{
+					targetCross = target;
+					SkillSettingToCollectCross();
+					return true;
+				}
+				return false;
+			}
+
+			if (PoketInCross.Count == 0)
+			{
+				return false;
+			}
+			else
+			{ 
+				SkillSettingToInstallCross();
+				return true;
+			}
 		}
 		protected override IEnumerator ExcuteActiveSkill()
 		{
@@ -62,8 +112,37 @@ namespace GHJ_Lib
 				{
 					Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 					Controller.BaseAnimator.SetBool("IsInstallCross", false);
-					GameObject cross = GameObject.Instantiate(CrossPrefab, transform);
-					cross.transform.SetParent(this.transform.parent);
+
+					
+					GameObject cross = PhotonNetwork.Instantiate(CrossPrefabName, new Vector3(transform.position.x,transform.position.y +0.23f,transform.position.z), CrossPrefab.transform.rotation);
+
+					PoketInCross.Sort();
+					cross.GetComponent<Cross>().SetGauge(PoketInCross[PoketInCross.Count -1]);
+					PoketInCross.RemoveAt(PoketInCross.Count - 1);
+					//cross.transform.SetParent(this.transform.parent);
+					break;
+				}
+			}
+		}
+		IEnumerator CollectCross()
+		{
+			if (ActiveSkill is not Sk_CollectCross)
+			{
+				yield break;
+			}
+			while (true)
+			{
+				yield return new WaitForEndOfFrame();
+				AnimatorStateInfo animatorState = Controller.BaseAnimator.GetCurrentAnimatorStateInfo(0);
+				if (animatorState.normalizedTime >= 0.6f)
+				{
+					Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
+					Controller.BaseAnimator.SetBool("IsCollectCross", false);
+
+					PoketInCross.Add(targetCross.GetComponent<Cross>().OriginGauge);
+
+					actSkillArea.RemoveInList(targetCross);
+					PhotonNetwork.Destroy(targetCross);
 					break;
 				}
 			}
