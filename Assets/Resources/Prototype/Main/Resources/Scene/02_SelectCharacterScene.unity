@@ -2757,6 +2757,8 @@ MonoBehaviour:
   loadSceneName: 02_MainGameScene
   DollButtons: {fileID: 869762109}
   ExorcistButtons: {fileID: 1124883405}
+  selectInfos: []
+  decideButtonObj: {fileID: 0}
   bishopButton: {fileID: 1124883404}
   hunterButton: {fileID: 1124883403}
   photographerButton: {fileID: 1124883402}
@@ -2773,7 +2775,7 @@ MonoBehaviour:
   rabbitInformation: {fileID: 0}
   tortoiseInformation: {fileID: 0}
   penguinInformation: {fileID: 0}
-  decideButtonObj: {fileID: 0}
+  roleSprites: []
 --- !u!1 &1969870152
 GameObject:
   m_ObjectHideFlags: 0
@@ -3018,6 +3020,8 @@ MonoBehaviour:
   loadSceneName: MainGameDev
   DollButtons: {fileID: 991987897}
   ExorcistButtons: {fileID: 717532083}
+  selectInfos: []
+  decideButtonObj: {fileID: 381507742}
   bishopButton: {fileID: 717532082}
   hunterButton: {fileID: 717532081}
   photographerButton: {fileID: 717532080}
@@ -3034,7 +3038,15 @@ MonoBehaviour:
   rabbitInformation: {fileID: 397003844}
   tortoiseInformation: {fileID: 1476542426}
   penguinInformation: {fileID: 1216404759}
-  decideButtonObj: {fileID: 381507742}
+  roleSprites:
+  - {fileID: 21300000, guid: 966b2043a2c24d74fb192a4b9155241f, type: 3}
+  - {fileID: 21300000, guid: 4f94fad0e8a0cc24d8746f8269cafad8, type: 3}
+  - {fileID: 21300000, guid: 80cc0720fa8241d4ba4d135e5533374b, type: 3}
+  - {fileID: 21300000, guid: c4ecd3cedcdd2ff40ba4bed355ac3ab7, type: 3}
+  - {fileID: 21300000, guid: 254ddf6671f6ead408cff1740866259a, type: 3}
+  - {fileID: 21300000, guid: 5245aa8003987224d96002895ccdafec, type: 3}
+  - {fileID: 21300000, guid: 7c4f9e69f4386874bbe65f1f8e95b94d, type: 3}
+  - {fileID: 21300000, guid: 06ac328c32033324f81450e30330358b, type: 3}
 --- !u!114 &2079969901
 MonoBehaviour:
   m_ObjectHideFlags: 0

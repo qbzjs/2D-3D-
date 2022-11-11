@@ -107,7 +107,7 @@ namespace KSH_Lib.UI
 
         [Header( "Icon Images" )]
         [SerializeField] Sprite[] roleSprites;
-        [SerializeField] GameObject roleImgObjs;
+        
 
         /*--- Private Fields ---*/
 
