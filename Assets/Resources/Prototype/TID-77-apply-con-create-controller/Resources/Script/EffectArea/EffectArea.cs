@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
 namespace GHJ_Lib
 {
-	public abstract class EffectArea: MonoBehaviour
+	public abstract class EffectArea: MonoBehaviourPun
 	{
 		public List<GameObject> Targets { get { return targets; } }
-		protected List<GameObject> targets = new List<GameObject>();
+		[SerializeField]protected List<GameObject> targets = new List<GameObject>();
 		public GameObject GetNearestTarget()
 		{
 			GameObject nearestTarget = null;
@@ -28,7 +28,8 @@ namespace GHJ_Lib
 			}
 			return nearestTarget;
 		}
-		public bool CanGetTarget()
+
+        public bool CanGetTarget()
 		{
 			if (targets.Count == 0)
 			{
@@ -37,6 +38,20 @@ namespace GHJ_Lib
 			else
 			{
 				return true;
+			}
+		}
+		public void RemoveInList(GameObject gameObject)
+		{
+			if (Targets.Contains(gameObject))
+			{
+				if (!targets.Remove(gameObject))
+				{
+					Debug.LogError("EffectArea.RemoveInList : Targets Can't Remove gameObject");
+				}
+			}
+			else
+			{
+				Debug.LogError("EffectArea.RemoveInList : Targets not Contain gameObject ");
 			}
 		}
 		protected virtual void OnTriggerEnter(Collider other)

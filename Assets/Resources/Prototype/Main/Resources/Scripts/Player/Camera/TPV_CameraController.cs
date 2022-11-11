@@ -27,7 +27,7 @@ namespace KSH_Lib
 
 
         /*--- Private Field ---*/
-        Cinemachine3rdPersonFollow cm3rdPersonFollow;
+        public Cinemachine3rdPersonFollow Cm3rdPersonFollow { get; private set; }
         float zoomValRaw;
         float zoomVal;
 
@@ -36,8 +36,8 @@ namespace KSH_Lib
         protected override void Start()
         {
             base.Start();
-            cm3rdPersonFollow = virtualCam.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
-            if ( cm3rdPersonFollow == null )
+            Cm3rdPersonFollow = virtualCam.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+            if ( Cm3rdPersonFollow == null )
             {
                 Debug.LogError( "BaseCameraController: Can not find Cinemachine3rdPersonFollow" );
             }
@@ -75,14 +75,14 @@ namespace KSH_Lib
         /*--- Private Methods ---*/
         void ZoomCamera()
         {
-            cm3rdPersonFollow.CameraDistance += zoomVal;
-            if ( cm3rdPersonFollow.CameraDistance <= minZoomLength )
+            Cm3rdPersonFollow.CameraDistance += zoomVal;
+            if ( Cm3rdPersonFollow.CameraDistance <= minZoomLength )
             {
-                cm3rdPersonFollow.CameraDistance = minZoomLength;
+                Cm3rdPersonFollow.CameraDistance = minZoomLength;
             }
-            else if ( cm3rdPersonFollow.CameraDistance >= maxZoomLength )
+            else if ( Cm3rdPersonFollow.CameraDistance >= maxZoomLength )
             {
-                cm3rdPersonFollow.CameraDistance = maxZoomLength;
+                Cm3rdPersonFollow.CameraDistance = maxZoomLength;
             }
         }
     }

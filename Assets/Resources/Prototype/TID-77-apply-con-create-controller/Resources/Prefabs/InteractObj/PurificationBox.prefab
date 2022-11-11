@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3448651030462635695}
   - component: {fileID: 5447495168839351236}
   - component: {fileID: 1132755596712121929}
-  - component: {fileID: 3963339733957367359}
   - component: {fileID: 2485263039289760887}
   - component: {fileID: 8871299233859758657}
   - component: {fileID: 5972589164164486565}
@@ -71,33 +70,10 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 3963339733957367359}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &3963339733957367359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 516919569534408220}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f925025c87bd34478d794e93ec82ab5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <MaxGauge>k__BackingField: 100
-  <AddedGauge>k__BackingField: 10
-  <ReducedGauge>k__BackingField: 0
-  <CoolTime>k__BackingField: 0
-  <IsInRange>k__BackingField: 0
-  castingSystem: {fileID: 0}
-  textUI: {fileID: 0}
-  message: Press L Click to Interact
-  CharacterPos: {fileID: 3693959466888378225}
-  DollInBox: {fileID: 0}
-  animator: {fileID: 0}
 --- !u!95 &2485263039289760887
 Animator:
   serializedVersion: 4

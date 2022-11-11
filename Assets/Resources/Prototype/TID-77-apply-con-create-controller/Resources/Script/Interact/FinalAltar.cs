@@ -13,7 +13,7 @@ namespace GHJ_Lib
         protected override void OnEnable()
         {
             base.OnEnable();
-            StageManager.Instance.SetAltar(this);
+            //StageManager.Instance.SetAltar(this);
 			//castingSystem.ResetCasting();
 		}
 

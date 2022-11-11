@@ -25,6 +25,7 @@ namespace GHJ_Lib
             {
                 return;
             }
+
             if (!targets.Contains(target))
             {
                 targets.Add(target);
@@ -50,9 +51,18 @@ namespace GHJ_Lib
         {
             if (targetDoll.photonView.IsMine)
             {
-                int targetPlayerIndex = targetDoll.PlayerIndex;
-                int targetTypeIndex = targetDoll.TypeIndex;
-                DataManager.Instance.PlayerDatas[targetPlayerIndex].roleData.InteractionSpeed = DataManager.Instance.RoleInfos[targetTypeIndex].InteractionSpeed * rate;
+                if (targetDoll.photonView == this.photonView)
+                {
+                    DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed = DataManager.Instance.RoleInfos[8].InteractionSpeed * rate;
+                    //wolf TypeOrder is 8
+                }
+                else
+                { 
+                    int targetPlayerIndex = targetDoll.PlayerIndex;
+                    int targetTypeIndex = targetDoll.TypeIndex;
+                    DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed = DataManager.Instance.RoleInfos[targetTypeIndex].InteractionSpeed * rate;
+                }
+                DataManager.Instance.ShareRoleData();
             }
         }
     }

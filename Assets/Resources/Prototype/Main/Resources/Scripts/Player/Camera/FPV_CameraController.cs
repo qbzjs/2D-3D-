@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using KSH_Lib.Util;
 
 namespace KSH_Lib
 {
@@ -12,6 +13,9 @@ namespace KSH_Lib
         protected float maxSpeedX = 5.0f;
         [SerializeField]
         protected float maxSpeedY = 5.0f;
+        
+        [field: SerializeField] public GameObject camAim { get; protected set; }
+        float angleY;
 
         /*--- Monobehviour Callbacks ---*/
         protected override void LateUpdate()
@@ -21,45 +25,29 @@ namespace KSH_Lib
                 base.LateUpdate();
             }
         }
-
         protected override void RotateCamera()
         {
-            if(camTarget == null)
+            if ( camTarget == null )
             {
                 return;
             }
             camAxis *= mouseSpeed;
 
-            if(camAxis.x > maxSpeedX)
-            {
-                camAxis.x = maxSpeedX;
-            }
-            else if(camAxis.x < -maxSpeedX)
-            {
-                camAxis.x = -maxSpeedX;
-            }
-            if(camAxis.y > maxSpeedY)
-            {
-                camAxis.y = maxSpeedY;
-            }
-            else if (camAxis.y < -maxSpeedY)
-            {
-                camAxis.y = -maxSpeedY;
-            }
+            camAxis.x = Mathf.Clamp( camAxis.x, -maxSpeedX, maxSpeedX );
+            camAxis.y = Mathf.Clamp( camAxis.y, -maxSpeedY, maxSpeedY );
 
-            camTarget.transform.Rotate(Vector3.up, camAxis.x, Space.World);
-            camTarget.transform.Rotate(Vector3.right, camAxis.y, Space.Self);
+            angleY += camAxis.y;
 
-            angles = camTarget.transform.eulerAngles;
-            float angleVertical = angles.x;
-            if (angleVertical >= maxAngleY && angleVertical <= 180.0f)
+            camAim.transform.RotateAround( camTarget.transform.position, Vector3.up, camAxis.x );
+            if ( angleY < maxAngleY && angleY > minAngleY )
             {
-                camTarget.transform.eulerAngles = new Vector3(maxAngleY, angles.y, angles.z);
+                camAim.transform.RotateAround( camTarget.transform.position, camTarget.transform.right, camAxis.y );
             }
-            else if (angleVertical <= 360.0f + minAngleY && angleVertical >= 180.0f)
+            else
             {
-                camTarget.transform.eulerAngles = new Vector3(360.0f + minAngleY, angles.y, angles.z);
+                angleY -= camAxis.y;
             }
+            camTarget.transform.LookAt( camAim.transform ); 
         }
 
         public override void InitCam(GameObject camTarget)
@@ -77,6 +65,11 @@ namespace KSH_Lib
             virtualCam.Follow = this.camTarget.transform;
 
             canUpdate = true;
+        }
+
+        public float GetCamAxisX()
+        {
+            return camAxis.x;
         }
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 using KSH_Lib.Util;
 using TMPro;
+using LSH_Lib;
 
 namespace KSH_Lib.UI
 {
@@ -73,6 +74,8 @@ namespace KSH_Lib.UI
 			ActiveLoginScreen();
 			LoadingPanelObj.SetActive( false );
 			//uiEffect = new UIEffector(errMsgCanvasGroup);
+
+			//AudioManager.instance.Play("LoginBGM");
 		}
 
 

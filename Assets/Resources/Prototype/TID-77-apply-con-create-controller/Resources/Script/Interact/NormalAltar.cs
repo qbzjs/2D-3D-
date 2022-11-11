@@ -9,6 +9,8 @@ namespace GHJ_Lib
 {
 	public class NormalAltar: GaugedObject
 	{
+        enum PauseType { Null, PauseInput, TypingPattern }
+
 		protected bool isEnable = true;
         [SerializeField]
         float exorcistCastingTime = 3.0f;
@@ -19,6 +21,9 @@ namespace GHJ_Lib
 
         public NetworkBaseController targetController;
         public bool isExorcistIn;
+
+
+        PauseType pauseType;
 
         protected override void OnEnable()
 		{
@@ -116,6 +121,14 @@ namespace GHJ_Lib
             }
         }
 
+        //bool DollRunningCondition()
+        //{
+        //    if(!targetController.IsInteractionKeyHold())
+        //    {
+        //        pauseType = PauseType.PauseInput;
+        //        return false;
+        //    }
+        //}
 
         void DollPauseAction()
         {

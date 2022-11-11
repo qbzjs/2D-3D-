@@ -7,6 +7,7 @@ namespace KSH_Lib.Object
 {
     public class Interactor : MonoBehaviour
     {
+        public IInteractable Interactable { get; private set; }
         [SerializeField] protected Transform interactionPoint;
         [SerializeField] protected float interactionPointRadius = 0.5f;
         [SerializeField] protected LayerMask interactableMask;
@@ -20,7 +21,6 @@ namespace KSH_Lib.Object
 
         protected Collider[] colliders;
         
-        IInteractable interactable;
 
         protected virtual void OnEnable()
         {
@@ -44,6 +44,10 @@ namespace KSH_Lib.Object
             {
                 TryInteract();
             }
+            else
+            {
+                TryFindInteractable();
+            }
         }
         protected virtual void OnDrawGizmosSelected()
         {
@@ -61,15 +65,15 @@ namespace KSH_Lib.Object
 
             if ( foundCount > 0 )
             {
-                interactable = colliders[0].GetComponentInParent<IInteractable>();
+                Interactable = colliders[0].GetComponentInParent<IInteractable>();
 
-                if ( interactable != null )
+                if ( Interactable != null )
                 {
-                    bool canInteract = interactable.ActiveInteractPrompt( this, interactionPromptUI );
+                    bool canInteract = Interactable.ActiveInteractPrompt( this, interactionPromptUI );
 
                     if ( canInteract && Input.GetKeyDown( interactionKey ) )
                     {
-                        interactable.Interact( this );
+                        Interactable.Interact( this );
                     }
                 }
                 else
@@ -79,7 +83,21 @@ namespace KSH_Lib.Object
             }
             else
             {
+                Interactable = null;
                 interactionPromptUI.Inactivate();
+            }
+        }
+        protected virtual void TryFindInteractable()
+        {
+            foundCount = Physics.OverlapSphereNonAlloc(interactionPoint.position, interactionPointRadius, colliders, interactableMask);
+
+            if (foundCount > 0)
+            {
+                Interactable = colliders[0].GetComponentInParent<IInteractable>();
+            }
+            else
+            {
+                Interactable = null;
             }
         }
     }

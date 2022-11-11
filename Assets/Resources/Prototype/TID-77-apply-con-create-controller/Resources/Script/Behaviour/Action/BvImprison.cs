@@ -20,15 +20,22 @@ namespace GHJ_Lib
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
 			AnimatorStateInfo animatorStateInfo = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
-			if (animatorStateInfo.normalizedTime >= 0.5f)
+			if (animatorStateInfo.normalizedTime >= 0.5f && actor.BaseAnimator.GetBool("IsImprison") && animatorStateInfo.IsName("Imprison"))
 			{
+				Log.Instance.WriteLog("BvImprison animation SetBool", 1);
 				actor.BaseAnimator.SetBool("IsImprison", false);
 				actor.ImprisonDoll();
 			}
-
-			if (animatorStateInfo.IsName("Idle"))
+			else
 			{
-				return new BvIdle();
+				if (actor.BaseAnimator.GetBool("IsImprison"))
+				{
+					return null;
+				}
+				else if (animatorStateInfo.IsName("Idle"))
+				{
+					return new BvIdle();
+				}
 			}
 			return null;
         }

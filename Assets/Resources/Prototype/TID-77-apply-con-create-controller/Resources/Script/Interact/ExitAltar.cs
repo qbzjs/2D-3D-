@@ -21,7 +21,7 @@ namespace GHJ_Lib
 		{
 			base.OnEnable();
 			castingSystem = StageManager.Instance.CastSystem;
-			StageManager.Instance.SetAltar( this );
+			//StageManager.Instance.SetAltar( this );
 			ExitAltarModel.SetActive( false );
 			//castingSystem.ResetCasting();
 		}

@@ -16,25 +16,25 @@ namespace GHJ_Lib
         {
             AnimatorStateInfo animatorStateInfo = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
 
-            if (animatorStateInfo.IsName("Idle"))
+            if (animatorStateInfo.normalizedTime >= 0.8f && animatorStateInfo.IsName("Pickup") && actor.BaseAnimator.GetBool("IsCatch"))
             {
+                (actor as ExorcistController).PickUp();
+                actor.BaseAnimator.SetBool("IsCatch", false);
                 actor.ChangeMoveFunc(true);
             }
-            else
+
+            if (actor.BaseAnimator.GetBool("IsCatch"))
             {
-                if (animatorStateInfo.normalizedTime >= 0.5f)
-                {
-                    actor.BaseAnimator.SetBool("IsCatch", false);
-                }
+                return null;
             }
 
-            if (actor.photonView.IsMine)
-            {
-                if ( Input.GetKeyDown( KeyCode.Mouse0 ) )
-                {
-                    actor.ChangeBvToImprison();
-                }
-            }
+            //if (actor.photonView.IsMine)
+            //{
+            //    if ( Input.GetKeyDown( KeyCode.Mouse0 ) )//내가 정화상자에 충분히 가까이 있는지, 보고있는지
+            //    {
+            //        actor.ChangeBvToImprison();
+            //    }
+            //}
 
 
             Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();

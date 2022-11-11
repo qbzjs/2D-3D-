@@ -17,15 +17,18 @@ namespace KSH_Lib
         [SerializeField] protected CastingSystem castingSystem;
         [field: SerializeField] public bool IsExorcistInteracting { get; protected set; }
 
-        [Header("Gauge Settings")]
-        [SerializeField] protected float RateOfGauge;
         [field: SerializeField] public float MaxGauge { get; protected set; }
         [field: SerializeField] public float DecreaseRate { get; protected set; }
         [field: SerializeField] public float CoolTime { get; protected set; }
+
+
+        [Header( "Debug Only" )]
+        [SerializeField] protected float RateOfGauge;
         public float OriginGauge { get { return RateOfGauge * MaxGauge; } }
 
         /*--- Fields ---*/
         public string InteractionPrompt => prompt;
+        public GameObject GetGameObject => gameObject;
         public virtual bool CanInteract { get => !castingSystem.IsCoroutineRunning; }
         protected NetworkBaseController targetController;
 
@@ -48,7 +51,11 @@ namespace KSH_Lib
             RateOfGauge = gauge;
             photonView.RPC( "ShareRate", RpcTarget.AllViaServer, RateOfGauge );
         }
-        protected virtual bool CheckIntractableByType( in InteractionPromptUI promptUI ) { return true; }
+        protected virtual bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
+        {
+            return true;
+        }
+
         bool CheckController(in Interactor interactor, in InteractionPromptUI promptUI )
         {
             if(!CanInteract)
@@ -79,7 +86,7 @@ namespace KSH_Lib
             {
                 return false;
             }
-            if(!CheckIntractableByType( promptUI ) )
+            if(!CheckAdditionalCondition( promptUI ) )
             {
                 return false;
             }

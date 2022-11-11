@@ -1,23 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using KSH_Lib;
 namespace GHJ_Lib
 {
     public class PickUpArea : EffectArea
     {
         //protected List<GameObject> Dolls = new List<GameObject>();
-
         protected override void OnTriggerEnter(Collider other)
         {
             
         }
         private void OnTriggerStay(Collider other)
         {
+            
             if (other.CompareTag("Doll"))
             {
-               
-                if (other.gameObject.GetComponent<NetworkBaseController>().CurBehavior is BvCollapse)
+                Behavior<NetworkBaseController> Dollbehavior = other.gameObject.GetComponent<NetworkBaseController>().CurBehavior;
+                if (Dollbehavior is BvCollapse||
+                    Dollbehavior is BvbeTrapped)
                 {
                     if (!targets.Contains(other.gameObject))
                     {

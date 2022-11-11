@@ -39,7 +39,7 @@ namespace GHJ_Lib
 		public Transform[] ExitAltarGenPos;
 		public Transform FinalAltarGenPos;
 		public Transform[] PurificationBoxGenPos;
-
+		public Transform[] CrowGenPos;
 		[Header("NormalAltarSetting")]
 		public int Count;
 		public float InitAreaRadius;
@@ -75,12 +75,14 @@ namespace GHJ_Lib
 			{
 				if ( dolls == null )
 				{
+					List<DollController> dollList = new List<DollController>();
 					GameObject[] dollObjects = GameObject.FindGameObjectsWithTag( "Doll" );
 					foreach ( var d in dollObjects )
 					{
-						dolls.Add( d.GetComponent<DollController>() );
+						dollList.Add( d.GetComponent<DollController>() );
 					}
-					dolls.Sort( ( lhs, rhs ) => lhs.PlayerIndex.CompareTo( rhs.PlayerIndex ) );
+					//dollList.Sort( ( lhs, rhs ) => lhs.PlayerIndex.CompareTo( rhs.PlayerIndex ) );
+					dolls = dollList;
 				}
 				return dolls;
 			}
@@ -137,7 +139,7 @@ namespace GHJ_Lib
 
 
 			// end Filed 
-			dollCount = PhotonNetwork.CurrentRoom.PlayerCount;
+			playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
 			if (!EscMenu)
 			{
 				Debug.LogError(" EscMenu is Null");
@@ -159,7 +161,11 @@ namespace GHJ_Lib
 				networkGenerator.Generate(PurificationBoxPrefab, purificationBoxGenPos.transform.position, purificationBoxGenPos.transform.rotation);
 			}
 
-
+			// Check if player count is 2 ( for debug )
+			if(playerCount == 2)
+			{
+				exitAltar.EnableExitAltar();
+			}
 
 		}
 
@@ -214,28 +220,32 @@ namespace GHJ_Lib
 			Destroy(gameObject);
 		}
 
+		public void DestroyObjFromPhoton(GameObject gameObject)
+		{
+			PhotonNetwork.Destroy(gameObject);
+		}
 
 
 
 		/*---End Field---*/
 
 		public EscMenu EscMenu;
-		FinalAltar finalAltar;
-		ExitAltar exitAltar;
+		KSH_Lib.Object.FinalAltar finalAltar;
+		KSH_Lib.Object.ExitAltar exitAltar;
 		[SerializeField]
-		protected int dollCount;
+		protected int playerCount;
 		int needAltarCount = 4;
 		/*---End Func---*/
-		public void SetAltar(GaugedObject gaugedObj)
+		public void SetAltar(GaugedObj gaugedObj)
 		{
-			if ( gaugedObj is FinalAltar)
+			if ( gaugedObj is KSH_Lib.Object.FinalAltar)
 			{
-				finalAltar = gaugedObj as FinalAltar;
+				finalAltar = gaugedObj as KSH_Lib.Object.FinalAltar;
 			}
 
-			if ( gaugedObj is ExitAltar)
+			if ( gaugedObj is KSH_Lib.Object.ExitAltar )
 			{
-				exitAltar = gaugedObj as ExitAltar;
+				exitAltar = gaugedObj as KSH_Lib.Object.ExitAltar;
 			}
 		}
 
@@ -249,24 +259,24 @@ namespace GHJ_Lib
 
 			if (needAltarCount <= 0)
 			{
-				finalAltar.CanOpenDoor();
+				finalAltar.SetDoorState(KSH_Lib.Object.FinalAltar.AltarState.CanOpen);
 			}
 		}
 
 
 		public void DollCountDecrease() //Ghost가 될떄 (단 부를때 객체에서 바로부르는것이 아닌 RPC로 불러야함)
 		{
-			if (dollCount > 0)
+			if (playerCount > 0)
 			{
-				--dollCount;
+				--playerCount;
 			}
 
-			if (dollCount == 2)
+			if (playerCount == 2)
 			{
-				exitAltar.OpenExitAltar();
+				exitAltar.EnableExitAltar();
 			}
 
-			if (dollCount == 1)
+			if (playerCount == 1)
 			{
 				EndGame();
 			}

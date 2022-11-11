@@ -8,6 +8,7 @@ namespace KSH_Lib.Object
     {
         public string InteractionPrompt { get; }
         public bool CanInteract { get; }
+        public GameObject GetGameObject { get; }
 
         public bool ActiveInteractPrompt( Interactor interactor, InteractionPromptUI promptUI );
         public bool Interact(Interactor interactor);

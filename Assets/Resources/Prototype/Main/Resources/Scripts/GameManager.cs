@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     public const string TransparentLayerTag = "RenderOnTop";
     public const string GhostLayerTag = "Ghost";
     public const string Environment = "Environment";
+    public const string SkillObjTag = "SkillObj";
 
     static GameManager instance;
     //add new script

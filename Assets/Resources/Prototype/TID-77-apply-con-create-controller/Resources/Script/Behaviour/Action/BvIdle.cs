@@ -10,6 +10,10 @@ namespace GHJ_Lib
         {
             //PlayAnimation( actor );
             actor.ChangeMoveFunc(true);
+            if(actor.IsMine && actor is ExorcistController)
+            {
+                actor.BaseAnimator.SetFloat( "AnimationSpeed", 0.0f );
+            }
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
@@ -35,6 +39,7 @@ namespace GHJ_Lib
 
             if ( actor is DollController )
             {
+                DoDollHide(actor);
                 DoDollSprint( actor );
             }
             else if ( actor is ExorcistController )
@@ -44,6 +49,7 @@ namespace GHJ_Lib
                 {
                     if ( exorcist.pickUpArea.CanGetTarget() )
                     {
+
                         exorcist.ChangeBvToCatch();
                     }
                     else
@@ -67,6 +73,14 @@ namespace GHJ_Lib
             {
                 actor.BaseAnimator.SetBool("Run", false);
                 actor.ChangeMoveSpeed( 1.0f );
+            }
+        }
+
+        void DoDollHide(in NetworkBaseController actor)
+        {
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                actor.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Hide);
             }
         }
         /*
