@@ -75,7 +75,6 @@ namespace KSH_Lib.Object
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( exorcistCastingTime, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet(FinishAction: ExorcistFinishAction ) );
 
-                damageCoroutine = StartCoroutine(DamageDoll());
 
                 if(!isDollPurifying)
                 {
@@ -142,6 +141,11 @@ namespace KSH_Lib.Object
                 }
                 yield return null;
             }
+        }
+
+        public void StartDamageSequence()
+        {
+            damageCoroutine = StartCoroutine( DamageDoll() );
         }
 
         IEnumerator DamageDoll()
