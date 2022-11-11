@@ -15,22 +15,46 @@ namespace KSH_Lib.UI
 {
     public class CharacterSelectCanvasController : MonoBehaviourPun, IPunObservable
     {
-        [System.Serializable]
-        public struct SelectInfo
-        {
-            public Sprite image;
-            public string playerName;
-            public string selectedRole;
-            public bool isSelected;
+        //[System.Serializable]
+        //public struct SelectInfo
+        //{
+        //    public Sprite image;
+        //    public string playerName;
+        //    public string selectedRole;
+        //    public bool isSelected;
 
-            public SelectInfo( Sprite image, string playerName, string selectedRole, bool isSelected)
+        //    public SelectInfo(Sprite image, string playerName, string selectedRole, bool isSelected)
+        //    {
+        //        this.image = image;
+        //        this.playerName = playerName;
+        //        this.selectedRole = selectedRole;
+        //        this.isSelected = isSelected;
+        //    }
+        //}
+
+        [System.Serializable]
+        public struct PlayerUI
+        {
+            public Image icon;
+            public TextMeshProUGUI nickname;
+            public TextMeshProUGUI roleName;
+
+            public void Refresh(Sprite sprite, string nicknameStr, string roleNameStr)
             {
-                this.image = image;
-                this.playerName = playerName;
-                this.selectedRole = selectedRole;
-                this.isSelected = isSelected;
+                icon.sprite = sprite;
+                nickname.text = nicknameStr;
+                roleName.text = roleNameStr;
             }
         }
+
+        [System.Serializable]
+        public struct InfoMatch
+        {
+            public int playerIdx;
+            //public SelectInfo info;
+            public PlayerUI ui;
+        }
+
 
 
         /*--- Public Fields ---*/
@@ -61,7 +85,8 @@ namespace KSH_Lib.UI
         [Header("Character Select Buttons")]
         public GameObject DollButtons;
         public GameObject ExorcistButtons;
-        [SerializeField] SelectInfo[] selectInfos;// = new SelectInfo[GameManager.Instance.CurPlayerCount];
+        [SerializeField] InfoMatch[] infoMatches;
+        [SerializeField] PlayerUI[] playerUIs;
 
         /*--- Protected Fields ---*/
         [SerializeField]
@@ -121,12 +146,13 @@ namespace KSH_Lib.UI
 
             DataManager.Instance.InitPlayerDatas();
             //bishopInformation.SetActive(true);
+            infoMatches = new InfoMatch[GameManager.Instance.CurPlayerCount];
+            IndexingInfo();
         }
-        private void Update()
-        {
-            selectInfos = new SelectInfo[GameManager.Instance.CurPlayerCount];
-        }
+
         /*--- Public Methods ---*/
+ 
+
         public void OnSelectRole()
         {
             if (DataManager.Instance.PreRoleType == RoleData.RoleType.Doll)
@@ -145,18 +171,105 @@ namespace KSH_Lib.UI
             DataManager.Instance.InitLocalRoleData();
             DataManager.Instance.ShareRoleData();
 
-            selectInfos[0] = GetSelectInfoByRoleTypeOrder( DataManager.Instance.LocalPlayerData.roleData.TypeOrder );
+            infoMatches[0].info = GetSelectInfoByRoleTypeOrder(DataManager.Instance.LocalPlayerData.roleData.TypeOrder);
 
+            photonView.RPC("ChangeSelectInfosRPC", RpcTarget.AllViaServer, playerIdx, (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder);
 
             Debug.Log($"Selected {DataManager.Instance.PreRoleTypeOrder}");
         }
+
+        [PunRPC]
+        public void ChangeSelectInfosRPC(int playerIdx, int typeOrder)
+        {
+            for(int i = 0; i < infoMatches.Length; ++i)
+            {
+                if(infoMatches[i].playerIdx == playerIdx)
+                {
+                    infoMatches[i].info = GetSelectInfoByRoleTypeOrder((RoleData.RoleTypeOrder)typeOrder);
+                }
+            }
+        }
+        //public InfoMatch GetSelectInfoByRoleTypeOrder(InfoMatch infoMatch, RoleData.RoleTypeOrder typeOrder)
+        //{
+        //    switch (typeOrder)
+        //    {
+        //        case RoleData.RoleTypeOrder.Bishop:
+        //        {
+        //            return infoMatch.ui.Refresh(roleSprites[(int)RoleData.RoleTypeOrder.Bishop],
+        //                DataManager.Instance.LocalPlayerData.accountData.Nickname,
+        //                "아타나시오"
+        //                );
+
+
+        //            return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Bishop],
+        //                DataManager.Instance.LocalPlayerData.accountData.Nickname,
+        //                "아타나시오", true
+        //                );
+        //        }
+        //        case RoleData.RoleTypeOrder.Hunter:
+        //        {
+        //            return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Hunter],
+        //                DataManager.Instance.LocalPlayerData.accountData.Nickname,
+        //                "샬라이", true
+        //                );
+        //        }
+        //        case RoleData.RoleTypeOrder.Photographer:
+        //        {
+        //            return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Photographer],
+        //                DataManager.Instance.LocalPlayerData.accountData.Nickname,
+        //                "강채율", true
+        //                );
+        //        }
+        //        case RoleData.RoleTypeOrder.Priest:
+        //        {
+        //            return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Priest],
+        //                DataManager.Instance.LocalPlayerData.accountData.Nickname,
+        //                "알베르토 이든", true
+        //                );
+        //        }
+        //        case RoleData.RoleTypeOrder.Wolf:
+        //        {
+        //            return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Wolf],
+        //                DataManager.Instance.LocalPlayerData.accountData.Nickname,
+        //                "라이", true
+        //                );
+        //        }
+        //        case RoleData.RoleTypeOrder.Rabbit:
+        //        {
+        //            return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Rabbit],
+        //                DataManager.Instance.LocalPlayerData.accountData.Nickname,
+        //                "제니", true
+        //                );
+        //        }
+        //        case RoleData.RoleTypeOrder.Tortoise:
+        //        {
+        //            return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Tortoise],
+        //                DataManager.Instance.LocalPlayerData.accountData.Nickname,
+        //                "태오", true
+        //                );
+        //        }
+        //        case RoleData.RoleTypeOrder.Penguin:
+        //        {
+        //            return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Penguin],
+        //                DataManager.Instance.LocalPlayerData.accountData.Nickname,
+        //                "제임스", true
+        //                );
+        //        }
+
+        //        default:
+        //        {
+        //            Debug.LogError("GetSelectInfoByRoleTypeOrder: No Selected ");
+        //            return new SelectInfo();
+        //        }
+        //    }
+        //}
         public SelectInfo GetSelectInfoByRoleTypeOrder( RoleData.RoleTypeOrder typeOrder )
         {
             switch(typeOrder)
             {
                 case RoleData.RoleTypeOrder.Bishop:
                 {
-                    return new SelectInfo( roleSprites[(int)RoleData.RoleTypeOrder.Bishop],
+                    return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Bishop],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
                         "아타나시오", true
                         );
@@ -218,10 +331,40 @@ namespace KSH_Lib.UI
                 }
             }
         }
+        void IndexingInfo()
+        {
+            if (DataManager.Instance.PreRoleType == RoleData.RoleType.Doll)
+            {
+                infoMatches[0].playerIdx = infoMatches.Length - 1;
 
-            /*--- Protected Methods ---*/
+                for (int i = 1; i < infoMatches.Length; ++i)
+                {
+                    if (infoMatches[i].playerIdx == 0)
+                    {
+                        infoMatches[i].playerIdx = -1;
+                    }
+                }
+                for (int i = 1; i < infoMatches.Length; ++i)
+                {
+                    if (i == playerIdx)
+                    {
+                        infoMatches[i].playerIdx = 0;
+                        break;
+                    }
+                }
+                for (int i = 1; i < infoMatches.Length; ++i)
+                {
+                    if (infoMatches[i].playerIdx == -1)
+                    {
+                        infoMatches[i].playerIdx = i;
+                        break;
+                    }
+                }
+            }
+        }
+        /*--- Protected Methods ---*/
 
-            /*--- Private Methods ---*/
+        /*--- Private Methods ---*/
         void DisablAllInformation()
         {
             bishopInformation.SetActive(false);
