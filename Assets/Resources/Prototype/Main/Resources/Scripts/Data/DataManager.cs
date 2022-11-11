@@ -141,10 +141,13 @@ namespace KSH_Lib
 
 		public void InitPlayerDatas()
         {
-			for( int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; ++i )
-            {
-				playerDatas.Add( new PlayerData() );
-				isInitedList.Add(false);
+			if(playerDatas.Count == 0)
+			{
+				for ( int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; ++i )
+				{
+					playerDatas.Add( new PlayerData() );
+					isInitedList.Add( false );
+				}
 			}
 		}
 		public void ResetPlayerDatas()

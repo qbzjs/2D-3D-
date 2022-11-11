@@ -68,10 +68,13 @@ namespace KSH_Lib.UI
 
         /*--- MonoBehaviour Callbacks ---*/
 
+
         private void Start()
         {
             DisablAllInformation();
             OnSelectRole();
+
+            DataManager.Instance.InitPlayerDatas();
             //bishopInformation.SetActive(true);
         }
 
@@ -92,6 +95,8 @@ namespace KSH_Lib.UI
         public void OnSelectCharacter(string name)
         {
             DataManager.Instance.PreRoleTypeOrder = (RoleData.RoleTypeOrder)System.Enum.Parse(typeof(RoleData.RoleTypeOrder), name);
+            DataManager.Instance.InitLocalRoleData();
+            DataManager.Instance.ShareRoleData();
             Debug.Log($"Selected {DataManager.Instance.PreRoleTypeOrder}");
         }
 

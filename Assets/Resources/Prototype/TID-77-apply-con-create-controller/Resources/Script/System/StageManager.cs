@@ -98,7 +98,7 @@ namespace GHJ_Lib
 		/*--- MonoBehaviour Callbacks ---*/
 		void Awake()
 		{
-			DataManager.Instance.InitPlayerDatas();
+			//DataManager.Instance.InitPlayerDatas();
 			DataManager.Instance.ShareAllData();
 		}
 		void Start()
