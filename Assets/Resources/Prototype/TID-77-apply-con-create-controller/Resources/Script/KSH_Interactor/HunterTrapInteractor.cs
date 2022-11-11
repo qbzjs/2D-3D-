@@ -53,6 +53,7 @@ namespace GHJ_Lib
                     bool canInteract = Trap.ActiveInteractPrompt(this, interactionPromptUI);//isWatching 까지 넣어줄것.
                     if (canInteract && Input.GetKeyDown(interactionKey))
                     {
+                        (hunter.skill as HunterSkill).SettingToCollectTrap();
                         hunter.photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.AllViaServer);
                         Trap.Interact(this); //Manual Casting
                     }
@@ -70,6 +71,7 @@ namespace GHJ_Lib
                     if (Input.GetKeyDown(interactionKey)&&!castingSystem.IsCoroutineRunning)
                     {
                         Debug.Log("install Trap");
+                        (hunter.skill as HunterSkill).SettingToInstallTrap();
                         hunter.photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.AllViaServer);
                         castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(3.0f,coolTime : 5.0f), new CastingSystem.CastFuncSet(RunningCondition: RunningCondition,PauseAction : PauseAction,FinishAction: FinishAction) ); // RunningCondition : Input.getKey / PauseAction : Idle로 바꿔줌 /  FinishAction : Idle 바꿔주고 설치
                     }

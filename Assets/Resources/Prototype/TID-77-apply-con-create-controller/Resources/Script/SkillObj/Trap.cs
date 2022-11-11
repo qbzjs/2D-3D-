@@ -12,7 +12,7 @@ namespace GHJ_Lib
         [Header("Trap Setting")]
         [SerializeField] protected float ExitTrapVel = 8.3f;
         [SerializeField] protected float ClearTrapVel = 4.2f;
-
+        [SerializeField] protected string CollectText = "G : Collect Trap";
         protected float collectTime = 1.0f;
         protected bool isCatchDoll =false;
 
@@ -64,9 +64,9 @@ namespace GHJ_Lib
             }
             else if (interactor.CompareTag(GameManager.ExorcistTag))
             {
-                if (isCatchDoll && !beTrappedDoll)
+                if (isCatchDoll && !beTrappedDoll && !castingSystem.IsCoroutineRunning)
                 {
-                    promptUI.Activate("G : Collect Trap");
+                    promptUI.Activate(CollectText);
                     targetController = interactor.gameObject.GetComponentInParent<NetworkBaseController>();
                     return true;
                 }

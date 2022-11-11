@@ -11,6 +11,11 @@ namespace GHJ_Lib
         public GameObject CrowPrefab;
         protected List<Crow> Crows = new List<Crow>();
 
+        protected Sk_Default sk_Default = new Sk_Default();
+        protected Sk_InstallTrap sk_InstallTrap = new Sk_InstallTrap();
+        protected Sk_CollectTrap sk_CollectTrap = new Sk_CollectTrap();
+            
+        
 		public int TrapCount { get; protected set; }
         public string TrapName { get; protected set; }
         public bool isUse { get; protected set; }
@@ -54,6 +59,16 @@ namespace GHJ_Lib
         public void Debuff(DollController dollController)
         {
             dollController.DoActionBy(DetectedDoll);
+        }
+
+        public void SettingToInstallTrap()
+        {
+            Controller.AllocSkill(sk_InstallTrap);
+        }
+
+        public void SettingToCollectTrap()
+        {
+            Controller.AllocSkill(sk_CollectTrap);
         }
         protected override IEnumerator ExcuteActiveSkill()
         {
