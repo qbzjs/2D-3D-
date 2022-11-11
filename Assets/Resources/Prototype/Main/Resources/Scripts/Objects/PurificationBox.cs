@@ -28,7 +28,7 @@ namespace KSH_Lib.Object
 
         bool isDollPurifying;
 
-        //Coroutine damageCoroutine;
+        Coroutine damageCoroutine;
 
 
         protected override void OnEnable()
@@ -74,7 +74,9 @@ namespace KSH_Lib.Object
                 targetController.ChangeBvToImprison();
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( exorcistCastingTime, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet(FinishAction: ExorcistFinishAction ) );
-                //damageCoroutine = StartCoroutine(DamageDoll());
+
+                damageCoroutine = StartCoroutine(DamageDoll());
+
                 if(!isDollPurifying)
                 {
                     StartCoroutine(DestroyIfDollDead());
@@ -111,7 +113,7 @@ namespace KSH_Lib.Object
         {
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 
-            //StopCoroutine(damageCoroutine);
+            StopCoroutine(damageCoroutine);
 
             DollInBox.EscapeFrom( transform, LayerMask.NameToLayer( "Player" ) );
             DollInBox.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Escape );
@@ -146,19 +148,16 @@ namespace KSH_Lib.Object
         {
             while ( true )
             {
-                yield return null;
-
                 if ( DollInBox == null )
                 {
-                    yield return null;
+                    break;
                 }
-
                 if ( DollInBox.GetDollData.DevilHP <= 0.0f )
                 {
-                    yield return null;
+                    break;
                 }
-
                 DollInBox.ChangeDevilHP( damagePerSecond * Time.deltaTime );
+                yield return null;
             }
         }
 
