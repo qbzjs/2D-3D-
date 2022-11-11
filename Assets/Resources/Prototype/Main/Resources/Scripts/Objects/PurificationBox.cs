@@ -160,7 +160,7 @@ namespace KSH_Lib.Object
                 {
                     break;
                 }
-                DollInBox.ChangeDevilHP( damagePerSecond * Time.deltaTime );
+                DollInBox.ChangeDevilHP( -damagePerSecond * Time.deltaTime );
                 yield return null;
             }
         }
