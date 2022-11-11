@@ -16,8 +16,7 @@ namespace KSH_Lib.Object
         [SerializeField] protected DollController DollInBox = null;
         [SerializeField] Animator animator;
         [SerializeField] public bool IsInteracting { get; private set; }
-
-        [SerializeField] float damagePerSecond = 20.0f;
+        [SerializeField] public float Damage { get; private set; }
 
 
 
@@ -27,8 +26,6 @@ namespace KSH_Lib.Object
         [SerializeField] float startHeight = 5.2f;
 
         bool isDollPurifying;
-
-        Coroutine damageCoroutine;
 
 
         protected override void OnEnable()
@@ -75,7 +72,6 @@ namespace KSH_Lib.Object
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( exorcistCastingTime, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet(FinishAction: ExorcistFinishAction ) );
 
-                damageCoroutine = StartCoroutine(DamageDoll());
 
                 if(!isDollPurifying)
                 {
@@ -113,8 +109,6 @@ namespace KSH_Lib.Object
         {
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 
-            StopCoroutine(damageCoroutine);
-
             DollInBox.EscapeFrom( transform, LayerMask.NameToLayer( "Player" ) );
             DollInBox.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Escape );
             animator.Play( "OpenDoor" );
@@ -144,22 +138,6 @@ namespace KSH_Lib.Object
             }
         }
 
-        IEnumerator DamageDoll()
-        {
-            while ( true )
-            {
-                if ( DollInBox == null )
-                {
-                    break;
-                }
-                if ( DollInBox.GetDollData.DevilHP <= 0.0f )
-                {
-                    break;
-                }
-                DollInBox.ChangeDevilHP( damagePerSecond * Time.deltaTime );
-                yield return null;
-            }
-        }
 
         [PunRPC]
         void ShareInteractingInPurificationBox_RPC( bool isInteracting )

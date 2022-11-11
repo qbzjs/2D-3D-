@@ -191,7 +191,7 @@ namespace GHJ_Lib
 			}
 			else
             {
-				tpvCam.Cm3rdPersonFollow.CameraCollisionFilter.value = -1;
+				tpvCam.Cm3rdPersonFollow.CameraCollisionFilter.value = 0;
 			}
         }
 

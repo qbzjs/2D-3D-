@@ -81,6 +81,7 @@ namespace GHJ_Lib
 				Serializer.Serialize(puriBox.CharacterPos.position, ref bytes);
 				photonView.RPC("ChangeTransform", RpcTarget.AllViaServer, bytes);
 				ChangeBehaviorTo(BehaviorType.BePurifying);
+				//StartCoroutine( ChangeDevilHPByDeltaTime( puriBox.Damage, () => (CurBehavior is BvEscape) ) );
 			}
 			characterModel.transform.rotation = puriBox.CharacterPos.rotation;
 
@@ -93,6 +94,21 @@ namespace GHJ_Lib
 			int offset = 0;
 			characterObj.transform.position = Serializer.DeserializeVector3(data, ref offset);
 		}
+
+
+		IEnumerator ChangeDevilHPByDeltaTime(float damage, System.Func<bool> EndCond )
+		{
+			while ( true )
+			{
+				if ( GetDollData.DevilHP <= 0.0f || EndCond() )
+				{
+					break;
+				}
+				ChangeDevilHP( -damage * Time.deltaTime );
+				yield return null;
+			}
+		}
+
 
 		public override void EscapeFrom(Transform transform, int layer)
 		{
@@ -170,14 +186,17 @@ namespace GHJ_Lib
 
 		public void ChangeDevilHP(float delta)
         {
-			GetDollData.DevilHP += delta;
-			DataManager.Instance.ShareRoleData();
+			if(IsMine)
+			{
+				GetDollData.DevilHP += delta;
+				DataManager.Instance.ShareRoleData();
 
-			if(GetDollData.DevilHP <= 0.0f)
-            {
-				BaseAnimator.Play("Idle_A");
-				BecomeGhost();
-				CurBehavior.PushSuccessorState(new BvIdle());
+				if ( GetDollData.DevilHP <= 0.0f )
+				{
+					BaseAnimator.Play( "Idle_A" );
+					BecomeGhost();
+					CurBehavior.PushSuccessorState( new BvIdle() );
+				}
 			}
 		}
 

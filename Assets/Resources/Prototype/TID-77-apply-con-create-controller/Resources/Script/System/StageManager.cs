@@ -139,7 +139,7 @@ namespace GHJ_Lib
 
 
 			// end Filed 
-			dollCount = PhotonNetwork.CurrentRoom.PlayerCount;
+			playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
 			if (!EscMenu)
 			{
 				Debug.LogError(" EscMenu is Null");
@@ -161,7 +161,11 @@ namespace GHJ_Lib
 				networkGenerator.Generate(PurificationBoxPrefab, purificationBoxGenPos.transform.position, purificationBoxGenPos.transform.rotation);
 			}
 
-
+			// Check if player count is 2 ( for debug )
+			if(playerCount == 2)
+			{
+				exitAltar.EnableExitAltar();
+			}
 
 		}
 
@@ -229,7 +233,7 @@ namespace GHJ_Lib
 		KSH_Lib.Object.FinalAltar finalAltar;
 		KSH_Lib.Object.ExitAltar exitAltar;
 		[SerializeField]
-		protected int dollCount;
+		protected int playerCount;
 		int needAltarCount = 4;
 		/*---End Func---*/
 		public void SetAltar(GaugedObj gaugedObj)
@@ -262,17 +266,17 @@ namespace GHJ_Lib
 
 		public void DollCountDecrease() //Ghost가 될떄 (단 부를때 객체에서 바로부르는것이 아닌 RPC로 불러야함)
 		{
-			if (dollCount > 0)
+			if (playerCount > 0)
 			{
-				--dollCount;
+				--playerCount;
 			}
 
-			if (dollCount == 2)
+			if (playerCount == 2)
 			{
 				exitAltar.EnableExitAltar();
 			}
 
-			if (dollCount == 1)
+			if (playerCount == 1)
 			{
 				EndGame();
 			}
