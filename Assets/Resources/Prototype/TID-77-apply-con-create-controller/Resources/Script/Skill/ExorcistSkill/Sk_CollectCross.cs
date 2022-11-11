@@ -6,18 +6,24 @@ namespace GHJ_Lib
 {
 	public class Sk_CollectCross: Behavior<NetworkBaseController>
 	{
-		protected BishopSkill bishopskill;
+		protected BishopSkill bishopSkill;
 
 		protected override void Activate(in NetworkBaseController actor)
 		{
-			if (bishopskill == null)
+
+			actor.ChangeMoveFunc(false);
+
+			if (bishopSkill == null)
 			{
-				bishopskill = (actor.skill as BishopSkill);
+				bishopSkill = (actor.skill as BishopSkill);
 			}
-			//Controller 에서 십자가를 보고있는지, 가까이 있는지 판단 후 들어올 스킬
-			// 위 조건에 맞는 십자가를 제거 -> stageManager 를 불러서 해결
-			//StageManager.Instance.DestroyObj(bishop.Cross)
-			actor.BaseAnimator.Play("install Cross");
+			actor.BaseAnimator.SetBool("IsCollectCross", true);
+			bishopSkill.StartCoroutine("CollectCross");
+			actor.ChangeMoveFunc(false);
+		}
+		protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
+		{
+			return PassIfHasSuccessor();
 		}
 	}
 }

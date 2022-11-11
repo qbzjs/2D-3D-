@@ -18,6 +18,7 @@ namespace GHJ_Lib
 
             if (animatorStateInfo.normalizedTime >= 0.8f && animatorStateInfo.IsName("Pickup") && actor.BaseAnimator.GetBool("IsCatch"))
             {
+                (actor as ExorcistController).PickUp();
                 actor.BaseAnimator.SetBool("IsCatch", false);
                 actor.ChangeMoveFunc(true);
             }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4365171628870874203}
   - component: {fileID: 4365171628876093787}
   - component: {fileID: 3178626467900822399}
+  - component: {fileID: 6404621917221231720}
   m_Layer: 0
   m_Name: Cross
   m_TagString: SkillObj
@@ -28,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4365171628868676251}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0.23, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -117,3 +118,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d881f026293343408adeca6e67952b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prompt: Press G to Interact
+  castingSystem: {fileID: 0}
+  <IsExorcistInteracting>k__BackingField: 0
+  RateOfGauge: 0
+  <MaxGauge>k__BackingField: 0
+  <DecreaseRate>k__BackingField: 0
+  <CoolTime>k__BackingField: 0
+--- !u!114 &6404621917221231720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4365171628868676251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 3178626467900822399}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
