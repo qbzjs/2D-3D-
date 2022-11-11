@@ -7,13 +7,53 @@ using Photon;
 using Photon.Pun;
 using Photon.Realtime;
 
+using TMPro;
+
 using KSH_Lib.Data;
 
 namespace KSH_Lib.UI
 {
-    public class CharacterSelectCanvasController : MonoBehaviourPunCallbacks
+    public class CharacterSelectCanvasController : MonoBehaviourPun, IPunObservable
     {
+        [System.Serializable]
+        public struct SelectInfo
+        {
+            public Sprite image;
+            public string playerName;
+            public string selectedRole;
+            public bool isSelected;
+
+            public SelectInfo( Sprite image, string playerName, string selectedRole, bool isSelected)
+            {
+                this.image = image;
+                this.playerName = playerName;
+                this.selectedRole = selectedRole;
+                this.isSelected = isSelected;
+            }
+        }
+
+
         /*--- Public Fields ---*/
+        public int playerIdx { get { return DataManager.Instance.PlayerIdx; } }
+        public int exorcistIdx
+        {
+            get
+            {
+                if(DataManager.Instance.PreRoleType == RoleData.RoleType.Exorcist)
+                {
+                    return 0;
+                }
+                else if(DataManager.Instance.PreRoleType == RoleData.RoleType.Doll)
+                {
+                    return 4;
+                }
+                else
+                {
+                    Debug.LogError( "No PreRoleType set" );
+                    return -1;
+                }
+            }
+        }
 
         [SerializeField]
         private string loadSceneName = "02_MainGameScene";
@@ -21,8 +61,12 @@ namespace KSH_Lib.UI
         [Header("Character Select Buttons")]
         public GameObject DollButtons;
         public GameObject ExorcistButtons;
+        [SerializeField] SelectInfo[] selectInfos = new SelectInfo[GameManager.Instance.CurPlayerCount];
 
         /*--- Protected Fields ---*/
+        [SerializeField]
+        GameObject decideButtonObj;
+
         [Header("Exorcist Select UI")]
         [SerializeField]
         GameObject bishopButton;
@@ -61,8 +105,9 @@ namespace KSH_Lib.UI
         [SerializeField]
         GameObject penguinInformation;
 
-        [SerializeField]
-        GameObject decideButtonObj;
+        [Header( "Icon Images" )]
+        [SerializeField] Sprite[] roleSprites;
+        [SerializeField] GameObject roleImgObjs;
 
         /*--- Private Fields ---*/
 
@@ -89,7 +134,6 @@ namespace KSH_Lib.UI
             {
                 EnableExorcistButtons();
             }
-
         }
 
         public void OnSelectCharacter(string name)
@@ -97,12 +141,37 @@ namespace KSH_Lib.UI
             DataManager.Instance.PreRoleTypeOrder = (RoleData.RoleTypeOrder)System.Enum.Parse(typeof(RoleData.RoleTypeOrder), name);
             DataManager.Instance.InitLocalRoleData();
             DataManager.Instance.ShareRoleData();
+
+            selectInfos[0] = GetSelectInfoByRoleTypeOrder( DataManager.Instance.LocalPlayerData.roleData.TypeOrder );
+
+
             Debug.Log($"Selected {DataManager.Instance.PreRoleTypeOrder}");
         }
+        public SelectInfo GetSelectInfoByRoleTypeOrder( RoleData.RoleTypeOrder typeOrder )
+        {
+            switch(typeOrder)
+            {
+                case RoleData.RoleTypeOrder.Bishop:
+                {
+                    return new SelectInfo( roleSprites[(int)RoleData.RoleTypeOrder.Bishop],
+                        DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                        "아타나시오", true
+                        );
+                }
 
-        /*--- Protected Methods ---*/
 
-        /*--- Private Methods ---*/
+
+                default:
+                {
+                    Debug.LogError( "GetSelectInfoByRoleTypeOrder: No Selected " );
+                    return new SelectInfo();
+                }
+            }
+        }
+
+            /*--- Protected Methods ---*/
+
+            /*--- Private Methods ---*/
         void DisablAllInformation()
         {
             bishopInformation.SetActive(false);
@@ -183,6 +252,11 @@ namespace KSH_Lib.UI
         {
             DataManager.Instance.InitLocalRoleData();
             decideButtonObj.SetActive(false);
+        }
+
+        public void OnPhotonSerializeView( PhotonStream stream, PhotonMessageInfo info )
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
