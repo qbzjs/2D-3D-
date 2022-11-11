@@ -142,25 +142,25 @@ namespace KSH_Lib.Object
             }
         }
 
-        //IEnumerator DamageDoll()
-        //{
-        //    while(true)
-        //    {
-        //        yield return null;
+        IEnumerator DamageDoll()
+        {
+            while ( true )
+            {
+                yield return null;
 
-        //        if(DollInBox == null)
-        //        {
-        //            yield return null;
-        //        }
+                if ( DollInBox == null )
+                {
+                    yield return null;
+                }
 
-        //        if(DollInBox.GetDollData.DevilHP <= 0.0f)
-        //        {
-        //            yield return null;
-        //        }
+                if ( DollInBox.GetDollData.DevilHP <= 0.0f )
+                {
+                    yield return null;
+                }
 
-        //        DollInBox.AddDevilHP(damagePerSecond * Time.deltaTime);
-        //    }
-        //}
+                DollInBox.ChangeDevilHP( damagePerSecond * Time.deltaTime );
+            }
+        }
 
         [PunRPC]
         void ShareInteractingInPurificationBox_RPC( bool isInteracting )

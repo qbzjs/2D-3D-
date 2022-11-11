@@ -168,9 +168,9 @@ namespace GHJ_Lib
 		}
 
 
-		public void AddDevilHP(float power)
+		public void ChangeDevilHP(float delta)
         {
-			GetDollData.DevilHP += power;
+			GetDollData.DevilHP += delta;
 			DataManager.Instance.ShareRoleData();
 
 			if(GetDollData.DevilHP <= 0.0f)

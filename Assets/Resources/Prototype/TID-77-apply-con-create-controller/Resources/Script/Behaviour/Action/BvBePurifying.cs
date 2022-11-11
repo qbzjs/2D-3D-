@@ -22,19 +22,19 @@ namespace GHJ_Lib
                 return Bv;
             }
 
-            if (actor.photonView.IsMine)
-            {
-                DollData dollData = DataManager.Instance.LocalPlayerData.roleData as DollData;
-                dollData.DevilHP -= 5.0f * Time.deltaTime;
-                DataManager.Instance.ShareRoleData();
+            //if (actor.photonView.IsMine)
+            //{
+            //    DollData dollData = DataManager.Instance.LocalPlayerData.roleData as DollData;
+            //    dollData.DevilHP -= 5.0f * Time.deltaTime;
+            //    DataManager.Instance.ShareRoleData();
 
-                if (dollData.DevilHP < 0.0f)
-                {
-                    actor.BaseAnimator.Play("Idle_A");
-                    actor.BecomeGhost();
-                    return new BvIdle();
-                }
-            }
+            //    if (dollData.DevilHP < 0.0f)
+            //    {
+            //        actor.BaseAnimator.Play("Idle_A");
+            //        actor.BecomeGhost();
+            //        return new BvIdle();
+            //    }
+            //}
 
             
             return null;
