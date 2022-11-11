@@ -155,25 +155,47 @@ namespace LSH_Lib
         //}
         void ChangePlayerImage()
         {   
-            if(PhotonNetwork.IsMasterClient)
+
+            if(DataManager.Instance.PreRoleType == RoleData.RoleType.Exorcist)
             {
-                playerLoadImgs[4].sprite = exorcistOnSprite;
+                playerLoadImgs[0].sprite = exorcistOnSprite;
+                for ( int i = 1; i < GameManager.Instance.CurPlayerCount; ++i )
+                {
+                    playerLoadImgs[i].sprite = refPlayerOnSprite;
+                }
             }
             else
             {
-                for (int i =0; i < GameManager.Instance.CurPlayerCount-1; ++i)
-                {
+                playerLoadImgs[4].sprite = exorcistOnSprite;
 
+                for(int i = 0; i < GameManager.Instance.CurPlayerCount - 1; ++i )
+                {
                     playerLoadImgs[i].sprite = refPlayerOnSprite;
-
-                }
-
-                for (int i = GameManager.Instance.CurPlayerCount-1; i < GameManager.Instance.MaxPlayerCount-1; ++i)
-                {
-
-                    playerLoadImgs[i].sprite = refPlayerOffSprite;
                 }
             }
+
+
+
+
+            //if(PhotonNetwork.IsMasterClient)
+            //{
+            //    playerLoadImgs[4].sprite = exorcistOnSprite;
+            //}
+            //else
+            //{
+            //    for (int i =0; i < GameManager.Instance.CurPlayerCount-1; ++i)
+            //    {
+
+            //        playerLoadImgs[i].sprite = refPlayerOnSprite;
+
+            //    }
+
+            //    for (int i = GameManager.Instance.CurPlayerCount-1; i < GameManager.Instance.MaxPlayerCount-1; ++i)
+            //    {
+
+            //        playerLoadImgs[i].sprite = refPlayerOffSprite;
+            //    }
+            //}
             
         }
         void ChangePlayerCountText()
