@@ -131,7 +131,7 @@ namespace KSH_Lib
             kshSkipButtonObj.SetActive( false );
 
             //LSH
-            AudioManager.instance.Play("LobbyBGM");
+            //AudioManager.instance.Play("LobbyBGM");
         }
         private void Update()
         {
