@@ -8,14 +8,10 @@ namespace GHJ_Lib
     public class RabbitPassiveSkillArea : EffectArea
     {
         public DollController rabbit;
-        bool isReadyToBuff = false;
-        bool isWaitToBuff = false;
+        enum BuffCondition {None ,Approach , Ready, Running }
+        BuffCondition buffCondition = BuffCondition.None;
+        
         bool isOnBuff = false;
-        IEnumerator buffCoroutine;
-        private void OnEnable()
-        {
-            buffCoroutine = OnBuff(5.0f);
-        }
         protected override GameObject FindTargets(Collider other)
         {
             if (other.CompareTag(GameManager.ExorcistTag))
@@ -53,7 +49,7 @@ namespace GHJ_Lib
             {
                 if(rabbit.CurBehavior is BvHide)
                 {
-                    StartCoroutine("ReadyToMoveInHide");
+                    StartCoroutine(ReadyToMoveInHide());
                 }
                 targets.Add(target);
             }
@@ -64,37 +60,42 @@ namespace GHJ_Lib
             {
                 if (rabbit.photonView.IsMine)
                 {
-                    isWaitToBuff = false;
-                    StartCoroutine(buffCoroutine);
+                    if (buffCondition == BuffCondition.Approach)
+                    {
+                        buffCondition = BuffCondition.None;
+                    }
+                    else if (buffCondition == BuffCondition.Ready)
+                    { 
+                        StartCoroutine(OnBuff(5.0f));
+                    }
                 }
             }
         }
         IEnumerator ReadyToMoveInHide()
         {
             float startTime = Time.time;
-            isWaitToBuff = true;
+            buffCondition = BuffCondition.Approach; 
             while (Time.time - startTime < 1.0f)
             {
                 yield return new WaitForEndOfFrame(); // 문서에 시간: 1초
-                if (!isWaitToBuff)
+                if (buffCondition != BuffCondition.Approach)
                 {
                     yield break;
                 }
             }
-            isReadyToBuff = true;
+            buffCondition = BuffCondition.Ready;
         }
 
         IEnumerator OnBuff(float time) //문서에 버프시간이 5초
         {
-            if (!isReadyToBuff)
+            if (buffCondition!=BuffCondition.Ready)
             {
                 yield break;
             }
-            isReadyToBuff = false;
-            isOnBuff = true;
+            buffCondition = BuffCondition.Running;
             rabbit.ChangeMoveSpeed(1.5f);
             yield return new WaitForSeconds(time);
-            isOnBuff = false;
+            buffCondition = BuffCondition.None;
             rabbit.ChangeMoveSpeed(1.0f);
         }
     }

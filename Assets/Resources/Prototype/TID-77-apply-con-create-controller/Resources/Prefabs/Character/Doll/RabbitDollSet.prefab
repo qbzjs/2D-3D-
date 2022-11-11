@@ -1220,7 +1220,6 @@ GameObject:
   - component: {fileID: 5685482425181133111}
   - component: {fileID: 5874212156666462991}
   - component: {fileID: 8842860077883511446}
-  - component: {fileID: 7184935316068418518}
   m_Layer: 7
   m_Name: RabbitPassiveSkillArea
   m_TagString: Untagged
@@ -1256,7 +1255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targets: []
-  rabbit: {fileID: 0}
+  rabbit: {fileID: 5635292189464165282}
 --- !u!135 &8842860077883511446
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1270,20 +1269,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7184935316068418518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4757389491474547039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e26071572560730468f0248ea71f9e60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targets: []
-  rabbit: {fileID: 0}
 --- !u!1 &5171643520874515199
 GameObject:
   m_ObjectHideFlags: 0
