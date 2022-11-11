@@ -16,6 +16,7 @@ namespace GHJ_Lib
 		public int CrossMaxCount = 5;
 		public float RecoverGauge = 5.0f;
 		public float MaxCrossGauge = 60.0f;
+		protected float CollectRange = 3.0f;
 		protected string CrossPrefabName = "CrossModel";
 
 		protected GameObject targetCross;
@@ -59,7 +60,7 @@ namespace GHJ_Lib
 			if (actSkillArea.CanGetTarget())
 			{
 				GameObject target = actSkillArea.GetNearestTarget();
-				if (Controller.IsWatching(target))
+				if (Controller.IsWatching(target)&&Vector3.Distance(target.transform.position,transform.position)< CollectRange)
 				{
 					targetCross = target;
 					SkillSettingToCollectCross();
