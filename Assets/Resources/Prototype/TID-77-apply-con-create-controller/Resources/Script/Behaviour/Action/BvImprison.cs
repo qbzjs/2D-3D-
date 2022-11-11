@@ -28,7 +28,7 @@ namespace GHJ_Lib
 			}
 			else
 			{
-				if (actor.BaseAnimator.GetBool("Imprison"))
+				if (actor.BaseAnimator.GetBool("IsImprison"))
 				{
 					return null;
 				}

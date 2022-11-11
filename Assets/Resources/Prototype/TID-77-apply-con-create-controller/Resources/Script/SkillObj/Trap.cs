@@ -12,7 +12,7 @@ namespace GHJ_Lib
         [Header("Trap Setting")]
         [SerializeField] protected float ExitTrapVel = 8.3f;
         [SerializeField] protected float ClearTrapVel = 4.2f;
-
+        [SerializeField] protected string CollectText = "G : Collect Trap";
         protected float collectTime = 1.0f;
         protected bool isCatchDoll =false;
 
@@ -31,20 +31,20 @@ namespace GHJ_Lib
                 castingSystem.ForceSetRatioTo(RateOfGauge);
                 if (targetController == beTrappedDoll)
                 {
-                    castingSystem.StartCasting(CastingSystem.Cast.CreateByRatio(ExitTrapRatio, coolTime: CoolTime),
-                        new CastingSystem.CastFuncSet(SyncGauge, DollRunningCondition, null, DollFinishAction));
+                    castingSystem.StartCasting(CastingSystem.Cast.CreateByRatio(deltaRatio: ExitTrapRatio, coolTime: CoolTime),
+                        new CastingSystem.CastFuncSet(SyncDataWith: SyncGauge, RunningCondition: DollRunningCondition,  FinishAction: DollFinishAction));
                     return true;
                 }
                 else
                 {
-                    castingSystem.StartCasting(CastingSystem.Cast.CreateByRatio(ClearTrapRatio, coolTime: CoolTime),
-                       new CastingSystem.CastFuncSet(SyncGauge, DollRunningCondition, null, DollFinishAction));
+                    castingSystem.StartCasting(CastingSystem.Cast.CreateByRatio(deltaRatio: ClearTrapRatio, coolTime: CoolTime),
+                       new CastingSystem.CastFuncSet(SyncDataWith: SyncGauge,RunningCondition: DollRunningCondition,FinishAction : DollFinishAction));
                     return true;
                 }
             }
             else if (interactor.CompareTag(GameManager.ExorcistTag))
             {
-                castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(collectTime),
+                castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(castTime : collectTime),
                     new CastingSystem.CastFuncSet(FinishAction: ExorcistFinishAction));
                 return true;
             }
@@ -64,9 +64,9 @@ namespace GHJ_Lib
             }
             else if (interactor.CompareTag(GameManager.ExorcistTag))
             {
-                if (isCatchDoll && !beTrappedDoll)
+                if (isCatchDoll && !beTrappedDoll && !castingSystem.IsCoroutineRunning)
                 {
-                    promptUI.Activate("G : Collect Trap");
+                    promptUI.Activate(CollectText);
                     targetController = interactor.gameObject.GetComponentInParent<NetworkBaseController>();
                     return true;
                 }
