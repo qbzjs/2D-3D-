@@ -69,7 +69,7 @@ namespace KSH_Lib
             
             flikerCoroutine = StartCoroutine( FadeInOut() );
 
-            AudioManager.instance.Play("Launcher");
+            //AudioManager.instance.Play("Launcher");
         }
 
 
