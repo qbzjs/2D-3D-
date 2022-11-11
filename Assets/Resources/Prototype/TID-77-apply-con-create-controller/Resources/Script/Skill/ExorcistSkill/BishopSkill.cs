@@ -28,7 +28,6 @@ namespace GHJ_Lib
 			base.OnEnable();
 			PhotonNetwork.PrefabPool.RegisterPrefab(CrossPrefabName, CrossPrefab);
 			Controller.AllocSkill(new BvBishopActSkill());
-			SkillSettingToInstallCross();
 			
 			PoketInCross.Add(60.0f);
 			PoketInCross.Add(60.0f);
