@@ -206,6 +206,7 @@ namespace KSH_Lib
         }
         public override void OnDisconnected( DisconnectCause cause )
         {
+            Debug.Log( "OnDisconnected Called" );
             IsJoinedRoom = false;
         }
 
@@ -464,9 +465,9 @@ namespace KSH_Lib
                 }
             }
 
-            PhotonNetwork.LeaveRoom();
+            //PhotonNetwork.LeaveRoom();
             
-            IsJoinedRoom = false;
+            //IsJoinedRoom = false;
             //matchingUIController.isJoinedRoom = false;
             EnableMainLobbyCanvas();
         }
