@@ -48,7 +48,7 @@ namespace KSH_Lib.Data
 
 		/*--- Public Fields ---*/
 		public RoleType Type;
-		public RoleTypeOrder TypeOrder;
+		public RoleTypeOrder TypeOrder = RoleTypeOrder.Null;
 
 		public float MoveSpeed;
 		public float InteractionSpeed;

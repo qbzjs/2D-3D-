@@ -211,7 +211,7 @@ namespace LSH_Lib
 
         void LoadRoomScene()
         {
-            DataManager.Instance.InitLocalRoleData();
+            //DataManager.Instance.InitLocalRoleData();
             cancelButtonObj.SetActive(false);
             PhotonNetwork.CurrentRoom.IsOpen = false;
             GameManager.Instance.LoadPhotonScene(loadSceneName);
