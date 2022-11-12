@@ -3,18 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
 using Photon.Pun;
+
+using LSH_Lib;
 namespace GHJ_Lib
 {
 	public class HunterSkill: ExorcistSkill
 	{
-		public GameObject TrapPrefab;
+        public struct PosRot
+        {
+            public Vector3 position;
+            public Quaternion rotation;
+
+            public PosRot(Vector3 pos, Quaternion rot)
+            {
+                position = pos;
+                rotation = rot;
+            }
+        }
+
+        public GameObject TrapPrefab;
         public GameObject CrowPrefab;
         protected List<Crow> Crows = new List<Crow>();
-        protected Transform[] crowGenPos;
         protected Sk_Default sk_Default = new Sk_Default();
+        Transform[] crowGenPos;
         protected Sk_InstallTrap sk_InstallTrap = new Sk_InstallTrap();
         protected Sk_CollectTrap sk_CollectTrap = new Sk_CollectTrap();
-            
+        protected RandomGenerator<int> crowRandomGenerator = new RandomGenerator<int>();
         
 		public int TrapCount { get; protected set; }
         public string TrapName { get; protected set; }
@@ -24,7 +38,7 @@ namespace GHJ_Lib
         {
             isUse = false;
             base.OnEnable();
-            crowGenPos = StageManager.Instance.CrowGenPos;
+            SettingCrowGenPosIdx();
             TrapCount = 5;
             Controller.AllocSkill(new BvHunterActSkill());
             TrapName = "Trap";
@@ -108,27 +122,41 @@ namespace GHJ_Lib
             ClearCrows();
             RandomSpawnCrows(4);
         }
+        protected void SettingCrowGenPosIdx()
+        {
+            crowGenPos = StageManager.Instance.CrowGenPos;
+            for (int i = 0; i < crowGenPos.Length; i++)
+            {
+                crowRandomGenerator.Add(i);
+            }
+        }
+
         protected void RandomSpawnCrows(int num)
         {
-            for (int i = 0; i < num; i++)
+            int[] UsedIdx = new int[num];   
+            if (photonView.IsMine)
             {
-                int idx = Random.Range(0, crowGenPos.Length);
-                if (photonView.IsMine)
+                for (int i = 0; i < num; i++)
                 {
+                    int idx = crowRandomGenerator.GetAndRemoveItem();
+                    UsedIdx[i] = idx;
                     photonView.RPC("InstanceCrow", RpcTarget.AllViaServer, idx);
                 }
             }
 
-            foreach (Crow crow in Crows)
+            for (int i = 0; i < UsedIdx.Length; ++i)
             {
-                crow.SetHunter(this);
+                crowRandomGenerator.Add(UsedIdx[i]);
             }
+
         }
         [PunRPC]
         public void InstanceCrow(int idx)
         {
             GameObject crowObj = Instantiate(CrowPrefab, crowGenPos[idx]);
-            Crows.Add(crowObj.GetComponent<Crow>());
+            Crow crow = crowObj.GetComponent<Crow>();
+            Crows.Add(crow);
+            crow.SetOwner(this);
         }
         protected void ClearCrows()
         {

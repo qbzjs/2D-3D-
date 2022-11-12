@@ -19,7 +19,6 @@ namespace GHJ_Lib
             Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
             if (Bv is BvIdle)
             {
-
                 actor.BaseAnimator.SetBool("IsInstallTrap", false);
                 return Bv;
             }
