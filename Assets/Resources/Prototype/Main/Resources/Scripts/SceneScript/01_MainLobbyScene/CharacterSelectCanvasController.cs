@@ -55,6 +55,7 @@ namespace KSH_Lib.UI
             public PlayerUi ui;
         }
 
+        enum ImageOrder { Bishop, Hunter, Photographer, Priest, Penguin, Rabbit, Tortoise, Wolf }
 
 
         /*--- Public Fields ---*/
@@ -146,7 +147,6 @@ namespace KSH_Lib.UI
 
             DataManager.Instance.InitPlayerDatas();
             //bishopInformation.SetActive(true);
-            infoMatches = new InfoMatch[GameManager.Instance.CurPlayerCount];
             IndexingInfo();
         }
 
@@ -171,7 +171,6 @@ namespace KSH_Lib.UI
             DataManager.Instance.InitLocalRoleData();
             DataManager.Instance.ShareRoleData();
 
-            //infoMatches[0].info = GetSelectInfoByRoleTypeOrder(DataManager.Instance.LocalPlayerData.roleData.TypeOrder);
             infoMatches[0] = GetSelectInfoByRoleTypeOrder( infoMatches[0], DataManager.Instance.LocalPlayerData.roleData.TypeOrder );
 
             photonView.RPC("ChangeSelectInfosRPC", RpcTarget.AllViaServer, playerIdx, (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder);
@@ -196,7 +195,7 @@ namespace KSH_Lib.UI
             {
                 case RoleData.RoleTypeOrder.Bishop:
                 {
-                    infoMatch.ui.Refresh( roleSprites[(int)RoleData.RoleTypeOrder.Bishop],
+                    infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Bishop],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
                         "아타나시오"
                         );
@@ -204,7 +203,7 @@ namespace KSH_Lib.UI
                 }
                 case RoleData.RoleTypeOrder.Hunter:
                 {
-                    infoMatch.ui.Refresh( roleSprites[(int)RoleData.RoleTypeOrder.Hunter],
+                    infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Hunter],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
                         "샬라이"
                         );
@@ -212,7 +211,7 @@ namespace KSH_Lib.UI
                 }
                 case RoleData.RoleTypeOrder.Photographer:
                 {
-                    infoMatch.ui.Refresh( roleSprites[(int)RoleData.RoleTypeOrder.Photographer],
+                    infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Photographer],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
                         "강채율"
                         );
@@ -220,7 +219,7 @@ namespace KSH_Lib.UI
                 }
                 case RoleData.RoleTypeOrder.Priest:
                 {
-                    infoMatch.ui.Refresh( roleSprites[(int)RoleData.RoleTypeOrder.Priest],
+                    infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Priest],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
                         "알베르토 이든"
                         );
@@ -228,7 +227,7 @@ namespace KSH_Lib.UI
                 }
                 case RoleData.RoleTypeOrder.Wolf:
                 {
-                    infoMatch.ui.Refresh( roleSprites[(int)RoleData.RoleTypeOrder.Wolf],
+                    infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Wolf],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
                         "라이"
                         );
@@ -236,7 +235,7 @@ namespace KSH_Lib.UI
                 }
                 case RoleData.RoleTypeOrder.Rabbit:
                 {
-                    infoMatch.ui.Refresh( roleSprites[(int)RoleData.RoleTypeOrder.Rabbit],
+                    infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Rabbit],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
                         "제니"
                         );
@@ -244,7 +243,7 @@ namespace KSH_Lib.UI
                 }
                 case RoleData.RoleTypeOrder.Tortoise:
                 {
-                    infoMatch.ui.Refresh( roleSprites[(int)RoleData.RoleTypeOrder.Tortoise],
+                    infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Tortoise],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
                         "태오"
                         );
@@ -252,7 +251,7 @@ namespace KSH_Lib.UI
                 }
                 case RoleData.RoleTypeOrder.Penguin:
                 {
-                    infoMatch.ui.Refresh( roleSprites[(int)RoleData.RoleTypeOrder.Penguin],
+                    infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Penguin],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
                         "제임스"
                         );
@@ -295,6 +294,17 @@ namespace KSH_Lib.UI
                         break;
                     }
                 }
+            }
+            else if ( DataManager.Instance.PreRoleType == RoleData.RoleType.Exorcist )
+            {
+                for(int i = 0; i < infoMatches.Length; ++i )
+                {
+                    infoMatches[i].playerIdx = i;
+                }
+            }
+            else
+            {
+                Debug.LogError( "No RoleType set" );
             }
         }
 
