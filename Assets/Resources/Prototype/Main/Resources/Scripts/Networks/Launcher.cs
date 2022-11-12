@@ -68,7 +68,6 @@ namespace KSH_Lib
             startButtonObj.SetActive(false);
             
             flikerCoroutine = StartCoroutine( FadeInOut() );
-
             //AudioManager.instance.Play("Launcher");
         }
 
@@ -77,6 +76,8 @@ namespace KSH_Lib
         public override void OnConnectedToMaster()
         {
             Debug.Log("Launcher: OnConnectedToMaster 호출, 서버 연결 완료");
+
+            PhotonNetwork.EnableCloseConnection = true;
             isConnectedToServer = true;
         }
 
