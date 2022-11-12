@@ -204,6 +204,10 @@ namespace KSH_Lib
         {
             DataManager.Instance.SetPlayerIdx();
         }
+        public override void OnDisconnected( DisconnectCause cause )
+        {
+            IsJoinedRoom = false;
+        }
 
 
         /*--- Public Methods ---*/

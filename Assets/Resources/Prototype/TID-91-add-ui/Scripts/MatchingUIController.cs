@@ -14,7 +14,7 @@ using KSH_Lib.UI;
 
 namespace LSH_Lib
 {
-    public class MatchingUIController : MonoBehaviour//PunCallbacks
+    public class MatchingUIController : MonoBehaviour
     {
         [Header("Matching UI")]
         [SerializeField]
