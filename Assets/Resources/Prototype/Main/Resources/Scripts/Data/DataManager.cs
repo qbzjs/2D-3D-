@@ -138,6 +138,8 @@ namespace KSH_Lib
         }
 		public void ResetLocalRoleData()
         {
+			PreRoleType = RoleData.RoleType.Null;
+			PreRoleTypeOrder = RoleData.RoleTypeOrder.Null;
 			LocalPlayerData.roleData = new RoleData();
         }
 

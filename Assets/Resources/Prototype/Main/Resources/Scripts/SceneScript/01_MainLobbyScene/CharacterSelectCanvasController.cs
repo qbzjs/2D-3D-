@@ -448,6 +448,11 @@ namespace KSH_Lib.UI
         }
         void DecideRoleType()
         {
+            if(DataManager.Instance.PreRoleTypeOrder == RoleData.RoleTypeOrder.Null)
+            {
+                return;
+            }
+
             DataManager.Instance.InitLocalRoleData();
             decideButtonObj.SetActive(false);
             photonView.RPC( "ShareDecideRPC", RpcTarget.AllViaServer, playerIdx );

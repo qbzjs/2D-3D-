@@ -209,6 +209,7 @@ namespace KSH_Lib
         public override void OnLeftRoom()
         {
             Debug.Log( "OnLeftRoom Called" );
+            DataManager.Instance.ResetLocalRoleData();
             IsJoinedRoom = false;
             EnableMainLobbyCanvas();
         }
