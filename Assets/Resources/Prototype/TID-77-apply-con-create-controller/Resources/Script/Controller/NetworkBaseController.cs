@@ -27,14 +27,16 @@ namespace GHJ_Lib
 			BePurifying,
 			Escape,
 			Hide,
-			BeTrapped
+			BeTrapped,
+			BvGhost
 		}
 
 
 		public int TypeIndex { get; protected set; }
 		public int PlayerIndex { get; protected set; }
 		public bool IsMine { get { return photonView.IsMine; } }
-
+		public BaseCameraController FPVCam { get { return fpvCam; } }
+		public BaseCameraController TPVCam { get { return tpvCam; } }
 		public Behavior<NetworkBaseController> CurBehavior = new Behavior<NetworkBaseController>();
 		protected BvIdle idle = new BvIdle();
 		protected BvInteract interact = new BvInteract();
@@ -73,6 +75,7 @@ namespace GHJ_Lib
 				PlayerIndex = DataManager.Instance.PlayerIdx;
 				photonView.RPC( "SetPlayerIdx", RpcTarget.All, PlayerIndex, TypeIndex );
 			}
+			StageManager.Instance.RegisterPlayer(gameObject);
 			ChangeMoveFunc( true );
 		}
 		protected override void Update()
@@ -181,6 +184,7 @@ namespace GHJ_Lib
 		{
 			PlayerIndex = playerIdx;
 			TypeIndex = typeIdx;
+			
 		}
 
 		public void ActivateCameraCollision(bool enable)

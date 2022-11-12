@@ -128,7 +128,6 @@ namespace GHJ_Lib
 
 
             myIdx = DataManager.Instance.PlayerIdx;
-            Debug.Log("myIdx : "+ myIdx);
             for (int i = 1; i <= curDollCount; ++i)
             {
                 maxDollHP.Add((DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP);

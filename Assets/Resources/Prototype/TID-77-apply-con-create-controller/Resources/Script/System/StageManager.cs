@@ -69,26 +69,7 @@ namespace GHJ_Lib
 			}
 		}
 		ExorcistController exorcist;
-		public List<DollController> Dolls
-		{
-			get
-			{
-				if ( dolls == null )
-				{
-					List<DollController> dollList = new List<DollController>();
-					GameObject[] dollObjects = GameObject.FindGameObjectsWithTag( "Doll" );
-					foreach ( var d in dollObjects )
-					{
-						dollList.Add( d.GetComponent<DollController>() );
-					}
-					//dollList.Sort( ( lhs, rhs ) => lhs.PlayerIndex.CompareTo( rhs.PlayerIndex ) );
-					dolls = dollList;
-				}
-				return dolls;
-			}
-		}
-		List<DollController> dolls;
-
+		public NetworkBaseController[] Players { get; private set; } = new NetworkBaseController[5];
 
 		/*--- Private Fields ---*/
 		static StageManager instance;
@@ -193,6 +174,16 @@ namespace GHJ_Lib
 		}
 
 		/*--- Public Methods ---*/
+		public void RegisterPlayer(GameObject playerObj)
+		{
+			NetworkBaseController PlayerController = playerObj.GetComponent<NetworkBaseController>();
+			if (!PlayerController)
+			{
+				Debug.LogError("RegisterPlayer() : Player Controller is Null");
+			}
+			//Debug.Log($"idx = {PlayerController.PlayerIndex}");
+			Players[PlayerController.PlayerIndex] =  PlayerController;
+		}
 		public static void CharacterLayerChange(GameObject Model, int layer)
 		{
 			Model.layer = layer;

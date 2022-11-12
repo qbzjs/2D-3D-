@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using KSH_Lib.Data;
 using MSLIMA.Serializer;
-
+using KSH_Lib.Object;
 namespace GHJ_Lib
 {
 	public class DollController : NetworkBaseController, IPunObservable
@@ -18,12 +18,7 @@ namespace GHJ_Lib
 		public bool IsCrowDebuff { get; set; } = true;
 		public float CrowGauge { get; set; } = 0.0f;
 
-
-		[SerializeField]
-		protected GameObject GhostModel;
-		[SerializeField]
-		protected Material GhostMaterial;
-
+		public GameObject trapInteractor;
 
 		/*--- Protected Fields ---*/
 		protected BvCollapse down = new BvCollapse();
@@ -33,8 +28,11 @@ namespace GHJ_Lib
 		protected BvEscape escape = new BvEscape();
 		protected BvHide bvHide = new BvHide();
 		protected BvbeTrapped bvbeTrapped = new BvbeTrapped();
+		protected BvGhost bvGhost = new BvGhost();
 
-		
+		[SerializeField] protected SkinnedMeshRenderer skinnedMeshRenderer;
+		[SerializeField] protected Material ghostMaterial;
+
 
 		public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
 
@@ -52,6 +50,7 @@ namespace GHJ_Lib
 
 
 		/*--- Public Methods ---*/
+
 		public void ChangeBvToBeCaught(BaseCameraController cam)
 		{
 			characterModel.gameObject.SetActive(false);
@@ -203,17 +202,17 @@ namespace GHJ_Lib
 		[PunRPC]
 		public void _BecomeGhost()
 		{
-			//¿¡¼ÂÀÌ ¹Ù²ï´Ù
-			characterModel.SetActive(false);
-			GhostModel.SetActive(true);
-			//Layer°¡ ¹Ù²ï´Ù
-			StageManager.CharacterLayerChange(GhostModel, 8);//8 : Ghost Layer
-			GhostModel.GetComponent<Animator>().Play("GhostIdle");
-
-			if (DataManager.Instance.LocalPlayerData.roleData.Type == RoleData.RoleType.Exorcist)
+			if (IsMine)
 			{
-				GhostModel.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().material = GhostMaterial;
+				skinnedMeshRenderer.material = ghostMaterial;
 			}
+			else
+			{
+				skinnedMeshRenderer.material.color = new Color(0,0,0,0);
+			}
+
+			StageManager.CharacterLayerChange(characterObj, LayerMask.NameToLayer(GameManager.GhostLayer));//8 : Ghost Layer
+			ChangeBehaviorTo(BehaviorType.BvGhost);
 		}
 
 		[PunRPC]
@@ -426,14 +425,18 @@ namespace GHJ_Lib
 				}
 				break;
 				case BehaviorType.Hide:
-					{
-						CurBehavior.PushSuccessorState(bvHide);
-					}
-					break;
+				{
+					CurBehavior.PushSuccessorState(bvHide);
+				}
+				break;
 				case BehaviorType.BeTrapped:
 				{
 					CurBehavior.PushSuccessorState(bvbeTrapped);
-					
+				}
+				break;
+				case BehaviorType.BvGhost:
+				{
+					CurBehavior.PushSuccessorState(bvGhost);
 				}
 				break;
 			}

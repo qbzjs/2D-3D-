@@ -29,7 +29,7 @@ namespace GHJ_Lib
 		protected BvSlow bvSlow = new BvSlow();
 		protected BvBlind bvBlind = new BvBlind();
 		protected BvExpose bvExpose = new BvExpose();
-		protected BvGhost bvGhost = new BvGhost();
+		protected BvDieToGhost bvGhost = new BvDieToGhost();
 		protected BvFall bvFall = new BvFall();
 		protected BvGrabbed bvGrabbed = new BvGrabbed();
 		protected LSH_Lib.BvImprison bvImplement = new LSH_Lib.BvImprison();
@@ -159,7 +159,7 @@ namespace GHJ_Lib
 				}
 			}
 
-			if (curBehavior is BvGhost)
+			if (curBehavior is BvDieToGhost)
 			{
 				return;
 			}
@@ -306,7 +306,7 @@ namespace GHJ_Lib
 				curBehavior = bvGhost;
 			}
 
-			if (curBehavior is BvGhost)
+			if (curBehavior is BvDieToGhost)
 			{
 				escapeTransform = cinemachineVirtual.Follow.transform;
 				//purificatinBox.DieToGhost();
@@ -475,7 +475,7 @@ namespace GHJ_Lib
 			dollStatus.HitDollHP(-dollStatus.MaxDollHitPoint / 2);
 			BecomeIdle();
 
-			if (curBehavior is BvGhost)
+			if (curBehavior is BvDieToGhost)
 			{
 				return;
 			}

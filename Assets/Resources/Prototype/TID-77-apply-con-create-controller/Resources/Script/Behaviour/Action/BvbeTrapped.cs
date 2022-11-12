@@ -10,16 +10,20 @@ namespace GHJ_Lib
         protected override void Activate(in NetworkBaseController actor)
         {
             actor.ChangeMoveFunc(false);
+            (actor as DollController).trapInteractor.SetActive(true);
         }
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
+
             Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
             if (Bv is BvIdle)
             {
+                (actor as DollController).trapInteractor.SetActive(false);
                 return Bv;
             }
             else if (Bv is BvBeCaught)
             {
+                (actor as DollController).trapInteractor.SetActive(false);
                 return Bv;
             }
             return null;

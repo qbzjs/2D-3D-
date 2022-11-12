@@ -10,7 +10,7 @@ namespace GHJ_Lib
 		public GameObject TrapPrefab;
         public GameObject CrowPrefab;
         protected List<Crow> Crows = new List<Crow>();
-
+        protected Transform[] crowGenPos;
         protected Sk_Default sk_Default = new Sk_Default();
         protected Sk_InstallTrap sk_InstallTrap = new Sk_InstallTrap();
         protected Sk_CollectTrap sk_CollectTrap = new Sk_CollectTrap();
@@ -24,6 +24,7 @@ namespace GHJ_Lib
         {
             isUse = false;
             base.OnEnable();
+            crowGenPos = StageManager.Instance.CrowGenPos;
             TrapCount = 5;
             Controller.AllocSkill(new BvHunterActSkill());
             TrapName = "Trap";
@@ -109,17 +110,25 @@ namespace GHJ_Lib
         }
         protected void RandomSpawnCrows(int num)
         {
-            Transform[] crowGenPos = StageManager.Instance.CrowGenPos;
             for (int i = 0; i < num; i++)
             {
-                GameObject crowObj = Instantiate(CrowPrefab, crowGenPos[Random.Range(0, crowGenPos.Length)]);
-                Crows.Add(crowObj.GetComponent<Crow>());
+                int idx = Random.Range(0, crowGenPos.Length);
+                if (photonView.IsMine)
+                {
+                    photonView.RPC("InstanceCrow", RpcTarget.AllViaServer, idx);
+                }
             }
 
             foreach (Crow crow in Crows)
             {
                 crow.SetHunter(this);
             }
+        }
+        [PunRPC]
+        public void InstanceCrow(int idx)
+        {
+            GameObject crowObj = Instantiate(CrowPrefab, crowGenPos[idx]);
+            Crows.Add(crowObj.GetComponent<Crow>());
         }
         protected void ClearCrows()
         {

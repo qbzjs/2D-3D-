@@ -35,12 +35,12 @@ public class GameManager : MonoBehaviour
     const string LoadingNetworkSceneName = "LoadingNetworkScene";
     public const string ExorcistTag = "Exorcist";
     public const string DollTag = "Doll";
-    public const string DefaultLayerTag = "Default";
-    public const string PlayerLayerTag = "Player";
-    public const string TransparentLayerTag = "RenderOnTop";
-    public const string GhostLayerTag = "Ghost";
-    public const string Environment = "Environment";
     public const string SkillObjTag = "SkillObj";
+    public const string DefaultLayer = "Default";
+    public const string PlayerLayer = "Player";
+    public const string TransparentLayer = "RenderOnTop";
+    public const string GhostLayer = "Ghost";
+    public const string EnvironmentLayer = "Environment";
 
     static GameManager instance;
     //add new script
