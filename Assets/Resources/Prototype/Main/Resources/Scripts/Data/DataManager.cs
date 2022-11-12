@@ -21,7 +21,7 @@ namespace KSH_Lib
 					GameObject obj = new GameObject("_DataManager");
 					instance = obj.AddComponent<DataManager>();
 					pv = obj.AddComponent<PhotonView>();
-					pv.ViewID = PhotonNetwork.AllocateViewID(false);
+					pv.ViewID = PhotonNetwork.AllocateViewID(0);
 
 					pv.observableSearch = (PhotonView.ObservableSearch.AutoFindActive);
 					pv.FindObservables();
