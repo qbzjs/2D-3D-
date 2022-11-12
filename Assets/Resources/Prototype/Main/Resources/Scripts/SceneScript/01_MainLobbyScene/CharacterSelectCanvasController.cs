@@ -292,6 +292,7 @@ namespace KSH_Lib.UI
             }
 
             infoMatch.ui.ChangeTextColor( infoMatch.ui.nickname, nameColor );
+            infoMatch.ui.ChangeTextColor( infoMatch.ui.roleName, roleNameColor );
             return infoMatch;
         }
         void IndexingInfo()
