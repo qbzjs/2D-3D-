@@ -16,7 +16,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace KSH_Lib
 {
-    public class LobbyUI_Manager : MonoBehaviourPunCallbacks
+    public class LobbyUI_Manager : MonoBehaviourPunCallbacks, IPunObservable
     {
         //public static LobbyUI_Manager Instace { get { return instance; } }
 
@@ -459,13 +459,10 @@ namespace KSH_Lib
         {
             if(PhotonNetwork.IsMasterClient)
             {
-                for(int i = 1; i < PhotonNetwork.PlayerList.Length; ++i )
-                {
-                    PhotonNetwork.CloseConnection( PhotonNetwork.PlayerList[i] );
-                }
+                photonView.RPC( "LeaveRoomRPC", RpcTarget.Others );
             }
 
-            //PhotonNetwork.LeaveRoom();
+            PhotonNetwork.LeaveRoom();
             
             //IsJoinedRoom = false;
             //matchingUIController.isJoinedRoom = false;
@@ -501,6 +498,16 @@ namespace KSH_Lib
             DataManager.Instance.InitLocalRoleData();
             PhotonNetwork.JoinRoom( "DebugServer2" );
             //GameManager.Instance.Data.ChangeRole( RoleType.Doll );
+        }
+
+        [PunRPC]
+        void LeaveRoomRPC()
+        {
+            PhotonNetwork.LeaveRoom();
+        }
+
+        public void OnPhotonSerializeView( PhotonStream stream, PhotonMessageInfo info )
+        {
         }
     }
 

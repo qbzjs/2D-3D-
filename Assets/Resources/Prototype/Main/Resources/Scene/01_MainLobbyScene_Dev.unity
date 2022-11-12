@@ -7034,6 +7034,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1137325630}
+  - component: {fileID: 1137325632}
   - component: {fileID: 1137325631}
   m_Layer: 0
   m_Name: LobbyUI_Manager
@@ -7091,6 +7092,29 @@ MonoBehaviour:
   customRoomTypeTMP: {fileID: 0}
   actionButtonTMP: {fileID: 0}
   roomName: SHR
+--- !u!114 &1137325632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1137325629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 1137325631}
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1139679361 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1977278136172711349, guid: 0a3be2f26f8d7164fa57c42a1204732c,
@@ -12447,7 +12471,7 @@ MonoBehaviour:
   loadSceneName: 02_MainGameScene
   DollButtons: {fileID: 1160410941}
   ExorcistButtons: {fileID: 1292505266}
-  selectInfos: []
+  infoMatches: []
   decideButtonObj: {fileID: 0}
   bishopButton: {fileID: 1292505267}
   hunterButton: {fileID: 1292505270}
@@ -12466,6 +12490,18 @@ MonoBehaviour:
   tortoiseInformation: {fileID: 0}
   penguinInformation: {fileID: 0}
   roleSprites: []
+  exorcistColor:
+    serializedVersion: 2
+    rgba: 0
+  roleNameColor:
+    serializedVersion: 2
+    rgba: 0
+  watingColor:
+    serializedVersion: 2
+    rgba: 0
+  localColor:
+    serializedVersion: 2
+    rgba: 0
 --- !u!1 &1648373183
 GameObject:
   m_ObjectHideFlags: 0
@@ -19539,7 +19575,7 @@ MonoBehaviour:
   loadSceneName: 02_MainGameScene
   DollButtons: {fileID: 3229201562241512027}
   ExorcistButtons: {fileID: 1248528579}
-  selectInfos: []
+  infoMatches: []
   decideButtonObj: {fileID: 0}
   bishopButton: {fileID: 0}
   hunterButton: {fileID: 0}
@@ -19558,6 +19594,18 @@ MonoBehaviour:
   tortoiseInformation: {fileID: 0}
   penguinInformation: {fileID: 0}
   roleSprites: []
+  exorcistColor:
+    serializedVersion: 2
+    rgba: 0
+  roleNameColor:
+    serializedVersion: 2
+    rgba: 0
+  watingColor:
+    serializedVersion: 2
+    rgba: 0
+  localColor:
+    serializedVersion: 2
+    rgba: 0
 --- !u!222 &5564283381434048490
 CanvasRenderer:
   m_ObjectHideFlags: 0
