@@ -81,11 +81,13 @@ namespace GHJ_Lib
             {
                 return;
             }
+            /*
             for (int i = 1; i < GameManager.Instance.CurPlayerCount; ++i)
             {
                 dollHP[i - 1].value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i - 1];
                 devilHP[i - 1].value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i - 1];
             }
+            */
         }
 
         void DisableUI_All()

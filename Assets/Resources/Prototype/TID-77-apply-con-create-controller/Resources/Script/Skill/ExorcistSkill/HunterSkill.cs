@@ -7,8 +7,8 @@ using Photon.Pun;
 using LSH_Lib;
 namespace GHJ_Lib
 {
-	public class HunterSkill: ExorcistSkill
-	{
+    public class HunterSkill : ExorcistSkill
+    {
         public struct PosRot
         {
             public Vector3 position;
@@ -29,8 +29,8 @@ namespace GHJ_Lib
         protected Sk_InstallTrap sk_InstallTrap = new Sk_InstallTrap();
         protected Sk_CollectTrap sk_CollectTrap = new Sk_CollectTrap();
         protected RandomGenerator<int> crowRandomGenerator = new RandomGenerator<int>();
-        
-		public int TrapCount { get; protected set; }
+
+        public int TrapCount { get; protected set; }
         public string TrapName { get; protected set; }
         public bool isUse { get; protected set; }
 
@@ -43,7 +43,10 @@ namespace GHJ_Lib
             Controller.AllocSkill(new BvHunterActSkill());
             TrapName = "Trap";
             PhotonNetwork.PrefabPool.RegisterPrefab(TrapName, TrapPrefab);
-            StartCoroutine(HunterPassiveSkill());
+            if (photonView.IsMine)
+            { 
+                StartCoroutine(HunterPassiveSkill());
+            }
         }
         public void InstallTrap()
         {
@@ -111,15 +114,15 @@ namespace GHJ_Lib
             RandomSpawnCrows(1);
 
             yield return new WaitForSeconds(10.0f);
-            ClearCrows();
+            ClearCrowTo_RPC();
             RandomSpawnCrows(2);
 
             yield return new WaitForSeconds(15.0f);
-            ClearCrows();
+            ClearCrowTo_RPC();
             RandomSpawnCrows(3);
 
             yield return new WaitForSeconds(20.0f);
-            ClearCrows();
+            ClearCrowTo_RPC();
             RandomSpawnCrows(4);
         }
         protected void SettingCrowGenPosIdx()
@@ -134,21 +137,23 @@ namespace GHJ_Lib
         protected void RandomSpawnCrows(int num)
         {
             int[] UsedIdx = new int[num];   
-            if (photonView.IsMine)
+
+            for (int i = 0; i < num; i++)
             {
-                for (int i = 0; i < num; i++)
-                {
-                    int idx = crowRandomGenerator.GetAndRemoveItem();
-                    UsedIdx[i] = idx;
-                    photonView.RPC("InstanceCrow", RpcTarget.AllViaServer, idx);
-                }
+                int idx = crowRandomGenerator.GetAndRemoveItem();
+                UsedIdx[i] = idx;
+                photonView.RPC("InstanceCrow", RpcTarget.AllViaServer, idx);
             }
 
             for (int i = 0; i < UsedIdx.Length; ++i)
             {
                 crowRandomGenerator.Add(UsedIdx[i]);
             }
-
+            
+        }
+        public void ClearCrowTo_RPC()
+        {
+            photonView.RPC("ClearCrows",RpcTarget.AllViaServer);
         }
         [PunRPC]
         public void InstanceCrow(int idx)
@@ -158,6 +163,7 @@ namespace GHJ_Lib
             Crows.Add(crow);
             crow.SetOwner(this);
         }
+        [PunRPC]
         protected void ClearCrows()
         {
             foreach (Crow crow in Crows)
@@ -178,10 +184,10 @@ namespace GHJ_Lib
             doll.CrowGauge = 0.0f;
             if (DataManager.Instance.PlayerIdx == 0)
             {
-                StageManager.CharacterLayerChange(target, LayerMask.NameToLayer("RanderOnTop"));
+                StageManager.CharacterLayerChange(target, LayerMask.NameToLayer(GameManager.RendOnTopLayer));
             }
             yield return new WaitForSeconds(20.0f);
-            StageManager.CharacterLayerChange(target, LayerMask.NameToLayer("Player"));
+            StageManager.CharacterLayerChange(target, LayerMask.NameToLayer(GameManager.PlayerLayer));
             yield return new WaitForSeconds(30.0f);
             doll.IsCrowDebuff = false;
         }

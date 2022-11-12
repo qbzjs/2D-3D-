@@ -13,6 +13,7 @@ namespace GHJ_Lib
         [SerializeField] protected float ExitTrapVel = 8.3f;
         [SerializeField] protected float ClearTrapVel = 4.2f;
         [SerializeField] protected string CollectText = "G : Collect Trap";
+        [SerializeField] protected SphereCollider sphereCollider;
         protected float collectTime = 1.0f;
         protected bool isCatchDoll =false;
 
@@ -22,11 +23,12 @@ namespace GHJ_Lib
         {
             ExitTrapRatio = ExitTrapVel / MaxGauge;
             ClearTrapRatio = ClearTrapVel / MaxGauge;
+            castingSystem = StageManager.Instance.CastSystem;
         }
-
+      
         public override bool Interact(Interactor interactor)
         {
-            if (interactor.CompareTag(GameManager.DollTag))
+            if (targetController.gameObject.CompareTag(GameManager.DollTag))
             {
                 castingSystem.ForceSetRatioTo(RateOfGauge);
                 if (targetController == beTrappedDoll)
@@ -42,7 +44,7 @@ namespace GHJ_Lib
                     return true;
                 }
             }
-            else if (interactor.CompareTag(GameManager.ExorcistTag))
+            else if (targetController.gameObject.CompareTag(GameManager.ExorcistTag))
             {
                 castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(castTime : collectTime),
                     new CastingSystem.CastFuncSet(FinishAction: ExorcistFinishAction));
@@ -55,19 +57,19 @@ namespace GHJ_Lib
             return false;
 
         }
-        public override bool ActiveInteractPrompt(Interactor interactor, InteractionPromptUI promptUI)
+        protected override bool CheckAdditionalCondition(in InteractionPromptUI promptUI)
         {
-            if (interactor.CompareTag(GameManager.DollTag))
+            if (targetController.gameObject.CompareTag(GameManager.DollTag))
             {
-                targetController = interactor.gameObject.GetComponentInParent<NetworkBaseController>();
+                //targetController = interactor.gameObject.GetComponentInParent<NetworkBaseController>();
                 return beTrappedDoll;
             }
-            else if (interactor.CompareTag(GameManager.ExorcistTag))
+            else if (targetController.gameObject.CompareTag(GameManager.ExorcistTag))
             {
                 if (isCatchDoll && !beTrappedDoll && !castingSystem.IsCoroutineRunning)
                 {
                     promptUI.Activate(CollectText);
-                    targetController = interactor.gameObject.GetComponentInParent<NetworkBaseController>();
+                    //targetController = interactor.gameObject.GetComponentInParent<NetworkBaseController>();
                     return true;
                 }
                 else
@@ -106,6 +108,10 @@ namespace GHJ_Lib
                     beTrappedDoll = other.GetComponent<DollController>();
                     beTrappedDoll.ChangeBehaviorTo(NetworkBaseController.BehaviorType.BeTrapped);
                     isCatchDoll = true;
+                    if (DataManager.Instance.PlayerIdx == 0)
+                    { 
+                        sphereCollider.radius = 0.59f;
+                    }
                     // 덫 잠기는 애니매이션, 또는 위치변환 
                 }
             }
