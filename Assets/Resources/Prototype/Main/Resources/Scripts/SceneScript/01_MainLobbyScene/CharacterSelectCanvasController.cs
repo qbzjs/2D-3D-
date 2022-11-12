@@ -142,9 +142,10 @@ namespace KSH_Lib.UI
 
 
         [Header( "Text Color Setting" )]
-        [SerializeField] Color exorcistColor;
-        [SerializeField] Color roleNameColor;
-        [SerializeField] Color watingColor;
+        [SerializeField] Color32 exorcistColor;
+        [SerializeField] Color32 roleNameColor;
+        [SerializeField] Color32 watingColor;
+        [SerializeField] Color32 localColor;
 
         /*--- Private Fields ---*/
 
@@ -185,6 +186,11 @@ namespace KSH_Lib.UI
             infoMatches[0] = GetSelectInfoByRoleTypeOrder( infoMatches[0], DataManager.Instance.LocalPlayerData.roleData.TypeOrder );
             
             photonView.RPC("ChangeSelectInfosRPC", RpcTarget.Others, playerIdx, (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder);
+
+            if(playerIdx != 0)
+            {
+                infoMatches[0].ui.ChangeTextColor( infoMatches[0].ui.nickname, localColor );
+            }
 
             Debug.Log($"Selected {DataManager.Instance.PreRoleTypeOrder}");
         }
