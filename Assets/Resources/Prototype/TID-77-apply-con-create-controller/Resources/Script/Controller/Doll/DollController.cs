@@ -15,7 +15,7 @@ namespace GHJ_Lib
 		public int CrossStack { get { return crossStack; } }
 		protected int crossStack = 0;
 
-		public bool IsCrowDebuff { get; set; } = true;
+		public bool IsCrowDebuff { get; set; } = false;
 		public float CrowGauge { get; set; } = 0.0f;
 
 		public GameObject trapInteractor;

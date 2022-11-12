@@ -300,7 +300,14 @@ namespace GHJ_Lib
 
 
 		}
-		/*
+
+
+
+        private void OnDrawGizmosSelected()
+        {
+			Gizmos.DrawWireSphere(CenterPosition, InitAreaRadius);
+        }
+        /*
 		public static void CharacterLayerChange(GameObject Model, int layer)
 		{
 			Model.layer = layer;
@@ -319,9 +326,9 @@ namespace GHJ_Lib
 			}
 		}
 		*/
-		/*--- Protected Methods ---*/
+        /*--- Protected Methods ---*/
 
 
-		/*--- Private Methods ---*/
-	}
+        /*--- Private Methods ---*/
+    }
 }

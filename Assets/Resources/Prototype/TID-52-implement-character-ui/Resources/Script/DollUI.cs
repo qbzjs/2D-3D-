@@ -89,7 +89,7 @@ namespace GHJ_Lib
             {
                 return;
             }
-
+            /*
             int j = 0;
             for (int i = 1; i < curDollCount+1; ++i)
             {
@@ -108,7 +108,7 @@ namespace GHJ_Lib
                 }
                 
             }
-           
+            */
         }
 
 

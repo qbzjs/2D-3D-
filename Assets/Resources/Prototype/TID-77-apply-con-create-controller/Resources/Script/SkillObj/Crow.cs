@@ -9,7 +9,7 @@ namespace GHJ_Lib
     {
         public Animator CrowAnimator;
         public Collider DetectRange;
-        [SerializeField]protected HunterSkill hunter;
+        [SerializeField]protected HunterSkill owner;
         protected Vector3 initPos;
         enum FlyingCondition{ Landing, Flying , Idle };
         FlyingCondition flyingCondition;
@@ -24,7 +24,7 @@ namespace GHJ_Lib
 
         private void Update()
         {
-            if (!hunter)
+            if (!owner)
             {
                 return;
             }
@@ -50,7 +50,7 @@ namespace GHJ_Lib
                             {
                                 if (doll.CrowGauge >= 100.0f)
                                 {
-                                    hunter.Debuff(doll);
+                                    owner.Debuff(doll);
                                 }
                                 else
                                 {
@@ -64,9 +64,9 @@ namespace GHJ_Lib
         
         
         }
-        public void SetHunter(HunterSkill hunter)
+        public void SetOwner(HunterSkill hunter)
         {
-            this.hunter = hunter;
+            owner = hunter;
         }
         public void Relocate()
         {

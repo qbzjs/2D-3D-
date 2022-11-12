@@ -66,6 +66,18 @@ namespace GHJ_Lib
                 }
             }
 
+            if (innerIndices.Count == 0)
+            {
+                Debug.LogError($"NormalAltar Spwan Range Tooooo Small, radius :{radius}");
+                return;
+            }
+
+            if (outterIndices.Count == 0)
+            {
+                Debug.LogError($"NormalAltar Spwan Range Tooooo Big,  radius :{radius}");
+                return;
+            }
+
             int index = innerIndices[Random.Range( 0, innerIndices.Count - 1 )];
             GenerateTargetAtList( targetObj, ref targetObjects, ref genTransformList, index );
 

@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     public const string PlayerLayer = "Player";
     public const string TransparentLayer = "RenderOnTop";
     public const string GhostLayer = "Ghost";
+    public const string RendOnTopLayer = "RenderOnTop";
     public const string EnvironmentLayer = "Environment";
 
     static GameManager instance;
