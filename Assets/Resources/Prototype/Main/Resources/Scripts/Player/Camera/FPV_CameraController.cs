@@ -13,17 +13,30 @@ namespace KSH_Lib
         protected float maxSpeedX = 5.0f;
         [SerializeField]
         protected float maxSpeedY = 5.0f;
+
+        [SerializeField] float forwardMultiplier = 0.1f;
         
         [field: SerializeField] public GameObject camAim { get; protected set; }
         float angleY;
+        Vector3 camTargetInitPos;
 
         /*--- Monobehviour Callbacks ---*/
+        protected override void Start()
+        {
+            base.Start();
+            camTargetInitPos = camTarget.transform.localPosition;
+        }
         protected override void LateUpdate()
         {
             if(canUpdate)
             {
                 base.LateUpdate();
             }
+        }
+        private void OnGUI()
+        {
+            GUI.Box(new Rect(200, 0, 150, 30), $"anglebased = {(angleY * forwardMultiplier)}");
+            GUI.Box(new Rect(200, 30, 150, 30), $"changed = {camTarget.transform.localPosition.y - (angleY * forwardMultiplier)}");
         }
         protected override void RotateCamera()
         {
@@ -37,6 +50,7 @@ namespace KSH_Lib
             camAxis.y = Mathf.Clamp( camAxis.y, -maxSpeedY, maxSpeedY );
 
             angleY += camAxis.y;
+            camTarget.transform.localPosition = new Vector3(camTargetInitPos.x, camTargetInitPos.y - (angleY * forwardMultiplier), camTargetInitPos.z);
 
             camAim.transform.RotateAround( camTarget.transform.position, Vector3.up, camAxis.x );
             if ( angleY < maxAngleY && angleY > minAngleY )
