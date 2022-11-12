@@ -14,7 +14,7 @@ using KSH_Lib.UI;
 
 namespace LSH_Lib
 {
-    public class MatchingUIController : MonoBehaviour//PunCallbacks
+    public class MatchingUIController : MonoBehaviour
     {
         [Header("Matching UI")]
         [SerializeField]
@@ -136,6 +136,7 @@ namespace LSH_Lib
                     break;
             }
         }
+
         //public void OnMatchingStartButton(string roleType)
         //{
         //    if (roleType == "Exorcist")

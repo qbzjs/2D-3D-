@@ -205,6 +205,12 @@ namespace KSH_Lib
             DataManager.Instance.SetPlayerIdx();
         }
 
+        public override void OnLeftRoom()
+        {
+            Debug.Log( "OnLeftRoom Called" );
+            IsJoinedRoom = false;
+            EnableMainLobbyCanvas();
+        }
 
         /*--- Public Methods ---*/
         public void EnableCharacterSelectCanvas( string roleName )
@@ -452,12 +458,23 @@ namespace KSH_Lib
         }
         void OnMatchingCancelButton()
         {
+            if(PhotonNetwork.IsMasterClient)
+            {
+                //photonView.RPC( "LeaveRoomRPC", RpcTarget.Others );
+                
+                for(int i = 1; i < PhotonNetwork.PlayerList.Length; ++i )
+                {
+                    PhotonNetwork.CloseConnection( PhotonNetwork.PlayerList[i] );
+                }
+            }
             PhotonNetwork.LeaveRoom();
             
-            IsJoinedRoom = false;
+            //IsJoinedRoom = false;
             //matchingUIController.isJoinedRoom = false;
-            EnableMainLobbyCanvas();
+            //EnableMainLobbyCanvas();
         }
+        
+
 
 
         /*--- Debug Methods ---*/
@@ -489,6 +506,7 @@ namespace KSH_Lib
             PhotonNetwork.JoinRoom( "DebugServer2" );
             //GameManager.Instance.Data.ChangeRole( RoleType.Doll );
         }
+
     }
 
 }
