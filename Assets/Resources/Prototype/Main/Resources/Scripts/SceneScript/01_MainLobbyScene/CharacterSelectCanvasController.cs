@@ -185,7 +185,7 @@ namespace KSH_Lib.UI
             {
                 if(infoMatches[i].playerIdx == playerIdx)
                 {
-                    infoMatches[i] = GetSelectInfoByRoleTypeOrder( infoMatches[i], DataManager.Instance.LocalPlayerData.roleData.TypeOrder );
+                    infoMatches[i] = GetSelectInfoByRoleTypeOrder( infoMatches[i], (RoleData.RoleTypeOrder)typeOrder);
                 }
             }
         }
