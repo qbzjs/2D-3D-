@@ -204,12 +204,12 @@ namespace KSH_Lib
         {
             DataManager.Instance.SetPlayerIdx();
         }
-        public override void OnDisconnected( DisconnectCause cause )
+
+        public override void OnLeftRoom()
         {
-            Debug.Log( "OnDisconnected Called" );
+            Debug.Log( "OnLeftRoom Called" );
             IsJoinedRoom = false;
         }
-
 
         /*--- Public Methods ---*/
         public void EnableCharacterSelectCanvas( string roleName )
@@ -459,15 +459,22 @@ namespace KSH_Lib
         {
             if(PhotonNetwork.IsMasterClient)
             {
-                photonView.RPC( "LeaveRoomRPC", RpcTarget.Others );
+                //photonView.RPC( "LeaveRoomRPC", RpcTarget.Others );
+                
+                for(int i = 1; i < PhotonNetwork.PlayerList.Length; ++i )
+                {
+                    PhotonNetwork.CloseConnection( PhotonNetwork.PlayerList[i] );
+                }
             }
 
-            PhotonNetwork.LeaveRoom();
+            //PhotonNetwork.LeaveRoom();
             
             //IsJoinedRoom = false;
             //matchingUIController.isJoinedRoom = false;
             EnableMainLobbyCanvas();
         }
+        
+
 
 
         /*--- Debug Methods ---*/
