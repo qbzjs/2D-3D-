@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 using TMPro;
 namespace LSH_Lib
 {
@@ -16,6 +17,9 @@ namespace LSH_Lib
         [SerializeField]
         GameObject controllWindow;
 
+        [Header("Audio Mixer")]
+        [SerializeField]
+        AudioMixer mixer;
         [Header("Setting UI")]
         [SerializeField]
         Slider mastervolume;
@@ -65,33 +69,43 @@ namespace LSH_Lib
             controllWindow.SetActive(true);
         }
 
-        void SetMasterVolumeText()
+        void SetMasterVolume()
         {
-            int volumvalue = (int)mastervolume.value;
+            int volumvalue = (int)(mastervolume.value * 100);
             masterVolumeText.text = volumvalue.ToString();
+            mixer.SetFloat("Master", Mathf.Log10(mastervolume.value)*20);
         }
-        void SetSFXVolueText()
+        void SetSFXVolue()
         {
-            int volumvalue = (int)sfxVolume.value;
+            int volumvalue = (int)(sfxVolume.value * 100);
             sfxVolumeText.text = volumvalue.ToString();
+            mixer.SetFloat("SFX", Mathf.Log10(sfxVolume.value) *20);
         }
-        void BackgroundVolumeText()
+        void BackgroundVolume()
         {
-            int volumvalue = (int)backgroundVolume.value;
+            int volumvalue = (int)(backgroundVolume.value * 100);
             backgroundVolumeText.text = volumvalue.ToString();
+            mixer.SetFloat("BGM", Mathf.Log10(backgroundVolume.value)*20);
         }
         void MouseSliderText()
         {
             int value = (int)mouseSlider.value;
             mouseSliderText.text = value.ToString();
         }
+        void SaveValue()
+        {
+            float value = mouseSlider.value;
+            float mouseSensitivityX = Input.GetAxis("Mouse X") * value;
+            float mouseSensitivityY = Input.GetAxis("Mouse Y") * value;
+        }
+
         void ResetAllVolume()
         {
-            mastervolume.value = 80;
+            mastervolume.value = 0.8f;
             masterVolumeText.text = mastervolume.value.ToString();
-            sfxVolume.value = 80;
+            sfxVolume.value = 0.8f;
             sfxVolumeText.text = sfxVolume.value.ToString();
-            backgroundVolume.value = 80;
+            backgroundVolume.value = 0.8f;
             backgroundVolumeText.text = backgroundVolume.value.ToString();
         }
     }
