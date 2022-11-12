@@ -45,6 +45,10 @@ namespace KSH_Lib.UI
                 nickname.text = nicknameStr;
                 roleName.text = roleNameStr;
             }
+            public void ChangeTextColor( TextMeshProUGUI targetText, Color color)
+            {
+                targetText.color = color;
+            }
         }
 
         [System.Serializable]
@@ -135,7 +139,12 @@ namespace KSH_Lib.UI
 
         [Header( "Icon Images" )]
         [SerializeField] Sprite[] roleSprites;
-        
+
+
+        [Header( "Text Color Setting" )]
+        [SerializeField] Color exorcistColor;
+        [SerializeField] Color roleNameColor;
+        [SerializeField] Color watingColor;
 
         /*--- Private Fields ---*/
 
@@ -193,6 +202,7 @@ namespace KSH_Lib.UI
         }
         public InfoMatch GetSelectInfoByRoleTypeOrder( InfoMatch infoMatch, RoleData.RoleTypeOrder typeOrder )
         {
+            Color nameColor;
             switch ( typeOrder )
             {
                 case RoleData.RoleTypeOrder.Bishop:
@@ -201,64 +211,72 @@ namespace KSH_Lib.UI
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
                         "아타나시오"
                         );
-                    return infoMatch;
+                    nameColor = exorcistColor;
                 }
+                break;
                 case RoleData.RoleTypeOrder.Hunter:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Hunter],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
                         "샬라이"
                         );
-                    return infoMatch;
+                    nameColor = exorcistColor;
                 }
+                break;
                 case RoleData.RoleTypeOrder.Photographer:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Photographer],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
                         "강채율"
                         );
-                    return infoMatch;
+                    nameColor = exorcistColor;
                 }
+                break;
                 case RoleData.RoleTypeOrder.Priest:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Priest],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
                         "알베르토 이든"
                         );
-                    return infoMatch;
+                    nameColor = exorcistColor;
                 }
+                break;
                 case RoleData.RoleTypeOrder.Wolf:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Wolf],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
                         "라이"
                         );
-                    return infoMatch;
+                    nameColor = roleNameColor;
                 }
+                break;
                 case RoleData.RoleTypeOrder.Rabbit:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Rabbit],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
                         "제니"
                         );
-                    return infoMatch;
+                    nameColor = roleNameColor;
                 }
+                break;
                 case RoleData.RoleTypeOrder.Tortoise:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Tortoise],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
                         "태오"
                         );
-                    return infoMatch;
+                    nameColor = roleNameColor;
                 }
+                break;
                 case RoleData.RoleTypeOrder.Penguin:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Penguin],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
                         "제임스"
                         );
-                    return infoMatch;
+                    nameColor = roleNameColor;
                 }
+                break;
 
                 default:
                 {
@@ -266,6 +284,9 @@ namespace KSH_Lib.UI
                     return new InfoMatch();
                 }
             }
+
+            infoMatch.ui.ChangeTextColor( infoMatch.ui.nickname, nameColor );
+            return infoMatch;
         }
         void IndexingInfo()
         {
@@ -284,14 +305,17 @@ namespace KSH_Lib.UI
                 {
                     if (i == playerIdx)
                     {
-                        infoMatches[i].playerIdx = 0;
+                        infoMatches[0].playerIdx = playerIdx;
                         break;
                     }
                 }
-                for (int i = 0; i < infoMatches.Length - 1; ++i)
+
+
+                for (int i = 1; i < infoMatches.Length - 1; ++i)
                 {
                     if (infoMatches[i].playerIdx == -1)
                     {
+                        if ( i == playerIdx ) ++i;
                         infoMatches[i].playerIdx = i;
                         break;
                     }
