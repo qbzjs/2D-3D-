@@ -452,6 +452,14 @@ namespace KSH_Lib
         }
         void OnMatchingCancelButton()
         {
+            if(PhotonNetwork.IsMasterClient)
+            {
+                for(int i = 1; i < PhotonNetwork.PlayerList.Length; ++i )
+                {
+                    PhotonNetwork.CloseConnection( PhotonNetwork.PlayerList[i] );
+                }
+            }
+
             PhotonNetwork.LeaveRoom();
             
             IsJoinedRoom = false;
