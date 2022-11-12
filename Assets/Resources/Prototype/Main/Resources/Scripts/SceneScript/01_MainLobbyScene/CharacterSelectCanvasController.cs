@@ -13,7 +13,7 @@ using KSH_Lib.Data;
 
 namespace KSH_Lib.UI
 {
-    public class CharacterSelectCanvasController : MonoBehaviourPun, IPunObservable
+    public class CharacterSelectCanvasController : MonoBehaviourPunCallbacks, IPunObservable
     {
         //[System.Serializable]
         //public struct SelectInfo
@@ -83,15 +83,16 @@ namespace KSH_Lib.UI
                 }
             }
         }
-
-        [SerializeField]
-        private string loadSceneName = "02_MainGameScene";
+        [SerializeField] string nextSceneName;
 
         [Header("Character Select Buttons")]
         public GameObject DollButtons;
         public GameObject ExorcistButtons;
         [SerializeField] InfoMatch[] infoMatches;
         SortedSet<InfoMatch> infoSets;
+
+        [Header( "Debug" )]
+        [SerializeField] bool[] isDecidedArr;
 
         //[SerializeField] PlayerUi[] playerUis;
 
@@ -148,6 +149,8 @@ namespace KSH_Lib.UI
         [SerializeField] Color32 localColor;
 
         /*--- Private Fields ---*/
+        bool isStartChangeScene;
+
 
         /*--- MonoBehaviour Callbacks ---*/
 
@@ -159,11 +162,33 @@ namespace KSH_Lib.UI
 
             DataManager.Instance.InitPlayerDatas();
             //bishopInformation.SetActive(true);
+            isDecidedArr = new bool[GameManager.Instance.CurPlayerCount];
             IndexingInfo();
         }
 
         /*--- Public Methods ---*/
- 
+        private void Update()
+        {
+            if(PhotonNetwork.IsMasterClient && !isStartChangeScene )
+            {
+                if ( IsAllPlayerDecided() )
+                {
+                    GameManager.Instance.LoadPhotonScene( nextSceneName );
+                    isStartChangeScene = true;
+                }
+            }
+        }
+
+        bool IsAllPlayerDecided()
+        {
+            bool flag = true;
+            foreach(bool isDecided in isDecidedArr)
+            {
+                flag &= isDecided;
+            }
+            return flag;
+        }
+
 
         public void OnSelectRole()
         {
@@ -292,7 +317,6 @@ namespace KSH_Lib.UI
             }
 
             infoMatch.ui.ChangeTextColor( infoMatch.ui.nickname, nameColor );
-            infoMatch.ui.ChangeTextColor( infoMatch.ui.roleName, roleNameColor );
             return infoMatch;
         }
         void IndexingInfo()
@@ -409,21 +433,36 @@ namespace KSH_Lib.UI
                     break;
             }
         }
-        void GameStart()
-        {
-            LoadRoomScene();
-        }
+        //void GameStart()
+        //{
+        //    LoadRoomScene();
+        //}
         void LoadRoomScene()
         {
             DataManager.Instance.InitLocalRoleData();
             decideButtonObj.SetActive(false);
             PhotonNetwork.CurrentRoom.IsOpen = false;
-            GameManager.Instance.LoadPhotonScene(loadSceneName);
+            GameManager.Instance.LoadPhotonScene( nextSceneName );
         }
         void DecideRoleType()
         {
             DataManager.Instance.InitLocalRoleData();
             decideButtonObj.SetActive(false);
+            photonView.RPC( "ShareDecideRPC", RpcTarget.AllViaServer, playerIdx );
+        }
+
+        [PunRPC]
+        void ShareDecideRPC(int index)
+        {
+            isDecidedArr[index] = true;
+            for(int i = 0; i < infoMatches.Length; ++i )
+            {
+                if(infoMatches[i].playerIdx == index)
+                {
+                    // Do Somthing if Decide
+                    infoMatches[i].ui.ChangeTextColor( infoMatches[i].ui.roleName, roleNameColor );
+                }
+            }
         }
 
         public void OnPhotonSerializeView( PhotonStream stream, PhotonMessageInfo info )

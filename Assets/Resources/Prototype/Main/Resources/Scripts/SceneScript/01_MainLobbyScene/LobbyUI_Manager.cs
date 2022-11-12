@@ -23,6 +23,8 @@ namespace KSH_Lib
         //private static LobbyUI_Manager instance;
 
         /*--- Serialized Fields ---*/
+        [field: SerializeField] public string LoadSceneName{get; private set;}
+
         [Header( "Canvases" )]
         [SerializeField]
         Canvas mainLobbyCanvas;
@@ -127,7 +129,6 @@ namespace KSH_Lib
         /*--- MonoBehaviour Callbacks ---*/
         private void Start()
         {
-            charaSelectCanvasController = characterSelectCanvas.GetComponent<CharacterSelectCanvasController>();
 
             EnableCanvasObjects();
             DisableCanvasesAll();
@@ -252,7 +253,6 @@ namespace KSH_Lib
         void EnableCanvasObjects()
         {
             mainLobbyCanvas.gameObject.SetActive( true );
-            characterSelectCanvas.gameObject.SetActive( true );
             matchingCanvas.gameObject.SetActive( true );
             customRoomCanvas.gameObject.SetActive( true );
             customRoomLobbyCanvas.gameObject.SetActive( true );
@@ -262,7 +262,6 @@ namespace KSH_Lib
         public void DisableCanvasesAll()
         {
             mainLobbyCanvas.enabled = false;
-            characterSelectCanvas.enabled = false;
             matchingCanvas.enabled = false;
             customRoomCanvas.enabled = false;
             customRoomLobbyCanvas.enabled = false;
