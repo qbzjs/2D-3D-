@@ -87,6 +87,8 @@ namespace KSH_Lib.UI
         public GameObject DollButtons;
         public GameObject ExorcistButtons;
         [SerializeField] InfoMatch[] infoMatches;
+        SortedSet<InfoMatch> infoSets;
+
         //[SerializeField] PlayerUi[] playerUis;
 
         /*--- Protected Fields ---*/
@@ -172,8 +174,8 @@ namespace KSH_Lib.UI
             DataManager.Instance.ShareRoleData();
 
             infoMatches[0] = GetSelectInfoByRoleTypeOrder( infoMatches[0], DataManager.Instance.LocalPlayerData.roleData.TypeOrder );
-
-            photonView.RPC("ChangeSelectInfosRPC", RpcTarget.AllViaServer, playerIdx, (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder);
+            
+            photonView.RPC("ChangeSelectInfosRPC", RpcTarget.Others, playerIdx, (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder);
 
             Debug.Log($"Selected {DataManager.Instance.PreRoleTypeOrder}");
         }
@@ -269,16 +271,16 @@ namespace KSH_Lib.UI
         {
             if (DataManager.Instance.PreRoleType == RoleData.RoleType.Doll)
             {
-                infoMatches[0].playerIdx = infoMatches.Length - 1;
+                infoMatches[infoMatches.Length - 1].playerIdx = 0;
 
-                for (int i = 1; i < infoMatches.Length; ++i)
+                for (int i = 0; i < infoMatches.Length - 1; ++i)
                 {
                     if (infoMatches[i].playerIdx == 0)
                     {
                         infoMatches[i].playerIdx = -1;
                     }
                 }
-                for (int i = 1; i < infoMatches.Length; ++i)
+                for (int i = 0; i < infoMatches.Length - 1; ++i)
                 {
                     if (i == playerIdx)
                     {
@@ -286,7 +288,7 @@ namespace KSH_Lib.UI
                         break;
                     }
                 }
-                for (int i = 1; i < infoMatches.Length; ++i)
+                for (int i = 0; i < infoMatches.Length - 1; ++i)
                 {
                     if (infoMatches[i].playerIdx == -1)
                     {
