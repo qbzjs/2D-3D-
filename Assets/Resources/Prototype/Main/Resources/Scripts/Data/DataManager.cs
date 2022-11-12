@@ -18,19 +18,20 @@ namespace KSH_Lib
 			{
 				if (instance == null)
 				{
-					GameObject obj = new GameObject("_DataManager");
-					instance = obj.AddComponent<DataManager>();
-					pv = obj.AddComponent<PhotonView>();
-					pv.ViewID = PhotonNetwork.AllocateViewID(0);
+					//GameObject obj = new GameObject("_DataManager");
+					//instance = obj.AddComponent<DataManager>();
+					//pv = obj.AddComponent<PhotonView>();
+					//pv.ViewID = PhotonNetwork.AllocateViewID(0);
 
-					pv.observableSearch = (PhotonView.ObservableSearch.AutoFindActive);
-					pv.FindObservables();
+					//pv.observableSearch = (PhotonView.ObservableSearch.AutoFindActive);
+					//pv.FindObservables();
+					Debug.LogError( "No DataManager" );
 				}
 				return instance;
 			}
 		}
 		static DataManager instance;
-		static PhotonView pv;
+		//static PhotonView pv;
 
 
 		/*--- Fields ---*/
@@ -88,6 +89,7 @@ namespace KSH_Lib
 		/*--- MonoBehaviour Callbacks ---*/
 		private void Awake()
 		{
+			instance = this;
 			DontDestroyOnLoad(gameObject);
 
 			Serializer.RegisterCustomType<AccountData>( (byte)'A' );
@@ -159,21 +161,21 @@ namespace KSH_Lib
 		{
 			ShareRoleData();
 			ShareAccountData();
-			pv.RPC("ShareInitedRPC", RpcTarget.AllViaServer, PlayerIdx, true);
+			photonView.RPC("ShareInitedRPC", RpcTarget.AllViaServer, PlayerIdx, true);
         }
 		public void ShareAccountData()
 		{
-			pv.RPC( "ShareAccountDataRPC", RpcTarget.AllViaServer, PlayerIdx, AccountData.Serialize(LocalPlayerData.accountData) );
+			photonView.RPC( "ShareAccountDataRPC", RpcTarget.AllViaServer, PlayerIdx, AccountData.Serialize(LocalPlayerData.accountData) );
 		}
 		public void ShareRoleData()
         {
 			if(LocalPlayerData.roleData is DollData)
             {
-				pv.RPC( "ShareDollDataRPC", RpcTarget.AllViaServer, PlayerIdx, DollData.Serialize( LocalPlayerData.roleData ) );
+				photonView.RPC( "ShareDollDataRPC", RpcTarget.AllViaServer, PlayerIdx, DollData.Serialize( LocalPlayerData.roleData ) );
             }
 			else if(LocalPlayerData.roleData is ExorcistData)
 			{
-				pv.RPC( "ShareExorcistDataRPC", RpcTarget.AllViaServer, PlayerIdx, ExorcistData.Serialize( LocalPlayerData.roleData ) );
+				photonView.RPC( "ShareExorcistDataRPC", RpcTarget.AllViaServer, PlayerIdx, ExorcistData.Serialize( LocalPlayerData.roleData ) );
 			}
 			else
             {
@@ -182,7 +184,7 @@ namespace KSH_Lib
         }
 		public void DisconnectAllData()
 		{
-			pv.RPC( "DisconnectAllDataRPC", RpcTarget.AllViaServer, PlayerIdx );
+			photonView.RPC( "DisconnectAllDataRPC", RpcTarget.AllViaServer, PlayerIdx );
 		}
 
 		/*--- Private Methods ---*/
