@@ -33,7 +33,7 @@ namespace KSH_Lib.UI
         //}
 
         [System.Serializable]
-        public struct PlayerUI
+        public struct PlayerUi
         {
             public Image icon;
             public TextMeshProUGUI nickname;
@@ -52,7 +52,7 @@ namespace KSH_Lib.UI
         {
             public int playerIdx;
             //public SelectInfo info;
-            public PlayerUI ui;
+            public PlayerUi ui;
         }
 
 
@@ -86,7 +86,7 @@ namespace KSH_Lib.UI
         public GameObject DollButtons;
         public GameObject ExorcistButtons;
         [SerializeField] InfoMatch[] infoMatches;
-        [SerializeField] PlayerUI[] playerUIs;
+        //[SerializeField] PlayerUi[] playerUis;
 
         /*--- Protected Fields ---*/
         [SerializeField]
@@ -171,7 +171,8 @@ namespace KSH_Lib.UI
             DataManager.Instance.InitLocalRoleData();
             DataManager.Instance.ShareRoleData();
 
-            infoMatches[0].info = GetSelectInfoByRoleTypeOrder(DataManager.Instance.LocalPlayerData.roleData.TypeOrder);
+            //infoMatches[0].info = GetSelectInfoByRoleTypeOrder(DataManager.Instance.LocalPlayerData.roleData.TypeOrder);
+            infoMatches[0] = GetSelectInfoByRoleTypeOrder( infoMatches[0], DataManager.Instance.LocalPlayerData.roleData.TypeOrder );
 
             photonView.RPC("ChangeSelectInfosRPC", RpcTarget.AllViaServer, playerIdx, (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder);
 
@@ -185,149 +186,83 @@ namespace KSH_Lib.UI
             {
                 if(infoMatches[i].playerIdx == playerIdx)
                 {
-                    infoMatches[i].info = GetSelectInfoByRoleTypeOrder((RoleData.RoleTypeOrder)typeOrder);
+                    infoMatches[i] = GetSelectInfoByRoleTypeOrder( infoMatches[i], DataManager.Instance.LocalPlayerData.roleData.TypeOrder );
                 }
             }
         }
-        //public InfoMatch GetSelectInfoByRoleTypeOrder(InfoMatch infoMatch, RoleData.RoleTypeOrder typeOrder)
-        //{
-        //    switch (typeOrder)
-        //    {
-        //        case RoleData.RoleTypeOrder.Bishop:
-        //        {
-        //            return infoMatch.ui.Refresh(roleSprites[(int)RoleData.RoleTypeOrder.Bishop],
-        //                DataManager.Instance.LocalPlayerData.accountData.Nickname,
-        //                "아타나시오"
-        //                );
-
-
-        //            return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Bishop],
-        //                DataManager.Instance.LocalPlayerData.accountData.Nickname,
-        //                "아타나시오", true
-        //                );
-        //        }
-        //        case RoleData.RoleTypeOrder.Hunter:
-        //        {
-        //            return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Hunter],
-        //                DataManager.Instance.LocalPlayerData.accountData.Nickname,
-        //                "샬라이", true
-        //                );
-        //        }
-        //        case RoleData.RoleTypeOrder.Photographer:
-        //        {
-        //            return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Photographer],
-        //                DataManager.Instance.LocalPlayerData.accountData.Nickname,
-        //                "강채율", true
-        //                );
-        //        }
-        //        case RoleData.RoleTypeOrder.Priest:
-        //        {
-        //            return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Priest],
-        //                DataManager.Instance.LocalPlayerData.accountData.Nickname,
-        //                "알베르토 이든", true
-        //                );
-        //        }
-        //        case RoleData.RoleTypeOrder.Wolf:
-        //        {
-        //            return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Wolf],
-        //                DataManager.Instance.LocalPlayerData.accountData.Nickname,
-        //                "라이", true
-        //                );
-        //        }
-        //        case RoleData.RoleTypeOrder.Rabbit:
-        //        {
-        //            return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Rabbit],
-        //                DataManager.Instance.LocalPlayerData.accountData.Nickname,
-        //                "제니", true
-        //                );
-        //        }
-        //        case RoleData.RoleTypeOrder.Tortoise:
-        //        {
-        //            return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Tortoise],
-        //                DataManager.Instance.LocalPlayerData.accountData.Nickname,
-        //                "태오", true
-        //                );
-        //        }
-        //        case RoleData.RoleTypeOrder.Penguin:
-        //        {
-        //            return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Penguin],
-        //                DataManager.Instance.LocalPlayerData.accountData.Nickname,
-        //                "제임스", true
-        //                );
-        //        }
-
-        //        default:
-        //        {
-        //            Debug.LogError("GetSelectInfoByRoleTypeOrder: No Selected ");
-        //            return new SelectInfo();
-        //        }
-        //    }
-        //}
-        public SelectInfo GetSelectInfoByRoleTypeOrder( RoleData.RoleTypeOrder typeOrder )
+        public InfoMatch GetSelectInfoByRoleTypeOrder( InfoMatch infoMatch, RoleData.RoleTypeOrder typeOrder )
         {
-            switch(typeOrder)
+            switch ( typeOrder )
             {
                 case RoleData.RoleTypeOrder.Bishop:
                 {
-                    return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Bishop],
+                    infoMatch.ui.Refresh( roleSprites[(int)RoleData.RoleTypeOrder.Bishop],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
-                        "아타나시오", true
+                        "아타나시오"
                         );
+                    return infoMatch;
                 }
                 case RoleData.RoleTypeOrder.Hunter:
-                    {
-                        return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Hunter],
-                            DataManager.Instance.LocalPlayerData.accountData.Nickname,
-                            "샬라이", true
-                            );
-                    }
+                {
+                    infoMatch.ui.Refresh( roleSprites[(int)RoleData.RoleTypeOrder.Hunter],
+                        DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                        "샬라이"
+                        );
+                    return infoMatch;
+                }
                 case RoleData.RoleTypeOrder.Photographer:
-                    {
-                        return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Photographer],
-                            DataManager.Instance.LocalPlayerData.accountData.Nickname,
-                            "강채율", true
-                            );
-                    }
+                {
+                    infoMatch.ui.Refresh( roleSprites[(int)RoleData.RoleTypeOrder.Photographer],
+                        DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                        "강채율"
+                        );
+                    return infoMatch;
+                }
                 case RoleData.RoleTypeOrder.Priest:
-                    {
-                        return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Priest],
-                            DataManager.Instance.LocalPlayerData.accountData.Nickname,
-                            "알베르토 이든", true
-                            );
-                    }
+                {
+                    infoMatch.ui.Refresh( roleSprites[(int)RoleData.RoleTypeOrder.Priest],
+                        DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                        "알베르토 이든"
+                        );
+                    return infoMatch;
+                }
                 case RoleData.RoleTypeOrder.Wolf:
-                    {
-                        return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Wolf],
-                            DataManager.Instance.LocalPlayerData.accountData.Nickname,
-                            "라이", true
-                            );
-                    }
+                {
+                    infoMatch.ui.Refresh( roleSprites[(int)RoleData.RoleTypeOrder.Wolf],
+                        DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                        "라이"
+                        );
+                    return infoMatch;
+                }
                 case RoleData.RoleTypeOrder.Rabbit:
-                    {
-                        return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Rabbit],
-                            DataManager.Instance.LocalPlayerData.accountData.Nickname,
-                            "제니", true
-                            );
-                    }
+                {
+                    infoMatch.ui.Refresh( roleSprites[(int)RoleData.RoleTypeOrder.Rabbit],
+                        DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                        "제니"
+                        );
+                    return infoMatch;
+                }
                 case RoleData.RoleTypeOrder.Tortoise:
-                    {
-                        return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Tortoise],
-                            DataManager.Instance.LocalPlayerData.accountData.Nickname,
-                            "태오", true
-                            );
-                    }
+                {
+                    infoMatch.ui.Refresh( roleSprites[(int)RoleData.RoleTypeOrder.Tortoise],
+                        DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                        "태오"
+                        );
+                    return infoMatch;
+                }
                 case RoleData.RoleTypeOrder.Penguin:
-                    {
-                        return new SelectInfo(roleSprites[(int)RoleData.RoleTypeOrder.Penguin],
-                            DataManager.Instance.LocalPlayerData.accountData.Nickname,
-                            "제임스", true
-                            );
-                    }
+                {
+                    infoMatch.ui.Refresh( roleSprites[(int)RoleData.RoleTypeOrder.Penguin],
+                        DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                        "제임스"
+                        );
+                    return infoMatch;
+                }
 
                 default:
                 {
                     Debug.LogError( "GetSelectInfoByRoleTypeOrder: No Selected " );
-                    return new SelectInfo();
+                    return new InfoMatch();
                 }
             }
         }
@@ -362,6 +297,7 @@ namespace KSH_Lib.UI
                 }
             }
         }
+
         /*--- Protected Methods ---*/
 
         /*--- Private Methods ---*/
