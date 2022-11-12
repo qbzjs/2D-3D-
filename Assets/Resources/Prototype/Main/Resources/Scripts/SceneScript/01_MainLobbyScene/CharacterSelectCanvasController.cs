@@ -341,13 +341,15 @@ namespace KSH_Lib.UI
                     }
                 }
 
-
-                for (int i = 1; i < infoMatches.Length - 1; ++i)
+                for (int i = 1, pIdx = 1; i < infoMatches.Length - 1; ++i, ++pIdx)
                 {
                     if (infoMatches[i].playerIdx == -1)
                     {
-                        if ( i == playerIdx ) ++i;
-                        infoMatches[i].playerIdx = i;
+                        if ( i == playerIdx )
+                        {
+                            pIdx++;
+                        }
+                        infoMatches[i].playerIdx = pIdx;
                         break;
                     }
                 }
@@ -446,6 +448,11 @@ namespace KSH_Lib.UI
         }
         void DecideRoleType()
         {
+            if(DataManager.Instance.PreRoleTypeOrder == RoleData.RoleTypeOrder.Null)
+            {
+                return;
+            }
+
             DataManager.Instance.InitLocalRoleData();
             decideButtonObj.SetActive(false);
             photonView.RPC( "ShareDecideRPC", RpcTarget.AllViaServer, playerIdx );

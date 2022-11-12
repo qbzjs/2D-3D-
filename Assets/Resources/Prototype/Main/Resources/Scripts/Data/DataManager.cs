@@ -50,8 +50,8 @@ namespace KSH_Lib
 
 
 		// This For Room Settings
-		public RoleData.RoleType PreRoleType;
-		public RoleData.RoleTypeOrder PreRoleTypeOrder;
+		public RoleData.RoleType PreRoleType = RoleData.RoleType.Null;
+		public RoleData.RoleTypeOrder PreRoleTypeOrder = RoleData.RoleTypeOrder.Null;
 
 		public List<PlayerData> PlayerDatas
 		{
@@ -106,6 +106,7 @@ namespace KSH_Lib
             {
 				Debug.LogError("DataManager.ItemDataInfos: Can't get item Datas from csv");
             }
+			ResetLocalRoleData();
 		}
 
 		/*--- Public Methods ---*/
@@ -138,7 +139,11 @@ namespace KSH_Lib
         }
 		public void ResetLocalRoleData()
         {
+			PreRoleType = RoleData.RoleType.Null;
+			PreRoleTypeOrder = RoleData.RoleTypeOrder.Null;
 			LocalPlayerData.roleData = new RoleData();
+			LocalPlayerData.roleData.Type = RoleData.RoleType.Null;
+			LocalPlayerData.roleData.TypeOrder = RoleData.RoleTypeOrder.Null;
         }
 
 		public void InitPlayerDatas()
