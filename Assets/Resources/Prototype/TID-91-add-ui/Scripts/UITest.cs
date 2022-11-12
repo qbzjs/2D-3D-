@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 namespace LSH_Lib
 {
-	public class UITest : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	public class UITest : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 	{
         public float imagesize;
         Vector3 maxSize;
@@ -33,6 +33,10 @@ namespace LSH_Lib
             this.gameObject.transform.LeanScale(Vector3.one, 0.0f).setEaseInOutCubic();
         }
 
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            text.gameObject.transform.LeanScale(Vector3.one, 0.0f).setEaseInOutCubic();
+        }
     }
 
 }

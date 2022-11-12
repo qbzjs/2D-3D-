@@ -11,8 +11,6 @@ using KSH_Lib;
 using KSH_Lib.Data;
 using KSH_Lib.UI;
 
-using LSH_Lib;
-
 using DEM;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -20,7 +18,13 @@ namespace KSH_Lib
 {
     public class LobbyUI_Manager : MonoBehaviourPunCallbacks
     {
+        //public static LobbyUI_Manager Instace { get { return instance; } }
+
+        //private static LobbyUI_Manager instance;
+
         /*--- Serialized Fields ---*/
+        [field: SerializeField] public string LoadSceneName{get; private set;}
+
         [Header( "Canvases" )]
         [SerializeField]
         Canvas mainLobbyCanvas;
@@ -44,7 +48,7 @@ namespace KSH_Lib
         [SerializeField]
         GameObject quickMatchButtons;
 
-        //Suhyeon
+        //>>Suhyeon
         [Header("Information UI")]
         [SerializeField]
         GameObject informationButtons;
@@ -64,25 +68,33 @@ namespace KSH_Lib
         GameObject monkeyInformation;
         [SerializeField]
         GameObject penguinInformation;
-        //
+
+        [Header("Developer UI")]
+        [SerializeField]
+        GameObject developerCanvas;
+
+        [Header("Option UI")]
+        [SerializeField]
+        GameObject optionCanvas;
+        //<<Suhyeon
 
         [Header( "Character Select UI" )]
         [SerializeField]
         TextMeshProUGUI roleText;
 
-        [Header( "Matching UI" )]
-        [SerializeField]
-        private string loadSceneName = "02_MainGameScene";
-        [SerializeField]
-        private TextMeshProUGUI userCntTMP;
-        [SerializeField]
-        private Sprite refPlayerOnSprite;
-        [SerializeField]
-        private Sprite refPlayerOffSprite;
-        [SerializeField]
-        private Image[] playerLoadImgs;
-        [SerializeField]
-        private GameObject cancelButtonObj;
+        //[Header("Matching UI")]
+        //[SerializeField]
+        //private string loadSceneName = "02_MainGameScene";
+        //[SerializeField]
+        //private TextMeshProUGUI userCntTMP;
+        //[SerializeField]
+        //private Sprite refPlayerOnSprite;
+        //[SerializeField]
+        //private Sprite refPlayerOffSprite;
+        //[SerializeField]
+        //private Image[] playerLoadImgs;
+        //[SerializeField]
+        //private GameObject cancelButtonObj;
 
 
         [Header( "CustomRoom UI" )]
@@ -91,34 +103,32 @@ namespace KSH_Lib
         [SerializeField]
         TextMeshProUGUI actionButtonTMP;
 
-        
 
-        [Header( "Debug Only" )]
+        //[Header("Debug Only")]
+        //[SerializeField]
+        //private GameObject skipButtonObj;
+        //[SerializeField]
+        //private GameObject lshSkipButtonObj;
+        //[SerializeField]
+        //private GameObject kshSkipButtonObj;
         [SerializeField]
-        private GameObject skipButtonObj;
-        [SerializeField]
-        private GameObject lshSkipButtonObj;
-        [SerializeField]
-        private GameObject kshSkipButtonObj;
-        [SerializeField]
-        string roomName = "Debug";
+        public string roomName = "Debug";
 
-        [SerializeField]
-        string lshSceneName = "";
-        [SerializeField]
-        string kshSceneName = "";
+        //[SerializeField]
+        //string lshSceneName = "";
+        //[SerializeField]
+        //string kshSceneName = "";
 
 
         /*--- Private Fields ---*/
-        bool isJoinedRoom = false;
+        public bool IsJoinedRoom { get; private set; }
+
         CharacterSelectCanvasController charaSelectCanvasController;
 
 
         /*--- MonoBehaviour Callbacks ---*/
         private void Start()
         {
-            charaSelectCanvasController = characterSelectCanvas.GetComponent<CharacterSelectCanvasController>();
-
 
             EnableCanvasObjects();
             DisableCanvasesAll();
@@ -126,37 +136,34 @@ namespace KSH_Lib
             EnableMainButtonsPanel();
 
             // Deubg
-            skipButtonObj.SetActive( false );
-            lshSkipButtonObj.SetActive( false );
-            kshSkipButtonObj.SetActive( false );
-
-            //LSH
-            //AudioManager.instance.Play("LobbyBGM");
+            //skipButtonObj.SetActive( true );
+            //lshSkipButtonObj.SetActive( false );
+            //kshSkipButtonObj.SetActive( false );
         }
-        private void Update()
-        {
-            if ( isJoinedRoom )
-            {
-                GameManager.Instance.CurPlayerCount = PhotonNetwork.CurrentRoom.PlayerCount;
-                ChangePlayerImage();
-                ChangePlayerCountText();
+        //private void Update()
+        //{
+            //    if ( isJoinedRoom )
+            //    {
+            //        GameManager.Instance.CurPlayerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+            //        ChangePlayerImage();
+            //        ChangePlayerCountText();
 
-                if ( PhotonNetwork.IsMasterClient )
-                {
-                    if (GameManager.Instance.CurPlayerCount == 5 )
-                    {
-                        LoadRoomScene();
-                    }
+            //        if ( PhotonNetwork.IsMasterClient )
+            //        {
+            //            if (GameManager.Instance.CurPlayerCount == 5 )
+            //            {
+            //                LoadRoomScene();
+            //            }
 
-                    if ( skipButtonObj.activeInHierarchy == false )
-                    {
-                        skipButtonObj.SetActive( true );
-                        lshSkipButtonObj.SetActive( true );
-                        kshSkipButtonObj.SetActive( true );
-                    }
-                }
-            }
-        }
+            //            if ( skipButtonObj.activeInHierarchy == false )
+            //            {
+            //                skipButtonObj.SetActive( true );
+            //                lshSkipButtonObj.SetActive( true );
+            //                kshSkipButtonObj.SetActive( true );
+            //            }
+            //        }
+            //        }
+        //}
 
 
         /*--- MonoBehaviourPun Callbacks ---*/
@@ -183,7 +190,7 @@ namespace KSH_Lib
             Debug.Log( "OnJoindRoom Called" );
             EnableMatchingCanvas();
             DataManager.Instance.SetPlayerIdx();
-            isJoinedRoom = true;
+            IsJoinedRoom = true;
         }
         public override void OnJoinRoomFailed( short returnCode, string message )
         {
@@ -199,6 +206,12 @@ namespace KSH_Lib
             DataManager.Instance.SetPlayerIdx();
         }
 
+        public override void OnLeftRoom()
+        {
+            Debug.Log( "OnLeftRoom Called" );
+            IsJoinedRoom = false;
+            EnableMainLobbyCanvas();
+        }
 
         /*--- Public Methods ---*/
         public void EnableCharacterSelectCanvas( string roleName )
@@ -230,30 +243,30 @@ namespace KSH_Lib
         }
 
         /*--- Private Methods ---*/
-        
-        void LoadRoomScene()
-        {
-            cancelButtonObj.SetActive( false );
-            PhotonNetwork.CurrentRoom.IsOpen = false;
-            GameManager.Instance.LoadPhotonScene( loadSceneName );
-        }
+
+        //void LoadRoomScene()
+        //{
+        //    cancelButtonObj.SetActive(false);
+        //    PhotonNetwork.CurrentRoom.IsOpen = false;
+        //    GameManager.Instance.LoadPhotonScene(loadSceneName);
+        //}
         void EnableCanvasObjects()
         {
             mainLobbyCanvas.gameObject.SetActive( true );
-            characterSelectCanvas.gameObject.SetActive( true );
             matchingCanvas.gameObject.SetActive( true );
             customRoomCanvas.gameObject.SetActive( true );
             customRoomLobbyCanvas.gameObject.SetActive( true );
             informationCanvas.gameObject.SetActive(true);
+            
         }
-        void DisableCanvasesAll()
+        public void DisableCanvasesAll()
         {
             mainLobbyCanvas.enabled = false;
-            characterSelectCanvas.enabled = false;
             matchingCanvas.enabled = false;
             customRoomCanvas.enabled = false;
             customRoomLobbyCanvas.enabled = false;
             informationCanvas.enabled = false;
+            
         }
         void DisableMainLobbyPanelAll()
         {
@@ -261,43 +274,43 @@ namespace KSH_Lib
             //playButtons.SetActive( false );
             quickMatchButtons.SetActive( false );
             informationButtons.SetActive(false);
-            //dollsInformation.SetActive(false);
-            //exorcistInformation.SetActive(false);
-            //rabbitInformation.SetActive(false);
-            //turtleInformation.SetActive(false);
-            //wolfInformation.SetActive(false);
-            //monkeyInformation.SetActive(false);
-            //penguinInformation.SetActive(false);
+            dollsInformation.SetActive(false);
+            exorcistInformation.SetActive(false);
+            rabbitInformation.SetActive(false);
+            turtleInformation.SetActive(false);
+            wolfInformation.SetActive(false);
+            monkeyInformation.SetActive(false);
+            penguinInformation.SetActive(false);
 
         }
-        void ChangePlayerImage()
-        {
-            for ( int i = 0; i < GameManager.Instance.CurPlayerCount; ++i )
-            {
-                playerLoadImgs[i].sprite = refPlayerOnSprite;
-            }
-            for ( int i = GameManager.Instance.CurPlayerCount; i < GameManager.Instance.MaxPlayerCount; ++i )
-            {
-                playerLoadImgs[i].sprite = refPlayerOffSprite;
-            }
-        }
+        //void ChangePlayerImage()
+        //{
+        //    for (int i = 0; i < GameManager.Instance.CurPlayerCount; ++i)
+        //    {
+        //        playerLoadImgs[i].sprite = refPlayerOnSprite;
+        //    }
+        //    for (int i = GameManager.Instance.CurPlayerCount; i < GameManager.Instance.MaxPlayerCount; ++i)
+        //    {
+        //        playerLoadImgs[i].sprite = refPlayerOffSprite;
+        //    }
+        //}
 
         void EnableMainButtonsPanel()
         {
             DisableMainLobbyPanelAll();
             mainLobbyButtons.SetActive( true );
         }
-        //void EnablePlayButtonsPanel()
-        //{
-        //    DisableMainLobbyPanelAll();
-        //    //playButtons.SetActive( true );
-        //}
+        void EnablePlayButtonsPanel()
+        {
+            DisableMainLobbyPanelAll();
+            //playButtons.SetActive( true );
+        }
         void EnableQuickMatchButtonsPanel()
         {
             DisableMainLobbyPanelAll();
             quickMatchButtons.SetActive( true );
         }
-        //suhyeon
+        //>>suhyeon
         void EnableInformationButtonPanel()
         {
             DisableMainLobbyPanelAll();
@@ -307,6 +320,22 @@ namespace KSH_Lib
         {
             DisableCanvasesAll();
             informationCanvas.enabled = true;
+        }
+        void EnableDeveloperCanvas()
+        {
+            developerCanvas.SetActive(true);
+        }
+        void DisableDeveloperCanvas()
+        {
+            developerCanvas.SetActive(false);
+        }
+        void EnableOptionCanvas()
+        {
+            optionCanvas.SetActive(true);
+        }
+        void DisableOptionCanvas()
+        {
+            optionCanvas.SetActive(false);
         }
         //
         void EnableMainLobbyCanvas()
@@ -329,7 +358,8 @@ namespace KSH_Lib
             DisableCanvasesAll();
             customRoomLobbyCanvas.enabled = true;
         }
-        //suhyeon
+        
+        //<<suhyeon
         
         void EnableDollInformationPanel()
         {
@@ -366,71 +396,101 @@ namespace KSH_Lib
             DisableMainLobbyPanelAll();
             penguinInformation.SetActive(true);
         }
-        //
-        void ChangePlayerCountText()
-        {
-            userCntTMP.text = $"{GameManager.Instance.CurPlayerCount} / {GameManager.Instance.MaxPlayerCount}";
-        }
+
+        //void ChangePlayerCountText()
+        //{
+        //    userCntTMP.text = $"{GameManager.Instance.CurPlayerCount} / {GameManager.Instance.MaxPlayerCount}";
+        //}
         string CreateRandomRoomName()
         {
             return $"RandomRoom{PhotonNetwork.CountOfRooms + 1}";
         }
-        void OnMatchingStartButton()
+        //void OnMatchingStartButton()
+        //{
+        //    if(DataManager.Instance.PreRoleType == RoleData.RoleType.Null)
+        //    {
+        //        Debug.LogWarning( "LobbyUI_Manager: Need to Select role" );
+        //        return;
+        //    }
+
+        //    DataManager.Instance.InitLocalRoleData();
+
+
+        //    switch ( DataManager.Instance.PreRoleType )
+        //    {
+        //        case RoleData.RoleType.Doll:
+        //        {
+        //            //PhotonNetwork.JoinRandomRoom();
+        //            PhotonNetwork.JoinRoom( roomName );
+        //        }
+        //        break;
+        //        case RoleData.RoleType.Exorcist:
+        //        {
+        //            PhotonNetwork.CreateRoom( roomName, new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
+        //            //PhotonNetwork.CreateRoom( CreateRandomRoomName(), new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
+        //        }
+        //        break;
+        //        default:
+        //        {
+        //            Debug.LogWarning( "LobbyUI_Manager: Need to Select role" );
+        //        }
+        //        break;
+        //    }
+        //}
+        public void OnMatchingStartButton(string roleType)
         {
-            if(DataManager.Instance.PreRoleType == RoleData.RoleType.Null)
+            if(roleType == "Exorcist")
             {
-                Debug.LogWarning( "LobbyUI_Manager: Need to Select role" );
-                return;
+                DataManager.Instance.PreRoleType = RoleData.RoleType.Exorcist;
+                PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
             }
-
-            DataManager.Instance.InitLocalRoleData();
-
-
-            switch ( DataManager.Instance.PreRoleType )
+            else if (roleType == "Doll")
             {
-                case RoleData.RoleType.Doll:
-                {
-                    //PhotonNetwork.JoinRandomRoom();
-                    PhotonNetwork.JoinRoom( roomName );
-                }
-                break;
-                case RoleData.RoleType.Exorcist:
-                {
-                    PhotonNetwork.CreateRoom( roomName, new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
-                    //PhotonNetwork.CreateRoom( CreateRandomRoomName(), new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
-                }
-                break;
-                default:
-                {
-                    Debug.LogWarning( "LobbyUI_Manager: Need to Select role" );
-                }
-                break;
+                DataManager.Instance.PreRoleType = RoleData.RoleType.Doll;
+                PhotonNetwork.JoinRoom(roomName);
+            }
+            else 
+            {
+                Debug.LogWarning("LobbyUI_Manager: Need to Select role");
+                return;
             }
         }
         void OnMatchingCancelButton()
         {
-            AudioManager.instance.Play("Cancel");
+            if(PhotonNetwork.IsMasterClient)
+            {
+                //photonView.RPC( "LeaveRoomRPC", RpcTarget.Others );
+                
+                for(int i = 1; i < PhotonNetwork.PlayerList.Length; ++i )
+                {
+                    PhotonNetwork.CloseConnection( PhotonNetwork.PlayerList[i] );
+                }
+            }
             PhotonNetwork.LeaveRoom();
-            isJoinedRoom = false;
-            EnableMainLobbyCanvas();
+            
+            //IsJoinedRoom = false;
+            //matchingUIController.isJoinedRoom = false;
+            //EnableMainLobbyCanvas();
         }
+        
+
 
 
         /*--- Debug Methods ---*/
-        void OnSkipButtonClicked()
-        {
-            LoadRoomScene();
-        }
-        void OnLSHButtonClicked()
-        {
-            loadSceneName = lshSceneName;
-            OnSkipButtonClicked();
-        }
-        void OnKSHButtonClicked()
-        {
-            loadSceneName = kshSceneName;
-            OnSkipButtonClicked();
-        }
+        //void OnSkipButtonClicked()
+        //{
+        //    LoadRoomScene();
+        //}
+        //void OnLSHButtonClicked()
+        //{
+        //    loadSceneName = lshSceneName;
+        //    OnSkipButtonClicked();
+        //}
+        //void OnKSHButtonClicked()
+        //{
+        //    loadSceneName = kshSceneName;
+        //    OnSkipButtonClicked();
+        //}
 
         /*---Debug Server ---*/
         void CreateDebugServer()
@@ -445,6 +505,7 @@ namespace KSH_Lib
             PhotonNetwork.JoinRoom( "DebugServer2" );
             //GameManager.Instance.Data.ChangeRole( RoleType.Doll );
         }
+
     }
 
 }
