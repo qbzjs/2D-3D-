@@ -21,6 +21,11 @@ namespace KSH_Lib.Object
             base.OnEnable();
             StageManager.Instance.SetAltar( this );
             ExitAltarModel.SetActive( false );
+
+            if (PhotonNetwork.CurrentRoom.PlayerCount <= 2)
+            {
+                EnableExitAltar();
+            }
         }
 
         protected override bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
