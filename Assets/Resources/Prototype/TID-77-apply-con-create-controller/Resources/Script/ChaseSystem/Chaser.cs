@@ -47,7 +47,12 @@ namespace GHJ_Lib
         private void Update()
         {
             if (photonView.IsMine)
-            { 
+            {
+                if (Fugitives.Count == 0)
+                {
+                    return;
+                }
+
                 foreach (Fugitive fugitive in Fugitives)
                 {
                     Transform objTransform = fugitive.transform;
@@ -125,7 +130,8 @@ namespace GHJ_Lib
 
             foreach (RaycastHit hit in Hits)
             {
-                if(hit.collider.gameObject.layer == LayerMask.NameToLayer(GameManager.EnvironmentLayer))
+                Debug.Log($"Hits : {hit.collider.name}");
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer(GameManager.EnvironmentLayer))
                 {
                     return false;
                 }
