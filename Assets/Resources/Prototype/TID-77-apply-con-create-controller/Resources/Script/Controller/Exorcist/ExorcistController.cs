@@ -10,6 +10,7 @@ namespace GHJ_Lib
 	{
 		[Header( "Object Hide Setting" )]
 		[SerializeField] protected GameObject[] hideObjects;
+		[SerializeField] float hideTime = 1.0f;
 
 		[field: SerializeField] public ParticleSystem Aura { get; protected set; }
 		[SerializeField] private GameObject[] CatchObj;
@@ -32,19 +33,30 @@ namespace GHJ_Lib
 		{
 			base.OnEnable();
 
+
+			ChangeMoveFunc(MoveType.Input);
+			CurBehavior.PushSuccessorState(idle);
+		}
+
+		public override void InitCameraSetting()
+		{
 			if (photonView.IsMine)
 			{
 				fpvCam.gameObject.SetActive(true);
 				curCam = fpvCam;
-
-                foreach (var obj in hideObjects)
-                {
-                    obj.SetActive(false);
-                }
-            }
-			ChangeMoveFunc(MoveType.Input);
-			CurBehavior.PushSuccessorState(idle);
+				StartCoroutine(HidingObject());
+			}
 		}
+
+		IEnumerator HidingObject()
+		{
+			yield return new WaitForSeconds(hideTime);
+			foreach (var obj in hideObjects)
+			{
+				obj.SetActive(false);
+			}
+		}
+
 
         // Behavior Callbacks
         public override void ImprisonDoll()

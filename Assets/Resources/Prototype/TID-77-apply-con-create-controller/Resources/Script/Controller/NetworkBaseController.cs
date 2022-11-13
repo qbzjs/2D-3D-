@@ -100,6 +100,22 @@ namespace GHJ_Lib
 			CurBehavior.Update( this, ref CurBehavior );
 		}
 
+		public virtual void InitCameraSetting(){}
+		public void ChangeCameraTo(bool isFPV)
+		{
+			if (isFPV)
+			{
+				fpvCam.gameObject.SetActive(true);
+				tpvCam.gameObject.SetActive(false);
+				curCam = fpvCam;
+			}
+			else
+			{
+				tpvCam.gameObject.SetActive(true);
+				fpvCam.gameObject.SetActive(false);
+				curCam = tpvCam;
+			}
+		}
 
 		/*--- Public Methods ---*/
 		public void ChangeMoveFunc(MoveType moveType)
