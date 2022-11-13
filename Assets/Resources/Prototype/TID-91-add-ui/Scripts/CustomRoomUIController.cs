@@ -19,6 +19,8 @@ namespace LSH_Lib
 {
 	public class CustomRoomUIController : MonoBehaviourPunCallbacks
 	{
+        [SerializeField] LobbyUI_Manager uiManager;
+
         [Header("Popup Menu")]
         [SerializeField]
         TextMeshProUGUI roomcode;
@@ -26,8 +28,6 @@ namespace LSH_Lib
         GameObject copysuccess;
         string roomName;
 
-        [SerializeField]
-        GameObject customRoom;
         [SerializeField]
         GameObject dollSelect;
         [SerializeField]
@@ -42,10 +42,6 @@ namespace LSH_Lib
         {
             dollSelect.SetActive(false);
             ExorcistSelect.SetActive(false);
-        }
-        void EnableCustomRoom()
-        {
-            customRoom.SetActive(true);
         }
         void EnableDollSelect()
         {
@@ -72,6 +68,13 @@ namespace LSH_Lib
             copysuccess.SetActive(true);
             StartCoroutine(DestroyText());
         }
+
+        void CreateCustomRoom()
+        {
+            uiManager.roomType = LobbyUI_Manager.RoomType.Custom;
+            PhotonNetwork.CreateRoom(roomcode.text, new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
+        }
+
         IEnumerator DestroyText()
         {
             yield return new WaitForSeconds(1.0f);

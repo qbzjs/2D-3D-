@@ -21,6 +21,7 @@ namespace KSH_Lib
         //public static LobbyUI_Manager Instace { get { return instance; } }
 
         //private static LobbyUI_Manager instance;
+        public enum RoomType { Null, QuickMatch, Custom }
 
         /*--- Serialized Fields ---*/
         [field: SerializeField] public string LoadSceneName{get; private set;}
@@ -28,8 +29,6 @@ namespace KSH_Lib
         [Header( "Canvases" )]
         [SerializeField]
         Canvas mainLobbyCanvas;
-        [SerializeField]
-        Canvas characterSelectCanvas;
         [SerializeField]
         Canvas matchingCanvas;
         [SerializeField]
@@ -47,6 +46,7 @@ namespace KSH_Lib
         //GameObject playButtons;
         [SerializeField]
         GameObject quickMatchButtons;
+        [SerializeField] string customRoomSceneName = "03_RoomScene";
 
         //>>Suhyeon
         [Header("Information UI")]
@@ -113,6 +113,8 @@ namespace KSH_Lib
         //private GameObject kshSkipButtonObj;
         [SerializeField]
         public string roomName = "Debug";
+
+        public RoomType roomType;
 
         //[SerializeField]
         //string lshSceneName = "";
@@ -188,9 +190,17 @@ namespace KSH_Lib
         public override void OnJoinedRoom()
         {
             Debug.Log( "OnJoindRoom Called" );
-            EnableMatchingCanvas();
+
             DataManager.Instance.SetPlayerIdx();
             IsJoinedRoom = true;
+            if (roomType == RoomType.QuickMatch)
+            {
+                EnableMatchingCanvas();
+            }
+            else if (roomType == RoomType.Custom)
+            {
+                GameManager.Instance.LoadScene(customRoomSceneName);
+            }
         }
         public override void OnJoinRoomFailed( short returnCode, string message )
         {
@@ -215,33 +225,32 @@ namespace KSH_Lib
         }
 
         /*--- Public Methods ---*/
-        public void EnableCharacterSelectCanvas( string roleName )
-        {
-            DisableCanvasesAll();
-            characterSelectCanvas.enabled = true;
-            roleText.text = roleName;
+        //public void EnableCharacterSelectCanvas( string roleName )
+        //{
+        //    DisableCanvasesAll();
+        //    roleText.text = roleName;
 
-            switch ( roleName )
-            {
-                case "Doll":
-                {
-                    DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Doll;
-                    charaSelectCanvasController.SendMessage( "OnSelectRole" );
-                }
-                break;
-                case "Exorcist":
-                {
-                    DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Exorcist;
-                    charaSelectCanvasController.SendMessage( "OnSelectRole" );
-                }
-                break;
-                default:
-                {
-                    //GameManager.Instance.Data.ChangeRole( RoleType.Null );
-                }
-                break;
-            }
-        }
+        //    switch ( roleName )
+        //    {
+        //        case "Doll":
+        //        {
+        //            DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Doll;
+        //            charaSelectCanvasController.SendMessage( "OnSelectRole" );
+        //        }
+        //        break;
+        //        case "Exorcist":
+        //        {
+        //            DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Exorcist;
+        //            charaSelectCanvasController.SendMessage( "OnSelectRole" );
+        //        }
+        //        break;
+        //        default:
+        //        {
+        //            //GameManager.Instance.Data.ChangeRole( RoleType.Null );
+        //        }
+        //        break;
+        //    }
+        //}
 
         /*--- Private Methods ---*/
 
@@ -257,8 +266,7 @@ namespace KSH_Lib
             matchingCanvas.gameObject.SetActive( true );
             customRoomCanvas.gameObject.SetActive( true );
             searchCustomCanvas.gameObject.SetActive( true );
-            informationCanvas.gameObject.SetActive(true);
-            
+            informationCanvas.gameObject.SetActive(true);   
         }
         public void DisableCanvasesAll()
         {
@@ -440,7 +448,7 @@ namespace KSH_Lib
         //}
         public void OnMatchingStartButton(string roleType)
         {
-            if(roleType == "Exorcist")
+            if (roleType == "Exorcist")
             {
                 DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Exorcist;
                 PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
@@ -455,6 +463,7 @@ namespace KSH_Lib
                 Debug.LogWarning("LobbyUI_Manager: Need to Select role");
                 return;
             }
+            roomType = RoomType.QuickMatch;
             //EnableMatchingCanvas();
         }
         void OnMatchingCancelButton()
