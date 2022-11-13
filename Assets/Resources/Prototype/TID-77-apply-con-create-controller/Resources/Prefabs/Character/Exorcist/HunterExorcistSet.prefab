@@ -20811,6 +20811,7 @@ MonoBehaviour:
   isInvertVertical: 1
   maxSpeedX: 5
   maxSpeedY: 5
+  forwardMultiplier: 0.0025
   <camAim>k__BackingField: {fileID: 1559548609047836611}
 --- !u!1 &6442856303993278322
 GameObject:
@@ -21796,6 +21797,12 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 0
     Name: AnimationSpeed
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsInstallTrap
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsCollectTrap
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
