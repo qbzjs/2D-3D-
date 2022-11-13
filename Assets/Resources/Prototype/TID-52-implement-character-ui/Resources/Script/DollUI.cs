@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using KSH_Lib;
 using KSH_Lib.Data;
+
+using Photon.Pun;
+
 namespace GHJ_Lib
 { 
     public class DollUI : InGameUI
@@ -63,7 +66,7 @@ namespace GHJ_Lib
         #region MonoBehaviour CallBacks
         void Start()
         {
-            curDollCount = GameManager.Instance.CurPlayerCount - 1;
+            curDollCount = PhotonNetwork.CurrentRoom.PlayerCount - 1;
             curFriendCount = curDollCount - 1;
 
             DisableUI_All();

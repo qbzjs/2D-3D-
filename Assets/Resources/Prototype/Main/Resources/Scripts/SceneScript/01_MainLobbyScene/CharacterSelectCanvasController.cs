@@ -162,7 +162,7 @@ namespace KSH_Lib.UI
 
             DataManager.Instance.InitPlayerDatas();
             //bishopInformation.SetActive(true);
-            isDecidedArr = new bool[GameManager.Instance.CurPlayerCount];
+            isDecidedArr = new bool[PhotonNetwork.CurrentRoom.PlayerCount];
             IndexingInfo();
         }
 

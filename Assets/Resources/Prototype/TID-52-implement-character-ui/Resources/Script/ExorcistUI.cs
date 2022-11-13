@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using KSH_Lib;
 using KSH_Lib.Data;
+
+using Photon.Pun;
+
 namespace GHJ_Lib
 { 
     public class ExorcistUI : InGameUI
@@ -100,7 +103,7 @@ namespace GHJ_Lib
 
         void EnableUI()
         {
-            for(int i = 0; i < GameManager.Instance.CurPlayerCount - 1; ++i)
+            for(int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount - 1; ++i)
             {
                 DollUiObjects[i].SetActive(true);
             }
@@ -113,7 +116,7 @@ namespace GHJ_Lib
                 yield return null;
             }
 
-            for (int i = 1; i < GameManager.Instance.CurPlayerCount; ++i)
+            for (int i = 1; i < PhotonNetwork.CurrentRoom.PlayerCount; ++i)
             {
                 maxDollHP.Add((DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP);
                 maxDevilHP.Add((DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP);

@@ -75,13 +75,12 @@ namespace LSH_Lib
             if ( uiManager.IsJoinedRoom )
             {
                 InitializedPlayerImages();
-                GameManager.Instance.CurPlayerCount = PhotonNetwork.CurrentRoom.PlayerCount;
                 ChangePlayerImage();
                 ChangePlayerCountText();
 
                 if (PhotonNetwork.IsMasterClient)
                 {
-                    if (GameManager.Instance.CurPlayerCount == 5)
+                    if (PhotonNetwork.CurrentRoom.PlayerCount == 5)
                     {
                         LoadRoomScene();
                     }
@@ -161,7 +160,7 @@ namespace LSH_Lib
             if(DataManager.Instance.PreRoleType == RoleData.RoleType.Exorcist)
             {
                 playerLoadImgs[0].sprite = exorcistOnSprite;
-                for ( int i = 1; i < GameManager.Instance.CurPlayerCount; ++i )
+                for ( int i = 1; i < PhotonNetwork.CurrentRoom.PlayerCount; ++i )
                 {
                     playerLoadImgs[i].sprite = refPlayerOnSprite;
                 }
@@ -170,7 +169,7 @@ namespace LSH_Lib
             {
                 playerLoadImgs[4].sprite = exorcistOnSprite;
 
-                for(int i = 0; i < GameManager.Instance.CurPlayerCount - 1; ++i )
+                for(int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount - 1; ++i )
                 {
                     playerLoadImgs[i].sprite = refPlayerOnSprite;
                 }
@@ -202,7 +201,7 @@ namespace LSH_Lib
         }
         void ChangePlayerCountText()
         {
-            userCntTMP.text = $"{GameManager.Instance.CurPlayerCount} / {GameManager.Instance.MaxPlayerCount}";
+            userCntTMP.text = $"{PhotonNetwork.CurrentRoom.PlayerCount} / {GameManager.Instance.MaxPlayerCount}";
         }
         void OnSkipButtonClicked()
         {
