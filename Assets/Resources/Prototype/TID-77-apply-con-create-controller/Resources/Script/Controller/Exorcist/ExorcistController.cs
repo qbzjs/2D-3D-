@@ -32,11 +32,10 @@ namespace GHJ_Lib
 		public override void OnEnable()
 		{
 			base.OnEnable();
-
-
-			ChangeMoveFunc(MoveType.Input);
 			CurBehavior.PushSuccessorState(idle);
 		}
+
+
 
 		public override void InitCameraSetting()
 		{
