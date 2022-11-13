@@ -59,7 +59,7 @@ namespace GHJ_Lib
                         }
                     }
                 }
-
+                Log.Instance.WriteLog(chaseState.ToString());
                 if (CheckFugitivesIsChasedOnView())
                 {
                     chaseState = ChaseState.Chasing;
@@ -72,6 +72,7 @@ namespace GHJ_Lib
                             {
                                 CoolDowntime = 2.0f;
                                 chaseState = ChaseState.CoolDown;
+                                
                             }
                             break;
                         case ChaseState.CoolDown:

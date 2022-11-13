@@ -285,7 +285,7 @@ namespace GHJ_Lib
 					break;
 
 			}
-			Log.Instance.WriteLog("crossStack" + crossStack.ToString(), 2);
+			Log.Instance.WriteLog("crossStack" + crossStack.ToString());
 		}
 
 		public void HitWolfPasSkill(bool flag)
