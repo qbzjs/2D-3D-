@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 7580860024113969224}
   - component: {fileID: 7580860024113969227}
   - component: {fileID: 7580860024113969238}
+  - component: {fileID: 6366429982875447378}
   m_Layer: 0
   m_Name: TPV_Cam
   m_TagString: Untagged
@@ -172,6 +173,7 @@ MonoBehaviour:
   virtualCam: {fileID: 7580860024113969227}
   mouseSpeed: 0.3
   mouseAccel: 0.1
+  activeAccel: 1
   minAngleY: -40
   maxAngleY: 40
   isInvertHorizontal: 0
@@ -181,3 +183,20 @@ MonoBehaviour:
   minZoomLength: 2
   maxZoomLength: 5
   isInvertZoom: 0
+--- !u!114 &6366429982875447378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7580860024113969226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 449ef5ebbe24720439ec31d15f7b6f3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FocusTracksTarget: 0
+  m_FocusTracking: 0
+  m_FocusTarget: {fileID: 0}
+  m_FocusOffset: 0
+  m_Profile: {fileID: 11400000, guid: 44c3275669f97e0439aad24423dfacd7, type: 2}
