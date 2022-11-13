@@ -14,11 +14,15 @@ namespace GHJ_Lib
         [SerializeField] protected float ClearTrapVel = 4.2f;
         [SerializeField] protected string CollectText = "G : Collect Trap";
         [SerializeField] protected SphereCollider sphereCollider;
+        [SerializeField] protected GameObject leftSide;
+        [SerializeField] protected GameObject rightSide;
         protected float collectTime = 1.0f;
         protected bool isCatchDoll =false;
 
         float ExitTrapRatio;
         float ClearTrapRatio;
+
+        WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
         protected override void OnEnable()
         {
             ExitTrapRatio = ExitTrapVel / MaxGauge;
