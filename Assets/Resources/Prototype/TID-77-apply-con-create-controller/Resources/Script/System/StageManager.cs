@@ -10,7 +10,6 @@ namespace GHJ_Lib
 {
 	public class StageManager : MonoBehaviour
 	{
-
 		/*--- Fields ---*/
 		public static StageManager Instance
 		{
@@ -79,17 +78,14 @@ namespace GHJ_Lib
 		/*--- MonoBehaviour Callbacks ---*/
 		void Awake()
 		{
+			instance = this;
+
 			//DataManager.Instance.InitPlayerDatas();
 			DataManager.Instance.ShareAllData();
 		}
-		void Start()
-		{
-			instance = this;
 
-
-			//PlayerData 받아온정보를 토대로 어떤 퇴마사인지, 어떤 인형인지.. 결정
-			//임시
-
+		void GenerateObjects()
+        {
 			networkGenerator = new NetworkGenerator(
 				new GameObject[]{
 					DollPrefabs[0], ExorcistPrefabs[0],
@@ -100,11 +96,24 @@ namespace GHJ_Lib
 					NormalAltarPrefab, ExitAltarPrefab, FinalAltarPrefab,
 					PurificationBoxPrefab
 					}
-				); ;
-			int number = DataManager.Instance.PlayerIdx;
+				);
 
+			networkGenerator.GenerateSpread(NormalAltarPrefab, NormalAltarGenPos, Count, InitAreaRadius, CenterPosition);
+			networkGenerator.GenerateRandomly(ExitAltarPrefab, ExitAltarGenPos);
+			networkGenerator.Generate(FinalAltarPrefab, FinalAltarGenPos.transform.position, FinalAltarGenPos.rotation);
+
+			foreach (var purificationBoxGenPos in PurificationBoxGenPos)
+			{
+				networkGenerator.Generate(PurificationBoxPrefab, purificationBoxGenPos.transform.position, purificationBoxGenPos.transform.rotation);
+			}
+		}
+
+		void GeneratePlayerCharacter()
+		{
+			int clientIdx = DataManager.Instance.PlayerIdx;
 			GameObject targetPrefab;
-			if (number == 0)
+
+			if (clientIdx == 0)
 			{
 				targetPrefab = ExorcistPrefabs[(int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder];
 				exorcistUI.gameObject.SetActive(true);
@@ -115,39 +124,41 @@ namespace GHJ_Lib
 				dollUI.gameObject.SetActive(true);
 			}
 
-			GameObject Player = networkGenerator.Generate(targetPrefab, PlayerGenPos[number].position, PlayerGenPos[number].rotation);
-			Log.Instance.SetPlayer(Player.transform.GetChild(0).gameObject);
+			GameObject playerObj = networkGenerator.Generate(targetPrefab, PlayerGenPos[clientIdx].position, PlayerGenPos[clientIdx].rotation);
+			Log.Instance.SetPlayer(playerObj.transform.GetChild(0).gameObject);
 
 
-			// end Filed 
-			playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
 			if (!EscMenu)
 			{
 				Debug.LogError(" EscMenu is Null");
 			}
-			EscMenu.controller = Player.transform.GetChild(0).gameObject.GetComponent<NetworkBaseController>();
-			// 
+			EscMenu.controller = playerObj.transform.GetChild(0).gameObject.GetComponent<NetworkBaseController>();
+		}
+
+		void Start()
+		{
+			playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+
+
+
+			if(PhotonNetwork.IsMasterClient)
+            {
+				GenerateObjects();
+			}
+
 
 			if (!PhotonNetwork.IsMasterClient)
 			{
 				return;
 			}
 
-			networkGenerator.GenerateSpread(NormalAltarPrefab, NormalAltarGenPos, Count, InitAreaRadius, CenterPosition);
-			networkGenerator.GenerateRandomly(ExitAltarPrefab, ExitAltarGenPos);
-			networkGenerator.Generate(FinalAltarPrefab, FinalAltarGenPos.transform.position, FinalAltarGenPos.rotation);
 
-			foreach (var purificationBoxGenPos in PurificationBoxGenPos)
-			{
-				networkGenerator.Generate(PurificationBoxPrefab, purificationBoxGenPos.transform.position, purificationBoxGenPos.transform.rotation);
-			}
 
 			// Check if player count is 2 ( for debug )
-			if(playerCount == 2)
+			if (playerCount == 2)
 			{
 				exitAltar.EnableExitAltar();
 			}
-
 		}
 
 		private void Update()

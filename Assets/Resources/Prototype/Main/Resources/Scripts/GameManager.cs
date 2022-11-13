@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public string NextSceneName;
     public readonly byte MaxPlayerCount = 5;
-    public int CurPlayerCount;
     public PlayerData Data;
 
     [field: SerializeField] public string LoadingSceneName { get; private set; }

@@ -38,6 +38,9 @@ namespace KSH_Lib
 		const string CharcterStatusCSV = "Prototype/Main/Resources/Datas/CharacterStatus";
 		const string ItemDataCSV = "Prototype/Main/Resources/Datas/ItemData";
 
+
+
+
 		// Role Informations
 		public List<RoleData> RoleInfos { get { return roleInfos; } }
 		List<RoleData> roleInfos = new List<RoleData>();
