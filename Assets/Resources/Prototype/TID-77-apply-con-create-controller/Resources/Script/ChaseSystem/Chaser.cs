@@ -55,9 +55,8 @@ namespace GHJ_Lib
 
                 foreach (Fugitive fugitive in Fugitives)
                 {
-                    Transform objTransform = fugitive.transform;
-                    if (IsInCameraView(objTransform) && 
-                        CheckObstacle(objTransform))
+                    if (IsInCameraView(fugitive.transform) && 
+                        CheckObstacle(fugitive.transform))
                     {
                         if (!fugitive.IsWatched)
                         {
