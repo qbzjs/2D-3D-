@@ -38,8 +38,7 @@ namespace KSH_Lib
 		const string CharcterStatusCSV = "Prototype/Main/Resources/Datas/CharacterStatus";
 		const string ItemDataCSV = "Prototype/Main/Resources/Datas/ItemData";
 
-
-
+		public RoleData.RoleType GetLocalRoleType { get { return LocalPlayerData.roleData.Type; } }
 
 		// Role Informations
 		public List<RoleData> RoleInfos { get { return roleInfos; } }
@@ -92,6 +91,11 @@ namespace KSH_Lib
 		/*--- MonoBehaviour Callbacks ---*/
 		private void Awake()
 		{
+			if (instance)
+			{
+				Destroy(gameObject);
+				return;
+			}
 			instance = this;
 			DontDestroyOnLoad(gameObject);
 
