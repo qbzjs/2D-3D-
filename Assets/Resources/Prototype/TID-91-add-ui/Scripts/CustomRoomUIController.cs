@@ -78,10 +78,6 @@ namespace LSH_Lib
             copysuccess.SetActive(false);
 
         }
-        void CreateRoom()
-        {
-            roomName = roomcode.text;
-            
-        }
+        
     }
 }
