@@ -55,9 +55,7 @@ namespace GHJ_Lib
         }
         public void Installfail()
         {
-            Debug.LogWarning("InstallFail");
             isUse = false;
-            Debug.LogWarning("isUse :" + isUse);
         }
         public void CollectTrap(GameObject gameObject)
         {
@@ -95,11 +93,9 @@ namespace GHJ_Lib
                 yield break;
             }
             isUse = true;
-            Debug.LogWarning("isUse :" + isUse);
             while (true)
             {
-                Debug.Log("ExcuteActiveSkill");
-                Debug.LogWarning("isUse :" + isUse);
+                Debug.LogWarning($"isUse : {isUse}");
                 yield return new WaitForEndOfFrame();
                 if (!isUse)
                 {

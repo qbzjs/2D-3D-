@@ -8,14 +8,7 @@ namespace GHJ_Lib
 {
 	public class GameEndBox: MonoBehaviour
 	{
-        /*--- Public Fields ---*/
         public FinalAltarInteraction finalAltar;
-
-        /*--- Protected Fields ---*/
-
-
-        /*--- Private Fields ---*/
-
         private void OnTriggerEnter(Collider other)
         {
             if (!finalAltar)
@@ -25,13 +18,5 @@ namespace GHJ_Lib
             finalAltar.ExitPlayer();
             GameEndManager.Instance.EndGameDoll(other);
         }
-
-        /*--- Public Methods ---*/
-
-
-        /*--- Protected Methods ---*/
-
-
-        /*--- Private Methods ---*/
     }
 }
