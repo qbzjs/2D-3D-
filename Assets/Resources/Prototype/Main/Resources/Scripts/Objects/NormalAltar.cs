@@ -49,6 +49,7 @@ namespace KSH_Lib.Object
             castingSystem.ResetCasting();
             finishLight.SetActive(true);
             photonView.RPC("ActiveFinishLightRPC", RpcTarget.AllViaServer);
+            photonView.RPC("DecreaseAltarCountTo_RPC", RpcTarget.AllViaServer);
         }
         void ExorcistFinishAction()
         {
@@ -56,8 +57,6 @@ namespace KSH_Lib.Object
             photonView.RPC( "ShareRate", RpcTarget.AllViaServer, RateOfGauge );
             IsExorcistInteracting = false;
             photonView.RPC( "ShareExorcistInteract", RpcTarget.AllViaServer, IsExorcistInteracting );
-
-
             ChangeCandleLightsToEveryone();
 
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
@@ -143,5 +142,11 @@ namespace KSH_Lib.Object
         {
             finishLight.SetActive(true);
         }
-	}
+        [PunRPC]
+        public void DecreaseAltarCountTo_RPC()
+        {
+            StageManager.Instance.DecreaseAltarCount();
+        }
+
+    }
 }
