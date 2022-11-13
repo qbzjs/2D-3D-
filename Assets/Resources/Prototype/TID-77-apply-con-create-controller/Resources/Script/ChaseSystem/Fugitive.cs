@@ -63,8 +63,8 @@ namespace GHJ_Lib
             {
                 IsChased = false;
             }
-            Log.Instance.WriteLog("IsChased" + IsChased.ToString());
-            Log.Instance.WriteLog("IsWatched" + IsWatched.ToString());
+            //Log.Instance.WriteLog("IsChased" + IsChased.ToString());
+            //Log.Instance.WriteLog("IsWatched" + IsWatched.ToString());
         }
     }
 
