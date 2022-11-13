@@ -33,11 +33,6 @@ namespace KSH_Lib
                 base.LateUpdate();
             }
         }
-        private void OnGUI()
-        {
-            GUI.Box(new Rect(200, 0, 150, 30), $"anglebased = {(angleY * forwardMultiplier)}");
-            GUI.Box(new Rect(200, 30, 150, 30), $"changed = {camTarget.transform.localPosition.y - (angleY * forwardMultiplier)}");
-        }
         protected override void RotateCamera()
         {
             if ( camTarget == null )
