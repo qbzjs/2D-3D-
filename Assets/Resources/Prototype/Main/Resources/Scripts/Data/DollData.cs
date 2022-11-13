@@ -13,9 +13,9 @@ namespace KSH_Lib.Data
 	{
 		/*--- Constructor ---*/
 		public DollData() { }
-		public DollData( RoleTypeOrder roleTypeOrder, float moveSpeed, float interactionSpeed, float projectileSpeed, float dollHP, float devilHP )
+		public DollData( RoleType roleType, float moveSpeed, float interactionSpeed, float projectileSpeed, float dollHP, float devilHP )
 		:
-			base( RoleType.Doll, roleTypeOrder, moveSpeed, interactionSpeed, projectileSpeed)
+			base( RoleGroup.Doll, roleType, moveSpeed, interactionSpeed, projectileSpeed)
 		{
 			DollHP = dollHP;
 			DevilHP = devilHP;
@@ -30,8 +30,8 @@ namespace KSH_Lib.Data
             DollData o = (DollData)customObject;
             byte[] bytes = new byte[0];
 
+            Serializer.Serialize( (int)o.Group, ref bytes );
             Serializer.Serialize( (int)o.Type, ref bytes );
-            Serializer.Serialize( (int)o.TypeOrder, ref bytes );
             Serializer.Serialize( o.MoveSpeed, ref bytes );
             Serializer.Serialize( o.InteractionSpeed, ref bytes );
             Serializer.Serialize( o.ProjectileSpeed, ref bytes );
@@ -47,8 +47,8 @@ namespace KSH_Lib.Data
             DollData o = new DollData();
             int offset = 0;
 
+            o.Group = (RoleGroup)Serializer.DeserializeInt( bytes, ref offset );
             o.Type = (RoleType)Serializer.DeserializeInt( bytes, ref offset );
-            o.TypeOrder = (RoleTypeOrder)Serializer.DeserializeInt( bytes, ref offset );
             o.MoveSpeed = Serializer.DeserializeFloat( bytes, ref offset );
             o.InteractionSpeed = Serializer.DeserializeFloat( bytes, ref offset );
             o.ProjectileSpeed = Serializer.DeserializeFloat( bytes, ref offset );
@@ -60,7 +60,7 @@ namespace KSH_Lib.Data
         }
         public override RoleData Clone()
         {
-            return new DollData(TypeOrder, MoveSpeed, InteractionSpeed, ProjectileSpeed, DollHP, DevilHP);
+            return new DollData(Type, MoveSpeed, InteractionSpeed, ProjectileSpeed, DollHP, DevilHP);
         }
     }
 }

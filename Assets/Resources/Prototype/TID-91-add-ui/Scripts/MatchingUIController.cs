@@ -99,11 +99,11 @@ namespace LSH_Lib
         {
             //LobbyUI_Manager.Instace.DisableCanvasesAll();
             characterSelectCanvas.enabled = true;
-            if(DataManager.Instance.PreRoleType.Equals("Exorcist"))
+            if(DataManager.Instance.PreRoleGroup.Equals(GameManager.ExorcistTag))
             {
                 charaSelectCanvasController.SendMessage("OnSelectRole");
             }
-            else if(DataManager.Instance.PreRoleType.Equals("Doll"))
+            else if(DataManager.Instance.PreRoleGroup.Equals(GameManager.DollTag))
             {
                 charaSelectCanvasController.SendMessage("OnSelectRole");
             }
@@ -118,13 +118,13 @@ namespace LSH_Lib
             {
                 case "Doll":
                     {
-                        DataManager.Instance.PreRoleType = RoleData.RoleType.Doll;
+                        DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Doll;
                         charaSelectCanvasController.SendMessage("OnSelectRole");
                     }
                     break;
                 case "Exorcist":
                     {
-                        DataManager.Instance.PreRoleType = RoleData.RoleType.Exorcist;
+                        DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Exorcist;
                         charaSelectCanvasController.SendMessage("OnSelectRole");
                     }
                     break;
@@ -157,7 +157,7 @@ namespace LSH_Lib
         void ChangePlayerImage()
         {   
 
-            if(DataManager.Instance.PreRoleType == RoleData.RoleType.Exorcist)
+            if(DataManager.Instance.PreRoleGroup == RoleData.RoleGroup.Exorcist)
             {
                 playerLoadImgs[0].sprite = exorcistOnSprite;
                 for ( int i = 1; i < PhotonNetwork.CurrentRoom.PlayerCount; ++i )

@@ -53,8 +53,8 @@ namespace KSH_Lib
 
 
 		// This For Room Settings
-		public RoleData.RoleType PreRoleType = RoleData.RoleType.Null;
-		public RoleData.RoleTypeOrder PreRoleTypeOrder = RoleData.RoleTypeOrder.Null;
+		public RoleData.RoleGroup PreRoleGroup = RoleData.RoleGroup.Null;
+		public RoleData.RoleType PreRoleName = RoleData.RoleType.Null;
 
 		public List<PlayerData> PlayerDatas
 		{
@@ -138,15 +138,15 @@ namespace KSH_Lib
 
 		public void InitLocalRoleData()
         {
-			LocalPlayerData.roleData = roleInfos[(int)PreRoleTypeOrder].Clone();
+			LocalPlayerData.roleData = roleInfos[(int)PreRoleName].Clone();
         }
 		public void ResetLocalRoleData()
         {
-			PreRoleType = RoleData.RoleType.Null;
-			PreRoleTypeOrder = RoleData.RoleTypeOrder.Null;
+			PreRoleGroup = RoleData.RoleGroup.Null;
+			PreRoleName = RoleData.RoleType.Null;
 			LocalPlayerData.roleData = new RoleData();
+			LocalPlayerData.roleData.Group = RoleData.RoleGroup.Null;
 			LocalPlayerData.roleData.Type = RoleData.RoleType.Null;
-			LocalPlayerData.roleData.TypeOrder = RoleData.RoleTypeOrder.Null;
         }
 
 		public void InitPlayerDatas()
@@ -216,13 +216,13 @@ namespace KSH_Lib
 				{
 					float attackSpeed = float.Parse(data[i]["AttackSpeed"].ToString());
 					float attackPower = float.Parse(data[i]["AttackPower"].ToString());
-					roleInfos.Add(new ExorcistData( (Data.RoleData.RoleTypeOrder)i, moveSpeed, interactionSpeed, projectileSpeed,  attackPower, attackSpeed));
+					roleInfos.Add(new ExorcistData( (Data.RoleData.RoleType)i, moveSpeed, interactionSpeed, projectileSpeed,  attackPower, attackSpeed));
 				}
 				else if (type == "D")
 				{
 					int dollHP = int.Parse(data[i]["DollHP"].ToString());
 					int devilHP = int.Parse(data[i]["DevilHP"].ToString());
-					roleInfos.Add(new DollData( (Data.RoleData.RoleTypeOrder)i, moveSpeed, interactionSpeed, projectileSpeed, dollHP, devilHP));
+					roleInfos.Add(new DollData( (Data.RoleData.RoleType)i, moveSpeed, interactionSpeed, projectileSpeed, dollHP, devilHP));
 				}
 			}
 			return true;

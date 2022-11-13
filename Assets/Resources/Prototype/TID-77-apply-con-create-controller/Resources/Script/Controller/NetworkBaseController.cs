@@ -71,7 +71,7 @@ namespace GHJ_Lib
 
 			if ( photonView.IsMine )
 			{
-				TypeIndex = (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder;
+				TypeIndex = (int)DataManager.Instance.LocalPlayerData.roleData.Type;
 				PlayerIndex = DataManager.Instance.PlayerIdx;
 				photonView.RPC( "SetPlayerIdx", RpcTarget.All, PlayerIndex, TypeIndex );
 			}

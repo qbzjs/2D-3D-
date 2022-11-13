@@ -115,12 +115,12 @@ namespace GHJ_Lib
 
 			if (clientIdx == 0)
 			{
-				targetPrefab = ExorcistPrefabs[(int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder];
+				targetPrefab = ExorcistPrefabs[(int)DataManager.Instance.LocalPlayerData.roleData.Type];
 				exorcistUI.gameObject.SetActive(true);
 			}
 			else
 			{
-				targetPrefab = DollPrefabs[(int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder - 5];
+				targetPrefab = DollPrefabs[(int)DataManager.Instance.LocalPlayerData.roleData.Type - 5];
 				dollUI.gameObject.SetActive(true);
 			}
 

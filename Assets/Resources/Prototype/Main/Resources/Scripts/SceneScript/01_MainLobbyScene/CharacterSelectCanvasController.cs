@@ -68,11 +68,11 @@ namespace KSH_Lib.UI
         {
             get
             {
-                if(DataManager.Instance.PreRoleType == RoleData.RoleType.Exorcist)
+                if(DataManager.Instance.PreRoleGroup == RoleData.RoleGroup.Exorcist)
                 {
                     return 0;
                 }
-                else if(DataManager.Instance.PreRoleType == RoleData.RoleType.Doll)
+                else if(DataManager.Instance.PreRoleGroup == RoleData.RoleGroup.Doll)
                 {
                     return 4;
                 }
@@ -192,11 +192,11 @@ namespace KSH_Lib.UI
 
         public void OnSelectRole()
         {
-            if (DataManager.Instance.PreRoleType == RoleData.RoleType.Doll)
+            if (DataManager.Instance.PreRoleGroup == RoleData.RoleGroup.Doll)
             {
                 EnableDollButtons();
             }
-            if (DataManager.Instance.PreRoleType == RoleData.RoleType.Exorcist)
+            if (DataManager.Instance.PreRoleGroup == RoleData.RoleGroup.Exorcist)
             {
                 EnableExorcistButtons();
             }
@@ -204,39 +204,39 @@ namespace KSH_Lib.UI
 
         public void OnSelectCharacter(string name)
         {
-            DataManager.Instance.PreRoleTypeOrder = (RoleData.RoleTypeOrder)System.Enum.Parse(typeof(RoleData.RoleTypeOrder), name);
+            DataManager.Instance.PreRoleName = (RoleData.RoleType)System.Enum.Parse(typeof(RoleData.RoleType), name);
             DataManager.Instance.InitLocalRoleData();
             DataManager.Instance.ShareRoleData();
 
-            infoMatches[0] = GetSelectInfoByRoleTypeOrder( infoMatches[0], DataManager.Instance.LocalPlayerData.roleData.TypeOrder );
+            infoMatches[0] = GetSelectInfoByRoleType( infoMatches[0], DataManager.Instance.LocalPlayerData.roleData.Type );
             
-            photonView.RPC("ChangeSelectInfosRPC", RpcTarget.Others, playerIdx, (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder);
+            photonView.RPC("ChangeSelectInfosRPC", RpcTarget.Others, playerIdx, (int)DataManager.Instance.LocalPlayerData.roleData.Type);
 
             if(playerIdx != 0)
             {
                 infoMatches[0].ui.ChangeTextColor( infoMatches[0].ui.nickname, localColor );
             }
 
-            Debug.Log($"Selected {DataManager.Instance.PreRoleTypeOrder}");
+            Debug.Log($"Selected {DataManager.Instance.PreRoleName}");
         }
 
         [PunRPC]
-        public void ChangeSelectInfosRPC(int playerIdx, int typeOrder)
+        public void ChangeSelectInfosRPC(int playerIdx, int type)
         {
             for(int i = 0; i < infoMatches.Length; ++i)
             {
                 if(infoMatches[i].playerIdx == playerIdx)
                 {
-                    infoMatches[i] = GetSelectInfoByRoleTypeOrder( infoMatches[i], (RoleData.RoleTypeOrder)typeOrder);
+                    infoMatches[i] = GetSelectInfoByRoleType( infoMatches[i], (RoleData.RoleType)type);
                 }
             }
         }
-        public InfoMatch GetSelectInfoByRoleTypeOrder( InfoMatch infoMatch, RoleData.RoleTypeOrder typeOrder )
+        public InfoMatch GetSelectInfoByRoleType( InfoMatch infoMatch, RoleData.RoleType type )
         {
             Color nameColor;
-            switch ( typeOrder )
+            switch ( type )
             {
-                case RoleData.RoleTypeOrder.Bishop:
+                case RoleData.RoleType.Bishop:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Bishop],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
@@ -245,7 +245,7 @@ namespace KSH_Lib.UI
                     nameColor = exorcistColor;
                 }
                 break;
-                case RoleData.RoleTypeOrder.Hunter:
+                case RoleData.RoleType.Hunter:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Hunter],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
@@ -254,7 +254,7 @@ namespace KSH_Lib.UI
                     nameColor = exorcistColor;
                 }
                 break;
-                case RoleData.RoleTypeOrder.Photographer:
+                case RoleData.RoleType.Photographer:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Photographer],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
@@ -263,7 +263,7 @@ namespace KSH_Lib.UI
                     nameColor = exorcistColor;
                 }
                 break;
-                case RoleData.RoleTypeOrder.Priest:
+                case RoleData.RoleType.Priest:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Priest],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
@@ -272,7 +272,7 @@ namespace KSH_Lib.UI
                     nameColor = exorcistColor;
                 }
                 break;
-                case RoleData.RoleTypeOrder.Wolf:
+                case RoleData.RoleType.Wolf:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Wolf],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
@@ -281,7 +281,7 @@ namespace KSH_Lib.UI
                     nameColor = roleNameColor;
                 }
                 break;
-                case RoleData.RoleTypeOrder.Rabbit:
+                case RoleData.RoleType.Rabbit:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Rabbit],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
@@ -290,7 +290,7 @@ namespace KSH_Lib.UI
                     nameColor = roleNameColor;
                 }
                 break;
-                case RoleData.RoleTypeOrder.Tortoise:
+                case RoleData.RoleType.Tortoise:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Tortoise],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
@@ -299,7 +299,7 @@ namespace KSH_Lib.UI
                     nameColor = roleNameColor;
                 }
                 break;
-                case RoleData.RoleTypeOrder.Penguin:
+                case RoleData.RoleType.Penguin:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Penguin],
                         DataManager.Instance.LocalPlayerData.accountData.Nickname,
@@ -311,7 +311,7 @@ namespace KSH_Lib.UI
 
                 default:
                 {
-                    Debug.LogError( "GetSelectInfoByRoleTypeOrder: No Selected " );
+                    Debug.LogError( "GetSelectInfoByRoleType: No Selected " );
                     return new InfoMatch();
                 }
             }
@@ -321,7 +321,7 @@ namespace KSH_Lib.UI
         }
         void IndexingInfo()
         {
-            if (DataManager.Instance.PreRoleType == RoleData.RoleType.Doll)
+            if (DataManager.Instance.PreRoleGroup == RoleData.RoleGroup.Doll)
             {
                 infoMatches[infoMatches.Length - 1].playerIdx = 0;
 
@@ -354,7 +354,7 @@ namespace KSH_Lib.UI
                     }
                 }
             }
-            else if ( DataManager.Instance.PreRoleType == RoleData.RoleType.Exorcist )
+            else if ( DataManager.Instance.PreRoleGroup == RoleData.RoleGroup.Exorcist )
             {
                 for(int i = 0; i < infoMatches.Length; ++i )
                 {
@@ -448,7 +448,7 @@ namespace KSH_Lib.UI
         }
         void DecideRoleType()
         {
-            if(DataManager.Instance.PreRoleTypeOrder == RoleData.RoleTypeOrder.Null)
+            if(DataManager.Instance.PreRoleName == RoleData.RoleType.Null)
             {
                 return;
             }

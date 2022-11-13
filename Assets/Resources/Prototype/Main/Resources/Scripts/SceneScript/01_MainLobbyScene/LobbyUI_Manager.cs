@@ -225,13 +225,13 @@ namespace KSH_Lib
             {
                 case "Doll":
                 {
-                    DataManager.Instance.PreRoleType = RoleData.RoleType.Doll;
+                    DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Doll;
                     charaSelectCanvasController.SendMessage( "OnSelectRole" );
                 }
                 break;
                 case "Exorcist":
                 {
-                    DataManager.Instance.PreRoleType = RoleData.RoleType.Exorcist;
+                    DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Exorcist;
                     charaSelectCanvasController.SendMessage( "OnSelectRole" );
                 }
                 break;
@@ -442,12 +442,12 @@ namespace KSH_Lib
         {
             if(roleType == "Exorcist")
             {
-                DataManager.Instance.PreRoleType = RoleData.RoleType.Exorcist;
+                DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Exorcist;
                 PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
             }
             else if (roleType == "Doll")
             {
-                DataManager.Instance.PreRoleType = RoleData.RoleType.Doll;
+                DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Doll;
                 PhotonNetwork.JoinRoom(roomName);
             }
             else 
