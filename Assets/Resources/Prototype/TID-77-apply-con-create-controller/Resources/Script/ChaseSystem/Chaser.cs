@@ -6,10 +6,19 @@ namespace GHJ_Lib
 {
     public class Chaser : MonoBehaviour
     {
+        public enum ChaseState { Wait,CoolDown,Chasing}
+        public ChaseState chaseState = ChaseState.Wait;
         Fugitive[] Fugitives = new Fugitive[4];
         int[] IDs = new int[4];
-        Camera mainCamera = Camera.main;
+        Camera mainCamera;
+        float CoolDowntime;
         [SerializeField] private PhotonView photonView;
+        
+        private void OnEnable()
+        {
+            mainCamera = Camera.main;
+
+        }
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag(GameManager.DollTag))
@@ -39,21 +48,51 @@ namespace GHJ_Lib
                     {
                         if (!fugitive.IsWatched)
                         {
-                            fugitive.CanChase(true);
+                            fugitive.CanWatch(true);
                         }
                     }
                     else
                     {
                         if (fugitive.IsWatched)
                         {
-                            fugitive.CanChase(false);
+                            fugitive.CanWatch(false);
                         }
+                    }
+                }
+
+                if (CheckFugitivesIsChasedOnView())
+                {
+                    chaseState = ChaseState.Chasing;
+                }
+                else
+                {
+                    switch (chaseState)
+                    {
+                        case ChaseState.Chasing:
+                            {
+                                CoolDowntime = 2.0f;
+                                chaseState = ChaseState.CoolDown;
+                            }
+                            break;
+                        case ChaseState.CoolDown:
+                            {
+                                CoolDowntime -= Time.deltaTime;
+                                if (CoolDowntime <= 0.0f)
+                                {
+                                    CoolDowntime = 0.0f;
+                                    chaseState = ChaseState.Wait;
+                                }
+                            }
+                            break;
+                        case ChaseState.Wait:
+                            {
+
+                            }
+                            break;
                     }
                 }
             }
         }
-
-
 
         protected bool IsInCameraView(Transform targetTransform)
         {
@@ -65,7 +104,18 @@ namespace GHJ_Lib
                     targetViewPort.y >= 0.0f &&
                     targetViewPort.z > 0.0f);
         }
-       
+
+        protected bool CheckFugitivesIsChasedOnView()
+        {
+            foreach (Fugitive fugitive in Fugitives)
+            {
+                if (fugitive.IsChased&&fugitive.IsWatched)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
 

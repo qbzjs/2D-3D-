@@ -40,10 +40,10 @@ namespace GHJ_Lib
 			curPlayer = player.GetComponent<BasePlayerController>();
 		}
 
-		public void WriteLog(string info,int num)
+		public void WriteLog(string info)
 		{
 			isWrite = true;
-			WriteInfo[num-1] = info;
+			WriteInfo[WriteInfo.Length] = info;
 		}
 	
 		private void OnGUI()

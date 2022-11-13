@@ -446,7 +446,7 @@ GameObject:
   - component: {fileID: 2443221271911048254}
   - component: {fileID: 5756886473812856442}
   m_Layer: 7
-  m_Name: PickupBox
+  m_Name: PickupArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -911,8 +911,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5889983711587301160}
   - component: {fileID: 4668319839818894092}
+  - component: {fileID: 7285628226278030005}
   m_Layer: 7
-  m_Name: SkillRange
+  m_Name: Chaser
   m_TagString: AttackArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -944,8 +945,21 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 6.4
+  m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7285628226278030005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1755482607324512014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daf9fd641ba431543a4e0b8c41ff40f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  photonView: {fileID: 2262531262676702369}
 --- !u!1 &1785470966278417286
 GameObject:
   m_ObjectHideFlags: 0
@@ -16389,7 +16403,7 @@ GameObject:
   - component: {fileID: 4479729591521345491}
   - component: {fileID: 68993804634230487}
   m_Layer: 7
-  m_Name: AttackRange
+  m_Name: AttackArea
   m_TagString: AttackArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26853,6 +26867,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targets: []
+  promptUI: {fileID: 0}
   PromptUIString: PushDown G to Collect Cross
   Bishop: {fileID: 5754117968800920596}
 --- !u!135 &2098436260090154593

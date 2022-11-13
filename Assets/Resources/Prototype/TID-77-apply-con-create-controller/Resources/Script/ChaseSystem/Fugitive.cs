@@ -9,7 +9,7 @@ namespace GHJ_Lib
         public bool IsChased { get; private set; }
         public bool IsWatched { get; set; }
         protected float ChaseGauge = 0.0f;
-        public void CanChase(bool IsWatchTarget)
+        public void CanWatch(bool IsWatchTarget)
         {
             if (IsWatchTarget)
             {
