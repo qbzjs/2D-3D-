@@ -233,7 +233,6 @@ namespace GHJ_Lib
 		{
 			if (controller is DollController)
 			{
-
 				DollCountDecrease();
 				if (controller.photonView.IsMine)
 				{
@@ -243,7 +242,6 @@ namespace GHJ_Lib
 				{
 					controller.transform.parent.gameObject.SetActive(false);
 				}
-
 			}
 		}
 		void InitGenerateor()
