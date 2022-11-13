@@ -26,13 +26,6 @@ namespace KSH_Lib
             base.Start();
             camTargetInitPos = camTarget.transform.localPosition;
         }
-        protected override void LateUpdate()
-        {
-            if(canUpdate)
-            {
-                base.LateUpdate();
-            }
-        }
         protected override void RotateCamera()
         {
             if ( camTarget == null )

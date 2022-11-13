@@ -24,6 +24,10 @@ namespace GHJ_Lib
 		}
 
 		/*--- Prefabs ---*/
+		[SerializeField] float waitTime = 3.0f;
+		[SerializeField] float rotateSpeed = 0.01f;
+		[SerializeField] float camResetTime = 1.0f;
+
 		[Header("Prefabs")]
 		public GameObject[] DollPrefabs;
 		public GameObject[] ExorcistPrefabs;
@@ -71,6 +75,7 @@ namespace GHJ_Lib
 		/*--- Private Fields ---*/
 		static StageManager instance;
 		bool activeDebugGUI;
+		public NetworkBaseController LocalController { get; private set; }
 
 
 		/*--- MonoBehaviour Callbacks ---*/
@@ -78,7 +83,6 @@ namespace GHJ_Lib
 		{
 			instance = this;
 			//DataManager.Instance.InitPlayerDatas();
-			DataManager.Instance.ShareAllData();
 		}
 
 		void Start()
@@ -91,36 +95,83 @@ namespace GHJ_Lib
             {
 				GenerateObjects();
 			}
-			// Check if player count is 2 ( for debug )
+			StartCoroutine(GameStartSequence());
 		}
 
-		private void Update()
+
+		IEnumerator GameStartSequence()
 		{
-			if (Input.GetKeyDown(KeyCode.Alpha0))
+			while (true)
 			{
-				activeDebugGUI = !activeDebugGUI;
+				if(LocalController != null)
+                {
+					Debug.Log("StageManager.GameStartSequence(): Stoped Local Player Move!");
+					LocalController.ChangeCameraTo(false);
+					LocalController.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
+					break;
+                }
+				yield return null;
 			}
+
+			DataManager.Instance.ShareAllData();
+			Debug.Log($"StageManager.GameStartSequence(): Shared Player{LocalController.PlayerIndex}'s data");
+
+			while (true)
+            {
+				if(DataManager.Instance.IsInited)
+				{
+					Debug.Log($"StageManager.GameStartSequence(): All Player Inited!");
+					break;
+                }
+				yield return null;
+            }
+
+			yield return new WaitForSeconds(waitTime);
+
+
+			Debug.Log($"StageManager.GameStartSequence(): StartGame");
+			LocalController.InitCameraSetting();
+			LocalController.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
 		}
+
+		IEnumerator RotateCamera()
+        {
+			while(!DataManager.Instance.IsInited)
+			{
+				LocalController.TPVCam.AddAxis(new Vector2(rotateSpeed, 0));
+				yield return null;
+			}
+			LocalController.TPVCam.ResetCamTarget(camResetTime);
+		}
+
+
+		//private void Update()
+		//{
+		//	if (Input.GetKeyDown(KeyCode.Alpha0))
+		//	{
+		//		activeDebugGUI = !activeDebugGUI;
+		//	}
+		//}
 
 		private void OnDrawGizmosSelected()
 		{
 			Gizmos.DrawWireSphere(CenterPosition, InitAreaRadius);
 		}
 
-		private void OnGUI()
-		{
-			if (activeDebugGUI)
-			{
-				GUI.Box(new Rect(300, 160, 150, 30), $"Local MoveSpeed: {DataManager.Instance.LocalPlayerData.roleData.MoveSpeed}");
-				GUI.Box(new Rect(460, 160, 150, 30), $"Local sheetIdx: {DataManager.Instance.LocalPlayerData.accountData.SheetIdx}");
+		//private void OnGUI()
+		//{
+		//	if (activeDebugGUI)
+		//	{
+		//		GUI.Box(new Rect(300, 160, 150, 30), $"Local MoveSpeed: {DataManager.Instance.LocalPlayerData.roleData.MoveSpeed}");
+		//		GUI.Box(new Rect(460, 160, 150, 30), $"Local sheetIdx: {DataManager.Instance.LocalPlayerData.accountData.SheetIdx}");
 
-				for (int i = 0; i < DataManager.Instance.PlayerDatas.Count; ++i)
-				{
-					GUI.Box(new Rect(300, i * 30, 150, 30), $"MoveSpeed[{i}]: {DataManager.Instance.PlayerDatas[i].roleData.MoveSpeed}");
-					GUI.Box(new Rect(460, i * 30, 150, 30), $"sheetIdx[{i}]: {DataManager.Instance.PlayerDatas[i].accountData.SheetIdx}");
-				}
-			}
-		}
+		//		for (int i = 0; i < DataManager.Instance.PlayerDatas.Count; ++i)
+		//		{
+		//			GUI.Box(new Rect(300, i * 30, 150, 30), $"MoveSpeed[{i}]: {DataManager.Instance.PlayerDatas[i].roleData.MoveSpeed}");
+		//			GUI.Box(new Rect(460, i * 30, 150, 30), $"sheetIdx[{i}]: {DataManager.Instance.PlayerDatas[i].accountData.SheetIdx}");
+		//		}
+		//	}
+		//}
 
 
 		/*--- Public Methods ---*/
@@ -285,12 +336,13 @@ namespace GHJ_Lib
 			GameObject playerObj = networkGenerator.Generate(targetPrefab, PlayerGenPos[clientIdx].position, PlayerGenPos[clientIdx].rotation);
 			Log.Instance.SetPlayer(playerObj.transform.GetChild(0).gameObject);
 
+			LocalController = playerObj.transform.GetChild(0).gameObject.GetComponent<NetworkBaseController>();
 
 			if (!EscMenu)
 			{
 				Debug.LogError(" EscMenu is Null");
 			}
-			EscMenu.controller = playerObj.transform.GetChild(0).gameObject.GetComponent<NetworkBaseController>();
+			EscMenu.controller = LocalController;
 		}
     }
 }

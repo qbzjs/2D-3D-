@@ -8,7 +8,8 @@ namespace KSH_Lib
     public class BaseCameraController : MonoBehaviour
     {
         /*--- Public Fields ---*/
-        public bool canUpdate = false;
+        [SerializeField] protected bool canUpdate = false;
+        public bool CanControl = true;
 
 
         /*--- Protected Fields ---*/
@@ -66,9 +67,15 @@ namespace KSH_Lib
         }
         protected virtual void LateUpdate()
         {
-            GetDataFromInputManager();
-            SmoothInputData();
-            RotateCamera();
+            if(canUpdate)
+            {
+                if(CanControl)
+                {
+                    GetDataFromInputManager();
+                    SmoothInputData();
+                }
+                RotateCamera();
+            }
         }
 
         /*--- Public Methods ---*/
@@ -89,6 +96,15 @@ namespace KSH_Lib
             canUpdate = true;
         }
 
+        public void AddAxis(Vector2 axis)
+        {
+            camAxis += axis;
+        }
+
+        public void ResetCamTarget(float resetTime)
+        {
+            camTarget.LeanRotate(new Vector3(0.0f, 0.0f, 0.0f), resetTime);
+        }
 
         /*--- Protected Methods ---*/
         protected virtual void GetDataFromInputManager()

@@ -64,7 +64,6 @@ namespace KSH_Lib
 			MoveCharacter();
 		}
 
-		
 
 		/*--- Protected Methods ---*/
 		protected virtual void SetDirection()

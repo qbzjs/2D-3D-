@@ -40,19 +40,24 @@ namespace GHJ_Lib
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			if (photonView.IsMine)
-			{
-				tpvCam.gameObject.SetActive(true);
-				curCam = tpvCam;
-			}
-			ChangeMoveFunc(MoveType.Input);
+            
+            ChangeMoveFunc(MoveType.Input);
 			CurBehavior.PushSuccessorState(idle);
 		}
 
+		public override void InitCameraSetting()
+        {
+			if (photonView.IsMine)
+			{
+				tpvCam.gameObject.SetActive(true);
+				fpvCam.gameObject.SetActive(false);
+				curCam = tpvCam;
+			}
+		}
 
-		/*--- Public Methods ---*/
+        /*--- Public Methods ---*/
 
-		public void ChangeBvToBeCaught(BaseCameraController cam)
+        public void ChangeBvToBeCaught(BaseCameraController cam)
 		{
 			characterModel.gameObject.SetActive(false);
 			ChangeCamera(cam);
