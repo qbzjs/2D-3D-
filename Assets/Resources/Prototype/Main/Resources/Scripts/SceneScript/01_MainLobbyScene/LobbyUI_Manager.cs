@@ -35,7 +35,7 @@ namespace KSH_Lib
         [SerializeField]
         Canvas customRoomCanvas;
         [SerializeField]
-        Canvas customRoomLobbyCanvas;
+        Canvas searchCustomCanvas;
         [SerializeField]
         Canvas informationCanvas;
 
@@ -256,7 +256,7 @@ namespace KSH_Lib
             mainLobbyCanvas.gameObject.SetActive( true );
             matchingCanvas.gameObject.SetActive( true );
             customRoomCanvas.gameObject.SetActive( true );
-            customRoomLobbyCanvas.gameObject.SetActive( true );
+            searchCustomCanvas.gameObject.SetActive( true );
             informationCanvas.gameObject.SetActive(true);
             
         }
@@ -265,7 +265,7 @@ namespace KSH_Lib
             mainLobbyCanvas.enabled = false;
             matchingCanvas.enabled = false;
             customRoomCanvas.enabled = false;
-            customRoomLobbyCanvas.enabled = false;
+            searchCustomCanvas.enabled = false;
             informationCanvas.enabled = false;
             
         }
@@ -354,10 +354,10 @@ namespace KSH_Lib
             DisableCanvasesAll();
             customRoomCanvas.enabled = true;
         }
-        void EnableCustomRoomLobbyCanvas()
+        void EnableCustomSearchCanvas()
         {
             DisableCanvasesAll();
-            customRoomLobbyCanvas.enabled = true;
+            searchCustomCanvas.enabled = true;
         }
         
         //<<suhyeon
@@ -455,6 +455,7 @@ namespace KSH_Lib
                 Debug.LogWarning("LobbyUI_Manager: Need to Select role");
                 return;
             }
+            //EnableMatchingCanvas();
         }
         void OnMatchingCancelButton()
         {
