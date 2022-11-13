@@ -69,10 +69,11 @@ namespace KSH_Lib.Object
         }
         void DollFinishAction()
         {
-            StageManager.Instance.DoExit( targetController );
+            photonView.RPC("ExitGameRPC", RpcTarget.AllViaServer);
         }
         void ExorcistFinishAction()
         {
+            targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
             photonView.RPC( "ChangeAltarStateTo_RPC", RpcTarget.AllViaServer, AltarState.Closed );
         }
 
@@ -96,5 +97,12 @@ namespace KSH_Lib.Object
             altarState = AltarState.CanOpen;
             ExitAltarModel.SetActive( true );
         }
+
+        [PunRPC]
+        void ExitGameRPC()
+        {
+            StageManager.Instance.DoExit(targetController);
+        }
+
     }
 }
