@@ -25,8 +25,9 @@ namespace GHJ_Lib
 
 		/*--- Prefabs ---*/
 		[SerializeField] float waitTime = 3.0f;
-		[SerializeField] float rotateSpeed = 0.01f;
-		[SerializeField] float camResetTime = 1.0f;
+		[SerializeField] float rotateSpeed = 1.0f;
+		[SerializeField] float camResetTime = 2.0f;
+		float waitTimer;
 
 		[Header("Prefabs")]
 		public GameObject[] DollPrefabs;
@@ -116,6 +117,8 @@ namespace GHJ_Lib
 			DataManager.Instance.ShareAllData();
 			Debug.Log($"StageManager.GameStartSequence(): Shared Player{LocalController.PlayerIndex}'s data");
 
+
+			LocalController.TPVCam.SetAxis(new Vector2(rotateSpeed, 0));
 			while (true)
             {
 				if(DataManager.Instance.IsInited)
@@ -123,25 +126,16 @@ namespace GHJ_Lib
 					Debug.Log($"StageManager.GameStartSequence(): All Player Inited!");
 					break;
                 }
+
 				yield return null;
             }
 
 			yield return new WaitForSeconds(waitTime);
-
+			LocalController.TPVCam.ResetCamTarget(camResetTime);
 
 			Debug.Log($"StageManager.GameStartSequence(): StartGame");
 			LocalController.InitCameraSetting();
 			LocalController.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
-		}
-
-		IEnumerator RotateCamera()
-        {
-			while(!DataManager.Instance.IsInited)
-			{
-				LocalController.TPVCam.AddAxis(new Vector2(rotateSpeed, 0));
-				yield return null;
-			}
-			LocalController.TPVCam.ResetCamTarget(camResetTime);
 		}
 
 

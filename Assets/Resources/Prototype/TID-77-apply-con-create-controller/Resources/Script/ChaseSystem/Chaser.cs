@@ -48,6 +48,11 @@ namespace GHJ_Lib
         {
             if (photonView.IsMine)
             { 
+                if(Fugitives.Count == 0)
+                {
+                    return;
+                }
+
                 foreach (Fugitive fugitive in Fugitives)
                 {
                     Transform objTransform = fugitive.transform;

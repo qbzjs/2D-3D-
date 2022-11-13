@@ -96,9 +96,9 @@ namespace KSH_Lib
             canUpdate = true;
         }
 
-        public void AddAxis(Vector2 axis)
+        public void SetAxis(Vector2 axis)
         {
-            camAxis += axis;
+            camAxis = axis;
         }
 
         public void ResetCamTarget(float resetTime)
