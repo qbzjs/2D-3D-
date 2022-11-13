@@ -6,9 +6,9 @@ namespace GHJ_Lib
 {
     public class Fugitive : MonoBehaviourPun
     {
-        public bool IsChased { get; private set; }
-        public bool IsWatched { get; set; }
-        protected float ChaseGauge = 0.0f;
+        [SerializeField] public bool IsChased { get; private set; }
+        [SerializeField] public bool IsWatched { get; set; }
+        [SerializeField] protected float ChaseGauge = 0.0f;
         public void CanWatch(bool IsWatchTarget)
         {
             if (IsWatchTarget)
@@ -63,8 +63,8 @@ namespace GHJ_Lib
             {
                 IsChased = false;
             }
-            Log.Instance.WriteLog("IsChased" + IsChased.ToString());
-            Log.Instance.WriteLog("IsWatched" + IsWatched.ToString());
+            Log.Instance.WriteLog("IsChased" + IsChased.ToString(),1);
+            Log.Instance.WriteLog("IsWatched" + IsWatched.ToString(),2);
         }
     }
 

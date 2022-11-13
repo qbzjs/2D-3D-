@@ -209,7 +209,7 @@ namespace GHJ_Lib
 			}
 			else
 			{
-				skinnedMeshRenderer.material.color = new Color(0,0,0,0);
+				skinnedMeshRenderer.material.color = new Color32(0,0,0,0);
 			}
 
 			StageManager.CharacterLayerChange(characterObj, LayerMask.NameToLayer(GameManager.GhostLayer));//8 : Ghost Layer
@@ -285,7 +285,10 @@ namespace GHJ_Lib
 					break;
 
 			}
-			Log.Instance.WriteLog("crossStack" + crossStack.ToString());
+			if (photonView.IsMine)
+			{ 
+				Log.Instance.WriteLog("crossStack" + crossStack.ToString(),0);
+			}
 		}
 
 		public void HitWolfPasSkill(bool flag)

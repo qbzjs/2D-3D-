@@ -35,7 +35,8 @@ namespace GHJ_Lib
 		{
 			Input,
 			Stop,
-			CamForward
+			CamForward,
+			StopRotation
 		}
 
 		public int TypeIndex { get; protected set; }
@@ -123,6 +124,12 @@ namespace GHJ_Lib
 					case MoveType.CamForward:
 					{
 						SetDirectionFunc = CamForwardMove;
+						curCam.canUpdate = true;
+					}
+					break;
+					case MoveType.StopRotation:
+					{
+						SetDirectionFunc = CannotMove;
 						curCam.canUpdate = true;
 					}
 					break;

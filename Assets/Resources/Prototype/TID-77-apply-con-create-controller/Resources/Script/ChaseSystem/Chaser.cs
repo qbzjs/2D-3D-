@@ -8,43 +8,51 @@ namespace GHJ_Lib
     {
         public enum ChaseState { Wait,CoolDown,Chasing}
         public ChaseState chaseState = ChaseState.Wait;
-        Fugitive[] Fugitives = new Fugitive[4];
-        int[] IDs = new int[4];
+        [SerializeField] List<Fugitive> Fugitives = new List<Fugitive>();
+        [SerializeField] SphereCollider sphereCollider;
         Camera mainCamera;
-        float CoolDowntime;
+        [SerializeField] float CoolDowntime;
         [SerializeField] private PhotonView photonView;
         
         private void OnEnable()
         {
             mainCamera = Camera.main;
-
+            sphereCollider = GetComponent<SphereCollider>();
         }
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag(GameManager.DollTag))
             {
-                int newID = other.GetInstanceID();
-                int index = 0;
-                foreach (int ID in IDs)
+                Fugitive fugitive = other.GetComponent<Fugitive>();
+                if (Fugitives.Contains(fugitive))
                 {
-                    if (ID == newID)
-                    {
-                        return;
-                    }
-                    index++;
+                    return;
                 }
-                IDs[index] = newID;
-                Fugitives[index] = other.GetComponent<Fugitive>();
+                Fugitives.Add(fugitive);
             }
         }
-
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag(GameManager.DollTag))
+            {
+                Fugitive fugitive = other.GetComponent<Fugitive>();
+                if (Fugitives.Contains(fugitive))
+                {
+                    fugitive.CanWatch(false);
+                    Fugitives.Remove(fugitive);
+                }
+                
+            }
+        }
         private void Update()
         {
             if (photonView.IsMine)
             { 
                 foreach (Fugitive fugitive in Fugitives)
                 {
-                    if (IsInCameraView(fugitive.transform))
+                    Transform objTransform = fugitive.transform;
+                    if (IsInCameraView(objTransform) && 
+                        CheckObstacle(objTransform))
                     {
                         if (!fugitive.IsWatched)
                         {
@@ -60,7 +68,8 @@ namespace GHJ_Lib
                     }
                 }
 
-                Log.Instance.WriteLog("chaseState : " + chaseState.ToString());
+                
+                Log.Instance.WriteLog(chaseState.ToString(),0);
                 if (CheckFugitivesIsChasedOnView())
                 {
                     chaseState = ChaseState.Chasing;
@@ -73,7 +82,6 @@ namespace GHJ_Lib
                             {
                                 CoolDowntime = 2.0f;
                                 chaseState = ChaseState.CoolDown;
-                                
                             }
                             break;
                         case ChaseState.CoolDown:
@@ -95,7 +103,7 @@ namespace GHJ_Lib
                 }
             }
         }
-
+        
         protected bool IsInCameraView(Transform targetTransform)
         {
             Vector3 targetViewPort = mainCamera.WorldToViewportPoint(targetTransform.position);
@@ -107,10 +115,31 @@ namespace GHJ_Lib
                     targetViewPort.z > 0.0f);
         }
 
+        protected bool CheckObstacle(Transform targetTransform)
+        {
+            RaycastHit[] Hits;
+            Vector3 CamPos = mainCamera.transform.position;
+            Ray ray = new Ray(CamPos, targetTransform.position - CamPos);
+
+            Hits = Physics.RaycastAll(ray, sphereCollider.radius);
+
+            foreach (RaycastHit hit in Hits)
+            {
+                if(hit.collider.gameObject.layer == LayerMask.NameToLayer(GameManager.EnvironmentLayer))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         protected bool CheckFugitivesIsChasedOnView()
         {
             foreach (Fugitive fugitive in Fugitives)
             {
+                if (!fugitive)
+                {
+                    break;
+                }
                 if (fugitive.IsChased&&fugitive.IsWatched)
                 {
                     return true;
