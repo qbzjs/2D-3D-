@@ -266,6 +266,7 @@ namespace GHJ_Lib
 		{
 			Cursor.visible = true;
 			Cursor.lockState = CursorLockMode.None;
+			DataManager.Instance.ResetPlayerDatas();
 			PhotonNetwork.LeaveRoom();
 			GameManager.Instance.LoadScene("99_GameResultScene");
 		}
