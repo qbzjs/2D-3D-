@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor.SceneManagement;
 using TMPro;
 
 using Photon.Pun;
@@ -61,6 +62,15 @@ namespace LSH_Lib
         }
         [SerializeField]
         string loadSceneName;
+        
+        [Header("PopUP Panel")]
+        [SerializeField]
+        GameObject InvitePanel;
+        [SerializeField]
+        GameObject SettingPanel;
+        [Header("Invite UI")]
+        [SerializeField]
+        TextMeshProUGUI invitecode;
         [SerializeField]
         Image[] player;
         [SerializeField]
@@ -84,12 +94,46 @@ namespace LSH_Lib
         private void Start()
         {
             SetRoll();
+            InvitePanel.SetActive(false);
+            SettingPanel.SetActive(false);
+            invitecode.text = PhotonNetwork.CurrentRoom.Name;
         }
         private void Update()
         {
-            ResetImage();
+            //ResetImage();
             ChangeImage();
             IndexingInfo();
+            DisableSettingPanel();
+        }
+        void DisalbeAllPanel()
+        {
+            InvitePanel.SetActive(false);
+            SettingPanel.SetActive(false);
+        }
+        void EnableInvitePanel()
+        {
+            DisalbeAllPanel();
+            InvitePanel.SetActive(true);
+        }
+        void EnableSettingPanel()
+        {
+            DisalbeAllPanel();
+            SettingPanel.SetActive(true);
+        }
+        void DisableInvitePanel()
+        {
+            InvitePanel.SetActive(false);
+        }
+        void DisableSettingPanel()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                DisalbeAllPanel();
+            }
+        }
+        void CopyButton()
+        {
+            GUIUtility.systemCopyBuffer = invitecode.text;
         }
         void SetRoll()
         {
@@ -149,7 +193,7 @@ namespace LSH_Lib
         }
         void ChangeImage()
         {
-            //ResetImage();
+            ResetImage();
             if (DataManager.Instance.PreRoleGroup == RoleData.RoleGroup.Exorcist)
             {
                 RoleSelectButton.text = "인형으로 변경하기";
@@ -232,6 +276,20 @@ namespace LSH_Lib
                 PhotonNetwork.CurrentRoom.IsOpen = false;
                 GameManager.Instance.LoadPhotonScene(loadSceneName);
             }
+        }
+        void ExitScene()
+        {
+            //if (PhotonNetwork.IsMasterClient)
+            //{
+            //    //photonView.RPC( "LeaveRoomRPC", RpcTarget.Others );
+
+            //    for (int i = 1; i < PhotonNetwork.PlayerList.Length; ++i)
+            //    {
+            //        PhotonNetwork.CloseConnection(PhotonNetwork.PlayerList[i]);
+            //    }
+            //}
+            PhotonNetwork.LeaveRoom();
+            GameManager.Instance.LoadScene("02_MainLobbyScene");
         }
     } 
 }
