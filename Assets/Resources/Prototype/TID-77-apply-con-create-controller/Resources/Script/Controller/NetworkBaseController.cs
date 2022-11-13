@@ -127,19 +127,19 @@ namespace GHJ_Lib
 					case MoveType.Input:
 					{
 						SetDirectionFunc = SetDirection;
-						curCam.canUpdate = true;
+						curCam.CanControl = true;
 					}
 					break;
 					case MoveType.Stop:
 					{
 						SetDirectionFunc = CannotMove;
-						curCam.canUpdate = false;
+						curCam.CanControl = false;
 					}
 					break;
 					case MoveType.CamForward:
 					{
 						SetDirectionFunc = CamForwardMove;
-						curCam.canUpdate = true;
+						curCam.CanControl = true;
 					}
 					break;
 				}

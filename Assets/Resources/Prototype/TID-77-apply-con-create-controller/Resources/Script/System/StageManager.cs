@@ -25,6 +25,8 @@ namespace GHJ_Lib
 
 		/*--- Prefabs ---*/
 		[SerializeField] float waitTime = 3.0f;
+		[SerializeField] float rotateSpeed = 0.01f;
+		[SerializeField] float camResetTime = 1.0f;
 
 		[Header("Prefabs")]
 		public GameObject[] DollPrefabs;
@@ -131,6 +133,17 @@ namespace GHJ_Lib
 			LocalController.InitCameraSetting();
 			LocalController.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
 		}
+
+		IEnumerator RotateCamera()
+        {
+			while(!DataManager.Instance.IsInited)
+			{
+				LocalController.TPVCam.AddAxis(new Vector2(rotateSpeed, 0));
+				yield return null;
+			}
+			LocalController.TPVCam.ResetCamTarget(camResetTime);
+		}
+
 
 		//private void Update()
 		//{

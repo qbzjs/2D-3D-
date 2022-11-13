@@ -10,7 +10,7 @@ namespace GHJ_Lib
 	{
 		[Header( "Object Hide Setting" )]
 		[SerializeField] protected GameObject[] hideObjects;
-		[SerializeField] float hideTime = 1.0f;
+		[SerializeField] float hideTime = 2.0f;
 
 		[field: SerializeField] public ParticleSystem Aura { get; protected set; }
 		[SerializeField] private GameObject[] CatchObj;
@@ -43,6 +43,7 @@ namespace GHJ_Lib
 			if (photonView.IsMine)
 			{
 				fpvCam.gameObject.SetActive(true);
+				tpvCam.gameObject.SetActive(false);
 				curCam = fpvCam;
 				StartCoroutine(HidingObject());
 			}
@@ -109,7 +110,7 @@ namespace GHJ_Lib
 			}
 			if (photonView.IsMine)
 			{
-				if(curCam.canUpdate)
+				if(curCam.CanControl)
 				{
 					characterModel.transform.rotation = Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y, 0.0f);
 				}

@@ -50,6 +50,7 @@ namespace GHJ_Lib
 			if (photonView.IsMine)
 			{
 				tpvCam.gameObject.SetActive(true);
+				fpvCam.gameObject.SetActive(false);
 				curCam = tpvCam;
 			}
 		}
