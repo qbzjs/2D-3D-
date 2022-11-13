@@ -66,7 +66,7 @@ namespace GHJ_Lib
                     {
                         Debug.Log("install Trap");
                         (controller.skill as HunterSkill).SettingToInstallTrap();
-                        controller.photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.AllViaServer);
+                        controller.photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.All);
                         castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(3.0f,coolTime : 5.0f), new CastingSystem.CastFuncSet(RunningCondition: RunningCondition,PauseAction : PauseAction,FinishAction: FinishAction) ); // RunningCondition : Input.getKey / PauseAction : Idle∑Œ πŸ≤„¡‹ /  FinishAction : Idle πŸ≤„¡÷∞Ì º≥ƒ°
                     }
                 }
