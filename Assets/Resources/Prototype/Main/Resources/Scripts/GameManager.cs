@@ -16,23 +16,19 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            if(instance == null)
-            {
-                GameObject gameManagerObj = new GameObject("_GameManager");
-                instance = gameManagerObj.AddComponent<GameManager>();
-            }
             return instance;
         }
     }
+    static GameManager instance;
+    static int roomNumber = 0;
 
-    public string NextSceneName;
+    [HideInInspector] public string NextSceneName;
     public readonly byte MaxPlayerCount = 5;
     public int CurPlayerCount;
     public PlayerData Data;
 
-
-    const string LoadingSceneName = "LoadingScene";
-    const string LoadingNetworkSceneName = "LoadingNetworkScene";
+    [field: SerializeField] public string LoadingSceneName { get; private set; }
+    [field: SerializeField] public string LoadingNetworkSceneName { get; private set; }
     public const string ExorcistTag = "Exorcist";
     public const string DollTag = "Doll";
     public const string SkillObjTag = "SkillObj";
@@ -43,9 +39,6 @@ public class GameManager : MonoBehaviour
     public const string RendOnTopLayer = "RenderOnTop";
     public const string EnvironmentLayer = "Environment";
 
-    static GameManager instance;
-    //add new script
-    static int roomNumber = 0;
 
     public GameObject Exorcist
     {
@@ -103,8 +96,14 @@ public class GameManager : MonoBehaviour
 
 
 
-    private void Start()
+    private void Awake()
     {
+        if(instance)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
         DontDestroyOnLoad( gameObject );
     }
 
@@ -124,7 +123,6 @@ public class GameManager : MonoBehaviour
         PhotonNetwork.LoadLevel( LoadingNetworkSceneName );   
     }
 
-    //add new script
     public int GetRoomNumber()
     {
         if (PhotonNetwork.CountOfRooms > roomNumber)
