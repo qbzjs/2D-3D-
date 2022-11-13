@@ -11,7 +11,7 @@ namespace GHJ_Lib
 		protected override void Activate(in NetworkBaseController actor)
 		{
 
-			actor.ChangeMoveFunc(false);
+			actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
 
 			if (bishopSkill == null)
 			{
@@ -19,7 +19,6 @@ namespace GHJ_Lib
 			}
 			actor.BaseAnimator.SetBool("IsCollectCross", true);
 			bishopSkill.StartCoroutine("CollectCross");
-			actor.ChangeMoveFunc(false);
 		}
 		protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
 		{

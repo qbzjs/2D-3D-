@@ -31,6 +31,12 @@ namespace GHJ_Lib
 			BvGhost
 		}
 
+		public enum MoveType
+		{
+			Input,
+			Stop,
+			CamForward
+		}
 
 		public int TypeIndex { get; protected set; }
 		public int PlayerIndex { get; protected set; }
@@ -76,7 +82,7 @@ namespace GHJ_Lib
 				photonView.RPC( "SetPlayerIdx", RpcTarget.All, PlayerIndex, TypeIndex );
 			}
 			StageManager.Instance.RegisterPlayer(gameObject);
-			ChangeMoveFunc( true );
+			
 		}
 		protected override void Update()
 		{
@@ -96,16 +102,35 @@ namespace GHJ_Lib
 
 
 		/*--- Public Methods ---*/
-		public void ChangeMoveFunc(bool canMove)
+		public void ChangeMoveFunc(MoveType moveType)
 		{
-			if (canMove)
+			switch (moveType)
 			{
-				SetDirectionFunc = SetDirection;
+				case MoveType.Input:
+					{
+						SetDirectionFunc = SetDirection;
+						curCam.canUpdate = true;
+					}
+					break;
+				case MoveType.Stop:
+					{
+						SetDirectionFunc = CannotMove;
+						curCam.canUpdate = false;
+					}
+					break;
+				case MoveType.CamForward:
+					{
+						SetDirectionFunc = CamForwadMove;
+						curCam.canUpdate = true;
+					}
+					break;
 			}
-			else
-			{
-				SetDirectionFunc = CannotMove;
-			}
+		}
+
+		protected virtual void CamForwadMove()
+		{
+			Vector3 moveDirection = fpvCam.camAim.transform.position - camTarget.transform.position;
+			direction = moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z).normalized;
 		}
 		protected void CannotMove()
 		{

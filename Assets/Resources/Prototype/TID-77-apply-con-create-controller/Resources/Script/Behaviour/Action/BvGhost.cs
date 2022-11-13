@@ -11,7 +11,7 @@ namespace GHJ_Lib
         int curIdx;
         protected override void Activate(in NetworkBaseController actor)
         {
-            actor.ChangeMoveFunc(true);
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
             actor.BaseAnimator.Play("Idle_A");
             players = StageManager.Instance.Players;
             curIdx = actor.PlayerIndex;
@@ -49,11 +49,11 @@ namespace GHJ_Lib
 
             if (curIdx == actor.PlayerIndex)
             {
-                actor.ChangeMoveFunc(true);
+                actor.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
             }
             else
             {
-                actor.ChangeMoveFunc(false);
+                actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
             }
 
             return null;

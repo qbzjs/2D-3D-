@@ -10,7 +10,7 @@ namespace GHJ_Lib
         protected override void Activate(in NetworkBaseController actor)
         {
             actor.BaseAnimator.SetBool("IsCatch", true);
-            actor.ChangeMoveFunc(false);
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
         }
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
@@ -20,7 +20,7 @@ namespace GHJ_Lib
             {
                 (actor as ExorcistController).PickUp();
                 actor.BaseAnimator.SetBool("IsCatch", false);
-                actor.ChangeMoveFunc(true);
+                actor.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
             }
 
             if (actor.BaseAnimator.GetBool("IsCatch"))

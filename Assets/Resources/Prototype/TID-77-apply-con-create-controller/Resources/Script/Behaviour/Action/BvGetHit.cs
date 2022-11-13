@@ -16,7 +16,7 @@ namespace GHJ_Lib
             {
                 // 피격 구현하기
             }
-            actor.ChangeMoveFunc(true);
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)

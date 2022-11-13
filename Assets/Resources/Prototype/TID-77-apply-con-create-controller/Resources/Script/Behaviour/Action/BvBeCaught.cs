@@ -9,7 +9,7 @@ namespace GHJ_Lib
         protected override void Activate(in NetworkBaseController actor)
         {
             //resistGauge = 0.0f;
-            actor.ChangeMoveFunc(false);
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)

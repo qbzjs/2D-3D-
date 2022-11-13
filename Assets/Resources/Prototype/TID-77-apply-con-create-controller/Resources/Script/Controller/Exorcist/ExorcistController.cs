@@ -42,6 +42,7 @@ namespace GHJ_Lib
                     obj.SetActive(false);
                 }
             }
+			ChangeMoveFunc(MoveType.Input);
 			CurBehavior.PushSuccessorState(idle);
 		}
 
@@ -102,10 +103,13 @@ namespace GHJ_Lib
 		}
 		protected override void MoveCharacter()
 		{
+			
 			if (controller.enabled == false)
 			{
 				return;
 			}
+
+
 			if(DataManager.Instance.PlayerDatas[0].roleData != null)
 			{
 				controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[0].roleData.MoveSpeed);
@@ -156,6 +160,23 @@ namespace GHJ_Lib
 
 
 		/*--- AnimationCallbacks Methods ---*/
+		protected override void CamForwadMove()
+		{
+			switch (DataManager.Instance.GetLocalRoleType)
+			{
+				case KSH_Lib.Data.RoleData.RoleType.Bishop:
+				{
+					direction = Vector3.zero;
+				}
+				break;
+				case KSH_Lib.Data.RoleData.RoleType.Hunter:
+				{
+					Vector3 moveDirection = camTarget.transform.forward;
+					direction = new Vector3(moveDirection.x, 0, moveDirection.z).normalized;
+				}
+				break;
+			}
+		}
 		public void PickUp()
 		{
 			DollController doll = caughtDoll.GetComponent<DollController>();
