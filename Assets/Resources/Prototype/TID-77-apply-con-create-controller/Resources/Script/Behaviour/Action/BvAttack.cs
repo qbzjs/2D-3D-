@@ -18,7 +18,7 @@ namespace GHJ_Lib
             {
                 isBishopPassive = true;
             }
-            actor.ChangeMoveFunc(false);
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.CamForward);
         }
         
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)

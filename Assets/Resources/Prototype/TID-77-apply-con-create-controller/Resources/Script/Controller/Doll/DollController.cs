@@ -45,6 +45,7 @@ namespace GHJ_Lib
 				tpvCam.gameObject.SetActive(true);
 				curCam = tpvCam;
 			}
+			ChangeMoveFunc(MoveType.Input);
 			CurBehavior.PushSuccessorState(idle);
 		}
 

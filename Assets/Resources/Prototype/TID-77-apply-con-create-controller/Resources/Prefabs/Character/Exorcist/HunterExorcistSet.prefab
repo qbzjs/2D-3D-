@@ -20374,60 +20374,6 @@ Transform:
   m_Father: {fileID: 3541470188487834966}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6198998583539932382
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1634979798790534267}
-  - component: {fileID: 5387928512021977882}
-  m_Layer: 7
-  m_Name: Interactor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1634979798790534267
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6198998583539932382}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.6, z: 2.84}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7929311902134200625}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5387928512021977882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6198998583539932382}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b912a5da005b66479d8091021c90289, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionPoint: {fileID: 1634979798790534267}
-  interactionPointRadius: 0.5
-  interactableMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  findCapacity: 3
-  foundCount: 0
-  interactionKey: 103
-  interactionPromptUI: {fileID: 0}
-  controller: {fileID: 0}
 --- !u!1 &6221574011062301942
 GameObject:
   m_ObjectHideFlags: 0
@@ -22400,7 +22346,6 @@ Transform:
   m_Children:
   - {fileID: 7929311902134200617}
   - {fileID: 7929311902134200637}
-  - {fileID: 1634979798790534267}
   m_Father: {fileID: 6157328556641230078}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 12.226, y: 85.443, z: -31.293}

@@ -9,7 +9,7 @@ namespace GHJ_Lib
         protected override void Activate(in NetworkBaseController actor)
         {
             //PlayAnimation( actor );
-            actor.ChangeMoveFunc(true);
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
             if(actor.IsMine && actor is ExorcistController)
             {
                 actor.BaseAnimator.SetFloat( "AnimationSpeed", 0.0f );
