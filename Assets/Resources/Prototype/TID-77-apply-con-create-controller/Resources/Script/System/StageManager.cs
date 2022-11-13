@@ -91,11 +91,6 @@ namespace GHJ_Lib
             {
 				GenerateObjects();
 			}
-			// Check if player count is 2 ( for debug )
-			if (playerCount == 2)
-			{
-				exitAltar.EnableExitAltar();
-			}
 		}
 
 		private void Update()

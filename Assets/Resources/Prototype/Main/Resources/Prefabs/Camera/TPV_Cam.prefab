@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 7580860024113969227}
   - component: {fileID: 7580860024113969238}
   - component: {fileID: 6366429982875447378}
+  - component: {fileID: 5127049063610441058}
   m_Layer: 0
   m_Name: TPV_Cam
   m_TagString: Untagged
@@ -174,8 +175,8 @@ MonoBehaviour:
   mouseSpeed: 0.3
   mouseAccel: 0.1
   activeAccel: 1
-  minAngleY: -40
-  maxAngleY: 20
+  minAngleY: 0
+  maxAngleY: 40
   isInvertHorizontal: 0
   isInvertVertical: 1
   zoomSpeed: 0.001
@@ -200,3 +201,33 @@ MonoBehaviour:
   m_FocusTarget: {fileID: 0}
   m_FocusOffset: 0
   m_Profile: {fileID: 11400000, guid: 44c3275669f97e0439aad24423dfacd7, type: 2}
+--- !u!114 &5127049063610441058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7580860024113969226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 513
+  m_IgnoreTag: 
+  m_TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  m_MinimumDistanceFromTarget: 0.1
+  m_AvoidObstacles: 1
+  m_DistanceLimit: 0
+  m_MinimumOcclusionTime: 0
+  m_CameraRadius: 0.1
+  m_Strategy: 1
+  m_MaximumEffort: 4
+  m_SmoothingTime: 0
+  m_Damping: 0
+  m_DampingWhenOccluded: 0
+  m_OptimalTargetDistance: 0
