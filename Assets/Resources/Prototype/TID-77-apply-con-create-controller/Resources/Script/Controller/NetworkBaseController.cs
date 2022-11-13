@@ -104,26 +104,29 @@ namespace GHJ_Lib
 		/*--- Public Methods ---*/
 		public void ChangeMoveFunc(MoveType moveType)
 		{
-			switch (moveType)
+			if(IsMine)
 			{
-				case MoveType.Input:
+				switch (moveType)
+				{
+					case MoveType.Input:
 					{
 						SetDirectionFunc = SetDirection;
 						curCam.canUpdate = true;
 					}
 					break;
-				case MoveType.Stop:
+					case MoveType.Stop:
 					{
 						SetDirectionFunc = CannotMove;
 						curCam.canUpdate = false;
 					}
 					break;
-				case MoveType.CamForward:
+					case MoveType.CamForward:
 					{
 						SetDirectionFunc = CamForwardMove;
 						curCam.canUpdate = true;
 					}
 					break;
+				}
 			}
 		}
 

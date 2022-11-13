@@ -13,7 +13,6 @@ namespace KSH_Lib.Object
         public GameObject ExitAltarModel;
         [SerializeField] public float dollInteractCostTime = 10.0f;
         [SerializeField] public float exorcistInteractTime = 1.0f;
-        [SerializeField] public bool IsOpen { get; private set; }
         [SerializeField] public AltarState altarState { get; private set; }
 
         protected override void OnEnable()
@@ -42,12 +41,12 @@ namespace KSH_Lib.Object
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Interact );
             if (altarState == AltarState.CanOpen )
             {
-                if ( interactor.gameObject.CompareTag( GameManager.DollTag ) )
+                if (targetController.gameObject.CompareTag( GameManager.DollTag ) )
                 {
                     castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractCostTime ),
-                        new CastingSystem.CastFuncSet( RunningCondition: targetController.IsInteractionKeyHold, PauseAction: PauseAction, FinishAction: DollFinishAction ) );
+                        new CastingSystem.CastFuncSet ( RunningCondition: DollRunningCondition, PauseAction: PauseAction, FinishAction: DollFinishAction ) );
                 }
-                else if ( interactor.gameObject.CompareTag( GameManager.ExorcistTag ) )
+                else if (targetController.gameObject.CompareTag( GameManager.ExorcistTag ) )
                 {
                     castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( exorcistInteractTime ),
                         new CastingSystem.CastFuncSet( RunningCondition: targetController.IsInteractionKeyHold, PauseAction: PauseAction, FinishAction: ExorcistFinishAction ) );
@@ -59,9 +58,13 @@ namespace KSH_Lib.Object
             }
             return false;
         }
-
+        bool DollRunningCondition()
+        {
+            return targetController.IsInteractionKeyHold() && !IsExorcistInteracting;
+        }
         void PauseAction()
         {
+            targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
             castingSystem.ResetCasting();
         }
         void DollFinishAction()
@@ -90,7 +93,7 @@ namespace KSH_Lib.Object
 
         public void EnableExitAltar()
         {
-            IsOpen = true;
+            altarState = AltarState.CanOpen;
             ExitAltarModel.SetActive( true );
         }
     }
