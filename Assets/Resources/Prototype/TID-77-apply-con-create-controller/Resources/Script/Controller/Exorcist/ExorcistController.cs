@@ -160,7 +160,7 @@ namespace GHJ_Lib
 
 
 		/*--- AnimationCallbacks Methods ---*/
-		protected override void CamForwadMove()
+		protected override void CamForwardMove()
 		{
 			switch (DataManager.Instance.GetLocalRoleType)
 			{

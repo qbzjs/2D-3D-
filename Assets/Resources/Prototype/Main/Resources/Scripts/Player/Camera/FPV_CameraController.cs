@@ -47,16 +47,28 @@ namespace KSH_Lib
             angleY += camAxis.y;
             camTarget.transform.localPosition = new Vector3(camTargetInitPos.x, camTargetInitPos.y - (angleY * forwardMultiplier), camTargetInitPos.z);
 
+
+            //Vector3 pos;
+
+            //pos = Utilities.RotateAroundPoint(camTarget.transform.position, camAim.transform.position, Quaternion.Euler(camAxis.x, 0.0f, 0.0f));
+
             camAim.transform.RotateAround( camTarget.transform.position, Vector3.up, camAxis.x );
             if ( angleY < maxAngleY && angleY > minAngleY )
             {
+                //Utilities.RotateAroundPoint(camTarget.transform.position, pos, Quaternion.Euler(0.0f, camAxis.y, 0.0f));
                 camAim.transform.RotateAround( camTarget.transform.position, camTarget.transform.right, camAxis.y );
             }
             else
             {
                 angleY -= camAxis.y;
             }
-            camTarget.transform.LookAt( camAim.transform ); 
+
+            //camAim.transform.position = pos;
+
+            Quaternion q = Quaternion.identity;
+            q.SetLookRotation((camAim.transform.position - camTarget.transform.position));
+            camAim.transform.rotation = q;
+            camTarget.transform.LookAt( camAim.transform.position );
         }
 
         public override void InitCam(GameObject camTarget)

@@ -120,14 +120,14 @@ namespace GHJ_Lib
 					break;
 				case MoveType.CamForward:
 					{
-						SetDirectionFunc = CamForwadMove;
+						SetDirectionFunc = CamForwardMove;
 						curCam.canUpdate = true;
 					}
 					break;
 			}
 		}
 
-		protected virtual void CamForwadMove()
+		protected virtual void CamForwardMove()
 		{
 			Vector3 moveDirection = fpvCam.camAim.transform.position - camTarget.transform.position;
 			direction = moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z).normalized;
