@@ -59,7 +59,8 @@ namespace GHJ_Lib
                         }
                     }
                 }
-                Log.Instance.WriteLog(chaseState.ToString());
+
+                Log.Instance.WriteLog("chaseState : " + chaseState.ToString());
                 if (CheckFugitivesIsChasedOnView())
                 {
                     chaseState = ChaseState.Chasing;
