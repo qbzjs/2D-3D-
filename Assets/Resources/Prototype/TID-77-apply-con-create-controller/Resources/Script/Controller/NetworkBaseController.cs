@@ -146,7 +146,7 @@ namespace GHJ_Lib
 					case MoveType.StopRotation:
 					{
 						SetDirectionFunc = CannotMove;
-						curCam.canUpdate = true;
+						curCam.CanControl = true;
 					}
 					break;
 				}
