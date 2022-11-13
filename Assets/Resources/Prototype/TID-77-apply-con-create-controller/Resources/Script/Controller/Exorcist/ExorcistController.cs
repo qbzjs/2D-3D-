@@ -98,7 +98,10 @@ namespace GHJ_Lib
 			}
 			if (photonView.IsMine)
 			{
-				characterModel.transform.rotation =  Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y,0.0f);
+				if(curCam.canUpdate)
+				{
+					characterModel.transform.rotation = Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y, 0.0f);
+				}
 			}
 		}
 		protected override void MoveCharacter()
