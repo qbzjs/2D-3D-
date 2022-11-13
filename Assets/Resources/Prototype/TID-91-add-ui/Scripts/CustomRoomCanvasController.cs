@@ -1,48 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 using TMPro;
 
 using Photon.Pun;
 using Photon.Realtime;
 
-
 using KSH_Lib;
 using KSH_Lib.Data;
 using KSH_Lib.UI;
 
-using DEM;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
-
 namespace LSH_Lib
 {
-    public class CustomRoomCanvasController : MonoBehaviourPunCallbacks
+    public class CustomRoomCanvasController : MonoBehaviour
     {
-        [Header("Popup Menu")]
         [SerializeField]
-        TextMeshProUGUI roomcode;
+        Image[] player;
         [SerializeField]
-        GameObject copysuccess;
-        string roomName;
+        Sprite exorcistSprite;
+        [SerializeField]
+        Sprite dollSprite;
 
-        void CopyButton()
+        private void Update()
         {
-            GUIUtility.systemCopyBuffer = roomcode.text;
-            copysuccess.SetActive(true);
-            StartCoroutine(DestroyText());
+            for(var i = 0; i<PhotonNetwork.CurrentRoom.PlayerCount;++i)
+            {
+                player[i].sprite = dollSprite;
+            }
         }
-        IEnumerator DestroyText()
-        {
-            yield return new WaitForSeconds(1.0f);
-            copysuccess.SetActive(false);
-        }
-        void CreateRoom()
-        {
-            roomName = roomcode.text;
-            PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
-        }
-        
     } 
 }
 
