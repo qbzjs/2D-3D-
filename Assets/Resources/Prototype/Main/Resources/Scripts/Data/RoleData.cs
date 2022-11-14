@@ -58,7 +58,63 @@ namespace KSH_Lib.Data
         {
 			return new RoleData(Group, Type, MoveSpeed, InteractionSpeed, ProjectileSpeed);
 		}
-
+		
+		public string GetTypeStr(RoleType type)
+        {
+			switch(type)
+            {
+				case RoleType.Bishop:
+                    {
+						return "Bishop";
+                    }
+				case RoleType.Hunter:
+					{
+						return "Hunter";
+					}
+				case RoleType.Wolf:
+					{
+						return "Wolf";
+					}
+				case RoleType.Rabbit:
+					{
+						return "Rabbit";
+					}
+				case RoleType.Priest:
+					{
+						return "Bishop";
+					}
+				case RoleType.Dokkaebi:
+					{
+						return "Bishop";
+					}
+				case RoleType.Photographer:
+					{
+						return "Bishop";
+					}
+				case RoleType.Penguin:
+					{
+						return "Bishop";
+					}
+				case RoleType.Monkey:
+					{
+						return "Bishop";
+					}
+				case RoleType.Tortoise:
+					{
+						return "Bishop";
+					}
+				case RoleType.Null:
+					{
+						return "null";
+					}
+				case RoleType.Count:
+                    {
+						return "count";
+                    }
+				default:
+					return null;
+			}
+        }
 
 
         //public int Score
