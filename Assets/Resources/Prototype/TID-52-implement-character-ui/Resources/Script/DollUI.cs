@@ -11,7 +11,7 @@ namespace GHJ_Lib
 { 
     public class DollUI : InGameUI
     {
-        #region Public Fields
+        
         [Header("UI Objects")]
         public GameObject PlayerUiObject;
         public GameObject[] FriendUiObjets;
@@ -39,9 +39,7 @@ namespace GHJ_Lib
         public Slider Friend3DollHP;
         public Slider Friend3DevilHP;
 
-        #endregion
-
-        #region Private Fields
+       
 
         //private List<Image> friendDollHP=new List<Image>();
         //private List<Image> friendDevilHP = new List<Image>();
@@ -61,9 +59,7 @@ namespace GHJ_Lib
 
         bool isInited;
 
-        #endregion
-
-        #region MonoBehaviour CallBacks
+        
         void Start()
         {
             curDollCount = PhotonNetwork.CurrentRoom.PlayerCount - 1;
@@ -92,26 +88,26 @@ namespace GHJ_Lib
             {
                 return;
             }
-            /*
+
             int j = 0;
-            for (int i = 1; i < curDollCount+1; ++i)
+            for (int i = 1; i < curDollCount + 1; ++i)
             {
                 if (myIdx == i)
                 {
-                    //PlayerDollHP.fillAmount = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i-1];
-                    //PlayerDevilHP.fillAmount = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i-1];
+                    PlayerDollHP.value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i - 1];
+                    PlayerDevilHP.value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i - 1];
                     PlayerDollHP.value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i - 1];
                     PlayerDevilHP.value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i - 1];
                 }
                 else
                 {
-                    friendDollHP[j].value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i-1];
-                    friendDevilHP[j].value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i-1];
+                    friendDollHP[j].value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i - 1];
+                    friendDevilHP[j].value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i - 1];
                     j++;
                 }
-                
+
             }
-            */
+
         }
 
 
@@ -171,8 +167,6 @@ namespace GHJ_Lib
         //        }
         //    }
         //}
-
-        #endregion
 
 
     }
