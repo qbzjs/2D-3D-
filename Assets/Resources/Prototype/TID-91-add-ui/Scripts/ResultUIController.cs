@@ -23,8 +23,6 @@ namespace LSH_Lib
         [SerializeField]
         PlayerInfor[] playerInfors;
         [SerializeField]
-        PlayerInfor mineInfor; 
-        [SerializeField]
         Sprite[] backgrounds;
         [SerializeField]
         Sprite[] statusIcons;
