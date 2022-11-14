@@ -8,15 +8,13 @@ namespace GHJ_Lib
 {
 	public class GameEndBox: MonoBehaviour
 	{
-        public FinalAltarInteraction finalAltar;
-        private void OnTriggerEnter(Collider other)
+        private void OnCollisionEnter(Collision collision)
         {
-            if (!finalAltar)
-            { 
-                finalAltar = GameObject.FindObjectOfType<FinalAltarInteraction>();
+            if (collision.gameObject.CompareTag(GameManager.DollTag))
+            {
+                collision.gameObject.GetComponent<DollController>().ExitCharacterTo_RPC();
             }
-            finalAltar.ExitPlayer();
-            GameEndManager.Instance.EndGameDoll(other);
         }
+   
     }
 }

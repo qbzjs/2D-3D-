@@ -28,29 +28,9 @@ namespace GHJ_Lib
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-           
-            if (effectArea.CanGetTarget())
-            {
-               effectArea.Targets[0].GetComponent<ExorcistController>().DoActionBy(DetectedTo_RPC);
-            }
+            (actor.skill as WolfSkill).DoWolfActiveSkillTo_RPC();
             return PassIfHasSuccessor();
 
-        }
-
-        void DetectedTo_RPC(PhotonView TargetPhotonView)
-        {
-            if (TargetPhotonView.IsMine)
-            {
-                TargetPhotonView.RPC("Detected", RpcTarget.Others);
-            }
-        }
-
-        [PunRPC]
-        IEnumerator Detected(GameObject characterModel)
-        {
-            StageManager.CharacterLayerChange(characterModel, 6); //6 : 빛나는거
-            yield return new WaitForSeconds(5);//시간은 CSV로 받을것 또는 문서참조 임의로 5로 해놓음
-            StageManager.CharacterLayerChange(characterModel, 7); //7: 원래상태로돌아옴
         }
 
         /*--- Private Methods ---*/
