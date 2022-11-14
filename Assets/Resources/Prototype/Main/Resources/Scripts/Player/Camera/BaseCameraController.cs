@@ -8,8 +8,8 @@ namespace KSH_Lib
     public class BaseCameraController : MonoBehaviour
     {
         /*--- Public Fields ---*/
-        [SerializeField] protected bool canUpdate = false;
-        public bool CanControl = true;
+        [field:SerializeField]public bool CanUpdate { get; protected set; }
+        public bool CanControl;
 
 
         /*--- Protected Fields ---*/
@@ -67,7 +67,7 @@ namespace KSH_Lib
         }
         protected virtual void LateUpdate()
         {
-            if(canUpdate)
+            if(CanUpdate)
             {
                 if(CanControl)
                 {
@@ -79,26 +79,23 @@ namespace KSH_Lib
         }
 
         /*--- Public Methods ---*/
-        public virtual void InitCam( GameObject camTarget )
+        public virtual void InitCam()
         {
-            if ( camTarget == null )
-            {
-                Debug.LogError( "BaseCameraController.InitCam(): No camTarget Inited" );
-                return;
-            }
-
-            this.camTarget = camTarget;
-
-            virtualCam.AddCinemachineComponent<Cinemachine3rdPersonFollow>();
-            virtualCam.AddCinemachineComponent<CinemachineSameAsFollowTarget>();
-            virtualCam.Follow = this.camTarget.transform;
-
-            canUpdate = true;
+            CanUpdate = true;
         }
 
         public void SetAxis(Vector2 axis)
         {
             camAxis = axis;
+        }
+
+        public void ActiveCameraUpdate(bool isActive)
+        {
+            CanUpdate = isActive;
+        }
+        public void ActiveCameraControl( bool isActive )
+        {
+            CanControl = isActive;
         }
 
         public void ResetCamTarget(float resetTime)

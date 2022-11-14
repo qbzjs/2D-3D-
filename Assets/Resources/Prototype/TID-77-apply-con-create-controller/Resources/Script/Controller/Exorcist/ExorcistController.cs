@@ -32,7 +32,7 @@ namespace GHJ_Lib
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			CurBehavior.PushSuccessorState(idle);
+			//CurBehavior.PushSuccessorState(idle);
 		}
 
 
@@ -41,9 +41,10 @@ namespace GHJ_Lib
 		{
 			if (photonView.IsMine)
 			{
+				base.InitCameraSetting();
 				fpvCam.gameObject.SetActive(true);
 				tpvCam.gameObject.SetActive(false);
-				curCam = fpvCam;
+				CurCam = fpvCam;
 				StartCoroutine(HidingObject());
 			}
 		}
@@ -95,8 +96,12 @@ namespace GHJ_Lib
 			ChangeBehaviorTo(BehaviorType.Catch);
 		}
 
+        private void OnGUI()
+        {
+			GUI.Box( new Rect( 200, 30, 150, 30 ), camTarget.transform.rotation.eulerAngles.ToString() );
+        }
 
-		/*--- Protected Methods ---*/
+        /*--- Protected Methods ---*/
         protected override void RotateToDirection()
 		{
 			if (direction.sqrMagnitude > 0.01f)
@@ -109,7 +114,7 @@ namespace GHJ_Lib
 			}
 			if (photonView.IsMine)
 			{
-				if(curCam.CanControl)
+				if(fpvCam.CanControl)
 				{
 					characterModel.transform.rotation = Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y, 0.0f);
 				}

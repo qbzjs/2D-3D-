@@ -40,16 +40,17 @@ namespace GHJ_Lib
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			CurBehavior.PushSuccessorState(idle);
+			//CurBehavior.PushSuccessorState(idle);
 		}
 
 		public override void InitCameraSetting()
         {
 			if (photonView.IsMine)
 			{
+				base.InitCameraSetting();
 				tpvCam.gameObject.SetActive(true);
 				fpvCam.gameObject.SetActive(false);
-				curCam = tpvCam;
+				CurCam = tpvCam;
 			}
 		}
 

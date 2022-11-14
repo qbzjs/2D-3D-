@@ -58,7 +58,7 @@ namespace GHJ_Lib
 		protected KSH_Lib.FPV_CameraController fpvCam;
 		[SerializeField]
 		protected TPV_CameraController tpvCam;
-		protected BaseCameraController curCam;
+		public BaseCameraController CurCam { get; protected set; }
 
 		//move ¿©ºÎ
 		public delegate void DelPlayerInput();
@@ -101,34 +101,28 @@ namespace GHJ_Lib
 			CurBehavior.Update( this, ref CurBehavior );
 		}
 
-		/*--- Public Methods ---*/
-		public void ExitCharacterTo_RPC()
+		public virtual void InitCameraSetting()
 		{
-			photonView.RPC("ExitCharacter", RpcTarget.AllViaServer);
+			fpvCam.InitCam();
+			tpvCam.InitCam();
 		}
-		[PunRPC]
-		public void ExitCharacter()
-		{
-			StageManager.Instance.DoExit(this);
-		}
-
-		public virtual void InitCameraSetting(){}
 		public void ChangeCameraTo(bool isFPV)
 		{
 			if (isFPV)
 			{
 				fpvCam.gameObject.SetActive(true);
 				tpvCam.gameObject.SetActive(false);
-				curCam = fpvCam;
+				CurCam = fpvCam;
 			}
 			else
 			{
 				tpvCam.gameObject.SetActive(true);
 				fpvCam.gameObject.SetActive(false);
-				curCam = tpvCam;
+				CurCam = tpvCam;
 			}
 		}
 
+		/*--- Public Methods ---*/
 		public void ChangeMoveFunc(MoveType moveType)
 		{
 			if(IsMine)
@@ -138,25 +132,25 @@ namespace GHJ_Lib
 					case MoveType.Input:
 					{
 						SetDirectionFunc = SetDirection;
-						curCam.CanControl = true;
+						CurCam.CanControl = true;
 					}
 					break;
 					case MoveType.Stop:
 					{
 						SetDirectionFunc = CannotMove;
-						curCam.CanControl = false;
+						CurCam.CanControl = false;
 					}
 					break;
 					case MoveType.CamForward:
 					{
 						SetDirectionFunc = CamForwardMove;
-						curCam.CanControl = true;
+						CurCam.CanControl = true;
 					}
 					break;
 					case MoveType.StopRotation:
 					{
 						SetDirectionFunc = CannotMove;
-						curCam.CanControl = true;
+						CurCam.CanControl = true;
 					}
 					break;
 				}
@@ -177,8 +171,8 @@ namespace GHJ_Lib
 		{
 			if (photonView.IsMine)
 			{
-				curCam.gameObject.SetActive(false);
-				curCam = cam;
+				CurCam.gameObject.SetActive(false);
+				CurCam = cam;
 				cam.gameObject.SetActive(true);
 			}
 		}
