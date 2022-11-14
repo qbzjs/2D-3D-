@@ -81,6 +81,7 @@ namespace GHJ_Lib
 		protected override IEnumerator ExcuteActiveSkill()
 		{
 			IsCoolTime = true;
+			StageManager.Instance.dollUI.CharacterSkill.StartCountDown(15.0f);
 			yield return new WaitForSeconds(0.2f);//¼±µô
 			while (ActiveSkill.Count != 0)
 			{

@@ -37,7 +37,8 @@ namespace GHJ_Lib
         [Header("Passive Skill")]
         public Image PassiveCoolTime;
 
-
+        [Header("Active Skill")]
+        public InputActionUI CharacterSkill;
 
 
         //private float[] maxDollHP =new float[4];
