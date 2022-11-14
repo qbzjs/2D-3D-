@@ -78,7 +78,7 @@ namespace KSH_Lib
             virtualCam.AddCinemachineComponent<CinemachineSameAsFollowTarget>();
             virtualCam.Follow = this.camTarget.transform;
 
-            canUpdate = true;
+            CanUpdate = true;
         }
 
         public float GetCamAxisX()

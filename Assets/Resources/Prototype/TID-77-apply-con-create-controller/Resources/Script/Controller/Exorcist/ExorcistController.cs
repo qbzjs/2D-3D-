@@ -109,7 +109,7 @@ namespace GHJ_Lib
 			}
 			if (photonView.IsMine)
 			{
-				if(curCam.CanControl)
+				if(curCam.CanUpdate)
 				{
 					characterModel.transform.rotation = Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y, 0.0f);
 				}

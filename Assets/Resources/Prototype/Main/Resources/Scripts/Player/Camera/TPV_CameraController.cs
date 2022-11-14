@@ -44,7 +44,7 @@ namespace KSH_Lib
         }
         protected override void LateUpdate()
         {
-            if(!canUpdate)
+            if(!CanUpdate)
             {
                 return;
             }

@@ -8,7 +8,7 @@ namespace KSH_Lib
     public class BaseCameraController : MonoBehaviour
     {
         /*--- Public Fields ---*/
-        [SerializeField] protected bool canUpdate = false;
+        public bool CanUpdate { get; protected set; }
         public bool CanControl = true;
 
 
@@ -67,7 +67,7 @@ namespace KSH_Lib
         }
         protected virtual void LateUpdate()
         {
-            if(canUpdate)
+            if(CanUpdate)
             {
                 if(CanControl)
                 {
@@ -93,7 +93,7 @@ namespace KSH_Lib
             virtualCam.AddCinemachineComponent<CinemachineSameAsFollowTarget>();
             virtualCam.Follow = this.camTarget.transform;
 
-            canUpdate = true;
+            CanUpdate = true;
         }
 
         public void SetAxis(Vector2 axis)
