@@ -350,7 +350,6 @@ namespace KSH_Lib.UI
                             pIdx++;
                         }
                         infoMatches[i].playerIdx = pIdx;
-                        break;
                     }
                 }
             }
