@@ -12,7 +12,7 @@ namespace GHJ_Lib
         {
             if (collision.gameObject.CompareTag(GameManager.DollTag))
             {
-                collision.gameObject.GetComponent<DollController>().ExitCharacterTo_RPC();
+                collision.gameObject.GetComponent<DollController>().ExitCharacter();
             }
         }
    

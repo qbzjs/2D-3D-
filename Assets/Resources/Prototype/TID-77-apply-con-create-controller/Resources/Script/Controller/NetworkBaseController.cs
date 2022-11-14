@@ -367,5 +367,15 @@ namespace GHJ_Lib
 				this.transform.position = new Vector3((float)stream.ReceiveNext(), (float)stream.ReceiveNext(), (float)stream.ReceiveNext());
 			}
 		}
+		public void ExitCharacter()
+        {
+			photonView.RPC( "ExitCharacterRPC", RpcTarget.AllViaServer );
+        }
+
+		[PunRPC]
+		void ExitCharacterRPC()
+        {
+			StageManager.Instance.DoExit( this );
+        }
 	}
 }
