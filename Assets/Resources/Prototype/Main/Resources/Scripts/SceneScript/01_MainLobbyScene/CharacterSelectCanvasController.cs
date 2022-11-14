@@ -45,7 +45,7 @@ namespace KSH_Lib.UI
                 nickname.text = nicknameStr;
                 roleName.text = roleNameStr;
             }
-            public void ChangeTextColor( TextMeshProUGUI targetText, Color color)
+            public void ChangeTextColor( TextMeshProUGUI targetText, Color32 color)
             {
                 targetText.color = color;
             }
