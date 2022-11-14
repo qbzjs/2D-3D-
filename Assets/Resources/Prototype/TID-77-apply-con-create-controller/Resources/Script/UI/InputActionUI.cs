@@ -8,6 +8,7 @@ namespace GHJ_Lib
 {
 	public class InputActionUI: MonoBehaviour
 	{
+		
 		WaitForEndOfFrame frame = new WaitForEndOfFrame();
 		public Image ICon;
 		public Image CoolTimeCover;
@@ -15,10 +16,12 @@ namespace GHJ_Lib
 		bool IsBlink=false;
 		bool IsCountDown = false;
 
+		public float blinkControlTime = 0.5f;
+
+
 		public void PushButton(bool isDown)
 		{
-			CoolTimeCover.fillAmount = 1.0f;
-			CoolTimeCover.enabled = isDown;
+			ICon.enabled = isDown;
 		}
 		
 
@@ -52,7 +55,7 @@ namespace GHJ_Lib
 				{
 					CoolTimeCover.enabled = false;
 					CoolTime.enabled = false;
-					IsBlink = false;
+					IsCountDown = false;
 					break;
 				}
 			}
@@ -75,11 +78,19 @@ namespace GHJ_Lib
 				if (time <= 0.0f)
 				{
 					IsBlink = false;
+					ICon.enabled = true;
 					break;
 				}
-				if (blinkTime > 0.5f)
+				if (blinkTime > blinkControlTime)
 				{
-					IconEnable = true;
+					if (IconEnable)
+					{
+						IconEnable = false;
+					}
+					else
+					{
+						IconEnable = true;
+					}
 					blinkTime = 0.0f;
 				}
 			}
