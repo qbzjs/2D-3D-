@@ -138,7 +138,7 @@ namespace GHJ_Lib
 					case MoveType.Stop:
 					{
 						SetDirectionFunc = CannotMove;
-						CurCam.CanControl = false;
+						CurCam.ActiveCameraControl( false );
 					}
 					break;
 					case MoveType.CamForward:

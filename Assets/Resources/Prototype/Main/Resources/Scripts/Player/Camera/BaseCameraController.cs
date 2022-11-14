@@ -96,6 +96,10 @@ namespace KSH_Lib
         public void ActiveCameraControl( bool isActive )
         {
             CanControl = isActive;
+            if(!isActive)
+            {
+                camAxis = new Vector2( 0.0f, 0.0f );
+            }
         }
 
         public void ResetCamTarget(float resetTime)
