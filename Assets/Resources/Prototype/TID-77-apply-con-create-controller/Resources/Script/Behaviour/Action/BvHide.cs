@@ -11,6 +11,7 @@ namespace GHJ_Lib
         bool ishide = false;
         protected override void Activate(in NetworkBaseController actor)
         {
+            StageManager.Instance.dollUI.CommomSkill.StartCountDown(1.0f);
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
             ishide = false;
             if (actor.photonView.IsMine)

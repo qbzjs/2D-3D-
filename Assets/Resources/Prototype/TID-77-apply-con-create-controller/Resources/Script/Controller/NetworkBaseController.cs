@@ -227,7 +227,7 @@ namespace GHJ_Lib
 
 		public bool IsInteractionKeyHold()
         {
-            return Input.GetKey( KeyCode.G );
+            return Input.GetKey( KeyCode.G )&&(CurBehavior is not BvGetHit);
         }
 		public bool IsInteractionKeyDown()
 		{

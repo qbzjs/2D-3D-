@@ -2,21 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
-
+using KSH_Lib.Data;
 namespace GHJ_Lib
 {
 	public class BvCatch: Behavior<NetworkBaseController>
 	{
+        float pickUpTime;
         protected override void Activate(in NetworkBaseController actor)
         {
             actor.BaseAnimator.SetBool("IsCatch", true);
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
+
+            switch (DataManager.Instance.GetLocalRoleType)
+            {
+                case RoleData.RoleType.Bishop:
+                    {
+                        pickUpTime = 0.25f;
+                    }
+                    break;
+                case RoleData.RoleType.Hunter:
+                    {
+                        pickUpTime = 0.25f;
+                    }
+                    break;
+            }
         }
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
             AnimatorStateInfo animatorStateInfo = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
 
-            if (animatorStateInfo.normalizedTime >= 0.8f && animatorStateInfo.IsName("Pickup") && actor.BaseAnimator.GetBool("IsCatch"))
+            if (animatorStateInfo.normalizedTime >= pickUpTime && animatorStateInfo.IsName("Pickup") && actor.BaseAnimator.GetBool("IsCatch"))
             {
                 (actor as ExorcistController).PickUp();
                 actor.BaseAnimator.SetBool("IsCatch", false);
