@@ -39,7 +39,10 @@ namespace GHJ_Lib
         public Slider Friend3DollHP;
         public Slider Friend3DevilHP;
 
-       
+        [Header("Skill ICon")]
+        public InputActionUI CommomSkill;
+        public InputActionUI CharacterSkill;
+
 
         //private List<Image> friendDollHP=new List<Image>();
         //private List<Image> friendDevilHP = new List<Image>();
