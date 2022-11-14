@@ -199,6 +199,8 @@ namespace KSH_Lib.UI
 				}
 				else if( data.order == "login")
                 {
+					Debug.Log( $"Index= {data.index}, Id = {data.id}, nickname = {data.nickname}" );
+
 					DataManager.Instance.SetLocalAccount(data.index, data.id, data.nickname);
 					StartCoroutine( ChangeScene() );
                 }

@@ -66,7 +66,8 @@ namespace KSH_Lib
 				return playerDatas;
 			}
 		}
-		List<PlayerData> playerDatas = new List<PlayerData>();
+		[Header("Debug Only")]
+		[SerializeField]List<PlayerData> playerDatas = new List<PlayerData>();
 
 		public PlayerData LocalPlayerData = new PlayerData();
 		public int PlayerIdx { get; private set; }
