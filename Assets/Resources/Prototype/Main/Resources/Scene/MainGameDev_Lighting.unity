@@ -54039,10 +54039,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5819a20d1612efa4c96c6d064bdbbbd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateCam: {fileID: 0}
   waitTime: 5
   rotateSpeed: 2
   camResetTime: 2
+  IsGameStart: 0
   DollPrefabs:
   - {fileID: 8865846720936348896, guid: 8d8f15897a1a6a94094a56d7a4406883, type: 3}
   - {fileID: 8865846720936348896, guid: 77fedaf7480bc3b4f9fdd953fd719e1a, type: 3}
@@ -54112,7 +54112,7 @@ MonoBehaviour:
   dollUI: {fileID: 5501143020077869366}
   exorcistUI: {fileID: 1026594778}
   InteractTextUI: {fileID: 4792538854473707924}
-  InteractionPrompt: {fileID: 1744713006}
+  InteractionPrompt: {fileID: 0}
   <CastSystem>k__BackingField: {fileID: 1219104196}
   EscMenu: {fileID: 1744713003}
   playerCount: 0
@@ -66370,19 +66370,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a9946ec70fcf34096431c570a974c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1744713006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9138402001654616504}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 221b47fcc9be30d4aabf0dbe02a90572, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiObj: {fileID: 4792538854473707924}
 --- !u!1001 &1747908483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71293,7 +71280,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89c2a9bf61eb0d7489c40317f812431f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  finalAltar: {fileID: 0}
 --- !u!1001 &1899068767
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -83636,7 +83622,6 @@ GameObject:
   - component: {fileID: 4483956801506928344}
   - component: {fileID: 3704095129796033645}
   - component: {fileID: 951984086}
-  - component: {fileID: 1744713006}
   m_Layer: 5
   m_Name: InteractUI
   m_TagString: Untagged

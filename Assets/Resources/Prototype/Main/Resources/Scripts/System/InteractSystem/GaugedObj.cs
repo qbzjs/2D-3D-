@@ -74,11 +74,11 @@ namespace KSH_Lib
             {
                 return false;
             }
-            if( !controller.IsWatching(gameObject))
-            {
-                promptUI.Inactivate();
-                return false;
-            }
+            //if( !controller.IsWatching(gameObject))
+            //{
+            //    promptUI.Inactivate();
+            //    return false;
+            //}
             targetController = controller;
             return true;
         }
