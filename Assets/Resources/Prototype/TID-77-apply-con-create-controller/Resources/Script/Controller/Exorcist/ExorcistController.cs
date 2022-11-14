@@ -96,11 +96,6 @@ namespace GHJ_Lib
 			ChangeBehaviorTo(BehaviorType.Catch);
 		}
 
-        private void OnGUI()
-        {
-			GUI.Box( new Rect( 200, 30, 150, 30 ), camTarget.transform.rotation.eulerAngles.ToString() );
-        }
-
         /*--- Protected Methods ---*/
         protected override void RotateToDirection()
 		{
