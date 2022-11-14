@@ -46,8 +46,8 @@ namespace KSH_Lib
 		/*--- MonoBehaviour Callbacks ---*/
 		protected virtual void Awake()
         {
-			Cursor.lockState = CursorLockMode.Locked;
-			Cursor.visible = false;
+			//Cursor.lockState = CursorLockMode.Locked;
+			//Cursor.visible = false;
 		}
 		protected virtual void Start()
 		{

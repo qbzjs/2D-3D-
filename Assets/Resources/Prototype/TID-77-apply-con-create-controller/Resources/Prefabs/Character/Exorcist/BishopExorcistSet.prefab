@@ -18807,8 +18807,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 3880535480926427075}
   m_AABB:
-    m_Center: {x: 0.000010967255, y: 0.10214692, z: 0.940432}
-    m_Extent: {x: 0.6831215, y: 0.27323166, z: 0.6839103}
+    m_Center: {x: 0.000010967255, y: 0.102155, z: 0.9404305}
+    m_Extent: {x: 0.6831215, y: 0.27323973, z: 0.6839118}
   m_DirtyAABB: 0
 --- !u!183 &7737829247586660979
 Cloth:
@@ -23331,8 +23331,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 3880535480926427075}
   m_AABB:
-    m_Center: {x: 0.03694451, y: 0.007087052, z: 1.0471389}
-    m_Extent: {x: 0.30942956, y: 0.19599575, z: 0.57552695}
+    m_Center: {x: 0.036937803, y: 0.0070792586, z: 1.0471371}
+    m_Extent: {x: 0.30943623, y: 0.19600056, z: 0.57552874}
   m_DirtyAABB: 0
 --- !u!183 &7737829248156865765
 Cloth:
@@ -28837,6 +28837,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5826768035271278286, guid: 5db07566527402545981ad0648365ed3,
         type: 3}
+      propertyPath: CanControl
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5826768035271278286, guid: 5db07566527402545981ad0648365ed3,
+        type: 3}
       propertyPath: <camAim>k__BackingField
       value: 
       objectReference: {fileID: 3960492631687317003}
@@ -28951,6 +28956,11 @@ PrefabInstance:
         type: 3}
       propertyPath: canUpdate
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7580860024113969238, guid: 60e5f7259c0dbfb40a7bad86d06a4774,
+        type: 3}
+      propertyPath: CanControl
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60e5f7259c0dbfb40a7bad86d06a4774, type: 3}

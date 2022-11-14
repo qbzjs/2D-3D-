@@ -6,6 +6,9 @@ using Photon.Realtime;
 using KSH_Lib;
 using LSH_Lib;
 using KSH_Lib.Object;
+
+using Cinemachine;
+
 namespace GHJ_Lib
 {
 	public class StageManager : MonoBehaviour
@@ -27,7 +30,7 @@ namespace GHJ_Lib
 		[SerializeField] float waitTime = 3.0f;
 		[SerializeField] float rotateSpeed = 1.0f;
 		[SerializeField] float camResetTime = 2.0f;
-		float waitTimer;
+		public bool IsGameStart;
 
 		[Header("Prefabs")]
 		public GameObject[] DollPrefabs;
@@ -99,53 +102,46 @@ namespace GHJ_Lib
 			StartCoroutine(GameStartSequence());
 		}
 
-
 		IEnumerator GameStartSequence()
 		{
 			while (true)
 			{
 				if(LocalController != null)
                 {
-					Debug.Log("StageManager.GameStartSequence(): Stoped Local Player Move!");
 					LocalController.ChangeCameraTo(false);
 					LocalController.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
+
+					LocalController.FPVCam.ActiveCameraUpdate( false );
+					LocalController.TPVCam.ActiveCameraUpdate( true );
+					LocalController.FPVCam.ActiveCameraControl( false );
+					LocalController.TPVCam.ActiveCameraControl( false );
 					break;
                 }
 				yield return null;
 			}
 
 			DataManager.Instance.ShareAllData();
-			Debug.Log($"StageManager.GameStartSequence(): Shared Player{LocalController.PlayerIndex}'s data");
-
 
 			LocalController.TPVCam.SetAxis(new Vector2(rotateSpeed, 0));
 			while (true)
             {
 				if(DataManager.Instance.IsInited)
 				{
-					Debug.Log($"StageManager.GameStartSequence(): All Player Inited!");
 					break;
                 }
-
 				yield return null;
             }
 
 			yield return new WaitForSeconds(waitTime);
 			LocalController.TPVCam.ResetCamTarget(camResetTime);
+			yield return new WaitForSeconds( camResetTime );
 
-			Debug.Log($"StageManager.GameStartSequence(): StartGame");
 			LocalController.InitCameraSetting();
 			LocalController.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
+			LocalController.CurBehavior.PushSuccessorState( new BvIdle() );
+			IsGameStart = true;
 		}
 
-
-		//private void Update()
-		//{
-		//	if (Input.GetKeyDown(KeyCode.Alpha0))
-		//	{
-		//		activeDebugGUI = !activeDebugGUI;
-		//	}
-		//}
 
 		private void OnDrawGizmosSelected()
 		{

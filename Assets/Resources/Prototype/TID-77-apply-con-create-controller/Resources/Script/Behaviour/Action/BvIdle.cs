@@ -18,11 +18,19 @@ namespace GHJ_Lib
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
+
             if( !actor.photonView.IsMine )
             {
                 //actor.BaseAnimator.StopPlayback();
                 return PassIfHasSuccessor();
             }
+
+            if(!StageManager.Instance.IsGameStart)
+            {
+                actor.ChangeMoveFunc( NetworkBaseController.MoveType.Stop );
+                return PassIfHasSuccessor();
+            }
+
 
             // °øÅë
 

@@ -64,22 +64,22 @@ namespace KSH_Lib
             camTarget.transform.LookAt( camAim.transform.position );
         }
 
-        public override void InitCam(GameObject camTarget)
-        {
-            if (camTarget == null)
-            {
-                Debug.LogError("BaseCameraController.InitCam(): No camTarget Inited");
-                return;
-            }
+        //public override void InitCam(GameObject camTarget)
+        //{
+        //    if (camTarget == null)
+        //    {
+        //        Debug.LogError("BaseCameraController.InitCam(): No camTarget Inited");
+        //        return;
+        //    }
 
-            this.camTarget = camTarget;
+        //    this.camTarget = camTarget;
 
-            virtualCam.AddCinemachineComponent<CinemachineHardLockToTarget>();
-            virtualCam.AddCinemachineComponent<CinemachineSameAsFollowTarget>();
-            virtualCam.Follow = this.camTarget.transform;
+        //    virtualCam.AddCinemachineComponent<CinemachineHardLockToTarget>();
+        //    virtualCam.AddCinemachineComponent<CinemachineSameAsFollowTarget>();
+        //    virtualCam.Follow = this.camTarget.transform;
 
-            CanUpdate = true;
-        }
+        //    CanUpdate = true;
+        //}
 
         public float GetCamAxisX()
         {
