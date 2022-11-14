@@ -20,7 +20,7 @@ namespace LSH_Lib
         }
         void AltarIcon()
         {
-            int count = StageManager.Instance.needAltarCount;
+            int count = StageManager.Instance.AltarCount;
             switch(count)
             {
                 case 3:
