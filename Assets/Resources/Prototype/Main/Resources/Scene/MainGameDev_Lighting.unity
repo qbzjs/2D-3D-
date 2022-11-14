@@ -54116,6 +54116,7 @@ MonoBehaviour:
   <CastSystem>k__BackingField: {fileID: 1219104196}
   EscMenu: {fileID: 1744713003}
   playerCount: 0
+  AltarCount: 4
 --- !u!4 &1371327853
 Transform:
   m_ObjectHideFlags: 0
@@ -57685,7 +57686,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1484303236
 Transform:
   m_ObjectHideFlags: 0
@@ -68396,7 +68397,7 @@ PrefabInstance:
     - target: {fileID: 1628822896422187571, guid: 40c7990cb9d2e47a6a0424f2421d3068,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 126
       objectReference: {fileID: 0}
     - target: {fileID: 1628822896422187573, guid: 40c7990cb9d2e47a6a0424f2421d3068,
         type: 3}
@@ -68427,6 +68428,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 1628822896424447221, guid: 40c7990cb9d2e47a6a0424f2421d3068,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1628822896424447223, guid: 40c7990cb9d2e47a6a0424f2421d3068,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1628822896491100179, guid: 40c7990cb9d2e47a6a0424f2421d3068,
         type: 3}
@@ -71901,6 +71912,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Item Effect Example
+      objectReference: {fileID: 0}
+    - target: {fileID: 8744103250731703159, guid: 8e7203e48eccb244e9232d8a6abe3f4c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8744103250731962767, guid: 8e7203e48eccb244e9232d8a6abe3f4c,
         type: 3}

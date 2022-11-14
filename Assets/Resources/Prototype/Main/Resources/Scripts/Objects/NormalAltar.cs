@@ -14,7 +14,10 @@ namespace KSH_Lib.Object
         [SerializeField] float exorcistCastingTime = 3.0f;
         [SerializeField] float dollInteractCostTime = 50.0f;
         [SerializeField] GameObject[] candleLights;
-        [SerializeField] GameObject finishLight;
+        //[SerializeField] GameObject finishLight;
+        [SerializeField] Light altarLight;
+        [SerializeField] float finalIntensity = 50.0f;
+        [SerializeField] float increaseIntensity = 10.0f;
 
         public override bool CanInteract
         {
@@ -31,7 +34,8 @@ namespace KSH_Lib.Object
             {
                 light.SetActive(false);
             }
-            finishLight.SetActive(false);
+            //finishLight.SetActive(false);
+            altarLight.intensity = 0.0f;
             distribution = 1.0f / (float)(candleLights.Length);
         }
 
@@ -47,7 +51,7 @@ namespace KSH_Lib.Object
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
             castingSystem.ResetCasting();
-            finishLight.SetActive(true);
+            //finishLight.SetActive(true);
             photonView.RPC("ActiveFinishLightRPC", RpcTarget.AllViaServer);
             photonView.RPC("DecreaseAltarCountTo_RPC", RpcTarget.AllViaServer);
         }
@@ -116,19 +120,22 @@ namespace KSH_Lib.Object
 
             Debug.Log($"curLightCount: {curLightCount}");
 
+            int curIdx = 0;
             for (int i = 0; i < candleLights.Length; ++i)
             {
                 if (i < curLightCount)
                 {
                     if (!candleLights[i].activeInHierarchy) candleLights[i].SetActive(true);
+                    curIdx = i;
                     continue;
                 }
                 if (candleLights[i].activeInHierarchy) candleLights[i].SetActive(false);
             }
+            altarLight.intensity = curIdx * increaseIntensity;
         }
         void ChangeCandleLightsToEveryone()
         {
-            ChangeCandleLightsLocal();
+            //ChangeCandleLightsLocal();
             photonView.RPC("ChangeCandleLightsRPC", RpcTarget.AllViaServer);
         }
 
@@ -140,7 +147,7 @@ namespace KSH_Lib.Object
         [PunRPC]
         public void ActiveFinishLightRPC()
         {
-            finishLight.SetActive(true);
+            altarLight.intensity = finalIntensity;
         }
         [PunRPC]
         public void DecreaseAltarCountTo_RPC()
