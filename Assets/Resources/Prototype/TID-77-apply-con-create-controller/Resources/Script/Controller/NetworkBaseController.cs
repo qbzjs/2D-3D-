@@ -101,6 +101,17 @@ namespace GHJ_Lib
 			CurBehavior.Update( this, ref CurBehavior );
 		}
 
+		/*--- Public Methods ---*/
+		public void ExitCharacterTo_RPC()
+		{
+			photonView.RPC("ExitCharacter", RpcTarget.AllViaServer);
+		}
+		[PunRPC]
+		public void ExitCharacter()
+		{
+			StageManager.Instance.DoExit(this);
+		}
+
 		public virtual void InitCameraSetting(){}
 		public void ChangeCameraTo(bool isFPV)
 		{
@@ -118,7 +129,6 @@ namespace GHJ_Lib
 			}
 		}
 
-		/*--- Public Methods ---*/
 		public void ChangeMoveFunc(MoveType moveType)
 		{
 			if(IsMine)

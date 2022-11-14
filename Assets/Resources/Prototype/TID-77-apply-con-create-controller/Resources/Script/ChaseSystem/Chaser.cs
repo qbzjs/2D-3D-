@@ -44,73 +44,73 @@ namespace GHJ_Lib
                 
             }
         }
-        private void Update()
-        {
-            if (photonView.IsMine)
-            {
-                if (Fugitives.Count == 0)
-                {
-                    return;
-                }
+        //private void Update()
+        //{
+        //    if (photonView.IsMine)
+        //    {
+        //        if (Fugitives.Count == 0)
+        //        {
+        //            return;
+        //        }
 
-                foreach (Fugitive fugitive in Fugitives)
-                {
-                    if (IsInCameraView(fugitive.transform) && 
-                        CheckObstacle(fugitive.transform))
-                    {
-                        if (!fugitive.IsWatched)
-                        {
-                            fugitive.CanWatch(true);
-                        }
-                    }
-                    else
-                    {
-                        if (fugitive.IsWatched)
-                        {
-                            fugitive.CanWatch(false);
-                        }
-                    }
-                }
+        //        foreach (Fugitive fugitive in Fugitives)
+        //        {
+        //            if (IsInCameraView(fugitive.gameObject)&&
+        //                CheckObstacle(fugitive.gameObject))
+        //            {
+        //                if (!fugitive.IsWatched)
+        //                {
+        //                    fugitive.CanWatch(true);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (fugitive.IsWatched)
+        //                {
+        //                    fugitive.CanWatch(false);
+        //                }
+        //            }
+        //        }
 
                 
-                Log.Instance.WriteLog(chaseState.ToString(),0);
-                if (CheckFugitivesIsChasedOnView())
-                {
-                    chaseState = ChaseState.Chasing;
-                }
-                else
-                {
-                    switch (chaseState)
-                    {
-                        case ChaseState.Chasing:
-                            {
-                                CoolDowntime = 2.0f;
-                                chaseState = ChaseState.CoolDown;
-                            }
-                            break;
-                        case ChaseState.CoolDown:
-                            {
-                                CoolDowntime -= Time.deltaTime;
-                                if (CoolDowntime <= 0.0f)
-                                {
-                                    CoolDowntime = 0.0f;
-                                    chaseState = ChaseState.Wait;
-                                }
-                            }
-                            break;
-                        case ChaseState.Wait:
-                            {
+        //        Log.Instance.WriteLog(chaseState.ToString(),0);
+        //        if (CheckFugitivesIsChasedOnView())
+        //        {
+        //            chaseState = ChaseState.Chasing;
+        //        }
+        //        else
+        //        {
+        //            switch (chaseState)
+        //            {
+        //                case ChaseState.Chasing:
+        //                    {
+        //                        CoolDowntime = 2.0f;
+        //                        chaseState = ChaseState.CoolDown;
+        //                    }
+        //                    break;
+        //                case ChaseState.CoolDown:
+        //                    {
+        //                        CoolDowntime -= Time.deltaTime;
+        //                        if (CoolDowntime <= 0.0f)
+        //                        {
+        //                            CoolDowntime = 0.0f;
+        //                            chaseState = ChaseState.Wait;
+        //                        }
+        //                    }
+        //                    break;
+        //                case ChaseState.Wait:
+        //                    {
 
-                            }
-                            break;
-                    }
-                }
-            }
-        }
+        //                    }
+        //                    break;
+        //            }
+        //        }
+        //    }
+        //}
         
-        protected bool IsInCameraView(Transform targetTransform)
+        protected bool IsInCameraView(GameObject targetObject)
         {
-            Vector3 targetViewPort = mainCamera.WorldToViewportPoint(targetTransform.position);
+            Vector3 targetViewPort = mainCamera.WorldToViewportPoint(targetObject.transform.position);
 
             return (targetViewPort.x <= 1.0f &&
                     targetViewPort.x >= 0.0f &&
@@ -119,11 +119,11 @@ namespace GHJ_Lib
                     targetViewPort.z > 0.0f);
         }
 
-        protected bool CheckObstacle(Transform targetTransform)
+        protected bool CheckObstacle(GameObject targetObject)
         {
             RaycastHit[] Hits;
             Vector3 CamPos = mainCamera.transform.position;
-            Ray ray = new Ray(CamPos, targetTransform.position - CamPos);
+            Ray ray = new Ray(CamPos, targetObject.transform.position - CamPos);
 
             Hits = Physics.RaycastAll(ray, sphereCollider.radius);
 
@@ -152,6 +152,30 @@ namespace GHJ_Lib
             }
             return false;
         }
+
+        //private void OnDrawGizmos()
+        //{
+        //    RaycastHit[] Hits;
+        //    Vector3 CamPos = mainCamera.transform.position;
+        //    foreach (Fugitive fugitive in Fugitives)
+        //    {
+        //        Ray ray = new Ray(CamPos, fugitive.transform.position - CamPos);
+        //        Hits = Physics.RaycastAll(ray, sphereCollider.radius);
+
+        //        Gizmos.color = Color.red;
+        //        Gizmos.DrawRay(ray);
+
+        //        Gizmos.color = Color.cyan;
+        //        if (Hits.Length > 0)
+        //        {
+        //            foreach (RaycastHit hit in Hits)
+        //            {
+        //                Gizmos.DrawSphere(hit.transform.position, 1.0f);
+        //            }
+        //        }
+        //    }
+
+        //}
     }
 }
 

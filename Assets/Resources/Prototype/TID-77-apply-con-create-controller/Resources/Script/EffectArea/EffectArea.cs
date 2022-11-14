@@ -35,10 +35,16 @@ namespace GHJ_Lib
 			{
 				return false;
 			}
-			else
+
+			foreach (GameObject target in targets)
 			{
-				return true;
+				if (target.activeInHierarchy)
+				{
+					return true;
+				}
 			}
+			return false;
+			
 		}
 		public void RemoveInList(GameObject gameObject)
 		{

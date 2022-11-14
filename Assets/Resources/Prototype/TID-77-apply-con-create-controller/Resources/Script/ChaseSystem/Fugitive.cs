@@ -30,43 +30,44 @@ namespace GHJ_Lib
         {
             IsWatched = false;
         }
-        void Update()
-        {
-            if (IsWatched)
-            {
-                if (ChaseGauge < 150.0f)
-                {
-                    ChaseGauge+= Time.deltaTime;
-                }
-                else
-                {
-                    ChaseGauge = 150.0f;
-                }
-            }
-            else
-            {
-                if (ChaseGauge > 0.0f)
-                {
-                    ChaseGauge -= Time.deltaTime;
-                }
-                else
-                {
-                    ChaseGauge = 0.0f;
-                }
-            }
+        //    void Update()
+        //    {
+        //        if (IsWatched)
+        //        {
+        //            if (ChaseGauge < 150.0f)
+        //            {
+        //                ChaseGauge+= Time.deltaTime;
+        //            }
+        //            else
+        //            {
+        //                ChaseGauge = 150.0f;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (ChaseGauge > 0.0f)
+        //            {
+        //                ChaseGauge -= Time.deltaTime;
+        //            }
+        //            else
+        //            {
+        //                ChaseGauge = 0.0f;
+        //            }
+        //        }
 
-            if (ChaseGauge >= 50.0f)
-            {
-                IsChased = true;
-            }
-            else
-            {
-                IsChased = false;
-            }
-            Log.Instance.WriteLog("IsChased" + IsChased.ToString(),1);
-            Log.Instance.WriteLog("IsWatched" + IsWatched.ToString(),2);
-        }
+        //        if (ChaseGauge >= 50.0f)
+        //        {
+        //            IsChased = true;
+        //        }
+        //        else
+        //        {
+        //            IsChased = false;
+        //        }
+        //        Log.Instance.WriteLog("IsChased" + IsChased.ToString(),1);
+        //        Log.Instance.WriteLog("IsWatched" + IsWatched.ToString(),2);
+        //    }
+        //}
+
     }
-
 }
 
