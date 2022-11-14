@@ -12,9 +12,10 @@ using KSH_Lib;
 using KSH_Lib.Data;
 using KSH_Lib.UI;
 
+
 namespace LSH_Lib
 {
-    public class MatchingUIController : MonoBehaviour
+    public class MatchingUIController : MonoBehaviourPunCallbacks
     {
         [Header("Matching UI")]
         [SerializeField]
@@ -47,10 +48,6 @@ namespace LSH_Lib
         [SerializeField]
         private GameObject skipButtonObj;
         [SerializeField]
-        private GameObject lshSkipButtonObj;
-        [SerializeField]
-        private GameObject kshSkipButtonObj;
-        [SerializeField]
         public string roomName = "Debug";
 
         [SerializeField]
@@ -66,8 +63,6 @@ namespace LSH_Lib
             // Deubg
             //isJoinedRoom = true;
             skipButtonObj.SetActive(false);
-            lshSkipButtonObj.SetActive( false );
-            kshSkipButtonObj.SetActive( false );
         }
 
         private void Update()
@@ -88,11 +83,15 @@ namespace LSH_Lib
                     if (skipButtonObj.activeInHierarchy == false)
                     {
                         skipButtonObj.SetActive(true);
-                        lshSkipButtonObj.SetActive(true);
-                        kshSkipButtonObj.SetActive(true);
                     }
                 }
             }
+        }
+
+        public override void OnLeftRoom()
+        {
+            base.OnLeftRoom();
+            skipButtonObj.SetActive( false );
         }
 
         public void EnableCharacterSelectCanvas()
