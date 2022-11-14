@@ -16,9 +16,31 @@ namespace LSH_Lib
 
         private void Update()
         {
-            for(int i =0; i<StageManager.Instance.Count; ++i)
+            AltarIcon();
+        }
+        void AltarIcon()
+        {
+            int count = StageManager.Instance.AltarCount;
+            switch(count)
             {
-                normalAltarImages[i].sprite = normalAltarSprite;
+                case 3:
+                    normalAltarImages[0].sprite = normalAltarSprite;
+                    break;
+                case 2:
+                    normalAltarImages[0].sprite = normalAltarSprite;
+                    normalAltarImages[1].sprite = normalAltarSprite;
+                    break;
+                case 1:
+                    normalAltarImages[0].sprite = normalAltarSprite; 
+                    normalAltarImages[1].sprite = normalAltarSprite; 
+                    normalAltarImages[2].sprite = normalAltarSprite;
+                    break;
+                case 0:
+                    normalAltarImages[0].sprite = normalAltarSprite;
+                    normalAltarImages[1].sprite = normalAltarSprite;
+                    normalAltarImages[2].sprite = normalAltarSprite;
+                    normalAltarImages[3].sprite = normalAltarSprite;
+                    break;
             }
         }
     }
