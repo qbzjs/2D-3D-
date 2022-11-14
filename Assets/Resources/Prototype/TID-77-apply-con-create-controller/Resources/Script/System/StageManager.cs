@@ -216,6 +216,7 @@ namespace GHJ_Lib
 		KSH_Lib.Object.ExitAltar exitAltar;
 		[SerializeField]
 		protected int playerCount;
+		
 		int needAltarCount = 4;
 		/*---End Func---*/
 		public void SetAltar(GaugedObj gaugedObj)
