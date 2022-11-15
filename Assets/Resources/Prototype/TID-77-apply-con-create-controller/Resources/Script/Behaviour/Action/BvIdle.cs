@@ -8,6 +8,7 @@ namespace GHJ_Lib
 	{
         protected override void Activate(in NetworkBaseController actor)
         {
+            actor.behaviorType = NetworkBaseController.BehaviorType.Idle;
             //PlayAnimation( actor );
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
             if(actor.IsMine && actor is ExorcistController)

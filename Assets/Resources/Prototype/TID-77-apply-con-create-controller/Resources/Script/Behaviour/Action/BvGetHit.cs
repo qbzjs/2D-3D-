@@ -11,6 +11,7 @@ namespace GHJ_Lib
         const float CrossStackBonusRate = 0.2f;
         protected override void Activate(in NetworkBaseController actor)
         {
+            actor.behaviorType = NetworkBaseController.BehaviorType.GetHit;
             actor.BaseAnimator.Play("Hit");
 
             if (actor.photonView.IsMine)

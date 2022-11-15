@@ -11,6 +11,7 @@ namespace GHJ_Lib
         int curIdx;
         protected override void Activate(in NetworkBaseController actor)
         {
+            actor.behaviorType = NetworkBaseController.BehaviorType.BvGhost;
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
             actor.BaseAnimator.Play("Idle_A");
             players = StageManager.Instance.PlayerControllers;

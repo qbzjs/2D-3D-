@@ -120,7 +120,7 @@ namespace GHJ_Lib
 
         IEnumerator InitUI()
         {
-            while (!DataManager.Instance.IsActive)
+            while (!DataManager.Instance.IsAllClientInited)
             {
                 yield return null;
             }

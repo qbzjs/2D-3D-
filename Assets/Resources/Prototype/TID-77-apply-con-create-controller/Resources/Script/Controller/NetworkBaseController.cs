@@ -14,6 +14,8 @@ namespace GHJ_Lib
 	{
 		public enum BehaviorType
 		{
+			Null,
+
 			Idle,
 			Interact,
 
@@ -66,6 +68,9 @@ namespace GHJ_Lib
 
 		//skill Component
 		public BaseSkill skill;
+
+		public BehaviorType behaviorType = BehaviorType.Null;
+
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
 		{
@@ -101,7 +106,15 @@ namespace GHJ_Lib
 			CurBehavior.Update( this, ref CurBehavior );
 		}
 
-		public virtual void InitCameraSetting()
+        private void OnGUI()
+        {
+            if(DataManager.Instance.IsAllClientInited)
+            {
+				GUI.Box( new Rect( 300, PlayerIndex * 30, 150, 30 ), behaviorType.ToString());
+            }
+        }
+
+        public virtual void InitCameraSetting()
 		{
 			fpvCam.InitCam();
 			tpvCam.InitCam();

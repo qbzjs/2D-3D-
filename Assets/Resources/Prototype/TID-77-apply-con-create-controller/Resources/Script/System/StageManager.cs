@@ -124,7 +124,7 @@ namespace GHJ_Lib
 			LocalController.TPVCam.SetAxis( new Vector2( rotateSpeed, 0 ) );
 			while ( true )
 			{
-				if ( DataManager.Instance.IsActive )
+				if ( DataManager.Instance.IsAllClientInited )
 				{
 					break;
 				}

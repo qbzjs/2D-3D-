@@ -68,19 +68,19 @@ namespace KSH_Lib
 		[Header("Debug Only")]
 		[SerializeField]List<PlayerData> playerDatas = new List<PlayerData>();
 
-		public bool IsActive
+		public bool IsAllClientInited
         {
 			get
             {
 				bool flag = true;
-				foreach(bool isActive in isActiveList)
+				foreach(bool isInited in isInitedList)
                 {
-					flag &= isActive;
+					flag &= isInited;
 				}
 				return flag;
             }
 		}
-		List<bool> isActiveList = new List<bool>();
+		List<bool> isInitedList = new List<bool>();
 
 
 
@@ -156,14 +156,14 @@ namespace KSH_Lib
 				for ( int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; ++i )
 				{
 					playerDatas.Add( new PlayerData() );
-					isActiveList.Add( false );
+					isInitedList.Add( false );
 				}
 			}
 		}
 		public void ResetPlayerDatas()
 		{
 			playerDatas = new List<PlayerData>();
-			isActiveList = new List<bool>();
+			isInitedList = new List<bool>();
 			LocalPlayerData.roleData = null;
 			PreRoleGroup = RoleData.RoleGroup.Null;
 			PreRoleName = RoleData.RoleType.Null;
@@ -288,7 +288,7 @@ namespace KSH_Lib
 		[PunRPC]
 		void ShareInitedRPC(int idx, bool isInited)
         {
-			isActiveList[idx] = isInited;
+			isInitedList[idx] = isInited;
         }
 
 

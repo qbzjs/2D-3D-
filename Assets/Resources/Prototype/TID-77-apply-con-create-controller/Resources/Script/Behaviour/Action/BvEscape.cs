@@ -10,6 +10,7 @@ namespace GHJ_Lib
     {
         protected override void Activate(in NetworkBaseController actor)
         {
+            actor.behaviorType = NetworkBaseController.BehaviorType.Escape;
             //애니매이션이 있다면 play를 시킴.
             //Default layer = 0;
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
