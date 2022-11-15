@@ -239,6 +239,12 @@ namespace GHJ_Lib
 		void DecreseDollCountRPC()
         {
 			--DollCount;
+
+			if(!PhotonNetwork.InRoom)
+            {
+				return;
+            }
+
 			if ( DollCount <= 1 )
 			{
 				ExitGame( LocalController );
