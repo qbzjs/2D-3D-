@@ -57,7 +57,7 @@ namespace LSH_Lib{
         }
         void OnExitButton()
         {
-            StageManager.Instance.EndGame( StageManager.Instance.LocalController );
+            StageManager.Instance.ExitGame( StageManager.Instance.LocalController );
         }
     }
 }

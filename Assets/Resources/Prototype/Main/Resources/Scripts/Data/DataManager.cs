@@ -48,6 +48,12 @@ namespace KSH_Lib
 		public RoleData.RoleGroup PreRoleGroup = RoleData.RoleGroup.Null;
 		public RoleData.RoleType PreRoleName = RoleData.RoleType.Null;
 
+		//Local Data
+		public PlayerData LocalPlayerData = new PlayerData();
+		public int PlayerIdx { get; private set; }
+
+
+		// Shared Data
 		public List<PlayerData> PlayerDatas
 		{
 			get
@@ -62,23 +68,19 @@ namespace KSH_Lib
 		[Header("Debug Only")]
 		[SerializeField]List<PlayerData> playerDatas = new List<PlayerData>();
 
-		public PlayerData LocalPlayerData = new PlayerData();
-		public int PlayerIdx { get; private set; }
-		public bool IsInited
+		public bool IsActive
         {
 			get
             {
 				bool flag = true;
-				foreach(bool isInited in isInitedList)
+				foreach(bool isActive in isActiveList)
                 {
-					flag &= isInited;
+					flag &= isActive;
 				}
 				return flag;
             }
 		}
-		List<bool> isInitedList = new List<bool>();
-
-
+		List<bool> isActiveList = new List<bool>();
 
 
 
@@ -154,14 +156,14 @@ namespace KSH_Lib
 				for ( int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; ++i )
 				{
 					playerDatas.Add( new PlayerData() );
-					isInitedList.Add( false );
+					isActiveList.Add( false );
 				}
 			}
 		}
 		public void ResetPlayerDatas()
 		{
 			playerDatas = new List<PlayerData>();
-			isInitedList = new List<bool>();
+			isActiveList = new List<bool>();
 			LocalPlayerData.roleData = null;
 			PreRoleGroup = RoleData.RoleGroup.Null;
 			PreRoleName = RoleData.RoleType.Null;
@@ -277,7 +279,6 @@ namespace KSH_Lib
 		{
 			playerDatas[idx].roleData = (ExorcistData)ExorcistData.Deserialize( data );
 		}
-
 		[PunRPC]
 		void DisconnectAllDataRPC(int idx)
         {
@@ -287,7 +288,7 @@ namespace KSH_Lib
 		[PunRPC]
 		void ShareInitedRPC(int idx, bool isInited)
         {
-			isInitedList[idx] = isInited;
+			isActiveList[idx] = isInited;
         }
 
 

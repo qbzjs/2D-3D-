@@ -99,7 +99,7 @@ namespace GHJ_Lib
 
         IEnumerator InitUI()
         {
-            while( !DataManager.Instance.IsInited )
+            while( !DataManager.Instance.IsActive )
             {
                 yield return null;
             }

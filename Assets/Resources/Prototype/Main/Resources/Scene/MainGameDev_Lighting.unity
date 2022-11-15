@@ -33414,7 +33414,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1632053666}
-  m_RootOrder: 379
+  m_RootOrder: 374
   m_LocalEulerAnglesHint: {x: 0, y: 12.199, z: 0}
 --- !u!64 &858561320
 MeshCollider:
@@ -54375,6 +54375,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1371327853}
+  - component: {fileID: 1371327854}
   - component: {fileID: 1371327852}
   m_Layer: 0
   m_Name: StageManager
@@ -54487,6 +54488,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1371327854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371327851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &1383088560
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61749,7 +61772,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1632053666}
-  m_RootOrder: 288
+  m_RootOrder: 259
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1597032336
 MeshCollider:
@@ -62916,6 +62939,7 @@ Transform:
   - {fileID: 303840349}
   - {fileID: 1480472033}
   - {fileID: 881587763}
+  - {fileID: 1597032335}
   - {fileID: 42016112}
   - {fileID: 435839570}
   - {fileID: 872146016}
@@ -62945,7 +62969,6 @@ Transform:
   - {fileID: 598595691}
   - {fileID: 366164446}
   - {fileID: 768011455}
-  - {fileID: 1597032335}
   - {fileID: 232183824}
   - {fileID: 1041308455}
   - {fileID: 1044438455}
@@ -63031,12 +63054,12 @@ Transform:
   - {fileID: 1344013032}
   - {fileID: 1976374360}
   - {fileID: 668211829}
+  - {fileID: 858561319}
   - {fileID: 234519248}
   - {fileID: 467129462}
   - {fileID: 1254293785}
   - {fileID: 1366256994}
   - {fileID: 1594435159}
-  - {fileID: 858561319}
   - {fileID: 915204413}
   - {fileID: 1627355398}
   - {fileID: 1890572543}

@@ -125,8 +125,8 @@ namespace GHJ_Lib
 		public override void BecomeGhost()
 		{
 			//UI ¹Ù²ï´Ù
+			StageManager.Instance.DecereseDollCount();
 			photonView.RPC("_BecomeGhost", RpcTarget.All);
-			photonView.RPC("DecreaseDollCount", RpcTarget.All);
 			photonView.RPC("DisappearPurificationBox", RpcTarget.All);
 			ChangeBehaviorTo(BehaviorType.Idle);
 		}
@@ -220,11 +220,11 @@ namespace GHJ_Lib
 			ChangeBehaviorTo(BehaviorType.BvGhost);
 		}
 
-		[PunRPC]
-		public void DecreaseDollCount()
-		{
-			StageManager.Instance.DollCountDecrease();
-		}
+		//[PunRPC]
+		//public void DecreaseDollCount()
+		//{
+		//	StageManager.Instance.DollCountDecrease();
+		//}
         public override bool DoResist()
         {
 			if (Input.GetKeyDown(KeyCode.LeftArrow)
