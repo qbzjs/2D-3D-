@@ -57,6 +57,7 @@ namespace LSH_Lib{
         }
         void OnExitButton()
         {
+            StageManager.Instance.DollCountDecrease();
             StageManager.Instance.EndGame( StageManager.Instance.LocalController );
         }
     }
