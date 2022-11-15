@@ -231,7 +231,7 @@ namespace GHJ_Lib
 			}
 			if (playerCount <= 1)
 			{
-				PhotonNetwork.LeaveRoom();
+				EndGame( LocalController );
 			}
 		}
 
