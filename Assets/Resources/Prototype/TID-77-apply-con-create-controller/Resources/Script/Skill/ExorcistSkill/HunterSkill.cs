@@ -34,6 +34,8 @@ namespace GHJ_Lib
         public string TrapName { get; protected set; }
         public bool isUse { get; protected set; }
 
+        static bool isRegistered;
+
         protected override void OnEnable()
         {
             isUse = false;
@@ -42,7 +44,12 @@ namespace GHJ_Lib
             TrapCount = 5;
             Controller.AllocSkill(new BvHunterActSkill());
             TrapName = "Trap";
-            PhotonNetwork.PrefabPool.RegisterPrefab(TrapName, TrapPrefab);
+
+            if(!isRegistered)
+            {
+                PhotonNetwork.PrefabPool.RegisterPrefab( TrapName, TrapPrefab );
+                isRegistered = true;
+            }
             if (photonView.IsMine)
             { 
                 StartCoroutine(HunterPassiveSkill());

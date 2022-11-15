@@ -101,7 +101,7 @@ namespace KSH_Lib.Object
         [PunRPC]
         void ExitGameRPC()
         {
-            StageManager.Instance.DoExit(targetController);
+            StageManager.Instance.ExitGame(targetController);
         }
 
     }

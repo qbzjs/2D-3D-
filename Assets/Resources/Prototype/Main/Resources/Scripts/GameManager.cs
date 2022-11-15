@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     public const string EnvironmentLayer = "Environment";
 
 
+
     public GameObject Exorcist
     {
         get
@@ -63,6 +64,8 @@ public class GameManager : MonoBehaviour
         }
     }
     GameObject[] dolls;
+
+
 
     public ExorcistController ExorcistController
     {
@@ -133,4 +136,18 @@ public class GameManager : MonoBehaviour
             return roomNumber;
         }
     }
+
+
+    public void DisconnectAllPlayer()
+    {
+        if ( PhotonNetwork.IsMasterClient )
+        {
+            for(int i = 1; i < PhotonNetwork.PlayerList.Length; ++i )
+            {
+                PhotonNetwork.CloseConnection( PhotonNetwork.PlayerList[i] );
+            }
+        }
+        PhotonNetwork.LeaveRoom();
+    }
+
 }

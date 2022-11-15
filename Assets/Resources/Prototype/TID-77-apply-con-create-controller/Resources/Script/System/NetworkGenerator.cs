@@ -10,43 +10,25 @@ namespace GHJ_Lib
 {
 	public class NetworkGenerator : Generator
 	{
-		/*--- Public Fields ---*/
         public NetworkGenerator(in GameObject[] targetPrefabs)
         {
-            foreach(var prefab in targetPrefabs)
+            if(!isGenerated)
             {
-                PhotonNetwork.PrefabPool.RegisterPrefab( prefab.name, prefab );
+                foreach ( var prefab in targetPrefabs )
+                {
+                    PhotonNetwork.PrefabPool.RegisterPrefab( prefab.name, prefab );
+                }
+                isGenerated = true;
             }
         }
 
-        /*
-		public NetworkGenerator(in GameObject targetObj)
-			:
-			base(targetObj)
-		{
-			PhotonNetwork.PrefabPool.RegisterPrefab(targetObj.name, targetObj);
-			this.targetID = targetObj.name;
-			this.targetObj = targetObj;
-		}
-
-		public NetworkGenerator(in GameObject targetObj, in Vector3[] genPositions)
-			:
-			base(targetObj)
-		{
-			PhotonNetwork.PrefabPool.RegisterPrefab(targetObj.name, targetObj);
-			this.targetID = targetObj.name;
-			this.targetObj = targetObj;
-			this.genPositions = genPositions;
-		}
-        */
-
-
-        /*--- Protected Fields ---*/
-
-        /*--- Private Fields ---*/
-
+        static bool isGenerated = false;
 
         /*--- Public Methods ---*/
+        public void AddPrefab(in GameObject target)
+        {
+            PhotonNetwork.PrefabPool.RegisterPrefab( target.name, target );
+        }
         public void GenerateSpread( in GameObject targetObj, in Transform[] genTransforms, int count, float radius, Vector3 anchor )
         {
             List<Transform> genTransformList = genTransforms.ToList();
@@ -120,8 +102,6 @@ namespace GHJ_Lib
 
 
         /*--- Private Methods ---*/
-
-
         void GenerateTargetAtList(in GameObject targetObj, ref List<GameObject> targetObjects, ref List<Transform> transforms, int index )
         {
             targetObjects.Add( _Generate( targetObj, transforms[index] ) );

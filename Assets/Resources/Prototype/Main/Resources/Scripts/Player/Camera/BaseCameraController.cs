@@ -67,6 +67,11 @@ namespace KSH_Lib
         }
         protected virtual void LateUpdate()
         {
+            if(camTarget == null)
+            {
+                return;
+            }
+
             if(CanUpdate)
             {
                 if(CanControl)

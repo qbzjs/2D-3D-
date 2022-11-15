@@ -11,16 +11,16 @@ using Cinemachine;
 
 namespace GHJ_Lib
 {
-	public class StageManager : MonoBehaviour
+	public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
 	{
 		/*--- Fields ---*/
 		public static StageManager Instance
 		{
 			get
 			{
-				if (instance == null)
+				if ( instance == null )
 				{
-					Debug.LogError("Not Exist StageManger!");
+					Debug.LogError( "Not Exist StageManger!" );
 				}
 				return instance;
 			}
@@ -32,7 +32,7 @@ namespace GHJ_Lib
 		[SerializeField] float camResetTime = 2.0f;
 		public bool IsGameStart;
 
-		[Header("Prefabs")]
+		[Header( "Prefabs" )]
 		public GameObject[] DollPrefabs;
 		public GameObject[] ExorcistPrefabs;
 		public GameObject NormalAltarPrefab;
@@ -40,19 +40,19 @@ namespace GHJ_Lib
 		public GameObject FinalAltarPrefab;
 		public GameObject PurificationBoxPrefab;
 
-		[Header("GenPos")]
+		[Header( "GenPos" )]
 		public Transform[] PlayerGenPos;
 		public Transform[] NormalAltarGenPos;
 		public Transform[] ExitAltarGenPos;
 		public Transform FinalAltarGenPos;
 		public Transform[] PurificationBoxGenPos;
 		public Transform[] CrowGenPos;
-		[Header("NormalAltarSetting")]
+		[Header( "NormalAltarSetting" )]
 		public int Count;
 		public float InitAreaRadius;
 		public Vector3 CenterPosition;
 
-		[Header("UI")]
+		[Header( "UI" )]
 		public DollUI dollUI;
 		public ExorcistUI exorcistUI;
 		public GameObject InteractTextUI;
@@ -73,7 +73,7 @@ namespace GHJ_Lib
 			}
 		}
 		ExorcistController exorcist;
-		public NetworkBaseController[] Players { get; private set; } = new NetworkBaseController[5];
+		public NetworkBaseController[] PlayerControllers { get; private set; } = new NetworkBaseController[5];
 
 
 		/*--- Private Fields ---*/
@@ -86,58 +86,57 @@ namespace GHJ_Lib
 		void Awake()
 		{
 			instance = this;
-			//DataManager.Instance.InitPlayerDatas();
 		}
 
 		void Start()
 		{
-			playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+			DollCount = PhotonNetwork.CurrentRoom.PlayerCount - 1;
 
 			InitGenerateor();
 			GeneratePlayerCharacter();
-			if (PhotonNetwork.IsMasterClient)
-            {
+			if ( PhotonNetwork.IsMasterClient )
+			{
 				GenerateObjects();
 			}
-			StartCoroutine(GameStartSequence());
+			StartCoroutine( GameStartSequence() );
 		}
 
 		IEnumerator GameStartSequence()
 		{
-			while (true)
+			while ( true )
 			{
-				if(LocalController != null)
-                {
-					LocalController.ChangeCameraTo(false);
-					LocalController.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
+				if ( LocalController != null )
+				{
+					LocalController.ChangeCameraTo( false );
+					LocalController.ChangeMoveFunc( NetworkBaseController.MoveType.Stop );
 
 					LocalController.FPVCam.ActiveCameraUpdate( false );
 					LocalController.TPVCam.ActiveCameraUpdate( true );
 					LocalController.FPVCam.ActiveCameraControl( false );
 					LocalController.TPVCam.ActiveCameraControl( false );
 					break;
-                }
+				}
 				yield return null;
 			}
 
 			DataManager.Instance.ShareAllData();
 
-			LocalController.TPVCam.SetAxis(new Vector2(rotateSpeed, 0));
-			while (true)
-            {
-				if(DataManager.Instance.IsInited)
+			LocalController.TPVCam.SetAxis( new Vector2( rotateSpeed, 0 ) );
+			while ( true )
+			{
+				if ( DataManager.Instance.IsActive )
 				{
 					break;
-                }
+				}
 				yield return null;
-            }
+			}
 
-			yield return new WaitForSeconds(waitTime);
-			LocalController.TPVCam.ResetCamTarget(camResetTime);
+			yield return new WaitForSeconds( waitTime );
+			LocalController.TPVCam.ResetCamTarget( camResetTime );
 			yield return new WaitForSeconds( camResetTime );
 
 			LocalController.InitCameraSetting();
-			LocalController.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
+			LocalController.ChangeMoveFunc( NetworkBaseController.MoveType.Input );
 			LocalController.CurBehavior.PushSuccessorState( new BvIdle() );
 			IsGameStart = true;
 		}
@@ -145,45 +144,37 @@ namespace GHJ_Lib
 
 		private void OnDrawGizmosSelected()
 		{
-			Gizmos.DrawWireSphere(CenterPosition, InitAreaRadius);
+			Gizmos.DrawWireSphere( CenterPosition, InitAreaRadius );
 		}
 
-		//private void OnGUI()
-		//{
-		//	if (activeDebugGUI)
-		//	{
-		//		GUI.Box(new Rect(300, 160, 150, 30), $"Local MoveSpeed: {DataManager.Instance.LocalPlayerData.roleData.MoveSpeed}");
-		//		GUI.Box(new Rect(460, 160, 150, 30), $"Local sheetIdx: {DataManager.Instance.LocalPlayerData.accountData.SheetIdx}");
+		public override void OnLeftRoom()
+		{
+			Cursor.visible = true;
+			Cursor.lockState = CursorLockMode.None;
 
-		//		for (int i = 0; i < DataManager.Instance.PlayerDatas.Count; ++i)
-		//		{
-		//			GUI.Box(new Rect(300, i * 30, 150, 30), $"MoveSpeed[{i}]: {DataManager.Instance.PlayerDatas[i].roleData.MoveSpeed}");
-		//			GUI.Box(new Rect(460, i * 30, 150, 30), $"sheetIdx[{i}]: {DataManager.Instance.PlayerDatas[i].accountData.SheetIdx}");
-		//		}
-		//	}
-		//}
 
+			GameManager.Instance.LoadScene( "99_GameResultScene" );
+		}
 
 		/*--- Public Methods ---*/
-		public void RegisterPlayer(GameObject playerObj)
+		public void RegisterPlayer( GameObject playerObj )
 		{
 			NetworkBaseController PlayerController = playerObj.GetComponent<NetworkBaseController>();
-			if (!PlayerController)
+			if ( !PlayerController )
 			{
-				Debug.LogError("RegisterPlayer() : Player Controller is Null");
+				Debug.LogError( "RegisterPlayer() : Player Controller is Null" );
 			}
-			//Debug.Log($"idx = {PlayerController.PlayerIndex}");
-			Players[PlayerController.PlayerIndex] =  PlayerController;
+			PlayerControllers[PlayerController.PlayerIndex] = PlayerController;
 		}
-		public static void CharacterLayerChange(GameObject Model, int layer)
+		public static void CharacterLayerChange( GameObject Model, int layer )
 		{
 			Model.layer = layer;
 			int count = Model.transform.childCount;
-			if (count != 0)
+			if ( count != 0 )
 			{
-				for (int i = 0; i < count; ++i)
+				for ( int i = 0; i < count; ++i )
 				{
-					CharacterLayerChange(Model.transform.GetChild(i).gameObject, layer);
+					CharacterLayerChange( Model.transform.GetChild( i ).gameObject, layer );
 				}
 			}
 			else
@@ -192,26 +183,11 @@ namespace GHJ_Lib
 			}
 		}
 
-		public void Disappear(GameObject gameObject)
-		{
-			gameObject.SetActive(false);
-		}
-
-		public void DestroyObj(GameObject gameObject)
-		{
-			Destroy(gameObject);
-		}
-		public void DestroyObjFromPhoton(GameObject gameObject)
-		{
-			PhotonNetwork.Destroy(gameObject);
-		}
 
 		/*---End Field---*/
-		public EscMenu EscMenu;
 		KSH_Lib.Object.FinalAltar finalAltar;
 		KSH_Lib.Object.ExitAltar exitAltar;
-		[SerializeField]
-		protected int playerCount;
+		[field: SerializeField] public int DollCount {get; private set;}
 		int needAltarCount = 4;
 
 		//>>suhyeon
@@ -246,48 +222,56 @@ namespace GHJ_Lib
 			}
 		}
 
-		public void DollCountDecrease() //Ghost가 될떄 (단 부를때 객체에서 바로부르는것이 아닌 RPC로 불러야함)
-		{
-			if (playerCount > 0)
-			{
-				--playerCount;
-			}
 
-			if (playerCount == 2)
+        public override void OnMasterClientSwitched( Player newMasterClient )
+        {
+			if(newMasterClient == PhotonNetwork.LocalPlayer)
 			{
-				exitAltar.EnableExitAltar();
+				GameManager.Instance.DisconnectAllPlayer();
 			}
+        }
 
-			if (playerCount == 1)
+		public void DecereseDollCount()
+        {
+			photonView.RPC( "DecreseDollCountRPC", RpcTarget.All );
+        }
+		[PunRPC]
+		void DecreseDollCountRPC()
+        {
+			--DollCount;
+
+			if(!PhotonNetwork.InRoom)
+            {
+				return;
+            }
+			if ( DollCount < 1 )
 			{
-				EndGame();
+				ExitGame( LocalController );
 			}
 		}
 
-		public void EndGame()
+        public void ExitGame(NetworkBaseController controller) // 비상탈출구로 나갈때, 탈출구로 나갈때, 빡종할때 (단 부를때 객체에서 바로부르는것이 아닌 RPC로 불러야함)
 		{
-			Cursor.visible = true;
-			Cursor.lockState = CursorLockMode.None;
-			//DataManager.Instance.ResetPlayerDatas();
-			PhotonNetwork.LeaveRoom();
-			GameManager.Instance.LoadScene("99_GameResultScene");
-		}
-
-		public void DoExit(NetworkBaseController controller) // 비상탈출구로 나갈때, 탈출구로 나갈때, 빡종할때 (단 부를때 객체에서 바로부르는것이 아닌 RPC로 불러야함)
-		{
-			if (controller is DollController)
+			if(controller is DollController)
 			{
-				DollCountDecrease();
-				if (controller.photonView.IsMine)
+				if ( !controller.IsMine )
 				{
-					EndGame();
+					PhotonNetwork.Destroy( controller.gameObject );
+					return;
 				}
-				else
+				if(PhotonNetwork.InRoom)
 				{
-					controller.transform.parent.gameObject.SetActive(false);
+					DecereseDollCount();
+					PhotonNetwork.LeaveRoom();
 				}
 			}
+			else if(controller is ExorcistController)
+            {
+				GameManager.Instance.DisconnectAllPlayer();
+			}
 		}
+
+
 		void InitGenerateor()
         {
 			networkGenerator = new NetworkGenerator(
@@ -302,9 +286,9 @@ namespace GHJ_Lib
 					}
 				);
 		}
+
 		void GenerateObjects()
 		{
-
 			networkGenerator.GenerateSpread(NormalAltarPrefab, NormalAltarGenPos, Count, InitAreaRadius, CenterPosition);
 			networkGenerator.GenerateRandomly(ExitAltarPrefab, ExitAltarGenPos);
 			networkGenerator.Generate(FinalAltarPrefab, FinalAltarGenPos.transform.position, FinalAltarGenPos.rotation);
@@ -334,12 +318,10 @@ namespace GHJ_Lib
 			Log.Instance.SetPlayer(playerObj.transform.GetChild(0).gameObject);
 
 			LocalController = playerObj.transform.GetChild(0).gameObject.GetComponent<NetworkBaseController>();
-
-			if (!EscMenu)
-			{
-				Debug.LogError(" EscMenu is Null");
-			}
-			EscMenu.controller = LocalController;
 		}
+
+        public void OnPhotonSerializeView( PhotonStream stream, PhotonMessageInfo info )
+        {
+        }
     }
 }
