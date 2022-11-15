@@ -65,8 +65,6 @@ namespace KSH_Lib
         [SerializeField]
         GameObject wolfInformation;
         [SerializeField]
-        GameObject monkeyInformation;
-        [SerializeField]
         GameObject penguinInformation;
 
         [Header("Developer UI")]
@@ -288,7 +286,6 @@ namespace KSH_Lib
             rabbitInformation.SetActive(false);
             turtleInformation.SetActive(false);
             wolfInformation.SetActive(false);
-            monkeyInformation.SetActive(false);
             penguinInformation.SetActive(false);
 
         }
@@ -394,11 +391,6 @@ namespace KSH_Lib
         {
             DisableMainLobbyPanelAll();
             wolfInformation.SetActive(true);
-        }
-        void EnableMonkeyInformation()
-        {
-            DisableMainLobbyPanelAll();
-            monkeyInformation.SetActive(true);
         }
         void EnablePenguinInformation()
         {

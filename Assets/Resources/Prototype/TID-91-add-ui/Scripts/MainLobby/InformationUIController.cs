@@ -14,8 +14,6 @@ namespace LSH_Lib
 		[SerializeField]
 		GameObject bishopInformation;
 		[SerializeField]
-		GameObject dokkaebiInformation;
-		[SerializeField]
 		GameObject hunterInformation;
 		[SerializeField]
 		GameObject photographerInformation;
@@ -38,7 +36,6 @@ namespace LSH_Lib
 		void DisableAllPanel()
         {
 			bishopInformation.SetActive(false);
-			dokkaebiInformation.SetActive(false);
 			hunterInformation.SetActive(false);
 			photographerInformation.SetActive(false);
 			priestInformation.SetActive(false);
@@ -64,11 +61,6 @@ namespace LSH_Lib
 			DisableAllPanel();
 			bishopInformation.SetActive(true);
 		}
-		void EnableDokkaebiInformation()
-        {
-			DisableAllPanel();
-			dokkaebiInformation.SetActive(true);
-        }
 		void EnableHunterInformation()
         {
 			DisableAllPanel();
