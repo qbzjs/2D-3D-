@@ -162,6 +162,9 @@ namespace KSH_Lib
 		{
 			playerDatas = new List<PlayerData>();
 			isInitedList = new List<bool>();
+			LocalPlayerData.roleData = null;
+			PreRoleGroup = RoleData.RoleGroup.Null;
+			PreRoleName = RoleData.RoleType.Null;
 		}
 
 		public void ShareAllData()
