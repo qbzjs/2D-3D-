@@ -239,17 +239,5 @@ namespace GHJ_Lib
 			}
 		}
 
-
-		/*----Use ESC Menu---*/
-		public override void ExitGame()
-		{
-			photonView.RPC("ExitAll", RpcTarget.All);
-		}
-
-		[PunRPC]
-		public void ExitAll()
-		{
-			StageManager.Instance.EndGame();
-		}
     }
 }

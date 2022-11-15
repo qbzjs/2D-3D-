@@ -13,7 +13,7 @@ namespace KSH_Lib.Object
         {
             if(other.gameObject.CompareTag(GameManager.DollTag))
             {
-                StageManager.Instance.DoExit( other.gameObject.GetComponent<DollController>() );
+                StageManager.Instance.EndGame( other.gameObject.GetComponent<DollController>() );
             }
         }
     }

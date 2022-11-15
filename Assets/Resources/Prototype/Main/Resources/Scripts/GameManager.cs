@@ -133,4 +133,18 @@ public class GameManager : MonoBehaviour
             return roomNumber;
         }
     }
+
+
+    public void DisconnectAllPlayer()
+    {
+        if ( PhotonNetwork.IsMasterClient )
+        {
+            for ( int i = 1; i < PhotonNetwork.PlayerList.Length; ++i )
+            {
+                PhotonNetwork.CloseConnection( PhotonNetwork.PlayerList[i] );
+            }
+        }
+        PhotonNetwork.LeaveRoom();
+    }
+
 }

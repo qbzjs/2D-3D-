@@ -242,27 +242,20 @@ namespace GHJ_Lib
 			{
 				--playerCount;
 			}
-
-			if (playerCount == 2)
-			{
-				exitAltar.EnableExitAltar();
-			}
-
-			if (playerCount == 1)
+			if (playerCount <= 1)
 			{
 				PhotonNetwork.LeaveRoom();
 			}
 		}
 
-		public void EndGame()
-		{
-			Cursor.visible = true;
-			Cursor.lockState = CursorLockMode.None;
-			PhotonNetwork.LeaveRoom();
-			GameManager.Instance.LoadScene("99_GameResultScene");
-		}
-
-		public void DoExit(NetworkBaseController controller) // 비상탈출구로 나갈때, 탈출구로 나갈때, 빡종할때 (단 부를때 객체에서 바로부르는것이 아닌 RPC로 불러야함)
+        public override void OnMasterClientSwitched( Player newMasterClient )
+        {
+			if(newMasterClient == PhotonNetwork.LocalPlayer)
+			{
+				GameManager.Instance.DisconnectAllPlayer();
+			}
+        }
+        public void EndGame(NetworkBaseController controller) // 비상탈출구로 나갈때, 탈출구로 나갈때, 빡종할때 (단 부를때 객체에서 바로부르는것이 아닌 RPC로 불러야함)
 		{
 			if(!controller.IsMine)
 			{
@@ -277,16 +270,10 @@ namespace GHJ_Lib
 			}
 			else if(controller is ExorcistController)
             {
-				if ( PhotonNetwork.IsMasterClient )
-				{
-					for ( int i = 1; i < PhotonNetwork.PlayerList.Length; ++i )
-					{
-						PhotonNetwork.CloseConnection( PhotonNetwork.PlayerList[i] );
-					}
-				}
-				PhotonNetwork.LeaveRoom();
+				GameManager.Instance.DisconnectAllPlayer();
 			}
 		}
+
 		void InitGenerateor()
         {
 			networkGenerator = new NetworkGenerator(

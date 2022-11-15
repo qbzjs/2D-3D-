@@ -302,17 +302,6 @@ namespace GHJ_Lib
 		{
 			CurBehavior.PushSuccessorState(BvActiveSkill);
 		}
-		// Exit
-		public virtual void ExitGame()
-		{
-			photonView.RPC( "_ExitGame", RpcTarget.All );
-		}
-		[PunRPC]
-		public void _ExitGame()
-		{
-			StageManager.Instance.DoExit( this );
-		}
-
 
 		public void AllocSkill(Behavior<NetworkBaseController> skillBehavior)
 		{
@@ -367,14 +356,5 @@ namespace GHJ_Lib
 				this.transform.position = new Vector3((float)stream.ReceiveNext(), (float)stream.ReceiveNext(), (float)stream.ReceiveNext());
 			}
 		}
-		public void ExitCharacter()
-        {
-			if(IsMine)
-            {
-				StageManager.Instance.DoExit( this );
-				PhotonNetwork.Destroy( gameObject );
-			}
-        }
-
 	}
 }
