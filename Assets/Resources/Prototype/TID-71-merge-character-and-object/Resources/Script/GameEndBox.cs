@@ -8,11 +8,11 @@ namespace GHJ_Lib
 {
 	public class GameEndBox: MonoBehaviour
 	{
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider collider)
         {
-            if (collision.gameObject.CompareTag(GameManager.DollTag))
+            if (collider.gameObject.CompareTag(GameManager.DollTag))
             {
-                collision.gameObject.GetComponent<DollController>().ExitCharacter();
+                collider.gameObject.GetComponent<DollController>().ExitCharacter();
             }
         }
    
