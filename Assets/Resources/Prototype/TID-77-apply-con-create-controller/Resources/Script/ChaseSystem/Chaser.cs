@@ -163,11 +163,12 @@ namespace GHJ_Lib
             }
             RaycastHit[] Hits;
             Vector3 CamPos = mainCamera.transform.position;
-
             foreach (Fugitive fugitive in Fugitives)
             {
-                Debug.Log(fugitive);
-                Debug.Log(fugitive.gameObject.name);
+                if (fugitive == null)
+                {
+                    continue;
+                }
                 Ray ray = new Ray(CamPos, fugitive.transform.position - CamPos);
                 Hits = Physics.RaycastAll(ray, sphereCollider.radius);
 
@@ -183,6 +184,7 @@ namespace GHJ_Lib
                     }
                 }
             }
+            
 
         }
     }
