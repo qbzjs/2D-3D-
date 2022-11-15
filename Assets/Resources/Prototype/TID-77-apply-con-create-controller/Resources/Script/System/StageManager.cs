@@ -244,15 +244,14 @@ namespace GHJ_Lib
         }
         public void EndGame(NetworkBaseController controller) // 비상탈출구로 나갈때, 탈출구로 나갈때, 빡종할때 (단 부를때 객체에서 바로부르는것이 아닌 RPC로 불러야함)
 		{
-			if(!controller.IsMine)
-			{
-				DollCountDecrease();
-				PhotonNetwork.Destroy( controller.gameObject );
-				return;
-            }
-
 			if(controller is DollController)
 			{
+				if ( !controller.IsMine )
+				{
+					DollCountDecrease();
+					PhotonNetwork.Destroy( controller.gameObject );
+					return;
+				}
 				PhotonNetwork.LeaveRoom();
 			}
 			else if(controller is ExorcistController)
