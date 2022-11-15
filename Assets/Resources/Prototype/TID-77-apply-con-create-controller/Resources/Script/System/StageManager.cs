@@ -233,7 +233,7 @@ namespace GHJ_Lib
 
 		public void DecereseDollCount()
         {
-			photonView.RPC( "DecreseDollCountRPC", RpcTarget.AllViaServer );
+			photonView.RPC( "DecreseDollCountRPC", RpcTarget.All );
         }
 		[PunRPC]
 		void DecreseDollCountRPC()
