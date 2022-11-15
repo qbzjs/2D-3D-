@@ -30,6 +30,8 @@ namespace LSH_Lib
         Sprite[] playerIcons;
         [SerializeField]
         GameObject[] playermodels;
+
+        [Header("player's ui(mine)")]
         [SerializeField]
         TextMeshProUGUI mynameText;
         [SerializeField]
@@ -37,7 +39,10 @@ namespace LSH_Lib
         [SerializeField]
         Image myImage;
         [SerializeField]
+        Image myState;
+        [SerializeField]
         GameObject[] uiModels;
+
         int playeridx;
         string type;
         private void Start()
@@ -48,24 +53,29 @@ namespace LSH_Lib
         {
             if(DataManager.Instance.PreRoleGroup.Equals(RoleData.RoleGroup.Exorcist))
             {
-                //playerInfors[3].Backgroud.sprite = backgrounds[0];
+                playerInfors[3].Backgroud.sprite = backgrounds[0];
                 for (int i = 0; i < DataManager.Instance.PlayerDatas.Count; ++i)
                 {
                     if (i == playeridx)
                     {
                         mynameText.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
-                        myTypeText.text = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
+                        type = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
+                        myTypeText.text = type;
+                        //myState.sprite = DataManager.Instance.PlayerDatas[i].roleData.CurState;
                     }
                     else
                     {
+                        string icontype;
                         playerInfors[i].NickName.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
-                        playerInfors[i].RoleType.text = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
+                        icontype = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
+                        playerInfors[i].RoleType.text = icontype;
+                        playerInfors[i].PlayerIcon.sprite = SetIcon(icontype);
                     }
                 }
             }
             if(DataManager.Instance.PreRoleGroup.Equals(RoleData.RoleGroup.Doll))
             {
-                //playerInfors[3].Backgroud.sprite = backgrounds[1];
+                playerInfors[3].Backgroud.sprite = backgrounds[1];
                 
                 for(int i = 0; i<DataManager.Instance.PlayerDatas.Count; ++i)
                 {
@@ -75,7 +85,7 @@ namespace LSH_Lib
                         type = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
                         myTypeText.text = type;
                     }
-                    else //if(DataManager.Instance.PlayerDatas[i].roleData.T)
+                    else //if(DataManager.Instance.PlayerDatas[i].roleData.Type)
                     {
                         string icontype;
                         playerInfors[i].NickName.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
