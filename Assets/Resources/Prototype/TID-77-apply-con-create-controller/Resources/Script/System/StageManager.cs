@@ -254,6 +254,7 @@ namespace GHJ_Lib
 					PhotonNetwork.Destroy( controller.gameObject );
 					return;
 				}
+				DecereseDollCount();
 				PhotonNetwork.LeaveRoom();
 			}
 			else if(controller is ExorcistController)
