@@ -256,7 +256,7 @@ namespace GHJ_Lib
 			{
 				if ( !controller.IsMine )
 				{
-					PhotonNetwork.Destroy( controller.gameObject );
+					controller.gameObject.SetActive( false );
 					return;
 				}
 				if(PhotonNetwork.InRoom)
