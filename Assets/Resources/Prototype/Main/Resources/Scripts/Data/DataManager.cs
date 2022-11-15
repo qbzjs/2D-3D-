@@ -18,13 +18,6 @@ namespace KSH_Lib
 			{
 				if (instance == null)
 				{
-					//GameObject obj = new GameObject("_DataManager");
-					//instance = obj.AddComponent<DataManager>();
-					//pv = obj.AddComponent<PhotonView>();
-					//pv.ViewID = PhotonNetwork.AllocateViewID(0);
-
-					//pv.observableSearch = (PhotonView.ObservableSearch.AutoFindActive);
-					//pv.FindObservables();
 					Debug.LogError( "No DataManager" );
 				}
 				return instance;
@@ -168,6 +161,7 @@ namespace KSH_Lib
 		public void ResetPlayerDatas()
 		{
 			playerDatas = new List<PlayerData>();
+			isInitedList = new List<bool>();
 		}
 
 		public void ShareAllData()

@@ -23,10 +23,18 @@ namespace GHJ_Lib
 		protected Sk_InstallCross skInstallCross = new Sk_InstallCross();
 		protected Sk_CollectCross skCollectCross = new Sk_CollectCross();
 
+		static bool isRegisterPrefab;
+
 		protected override void OnEnable()
 		{
 			base.OnEnable();
-			PhotonNetwork.PrefabPool.RegisterPrefab(CrossPrefabName, CrossPrefab);
+
+			if(!isRegisterPrefab)
+			{
+				PhotonNetwork.PrefabPool.RegisterPrefab( CrossPrefabName, CrossPrefab );
+				isRegisterPrefab = true;
+			}
+
 			Controller.AllocSkill(new BvBishopActSkill());
 			
 			PoketInCross.Add(60.0f);

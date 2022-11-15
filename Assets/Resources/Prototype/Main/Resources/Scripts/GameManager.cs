@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     public const string EnvironmentLayer = "Environment";
 
 
+
     public GameObject Exorcist
     {
         get
@@ -63,6 +64,8 @@ public class GameManager : MonoBehaviour
         }
     }
     GameObject[] dolls;
+
+
 
     public ExorcistController ExorcistController
     {

@@ -86,7 +86,6 @@ namespace GHJ_Lib
 		void Awake()
 		{
 			instance = this;
-			//DataManager.Instance.InitPlayerDatas();
 		}
 
 		void Start()
@@ -152,6 +151,8 @@ namespace GHJ_Lib
         {
 			Cursor.visible = true;
 			Cursor.lockState = CursorLockMode.None;
+
+
 			GameManager.Instance.LoadScene( "99_GameResultScene" );
 		}
 
@@ -163,7 +164,6 @@ namespace GHJ_Lib
 			{
 				Debug.LogError("RegisterPlayer() : Player Controller is Null");
 			}
-			//Debug.Log($"idx = {PlayerController.PlayerIndex}");
 			PlayerControllers[PlayerController.PlayerIndex] =  PlayerController;
 		}
 		public static void CharacterLayerChange(GameObject Model, int layer)
@@ -183,19 +183,6 @@ namespace GHJ_Lib
 			}
 		}
 
-		public void Disappear(GameObject gameObject)
-		{
-			gameObject.SetActive(false);
-		}
-
-		public void DestroyObj(GameObject gameObject)
-		{
-			Destroy(gameObject);
-		}
-		public void DestroyObjFromPhoton(GameObject gameObject)
-		{
-			PhotonNetwork.Destroy(gameObject);
-		}
 
 		/*---End Field---*/
 		KSH_Lib.Object.FinalAltar finalAltar;
@@ -288,6 +275,7 @@ namespace GHJ_Lib
 					}
 				);
 		}
+
 		void GenerateObjects()
 		{
 			networkGenerator.GenerateSpread(NormalAltarPrefab, NormalAltarGenPos, Count, InitAreaRadius, CenterPosition);
