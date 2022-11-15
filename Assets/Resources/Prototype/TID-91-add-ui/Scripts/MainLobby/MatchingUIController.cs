@@ -47,22 +47,23 @@ namespace LSH_Lib
         [Header("Debug Only")]
         [SerializeField]
         private GameObject skipButtonObj;
-        [SerializeField]
-        public string roomName = "Debug";
 
-        [SerializeField]
-        string lshSceneName = "";
-        [SerializeField]
-        string kshSceneName = "";
 
         //bool isJoinedRoom = false;
         CharacterSelectCanvasController charaSelectCanvasController;
+
 
         private void Start()
         {
             // Deubg
             //isJoinedRoom = true;
             skipButtonObj.SetActive(false);
+        }
+
+        public override void OnEnable()
+        {
+            base.OnEnable();
+            Debug.Log( $"Load Room Name: {PlayerPrefs.GetString( "RoomName" )}" );
         }
 
         private void Update()
@@ -204,6 +205,7 @@ namespace LSH_Lib
         }
         void OnSkipButtonClicked()
         {
+            PlayerPrefs.SetString( "RoomName", uiManager.RoomNameTMP.text );
             LoadRoomScene();
         }
 
@@ -219,11 +221,6 @@ namespace LSH_Lib
         //    loadSceneName = lshSceneName;
         //    OnSkipButtonClicked();
         //}
-        void OnKSHButtonClicked()
-        {
-            loadSceneName = kshSceneName;
-            OnSkipButtonClicked();
-        }
         void InitializedPlayerImages()
         {
             for(var i = 0; i<playerLoadImgs.Length;++i)
