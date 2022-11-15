@@ -140,14 +140,17 @@ public class GameManager : MonoBehaviour
 
     public void DisconnectAllPlayer()
     {
-        if ( PhotonNetwork.IsMasterClient )
+        if(PhotonNetwork.InRoom)
         {
-            for(int i = 1; i < PhotonNetwork.PlayerList.Length; ++i )
+            if ( PhotonNetwork.IsMasterClient )
             {
-                PhotonNetwork.CloseConnection( PhotonNetwork.PlayerList[i] );
+                for ( int i = 1; i < PhotonNetwork.PlayerList.Length; ++i )
+                {
+                    PhotonNetwork.CloseConnection( PhotonNetwork.PlayerList[i] );
+                }
             }
+            PhotonNetwork.LeaveRoom();
         }
-        PhotonNetwork.LeaveRoom();
     }
 
 }
