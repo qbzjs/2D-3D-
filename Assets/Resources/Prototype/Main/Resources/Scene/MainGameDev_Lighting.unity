@@ -33414,7 +33414,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1632053666}
-  m_RootOrder: 386
+  m_RootOrder: 379
   m_LocalEulerAnglesHint: {x: 0, y: 12.199, z: 0}
 --- !u!64 &858561320
 MeshCollider:
@@ -54470,7 +54470,6 @@ MonoBehaviour:
   InteractTextUI: {fileID: 4792538854473707924}
   InteractionPrompt: {fileID: 951984086}
   <CastSystem>k__BackingField: {fileID: 1219104196}
-  EscMenu: {fileID: 1744713003}
   playerCount: 0
   AltarCount: 4
 --- !u!4 &1371327853
@@ -61750,7 +61749,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1632053666}
-  m_RootOrder: 316
+  m_RootOrder: 288
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1597032336
 MeshCollider:
@@ -62946,6 +62945,7 @@ Transform:
   - {fileID: 598595691}
   - {fileID: 366164446}
   - {fileID: 768011455}
+  - {fileID: 1597032335}
   - {fileID: 232183824}
   - {fileID: 1041308455}
   - {fileID: 1044438455}
@@ -62974,7 +62974,6 @@ Transform:
   - {fileID: 1290353701}
   - {fileID: 379825521}
   - {fileID: 930927043}
-  - {fileID: 1597032335}
   - {fileID: 1250324620}
   - {fileID: 709805502}
   - {fileID: 1324221670}
@@ -63037,6 +63036,7 @@ Transform:
   - {fileID: 1254293785}
   - {fileID: 1366256994}
   - {fileID: 1594435159}
+  - {fileID: 858561319}
   - {fileID: 915204413}
   - {fileID: 1627355398}
   - {fileID: 1890572543}
@@ -63044,7 +63044,6 @@ Transform:
   - {fileID: 950911264}
   - {fileID: 1467541250}
   - {fileID: 265687113}
-  - {fileID: 858561319}
   - {fileID: 535198229}
   - {fileID: 1442786384}
   - {fileID: 1639105930}
@@ -81925,7 +81924,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerUiObject: {fileID: 6399978560757835687}
-  FriendUiObjets:
+  FriendUiObjects:
+  - {fileID: 6399978560757835687}
   - {fileID: 5501143019282614382}
   - {fileID: 5501143020252418867}
   - {fileID: 5501143020465699746}
