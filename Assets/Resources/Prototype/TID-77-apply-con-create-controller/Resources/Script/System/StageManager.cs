@@ -198,7 +198,6 @@ namespace GHJ_Lib
 		}
 
 		/*---End Field---*/
-		public EscMenu EscMenu;
 		KSH_Lib.Object.FinalAltar finalAltar;
 		KSH_Lib.Object.ExitAltar exitAltar;
 		[SerializeField]
@@ -251,7 +250,7 @@ namespace GHJ_Lib
 
 			if (playerCount == 1)
 			{
-				EndGame();
+				PhotonNetwork.LeaveRoom();
 			}
 		}
 
@@ -287,20 +286,6 @@ namespace GHJ_Lib
 				}
 				PhotonNetwork.LeaveRoom();
 			}
-
-
-			//if (controller is DollController)
-			//{
-			//	DollCountDecrease();
-			//	if (controller.photonView.IsMine)
-			//	{
-			//		EndGame();
-			//	}
-			//	else
-			//	{
-			//		controller.transform.parent.gameObject.SetActive(false);
-			//	}
-			//}
 		}
 		void InitGenerateor()
         {
@@ -318,7 +303,6 @@ namespace GHJ_Lib
 		}
 		void GenerateObjects()
 		{
-
 			networkGenerator.GenerateSpread(NormalAltarPrefab, NormalAltarGenPos, Count, InitAreaRadius, CenterPosition);
 			networkGenerator.GenerateRandomly(ExitAltarPrefab, ExitAltarGenPos);
 			networkGenerator.Generate(FinalAltarPrefab, FinalAltarGenPos.transform.position, FinalAltarGenPos.rotation);
@@ -348,12 +332,6 @@ namespace GHJ_Lib
 			Log.Instance.SetPlayer(playerObj.transform.GetChild(0).gameObject);
 
 			LocalController = playerObj.transform.GetChild(0).gameObject.GetComponent<NetworkBaseController>();
-
-			if (!EscMenu)
-			{
-				Debug.LogError(" EscMenu is Null");
-			}
-			EscMenu.controller = LocalController;
 		}
     }
 }

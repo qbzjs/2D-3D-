@@ -11,7 +11,6 @@ namespace LSH_Lib{
     {
         public GameObject ExitButton;
         public GameObject OptionUIPanel;
-        public NetworkBaseController controller;
         private bool isInputKey = false;
 
         private void Update()
@@ -58,7 +57,7 @@ namespace LSH_Lib{
         }
         void OnExitButton()
         {
-            controller.ExitGame();
+            StageManager.Instance.DoExit( StageManager.Instance.LocalController );
         }
     }
 }
