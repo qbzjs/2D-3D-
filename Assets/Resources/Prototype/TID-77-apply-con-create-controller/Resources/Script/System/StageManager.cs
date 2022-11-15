@@ -232,25 +232,25 @@ namespace GHJ_Lib
         }
 
 		public void DecereseDollCount()
-        {
+		{
+			if ( !PhotonNetwork.InRoom )
+			{
+				return;
+			}
 			photonView.RPC( "DecreseDollCountRPC", RpcTarget.AllViaServer );
-        }
+		}
 		[PunRPC]
 		void DecreseDollCountRPC()
         {
 			--DollCount;
 
-			if(!PhotonNetwork.InRoom)
-            {
-				return;
-            }
 			if ( DollCount < 1 )
 			{
-				ExitGame( LocalController );
+				GameManager.Instance.DisconnectAllPlayer();
 			}
 		}
 
-        public void ExitGame(NetworkBaseController controller) // 비상탈출구로 나갈때, 탈출구로 나갈때, 빡종할때 (단 부를때 객체에서 바로부르는것이 아닌 RPC로 불러야함)
+		public void ExitGame(NetworkBaseController controller) // 비상탈출구로 나갈때, 탈출구로 나갈때, 빡종할때 (단 부를때 객체에서 바로부르는것이 아닌 RPC로 불러야함)
 		{
 			if(controller is DollController)
 			{
