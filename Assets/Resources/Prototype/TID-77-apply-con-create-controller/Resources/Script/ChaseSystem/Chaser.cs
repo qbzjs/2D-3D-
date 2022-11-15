@@ -56,6 +56,10 @@ namespace GHJ_Lib
 
                 foreach (Fugitive fugitive in Fugitives)
                 {
+                    if(fugitive == null)
+                    {
+                        continue;
+                    }
                     if (IsInCameraView(fugitive.gameObject) &&
                         CheckObstacle(fugitive.gameObject))
                     {
