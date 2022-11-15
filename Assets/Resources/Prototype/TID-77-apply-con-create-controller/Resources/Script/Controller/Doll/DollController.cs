@@ -14,7 +14,7 @@ namespace GHJ_Lib
 		/*--- Public Fields ---*/
 		public int CrossStack { get { return crossStack; } }
 		protected int crossStack = 0;
-
+		[SerializeField] protected Fugitive fugitive; 
 		public bool IsCrowDebuff { get; set; } = false;
 		public float CrowGauge { get; set; } = 0.0f;
 
@@ -287,8 +287,8 @@ namespace GHJ_Lib
 						//이동속도증가 한번더 
 					}
 					break;
-
 			}
+
 			if (photonView.IsMine)
 			{ 
 				Log.Instance.WriteLog("crossStack" + crossStack.ToString(),0);
