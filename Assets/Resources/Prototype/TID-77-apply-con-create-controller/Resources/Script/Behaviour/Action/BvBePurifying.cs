@@ -14,6 +14,7 @@ namespace GHJ_Lib
             if ( actor.IsMine )
             {
                 actor.ActivateCameraCollision( false );
+                actor.CurCam.ActiveCameraUpdate(true);
             }
         }
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
@@ -25,6 +26,8 @@ namespace GHJ_Lib
                 actor.BaseAnimator.Play("Idle_A");
                 if ( actor.IsMine )
                 {
+                    (DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP += (DataManager.Instance.RoleInfos[actor.TypeIndex] as DollData).DollHP * 0.25f;
+                    DataManager.Instance.ShareRoleData();
                     actor.ActivateCameraCollision( true );
                 }
                 return Bv;

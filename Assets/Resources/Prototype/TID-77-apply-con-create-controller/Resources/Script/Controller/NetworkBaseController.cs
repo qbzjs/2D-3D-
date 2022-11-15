@@ -159,7 +159,7 @@ namespace GHJ_Lib
 
 		protected virtual void CamForwardMove()
 		{
-			Vector3 moveDirection = fpvCam.camAim.transform.position - camTarget.transform.position;
+			Vector3 moveDirection = camTarget.transform.forward;
 			direction = moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z).normalized;
 		}
 		protected void CannotMove()

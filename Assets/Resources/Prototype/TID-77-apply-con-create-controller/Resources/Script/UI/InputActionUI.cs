@@ -3,25 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using KSH_Lib;
+using KSH_Lib.Data;
 namespace GHJ_Lib
 {
-	public class InputActionUI: MonoBehaviour
+	public class InputActionUI : MonoBehaviour
 	{
-		
+		[Header("Setting Sprite According to TypeOrder")]
+		public bool IsDifferentICon;
+		[Header("ICon, you must follow roleType order")]
+		public Sprite[] Icons = new Sprite[10];
+
+
 		WaitForEndOfFrame frame = new WaitForEndOfFrame();
-		public Image ICon;
-		public Image CoolTimeCover;
-		public TextMeshProUGUI CoolTime; 
+		[SerializeField] protected Image Icon;
+		[SerializeField] protected Image CoolTimeCover;
+		[SerializeField] protected TextMeshProUGUI CoolTime;
 		bool IsBlink=false;
 		bool IsCountDown = false;
-
 		public float blinkControlTime = 0.5f;
 
+        public void Start()
+        {
+			if (IsDifferentICon)
+			{
+				Icon.sprite = Icons[(int)DataManager.Instance.GetLocalRoleType];
+			}
+        }
 
-		public void PushButton(bool isDown)
+        public void PushButton(bool isDown)
 		{
-			ICon.enabled = isDown;
+			CoolTimeCover.enabled = isDown;
 		}
 		
 
@@ -71,14 +83,14 @@ namespace GHJ_Lib
 			float blinkTime = 0;
 			while (true)
             {
-				ICon.enabled = IconEnable;
+				Icon.enabled = IconEnable;
 				blinkTime += Time.deltaTime;
 				time -= Time.deltaTime;
 				yield return frame;
 				if (time <= 0.0f)
 				{
 					IsBlink = false;
-					ICon.enabled = true;
+					CoolTimeCover.enabled = true;
 					break;
 				}
 				if (blinkTime > blinkControlTime)

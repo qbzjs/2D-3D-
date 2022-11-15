@@ -10,6 +10,11 @@ namespace GHJ_Lib
         {
             //resistGauge = 0.0f;
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
+            if (actor.IsMine)
+            { 
+                actor.CurCam.ActiveCameraControl(true);
+                actor.CurCam.ActiveCameraUpdate(true);
+            }
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)

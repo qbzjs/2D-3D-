@@ -21,10 +21,10 @@ namespace GHJ_Lib
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag(GameManager.DollTag))
+            if (other.gameObject.CompareTag(GameManager.DollTag))
             {
                 Fugitive fugitive = other.GetComponent<Fugitive>();
-                if (Fugitives.Contains(fugitive))
+                if (fugitive ==null|| Fugitives.Contains(fugitive))
                 {
                     return;
                 }
@@ -33,10 +33,11 @@ namespace GHJ_Lib
         }
         private void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag(GameManager.DollTag))
+            if (other.gameObject.CompareTag(GameManager.DollTag))
             {
                 Fugitive fugitive = other.GetComponent<Fugitive>();
-                if (Fugitives.Contains(fugitive))
+                
+                if (fugitive==null|| Fugitives.Contains(fugitive))
                 {
                     fugitive.CanWatch(false);
                     Fugitives.Remove(fugitive);
@@ -44,70 +45,71 @@ namespace GHJ_Lib
                 
             }
         }
-        //private void Update()
-        //{
-        //    if (photonView.IsMine)
-        //    {
-        //        if (Fugitives.Count == 0)
-        //        {
-        //            return;
-        //        }
+        private void Update()
+        {
+            if (photonView.IsMine)
+            {
+                if (Fugitives.Count == 0)
+                {
+                    return;
+                }
 
-        //        foreach (Fugitive fugitive in Fugitives)
-        //        {
-        //            if (IsInCameraView(fugitive.gameObject)&&
-        //                CheckObstacle(fugitive.gameObject))
-        //            {
-        //                if (!fugitive.IsWatched)
-        //                {
-        //                    fugitive.CanWatch(true);
-        //                }
-        //            }
-        //            else
-        //            {
-        //                if (fugitive.IsWatched)
-        //                {
-        //                    fugitive.CanWatch(false);
-        //                }
-        //            }
-        //        }
+                foreach (Fugitive fugitive in Fugitives)
+                {
+                    if (IsInCameraView(fugitive.gameObject) &&
+                        CheckObstacle(fugitive.gameObject))
+                    {
+                        if (!fugitive.IsWatched)
+                        {
+                            fugitive.CanWatch(true);
+                        }
+                    }
+                    else
+                    {
+                        if (fugitive.IsWatched)
+                        {
+                            fugitive.CanWatch(false);
+                        }
+                    }
+                }
 
-                
-        //        Log.Instance.WriteLog(chaseState.ToString(),0);
-        //        if (CheckFugitivesIsChasedOnView())
-        //        {
-        //            chaseState = ChaseState.Chasing;
-        //        }
-        //        else
-        //        {
-        //            switch (chaseState)
-        //            {
-        //                case ChaseState.Chasing:
-        //                    {
-        //                        CoolDowntime = 2.0f;
-        //                        chaseState = ChaseState.CoolDown;
-        //                    }
-        //                    break;
-        //                case ChaseState.CoolDown:
-        //                    {
-        //                        CoolDowntime -= Time.deltaTime;
-        //                        if (CoolDowntime <= 0.0f)
-        //                        {
-        //                            CoolDowntime = 0.0f;
-        //                            chaseState = ChaseState.Wait;
-        //                        }
-        //                    }
-        //                    break;
-        //                case ChaseState.Wait:
-        //                    {
 
-        //                    }
-        //                    break;
-        //            }
-        //        }
-        //    }
-        //}
-        
+                Log.Instance.WriteLog(chaseState.ToString(), 0);
+                Log.Instance.WriteLog(CoolDowntime.ToString(), 1);
+                if (CheckFugitivesIsChasedOnView())
+                {
+                    chaseState = ChaseState.Chasing;
+                }
+                else
+                {
+                    switch (chaseState)
+                    {
+                        case ChaseState.Chasing:
+                            {
+                                CoolDowntime = 2.0f;
+                                chaseState = ChaseState.CoolDown;
+                            }
+                            break;
+                        case ChaseState.CoolDown:
+                            {
+                                CoolDowntime -= Time.deltaTime;
+                                if (CoolDowntime <= 0.0f)
+                                {
+                                    CoolDowntime = 0.0f;
+                                    chaseState = ChaseState.Wait;
+                                }
+                            }
+                            break;
+                        case ChaseState.Wait:
+                            {
+
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+
         protected bool IsInCameraView(GameObject targetObject)
         {
             Vector3 targetViewPort = mainCamera.WorldToViewportPoint(targetObject.transform.position);
@@ -153,29 +155,36 @@ namespace GHJ_Lib
             return false;
         }
 
-        //private void OnDrawGizmos()
-        //{
-        //    RaycastHit[] Hits;
-        //    Vector3 CamPos = mainCamera.transform.position;
-        //    foreach (Fugitive fugitive in Fugitives)
-        //    {
-        //        Ray ray = new Ray(CamPos, fugitive.transform.position - CamPos);
-        //        Hits = Physics.RaycastAll(ray, sphereCollider.radius);
+        private void OnDrawGizmos()
+        {
+            if (Fugitives.Count == 0)
+            {
+                return;
+            }
+            RaycastHit[] Hits;
+            Vector3 CamPos = mainCamera.transform.position;
 
-        //        Gizmos.color = Color.red;
-        //        Gizmos.DrawRay(ray);
+            foreach (Fugitive fugitive in Fugitives)
+            {
+                Debug.Log(fugitive);
+                Debug.Log(fugitive.gameObject.name);
+                Ray ray = new Ray(CamPos, fugitive.transform.position - CamPos);
+                Hits = Physics.RaycastAll(ray, sphereCollider.radius);
 
-        //        Gizmos.color = Color.cyan;
-        //        if (Hits.Length > 0)
-        //        {
-        //            foreach (RaycastHit hit in Hits)
-        //            {
-        //                Gizmos.DrawSphere(hit.transform.position, 1.0f);
-        //            }
-        //        }
-        //    }
+                Gizmos.color = Color.red;
+                Gizmos.DrawRay(ray);
 
-        //}
+                Gizmos.color = Color.cyan;
+                if (Hits.Length > 0)
+                {
+                    foreach (RaycastHit hit in Hits)
+                    {
+                        Gizmos.DrawSphere(hit.transform.position, 1.0f);
+                    }
+                }
+            }
+
+        }
     }
 }
 
