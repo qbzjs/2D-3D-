@@ -8,7 +8,8 @@ namespace KSH_Lib
     public class BaseCameraController : MonoBehaviour
     {
         /*--- Public Fields ---*/
-        public bool canUpdate = false;
+        [field:SerializeField]public bool CanUpdate { get; protected set; }
+        public bool CanControl;
 
 
         /*--- Protected Fields ---*/
@@ -66,29 +67,50 @@ namespace KSH_Lib
         }
         protected virtual void LateUpdate()
         {
-            GetDataFromInputManager();
-            SmoothInputData();
-            RotateCamera();
-        }
-
-        /*--- Public Methods ---*/
-        public virtual void InitCam( GameObject camTarget )
-        {
-            if ( camTarget == null )
+            if(camTarget == null)
             {
-                Debug.LogError( "BaseCameraController.InitCam(): No camTarget Inited" );
                 return;
             }
 
-            this.camTarget = camTarget;
-
-            virtualCam.AddCinemachineComponent<Cinemachine3rdPersonFollow>();
-            virtualCam.AddCinemachineComponent<CinemachineSameAsFollowTarget>();
-            virtualCam.Follow = this.camTarget.transform;
-
-            canUpdate = true;
+            if(CanUpdate)
+            {
+                if(CanControl)
+                {
+                    GetDataFromInputManager();
+                    SmoothInputData();
+                }
+                RotateCamera();
+            }
         }
 
+        /*--- Public Methods ---*/
+        public virtual void InitCam()
+        {
+            CanUpdate = true;
+        }
+
+        public void SetAxis(Vector2 axis)
+        {
+            camAxis = axis;
+        }
+
+        public void ActiveCameraUpdate(bool isActive)
+        {
+            CanUpdate = isActive;
+        }
+        public void ActiveCameraControl( bool isActive )
+        {
+            CanControl = isActive;
+            if(!isActive)
+            {
+                camAxis = new Vector2( 0.0f, 0.0f );
+            }
+        }
+
+        public void ResetCamTarget(float resetTime)
+        {
+            camTarget.LeanRotate(new Vector3(0.0f, 0.0f, 0.0f), resetTime);
+        }
 
         /*--- Protected Methods ---*/
         protected virtual void GetDataFromInputManager()

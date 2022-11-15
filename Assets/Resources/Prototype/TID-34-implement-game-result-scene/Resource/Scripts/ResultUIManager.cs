@@ -3,34 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using KSH_Lib;
 public class ResultUIManager : MonoBehaviour
 {
-    #region Public Fields
-    public string NextSceneName;
-    #endregion
-
-    #region Private Fields
-    #endregion
-
-    #region MonoBehaviour Callbacks
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
-    #endregion
-
-    #region Public Methods
+    [SerializeField]
+    string NextSceneName;
     public void ReturnToHome()
     {
+        DataManager.Instance.ResetPlayerDatas();
         SceneManager.LoadScene(NextSceneName);
     }
-    #endregion
-
-    #region Private Methods
-    #endregion
 }

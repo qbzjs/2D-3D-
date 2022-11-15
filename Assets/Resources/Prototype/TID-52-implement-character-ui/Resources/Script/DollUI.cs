@@ -4,42 +4,44 @@ using UnityEngine;
 using UnityEngine.UI;
 using KSH_Lib;
 using KSH_Lib.Data;
+
+using Photon.Pun;
+
 namespace GHJ_Lib
 { 
     public class DollUI : InGameUI
     {
-        #region Public Fields
+        
         [Header("UI Objects")]
         public GameObject PlayerUiObject;
-        public GameObject[] FriendUiObjets;
+        public GameObject[] FriendUiObjects;
 
 
         [Header("PlayerHP")]
-        public Image PlayerDollHP;
-        public Image PlayerDevilHP;
+        public Slider PlayerDollHP;
+        public Slider PlayerDevilHP;
 
         [Header("Friend1 HP")]
-        public Image Friend1DollHP;
-        public Image Friend1DevilHP;
+        public Slider Friend1DollHP;
+        public Slider Friend1DevilHP;
+
         [Header("Friend2 HP")]
-        public Image Friend2DollHP;
-        public Image Friend2DevilHP;
+        public Slider Friend2DollHP;
+        public Slider Friend2DevilHP;
+
         [Header("Friend3 HP")]
-        public Image Friend3DollHP;
-        public Image Friend3DevilHP;
+        public Slider Friend3DollHP;
+        public Slider Friend3DevilHP;
 
-        #endregion
+        [Header("Skill ICon")]
+        public InputActionUI CommomSkill;
+        public InputActionUI CharacterSkill;
 
-        #region Private Fields
-
-        private List<Image> friendDollHP=new List<Image>();
-        private List<Image> friendDevilHP = new List<Image>();
+        private List<Slider> friendDollHP = new List<Slider>();
+        private List<Slider> friendDevilHP = new List<Slider>();
 
         private List<float> maxDollHP = new List<float>();
         private List<float> maxDevilHP = new List<float>();
-
-        //private float[] maxDollHP = new float[4];
-        //private float[] maxDevilHP = new float[4];
 
         private int myIdx;
 
@@ -48,12 +50,9 @@ namespace GHJ_Lib
 
         bool isInited;
 
-        #endregion
-
-        #region MonoBehaviour CallBacks
         void Start()
         {
-            curDollCount = GameManager.Instance.CurPlayerCount - 1;
+            curDollCount = PhotonNetwork.CurrentRoom.PlayerCount - 1;
             curFriendCount = curDollCount - 1;
 
             DisableUI_All();
@@ -67,44 +66,44 @@ namespace GHJ_Lib
             friendDevilHP.Add(Friend2DevilHP);
             friendDevilHP.Add(Friend3DevilHP);
 
-            
-
             StartCoroutine(InitUI());
-
         }
 
         private void Update()
         {
-            if(!isInited)
+            if(!isInited || PlayerUiObject == null || FriendUiObjects == null)
+            {
+                return;
+            }
+
+            if ( !PhotonNetwork.InRoom )
             {
                 return;
             }
 
             int j = 0;
-            for (int i = 1; i < curDollCount+1; ++i)
+            for (int i = 1; i < curDollCount + 1; ++i)
             {
                 if (myIdx == i)
                 {
-                    PlayerDollHP.fillAmount = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i-1];
-                    PlayerDevilHP.fillAmount = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i-1];
-                   
+                    PlayerDollHP.value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i - 1];
+                    PlayerDevilHP.value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i - 1];
+                    PlayerDollHP.value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i - 1];
+                    PlayerDevilHP.value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i - 1];
                 }
                 else
                 {
-                    friendDollHP[j].fillAmount = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i-1];
-                    friendDevilHP[j].fillAmount = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i-1];
+                    friendDollHP[j].value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP / maxDollHP[i - 1];
+                    friendDevilHP[j].value = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP / maxDevilHP[i - 1];
                     j++;
                 }
-                
             }
-           
         }
-
 
         void DisableUI_All()
         {
             PlayerUiObject.SetActive(false);
-            foreach(var ui in FriendUiObjets)
+            foreach(var ui in FriendUiObjects)
             {
                 ui.SetActive(false);
             }
@@ -115,20 +114,19 @@ namespace GHJ_Lib
             PlayerUiObject.SetActive(true);
             for(int i = 0; i < curFriendCount; ++i)
             {
-                FriendUiObjets[i].SetActive(true);
+                FriendUiObjects[i].SetActive(true);
             }
         }
 
         IEnumerator InitUI()
         {
-            while (!DataManager.Instance.IsInited)
+            while (!DataManager.Instance.IsActive)
             {
                 yield return null;
             }
 
 
             myIdx = DataManager.Instance.PlayerIdx;
-            Debug.Log("myIdx : "+ myIdx);
             for (int i = 1; i <= curDollCount; ++i)
             {
                 maxDollHP.Add((DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP);
@@ -137,30 +135,5 @@ namespace GHJ_Lib
             isInited = true;
             yield return true;
         }
-
-
-        //IEnumerator InitUI()
-        //{
-        //    while(true)
-        //    {
-        //        if(DataManager.Instance.PlayerDatas[GameManager.Instance.CurPlayerCount - 1].roleData != null)
-        //        {
-        //            for (int i = 1; i <= curDollCount; ++i)
-        //            {
-        //                if (DataManager.Instance.PlayerDatas[i].roleData is DollData)
-        //                {
-        //                    maxDollHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DollHP;
-        //                    maxDevilHP[i - 1] = (DataManager.Instance.PlayerDatas[i].roleData as DollData).DevilHP;
-        //                }
-        //            }
-        //            canUpdate = true;
-        //            yield return true;
-        //        }
-        //    }
-        //}
-
-        #endregion
-
-
     }
 }

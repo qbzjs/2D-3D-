@@ -44,13 +44,11 @@ namespace KSH_Lib
         }
         protected override void LateUpdate()
         {
-            if(!canUpdate)
-            {
-                return;
-            }
-
             base.LateUpdate();
-            ZoomCamera();
+            if ( CanControl )
+            {
+                ZoomCamera();
+            }
         }
 
 

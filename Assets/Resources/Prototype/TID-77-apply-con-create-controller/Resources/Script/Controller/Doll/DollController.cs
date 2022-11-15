@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using KSH_Lib.Data;
 using MSLIMA.Serializer;
-
+using KSH_Lib.Object;
 namespace GHJ_Lib
 {
 	public class DollController : NetworkBaseController, IPunObservable
@@ -15,15 +15,10 @@ namespace GHJ_Lib
 		public int CrossStack { get { return crossStack; } }
 		protected int crossStack = 0;
 
-		public bool IsCrowDebuff { get; set; } = true;
+		public bool IsCrowDebuff { get; set; } = false;
 		public float CrowGauge { get; set; } = 0.0f;
 
-
-		[SerializeField]
-		protected GameObject GhostModel;
-		[SerializeField]
-		protected Material GhostMaterial;
-
+		public GameObject trapInteractor;
 
 		/*--- Protected Fields ---*/
 		protected BvCollapse down = new BvCollapse();
@@ -33,8 +28,11 @@ namespace GHJ_Lib
 		protected BvEscape escape = new BvEscape();
 		protected BvHide bvHide = new BvHide();
 		protected BvbeTrapped bvbeTrapped = new BvbeTrapped();
+		protected BvGhost bvGhost = new BvGhost();
 
-		
+		[SerializeField] protected SkinnedMeshRenderer skinnedMeshRenderer;
+		[SerializeField] protected Material ghostMaterial;
+
 
 		public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
 
@@ -42,17 +40,23 @@ namespace GHJ_Lib
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			if (photonView.IsMine)
-			{
-				tpvCam.gameObject.SetActive(true);
-				curCam = tpvCam;
-			}
-			CurBehavior.PushSuccessorState(idle);
+			//CurBehavior.PushSuccessorState(idle);
 		}
 
+		public override void InitCameraSetting()
+        {
+			if (photonView.IsMine)
+			{
+				base.InitCameraSetting();
+				tpvCam.gameObject.SetActive(true);
+				fpvCam.gameObject.SetActive(false);
+				CurCam = tpvCam;
+			}
+		}
 
-		/*--- Public Methods ---*/
-		public void ChangeBvToBeCaught(BaseCameraController cam)
+        /*--- Public Methods ---*/
+
+        public void ChangeBvToBeCaught(BaseCameraController cam)
 		{
 			characterModel.gameObject.SetActive(false);
 			ChangeCamera(cam);
@@ -121,8 +125,8 @@ namespace GHJ_Lib
 		public override void BecomeGhost()
 		{
 			//UI ¹Ù²ï´Ù
+			StageManager.Instance.DecereseDollCount();
 			photonView.RPC("_BecomeGhost", RpcTarget.All);
-			photonView.RPC("DecreaseDollCount", RpcTarget.All);
 			photonView.RPC("DisappearPurificationBox", RpcTarget.All);
 			ChangeBehaviorTo(BehaviorType.Idle);
 		}
@@ -203,24 +207,24 @@ namespace GHJ_Lib
 		[PunRPC]
 		public void _BecomeGhost()
 		{
-			//¿¡¼ÂÀÌ ¹Ù²ï´Ù
-			characterModel.SetActive(false);
-			GhostModel.SetActive(true);
-			//Layer°¡ ¹Ù²ï´Ù
-			StageManager.CharacterLayerChange(GhostModel, 8);//8 : Ghost Layer
-			GhostModel.GetComponent<Animator>().Play("GhostIdle");
-
-			if (DataManager.Instance.LocalPlayerData.roleData.Type == RoleData.RoleType.Exorcist)
+			if (IsMine)
 			{
-				GhostModel.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().material = GhostMaterial;
+				skinnedMeshRenderer.material = ghostMaterial;
 			}
+			else
+			{
+				skinnedMeshRenderer.material.color = new Color32(0,0,0,0);
+			}
+
+			StageManager.CharacterLayerChange(characterObj, LayerMask.NameToLayer(GameManager.GhostLayer));//8 : Ghost Layer
+			ChangeBehaviorTo(BehaviorType.BvGhost);
 		}
 
-		[PunRPC]
-		public void DecreaseDollCount()
-		{
-			StageManager.Instance.DollCountDecrease();
-		}
+		//[PunRPC]
+		//public void DecreaseDollCount()
+		//{
+		//	StageManager.Instance.DollCountDecrease();
+		//}
         public override bool DoResist()
         {
 			if (Input.GetKeyDown(KeyCode.LeftArrow)
@@ -285,7 +289,10 @@ namespace GHJ_Lib
 					break;
 
 			}
-			Log.Instance.WriteLog("crossStack" + crossStack.ToString(), 2);
+			if (photonView.IsMine)
+			{ 
+				Log.Instance.WriteLog("crossStack" + crossStack.ToString(),0);
+			}
 		}
 
 		public void HitWolfPasSkill(bool flag)
@@ -426,14 +433,18 @@ namespace GHJ_Lib
 				}
 				break;
 				case BehaviorType.Hide:
-					{
-						CurBehavior.PushSuccessorState(bvHide);
-					}
-					break;
+				{
+					CurBehavior.PushSuccessorState(bvHide);
+				}
+				break;
 				case BehaviorType.BeTrapped:
 				{
 					CurBehavior.PushSuccessorState(bvbeTrapped);
-					
+				}
+				break;
+				case BehaviorType.BvGhost:
+				{
+					CurBehavior.PushSuccessorState(bvGhost);
 				}
 				break;
 			}

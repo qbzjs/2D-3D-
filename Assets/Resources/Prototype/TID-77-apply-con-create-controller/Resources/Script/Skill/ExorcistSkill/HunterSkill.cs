@@ -3,32 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
 using Photon.Pun;
+
+using LSH_Lib;
 namespace GHJ_Lib
 {
-	public class HunterSkill: ExorcistSkill
-	{
-		public GameObject TrapPrefab;
+    public class HunterSkill : ExorcistSkill
+    {
+        public struct PosRot
+        {
+            public Vector3 position;
+            public Quaternion rotation;
+
+            public PosRot(Vector3 pos, Quaternion rot)
+            {
+                position = pos;
+                rotation = rot;
+            }
+        }
+
+        public GameObject TrapPrefab;
         public GameObject CrowPrefab;
         protected List<Crow> Crows = new List<Crow>();
-
         protected Sk_Default sk_Default = new Sk_Default();
+        Transform[] crowGenPos;
         protected Sk_InstallTrap sk_InstallTrap = new Sk_InstallTrap();
         protected Sk_CollectTrap sk_CollectTrap = new Sk_CollectTrap();
-            
-        
-		public int TrapCount { get; protected set; }
+        protected RandomGenerator<int> crowRandomGenerator = new RandomGenerator<int>();
+
+        public int TrapCount { get; protected set; }
         public string TrapName { get; protected set; }
         public bool isUse { get; protected set; }
+
+        static bool isRegistered;
 
         protected override void OnEnable()
         {
             isUse = false;
             base.OnEnable();
+            SettingCrowGenPosIdx();
             TrapCount = 5;
             Controller.AllocSkill(new BvHunterActSkill());
             TrapName = "Trap";
-            PhotonNetwork.PrefabPool.RegisterPrefab(TrapName, TrapPrefab);
-            StartCoroutine(HunterPassiveSkill());
+
+            if(!isRegistered)
+            {
+                PhotonNetwork.PrefabPool.RegisterPrefab( TrapName, TrapPrefab );
+                isRegistered = true;
+            }
+            if (photonView.IsMine)
+            { 
+                StartCoroutine(HunterPassiveSkill());
+            }
         }
         public void InstallTrap()
         {
@@ -37,9 +62,7 @@ namespace GHJ_Lib
         }
         public void Installfail()
         {
-            Debug.LogWarning("InstallFail");
             isUse = false;
-            Debug.LogWarning("isUse :" + isUse);
         }
         public void CollectTrap(GameObject gameObject)
         {
@@ -77,14 +100,14 @@ namespace GHJ_Lib
                 yield break;
             }
             isUse = true;
-            Debug.LogWarning("isUse :" + isUse);
+            StageManager.Instance.exorcistUI.CharacterSkill.PushButton(true);
             while (true)
             {
-                Debug.Log("ExcuteActiveSkill");
-                Debug.LogWarning("isUse :" + isUse);
+                
                 yield return new WaitForEndOfFrame();
                 if (!isUse)
                 {
+                    StageManager.Instance.exorcistUI.CharacterSkill.PushButton(false);
                     Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
                     break;
                 }
@@ -96,31 +119,56 @@ namespace GHJ_Lib
             RandomSpawnCrows(1);
 
             yield return new WaitForSeconds(10.0f);
-            ClearCrows();
+            ClearCrowTo_RPC();
             RandomSpawnCrows(2);
 
             yield return new WaitForSeconds(15.0f);
-            ClearCrows();
+            ClearCrowTo_RPC();
             RandomSpawnCrows(3);
 
             yield return new WaitForSeconds(20.0f);
-            ClearCrows();
+            ClearCrowTo_RPC();
             RandomSpawnCrows(4);
         }
-        protected void RandomSpawnCrows(int num)
+        protected void SettingCrowGenPosIdx()
         {
-            Transform[] crowGenPos = StageManager.Instance.CrowGenPos;
-            for (int i = 0; i < num; i++)
+            crowGenPos = StageManager.Instance.CrowGenPos;
+            for (int i = 0; i < crowGenPos.Length; i++)
             {
-                GameObject crowObj = Instantiate(CrowPrefab, crowGenPos[Random.Range(0, crowGenPos.Length)]);
-                Crows.Add(crowObj.GetComponent<Crow>());
-            }
-
-            foreach (Crow crow in Crows)
-            {
-                crow.SetHunter(this);
+                crowRandomGenerator.Add(i);
             }
         }
+
+        protected void RandomSpawnCrows(int num)
+        {
+            int[] UsedIdx = new int[num];   
+
+            for (int i = 0; i < num; i++)
+            {
+                int idx = crowRandomGenerator.GetAndRemoveItem();
+                UsedIdx[i] = idx;
+                photonView.RPC("InstanceCrow", RpcTarget.AllViaServer, idx);
+            }
+
+            for (int i = 0; i < UsedIdx.Length; ++i)
+            {
+                crowRandomGenerator.Add(UsedIdx[i]);
+            }
+            
+        }
+        public void ClearCrowTo_RPC()
+        {
+            photonView.RPC("ClearCrows",RpcTarget.AllViaServer);
+        }
+        [PunRPC]
+        public void InstanceCrow(int idx)
+        {
+            GameObject crowObj = Instantiate(CrowPrefab, crowGenPos[idx]);
+            Crow crow = crowObj.GetComponent<Crow>();
+            Crows.Add(crow);
+            crow.SetOwner(this);
+        }
+        [PunRPC]
         protected void ClearCrows()
         {
             foreach (Crow crow in Crows)
@@ -141,10 +189,10 @@ namespace GHJ_Lib
             doll.CrowGauge = 0.0f;
             if (DataManager.Instance.PlayerIdx == 0)
             {
-                StageManager.CharacterLayerChange(target, LayerMask.NameToLayer("RanderOnTop"));
+                StageManager.CharacterLayerChange(target, LayerMask.NameToLayer(GameManager.RendOnTopLayer));
             }
             yield return new WaitForSeconds(20.0f);
-            StageManager.CharacterLayerChange(target, LayerMask.NameToLayer("Player"));
+            StageManager.CharacterLayerChange(target, LayerMask.NameToLayer(GameManager.PlayerLayer));
             yield return new WaitForSeconds(30.0f);
             doll.IsCrowDebuff = false;
         }

@@ -27,14 +27,23 @@ namespace GHJ_Lib
 			BePurifying,
 			Escape,
 			Hide,
-			BeTrapped
+			BeTrapped,
+			BvGhost
 		}
 
+		public enum MoveType
+		{
+			Input,
+			Stop,
+			CamForward,
+			StopRotation
+		}
 
 		public int TypeIndex { get; protected set; }
 		public int PlayerIndex { get; protected set; }
 		public bool IsMine { get { return photonView.IsMine; } }
-
+		public BaseCameraController FPVCam { get { return fpvCam; } }
+		public BaseCameraController TPVCam { get { return tpvCam; } }
 		public Behavior<NetworkBaseController> CurBehavior = new Behavior<NetworkBaseController>();
 		protected BvIdle idle = new BvIdle();
 		protected BvInteract interact = new BvInteract();
@@ -49,7 +58,7 @@ namespace GHJ_Lib
 		protected KSH_Lib.FPV_CameraController fpvCam;
 		[SerializeField]
 		protected TPV_CameraController tpvCam;
-		protected BaseCameraController curCam;
+		public BaseCameraController CurCam { get; protected set; }
 
 		//move ¿©ºÎ
 		public delegate void DelPlayerInput();
@@ -69,11 +78,12 @@ namespace GHJ_Lib
 
 			if ( photonView.IsMine )
 			{
-				TypeIndex = (int)DataManager.Instance.LocalPlayerData.roleData.TypeOrder;
+				TypeIndex = (int)DataManager.Instance.LocalPlayerData.roleData.Type;
 				PlayerIndex = DataManager.Instance.PlayerIdx;
 				photonView.RPC( "SetPlayerIdx", RpcTarget.All, PlayerIndex, TypeIndex );
 			}
-			ChangeMoveFunc( true );
+			StageManager.Instance.RegisterPlayer(gameObject);
+			
 		}
 		protected override void Update()
 		{
@@ -91,18 +101,66 @@ namespace GHJ_Lib
 			CurBehavior.Update( this, ref CurBehavior );
 		}
 
-
-		/*--- Public Methods ---*/
-		public void ChangeMoveFunc(bool canMove)
+		public virtual void InitCameraSetting()
 		{
-			if (canMove)
+			fpvCam.InitCam();
+			tpvCam.InitCam();
+		}
+		public void ChangeCameraTo(bool isFPV)
+		{
+			if (isFPV)
 			{
-				SetDirectionFunc = SetDirection;
+				fpvCam.gameObject.SetActive(true);
+				tpvCam.gameObject.SetActive(false);
+				CurCam = fpvCam;
 			}
 			else
 			{
-				SetDirectionFunc = CannotMove;
+				tpvCam.gameObject.SetActive(true);
+				fpvCam.gameObject.SetActive(false);
+				CurCam = tpvCam;
 			}
+		}
+
+		/*--- Public Methods ---*/
+		public void ChangeMoveFunc(MoveType moveType)
+		{
+			if(IsMine)
+			{
+				switch (moveType)
+				{
+					case MoveType.Input:
+					{
+						SetDirectionFunc = SetDirection;
+						CurCam.CanControl = true;
+					}
+					break;
+					case MoveType.Stop:
+					{
+						SetDirectionFunc = CannotMove;
+						CurCam.ActiveCameraControl( false );
+					}
+					break;
+					case MoveType.CamForward:
+					{
+						SetDirectionFunc = CamForwardMove;
+						CurCam.CanControl = true;
+					}
+					break;
+					case MoveType.StopRotation:
+					{
+						SetDirectionFunc = CannotMove;
+						CurCam.CanControl = true;
+					}
+					break;
+				}
+			}
+		}
+
+		protected virtual void CamForwardMove()
+		{
+			Vector3 moveDirection = camTarget.transform.forward;
+			direction = moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z).normalized;
 		}
 		protected void CannotMove()
 		{
@@ -113,8 +171,8 @@ namespace GHJ_Lib
 		{
 			if (photonView.IsMine)
 			{
-				curCam.gameObject.SetActive(false);
-				curCam = cam;
+				CurCam.gameObject.SetActive(false);
+				CurCam = cam;
 				cam.gameObject.SetActive(true);
 			}
 		}
@@ -169,7 +227,7 @@ namespace GHJ_Lib
 
 		public bool IsInteractionKeyHold()
         {
-            return Input.GetKey( KeyCode.G );
+            return Input.GetKey( KeyCode.G )&&(CurBehavior is not BvGetHit);
         }
 		public bool IsInteractionKeyDown()
 		{
@@ -181,6 +239,7 @@ namespace GHJ_Lib
 		{
 			PlayerIndex = playerIdx;
 			TypeIndex = typeIdx;
+			
 		}
 
 		public void ActivateCameraCollision(bool enable)
@@ -243,17 +302,6 @@ namespace GHJ_Lib
 		{
 			CurBehavior.PushSuccessorState(BvActiveSkill);
 		}
-		// Exit
-		public virtual void ExitGame()
-		{
-			photonView.RPC( "_ExitGame", RpcTarget.All );
-		}
-		[PunRPC]
-		public void _ExitGame()
-		{
-			StageManager.Instance.DoExit( this );
-		}
-
 
 		public void AllocSkill(Behavior<NetworkBaseController> skillBehavior)
 		{

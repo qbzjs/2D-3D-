@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
 using KSH_Lib.Object;
+using Photon.Pun;
 
 namespace GHJ_Lib
 {
@@ -17,10 +18,11 @@ namespace GHJ_Lib
         // 조건 : 보고있는방향 + 범위 + 비활성화
 
 		/*--- Protected Fields ---*/
-		protected float reductionGauge = 1.0f;
-		protected float increaseGauge = 5.0f;
+		[SerializeField] protected float reductionGauge = 1.0f;
+        [SerializeField] protected float increaseGauge = 5.0f;
+        [SerializeField] protected float OnStackDistance = 5.0f;
 
-        protected float timer = 1.0f;
+        public bool IsEnable = true;
         /*--- Private Fields ---*/
         protected override void OnEnable()
         {
@@ -30,6 +32,7 @@ namespace GHJ_Lib
         public void SetGauge(float gauge)
         {
             SyncGauge(gauge / MaxGauge);
+            IsEnable = true;
         }
 
         /*
@@ -46,27 +49,8 @@ namespace GHJ_Lib
                 }
             }
         }
-        private void OnTriggerEnter(Collider other)
-        {
-            if (curHolyGauge < 0.0f)
-            {
-                return;
-            }
-
-            if (Vector3.Distance(transform.position, other.transform.position) > 5)
-            {
-                //십자가랑 상호작용가능
-                return;
-            }
-        
-
-            if (other.CompareTag("Doll"))
-            {
-                DisableCross();
-                other.GetComponent<DollController>().AprrochCrossArea();
-            }
-        }
-
+        */
+        /*
         private void DisableCross()
         {
             // 외형변화
@@ -75,9 +59,44 @@ namespace GHJ_Lib
         */
 
 
+        protected override bool CheckAdditionalCondition(in InteractionPromptUI promptUI)
+        {
+            return IsEnable;
+        }
+
+        bool DollRunningCondition()
+        {
+            return targetController.IsInteractionKeyHold();
+        }
+        void DollPauseAction()
+        {
+            targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
+        }
+        void DollFinishAction()
+        {
+            targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
+            IsEnable = false;
+        }
         public override bool Interact(Interactor interactor)
         {
-            throw new System.NotImplementedException();
+            targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Interact);
+
+            if (targetController.gameObject.CompareTag(GameManager.DollTag))
+            {
+                castingSystem.ForceSetRatioTo(RateOfGauge);
+                castingSystem.StartCasting(CastingSystem.Cast.CreateByRatio(deltaRatio: DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed/MaxGauge,destRatio: 1.0f-RateOfGauge, coolTime: CoolTime),
+                    new CastingSystem.CastFuncSet(SyncDataWith: SyncGauge,RunningCondition: DollRunningCondition, PauseAction: DollPauseAction,FinishAction: DollFinishAction)
+                    );
+                return true;
+            }
+            else if (targetController.gameObject.CompareTag(GameManager.ExorcistTag))
+            {
+            }
+            else
+            {
+                Debug.LogError("NormalAltar.Interact: No Interact Target Tags, Please check target's interactor tag");
+            }
+            return false;
         }
     }
 }

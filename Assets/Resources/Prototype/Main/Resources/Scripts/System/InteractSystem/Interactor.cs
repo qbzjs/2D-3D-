@@ -17,7 +17,7 @@ namespace KSH_Lib.Object
         [SerializeField] protected KeyCode interactionKey;
 
         [SerializeField] protected InteractionPromptUI interactionPromptUI;
-        [SerializeField] NetworkBaseController controller;
+        [SerializeField] protected NetworkBaseController controller;
 
         protected Collider[] colliders;
         

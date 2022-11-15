@@ -18,24 +18,20 @@ namespace KSH_Lib
 			{
 				if (instance == null)
 				{
-					GameObject obj = new GameObject("_DataManager");
-					instance = obj.AddComponent<DataManager>();
-					pv = obj.AddComponent<PhotonView>();
-					pv.ViewID = PhotonNetwork.AllocateViewID(1);
-
-					pv.observableSearch = (PhotonView.ObservableSearch.AutoFindActive);
-					pv.FindObservables();
+					Debug.LogError( "No DataManager" );
 				}
 				return instance;
 			}
 		}
 		static DataManager instance;
-		static PhotonView pv;
+		//static PhotonView pv;
 
 
 		/*--- Fields ---*/
-		const string CharcterStatusCSV = "Prototype/Main/Resources/Datas/CharacterStatus";
-		const string ItemDataCSV = "Prototype/Main/Resources/Datas/ItemData";
+		string CharcterStatusCSV = Application.streamingAssetsPath + "/Datas/CharacterStatus.csv";
+		string ItemDataCSV = Application.streamingAssetsPath + "/Datas/ItemData.csv";
+
+		public RoleData.RoleType GetLocalRoleType { get { return LocalPlayerData.roleData.Type; } }
 
 		// Role Informations
 		public List<RoleData> RoleInfos { get { return roleInfos; } }
@@ -49,9 +45,15 @@ namespace KSH_Lib
 
 
 		// This For Room Settings
-		public RoleData.RoleType PreRoleType;
-		public RoleData.RoleTypeOrder PreRoleTypeOrder;
+		public RoleData.RoleGroup PreRoleGroup = RoleData.RoleGroup.Null;
+		public RoleData.RoleType PreRoleName = RoleData.RoleType.Null;
 
+		//Local Data
+		public PlayerData LocalPlayerData = new PlayerData();
+		public int PlayerIdx { get; private set; }
+
+
+		// Shared Data
 		public List<PlayerData> PlayerDatas
 		{
 			get
@@ -63,31 +65,34 @@ namespace KSH_Lib
 				return playerDatas;
 			}
 		}
-		List<PlayerData> playerDatas = new List<PlayerData>();
+		[Header("Debug Only")]
+		[SerializeField]List<PlayerData> playerDatas = new List<PlayerData>();
 
-		public PlayerData LocalPlayerData = new PlayerData();
-		public int PlayerIdx { get; private set; }
-		public bool IsInited
+		public bool IsActive
         {
 			get
             {
 				bool flag = true;
-				foreach(bool isInited in isInitedList)
+				foreach(bool isActive in isActiveList)
                 {
-					flag &= isInited;
+					flag &= isActive;
 				}
 				return flag;
             }
 		}
-		List<bool> isInitedList = new List<bool>();
-
-
+		List<bool> isActiveList = new List<bool>();
 
 
 
 		/*--- MonoBehaviour Callbacks ---*/
 		private void Awake()
 		{
+			if (instance)
+			{
+				Destroy(gameObject);
+				return;
+			}
+			instance = this;
 			DontDestroyOnLoad(gameObject);
 
 			Serializer.RegisterCustomType<AccountData>( (byte)'A' );
@@ -104,6 +109,7 @@ namespace KSH_Lib
             {
 				Debug.LogError("DataManager.ItemDataInfos: Can't get item Datas from csv");
             }
+			ResetLocalRoleData();
 		}
 
 		/*--- Public Methods ---*/
@@ -132,45 +138,56 @@ namespace KSH_Lib
 
 		public void InitLocalRoleData()
         {
-			LocalPlayerData.roleData = roleInfos[(int)PreRoleTypeOrder].Clone();
+			LocalPlayerData.roleData = roleInfos[(int)PreRoleName].Clone();
         }
 		public void ResetLocalRoleData()
         {
+			PreRoleGroup = RoleData.RoleGroup.Null;
+			PreRoleName = RoleData.RoleType.Null;
 			LocalPlayerData.roleData = new RoleData();
+			LocalPlayerData.roleData.Group = RoleData.RoleGroup.Null;
+			LocalPlayerData.roleData.Type = RoleData.RoleType.Null;
         }
 
 		public void InitPlayerDatas()
         {
-			for( int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; ++i )
-            {
-				playerDatas.Add( new PlayerData() );
-				isInitedList.Add(false);
+			if(playerDatas.Count == 0)
+			{
+				for ( int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; ++i )
+				{
+					playerDatas.Add( new PlayerData() );
+					isActiveList.Add( false );
+				}
 			}
 		}
 		public void ResetPlayerDatas()
 		{
 			playerDatas = new List<PlayerData>();
+			isActiveList = new List<bool>();
+			LocalPlayerData.roleData = null;
+			PreRoleGroup = RoleData.RoleGroup.Null;
+			PreRoleName = RoleData.RoleType.Null;
 		}
 
 		public void ShareAllData()
 		{
 			ShareRoleData();
 			ShareAccountData();
-			pv.RPC("ShareInitedRPC", RpcTarget.AllViaServer, PlayerIdx, true);
+			photonView.RPC("ShareInitedRPC", RpcTarget.AllViaServer, PlayerIdx, true);
         }
 		public void ShareAccountData()
 		{
-			pv.RPC( "ShareAccountDataRPC", RpcTarget.AllViaServer, PlayerIdx, AccountData.Serialize(LocalPlayerData.accountData) );
+			photonView.RPC( "ShareAccountDataRPC", RpcTarget.AllViaServer, PlayerIdx, AccountData.Serialize(LocalPlayerData.accountData) );
 		}
 		public void ShareRoleData()
         {
 			if(LocalPlayerData.roleData is DollData)
             {
-				pv.RPC( "ShareDollDataRPC", RpcTarget.AllViaServer, PlayerIdx, DollData.Serialize( LocalPlayerData.roleData ) );
+				photonView.RPC( "ShareDollDataRPC", RpcTarget.AllViaServer, PlayerIdx, DollData.Serialize( LocalPlayerData.roleData ) );
             }
 			else if(LocalPlayerData.roleData is ExorcistData)
 			{
-				pv.RPC( "ShareExorcistDataRPC", RpcTarget.AllViaServer, PlayerIdx, ExorcistData.Serialize( LocalPlayerData.roleData ) );
+				photonView.RPC( "ShareExorcistDataRPC", RpcTarget.AllViaServer, PlayerIdx, ExorcistData.Serialize( LocalPlayerData.roleData ) );
 			}
 			else
             {
@@ -179,7 +196,7 @@ namespace KSH_Lib
         }
 		public void DisconnectAllData()
 		{
-			pv.RPC( "DisconnectAllDataRPC", RpcTarget.AllViaServer, PlayerIdx );
+			photonView.RPC( "DisconnectAllDataRPC", RpcTarget.AllViaServer, PlayerIdx );
 		}
 
 		/*--- Private Methods ---*/
@@ -203,13 +220,13 @@ namespace KSH_Lib
 				{
 					float attackSpeed = float.Parse(data[i]["AttackSpeed"].ToString());
 					float attackPower = float.Parse(data[i]["AttackPower"].ToString());
-					roleInfos.Add(new ExorcistData( (Data.RoleData.RoleTypeOrder)i, moveSpeed, interactionSpeed, projectileSpeed,  attackPower, attackSpeed));
+					roleInfos.Add(new ExorcistData( (Data.RoleData.RoleType)i, moveSpeed, interactionSpeed, projectileSpeed,  attackPower, attackSpeed));
 				}
 				else if (type == "D")
 				{
 					int dollHP = int.Parse(data[i]["DollHP"].ToString());
 					int devilHP = int.Parse(data[i]["DevilHP"].ToString());
-					roleInfos.Add(new DollData( (Data.RoleData.RoleTypeOrder)i, moveSpeed, interactionSpeed, projectileSpeed, dollHP, devilHP));
+					roleInfos.Add(new DollData( (Data.RoleData.RoleType)i, moveSpeed, interactionSpeed, projectileSpeed, dollHP, devilHP));
 				}
 			}
 			return true;
@@ -262,7 +279,6 @@ namespace KSH_Lib
 		{
 			playerDatas[idx].roleData = (ExorcistData)ExorcistData.Deserialize( data );
 		}
-
 		[PunRPC]
 		void DisconnectAllDataRPC(int idx)
         {
@@ -272,7 +288,7 @@ namespace KSH_Lib
 		[PunRPC]
 		void ShareInitedRPC(int idx, bool isInited)
         {
-			isInitedList[idx] = isInited;
+			isActiveList[idx] = isInited;
         }
 
 

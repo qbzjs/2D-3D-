@@ -42,19 +42,21 @@ namespace GHJ_Lib
 			//½ºÅ³Áß
 			yield return new WaitForSeconds(0.2f);//¼±µô
 			IsHeal = true;
+			StageManager.Instance.dollUI.CharacterSkill.PushButton(true);
 			while (true)
 			{
 				ActiveSkill.Update(Controller, ref ActiveSkill);
 				yield return new WaitForEndOfFrame();
 				if (!IsHeal)
 				{
+					StageManager.Instance.dollUI.CharacterSkill.PushButton(false);
 					Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 					break;
 				}
 			}
 			yield return new WaitForSeconds(0.2f);//ÈÄµô
 			SkillSetting();
-			yield return new WaitForSeconds(14.6f);
+			//yield return new WaitForSeconds(14.6f);
 			IsCoolTime = false;
 		}
 

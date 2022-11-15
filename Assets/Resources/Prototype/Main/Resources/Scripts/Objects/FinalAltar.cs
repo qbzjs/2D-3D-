@@ -56,12 +56,14 @@ namespace KSH_Lib.Object
 
         void PauseAction()
         {
+            targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
             castingSystem.ResetCasting();
             IsInteracting = false;
             photonView.RPC( "ShareInteractingInFinalAltar_RPC", RpcTarget.AllViaServer, IsInteracting );
         }
         void FinishCasting()
         {
+            targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
             photonView.RPC( "OpenDoorRPC", RpcTarget.AllViaServer );
         }
         public void SetDoorState( AltarState state )

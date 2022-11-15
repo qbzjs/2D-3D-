@@ -14,7 +14,7 @@ namespace GHJ_Lib
 				actor.BaseAnimator.SetBool("IsImprison", true);
 			}
 
-			actor.ChangeMoveFunc(false);
+			actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
 		}
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
@@ -22,7 +22,6 @@ namespace GHJ_Lib
 			AnimatorStateInfo animatorStateInfo = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
 			if (animatorStateInfo.normalizedTime >= 0.5f && actor.BaseAnimator.GetBool("IsImprison") && animatorStateInfo.IsName("Imprison"))
 			{
-				Log.Instance.WriteLog("BvImprison animation SetBool", 1);
 				actor.BaseAnimator.SetBool("IsImprison", false);
 				actor.ImprisonDoll();
 			}

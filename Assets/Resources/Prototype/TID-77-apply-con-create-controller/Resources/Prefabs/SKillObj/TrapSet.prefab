@@ -50,13 +50,16 @@ MonoBehaviour:
   prompt: Press G to Interact
   castingSystem: {fileID: 0}
   <IsExorcistInteracting>k__BackingField: 0
-  RateOfGauge: 0
   <MaxGauge>k__BackingField: 100
   <DecreaseRate>k__BackingField: 0.3
   <CoolTime>k__BackingField: 0.5
+  RateOfGauge: 0
   ExitTrapVel: 8.3
   ClearTrapVel: 4.2
-  CollectText: 'G : Collect Trap'
+  CollectText: 'G : UnLock Trap'
+  sphereCollider: {fileID: 7976452020468269883}
+  leftSide: {fileID: 0}
+  rightSide: {fileID: 0}
 --- !u!135 &7976452020468269883
 SphereCollider:
   m_ObjectHideFlags: 0

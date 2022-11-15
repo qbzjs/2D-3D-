@@ -54,7 +54,6 @@ namespace GHJ_Lib
                 if (targetDoll.photonView == this.photonView)
                 {
                     DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed = DataManager.Instance.RoleInfos[8].InteractionSpeed * rate;
-                    //wolf TypeOrder is 8
                 }
                 else
                 { 

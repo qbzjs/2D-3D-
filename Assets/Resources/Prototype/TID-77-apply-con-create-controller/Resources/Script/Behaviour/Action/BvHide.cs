@@ -11,14 +11,16 @@ namespace GHJ_Lib
         bool ishide = false;
         protected override void Activate(in NetworkBaseController actor)
         {
-            actor.ChangeMoveFunc(false);
+            if (actor.IsMine)
+            { 
+                StageManager.Instance.dollUI.CommomSkill.StartCountDown(1.0f);
+            }
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
             ishide = false;
             if (actor.photonView.IsMine)
             { 
                 actor.StartCoroutine("Hide");
             }
-
-            actor.ChangeMoveFunc(false);
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)

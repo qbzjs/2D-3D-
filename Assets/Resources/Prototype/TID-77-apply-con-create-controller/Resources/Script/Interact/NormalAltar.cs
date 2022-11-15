@@ -19,6 +19,8 @@ namespace GHJ_Lib
         [SerializeField]
         float dollInteractTime = 50.0f;
 
+        [SerializeField] Light altarLight;
+
         public NetworkBaseController targetController;
         public bool isExorcistIn;
 

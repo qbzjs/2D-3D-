@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
-
+using Photon.Pun;
+using KSH_Lib.Data;
 namespace GHJ_Lib
 {
     public class BvEscape : Behavior<NetworkBaseController>
@@ -10,8 +11,8 @@ namespace GHJ_Lib
         protected override void Activate(in NetworkBaseController actor)
         {
             //애니매이션이 있다면 play를 시킴.
-             //Default layer = 0;
-            actor.ChangeMoveFunc(false);
+            //Default layer = 0;
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
         }
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {

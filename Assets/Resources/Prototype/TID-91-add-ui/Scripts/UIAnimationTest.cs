@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 namespace LSH_Lib
 {
@@ -17,6 +18,7 @@ namespace LSH_Lib
         }
         public void Start()
         {
+            CoverReset();
 
         }
         void AnimationStart()
@@ -46,9 +48,13 @@ namespace LSH_Lib
             cover[2].gameObject.transform.LeanScale(new Vector3(1.0f, 0.0f, 1.0f), 0.6f).setEaseInOutCubic();
             yield return new WaitForSeconds(0.1f);
             cover[3].gameObject.transform.LeanScale(new Vector3(1.0f, 0.0f, 1.0f), 0.6f).setEaseInOutCubic();
-            yield return new WaitForSeconds(0.1f);
-            cover[4].gameObject.transform.LeanScale(new Vector3(1.0f, 0.0f, 1.0f), 0.6f).setEaseInOutCubic();
-
+        }
+        void CoverReset()
+        {
+            for (var i = 0; i < cover.Length; ++i)
+            {
+                cover[i].gameObject.transform.LeanScale(new Vector3(1.0f, 1.0f, 1.0f),0.0f);
+            }
         }
     }
 }

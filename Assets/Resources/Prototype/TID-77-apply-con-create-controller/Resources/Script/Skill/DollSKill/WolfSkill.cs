@@ -34,6 +34,10 @@ namespace GHJ_Lib
 
 		protected override IEnumerator ExcuteActiveSkill()
 		{
+			if (photonView.IsMine)
+			{ 
+				StageManager.Instance.dollUI.CharacterSkill.StartCountDown(15.0f);
+			}
 			IsCoolTime = true;
 			//스킬중
 			yield return new WaitForSeconds(0.2f);//선딜
@@ -49,8 +53,25 @@ namespace GHJ_Lib
 			IsCoolTime = false;
 		}
 
-		/*--- Protected Methods ---*/
+		public void DoWolfActiveSkillTo_RPC()
+		{
+			photonView.RPC("DoWolfActiveSkill", RpcTarget.AllViaServer);
+		}
 
+		[PunRPC]
+		public void DoWolfActiveSkill()
+		{
+			if (actSkillArea.CanGetTarget())
+			{
+				actSkillArea.Targets[0].GetComponent<ExorcistController>().DoActionBy(Detected);
+			}
+		}
+		IEnumerator Detected(GameObject characterModel)
+		{
+			StageManager.CharacterLayerChange(characterModel, 6); //6 : 빛나는거
+			yield return new WaitForSeconds(5);//시간은 CSV로 받을것 또는 문서참조 임의로 5로 해놓음
+			StageManager.CharacterLayerChange(characterModel, 7); //7: 원래상태로돌아옴
+		}
 
 		/*--- Private Methods ---*/
 		private void SkillSetting()

@@ -16,18 +16,26 @@ namespace GHJ_Lib
 		public int CrossMaxCount = 5;
 		public float RecoverGauge = 5.0f;
 		public float MaxCrossGauge = 60.0f;
+		protected float CollectRange = 3.0f;
 		protected string CrossPrefabName = "CrossModel";
 
 		protected GameObject targetCross;
 		protected Sk_InstallCross skInstallCross = new Sk_InstallCross();
 		protected Sk_CollectCross skCollectCross = new Sk_CollectCross();
 
+		static bool isRegisterPrefab;
+
 		protected override void OnEnable()
 		{
 			base.OnEnable();
-			PhotonNetwork.PrefabPool.RegisterPrefab(CrossPrefabName, CrossPrefab);
+
+			if(!isRegisterPrefab)
+			{
+				PhotonNetwork.PrefabPool.RegisterPrefab( CrossPrefabName, CrossPrefab );
+				isRegisterPrefab = true;
+			}
+
 			Controller.AllocSkill(new BvBishopActSkill());
-			SkillSettingToInstallCross();
 			
 			PoketInCross.Add(60.0f);
 			PoketInCross.Add(60.0f);
@@ -59,7 +67,7 @@ namespace GHJ_Lib
 			if (actSkillArea.CanGetTarget())
 			{
 				GameObject target = actSkillArea.GetNearestTarget();
-				if (Controller.IsWatching(target))
+				if (Controller.IsWatching(target)&&Vector3.Distance(target.transform.position,transform.position)< CollectRange)
 				{
 					targetCross = target;
 					SkillSettingToCollectCross();
@@ -81,6 +89,7 @@ namespace GHJ_Lib
 		protected override IEnumerator ExcuteActiveSkill()
 		{
 			IsCoolTime = true;
+			StageManager.Instance.dollUI.CharacterSkill.StartCountDown(15.0f);
 			yield return new WaitForSeconds(0.2f);//¼±µô
 			while (ActiveSkill.Count != 0)
 			{
@@ -113,7 +122,6 @@ namespace GHJ_Lib
 					Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 					Controller.BaseAnimator.SetBool("IsInstallCross", false);
 
-					
 					GameObject cross = PhotonNetwork.Instantiate(CrossPrefabName, new Vector3(transform.position.x,transform.position.y +0.23f,transform.position.z), CrossPrefab.transform.rotation);
 
 					PoketInCross.Sort();

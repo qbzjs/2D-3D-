@@ -10,6 +10,7 @@ namespace GHJ_Lib
 	{
 		[Header( "Object Hide Setting" )]
 		[SerializeField] protected GameObject[] hideObjects;
+		[SerializeField] float hideTime = 2.0f;
 
 		[field: SerializeField] public ParticleSystem Aura { get; protected set; }
 		[SerializeField] private GameObject[] CatchObj;
@@ -31,24 +32,36 @@ namespace GHJ_Lib
 		public override void OnEnable()
 		{
 			base.OnEnable();
+			//CurBehavior.PushSuccessorState(idle);
+		}
 
+
+
+		public override void InitCameraSetting()
+		{
 			if (photonView.IsMine)
 			{
+				base.InitCameraSetting();
 				fpvCam.gameObject.SetActive(true);
-				curCam = fpvCam;
-
-                foreach (var obj in hideObjects)
-                {
-                    obj.SetActive(false);
-                }
-            }
-			CurBehavior.PushSuccessorState(idle);
+				tpvCam.gameObject.SetActive(false);
+				CurCam = fpvCam;
+				StartCoroutine(HidingObject());
+			}
 		}
+
+		IEnumerator HidingObject()
+		{
+			yield return new WaitForSeconds(hideTime);
+			foreach (var obj in hideObjects)
+			{
+				obj.SetActive(false);
+			}
+		}
+
 
         // Behavior Callbacks
         public override void ImprisonDoll()
 		{
-			Log.Instance.WriteLog("ImprisonDoll()", 2);
 
 			DollController doll = caughtDoll.GetComponent<DollController>();
 			CatchObj[doll.TypeIndex - 5].gameObject.SetActive( false );
@@ -83,8 +96,7 @@ namespace GHJ_Lib
 			ChangeBehaviorTo(BehaviorType.Catch);
 		}
 
-
-		/*--- Protected Methods ---*/
+        /*--- Protected Methods ---*/
         protected override void RotateToDirection()
 		{
 			if (direction.sqrMagnitude > 0.01f)
@@ -97,15 +109,21 @@ namespace GHJ_Lib
 			}
 			if (photonView.IsMine)
 			{
-				characterModel.transform.rotation =  Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y,0.0f);
+				if(fpvCam.CanControl)
+				{
+					characterModel.transform.rotation = Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y, 0.0f);
+				}
 			}
 		}
 		protected override void MoveCharacter()
 		{
+			
 			if (controller.enabled == false)
 			{
 				return;
 			}
+
+
 			if(DataManager.Instance.PlayerDatas[0].roleData != null)
 			{
 				controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[0].roleData.MoveSpeed);
@@ -156,6 +174,23 @@ namespace GHJ_Lib
 
 
 		/*--- AnimationCallbacks Methods ---*/
+		protected override void CamForwardMove()
+		{
+			switch (DataManager.Instance.GetLocalRoleType)
+			{
+				case KSH_Lib.Data.RoleData.RoleType.Bishop:
+				{
+					direction = Vector3.zero;
+				}
+				break;
+				case KSH_Lib.Data.RoleData.RoleType.Hunter:
+				{
+					Vector3 moveDirection = camTarget.transform.forward;
+					direction = new Vector3(moveDirection.x, 0, moveDirection.z).normalized;
+				}
+				break;
+			}
+		}
 		public void PickUp()
 		{
 			DollController doll = caughtDoll.GetComponent<DollController>();
@@ -204,17 +239,5 @@ namespace GHJ_Lib
 			}
 		}
 
-
-		/*----Use ESC Menu---*/
-		public override void ExitGame()
-		{
-			photonView.RPC("ExitAll", RpcTarget.All);
-		}
-
-		[PunRPC]
-		public void ExitAll()
-		{
-			StageManager.Instance.EndGame();
-		}
     }
 }

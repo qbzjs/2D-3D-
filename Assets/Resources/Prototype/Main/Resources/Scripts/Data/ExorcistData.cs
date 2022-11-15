@@ -14,9 +14,9 @@ namespace KSH_Lib.Data
 	{
 		/*--- Constructor ---*/
 		public ExorcistData() { }
-		public ExorcistData( RoleTypeOrder roleTypeOrder, float moveSpeed, float interactionSpeed, float projectileSpeed,  float attackPower, float attackSpeed)
+		public ExorcistData( RoleType roleType, float moveSpeed, float interactionSpeed, float projectileSpeed,  float attackPower, float attackSpeed)
         :
-			base( RoleType.Exorcist, roleTypeOrder, moveSpeed, interactionSpeed, projectileSpeed )
+			base( RoleGroup.Exorcist, roleType, moveSpeed, interactionSpeed, projectileSpeed )
 		{
 			AttackPower = attackPower;
 			AttackSpeed = attackSpeed;
@@ -33,8 +33,8 @@ namespace KSH_Lib.Data
             ExorcistData o = (ExorcistData)customObject;
             byte[] bytes = new byte[0];
 
+            Serializer.Serialize( (int)o.Group, ref bytes );
             Serializer.Serialize( (int)o.Type, ref bytes );
-            Serializer.Serialize( (int)o.TypeOrder, ref bytes );
             Serializer.Serialize( o.MoveSpeed, ref bytes );
             Serializer.Serialize( o.InteractionSpeed, ref bytes );
             Serializer.Serialize( o.ProjectileSpeed, ref bytes );
@@ -50,8 +50,8 @@ namespace KSH_Lib.Data
             ExorcistData o = new ExorcistData();
             int offset = 0;
 
+            o.Group = (RoleGroup)Serializer.DeserializeInt( bytes, ref offset );
             o.Type = (RoleType)Serializer.DeserializeInt( bytes, ref offset );
-            o.TypeOrder = (RoleTypeOrder)Serializer.DeserializeInt( bytes, ref offset );
             o.MoveSpeed = Serializer.DeserializeFloat( bytes, ref offset );
             o.InteractionSpeed = Serializer.DeserializeFloat( bytes, ref offset );
             o.ProjectileSpeed = Serializer.DeserializeFloat( bytes, ref offset );
@@ -64,7 +64,7 @@ namespace KSH_Lib.Data
 
         public override RoleData Clone()
         {
-            return new ExorcistData(TypeOrder, MoveSpeed, InteractionSpeed, ProjectileSpeed, AttackPower, AttackSpeed);
+            return new ExorcistData(Type, MoveSpeed, InteractionSpeed, ProjectileSpeed, AttackPower, AttackSpeed);
         }
 
     }

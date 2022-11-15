@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text.RegularExpressions;
+using System;
+using System.IO;
 
 namespace KSH_Lib.Util
 {
@@ -14,9 +16,10 @@ namespace KSH_Lib.Util
         public static List<Dictionary<string, object>> Read( string file )
         {
             var list = new List<Dictionary<string, object>>();
-            TextAsset data = Resources.Load( file ) as TextAsset;
+            //TextAsset data = Resources.Load( file ) as TextAsset;
+            string text = File.ReadAllText( file );
 
-            var lines = Regex.Split( data.text, LINE_SPLIT_RE );
+            var lines = Regex.Split( text, LINE_SPLIT_RE );
 
             if ( lines.Length <= 1 ) return list;
 

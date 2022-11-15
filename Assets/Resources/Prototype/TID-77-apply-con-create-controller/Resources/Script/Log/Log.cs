@@ -19,22 +19,12 @@ namespace GHJ_Lib
 		/*--- Private Fields ---*/
 		static Log instance;
 		bool isWrite = false;
-		string[] WriteInfo = new string[2];
+		string[] WriteInfo = new string[10];
         /*--- MonoBehaviour Callbacks ---*/
         void Awake()
         {
 			instance = this;
 		}
-        void Start()
-		{
-			WriteInfo[0] = "0";
-			WriteInfo[1] = "1";
-		}
-		void Update()
-		{
-		
-		}
-
 		public void SetPlayer(GameObject player)
 		{
 			curPlayer = player.GetComponent<BasePlayerController>();
@@ -43,9 +33,9 @@ namespace GHJ_Lib
 		public void WriteLog(string info,int num)
 		{
 			isWrite = true;
-			WriteInfo[num-1] = info;
+			WriteInfo[num] = info;
 		}
-	
+		
 		private void OnGUI()
         {
 			if (curPlayer == null)
@@ -70,8 +60,11 @@ namespace GHJ_Lib
 			if (isWrite)
 			{
 				for (int i = 0; i < WriteInfo.Length; ++i)
-				{ 
-					
+				{
+					if (WriteInfo[i] is null)
+					{
+						continue;
+					}
 					GUI.Box(new Rect(0, 30*(i+1), WriteInfo[i].Length * 10, 30), WriteInfo[i]);
 				}
 				

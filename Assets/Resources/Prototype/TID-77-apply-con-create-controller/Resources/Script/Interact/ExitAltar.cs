@@ -11,7 +11,7 @@ namespace GHJ_Lib
 		public GameObject ExitAltarModel;
 
 		/*--- Protected Fields ---*/
-		protected bool isOpen = false;
+		[SerializeField] protected bool isOpen = false;
 
         /*--- Private Fields ---*/
 

@@ -34,7 +34,7 @@ namespace LSH_Lib
 
             yield return new WaitForSeconds(effectTime);
 
-            var type = DataManager.Instance.LocalPlayerData.roleData.TypeOrder;
+            var type = DataManager.Instance.LocalPlayerData.roleData.Type;
             (DataManager.Instance.LocalPlayerData.roleData).MoveSpeed = DataManager.Instance.RoleInfos[(int)type].MoveSpeed;
             DataManager.Instance.ShareRoleData();
         }

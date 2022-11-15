@@ -10,14 +10,14 @@ namespace KSH_Lib.Data
 	//public abstract class RoleData
 	public class RoleData
 	{
-		public enum RoleType
+		public enum RoleGroup
 		{
 			Null,
 			Exorcist,
 			Doll
 		}
 
-		public enum RoleTypeOrder
+		public enum RoleType
         {
 			Photographer,
 			Bishop,
@@ -37,18 +37,18 @@ namespace KSH_Lib.Data
 
 		/*--- Constructor ---*/
 		public RoleData() { }
-		public RoleData( RoleType type, RoleTypeOrder roleTypeOrder, float moveSpeed, float interactionSpeed, float projectileSpeed )
+		public RoleData( RoleGroup roleGroup, RoleType roleType, float moveSpeed, float interactionSpeed, float projectileSpeed )
 		{
-			Type = type;
-			TypeOrder = roleTypeOrder;
+			Group = roleGroup;
+			Type = roleType;
 			MoveSpeed = moveSpeed;
 			InteractionSpeed = interactionSpeed;
 			ProjectileSpeed = projectileSpeed;
         }
 
 		/*--- Public Fields ---*/
-		public RoleType Type;
-		public RoleTypeOrder TypeOrder;
+		public RoleGroup Group;
+		public RoleType Type = RoleType.Null;
 
 		public float MoveSpeed;
 		public float InteractionSpeed;
@@ -56,9 +56,65 @@ namespace KSH_Lib.Data
 
         public virtual RoleData Clone()
         {
-			return new RoleData(Type, TypeOrder, MoveSpeed, InteractionSpeed, ProjectileSpeed);
+			return new RoleData(Group, Type, MoveSpeed, InteractionSpeed, ProjectileSpeed);
 		}
-
+		
+		public string GetTypeStr(RoleType type)
+        {
+			switch(type)
+            {
+				case RoleType.Bishop:
+                    {
+						return "Bishop";
+                    }
+				case RoleType.Hunter:
+					{
+						return "Hunter";
+					}
+				case RoleType.Wolf:
+					{
+						return "Wolf";
+					}
+				case RoleType.Rabbit:
+					{
+						return "Rabbit";
+					}
+				case RoleType.Priest:
+					{
+						return "Bishop";
+					}
+				case RoleType.Dokkaebi:
+					{
+						return "Bishop";
+					}
+				case RoleType.Photographer:
+					{
+						return "Bishop";
+					}
+				case RoleType.Penguin:
+					{
+						return "Bishop";
+					}
+				case RoleType.Monkey:
+					{
+						return "Bishop";
+					}
+				case RoleType.Tortoise:
+					{
+						return "Bishop";
+					}
+				case RoleType.Null:
+					{
+						return "null";
+					}
+				case RoleType.Count:
+                    {
+						return "count";
+                    }
+				default:
+					return null;
+			}
+        }
 
 
         //public int Score
