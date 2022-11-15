@@ -11,7 +11,7 @@ using Cinemachine;
 
 namespace GHJ_Lib
 {
-	public class StageManager : MonoBehaviour
+	public class StageManager : MonoBehaviourPunCallbacks
 	{
 		/*--- Fields ---*/
 		public static StageManager Instance
@@ -73,7 +73,7 @@ namespace GHJ_Lib
 			}
 		}
 		ExorcistController exorcist;
-		public NetworkBaseController[] Players { get; private set; } = new NetworkBaseController[5];
+		public NetworkBaseController[] PlayerControllers { get; private set; } = new NetworkBaseController[5];
 
 
 		/*--- Private Fields ---*/
@@ -148,24 +148,15 @@ namespace GHJ_Lib
 			Gizmos.DrawWireSphere(CenterPosition, InitAreaRadius);
 		}
 
-		//private void OnGUI()
-		//{
-		//	if (activeDebugGUI)
-		//	{
-		//		GUI.Box(new Rect(300, 160, 150, 30), $"Local MoveSpeed: {DataManager.Instance.LocalPlayerData.roleData.MoveSpeed}");
-		//		GUI.Box(new Rect(460, 160, 150, 30), $"Local sheetIdx: {DataManager.Instance.LocalPlayerData.accountData.SheetIdx}");
+        public override void OnLeftRoom()
+        {
+			Cursor.visible = true;
+			Cursor.lockState = CursorLockMode.None;
+			GameManager.Instance.LoadScene( "99_GameResultScene" );
+		}
 
-		//		for (int i = 0; i < DataManager.Instance.PlayerDatas.Count; ++i)
-		//		{
-		//			GUI.Box(new Rect(300, i * 30, 150, 30), $"MoveSpeed[{i}]: {DataManager.Instance.PlayerDatas[i].roleData.MoveSpeed}");
-		//			GUI.Box(new Rect(460, i * 30, 150, 30), $"sheetIdx[{i}]: {DataManager.Instance.PlayerDatas[i].accountData.SheetIdx}");
-		//		}
-		//	}
-		//}
-
-
-		/*--- Public Methods ---*/
-		public void RegisterPlayer(GameObject playerObj)
+        /*--- Public Methods ---*/
+        public void RegisterPlayer(GameObject playerObj)
 		{
 			NetworkBaseController PlayerController = playerObj.GetComponent<NetworkBaseController>();
 			if (!PlayerController)
@@ -173,7 +164,7 @@ namespace GHJ_Lib
 				Debug.LogError("RegisterPlayer() : Player Controller is Null");
 			}
 			//Debug.Log($"idx = {PlayerController.PlayerIndex}");
-			Players[PlayerController.PlayerIndex] =  PlayerController;
+			PlayerControllers[PlayerController.PlayerIndex] =  PlayerController;
 		}
 		public static void CharacterLayerChange(GameObject Model, int layer)
 		{
@@ -268,25 +259,48 @@ namespace GHJ_Lib
 		{
 			Cursor.visible = true;
 			Cursor.lockState = CursorLockMode.None;
-			//DataManager.Instance.ResetPlayerDatas();
 			PhotonNetwork.LeaveRoom();
 			GameManager.Instance.LoadScene("99_GameResultScene");
 		}
 
 		public void DoExit(NetworkBaseController controller) // 비상탈출구로 나갈때, 탈출구로 나갈때, 빡종할때 (단 부를때 객체에서 바로부르는것이 아닌 RPC로 불러야함)
 		{
-			if (controller is DollController)
+			if(!controller.IsMine)
 			{
 				DollCountDecrease();
-				if (controller.photonView.IsMine)
-				{
-					EndGame();
-				}
-				else
-				{
-					controller.transform.parent.gameObject.SetActive(false);
-				}
+				PhotonNetwork.Destroy( controller.gameObject );
+				return;
+            }
+
+			if(controller is DollController)
+			{
+				PhotonNetwork.LeaveRoom();
 			}
+			else if(controller is ExorcistController)
+            {
+				if ( PhotonNetwork.IsMasterClient )
+				{
+					for ( int i = 1; i < PhotonNetwork.PlayerList.Length; ++i )
+					{
+						PhotonNetwork.CloseConnection( PhotonNetwork.PlayerList[i] );
+					}
+				}
+				PhotonNetwork.LeaveRoom();
+			}
+
+
+			//if (controller is DollController)
+			//{
+			//	DollCountDecrease();
+			//	if (controller.photonView.IsMine)
+			//	{
+			//		EndGame();
+			//	}
+			//	else
+			//	{
+			//		controller.transform.parent.gameObject.SetActive(false);
+			//	}
+			//}
 		}
 		void InitGenerateor()
         {

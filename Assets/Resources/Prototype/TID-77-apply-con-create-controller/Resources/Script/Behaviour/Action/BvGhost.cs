@@ -13,7 +13,7 @@ namespace GHJ_Lib
         {
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
             actor.BaseAnimator.Play("Idle_A");
-            players = StageManager.Instance.Players;
+            players = StageManager.Instance.PlayerControllers;
             curIdx = actor.PlayerIndex;
         }
 

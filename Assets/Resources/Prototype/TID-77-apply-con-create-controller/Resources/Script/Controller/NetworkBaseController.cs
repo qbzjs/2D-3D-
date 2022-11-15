@@ -369,13 +369,12 @@ namespace GHJ_Lib
 		}
 		public void ExitCharacter()
         {
-			photonView.RPC( "ExitCharacterRPC", RpcTarget.AllViaServer );
+			if(IsMine)
+            {
+				StageManager.Instance.DoExit( this );
+				PhotonNetwork.Destroy( gameObject );
+			}
         }
 
-		[PunRPC]
-		void ExitCharacterRPC()
-        {
-			StageManager.Instance.DoExit( this );
-        }
 	}
 }
