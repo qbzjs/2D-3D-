@@ -255,7 +255,10 @@ namespace GHJ_Lib
 					return;
 				}
 				DecereseDollCount();
-				PhotonNetwork.LeaveRoom();
+				if(PhotonNetwork.InRoom)
+				{
+					PhotonNetwork.LeaveRoom();
+				}
 			}
 			else if(controller is ExorcistController)
             {
