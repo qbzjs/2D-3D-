@@ -244,8 +244,7 @@ namespace GHJ_Lib
             {
 				return;
             }
-
-			if ( DollCount <= 1 )
+			if ( DollCount < 1 )
 			{
 				ExitGame( LocalController );
 			}
@@ -260,9 +259,9 @@ namespace GHJ_Lib
 					PhotonNetwork.Destroy( controller.gameObject );
 					return;
 				}
-				DecereseDollCount();
 				if(PhotonNetwork.InRoom)
 				{
+					DecereseDollCount();
 					PhotonNetwork.LeaveRoom();
 				}
 			}
