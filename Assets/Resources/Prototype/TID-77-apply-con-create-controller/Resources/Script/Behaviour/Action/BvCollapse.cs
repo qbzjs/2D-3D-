@@ -9,7 +9,7 @@ namespace GHJ_Lib
         protected override void Activate(in NetworkBaseController actor)
         {
             actor.BaseAnimator.Play("Death");
-            actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)

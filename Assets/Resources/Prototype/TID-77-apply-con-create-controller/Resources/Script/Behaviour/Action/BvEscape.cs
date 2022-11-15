@@ -12,7 +12,7 @@ namespace GHJ_Lib
         {
             //애니매이션이 있다면 play를 시킴.
             //Default layer = 0;
-            actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
         }
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {

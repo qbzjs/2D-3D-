@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using KSH_Lib;
+using KSH_Lib.Data;
 namespace GHJ_Lib
 {
     public class Chaser : MonoBehaviour
@@ -13,7 +15,7 @@ namespace GHJ_Lib
         Camera mainCamera;
         [SerializeField] float CoolDowntime;
         [SerializeField] private PhotonView photonView;
-        
+        [SerializeField] private float CrossStackSpeedUpRate = 0.2f;
         private void OnEnable()
         {
             mainCamera = Camera.main;
@@ -82,7 +84,10 @@ namespace GHJ_Lib
                 Log.Instance.WriteLog(CoolDowntime.ToString(), 1);
                 if (CheckFugitivesIsChasedOnView())
                 {
-                    chaseState = ChaseState.Chasing;
+                    if (chaseState != ChaseState.Chasing)
+                    {
+                        chaseState = ChaseState.Chasing;
+                    }
                 }
                 else
                 {
@@ -106,7 +111,7 @@ namespace GHJ_Lib
                             break;
                         case ChaseState.Wait:
                             {
-
+                                DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = DataManager.Instance.RoleInfos[(int)DataManager.Instance.GetLocalRoleType].MoveSpeed;
                             }
                             break;
                     }
@@ -143,20 +148,37 @@ namespace GHJ_Lib
             }
             return true;
         }
+        protected void BuffExorcistByCrossStack(Fugitive fugitive)
+        {
+            if (fugitive.GetStack < 2)
+            {
+
+            }
+            else if (fugitive.GetStack < 5)
+            {
+                DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = DataManager.Instance.RoleInfos[(int)DataManager.Instance.GetLocalRoleType].MoveSpeed * CrossStackSpeedUpRate;
+            }
+            else
+            { 
+                DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = DataManager.Instance.RoleInfos[(int)DataManager.Instance.GetLocalRoleType].MoveSpeed * CrossStackSpeedUpRate*2;
+            }
+        }
         protected bool CheckFugitivesIsChasedOnView()
         {
+            bool check = false;
             foreach (Fugitive fugitive in Fugitives)
             {
                 if (!fugitive)
                 {
-                    break;
+                    continue;
                 }
                 if (fugitive.IsChased&&fugitive.IsWatched)
                 {
-                    return true;
+                    BuffExorcistByCrossStack(fugitive);
+                    check = true;
                 }
             }
-            return false;
+            return check;
         }
 
         private void OnDrawGizmos()
@@ -184,7 +206,7 @@ namespace GHJ_Lib
                 {
                     foreach (RaycastHit hit in Hits)
                     {
-                        Gizmos.DrawSphere(hit.transform.position, 1.0f);
+                        Gizmos.DrawSphere(hit.point, 1.0f);
                     }
                 }
             }

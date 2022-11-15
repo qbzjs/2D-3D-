@@ -10,7 +10,7 @@ namespace GHJ_Lib
         protected override void Activate(in NetworkBaseController actor)
         {
             actor.BaseAnimator.Play("Fear");
-            actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
             if ( actor.IsMine )
             {
                 actor.ActivateCameraCollision( false );
