@@ -142,9 +142,9 @@ public class GameManager : MonoBehaviour
     {
         if ( PhotonNetwork.IsMasterClient )
         {
-            foreach( var player in PhotonNetwork.PlayerList)
+            foreach( var other in PhotonNetwork.PlayerListOthers)
             {
-                PhotonNetwork.CloseConnection( player );
+                PhotonNetwork.CloseConnection( other );
             }
         }
         PhotonNetwork.LeaveRoom();
