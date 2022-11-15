@@ -48,9 +48,6 @@ namespace LSH_Lib
             cover[2].gameObject.transform.LeanScale(new Vector3(1.0f, 0.0f, 1.0f), 0.6f).setEaseInOutCubic();
             yield return new WaitForSeconds(0.1f);
             cover[3].gameObject.transform.LeanScale(new Vector3(1.0f, 0.0f, 1.0f), 0.6f).setEaseInOutCubic();
-            yield return new WaitForSeconds(0.1f);
-            cover[4].gameObject.transform.LeanScale(new Vector3(1.0f, 0.0f, 1.0f), 0.6f).setEaseInOutCubic();
-
         }
         void CoverReset()
         {
