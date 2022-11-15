@@ -28,8 +28,8 @@ namespace KSH_Lib
 
 
 		/*--- Fields ---*/
-		const string CharcterStatusCSV = "Prototype/Main/Resources/Datas/CharacterStatus";
-		const string ItemDataCSV = "Prototype/Main/Resources/Datas/ItemData";
+		string CharcterStatusCSV = Application.streamingAssetsPath + "/Datas/CharacterStatus.csv";
+		string ItemDataCSV = Application.streamingAssetsPath + "/Datas/ItemData.csv";
 
 		public RoleData.RoleType GetLocalRoleType { get { return LocalPlayerData.roleData.Type; } }
 
