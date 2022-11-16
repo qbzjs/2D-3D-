@@ -183,6 +183,11 @@ namespace GHJ_Lib
 
         private void OnDrawGizmos()
         {
+            if (!photonView.IsMine)
+            {
+                return;
+            }
+
             if (Fugitives.Count == 0)
             {
                 return;

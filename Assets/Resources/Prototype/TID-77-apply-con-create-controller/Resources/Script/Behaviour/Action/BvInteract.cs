@@ -22,7 +22,7 @@ namespace GHJ_Lib
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
 			Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
-			if (Bv is BvIdle)
+			if (Bv is BvIdle || Bv is BvGetHit)
 			{
 				actor.BaseAnimator.SetBool("IsInteract", false);
 				return Bv;
