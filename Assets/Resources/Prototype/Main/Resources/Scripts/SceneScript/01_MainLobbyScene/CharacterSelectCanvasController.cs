@@ -89,7 +89,7 @@ namespace KSH_Lib.UI
         public GameObject DollButtons;
         public GameObject ExorcistButtons;
         [SerializeField] InfoMatch[] infoMatches;
-        SortedSet<InfoMatch> infoSets;
+        //SortedSet<InfoMatch> infoSets;
 
         [Header( "Debug" )]
         [SerializeField] bool[] isDecidedArr;
