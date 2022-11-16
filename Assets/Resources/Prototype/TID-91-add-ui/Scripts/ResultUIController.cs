@@ -78,7 +78,7 @@ namespace LSH_Lib
             if(DataManager.Instance.PreRoleGroup.Equals(RoleData.RoleGroup.Doll))
             {
                 playerInfors[3].Backgroud.sprite = backgrounds[1];
-                inforResults[playerInfors.Length - 1].playerIdx = 0;
+                //inforResults[playerInfors.Length - 1].playerIdx = 0;
                 for(int i = 0; i<DataManager.Instance.PlayerDatas.Count; ++i)
                 {
                     if(i == playeridx)
