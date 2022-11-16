@@ -111,6 +111,7 @@ namespace GHJ_Lib
                     beTrappedDoll = other.GetComponent<DollController>();
                     beTrappedDoll.ChangeBehaviorTo(NetworkBaseController.BehaviorType.BeTrapped);
                     isCatchDoll = true;
+                    StartCoroutine(TrapInDoll());
                     if (DataManager.Instance.PlayerIdx == 0)
                     { 
                         sphereCollider.radius = 0.59f;
@@ -120,5 +121,30 @@ namespace GHJ_Lib
                 }
             }
         }
+        
+        IEnumerator TrapInDoll()
+        {
+            Behavior<NetworkBaseController> behavior = beTrappedDoll.CurBehavior;
+            while (true)
+            {
+                yield return waitForEndOfFrame;
+                if (behavior is BvbeTrapped)
+                {
+                    break;
+                }
+            }
+
+            while (true)
+            {
+                yield return waitForEndOfFrame;
+                if (beTrappedDoll==null||behavior is BvBeCaught)
+                {
+                    beTrappedDoll = null;
+                    yield break;
+                }
+                
+            }
+        }
+
     }
 }

@@ -61786,7 +61786,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1632053666}
-  m_RootOrder: 44
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1597032336
 MeshCollider:
@@ -62675,7 +62675,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1632053666}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: StaticObjects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62695,6 +62695,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1198369015}
+  - {fileID: 1597032335}
   - {fileID: 1130070842}
   - {fileID: 557306158}
   - {fileID: 1904109074}
@@ -62738,7 +62739,6 @@ Transform:
   - {fileID: 1589892065}
   - {fileID: 423273266}
   - {fileID: 695343168}
-  - {fileID: 1597032335}
   - {fileID: 198236521}
   - {fileID: 2073527596}
   - {fileID: 1800107623}
@@ -72143,7 +72143,7 @@ GameObject:
   - component: {fileID: 1917024545}
   m_Layer: 9
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -81991,6 +81991,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerUiObject: {fileID: 6399978560757835687}
   FriendUiObjects:
+  - {fileID: 6399978560757835687}
   - {fileID: 5501143019282614382}
   - {fileID: 5501143020252418867}
   - {fileID: 5501143020465699746}

@@ -233,6 +233,5 @@ namespace GHJ_Lib
 				this.transform.position = new Vector3(x, y, z);
 			}
 		}
-
-    }
+	}
 }

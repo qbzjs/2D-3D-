@@ -36,7 +36,7 @@ namespace GHJ_Lib
             // 이동, 상호작용,아이템사용, 퇴마사로부터 피격 
             if (actor.photonView.IsMine)
             {
-                if (Input.anyKey)
+                if (Input.GetKeyDown(KeyCode.B))
                 {
                     actor.StartCoroutine("UnHide");
                 }

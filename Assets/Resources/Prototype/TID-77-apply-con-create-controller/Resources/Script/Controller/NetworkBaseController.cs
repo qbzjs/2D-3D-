@@ -374,5 +374,5 @@ namespace GHJ_Lib
 				this.transform.position = new Vector3((float)stream.ReceiveNext(), (float)stream.ReceiveNext(), (float)stream.ReceiveNext());
 			}
 		}
-	}
+    }
 }
