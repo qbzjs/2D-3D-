@@ -25,6 +25,11 @@ namespace GHJ_Lib
 
 		static bool isRegisterPrefab;
 
+		LayerMask UninstallZoneLayer = 12;
+		InteractionPromptUI interactionPromptUI;
+		bool IsNotice = false;
+		string NoticeTextUninstallArea = "This Area Can't install!!";
+		WaitForSeconds noticeTime = new WaitForSeconds(1.0f);
 		protected override void OnEnable()
 		{
 			base.OnEnable();
@@ -42,6 +47,7 @@ namespace GHJ_Lib
 			PoketInCross.Add(60.0f);
 			PoketInCross.Add(60.0f);
 			PoketInCross.Add(60.0f);
+			interactionPromptUI =StageManager.Instance.InteractionPrompt;
 		}
         private void Update()
         {
@@ -64,6 +70,13 @@ namespace GHJ_Lib
         /*---Skill---*/
         public override bool CanActiveSkill()
 		{
+			Collider[] UninstallZones = new Collider[1];
+			if (Physics.OverlapSphereNonAlloc(new Vector3(transform.position.x,0,transform.position.z), 1.0f, UninstallZones, UninstallZoneLayer) == 1)
+			{
+				StartCoroutine(NoticeUninstallArea());
+				return false;
+			}
+
 			if (actSkillArea.CanGetTarget())
 			{
 				GameObject target = actSkillArea.GetNearestTarget();
@@ -155,7 +168,20 @@ namespace GHJ_Lib
 				}
 			}
 		}
-        /*--animation Event--*/
 
-    }
+		IEnumerator NoticeUninstallArea()
+		{
+			if (IsNotice)
+			{
+				yield break;
+			}
+			IsNotice = true;
+			interactionPromptUI.Activate(NoticeTextUninstallArea);
+			yield return noticeTime;
+			IsNotice = false;
+			interactionPromptUI.Inactivate();
+		}
+		/*--animation Event--*/
+
+	}
 }
