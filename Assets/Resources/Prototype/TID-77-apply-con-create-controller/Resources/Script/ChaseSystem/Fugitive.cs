@@ -48,7 +48,7 @@ namespace GHJ_Lib
             {
                 if (ChaseGauge < 150.0f)
                 {
-                    ChaseGauge += Time.deltaTime;
+                    ChaseGauge += 5*Time.deltaTime;
                 }
                 else
                 {
@@ -59,7 +59,7 @@ namespace GHJ_Lib
             {
                 if (ChaseGauge > 0.0f)
                 {
-                    ChaseGauge -= Time.deltaTime;
+                    ChaseGauge -= 5 * Time.deltaTime;
                 }
                 else
                 {

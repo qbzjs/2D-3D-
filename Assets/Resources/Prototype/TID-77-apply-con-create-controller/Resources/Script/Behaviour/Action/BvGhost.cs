@@ -27,18 +27,24 @@ namespace GHJ_Lib
 
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                curIdx++;
-                if (curIdx >= players.Length)
+                while (players[curIdx] == null)
                 {
-                    curIdx = 0;
+                    curIdx++;
+                    if (curIdx >= players.Length)
+                    {
+                        curIdx = 0;
+                    }
                 }
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                curIdx--;
-                if (curIdx <= 0)
+                while (players[curIdx] == null)
                 {
-                    curIdx = players.Length - 1;
+                    curIdx--;
+                    if (curIdx >= players.Length)
+                    {
+                        curIdx = 0;
+                    }
                 }
             }
             else if (Input.GetKeyDown(KeyCode.Space))
@@ -46,6 +52,7 @@ namespace GHJ_Lib
                 curIdx = actor.PlayerIndex;
             }
 
+            
             actor.ChangeCamera(players[curIdx].TPVCam);
 
             if (curIdx == actor.PlayerIndex)

@@ -14,8 +14,7 @@ namespace GHJ_Lib
         [SerializeField] protected float ClearTrapVel = 4.2f;
         [SerializeField] protected string CollectText = "G : Collect Trap";
         [SerializeField] protected SphereCollider sphereCollider;
-        [SerializeField] protected GameObject leftSide;
-        [SerializeField] protected GameObject rightSide;
+        [SerializeField] protected Animator animator;
         protected float collectTime = 1.0f;
         protected bool isCatchDoll =false;
 
@@ -116,6 +115,7 @@ namespace GHJ_Lib
                     { 
                         sphereCollider.radius = 0.59f;
                     }
+                    animator.Play("Trap");
                     // 덫 잠기는 애니매이션, 또는 위치변환 
                 }
             }
