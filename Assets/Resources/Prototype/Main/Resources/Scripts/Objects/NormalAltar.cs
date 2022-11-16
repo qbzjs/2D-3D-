@@ -69,6 +69,12 @@ namespace KSH_Lib.Object
 
         protected override bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
         {
+            if (targetController.CurBehavior is not BvIdle)
+            {
+                promptUI.Inactivate();
+                return false;
+            }
+
             if ( RateOfGauge >= 1.0f )
             {
                 promptUI.Inactivate();

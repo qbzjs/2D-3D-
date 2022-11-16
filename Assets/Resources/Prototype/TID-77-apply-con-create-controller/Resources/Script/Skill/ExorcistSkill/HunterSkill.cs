@@ -100,14 +100,12 @@ namespace GHJ_Lib
                 yield break;
             }
             isUse = true;
-            StageManager.Instance.exorcistUI.CharacterSkill.PushButton(true);
             while (true)
             {
                 
                 yield return new WaitForEndOfFrame();
                 if (!isUse)
                 {
-                    StageManager.Instance.exorcistUI.CharacterSkill.PushButton(false);
                     Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
                     break;
                 }

@@ -214,6 +214,7 @@ namespace GHJ_Lib
 			}
 			else
 			{
+				interactor.gameObject.SetActive(false);
 				characterObj.SetActive(false);
 			}
 

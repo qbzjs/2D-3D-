@@ -91,6 +91,7 @@ namespace GHJ_Lib
 				{
 					IsBlink = false;
 					CoolTimeCover.enabled = true;
+					Icon.enabled = true;
 					break;
 				}
 				if (blinkTime > blinkControlTime)
