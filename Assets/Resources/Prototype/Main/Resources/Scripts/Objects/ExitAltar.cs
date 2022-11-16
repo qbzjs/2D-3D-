@@ -11,8 +11,7 @@ namespace KSH_Lib.Object
     {
         public enum AltarState { Wait, CanOpen, Closed }
         public GameObject ExitAltarModel;
-        [SerializeField] public float dollInteractCostTime = 10.0f;
-        [SerializeField] public float exorcistInteractTime = 1.0f;
+        [SerializeField] public float exorcistMaxGauge = 20.0f;
         [SerializeField] public AltarState altarState { get; private set; }
 
         protected override void OnEnable()
@@ -29,6 +28,11 @@ namespace KSH_Lib.Object
 
         protected override bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
         {
+            if (targetController.CurBehavior is not BvIdle)
+            {
+                return false;
+            }
+
             if ( altarState != AltarState.CanOpen )
             {
                 return false;
@@ -43,12 +47,12 @@ namespace KSH_Lib.Object
             {
                 if (targetController.gameObject.CompareTag( GameManager.DollTag ) )
                 {
-                    castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractCostTime ),
+                    castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / MaxGauge ),
                         new CastingSystem.CastFuncSet ( RunningCondition: DollRunningCondition, PauseAction: PauseAction, FinishAction: DollFinishAction ) );
                 }
                 else if (targetController.gameObject.CompareTag( GameManager.ExorcistTag ) )
                 {
-                    castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( exorcistInteractTime ),
+                    castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / exorcistMaxGauge ),
                         new CastingSystem.CastFuncSet( RunningCondition: targetController.IsInteractionKeyHold, PauseAction: PauseAction, FinishAction: ExorcistFinishAction ) );
                 }
                 else

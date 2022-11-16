@@ -11,9 +11,8 @@ namespace KSH_Lib.Object
     {
         public Transform CharacterPos;
 
-        [SerializeField] float dollInteractCostTime = 30.0f;
-        [SerializeField] float exorcistCastingTime = 3.0f;
         [SerializeField] protected DollController DollInBox = null;
+        [SerializeField] float exorcistMaxGauge = 20.0f;
         [SerializeField] Animator animator;
         [SerializeField] public bool IsInteracting { get; private set; }
         [SerializeField] public float Damage { get; private set; }
@@ -36,9 +35,17 @@ namespace KSH_Lib.Object
 
         protected override bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
         {
+
+
             if(targetController.gameObject.CompareTag(GameManager.DollTag))
             {
-                if(DollInBox == null)
+                if (targetController.CurBehavior is not BvIdle)
+                {
+                    promptUI.Inactivate();
+                    return false;
+                }
+
+                if (DollInBox == null)
                 {
                     promptUI.Inactivate();
                     return false;
@@ -62,16 +69,15 @@ namespace KSH_Lib.Object
                 targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Interact);
                 IsInteracting = true;
                 photonView.RPC("ShareInteractingInPurificationBox_RPC", RpcTarget.AllViaServer, IsInteracting );
-                castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractCostTime, coolTime: CoolTime ),
-                    new CastingSystem.CastFuncSet( RunningCondition: targetController.IsInteractionKeyHold, PauseAction: PauseAction, FinishAction: DollFinishAction)
+                castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / MaxGauge, coolTime: CoolTime ),
+                    new CastingSystem.CastFuncSet( RunningCondition: DollRunningAction, PauseAction: PauseAction, FinishAction: DollFinishAction)
                     );
             }
             else if(targetController.gameObject.CompareTag(GameManager.ExorcistTag))
             {
                 targetController.ChangeBvToImprison();
-                castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( exorcistCastingTime, coolTime: CoolTime ),
+                castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / exorcistMaxGauge, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet(FinishAction: ExorcistFinishAction ) );
-
 
                 if(!isDollPurifying)
                 {
@@ -85,11 +91,15 @@ namespace KSH_Lib.Object
             }
             return true;
         }
+        bool DollRunningAction()
+        {
+            return targetController.IsInteractionKeyHold();
+        }
         void PauseAction()
         {
             castingSystem.ResetCasting();
             IsInteracting = false;
-            photonView.RPC( "ShareInteractingInFinalAltar_RPC", RpcTarget.AllViaServer, IsInteracting );
+            photonView.RPC( "ShareInteractingInPurificationBox_RPC", RpcTarget.AllViaServer, IsInteracting );
 
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
         }

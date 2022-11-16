@@ -10,6 +10,7 @@ namespace GHJ_Lib
         {
             if (other.CompareTag(GameManager.DollTag))
             {
+                Debug.Log($"Collider Name : {other.gameObject.name}");
                 return other.gameObject;
             }
             return null;

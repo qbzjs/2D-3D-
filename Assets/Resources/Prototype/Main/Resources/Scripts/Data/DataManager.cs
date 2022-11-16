@@ -68,19 +68,19 @@ namespace KSH_Lib
 		[Header("Debug Only")]
 		[SerializeField]List<PlayerData> playerDatas = new List<PlayerData>();
 
-		public bool IsActive
+		public bool IsAllClientInited
         {
 			get
             {
 				bool flag = true;
-				foreach(bool isActive in isActiveList)
+				foreach(bool isInited in isInitedList)
                 {
-					flag &= isActive;
+					flag &= isInited;
 				}
 				return flag;
             }
 		}
-		List<bool> isActiveList = new List<bool>();
+		List<bool> isInitedList = new List<bool>();
 
 
 
@@ -156,14 +156,14 @@ namespace KSH_Lib
 				for ( int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; ++i )
 				{
 					playerDatas.Add( new PlayerData() );
-					isActiveList.Add( false );
+					isInitedList.Add( false );
 				}
 			}
 		}
 		public void ResetPlayerDatas()
 		{
 			playerDatas = new List<PlayerData>();
-			isActiveList = new List<bool>();
+			isInitedList = new List<bool>();
 			LocalPlayerData.roleData = null;
 			PreRoleGroup = RoleData.RoleGroup.Null;
 			PreRoleName = RoleData.RoleType.Null;
@@ -193,6 +193,10 @@ namespace KSH_Lib
             {
 				Debug.LogError( "DataManger.ShareRoleData: localPlayerData.roleData type error" );
             }
+        }
+		public void ShareBehavior(int curBehaviorType)
+        {
+			photonView.RPC( "ShareBehaviorRPC", RpcTarget.AllViaServer, PlayerIdx, curBehaviorType );
         }
 		public void DisconnectAllData()
 		{
@@ -280,6 +284,11 @@ namespace KSH_Lib
 			playerDatas[idx].roleData = (ExorcistData)ExorcistData.Deserialize( data );
 		}
 		[PunRPC]
+		void ShareBehaviorRPC( int idx, int type )
+		{
+			playerDatas[idx].behaviorType = (GHJ_Lib.NetworkBaseController.BehaviorType)type;
+		}
+		[PunRPC]
 		void DisconnectAllDataRPC(int idx)
         {
 			playerDatas.RemoveAt( idx );
@@ -288,8 +297,9 @@ namespace KSH_Lib
 		[PunRPC]
 		void ShareInitedRPC(int idx, bool isInited)
         {
-			isActiveList[idx] = isInited;
+			isInitedList[idx] = isInited;
         }
+
 
 
 		/***************************************************

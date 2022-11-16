@@ -9,12 +9,16 @@ namespace GHJ_Lib
     {
 		protected override void Activate(in NetworkBaseController actor)
 		{
+			if ( actor.IsMine )
+			{
+				DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.Imprison );
+			}
 			if (actor is ExorcistController)
 			{
 				actor.BaseAnimator.SetBool("IsImprison", true);
 			}
 
-			actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
+			actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
 		}
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)

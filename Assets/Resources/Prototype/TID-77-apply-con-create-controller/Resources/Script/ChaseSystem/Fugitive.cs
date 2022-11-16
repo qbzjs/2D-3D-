@@ -9,6 +9,18 @@ namespace GHJ_Lib
         [SerializeField] public bool IsChased { get; private set; }
         [SerializeField] public bool IsWatched { get; set; }
         [SerializeField] protected float ChaseGauge = 0.0f;
+        public int GetStack
+        {
+            get {
+                    if (dollController == null)
+                    {
+                        dollController = GetComponent<DollController>(); 
+                    }
+                    return dollController.CrossStack;
+                } 
+        }
+        [SerializeField] protected DollController dollController;
+
         public void CanWatch(bool IsWatchTarget)
         {
             if (IsWatchTarget)
@@ -36,7 +48,7 @@ namespace GHJ_Lib
             {
                 if (ChaseGauge < 150.0f)
                 {
-                    ChaseGauge += Time.deltaTime;
+                    ChaseGauge += 5*Time.deltaTime;
                 }
                 else
                 {
@@ -47,7 +59,7 @@ namespace GHJ_Lib
             {
                 if (ChaseGauge > 0.0f)
                 {
-                    ChaseGauge -= Time.deltaTime;
+                    ChaseGauge -= 5 * Time.deltaTime;
                 }
                 else
                 {
@@ -63,9 +75,13 @@ namespace GHJ_Lib
             {
                 IsChased = false;
             }
-            Log.Instance.WriteLog("IsChased" + IsChased.ToString(), 2);
-            Log.Instance.WriteLog("IsWatched" + IsWatched.ToString(), 3);
-            Log.Instance.WriteLog("ChaseGauge" + ChaseGauge.ToString(), 4);
+
+            if (photonView.IsMine)
+            { 
+                Log.Instance.WriteLog("IsChased" + IsChased.ToString(), 2);
+                Log.Instance.WriteLog("IsWatched" + IsWatched.ToString(), 3);
+                Log.Instance.WriteLog("ChaseGauge" + ChaseGauge.ToString(), 4);
+            }
         }
     }
 

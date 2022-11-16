@@ -1449,7 +1449,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &353343447
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1490,7 +1490,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 556fc5cbdfae2524da9d8c5775a37bbf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 693301a557bc51c42a80391b16c5e74d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2016,6 +2016,14 @@ MonoBehaviour:
     NickName: {fileID: 7734014}
     RoleType: {fileID: 1748736011}
     StatusIcon: {fileID: 552700722}
+  inforResults:
+  - playerIdx: 0
+    ui:
+      Backgroud: {fileID: 958068136}
+      PlayerIcon: {fileID: 2012585160}
+      NickName: {fileID: 1724655642}
+      RoleType: {fileID: 321201353}
+      StatusIcon: {fileID: 1989613258}
   backgrounds:
   - {fileID: 21300000, guid: 6212266c3d88e164bbec732cf06f7df9, type: 3}
   - {fileID: 21300000, guid: fa9d83c8a1354a449bf415759bc20c0b, type: 3}
@@ -2949,7 +2957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1315557604
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18080,6 +18088,7 @@ MonoBehaviour:
   sphereCollider: {fileID: 0}
   CoolDowntime: 0
   photonView: {fileID: 0}
+  CrossStackSpeedUpRate: 0.2
 --- !u!1 &9177730195360756978
 GameObject:
   m_ObjectHideFlags: 0

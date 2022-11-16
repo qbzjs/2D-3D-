@@ -8,13 +8,21 @@ namespace GHJ_Lib
 	public class BvGetHit: Behavior<NetworkBaseController>
 	{
         const float AnimationFinishPoint = 0.9f;
+        const float CrossStackBonusRate = 0.2f;
         protected override void Activate(in NetworkBaseController actor)
         {
+            if ( actor.IsMine )
+            {
+                DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.GetHit );
+            }
             actor.BaseAnimator.Play("Hit");
 
             if (actor.photonView.IsMine)
             {
-                // 피격 구현하기
+                if ((actor as DollController).CrossStack >= 2)
+                {
+                    (DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower * CrossStackBonusRate;
+                }
             }
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
         }

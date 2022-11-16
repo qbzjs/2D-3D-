@@ -10,9 +10,13 @@ namespace GHJ_Lib
     {
         protected override void Activate(in NetworkBaseController actor)
         {
+            if ( actor.IsMine )
+            {
+                DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.Escape );
+            }
             //애니매이션이 있다면 play를 시킴.
             //Default layer = 0;
-            actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
         }
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {

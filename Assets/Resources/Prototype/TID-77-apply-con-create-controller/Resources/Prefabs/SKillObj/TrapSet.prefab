@@ -58,8 +58,7 @@ MonoBehaviour:
   ClearTrapVel: 4.2
   CollectText: 'G : UnLock Trap'
   sphereCollider: {fileID: 7976452020468269883}
-  leftSide: {fileID: 0}
-  rightSide: {fileID: 0}
+  animator: {fileID: 3549713807789347890}
 --- !u!135 &7976452020468269883
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -309,7 +308,7 @@ Animator:
   m_GameObject: {fileID: 3549713807779833824}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 783417723d42d4a4b9f24630ad3a45ec, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 42af9facda840c647ab1891a846b8b95, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using KSH_Lib;
+using KSH_Lib.Data;
 namespace GHJ_Lib
 {
     public class Chaser : MonoBehaviour
@@ -13,7 +15,8 @@ namespace GHJ_Lib
         Camera mainCamera;
         [SerializeField] float CoolDowntime;
         [SerializeField] private PhotonView photonView;
-        
+        [SerializeField] private float CrossStackSpeedUpRate = 0.2f;
+        protected string FloorTag = "Floor";
         private void OnEnable()
         {
             mainCamera = Camera.main;
@@ -79,10 +82,13 @@ namespace GHJ_Lib
 
 
                 Log.Instance.WriteLog(chaseState.ToString(), 0);
-                Log.Instance.WriteLog(CoolDowntime.ToString(), 1);
+                Log.Instance.WriteLog($"CoolDowntime : {CoolDowntime}" , 1);
                 if (CheckFugitivesIsChasedOnView())
                 {
-                    chaseState = ChaseState.Chasing;
+                    if (chaseState != ChaseState.Chasing)
+                    {
+                        chaseState = ChaseState.Chasing;
+                    }
                 }
                 else
                 {
@@ -100,13 +106,14 @@ namespace GHJ_Lib
                                 if (CoolDowntime <= 0.0f)
                                 {
                                     CoolDowntime = 0.0f;
+                                    DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = DataManager.Instance.RoleInfos[(int)DataManager.Instance.GetLocalRoleType].MoveSpeed;
                                     chaseState = ChaseState.Wait;
                                 }
                             }
                             break;
                         case ChaseState.Wait:
                             {
-
+                                
                             }
                             break;
                     }
@@ -131,60 +138,86 @@ namespace GHJ_Lib
             Vector3 CamPos = mainCamera.transform.position;
             Ray ray = new Ray(CamPos, targetObject.transform.position - CamPos);
 
-            Hits = Physics.RaycastAll(ray, sphereCollider.radius);
+            Hits = Physics.RaycastAll(ray, sphereCollider.radius, LayerMask.NameToLayer(GameManager.EnvironmentLayer));
 
             foreach (RaycastHit hit in Hits)
             {
                 Debug.Log($"Hits : {hit.collider.name}");
-                if (hit.collider.gameObject.layer == LayerMask.NameToLayer(GameManager.EnvironmentLayer))
+                if (!hit.collider.gameObject.CompareTag(FloorTag))
                 {
                     return false;
                 }
             }
+            Debug.Log("return True");
             return true;
+        }
+        protected void BuffExorcistByCrossStack(Fugitive fugitive)
+        {
+            if (fugitive.GetStack < 2)
+            {
+
+            }
+            else if (fugitive.GetStack < 5)
+            {
+                DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = DataManager.Instance.RoleInfos[(int)DataManager.Instance.GetLocalRoleType].MoveSpeed * CrossStackSpeedUpRate;
+            }
+            else
+            { 
+                DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = DataManager.Instance.RoleInfos[(int)DataManager.Instance.GetLocalRoleType].MoveSpeed * CrossStackSpeedUpRate*2;
+            }
         }
         protected bool CheckFugitivesIsChasedOnView()
         {
+            bool check = false;
             foreach (Fugitive fugitive in Fugitives)
             {
                 if (!fugitive)
                 {
-                    break;
+                    continue;
                 }
                 if (fugitive.IsChased&&fugitive.IsWatched)
                 {
-                    return true;
+                    BuffExorcistByCrossStack(fugitive);
+                    check = true;
                 }
             }
-            return false;
+            Debug.Log($"Check : {check}");
+            return check;
         }
 
         private void OnDrawGizmos()
         {
+            if (!photonView.IsMine)
+            {
+                return;
+            }
+
             if (Fugitives.Count == 0)
             {
                 return;
             }
             RaycastHit[] Hits;
-            Vector3 CamPos = mainCamera.transform.position;
+
             foreach (Fugitive fugitive in Fugitives)
             {
                 if (fugitive == null)
                 {
                     continue;
                 }
+                Vector3 CamPos = mainCamera.transform.position;
                 Ray ray = new Ray(CamPos, fugitive.transform.position - CamPos);
-                Hits = Physics.RaycastAll(ray, sphereCollider.radius);
+
+                Hits = Physics.RaycastAll(ray, sphereCollider.radius, LayerMask.NameToLayer(GameManager.EnvironmentLayer));
 
                 Gizmos.color = Color.red;
-                Gizmos.DrawRay(ray);
+                Gizmos.DrawLine(ray.origin, ray.origin +ray.direction*40.0f);
 
                 Gizmos.color = Color.cyan;
                 if (Hits.Length > 0)
                 {
                     foreach (RaycastHit hit in Hits)
                     {
-                        Gizmos.DrawSphere(hit.transform.position, 1.0f);
+                        Gizmos.DrawSphere(hit.point, 0.3f);
                     }
                 }
             }

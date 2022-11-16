@@ -8,7 +8,7 @@ using System.Text;
 using System.Reflection;
 using ExitGames.Client.Photon;
 
-using MSLIMA.Serializer;
+using GHJ_Lib;
 
 namespace KSH_Lib.Data
 {
@@ -18,6 +18,7 @@ namespace KSH_Lib.Data
 		/*--- Public Fields ---*/
 		public RoleData roleData;
 		public AccountData accountData;
+        public NetworkBaseController.BehaviorType behaviorType;
 
         /*--- Protected Fields ---*/
 

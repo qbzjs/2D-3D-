@@ -8,15 +8,20 @@ namespace GHJ_Lib
 {
 	public class BvHide: Behavior<NetworkBaseController>
 	{
-        bool ishide = false;
+
         protected override void Activate(in NetworkBaseController actor)
         {
+            if ( actor.IsMine )
+            {
+                DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.Hide );
+            }
+
             if (actor.IsMine)
             { 
                 StageManager.Instance.dollUI.CommomSkill.StartCountDown(1.0f);
             }
-            actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
-            ishide = false;
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
+
             if (actor.photonView.IsMine)
             { 
                 actor.StartCoroutine("Hide");
@@ -25,40 +30,24 @@ namespace GHJ_Lib
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            if (!ishide)
-            {
-                return null;
-            }
+
 
             //if()외부의 조건
             // 이동, 상호작용,아이템사용, 퇴마사로부터 피격 
             if (actor.photonView.IsMine)
             {
-                DoUnHide(actor);
-            }
-
-            Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
-            if (Bv is not null)
-            {
-                if (actor.photonView.IsMine)
+                if (Input.GetKeyDown(KeyCode.B))
                 {
                     actor.StartCoroutine("UnHide");
                 }
+            }
+            Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
+            if (Bv is BvIdle||Bv is BvGetHit)
+            { 
                 return Bv;
             }
             return null; 
         }
 
-        private void DoUnHide(in NetworkBaseController actor)
-        {
-            if (Input.anyKey)
-            {
-                actor.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
-            }
-        }
-        public void CompleteHide(bool isHide)
-        {
-            ishide = isHide;
-        }
     }
 }

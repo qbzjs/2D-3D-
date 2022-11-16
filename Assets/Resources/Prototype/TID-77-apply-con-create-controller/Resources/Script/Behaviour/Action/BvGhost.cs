@@ -11,6 +11,10 @@ namespace GHJ_Lib
         int curIdx;
         protected override void Activate(in NetworkBaseController actor)
         {
+            if ( actor.IsMine )
+            {
+                DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.BvGhost );
+            }
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
             actor.BaseAnimator.Play("Idle_A");
             players = StageManager.Instance.PlayerControllers;
@@ -26,18 +30,24 @@ namespace GHJ_Lib
 
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                curIdx++;
-                if (curIdx >= players.Length)
+                while (players[curIdx] == null)
                 {
-                    curIdx = 0;
+                    curIdx++;
+                    if (curIdx >= players.Length)
+                    {
+                        curIdx = 0;
+                    }
                 }
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                curIdx--;
-                if (curIdx <= 0)
+                while (players[curIdx] == null)
                 {
-                    curIdx = players.Length - 1;
+                    curIdx--;
+                    if (curIdx >= players.Length)
+                    {
+                        curIdx = 0;
+                    }
                 }
             }
             else if (Input.GetKeyDown(KeyCode.Space))
@@ -45,6 +55,7 @@ namespace GHJ_Lib
                 curIdx = actor.PlayerIndex;
             }
 
+            
             actor.ChangeCamera(players[curIdx].TPVCam);
 
             if (curIdx == actor.PlayerIndex)

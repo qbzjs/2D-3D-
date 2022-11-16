@@ -7,13 +7,15 @@ using KSH_Lib;
 using KSH_Lib.Data;
 using Cinemachine;
 using System;
-
+using KSH_Lib.Object;
 namespace GHJ_Lib
 {
 	public class NetworkBaseController : BasePlayerController, IPunObservable
 	{
 		public enum BehaviorType
 		{
+			Null,
+
 			Idle,
 			Interact,
 
@@ -28,7 +30,8 @@ namespace GHJ_Lib
 			Escape,
 			Hide,
 			BeTrapped,
-			BvGhost
+			BvGhost,
+			Hold,
 		}
 
 		public enum MoveType
@@ -47,7 +50,7 @@ namespace GHJ_Lib
 		public Behavior<NetworkBaseController> CurBehavior = new Behavior<NetworkBaseController>();
 		protected BvIdle idle = new BvIdle();
 		protected BvInteract interact = new BvInteract();
-		protected Behavior<NetworkBaseController> BvActiveSkill = new Behavior<NetworkBaseController>(); 
+		protected Behavior<NetworkBaseController> BvActiveSkill = new Behavior<NetworkBaseController>();
 
 		protected PhotonTransformViewClassic photonTransformView;
 
@@ -60,12 +63,18 @@ namespace GHJ_Lib
 		protected TPV_CameraController tpvCam;
 		public BaseCameraController CurCam { get; protected set; }
 
+		[Header( "Interactor" )]
+		[SerializeField]
+		protected Interactor interactor;
 		//move ¿©ºÎ
 		public delegate void DelPlayerInput();
 		protected DelPlayerInput SetDirectionFunc;
+		public float InteractionSpeed { get { return DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed; } }
 
 		//skill Component
 		public BaseSkill skill;
+
+
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
 		{
@@ -101,7 +110,15 @@ namespace GHJ_Lib
 			CurBehavior.Update( this, ref CurBehavior );
 		}
 
-		public virtual void InitCameraSetting()
+        private void OnGUI()
+        {
+            if(DataManager.Instance.IsAllClientInited)
+            {
+				GUI.Box( new Rect( 300, PlayerIndex * 30, 200, 30 ), $"Player{PlayerIndex}: {DataManager.Instance.PlayerDatas[PlayerIndex].behaviorType}");
+            }
+        }
+
+        public virtual void InitCameraSetting()
 		{
 			fpvCam.InitCam();
 			tpvCam.InitCam();
@@ -130,29 +147,30 @@ namespace GHJ_Lib
 				switch (moveType)
 				{
 					case MoveType.Input:
-					{
-						SetDirectionFunc = SetDirection;
-						CurCam.CanControl = true;
-					}
-					break;
+						{
+							SetDirectionFunc = SetDirection;
+							CurCam.ActiveCameraControl(true);
+						}
+						break;
 					case MoveType.Stop:
-					{
-						SetDirectionFunc = CannotMove;
-						CurCam.ActiveCameraControl( false );
-					}
-					break;
+						{
+							SetDirectionFunc = CannotMove;
+							CurCam.ActiveCameraControl( false );
+						}
+						break;
 					case MoveType.CamForward:
-					{
-						SetDirectionFunc = CamForwardMove;
-						CurCam.CanControl = true;
-					}
-					break;
+						{
+							SetDirectionFunc = CamForwardMove;
+							CurCam.ActiveCameraControl(true);
+						}
+						break;
 					case MoveType.StopRotation:
-					{
-						SetDirectionFunc = CannotMove;
-						CurCam.CanControl = true;
-					}
-					break;
+						{
+							SetDirectionFunc = CannotMove;
+							CurCam.ActiveCameraControl(true);
+							CurCam.ActiveCameraUpdate(true);
+						}
+						break;
 				}
 			}
 		}
@@ -356,5 +374,5 @@ namespace GHJ_Lib
 				this.transform.position = new Vector3((float)stream.ReceiveNext(), (float)stream.ReceiveNext(), (float)stream.ReceiveNext());
 			}
 		}
-	}
+    }
 }

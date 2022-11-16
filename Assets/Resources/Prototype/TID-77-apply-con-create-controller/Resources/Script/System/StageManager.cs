@@ -124,7 +124,7 @@ namespace GHJ_Lib
 			LocalController.TPVCam.SetAxis( new Vector2( rotateSpeed, 0 ) );
 			while ( true )
 			{
-				if ( DataManager.Instance.IsActive )
+				if ( DataManager.Instance.IsAllClientInited )
 				{
 					break;
 				}
@@ -243,6 +243,10 @@ namespace GHJ_Lib
 		void DecreseDollCountRPC()
         {
 			--DollCount;
+			if (DollCount == 2 && exitAltar.ExitAltarModel.activeInHierarchy==false)
+			{
+				exitAltar.EnableExitAltar();
+			}
 
 			if ( DollCount < 1 )
 			{
@@ -261,7 +265,10 @@ namespace GHJ_Lib
 				}
 				if(PhotonNetwork.InRoom)
 				{
-					DecereseDollCount();
+					if(controller.CurBehavior is not BvGhost)
+					{
+						DecereseDollCount();
+					}
 					PhotonNetwork.LeaveRoom();
 				}
 			}

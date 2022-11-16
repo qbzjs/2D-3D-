@@ -10,7 +10,13 @@ namespace GHJ_Lib
 	{
         CastingSystem castingSystem;
         public IInteractable Trap { get; private set; }
+        public float CoolTime = 5.0f;
 
+        /*Uninstall Zone Parameter*/
+        [SerializeField] protected LayerMask UninstallZoneLayer;
+        string NoticeTextUninstallArea = "This Area Can't install!!";
+        WaitForSeconds noticeTime = new WaitForSeconds(1.0f);
+        bool IsNotice = false;
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -22,6 +28,17 @@ namespace GHJ_Lib
         {
             foundCount = Physics.OverlapSphereNonAlloc(interactionPoint.position, interactionPointRadius, colliders, interactableMask);
             
+            Collider[] UninstallZones = new Collider[1];
+            if (Physics.OverlapSphereNonAlloc(interactionPoint.position, interactionPointRadius, UninstallZones, UninstallZoneLayer) ==1)
+            {
+                if (Input.GetKeyDown(interactionKey) && !castingSystem.IsCoroutineRunning)
+                {
+                    StartCoroutine(NoticeUninstallArea());
+                }
+                return;
+            }
+
+
             if (foundCount > 0)
             {
                 foreach (Collider collider in colliders)
@@ -66,11 +83,22 @@ namespace GHJ_Lib
                     {
                         (controller.skill as HunterSkill).SettingToInstallTrap();
                         controller.photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.All);
-                        castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(3.0f,coolTime : 5.0f), new CastingSystem.CastFuncSet(RunningCondition: RunningCondition,PauseAction : PauseAction,FinishAction: FinishAction) ); // RunningCondition : Input.getKey / PauseAction : Idle∑Œ πŸ≤„¡‹ /  FinishAction : Idle πŸ≤„¡÷∞Ì º≥ƒ°
+                        castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(3.0f,coolTime : CoolTime), new CastingSystem.CastFuncSet(RunningCondition: RunningCondition,PauseAction : PauseAction,FinishAction: FinishAction) ); // RunningCondition : Input.getKey / PauseAction : Idle∑Œ πŸ≤„¡‹ /  FinishAction : Idle πŸ≤„¡÷∞Ì º≥ƒ°
                     }
                 }
             }
 
+        }
+        private bool CheckUninstallzone(Collider[] colliders)
+        {
+            foreach (Collider collider in colliders)
+            {
+                if (collider.gameObject.CompareTag(GameManager.UninstallAreaTag))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         private bool RunningCondition()
         {
@@ -79,11 +107,26 @@ namespace GHJ_Lib
         private void PauseAction()
         {
             (controller.skill as HunterSkill).Installfail();
+            StageManager.Instance.exorcistUI.CharacterSkill.StartCountDown(CoolTime);
         }
         private void FinishAction()
         {
             (controller.skill as HunterSkill).InstallTrap();
             PhotonNetwork.Instantiate((controller.skill as HunterSkill).TrapName, controller.transform.position, controller.transform.rotation);
+            StageManager.Instance.exorcistUI.CharacterSkill.StartCountDown(CoolTime);
+        }
+
+        IEnumerator NoticeUninstallArea()
+        {
+            if (IsNotice)
+            {
+                yield break;
+            }
+            IsNotice = true;
+            interactionPromptUI.Activate(NoticeTextUninstallArea);
+            yield return noticeTime;
+            IsNotice = false;
+            interactionPromptUI.Inactivate();
         }
     }
 }

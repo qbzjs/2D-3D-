@@ -14,7 +14,7 @@ namespace GHJ_Lib
 		/*--- Public Fields ---*/
 		public int CrossStack { get { return crossStack; } }
 		protected int crossStack = 0;
-
+		[SerializeField] protected Fugitive fugitive; 
 		public bool IsCrowDebuff { get; set; } = false;
 		public float CrowGauge { get; set; } = 0.0f;
 
@@ -135,7 +135,7 @@ namespace GHJ_Lib
 		{
 			Transform modelTrans = characterModel.transform;
 			BaseAnimator.SetBool("IsHide", true);
-			float rotZ = modelTrans.localRotation.z;
+			float rotZ = modelTrans.localRotation.eulerAngles.z;
 			float posY = modelTrans.localScale.x;
 			while (true)
 			{
@@ -154,7 +154,6 @@ namespace GHJ_Lib
 				yield return new WaitForEndOfFrame();
 				if (rotZ.Equals(90.0f))
 				{
-					bvHide.CompleteHide(true);
 					break;
 				}
 			}
@@ -163,9 +162,11 @@ namespace GHJ_Lib
 		public virtual IEnumerator UnHide()
 		{
 			Transform modelTrans = characterModel.transform;
-			float rotZ = modelTrans.localRotation.z;
+			float rotZ = modelTrans.localRotation.eulerAngles.z;
+			Debug.Log($"localRotation.z : {modelTrans.localRotation.z}");
 			while (true)
 			{
+				Debug.Log($"rotZ : {rotZ}");
 				rotZ -= 90.0f * Time.deltaTime;
 				if (rotZ <= 0.0f)
 				{
@@ -210,10 +211,12 @@ namespace GHJ_Lib
 			if (IsMine)
 			{
 				skinnedMeshRenderer.material = ghostMaterial;
+				interactor.enabled = false;
 			}
 			else
 			{
-				skinnedMeshRenderer.material.color = new Color32(0,0,0,0);
+				interactor.gameObject.SetActive(false);
+				characterObj.SetActive(false);
 			}
 
 			StageManager.CharacterLayerChange(characterObj, LayerMask.NameToLayer(GameManager.GhostLayer));//8 : Ghost Layer
@@ -287,8 +290,8 @@ namespace GHJ_Lib
 						//이동속도증가 한번더 
 					}
 					break;
-
 			}
+
 			if (photonView.IsMine)
 			{ 
 				Log.Instance.WriteLog("crossStack" + crossStack.ToString(),0);

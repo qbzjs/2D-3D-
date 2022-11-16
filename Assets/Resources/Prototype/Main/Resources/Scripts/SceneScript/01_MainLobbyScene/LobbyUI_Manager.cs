@@ -65,8 +65,6 @@ namespace KSH_Lib
         [SerializeField]
         GameObject wolfInformation;
         [SerializeField]
-        GameObject monkeyInformation;
-        [SerializeField]
         GameObject penguinInformation;
 
         [Header("Developer UI")]
@@ -80,7 +78,7 @@ namespace KSH_Lib
 
         [Header( "Character Select UI" )]
         [SerializeField]
-        TextMeshProUGUI roleText;
+        TextMeshProUGUI roleTextTMP;
 
         //[Header("Matching UI")]
         //[SerializeField]
@@ -111,10 +109,12 @@ namespace KSH_Lib
         //private GameObject lshSkipButtonObj;
         //[SerializeField]
         //private GameObject kshSkipButtonObj;
-        [SerializeField]
-        public string roomName = "Debug";
 
+        [Header( "For Debug" )]
+        public TextMeshProUGUI RoomNameTMP;
+        //[SerializeField] public string roomName = "Debug";
         public RoomType roomType;
+
 
         //[SerializeField]
         //string lshSceneName = "";
@@ -288,7 +288,6 @@ namespace KSH_Lib
             rabbitInformation.SetActive(false);
             turtleInformation.SetActive(false);
             wolfInformation.SetActive(false);
-            monkeyInformation.SetActive(false);
             penguinInformation.SetActive(false);
 
         }
@@ -395,11 +394,6 @@ namespace KSH_Lib
             DisableMainLobbyPanelAll();
             wolfInformation.SetActive(true);
         }
-        void EnableMonkeyInformation()
-        {
-            DisableMainLobbyPanelAll();
-            monkeyInformation.SetActive(true);
-        }
         void EnablePenguinInformation()
         {
             DisableMainLobbyPanelAll();
@@ -451,12 +445,13 @@ namespace KSH_Lib
             if (roleType == "Exorcist")
             {
                 DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Exorcist;
-                PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
+                //PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
+                PhotonNetwork.CreateRoom( RoomNameTMP.text , new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
             }
             else if (roleType == "Doll")
             {
                 DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Doll;
-                PhotonNetwork.JoinRoom(roomName);
+                PhotonNetwork.JoinRoom( RoomNameTMP.text );
             }
             else 
             {

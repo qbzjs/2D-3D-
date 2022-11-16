@@ -12,7 +12,6 @@ namespace KSH_Lib.Object
     {
         public enum AltarState { Wait, CanOpen, Opened }
 
-        [SerializeField] float dollInteractCostTime = 30.0f;
         [SerializeField] public AltarState altarState { get; private set; }
         [SerializeField] public bool IsInteracting { get; private set; }
 
@@ -26,6 +25,11 @@ namespace KSH_Lib.Object
         }
         protected override bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
         {
+            if (targetController.CurBehavior is not BvIdle)
+            {
+                return false;
+            }
+
             if ( altarState != AltarState.CanOpen )
             {
                 return false;
@@ -48,10 +52,15 @@ namespace KSH_Lib.Object
             IsInteracting = true;
             photonView.RPC( "ShareInteractingInFinalAltar_RPC", RpcTarget.AllViaServer, IsInteracting );
 
-            castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractCostTime ),
-                new CastingSystem.CastFuncSet( RunningCondition: targetController.IsInteractionKeyHold, PauseAction: PauseAction, FinishAction: FinishCasting )
+            castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / MaxGauge ),
+                new CastingSystem.CastFuncSet( RunningCondition: RunningCondition, PauseAction: PauseAction, FinishAction: FinishCasting )
                 );
             return true;
+        }
+
+        bool RunningCondition()
+        {
+            return targetController.IsInteractionKeyHold();
         }
 
         void PauseAction()

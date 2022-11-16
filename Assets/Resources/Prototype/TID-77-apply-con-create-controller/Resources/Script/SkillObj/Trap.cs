@@ -14,8 +14,7 @@ namespace GHJ_Lib
         [SerializeField] protected float ClearTrapVel = 4.2f;
         [SerializeField] protected string CollectText = "G : Collect Trap";
         [SerializeField] protected SphereCollider sphereCollider;
-        [SerializeField] protected GameObject leftSide;
-        [SerializeField] protected GameObject rightSide;
+        [SerializeField] protected Animator animator;
         protected float collectTime = 1.0f;
         protected bool isCatchDoll =false;
 
@@ -112,13 +111,40 @@ namespace GHJ_Lib
                     beTrappedDoll = other.GetComponent<DollController>();
                     beTrappedDoll.ChangeBehaviorTo(NetworkBaseController.BehaviorType.BeTrapped);
                     isCatchDoll = true;
+                    StartCoroutine(TrapInDoll());
                     if (DataManager.Instance.PlayerIdx == 0)
                     { 
                         sphereCollider.radius = 0.59f;
                     }
+                    animator.Play("Trap");
                     // 덫 잠기는 애니매이션, 또는 위치변환 
                 }
             }
         }
+        
+        IEnumerator TrapInDoll()
+        {
+            Behavior<NetworkBaseController> behavior = beTrappedDoll.CurBehavior;
+            while (true)
+            {
+                yield return waitForEndOfFrame;
+                if (behavior is BvbeTrapped)
+                {
+                    break;
+                }
+            }
+
+            while (true)
+            {
+                yield return waitForEndOfFrame;
+                if (beTrappedDoll==null||behavior is BvBeCaught)
+                {
+                    beTrappedDoll = null;
+                    yield break;
+                }
+                
+            }
+        }
+
     }
 }

@@ -9,16 +9,20 @@ namespace GHJ_Lib
 	{
 		protected override void Activate(in NetworkBaseController actor)
 		{
+			if ( actor.IsMine )
+			{
+				DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.Interact );
+			}
+
+
 			PlayAnimation( actor );
-
-
-			actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
+			actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
 		}
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
 			Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
-			if (Bv is BvIdle)
+			if (Bv is BvIdle || Bv is BvGetHit)
 			{
 				actor.BaseAnimator.SetBool("IsInteract", false);
 				return Bv;

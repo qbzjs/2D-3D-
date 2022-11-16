@@ -14,6 +14,10 @@ namespace GHJ_Lib
         AttackArea attackArea;
         protected override void Activate(in NetworkBaseController actor)
         {
+            if ( actor.IsMine )
+            {
+                DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.Attack );
+            }
             PlayAnimation( actor );
             if (actor.skill is BishopSkill)
             {
