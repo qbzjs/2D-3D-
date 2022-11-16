@@ -194,6 +194,10 @@ namespace KSH_Lib
 				Debug.LogError( "DataManger.ShareRoleData: localPlayerData.roleData type error" );
             }
         }
+		public void ShareBehavior(int curBehaviorType)
+        {
+			photonView.RPC( "ShareBehaviorRPC", RpcTarget.AllViaServer, PlayerIdx, curBehaviorType );
+        }
 		public void DisconnectAllData()
 		{
 			photonView.RPC( "DisconnectAllDataRPC", RpcTarget.AllViaServer, PlayerIdx );
@@ -280,6 +284,11 @@ namespace KSH_Lib
 			playerDatas[idx].roleData = (ExorcistData)ExorcistData.Deserialize( data );
 		}
 		[PunRPC]
+		void ShareBehaviorRPC( int idx, int type )
+		{
+			playerDatas[idx].behaviorType = (GHJ_Lib.NetworkBaseController.BehaviorType)type;
+		}
+		[PunRPC]
 		void DisconnectAllDataRPC(int idx)
         {
 			playerDatas.RemoveAt( idx );
@@ -290,6 +299,7 @@ namespace KSH_Lib
         {
 			isInitedList[idx] = isInited;
         }
+
 
 
 		/***************************************************

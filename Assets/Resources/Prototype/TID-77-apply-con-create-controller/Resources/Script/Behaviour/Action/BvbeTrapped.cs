@@ -9,6 +9,10 @@ namespace GHJ_Lib
 	{
         protected override void Activate(in NetworkBaseController actor)
         {
+            if ( actor.IsMine )
+            {
+                DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.BeTrapped );
+            }
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
             (actor as DollController).trapInteractor.SetActive(true);
         }

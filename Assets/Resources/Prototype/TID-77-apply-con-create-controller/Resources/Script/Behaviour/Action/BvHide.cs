@@ -11,7 +11,11 @@ namespace GHJ_Lib
         bool ishide = false;
         protected override void Activate(in NetworkBaseController actor)
         {
-            actor.behaviorType = NetworkBaseController.BehaviorType.Hide;
+            if ( actor.IsMine )
+            {
+                DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.Hide );
+            }
+
             if (actor.IsMine)
             { 
                 StageManager.Instance.dollUI.CommomSkill.StartCountDown(1.0f);

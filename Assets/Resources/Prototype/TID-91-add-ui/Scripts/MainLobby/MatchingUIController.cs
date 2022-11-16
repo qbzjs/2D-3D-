@@ -63,7 +63,6 @@ namespace LSH_Lib
         public override void OnEnable()
         {
             base.OnEnable();
-            Debug.Log( $"Load Room Name: {PlayerPrefs.GetString( "RoomName" )}" );
         }
 
         private void Update()
@@ -205,7 +204,6 @@ namespace LSH_Lib
         }
         void OnSkipButtonClicked()
         {
-            PlayerPrefs.SetString( "RoomName", uiManager.RoomNameTMP.text );
             LoadRoomScene();
         }
 

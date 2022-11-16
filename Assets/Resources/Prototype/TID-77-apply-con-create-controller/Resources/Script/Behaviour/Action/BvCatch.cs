@@ -10,7 +10,10 @@ namespace GHJ_Lib
         float pickUpTime;
         protected override void Activate(in NetworkBaseController actor)
         {
-            actor.behaviorType = NetworkBaseController.BehaviorType.Catch;
+            if ( actor.IsMine )
+            {
+                DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.Catch );
+            }
             actor.BaseAnimator.SetBool("IsCatch", true);
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
 
