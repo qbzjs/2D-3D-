@@ -69,14 +69,14 @@ namespace KSH_Lib.Object
                 targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Interact);
                 IsInteracting = true;
                 photonView.RPC("ShareInteractingInPurificationBox_RPC", RpcTarget.AllViaServer, IsInteracting );
-                castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( targetController.InteractionSpeed / MaxGauge, coolTime: CoolTime ),
+                castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / MaxGauge, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet( RunningCondition: DollRunningAction, PauseAction: PauseAction, FinishAction: DollFinishAction)
                     );
             }
             else if(targetController.gameObject.CompareTag(GameManager.ExorcistTag))
             {
                 targetController.ChangeBvToImprison();
-                castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( targetController.InteractionSpeed / exorcistMaxGauge, coolTime: CoolTime ),
+                castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / exorcistMaxGauge, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet(FinishAction: ExorcistFinishAction ) );
 
                 if(!isDollPurifying)
@@ -93,7 +93,7 @@ namespace KSH_Lib.Object
         }
         bool DollRunningAction()
         {
-            return targetController.IsInteractionKeyHold() && targetController.CurBehavior is BvInteract;
+            return targetController.IsInteractionKeyHold();
         }
         void PauseAction()
         {

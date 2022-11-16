@@ -47,12 +47,12 @@ namespace KSH_Lib.Object
             {
                 if (targetController.gameObject.CompareTag( GameManager.DollTag ) )
                 {
-                    castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( targetController.InteractionSpeed / MaxGauge ),
+                    castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / MaxGauge ),
                         new CastingSystem.CastFuncSet ( RunningCondition: DollRunningCondition, PauseAction: PauseAction, FinishAction: DollFinishAction ) );
                 }
                 else if (targetController.gameObject.CompareTag( GameManager.ExorcistTag ) )
                 {
-                    castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( targetController.InteractionSpeed / exorcistMaxGauge ),
+                    castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / exorcistMaxGauge ),
                         new CastingSystem.CastFuncSet( RunningCondition: targetController.IsInteractionKeyHold, PauseAction: PauseAction, FinishAction: ExorcistFinishAction ) );
                 }
                 else
@@ -64,7 +64,7 @@ namespace KSH_Lib.Object
         }
         bool DollRunningCondition()
         {
-            return targetController.IsInteractionKeyHold() && !IsExorcistInteracting && targetController.CurBehavior is BvInteract;
+            return targetController.IsInteractionKeyHold() && !IsExorcistInteracting;
         }
         void PauseAction()
         {

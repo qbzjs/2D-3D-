@@ -49,7 +49,7 @@ namespace KSH_Lib
         protected virtual void SyncGauge( float gauge )
         {
             RateOfGauge = gauge;
-            photonView.RPC( "ShareRate", RpcTarget.AllViaServer, RateOfGauge );
+            photonView.RPC( "ShareRate", RpcTarget.All, RateOfGauge );
         }
         protected virtual bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
         {

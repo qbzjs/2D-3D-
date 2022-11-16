@@ -41,7 +41,7 @@ namespace KSH_Lib.Object
 
         bool DollRunningCondition()
         {
-            return targetController.IsInteractionKeyHold() && !IsExorcistInteracting && targetController.CurBehavior is BvInteract;
+            return targetController.IsInteractionKeyHold() && !IsExorcistInteracting;
         }
         void DollPauseAction()
         {
@@ -98,7 +98,7 @@ namespace KSH_Lib.Object
             if ( targetController.gameObject.CompareTag(GameManager.DollTag))
             {
                 castingSystem.ForceSetRatioTo( RateOfGauge );
-                castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( targetController.InteractionSpeed / MaxGauge, coolTime: CoolTime ),
+                castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / MaxGauge, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet( SyncGauge, DollRunningCondition, ChangeCandleLightsToEveryone, DollPauseAction, DollFinishAction )
                     );
                 return true;
@@ -109,7 +109,7 @@ namespace KSH_Lib.Object
                 photonView.RPC( "ShareExorcistInteract", RpcTarget.AllViaServer, IsExorcistInteracting );
 
                 castingSystem.StartCasting(
-                    CastingSystem.Cast.CreateByTime(
+                    CastingSystem.Cast.CreateByRatio(
                         targetController.InteractionSpeed / exorcistInteractMaxGauge, coolTime: CoolTime ),
                         new CastingSystem.CastFuncSet( FinishAction: ExorcistFinishAction )
                         );
