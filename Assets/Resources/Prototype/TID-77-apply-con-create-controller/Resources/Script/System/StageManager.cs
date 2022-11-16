@@ -265,7 +265,10 @@ namespace GHJ_Lib
 				}
 				if(PhotonNetwork.InRoom)
 				{
-					DecereseDollCount();
+					if(controller.CurBehavior is not BvGhost)
+					{
+						DecereseDollCount();
+					}
 					PhotonNetwork.LeaveRoom();
 				}
 			}
