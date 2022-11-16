@@ -54,9 +54,14 @@ namespace KSH_Lib.Object
             photonView.RPC( "ShareInteractingInFinalAltar_RPC", RpcTarget.AllViaServer, IsInteracting );
 
             castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractCostTime ),
-                new CastingSystem.CastFuncSet( RunningCondition: targetController.IsInteractionKeyHold, PauseAction: PauseAction, FinishAction: FinishCasting )
+                new CastingSystem.CastFuncSet( RunningCondition: RunningCondition, PauseAction: PauseAction, FinishAction: FinishCasting )
                 );
             return true;
+        }
+
+        bool RunningCondition()
+        {
+            return targetController.IsInteractionKeyHold() && targetController.CurBehavior is BvInteract;
         }
 
         void PauseAction()

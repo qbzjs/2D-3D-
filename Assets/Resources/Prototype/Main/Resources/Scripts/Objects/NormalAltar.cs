@@ -41,7 +41,7 @@ namespace KSH_Lib.Object
 
         bool DollRunningCondition()
         {
-            return targetController.IsInteractionKeyHold() && !IsExorcistInteracting;
+            return targetController.IsInteractionKeyHold() && !IsExorcistInteracting && targetController.CurBehavior is BvInteract;
         }
         void DollPauseAction()
         {
