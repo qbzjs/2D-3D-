@@ -30,7 +30,8 @@ namespace GHJ_Lib
 			Escape,
 			Hide,
 			BeTrapped,
-			BvGhost
+			BvGhost,
+			Hold,
 		}
 
 		public enum MoveType
@@ -72,7 +73,6 @@ namespace GHJ_Lib
 		//skill Component
 		public BaseSkill skill;
 
-		public BehaviorType behaviorType = BehaviorType.Null;
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
@@ -113,7 +113,7 @@ namespace GHJ_Lib
         {
             if(DataManager.Instance.IsAllClientInited)
             {
-				GUI.Box( new Rect( 300, PlayerIndex * 30, 150, 30 ), behaviorType.ToString());
+				GUI.Box( new Rect( 300, PlayerIndex * 30, 200, 30 ), $"Player{PlayerIndex}: {DataManager.Instance.PlayerDatas[PlayerIndex].behaviorType}");
             }
         }
 

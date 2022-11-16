@@ -8,7 +8,10 @@ namespace GHJ_Lib
 	{
         protected override void Activate(in NetworkBaseController actor)
         {
-            actor.behaviorType = NetworkBaseController.BehaviorType.BeCaught;
+            if ( actor.IsMine )
+            {
+                DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.BeCaught );
+            }
             //resistGauge = 0.0f;
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
             if (actor.IsMine)

@@ -9,7 +9,10 @@ namespace GHJ_Lib
     {
         protected override void Activate(in NetworkBaseController actor)
         {
-            actor.behaviorType = NetworkBaseController.BehaviorType.BePurifying;
+            if ( actor.IsMine )
+            {
+                DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.BePurifying );
+            }
             actor.BaseAnimator.Play("Fear");
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
             if ( actor.IsMine )
