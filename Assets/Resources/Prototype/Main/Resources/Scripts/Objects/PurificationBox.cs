@@ -97,7 +97,7 @@ namespace KSH_Lib.Object
         {
             castingSystem.ResetCasting();
             IsInteracting = false;
-            photonView.RPC( "ShareInteractingInFinalAltar_RPC", RpcTarget.AllViaServer, IsInteracting );
+            photonView.RPC( "ShareInteractingInPurificationBox_RPC", RpcTarget.AllViaServer, IsInteracting );
 
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
         }
