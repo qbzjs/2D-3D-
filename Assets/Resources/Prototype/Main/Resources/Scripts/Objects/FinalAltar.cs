@@ -26,6 +26,11 @@ namespace KSH_Lib.Object
         }
         protected override bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
         {
+            if (targetController.CurBehavior is not BvIdle)
+            {
+                return false;
+            }
+
             if ( altarState != AltarState.CanOpen )
             {
                 return false;

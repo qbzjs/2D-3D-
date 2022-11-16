@@ -16,7 +16,7 @@ namespace GHJ_Lib
             { 
                 StageManager.Instance.dollUI.CommomSkill.StartCountDown(1.0f);
             }
-            actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
             ishide = false;
             if (actor.photonView.IsMine)
             { 

@@ -57,8 +57,6 @@ namespace GHJ_Lib
 				obj.SetActive(false);
 			}
 		}
-
-
         // Behavior Callbacks
         public override void ImprisonDoll()
 		{
@@ -117,19 +115,16 @@ namespace GHJ_Lib
 		}
 		protected override void MoveCharacter()
 		{
-			
 			if (controller.enabled == false)
 			{
 				return;
 			}
-
 
 			if(DataManager.Instance.PlayerDatas[0].roleData != null)
 			{
 				controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[0].roleData.MoveSpeed);
 			}
 		}
-
 
 		[PunRPC]
 		protected override void ChangeBehaviorTo_RPC(BehaviorType behaviorType)

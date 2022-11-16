@@ -9,6 +9,18 @@ namespace GHJ_Lib
         [SerializeField] public bool IsChased { get; private set; }
         [SerializeField] public bool IsWatched { get; set; }
         [SerializeField] protected float ChaseGauge = 0.0f;
+        public int GetStack
+        {
+            get {
+                    if (dollController == null)
+                    {
+                        dollController = GetComponent<DollController>(); 
+                    }
+                    return dollController.CrossStack;
+                } 
+        }
+        [SerializeField] protected DollController dollController;
+
         public void CanWatch(bool IsWatchTarget)
         {
             if (IsWatchTarget)

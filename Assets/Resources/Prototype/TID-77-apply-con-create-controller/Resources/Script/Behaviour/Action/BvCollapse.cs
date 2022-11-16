@@ -10,7 +10,7 @@ namespace GHJ_Lib
         {
             actor.behaviorType = NetworkBaseController.BehaviorType.Collapse;
             actor.BaseAnimator.Play("Death");
-            actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)

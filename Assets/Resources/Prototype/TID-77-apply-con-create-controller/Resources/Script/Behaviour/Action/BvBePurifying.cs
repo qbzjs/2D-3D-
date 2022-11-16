@@ -11,7 +11,7 @@ namespace GHJ_Lib
         {
             actor.behaviorType = NetworkBaseController.BehaviorType.BePurifying;
             actor.BaseAnimator.Play("Fear");
-            actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
             if ( actor.IsMine )
             {
                 actor.ActivateCameraCollision( false );

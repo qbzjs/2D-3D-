@@ -11,9 +11,7 @@ namespace GHJ_Lib
 		{
 			actor.behaviorType = NetworkBaseController.BehaviorType.Interact;
 			PlayAnimation( actor );
-
-
-			actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
+			actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
 		}
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.009012734, g: 0.013102855, b: 0.02050359, a: 1}
+  m_IndirectSpecularColor: {r: 0.009012707, g: 0.013102867, b: 0.020503506, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2843,6 +2843,75 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1001 &1219830452855632484
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 139695111937943668, guid: 3930e8ee13378e447b1d1f732222a5b1,
+        type: 3}
+      propertyPath: m_Name
+      value: BishopDetectArea
+      objectReference: {fileID: 0}
+    - target: {fileID: 2354133797879491836, guid: 3930e8ee13378e447b1d1f732222a5b1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 2354133797879491836, guid: 3930e8ee13378e447b1d1f732222a5b1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.5799344
+      objectReference: {fileID: 0}
+    - target: {fileID: 2354133797879491836, guid: 3930e8ee13378e447b1d1f732222a5b1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.9911408
+      objectReference: {fileID: 0}
+    - target: {fileID: 2354133797879491836, guid: 3930e8ee13378e447b1d1f732222a5b1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.669287
+      objectReference: {fileID: 0}
+    - target: {fileID: 2354133797879491836, guid: 3930e8ee13378e447b1d1f732222a5b1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2354133797879491836, guid: 3930e8ee13378e447b1d1f732222a5b1,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2354133797879491836, guid: 3930e8ee13378e447b1d1f732222a5b1,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2354133797879491836, guid: 3930e8ee13378e447b1d1f732222a5b1,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2354133797879491836, guid: 3930e8ee13378e447b1d1f732222a5b1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2354133797879491836, guid: 3930e8ee13378e447b1d1f732222a5b1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2354133797879491836, guid: 3930e8ee13378e447b1d1f732222a5b1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3930e8ee13378e447b1d1f732222a5b1, type: 3}
 --- !u!4 &1265354607733628624
 Transform:
   m_ObjectHideFlags: 0
@@ -3878,7 +3947,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c30e891e57a7c04baba43a5fab42940, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canUpdate: 1
+  <CanUpdate>k__BackingField: 0
+  CanControl: 0
   camTarget: {fileID: 5641135950566302690}
   virtualCam: {fileID: 3055666372671894807}
   mouseSpeed: 0.3
@@ -5892,6 +5962,7 @@ MonoBehaviour:
   fpvCam: {fileID: 7248119746711798710}
   tpvCam: {fileID: 3055666372671894794}
   skill: {fileID: 3065164264257543386}
+  fugitive: {fileID: 0}
   trapInteractor: {fileID: 0}
   skinnedMeshRenderer: {fileID: 0}
   ghostMaterial: {fileID: 0}
@@ -6075,6 +6146,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 61794249373964336, guid: f47db0e26d0de2041822b86aeb8e5c18,
+        type: 3}
+      propertyPath: CanControl
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 61794249373964336, guid: f47db0e26d0de2041822b86aeb8e5c18,
+        type: 3}
+      propertyPath: <CanUpdate>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 908168064620427567, guid: f47db0e26d0de2041822b86aeb8e5c18,
         type: 3}
       propertyPath: sceneViewId
@@ -6139,6 +6220,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RabbitDollSet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8325106425429565548, guid: f47db0e26d0de2041822b86aeb8e5c18,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f47db0e26d0de2041822b86aeb8e5c18, type: 3}
@@ -8081,7 +8167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 251d849b0e2b1124490d873881817273, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canUpdate: 1
+  <CanUpdate>k__BackingField: 0
+  CanControl: 0
   camTarget: {fileID: 5641135950566302690}
   virtualCam: {fileID: 7248119746711798708}
   mouseSpeed: 0.2

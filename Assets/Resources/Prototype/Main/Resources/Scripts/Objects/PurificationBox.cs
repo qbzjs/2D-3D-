@@ -36,9 +36,17 @@ namespace KSH_Lib.Object
 
         protected override bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
         {
+
+
             if(targetController.gameObject.CompareTag(GameManager.DollTag))
             {
-                if(DollInBox == null)
+                if (targetController.CurBehavior is not BvIdle)
+                {
+                    promptUI.Inactivate();
+                    return false;
+                }
+
+                if (DollInBox == null)
                 {
                     promptUI.Inactivate();
                     return false;

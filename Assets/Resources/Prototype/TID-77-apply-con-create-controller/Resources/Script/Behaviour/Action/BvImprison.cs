@@ -15,7 +15,7 @@ namespace GHJ_Lib
 				actor.BaseAnimator.SetBool("IsImprison", true);
 			}
 
-			actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
+			actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
 		}
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)

@@ -210,10 +210,12 @@ namespace GHJ_Lib
 			if (IsMine)
 			{
 				skinnedMeshRenderer.material = ghostMaterial;
+				interactor.enabled = false;
 			}
 			else
 			{
-				skinnedMeshRenderer.material.color = new Color32(0,0,0,0);
+				interactor.gameObject.SetActive(false);
+				characterObj.SetActive(false);
 			}
 
 			StageManager.CharacterLayerChange(characterObj, LayerMask.NameToLayer(GameManager.GhostLayer));//8 : Ghost Layer

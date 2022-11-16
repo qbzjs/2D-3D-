@@ -10,7 +10,7 @@ namespace GHJ_Lib
 	{
         CastingSystem castingSystem;
         public IInteractable Trap { get; private set; }
-
+        public float CoolTime = 5.0f;
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -66,7 +66,7 @@ namespace GHJ_Lib
                     {
                         (controller.skill as HunterSkill).SettingToInstallTrap();
                         controller.photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.All);
-                        castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(3.0f,coolTime : 5.0f), new CastingSystem.CastFuncSet(RunningCondition: RunningCondition,PauseAction : PauseAction,FinishAction: FinishAction) ); // RunningCondition : Input.getKey / PauseAction : Idle∑Œ πŸ≤„¡‹ /  FinishAction : Idle πŸ≤„¡÷∞Ì º≥ƒ°
+                        castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(3.0f,coolTime : CoolTime), new CastingSystem.CastFuncSet(RunningCondition: RunningCondition,PauseAction : PauseAction,FinishAction: FinishAction) ); // RunningCondition : Input.getKey / PauseAction : Idle∑Œ πŸ≤„¡‹ /  FinishAction : Idle πŸ≤„¡÷∞Ì º≥ƒ°
                     }
                 }
             }
@@ -79,11 +79,13 @@ namespace GHJ_Lib
         private void PauseAction()
         {
             (controller.skill as HunterSkill).Installfail();
+            StageManager.Instance.exorcistUI.CharacterSkill.StartCountDown(CoolTime);
         }
         private void FinishAction()
         {
             (controller.skill as HunterSkill).InstallTrap();
             PhotonNetwork.Instantiate((controller.skill as HunterSkill).TrapName, controller.transform.position, controller.transform.rotation);
+            StageManager.Instance.exorcistUI.CharacterSkill.StartCountDown(CoolTime);
         }
     }
 }
