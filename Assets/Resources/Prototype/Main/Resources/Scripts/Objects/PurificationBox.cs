@@ -12,6 +12,7 @@ namespace KSH_Lib.Object
         public Transform CharacterPos;
 
         [SerializeField] protected DollController DollInBox = null;
+        [SerializeField] float exorcistMaxGauge = 20.0f;
         [SerializeField] Animator animator;
         [SerializeField] public bool IsInteracting { get; private set; }
         [SerializeField] public float Damage { get; private set; }
@@ -68,16 +69,15 @@ namespace KSH_Lib.Object
                 targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Interact);
                 IsInteracting = true;
                 photonView.RPC("ShareInteractingInPurificationBox_RPC", RpcTarget.AllViaServer, IsInteracting );
-                castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( targetController.InteractionSpeed, coolTime: CoolTime ),
+                castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( targetController.InteractionSpeed / MaxGauge, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet( RunningCondition: DollRunningAction, PauseAction: PauseAction, FinishAction: DollFinishAction)
                     );
             }
             else if(targetController.gameObject.CompareTag(GameManager.ExorcistTag))
             {
                 targetController.ChangeBvToImprison();
-                castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( targetController.InteractionSpeed, coolTime: CoolTime ),
+                castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( targetController.InteractionSpeed / exorcistMaxGauge, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet(FinishAction: ExorcistFinishAction ) );
-
 
                 if(!isDollPurifying)
                 {

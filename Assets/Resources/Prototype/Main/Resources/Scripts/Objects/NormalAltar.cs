@@ -11,8 +11,8 @@ namespace KSH_Lib.Object
     {
         [Header( "Interaction Settings" )]
         [SerializeField] float exorcistInteractRate = -0.3f;
-        [SerializeField] float exorcistCastingTime = 3.0f;
-        [SerializeField] float dollInteractCostTime = 50.0f;
+        [SerializeField] float exorcistInteractMaxGauge = 10.0f;
+
         [SerializeField] GameObject[] candleLights;
         //[SerializeField] GameObject finishLight;
         [SerializeField] Light altarLight;
@@ -98,7 +98,7 @@ namespace KSH_Lib.Object
             if ( targetController.gameObject.CompareTag(GameManager.DollTag))
             {
                 castingSystem.ForceSetRatioTo( RateOfGauge );
-                castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractCostTime, coolTime: CoolTime ),
+                castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( targetController.InteractionSpeed / MaxGauge, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet( SyncGauge, DollRunningCondition, ChangeCandleLightsToEveryone, DollPauseAction, DollFinishAction )
                     );
                 return true;
@@ -108,9 +108,11 @@ namespace KSH_Lib.Object
                 IsExorcistInteracting = true;
                 photonView.RPC( "ShareExorcistInteract", RpcTarget.AllViaServer, IsExorcistInteracting );
 
-                castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( exorcistCastingTime, coolTime: CoolTime ),
-                    new CastingSystem.CastFuncSet( FinishAction: ExorcistFinishAction )
-                    );
+                castingSystem.StartCasting(
+                    CastingSystem.Cast.CreateByTime(
+                        targetController.InteractionSpeed / exorcistInteractMaxGauge, coolTime: CoolTime ),
+                        new CastingSystem.CastFuncSet( FinishAction: ExorcistFinishAction )
+                        );
                 return true;
             }
             else

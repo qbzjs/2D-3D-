@@ -12,7 +12,6 @@ namespace KSH_Lib.Object
     {
         public enum AltarState { Wait, CanOpen, Opened }
 
-        [SerializeField] float dollInteractCostTime = 30.0f;
         [SerializeField] public AltarState altarState { get; private set; }
         [SerializeField] public bool IsInteracting { get; private set; }
 
@@ -53,7 +52,7 @@ namespace KSH_Lib.Object
             IsInteracting = true;
             photonView.RPC( "ShareInteractingInFinalAltar_RPC", RpcTarget.AllViaServer, IsInteracting );
 
-            castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( dollInteractCostTime ),
+            castingSystem.StartCasting( CastingSystem.Cast.CreateByTime( targetController.InteractionSpeed / MaxGauge ),
                 new CastingSystem.CastFuncSet( RunningCondition: RunningCondition, PauseAction: PauseAction, FinishAction: FinishCasting )
                 );
             return true;

@@ -50,7 +50,7 @@ namespace GHJ_Lib
 		public Behavior<NetworkBaseController> CurBehavior = new Behavior<NetworkBaseController>();
 		protected BvIdle idle = new BvIdle();
 		protected BvInteract interact = new BvInteract();
-		protected Behavior<NetworkBaseController> BvActiveSkill = new Behavior<NetworkBaseController>(); 
+		protected Behavior<NetworkBaseController> BvActiveSkill = new Behavior<NetworkBaseController>();
 
 		protected PhotonTransformViewClassic photonTransformView;
 
@@ -63,12 +63,13 @@ namespace GHJ_Lib
 		protected TPV_CameraController tpvCam;
 		public BaseCameraController CurCam { get; protected set; }
 
-		[Header("Interactor")]
+		[Header( "Interactor" )]
 		[SerializeField]
 		protected Interactor interactor;
 		//move ¿©ºÎ
 		public delegate void DelPlayerInput();
 		protected DelPlayerInput SetDirectionFunc;
+		public float InteractionSpeed { get { return DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed; } }
 
 		//skill Component
 		public BaseSkill skill;
