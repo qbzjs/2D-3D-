@@ -16,6 +16,7 @@ namespace GHJ_Lib
         [SerializeField] float CoolDowntime;
         [SerializeField] private PhotonView photonView;
         [SerializeField] private float CrossStackSpeedUpRate = 0.2f;
+        protected string FloorTag = "Floor";
         private void OnEnable()
         {
             mainCamera = Camera.main;
@@ -81,7 +82,7 @@ namespace GHJ_Lib
 
 
                 Log.Instance.WriteLog(chaseState.ToString(), 0);
-                Log.Instance.WriteLog(CoolDowntime.ToString(), 1);
+                Log.Instance.WriteLog($"CoolDowntime : {CoolDowntime}" , 1);
                 if (CheckFugitivesIsChasedOnView())
                 {
                     if (chaseState != ChaseState.Chasing)
@@ -105,13 +106,14 @@ namespace GHJ_Lib
                                 if (CoolDowntime <= 0.0f)
                                 {
                                     CoolDowntime = 0.0f;
+                                    DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = DataManager.Instance.RoleInfos[(int)DataManager.Instance.GetLocalRoleType].MoveSpeed;
                                     chaseState = ChaseState.Wait;
                                 }
                             }
                             break;
                         case ChaseState.Wait:
                             {
-                                DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = DataManager.Instance.RoleInfos[(int)DataManager.Instance.GetLocalRoleType].MoveSpeed;
+                                
                             }
                             break;
                     }
@@ -136,16 +138,17 @@ namespace GHJ_Lib
             Vector3 CamPos = mainCamera.transform.position;
             Ray ray = new Ray(CamPos, targetObject.transform.position - CamPos);
 
-            Hits = Physics.RaycastAll(ray, sphereCollider.radius);
+            Hits = Physics.RaycastAll(ray, sphereCollider.radius, LayerMask.NameToLayer(GameManager.EnvironmentLayer));
 
             foreach (RaycastHit hit in Hits)
             {
                 Debug.Log($"Hits : {hit.collider.name}");
-                if (hit.collider.gameObject.layer == LayerMask.NameToLayer(GameManager.EnvironmentLayer))
+                if (!hit.collider.gameObject.CompareTag(FloorTag))
                 {
                     return false;
                 }
             }
+            Debug.Log("return True");
             return true;
         }
         protected void BuffExorcistByCrossStack(Fugitive fugitive)
@@ -178,6 +181,7 @@ namespace GHJ_Lib
                     check = true;
                 }
             }
+            Debug.Log($"Check : {check}");
             return check;
         }
 
@@ -193,18 +197,20 @@ namespace GHJ_Lib
                 return;
             }
             RaycastHit[] Hits;
-            Vector3 CamPos = mainCamera.transform.position;
+
             foreach (Fugitive fugitive in Fugitives)
             {
                 if (fugitive == null)
                 {
                     continue;
                 }
+                Vector3 CamPos = mainCamera.transform.position;
                 Ray ray = new Ray(CamPos, fugitive.transform.position - CamPos);
-                Hits = Physics.RaycastAll(ray, sphereCollider.radius);
+
+                Hits = Physics.RaycastAll(ray, sphereCollider.radius, LayerMask.NameToLayer(GameManager.EnvironmentLayer));
 
                 Gizmos.color = Color.red;
-                Gizmos.DrawLine(ray.origin, Hits[Hits.Length-1].point);
+                Gizmos.DrawLine(ray.origin, ray.origin +ray.direction*40.0f);
 
                 Gizmos.color = Color.cyan;
                 if (Hits.Length > 0)
