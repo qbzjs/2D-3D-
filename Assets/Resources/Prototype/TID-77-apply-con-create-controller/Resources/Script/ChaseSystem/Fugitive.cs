@@ -75,9 +75,13 @@ namespace GHJ_Lib
             {
                 IsChased = false;
             }
-            Log.Instance.WriteLog("IsChased" + IsChased.ToString(), 2);
-            Log.Instance.WriteLog("IsWatched" + IsWatched.ToString(), 3);
-            Log.Instance.WriteLog("ChaseGauge" + ChaseGauge.ToString(), 4);
+
+            if (photonView.IsMine)
+            { 
+                Log.Instance.WriteLog("IsChased" + IsChased.ToString(), 2);
+                Log.Instance.WriteLog("IsWatched" + IsWatched.ToString(), 3);
+                Log.Instance.WriteLog("ChaseGauge" + ChaseGauge.ToString(), 4);
+            }
         }
     }
 

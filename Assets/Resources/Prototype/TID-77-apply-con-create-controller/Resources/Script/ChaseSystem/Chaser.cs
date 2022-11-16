@@ -199,14 +199,14 @@ namespace GHJ_Lib
                 Hits = Physics.RaycastAll(ray, sphereCollider.radius);
 
                 Gizmos.color = Color.red;
-                Gizmos.DrawRay(ray);
+                Gizmos.DrawLine(ray.origin, Hits[Hits.Length-1].point);
 
                 Gizmos.color = Color.cyan;
                 if (Hits.Length > 0)
                 {
                     foreach (RaycastHit hit in Hits)
                     {
-                        Gizmos.DrawSphere(hit.point, 1.0f);
+                        Gizmos.DrawSphere(hit.point, 0.3f);
                     }
                 }
             }
