@@ -115,6 +115,7 @@ namespace KSH_Lib
         //[SerializeField] public string roomName = "Debug";
         public RoomType roomType;
 
+        string roomName = "MainTest";
 
         //[SerializeField]
         //string lshSceneName = "";
@@ -445,13 +446,14 @@ namespace KSH_Lib
             if (roleType == "Exorcist")
             {
                 DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Exorcist;
-                //PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
-                PhotonNetwork.CreateRoom( RoomNameTMP.text , new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
+                PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
+                //PhotonNetwork.CreateRoom( RoomNameTMP.text , new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
             }
             else if (roleType == "Doll")
             {
                 DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Doll;
-                PhotonNetwork.JoinRoom( RoomNameTMP.text );
+                PhotonNetwork.JoinRoom(roomName);
+                //PhotonNetwork.JoinRoom( RoomNameTMP.text );
             }
             else 
             {
