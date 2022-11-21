@@ -24,7 +24,9 @@ namespace LSH_Lib
             if(target.CompareTag("Exorcist"))
             {
                 Item.ItemOrder itemOrder = randomList.GetItem();
-                target.GetComponent<Inventory>().AddToInventory(itemPrefabs[(int)itemOrder]);
+
+                int exorcistItemOrder = itemOrder - Item.ItemOrder.DollItemCount;
+                target.GetComponent<Inventory>().AddToInventory(itemPrefabs[exorcistItemOrder]);
                 Destroy(this.gameObject);
             }
         }

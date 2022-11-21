@@ -1,67 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3522901835470513882
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5797072441356345587}
-  - component: {fileID: 8820802631797660835}
-  - component: {fileID: 4750407422470418818}
-  m_Layer: 0
-  m_Name: ItemBoxRange
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5797072441356345587
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3522901835470513882}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.879, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7865773291014637374}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &8820802631797660835
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3522901835470513882}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4750407422470418818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3522901835470513882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b417f1e542c50c479a943719a63e8a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemPrefabs:
-  - {fileID: 4951568231030705639, guid: 4d45bd372c91f514fbb1081d3d7b15ac, type: 3}
-  - {fileID: 4118068185037749690, guid: 241e70761ba6bce468e9d1ba1282afe7, type: 3}
-  - {fileID: 8443483999219102862, guid: c5c5f98c0baeabe4eabe081f5796a6ed, type: 3}
 --- !u!1 &7865773290475320901
 GameObject:
   m_ObjectHideFlags: 0
@@ -4850,6 +4788,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7865773291014637374}
+  - component: {fileID: 4425505349858396106}
+  - component: {fileID: 8945593638573807226}
   m_Layer: 0
   m_Name: Exorcist ItemBox
   m_TagString: Untagged
@@ -4870,10 +4810,39 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2905494577521358720}
-  - {fileID: 5797072441356345587}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &4425505349858396106
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7865773291014637373}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &8945593638573807226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7865773291014637373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b417f1e542c50c479a943719a63e8a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemPrefabs:
+  - {fileID: 4118068185037749690, guid: 241e70761ba6bce468e9d1ba1282afe7, type: 3}
+  - {fileID: 2642881076562940522, guid: 58514a7a044c46744a1c28538ce3b4b5, type: 3}
+  - {fileID: 2007822283765568122, guid: c9f2d10f544b4df4fb7d818756624c6d, type: 3}
+  - {fileID: 4951568231030705639, guid: 4d45bd372c91f514fbb1081d3d7b15ac, type: 3}
 --- !u!1 &7865773291067739155
 GameObject:
   m_ObjectHideFlags: 0
