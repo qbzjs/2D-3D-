@@ -26,6 +26,7 @@ namespace LSH_Lib
                 Item.ItemOrder itemOrder = randomList.GetItem();
 
                 int exorcistItemOrder = itemOrder - Item.ItemOrder.DollItemCount;
+                var inventory = target.GetComponent<Inventory>();
                 target.GetComponent<Inventory>().AddToInventory(itemPrefabs[exorcistItemOrder]);
                 Destroy(this.gameObject);
             }
