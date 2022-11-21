@@ -9,12 +9,6 @@ namespace LSH_Lib
 	{
         protected override void InitBox()
         {
-            //randomList.Add(Item.ItemOrder.CottonBall, ItemDataLoader.Instance.GetDollItem("CottonBall").frequency);
-            //randomList.Add(Item.ItemOrder.Chicken, ItemDataLoader.Instance.GetDollItem("Chicken").frequency);
-            //randomList.Add(Item.ItemOrder.Chicken, ItemDataLoader.Instance.GetDollItem("CottonPiece").frequency);
-            //randomList.Add(Item.ItemOrder.Chicken, ItemDataLoader.Instance.GetDollItem("CrowFeather").frequency);
-            //randomList.Add(Item.ItemOrder.Chicken, ItemDataLoader.Instance.GetDollItem("Whistle").frequency);
-
             var cottonBallCode = Item.ItemOrder.CottonBall;
             var chickenCode = Item.ItemOrder.Chicken;
             var cottonPieceCode = Item.ItemOrder.CottonPiece;

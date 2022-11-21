@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5797072441356345587}
   - component: {fileID: 8820802631797660835}
+  - component: {fileID: 4750407422470418818}
   m_Layer: 0
-  m_Name: Collider
+  m_Name: ItemBoxRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,11 +41,27 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3522901835470513882}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4750407422470418818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3522901835470513882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b417f1e542c50c479a943719a63e8a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemPrefabs:
+  - {fileID: 4951568231030705639, guid: 4d45bd372c91f514fbb1081d3d7b15ac, type: 3}
+  - {fileID: 4118068185037749690, guid: 241e70761ba6bce468e9d1ba1282afe7, type: 3}
+  - {fileID: 8443483999219102862, guid: c5c5f98c0baeabe4eabe081f5796a6ed, type: 3}
 --- !u!1 &7865773290475320901
 GameObject:
   m_ObjectHideFlags: 0
