@@ -115,7 +115,6 @@ namespace KSH_Lib
         //[SerializeField] public string roomName = "Debug";
         public RoomType roomType;
 
-
         //[SerializeField]
         //string lshSceneName = "";
         //[SerializeField]
@@ -512,6 +511,10 @@ namespace KSH_Lib
             //GameManager.Instance.Data.ChangeRole( RoleType.Doll );
         }
 
+        void QuitApplication()
+        {
+            Application.Quit();
+        }
     }
 
 }

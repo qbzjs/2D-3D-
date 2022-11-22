@@ -8,6 +8,12 @@ namespace LSH_Lib
 {
 	public class OptionUIController : MonoBehaviour
 	{
+        [Header("Canvas")]
+        [SerializeField]
+        GameObject optionCanvas;
+        [SerializeField]
+        GameObject buttonPanel;
+        
 		[Header("Option UI")]
 		[SerializeField]
 		GameObject optionPanel;
@@ -48,10 +54,22 @@ namespace LSH_Lib
             settingWindow.SetActive(true);
             controllWindow.SetActive(false);
         }
-        
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                EnableSettingWindow();
+                DisableAllOptionPanel();
+                optionPanel.SetActive(false);
+                optionCanvas.SetActive(false);
+                buttonPanel.SetActive(true);
+
+            }
+        }
         void EnableOptionPanel()
         {
             optionPanel.SetActive(true);
+            settingWindow.SetActive(true);
         }
         void DisableAllOptionPanel()
         {
@@ -61,6 +79,7 @@ namespace LSH_Lib
         void EnableSettingWindow()
         {
             DisableAllOptionPanel();
+            optionPanel.SetActive(true);
             settingWindow.SetActive(true);
         }
         void EnableControllWindow()
