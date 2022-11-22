@@ -74,7 +74,7 @@ namespace LSH_Lib
                     playerInfors[i-1].RoleType.text = icontype;
                     playerInfors[i-1].PlayerIcon.sprite = SetIcon(icontype);
                     int statustype = (int)DataManager.Instance.PlayerDatas[i].behaviorType;
-                    playerInfors[i - 1].StatusIcon.sprite = SetStatusIcon(statustype);
+                    playerInfors[i-1].StatusIcon.sprite = SetStatusIcon(statustype);
                 }
             }
             if(DataManager.Instance.PreRoleGroup.Equals(RoleData.RoleGroup.Doll))
@@ -87,6 +87,27 @@ namespace LSH_Lib
                         mynameText.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
                         type = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
                         myTypeText.text = type;
+                    }
+                    else if( i == 0)
+                    {
+                        string icontype;
+                        playerInfors[3].NickName.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
+                        icontype = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
+                        playerInfors[3].RoleType.text = icontype;
+                        playerInfors[3].PlayerIcon.sprite = SetIcon(icontype);
+                    }
+                    else
+                    {
+                        for(int j = 0; j<DataManager.Instance.PlayerDatas.Count-2; ++j)
+                        {
+                            string icontype;
+                            playerInfors[j].NickName.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
+                            icontype = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
+                            playerInfors[j].RoleType.text = icontype;
+                            playerInfors[j].PlayerIcon.sprite = SetIcon(icontype);
+                            int statustype = (int)DataManager.Instance.PlayerDatas[i].behaviorType;
+                            playerInfors[j].StatusIcon.sprite = SetStatusIcon(statustype);
+                        }
                     }
                 }
                 ////inforResults[playerInfors.Length - 1].playerIdx = 0;

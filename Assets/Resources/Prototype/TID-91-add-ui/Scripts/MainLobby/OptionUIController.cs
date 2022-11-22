@@ -102,11 +102,11 @@ namespace LSH_Lib
         void ResetAllVolume()
         {
             mastervolume.value = 0.8f;
-            masterVolumeText.text = mastervolume.value.ToString();
+            masterVolumeText.text = (mastervolume.value*100).ToString();
             sfxVolume.value = 0.8f;
-            sfxVolumeText.text = sfxVolume.value.ToString();
+            sfxVolumeText.text = (sfxVolume.value * 100).ToString();
             backgroundVolume.value = 0.8f;
-            backgroundVolumeText.text = backgroundVolume.value.ToString();
+            backgroundVolumeText.text = (backgroundVolume.value * 100).ToString();
         }
     }
 }
