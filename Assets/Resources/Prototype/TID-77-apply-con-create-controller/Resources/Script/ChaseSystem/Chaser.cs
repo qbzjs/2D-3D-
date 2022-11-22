@@ -19,12 +19,21 @@ namespace GHJ_Lib
         protected string FloorTag = "Floor";
         [SerializeField] protected int environmentLayer;
         [SerializeField] protected int CameraLayer;
+        protected ExorcistData exorcistData, initData;
+        protected float defaultChaseBuff = 1.4f;
+        protected RoleData.RoleType roleType;
         private void OnEnable()
         {
             CameraLayer = LayerMask.NameToLayer("Camera");
             environmentLayer = LayerMask.NameToLayer(GameManager.EnvironmentLayer);
             mainCamera = Camera.main;
             sphereCollider = GetComponent<SphereCollider>();
+            if (photonView.IsMine)
+            {
+                exorcistData = (DataManager.Instance.LocalPlayerData.roleData as ExorcistData);
+                roleType = DataManager.Instance.GetLocalRoleType;
+                initData = DataManager.Instance.RoleInfos[(int)roleType] as ExorcistData;
+            }
         }
         private void OnTriggerEnter(Collider other)
         {
@@ -90,11 +99,26 @@ namespace GHJ_Lib
             }
             Log.Instance.WriteLog(chaseState.ToString(), 0);
             Log.Instance.WriteLog($"CoolDowntime : {CoolDowntime}" , 1);
+
             if (CheckFugitivesIsChasedOnView())
             {
                 if (chaseState != ChaseState.Chasing)
                 {
                     chaseState = ChaseState.Chasing;
+                    switch (roleType)
+                    {
+                        case RoleData.RoleType.Bishop:
+                            {
+                                
+                            }
+                            break;
+                        default:
+                            {
+                                exorcistData.MoveSpeed = initData.MoveSpeed * defaultChaseBuff;
+                            }
+                            break;
+                    }
+                    DataManager.Instance.ShareRoleData();
                 }
             }
             else
@@ -113,14 +137,15 @@ namespace GHJ_Lib
                             if (CoolDowntime <= 0.0f)
                             {
                                 CoolDowntime = 0.0f;
-                                DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = DataManager.Instance.RoleInfos[(int)DataManager.Instance.GetLocalRoleType].MoveSpeed;
+                                exorcistData.MoveSpeed = initData.MoveSpeed;
+                                DataManager.Instance.ShareRoleData();
                                 chaseState = ChaseState.Wait;
                             }
                         }
                         break;
                     case ChaseState.Wait:
                         {
-                                
+                              
                         }
                         break;
                 }
