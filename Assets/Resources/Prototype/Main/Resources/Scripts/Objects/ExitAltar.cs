@@ -14,6 +14,11 @@ namespace KSH_Lib.Object
         [SerializeField] public float exorcistMaxGauge = 20.0f;
         [SerializeField] public AltarState altarState { get; private set; }
 
+        [Header( "Destroy Effect" )]
+        [SerializeField] KSH_Lib.Util.PhaseEffect phaseEffect;
+        [SerializeField] float destroyTime = 1.5f;
+        [SerializeField] float startHeight = 1.2f;
+
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -89,10 +94,11 @@ namespace KSH_Lib.Object
             if ( altarState == AltarState.CanOpen)
             {
                 ExitAltarModel.SetActive( true );
+                phaseEffect.DoFade( 0.0f, startHeight, destroyTime );
             }
             else
             {
-                ExitAltarModel.SetActive( false );
+                StartCoroutine( DestroyExitAltar() );
             }
         }
 
@@ -107,6 +113,11 @@ namespace KSH_Lib.Object
         {
             StageManager.Instance.ExitGame(targetController);
         }
-
+        IEnumerator DestroyExitAltar()
+        {
+            phaseEffect.DoFade( startHeight, 0.0f, destroyTime );
+            yield return new WaitForSeconds( destroyTime );
+            ExitAltarModel.SetActive( false );
+        }
     }
 }

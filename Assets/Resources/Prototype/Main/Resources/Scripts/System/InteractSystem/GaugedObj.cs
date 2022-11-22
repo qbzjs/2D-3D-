@@ -23,7 +23,9 @@ namespace KSH_Lib
 
         [SerializeField] MeshRenderer _meshRenderer;
         [SerializeField] Material outlineMaterialPrefab;
-
+        Material[] originMats;
+        Material[] outlinedMats;
+ 
         [Header( "Debug Only" )]
         [SerializeField] protected float RateOfGauge;
         public float OriginGauge { get { return RateOfGauge * MaxGauge; } }
@@ -34,12 +36,12 @@ namespace KSH_Lib
         public virtual bool CanInteract { get => !castingSystem.IsCoroutineRunning; }
         protected NetworkBaseController targetController;
         int defaultMatrialCounts;
-
+        bool isOutlined = false;
 
         /*--- MonoBehaviour Callbacks ---*/
         private void Start()
         {
-            defaultMatrialCounts = _meshRenderer.materials.Length;
+            InitMaterials();
         }
         protected virtual void OnEnable()
         {
@@ -92,6 +94,18 @@ namespace KSH_Lib
             return true;
         }
 
+        void InitMaterials()
+        {
+            defaultMatrialCounts = _meshRenderer.materials.Length;
+
+            originMats = _meshRenderer.materials;
+            outlinedMats = new Material[defaultMatrialCounts + 1];
+            for ( int i = 0; i < defaultMatrialCounts; ++i )
+            {
+                outlinedMats[i] = _meshRenderer.materials[i];
+            }
+            outlinedMats[defaultMatrialCounts] = outlineMaterialPrefab;
+        }
 
         /*--- IInteractable Interfaces ---*/
         public virtual bool ActiveInteractPrompt( Interactor interactor, InteractionPromptUI promptUI )
@@ -117,31 +131,22 @@ namespace KSH_Lib
         }
         public abstract bool Interact( Interactor interactor );
 
-        void AddOutlineEffect()
-        {
-            if( _meshRenderer.materials.Length == defaultMatrialCounts )
-            {
-                Material[] tmpMats = new Material[defaultMatrialCounts + 1];
-                for ( int i = 0; i < defaultMatrialCounts; ++i )
-                {
-                    tmpMats[i] = _meshRenderer.materials[i];
-                }
-                tmpMats[defaultMatrialCounts] = outlineMaterialPrefab;
-                _meshRenderer.materials = tmpMats;
-            }
-        }
         void ActiveOutlineEffect(bool isActive)
         {
             if(isActive)
             {
-                AddOutlineEffect();
-                _meshRenderer.materials[defaultMatrialCounts].SetFloat( "_Enabled", 1 );
+                if( !isOutlined )
+                {
+                    _meshRenderer.materials = outlinedMats;
+                    isOutlined = true;
+                }
             }
             else
             {
-                if( _meshRenderer.materials.Length != defaultMatrialCounts)
+                if( isOutlined )
                 {
-                    _meshRenderer.materials[defaultMatrialCounts].SetFloat( "_Enabled", 0 );
+                    _meshRenderer.materials = originMats;
+                    isOutlined = false;
                 }
             }
         }

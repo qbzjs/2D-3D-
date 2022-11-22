@@ -25183,6 +25183,7 @@ GameObject:
   - component: {fileID: 4374379886750062492}
   - component: {fileID: 4876927902422900424}
   - component: {fileID: 1891463156224889530}
+  - component: {fileID: 2807446834787418059}
   m_Layer: 0
   m_Name: ExitAltar
   m_TagString: interactObj
@@ -25253,6 +25254,30 @@ MonoBehaviour:
   RateOfGauge: 0
   ExitAltarModel: {fileID: 5885278935112762817}
   exorcistMaxGauge: 20
+  phaseEffect: {fileID: 2807446834787418059}
+  destroyTime: 1.5
+  startHeight: 1.2
+--- !u!114 &2807446834787418059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5114522174893634951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 268f4f19c5a80a3489e68058f1fc4b06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderers:
+  - {fileID: 6044251989143917574}
+  matOrgins:
+  - {fileID: 2100000, guid: e07c8be23edc985439393ca6e13a9e69, type: 2}
+  matDissolves:
+  - {fileID: 2100000, guid: db13197e83f31d847bd02d2127672c15, type: 2}
+  matPhases:
+  - {fileID: 2100000, guid: db13197e83f31d847bd02d2127672c15, type: 2}
+  effectType: 1
 --- !u!1 &5118673188113339886
 GameObject:
   m_ObjectHideFlags: 0
@@ -40938,6 +40963,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: d5e90f92dcec98b4f95fed21c201188f, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: d5e90f92dcec98b4f95fed21c201188f, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: db13197e83f31d847bd02d2127672c15, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5e90f92dcec98b4f95fed21c201188f, type: 3}
 --- !u!23 &6044251989143917574 stripped
