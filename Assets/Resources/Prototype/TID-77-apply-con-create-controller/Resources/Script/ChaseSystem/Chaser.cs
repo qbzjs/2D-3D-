@@ -46,7 +46,10 @@ namespace GHJ_Lib
 
                 if (Fugitives.Contains(fugitive))
                 {
-                    fugitive.SetWatch(false);
+                    if (photonView.IsMine)
+                    {
+                        fugitive.SetWatch(false);
+                    }
                     Fugitives.Remove(fugitive);
                 }
                 
@@ -54,6 +57,11 @@ namespace GHJ_Lib
         }
         private void Update()
         {
+            if (!photonView.IsMine)
+            {
+                return;
+            }
+
             if (Fugitives.Count == 0)
             {
                 return;

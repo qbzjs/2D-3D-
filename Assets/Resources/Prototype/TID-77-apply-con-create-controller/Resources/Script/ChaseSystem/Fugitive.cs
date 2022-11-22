@@ -7,7 +7,7 @@ namespace GHJ_Lib
     public class Fugitive : MonoBehaviourPun
     {
         public bool IsChased { get; private set; }
-        public bool IsWatched { get; set; }
+        [field: SerializeField] public bool IsWatched { get; set; }
         [SerializeField] protected float ChaseGauge = 0.0f;
         public int GetStack
         {
@@ -22,10 +22,6 @@ namespace GHJ_Lib
         [SerializeField] protected DollController dollController;
         public void SetWatch(bool IsWatchTarget)
         {
-            if (!dollController.IsMine)
-            {
-                return;
-            }
             if (IsWatchTarget)
             {
                 photonView.RPC("StartWatched", RpcTarget.All);
