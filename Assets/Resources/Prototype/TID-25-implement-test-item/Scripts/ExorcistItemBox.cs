@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
-using KSH_Lib.Data;
+
 namespace LSH_Lib
 {
 	public class ExorcistItemBox : ItemBox
-	{
+    {
         protected override void InitBox()
         {
             var sealingTool = Item.ItemOrder.SealingTool;
@@ -25,9 +25,10 @@ namespace LSH_Lib
             {
                 Item.ItemOrder itemOrder = randomList.GetItem();
 
-                int exorcistItemOrder = itemOrder - Item.ItemOrder.DollItemCount;
+                int exorcistItemOrder = itemOrder - Item.ItemOrder.DollItemCount - 1;
                 var inventory = target.GetComponent<Inventory>();
-                target.GetComponent<Inventory>().AddToInventory(itemPrefabs[exorcistItemOrder]);
+
+                target.GetComponent<Inventory>().AddToInventory( itemPrefabs[exorcistItemOrder], target.transform );
                 Destroy(this.gameObject);
             }
         }

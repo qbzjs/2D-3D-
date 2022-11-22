@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
-using KSH_Lib.Data;
+
 namespace LSH_Lib
 {
 	public class DollItemBox : ItemBox
 	{
+
         protected override void InitBox()
         {
             var cottonBallCode = Item.ItemOrder.CottonBall;
@@ -27,13 +28,12 @@ namespace LSH_Lib
             randomList.Add(metalCode, DataManager.Instance.ItemInfos[(int)metalCode].frequency);
             randomList.Add(oilCode, DataManager.Instance.ItemInfos[(int)oilCode].frequency);
         }
-
         protected override void GetItem(GameObject target)
         {
             if (target.CompareTag("Doll"))
             {
                 Item.ItemOrder itemOrder = randomList.GetItem();
-                target.GetComponent<Inventory>().AddToInventory(itemPrefabs[(int)itemOrder]);
+                target.GetComponent<Inventory>().AddToInventory(itemPrefabs[(int)itemOrder], target.transform);
                 Destroy(this.gameObject);
             }
         }

@@ -8,14 +8,12 @@ namespace LSH_Lib
 {
     public class Inventory : MonoBehaviourPunCallbacks
     {
-        [SerializeField]
-        static string ItemPath = "Prototype/TID-25-implement-test-item/Prefabs/Items/";
-        GameObject inventory;
+        [Header("Debug Only")]
+        [SerializeField] GameObject inventory;
 
-        public void AddToInventory(GameObject obj)
+        public void AddToInventory(in GameObject obj, in Transform targetTF)
         {
-            string path = ItemPath + obj.name;
-            inventory = PhotonNetwork.Instantiate(path, this.gameObject.transform.position, Quaternion.identity, 0);
+            inventory = Instantiate( obj, targetTF );
         }
     }
 }

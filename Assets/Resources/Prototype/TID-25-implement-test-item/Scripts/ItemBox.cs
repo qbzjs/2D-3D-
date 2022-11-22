@@ -14,6 +14,7 @@ namespace LSH_Lib
 
         protected RandomGenerator<Item.ItemOrder> randomList = new RandomGenerator<Item.ItemOrder>();
 
+
         protected virtual void Start()
         {
             InitBox();
