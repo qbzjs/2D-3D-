@@ -20,7 +20,6 @@ namespace GHJ_Lib
         [SerializeField] protected int environmentLayer;
         [SerializeField] protected int CameraLayer;
         protected ExorcistData exorcistData, initData;
-        protected float defaultChaseBuff = 1.4f;
         protected RoleData.RoleType roleType;
         private void OnEnable()
         {
@@ -81,6 +80,7 @@ namespace GHJ_Lib
                 {
                     continue;
                 }
+
                 if (IsInCameraView(fugitive.gameObject) &&
                     CheckObstacle(fugitive.gameObject))
                 {
@@ -102,23 +102,28 @@ namespace GHJ_Lib
 
             if (CheckFugitivesIsChasedOnView())
             {
+                switch (roleType)
+                {
+                    case RoleData.RoleType.Bishop:
+                        {
+                            int crossStack = 0;
+                            foreach (Fugitive fugitive in Fugitives)
+                            {
+                                if (crossStack < fugitive.GetStack)
+                                {
+                                    crossStack = fugitive.GetStack;
+                                }
+                            }
+                            BuffExorcistByCrossStack(crossStack);
+                        }
+                        break;
+                }
+
+
                 if (chaseState != ChaseState.Chasing)
                 {
                     chaseState = ChaseState.Chasing;
-                    switch (roleType)
-                    {
-                        case RoleData.RoleType.Bishop:
-                            {
-                                
-                            }
-                            break;
-                        default:
-                            {
-                                exorcistData.MoveSpeed = initData.MoveSpeed * defaultChaseBuff;
-                            }
-                            break;
-                    }
-                    DataManager.Instance.ShareRoleData();
+                    //DataManager.Instance.ShareRoleData();
                 }
             }
             else
@@ -189,20 +194,21 @@ namespace GHJ_Lib
             return true;
             
         }
-        protected void BuffExorcistByCrossStack(Fugitive fugitive)
+        protected void BuffExorcistByCrossStack(int stack)
         {
-            if (fugitive.GetStack < 2)
+            if (stack < 2)
             {
 
             }
-            else if (fugitive.GetStack < 5)
+            else if (stack < 5)
             {
-                DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = DataManager.Instance.RoleInfos[(int)DataManager.Instance.GetLocalRoleType].MoveSpeed * CrossStackSpeedUpRate;
+                exorcistData.MoveSpeed = initData.MoveSpeed * (1+CrossStackSpeedUpRate);
             }
             else
-            { 
-                DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = DataManager.Instance.RoleInfos[(int)DataManager.Instance.GetLocalRoleType].MoveSpeed * CrossStackSpeedUpRate*2;
+            {
+                exorcistData.MoveSpeed = initData.MoveSpeed * (1+CrossStackSpeedUpRate)*2;
             }
+            DataManager.Instance.ShareRoleData();
         }
         protected bool CheckFugitivesIsChasedOnView()
         {
@@ -215,7 +221,7 @@ namespace GHJ_Lib
                 }
                 if (fugitive.IsChased&&fugitive.IsWatched)
                 {
-                    BuffExorcistByCrossStack(fugitive);
+                    
                     check = true;
                 }
             }
