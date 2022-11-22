@@ -18,11 +18,12 @@ namespace KSH_Lib.Object
         [SerializeField] public float Damage { get; private set; }
 
 
-
         [Header("Destroy Effect")]
         [SerializeField] KSH_Lib.Util.PhaseEffect phaseEffect;
         [SerializeField] float destroyTime = 1.5f;
         [SerializeField] float startHeight = 5.2f;
+        [SerializeField] ParticleSystem particle;
+        ParticleSystem.EmissionModule emission;
 
         bool isDollPurifying;
 
@@ -30,13 +31,12 @@ namespace KSH_Lib.Object
         protected override void OnEnable()
         {
             base.OnEnable();
-
+            emission = particle.emission;
+            emission.enabled = false;
         }
 
         protected override bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
         {
-
-
             if(targetController.gameObject.CompareTag(GameManager.DollTag))
             {
                 if (targetController.CurBehavior is not BvIdle)
@@ -106,6 +106,7 @@ namespace KSH_Lib.Object
         void ExorcistFinishAction()
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
+            photonView.RPC( "ShareDustEffect", RpcTarget.All, true );
         }
 
         public void SetDoll(DollController doll)
@@ -117,6 +118,7 @@ namespace KSH_Lib.Object
 
         public void DollFinishAction()
         {
+            photonView.RPC( "ShareDustEffect", RpcTarget.All, false );
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 
             DollInBox.EscapeFrom( transform, LayerMask.NameToLayer( "Player" ) );
@@ -128,6 +130,7 @@ namespace KSH_Lib.Object
         IEnumerator DestroyIfDollDead()
         {
             isDollPurifying = true;
+            photonView.RPC( "ShareDustEffect", RpcTarget.All, false );
             while (true)
             {
                 yield return null;
@@ -159,6 +162,12 @@ namespace KSH_Lib.Object
         void ShareDollInBox_RPC()
         {
             DollInBox = null;
+        }
+
+        [PunRPC]
+        void ShareDustEffect(bool isEnabled)
+        {
+            emission.enabled = isEnabled;
         }
     }
 }
