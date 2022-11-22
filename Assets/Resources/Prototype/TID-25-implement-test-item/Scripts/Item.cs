@@ -69,7 +69,5 @@ namespace LSH_Lib
             ActionContent();
             PhotonNetwork.Destroy(gameObject);
         }
-
-        //public abstract void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info);
     }
 }
