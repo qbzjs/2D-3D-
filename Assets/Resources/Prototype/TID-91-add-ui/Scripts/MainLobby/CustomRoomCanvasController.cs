@@ -100,7 +100,7 @@ namespace LSH_Lib
         }
         private void Update()
         {
-            //ResetImage();
+            ResetImage();
             ChangeImage();
             IndexingInfo();
             DisableSettingPanel();
@@ -193,7 +193,7 @@ namespace LSH_Lib
         }
         void ChangeImage()
         {
-            ResetImage();
+            //ResetImage();
             if (DataManager.Instance.PreRoleGroup == RoleData.RoleGroup.Exorcist)
             {
                 RoleSelectButton.text = "인형으로 변경하기";
@@ -271,7 +271,7 @@ namespace LSH_Lib
         {
             //DataManager.Instance.InitLocalRoleData();
             //cancelButtonObj.SetActive(false);
-            if(PhotonNetwork.IsMasterClient && DataManager.Instance.PreRoleGroup.Equals(RoleData.RoleGroup.Exorcist))
+            if(PhotonNetwork.IsMasterClient)
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
                 GameManager.Instance.LoadPhotonScene(loadSceneName);
