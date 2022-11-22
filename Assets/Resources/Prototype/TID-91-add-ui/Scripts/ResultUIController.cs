@@ -73,44 +73,55 @@ namespace LSH_Lib
                     icontype = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
                     playerInfors[i-1].RoleType.text = icontype;
                     playerInfors[i-1].PlayerIcon.sprite = SetIcon(icontype);
+                    int statustype = (int)DataManager.Instance.PlayerDatas[i].behaviorType;
+                    playerInfors[i - 1].StatusIcon.sprite = SetStatusIcon(statustype);
                 }
             }
             if(DataManager.Instance.PreRoleGroup.Equals(RoleData.RoleGroup.Doll))
             {
                 playerInfors[3].Backgroud.sprite = backgrounds[1];
-                //inforResults[playerInfors.Length - 1].playerIdx = 0;
-                for(int i = 0; i<DataManager.Instance.PlayerDatas.Count; ++i)
+                for (int i = 0; i < DataManager.Instance.PlayerDatas.Count; ++i)
                 {
-                    if(i == playeridx)
+                    if (i == playeridx)
                     {
                         mynameText.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
                         type = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
                         myTypeText.text = type;
                     }
-                    else 
-                    {
-                        string icontype;
-                        if(DataManager.Instance.PlayerDatas[i].roleData.Group == RoleData.RoleGroup.Exorcist)
-                        {
+                }
+                ////inforResults[playerInfors.Length - 1].playerIdx = 0;
+                //for(int i = 0; i<DataManager.Instance.PlayerDatas.Count; ++i)
+                //{
+                //    if(i == playeridx)
+                //    {
+                //        mynameText.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
+                //        type = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
+                //        myTypeText.text = type;
+                //    }
+                //    else 
+                //    {
+                //        string icontype;
+                //        if(DataManager.Instance.PlayerDatas[i].roleData.Group == RoleData.RoleGroup.Exorcist)
+                //        {
                             
-                            playerInfors[3].NickName.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
-                            icontype = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
-                            playerInfors[3].RoleType.text = icontype;
-                            playerInfors[3].PlayerIcon.sprite = SetIcon(icontype);
-                        }
-                        else
-                        {
-                            for (int j = 0; j < playerInfors.Length - 1; j++)
-                            {
-                                playerInfors[j].NickName.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
-                                icontype = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
-                                playerInfors[j].RoleType.text = icontype;
-                                playerInfors[j].PlayerIcon.sprite = SetIcon(icontype);
-                            }
-                            //playerInfors[i].StatusIcon.sprite = SetSprite(DataManager.Instance.PlayerDatas[i].roleData.Group.)
-                        }
-                    }
-                }    
+                //            playerInfors[3].NickName.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
+                //            icontype = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
+                //            playerInfors[3].RoleType.text = icontype;
+                //            playerInfors[3].PlayerIcon.sprite = SetIcon(icontype);
+                //        }
+                //        else
+                //        {
+                //            for (int j = 0; j < playerInfors.Length - 1; j++)
+                //            {
+                //                playerInfors[j].NickName.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
+                //                icontype = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
+                //                playerInfors[j].RoleType.text = icontype;
+                //                playerInfors[j].PlayerIcon.sprite = SetIcon(icontype);
+                //            }
+                //            //playerInfors[i].StatusIcon.sprite = SetSprite(DataManager.Instance.PlayerDatas[i].roleData.Group.)
+                //        }
+                //    }
+                //}    
             }
         }
         Sprite SetIcon(string target)
@@ -130,21 +141,19 @@ namespace LSH_Lib
             }
 
         }
-        //Sprite SetStatusIcon(string target)
-        //{
-        //    switch (target)
-        //    {
-        //        case "Wolf":
-        //            return playerIcons[0];
-        //        case "Rabbit":
-        //            return playerIcons[1];
-        //        case "Bishop":
-        //            return playerIcons[2];
-        //        case "Hunter":
-        //            return playerIcons[3];
-        //        default:
-        //            return null;
-        //    }
-        //}
+        Sprite SetStatusIcon(int state)
+        {
+            switch (state)
+            {
+                case 1:
+                    return statusIcons[0];
+                case 13:
+                    return statusIcons[1];
+                case 10:
+                    return statusIcons[2];
+                default:
+                    return null;
+            }
+        }
     }
 }
