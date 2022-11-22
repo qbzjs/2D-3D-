@@ -78,6 +78,11 @@ namespace LSH_Lib
                     if (PhotonNetwork.CurrentRoom.PlayerCount == 5)
                     {
                         isFull = true;
+                        if(isFull)
+                        {
+                            LoadNextScene();
+                            isFull = false;
+                        }
                     }
 
                     if (skipButtonObj.activeInHierarchy == false)
@@ -208,10 +213,7 @@ namespace LSH_Lib
         }
         void LoadNextScene()
         {
-            if (isFull)
-            {
-                OnSkipButtonClicked();
-            }
+            LoadRoomScene();
         }
         void LoadRoomScene()
         {
