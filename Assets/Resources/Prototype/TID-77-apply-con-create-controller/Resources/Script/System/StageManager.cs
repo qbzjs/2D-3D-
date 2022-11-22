@@ -243,9 +243,9 @@ namespace GHJ_Lib
 		void DecreseDollCountRPC()
         {
 			--DollCount;
-			if (DollCount == 2 && exitAltar.ExitAltarModel.activeInHierarchy==false)
+			if (DollCount == 1 && exitAltar.ExitAltarModel.activeInHierarchy==false)
 			{
-				exitAltar.EnableExitAltar();
+				exitAltar.OpenExitAltar();
 			}
 
 			if ( DollCount < 1 )

@@ -27,7 +27,7 @@ namespace KSH_Lib.Object
 
             if (PhotonNetwork.CurrentRoom.PlayerCount <= 2)
             {
-                EnableExitAltar();
+                photonView.RPC( "ChangeAltarStateTo_RPC", RpcTarget.AllViaServer, AltarState.CanOpen );
             }
         }
 
@@ -86,6 +86,11 @@ namespace KSH_Lib.Object
             photonView.RPC( "ChangeAltarStateTo_RPC", RpcTarget.AllViaServer, AltarState.Closed );
         }
 
+        public void OpenExitAltar()
+        {
+            photonView.RPC( "ChangeAltarStateTo_RPC", RpcTarget.AllViaServer, AltarState.CanOpen );
+        }
+
         [PunRPC]
         public void ChangeAltarStateTo_RPC( AltarState state)
         {
@@ -100,12 +105,6 @@ namespace KSH_Lib.Object
             {
                 StartCoroutine( DestroyExitAltar() );
             }
-        }
-
-        public void EnableExitAltar()
-        {
-            altarState = AltarState.CanOpen;
-            ExitAltarModel.SetActive( true );
         }
 
         [PunRPC]
