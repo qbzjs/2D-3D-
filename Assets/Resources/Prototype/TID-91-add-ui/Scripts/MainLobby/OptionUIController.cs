@@ -8,6 +8,12 @@ namespace LSH_Lib
 {
 	public class OptionUIController : MonoBehaviour
 	{
+        [Header("Canvas")]
+        [SerializeField]
+        GameObject optionCanvas;
+        [SerializeField]
+        GameObject buttonPanel;
+        
 		[Header("Option UI")]
 		[SerializeField]
 		GameObject optionPanel;
@@ -48,10 +54,22 @@ namespace LSH_Lib
             settingWindow.SetActive(true);
             controllWindow.SetActive(false);
         }
-        
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                EnableSettingWindow();
+                DisableAllOptionPanel();
+                optionPanel.SetActive(false);
+                optionCanvas.SetActive(false);
+                buttonPanel.SetActive(true);
+
+            }
+        }
         void EnableOptionPanel()
         {
             optionPanel.SetActive(true);
+            settingWindow.SetActive(true);
         }
         void DisableAllOptionPanel()
         {
@@ -61,6 +79,7 @@ namespace LSH_Lib
         void EnableSettingWindow()
         {
             DisableAllOptionPanel();
+            optionPanel.SetActive(true);
             settingWindow.SetActive(true);
         }
         void EnableControllWindow()
@@ -102,11 +121,11 @@ namespace LSH_Lib
         void ResetAllVolume()
         {
             mastervolume.value = 0.8f;
-            masterVolumeText.text = mastervolume.value.ToString();
+            masterVolumeText.text = (mastervolume.value*100).ToString();
             sfxVolume.value = 0.8f;
-            sfxVolumeText.text = sfxVolume.value.ToString();
+            sfxVolumeText.text = (sfxVolume.value * 100).ToString();
             backgroundVolume.value = 0.8f;
-            backgroundVolumeText.text = backgroundVolume.value.ToString();
+            backgroundVolumeText.text = (backgroundVolume.value * 100).ToString();
         }
     }
 }
