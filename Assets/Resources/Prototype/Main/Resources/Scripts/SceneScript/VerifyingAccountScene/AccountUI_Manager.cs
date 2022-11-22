@@ -39,6 +39,11 @@ namespace KSH_Lib.UI
 		[SerializeField]
 		string nicknameEmptyMsg = "No NickName Input";
 
+		[Header("Canvas Groups")]
+		[SerializeField] float changeTime = 1.0f;
+		[SerializeField] CanvasGroup bgCanvasGroup;
+		[SerializeField] CanvasGroup accountCanvasGroup;
+
 		/*--- Private Fields ---*/
 		enum UI_State { Login, Register}
 		UI_State curState;
@@ -236,7 +241,9 @@ namespace KSH_Lib.UI
 
 		IEnumerator ChangeScene()
         {
-			yield return new WaitForSeconds( 0.5f );
+			bgCanvasGroup.LeanAlpha(0.0f, changeTime);
+			accountCanvasGroup.LeanAlpha(0.0f, changeTime);
+			yield return new WaitForSeconds(changeTime);
 			GameManager.Instance.LoadScene( NextSceneName );
 		}
 	}

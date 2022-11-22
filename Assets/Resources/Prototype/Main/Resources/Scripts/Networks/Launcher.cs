@@ -11,11 +11,6 @@ namespace KSH_Lib
 {
     public class Launcher : MonoBehaviourPunCallbacks
     {
-        /*--- Public Fields ---*/
-        [Header("Loading Settings")]
-        [SerializeField]
-        string nextSceneName;
-
         [Header("GameObject Settings")]
         [SerializeField]
         GameObject startButtonObj;
@@ -37,8 +32,6 @@ namespace KSH_Lib
         float startButtonWaitTime = 1.0f;
         [SerializeField]
         float sceneFadeOutTime = 1.5f;
-
-
         [SerializeField]
         float startRecoverTime = 0.2f;
         [SerializeField]
@@ -47,6 +40,9 @@ namespace KSH_Lib
         [SerializeField]
         int startFlickerCount = 2;
 
+        [Header("Login Settings")]
+        [SerializeField] GameObject accountCanvasObj;
+        [SerializeField] CanvasGroup accountCanvasGroup;
 
         /*--- Private Fields ---*/
         bool isConnectedToServer = false;
@@ -66,7 +62,9 @@ namespace KSH_Lib
             StartCoroutine( UIEffector.Fade( panelCanvasGroup, sceneFadeInTime, 1.0f ) );
             startCanvasGroup.alpha = 0;
             startButtonObj.SetActive(false);
-            
+            accountCanvasGroup.alpha = 0;
+            accountCanvasObj.SetActive(false);
+
             flikerCoroutine = StartCoroutine( FadeInOut() );
             //AudioManager.instance.Play("Launcher");
         }
@@ -82,7 +80,6 @@ namespace KSH_Lib
         }
 
 
-        /*--- Public Methods ---*/
         public void OnStartButtonClick()
         {
             startCanvasGroup.interactable = false;
@@ -90,11 +87,6 @@ namespace KSH_Lib
             StopCoroutine( flikerCoroutine );
             StartCoroutine(ChangeScene());
         }
-
-        /*--- Private Methods ---*/
-
-
-        /*--- IEnumerators ---*/
 
         IEnumerator FadeInOut()
         {
@@ -112,18 +104,33 @@ namespace KSH_Lib
             yield return UIEffector.Fliker( startCanvasGroup, startButtonFadeTime, startButtonWaitTime, startButtonFadeTime );
         }
 
+        //IEnumerator ChangeScene()
+        //{
+        //    yield return UIEffector.Fade( startCanvasGroup, startRecoverTime, 1.0f );
+        //    yield return new WaitForSeconds( startRecoverTime * 2 );
+
+        //    yield return UIEffector.Fliker( startCanvasGroup, startFlickerTime, 0.0f, startFlickerTime, startFlickerCount, false );
+        //    yield return new WaitForSeconds( startFlickerTime * startFlickerCount * 2 );
+
+        //    panelCanvasGroup.LeanAlpha( 0.0f, sceneFadeOutTime );
+        //    yield return new WaitForSeconds( sceneFadeOutTime );
+        //    GameManager.Instance.LoadSceneImmediately( nextSceneName );
+        //    yield return null;
+        //}
         IEnumerator ChangeScene()
         {
-            yield return UIEffector.Fade( startCanvasGroup, startRecoverTime, 1.0f );
-            yield return new WaitForSeconds( startRecoverTime * 2 );
+            yield return UIEffector.Fade(startCanvasGroup, startRecoverTime, 1.0f);
+            yield return new WaitForSeconds(startRecoverTime * 2);
 
-            yield return UIEffector.Fliker( startCanvasGroup, startFlickerTime, 0.0f, startFlickerTime, startFlickerCount, false );
-            yield return new WaitForSeconds( startFlickerTime * startFlickerCount * 2 );
+            yield return UIEffector.Fliker(startCanvasGroup, startFlickerTime, 0.0f, startFlickerTime, startFlickerCount, false);
+            yield return new WaitForSeconds(startFlickerTime * startFlickerCount * 2);
 
-            panelCanvasGroup.LeanAlpha( 0.0f, sceneFadeOutTime );
-            yield return new WaitForSeconds( sceneFadeOutTime );
-            GameManager.Instance.LoadSceneImmediately( nextSceneName );
-            yield return null;
+            startCanvasGroup.LeanAlpha(0.0f, sceneFadeOutTime);
+            yield return new WaitForSeconds(sceneFadeOutTime);
+
+            accountCanvasObj.SetActive(true);
+            accountCanvasGroup.LeanAlpha(1.0f, 1.0f);
+            yield return new WaitForSeconds(1.0f);
         }
     }
 
