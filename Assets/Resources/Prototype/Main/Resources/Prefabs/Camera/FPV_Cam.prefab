@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5826768035271278284}
   - component: {fileID: 5826768035271278286}
   - component: {fileID: -4181274305878327286}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: FPV_Cam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 251d849b0e2b1124490d873881817273, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canUpdate: 1
+  <CanUpdate>k__BackingField: 0
+  CanControl: 0
   camTarget: {fileID: 0}
   virtualCam: {fileID: 5826768035271278284}
   mouseSpeed: 0.2
@@ -128,7 +129,7 @@ GameObject:
   - component: {fileID: 5826768036359794281}
   - component: {fileID: 5826768036359794282}
   - component: {fileID: 5826768036359794283}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}

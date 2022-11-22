@@ -72058,7 +72058,7 @@ GameObject:
   - component: {fileID: 1917024545}
   m_Layer: 9
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 127
@@ -78470,12 +78470,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &5501143019282614382 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3460675966716071335, guid: 373ab8b43af834a4fb6eabeff8f0fec0,
-    type: 3}
-  m_PrefabInstance: {fileID: 5501143019282614378}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5501143019324231398
 GameObject:
   m_ObjectHideFlags: 0
@@ -79173,10 +79167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerUiObject: {fileID: 6399978560757835687}
-  FriendUiObjects:
-  - {fileID: 5501143019282614382}
-  - {fileID: 5501143020252418867}
-  - {fileID: 5501143020465699746}
+  FriendUiObjects: []
   PlayerDollHP: {fileID: 6399978560757835686}
   PlayerDevilHP: {fileID: 6399978560757835685}
   Friend1DollHP: {fileID: 5501143019282614381}
@@ -79525,12 +79516,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &5501143020252418867 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3460675966716071335, guid: 373ab8b43af834a4fb6eabeff8f0fec0,
-    type: 3}
-  m_PrefabInstance: {fileID: 5501143020252418863}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5501143020262854170
 RectTransform:
   m_ObjectHideFlags: 0
@@ -79757,12 +79742,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &5501143020465699746 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3460675966716071335, guid: 373ab8b43af834a4fb6eabeff8f0fec0,
-    type: 3}
-  m_PrefabInstance: {fileID: 5501143020465699742}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5501143020518187208
 RectTransform:
   m_ObjectHideFlags: 0

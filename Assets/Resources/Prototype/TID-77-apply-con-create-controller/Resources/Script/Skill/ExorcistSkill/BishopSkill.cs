@@ -99,10 +99,10 @@ namespace GHJ_Lib
 				return true;
 			}
 		}
-		protected override IEnumerator ExcuteActiveSkill()
+		public override IEnumerator ExcuteActiveSkill()
 		{
 			IsCoolTime = true;
-			StageManager.Instance.dollUI.CharacterSkill.StartCountDown(15.0f);
+			StageManager.Instance.exorcistUI.CharacterSkill.StartCountDown(15.0f);
 			yield return new WaitForSeconds(0.2f);//¼±µô
 			while (ActiveSkill.Count != 0)
 			{

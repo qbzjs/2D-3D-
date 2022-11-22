@@ -36,7 +36,7 @@ namespace GHJ_Lib
 			IsHeal = false;
 		}
 
-        protected override IEnumerator ExcuteActiveSkill()
+        public override IEnumerator ExcuteActiveSkill()
 		{
 			IsCoolTime = true;
 			//½ºÅ³Áß

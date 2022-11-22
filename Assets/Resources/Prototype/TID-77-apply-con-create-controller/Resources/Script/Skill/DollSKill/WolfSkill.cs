@@ -32,7 +32,7 @@ namespace GHJ_Lib
 		}
 		/*---Skill---*/
 
-		protected override IEnumerator ExcuteActiveSkill()
+		public override IEnumerator ExcuteActiveSkill()
 		{
 			if (photonView.IsMine)
 			{ 

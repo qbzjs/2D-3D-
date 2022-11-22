@@ -382,7 +382,7 @@ Transform:
   - {fileID: 874952318819489669}
   - {fileID: 874952318819489689}
   m_Father: {fileID: 5171643521589291903}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &874952318812239979
 Animator:
@@ -497,7 +497,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5171643521589291903}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6329350012234756610
 MonoBehaviour:
@@ -521,65 +521,6 @@ MonoBehaviour:
   interactionKey: 103
   interactionPromptUI: {fileID: 0}
   controller: {fileID: 5635292189464165282}
---- !u!1 &4012503313702854224
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7949471853059729893}
-  - component: {fileID: 5162148120224510273}
-  - component: {fileID: 412611310019863823}
-  m_Layer: 0
-  m_Name: WolfPsvSkillBox
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7949471853059729893
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4012503313702854224}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.75, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5171643521589291903}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &5162148120224510273
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4012503313702854224}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &412611310019863823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4012503313702854224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fef01fe77bd848e419b102d4e318b057, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targets: []
 --- !u!1 &4358257972407204481
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,7 +530,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4358257972407690913}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -621,7 +562,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4358257972407690915}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: tail.01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -653,7 +594,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4358257972407690917}
   - component: {fileID: 4358257972397803861}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rabbit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -707,7 +648,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4358257972407690919}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -739,7 +680,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4358257972407690929}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ear.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -770,7 +711,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4358257972407690931}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: leg.B.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -801,7 +742,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4358257972407690933}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -839,7 +780,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4358257972407690935}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ear.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -870,7 +811,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4358257972407690937}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: leg.F.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -902,7 +843,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4358257972407690939}
   - component: {fileID: 4358257972393605013}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -995,7 +936,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4358257972407690941}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: leg.B.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1026,7 +967,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4358257972407690943}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: leg.F.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1093,7 +1034,7 @@ GameObject:
   - component: {fileID: 5685482425181133111}
   - component: {fileID: 5874212156666462991}
   - component: {fileID: 8842860077883511446}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: RabbitPassiveSkillArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1113,7 +1054,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5171643521589291903}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5874212156666462991
 MonoBehaviour:
@@ -1151,7 +1092,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5171643520874515198}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: CamTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1190,7 +1131,7 @@ GameObject:
   - component: {fileID: 8379097947852130464}
   - component: {fileID: 2523616179706623431}
   - component: {fileID: 5635292189464165282}
-  - component: {fileID: 8000632668569234777}
+  - component: {fileID: 1880955903577764238}
   m_Layer: 7
   m_Name: RabbitDoll
   m_TagString: Doll
@@ -1212,8 +1153,6 @@ Transform:
   m_Children:
   - {fileID: 4358257972407690917}
   - {fileID: 5171643520874515198}
-  - {fileID: 6346829481276921217}
-  - {fileID: 7949471853059729893}
   - {fileID: 874952318819489691}
   - {fileID: 6658156224792633846}
   - {fileID: 5685482425181133111}
@@ -1407,11 +1346,11 @@ MonoBehaviour:
   tpvCam: {fileID: 61794249373964336}
   interactor: {fileID: 4421111087651401267}
   skill: {fileID: 2523616179706623431}
-  fugitive: {fileID: 8000632668569234777}
+  fugitive: {fileID: 0}
   trapInteractor: {fileID: 1433995716468315733}
   skinnedMeshRenderer: {fileID: 4358257972393605013}
   ghostMaterial: {fileID: 2100000, guid: cc5b58807daaf1c46a2ad51fcab6368a, type: 2}
---- !u!114 &8000632668569234777
+--- !u!114 &1880955903577764238
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1424,7 +1363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChaseGauge: 0
-  dollController: {fileID: 0}
+  dollController: {fileID: 5635292189464165282}
 --- !u!1 &7002252690917335513
 GameObject:
   m_ObjectHideFlags: 0
@@ -1436,7 +1375,7 @@ GameObject:
   - component: {fileID: 6658156224792633846}
   - component: {fileID: 4716437143689965491}
   - component: {fileID: 1359897886811668245}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: RabbitActiveSkillArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1456,7 +1395,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5171643521589291903}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &4716437143689965491
 SphereCollider:
@@ -1484,65 +1423,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targets: []
---- !u!1 &7170202480865796299
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6346829481276921217}
-  - component: {fileID: 4164511030757634717}
-  - component: {fileID: 6382735141104388902}
-  m_Layer: 7
-  m_Name: WolfActSkillBox
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6346829481276921217
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7170202480865796299}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.82, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5171643521589291903}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &4164511030757634717
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7170202480865796299}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 5
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6382735141104388902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7170202480865796299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca6e0aea008228644ac23f4412b62d69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targets: []
 --- !u!1 &8325106425429565548
 GameObject:
   m_ObjectHideFlags: 0
@@ -1553,7 +1433,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4267738635624927468}
   - component: {fileID: 4421111087651401267}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Interactor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1706,6 +1586,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1730359088119838669}
     m_Modifications:
+    - target: {fileID: 5127049063610441058, guid: 60e5f7259c0dbfb40a7bad86d06a4774,
+        type: 3}
+      propertyPath: m_CollideAgainst.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 7580860024113969224, guid: 60e5f7259c0dbfb40a7bad86d06a4774,
         type: 3}
       propertyPath: m_RootOrder
