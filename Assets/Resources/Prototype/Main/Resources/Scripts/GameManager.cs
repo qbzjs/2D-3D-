@@ -39,7 +39,8 @@ public class GameManager : MonoBehaviour
     public const string RendOnTopLayer = "RenderOnTop";
     public const string EnvironmentLayer = "Environment";
 
-
+    public WaitForSeconds WaitOneS = new(1.0f);
+    public WaitForSeconds WaitZeroPointFiveS = new(0.5f);
 
     public GameObject Exorcist
     {

@@ -1147,6 +1147,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 210785869}
+  - component: {fileID: 210785870}
   m_Layer: 0
   m_Name: Canvases
   m_TagString: Untagged
@@ -1178,6 +1179,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!225 &210785870
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210785868}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &214954050
 GameObject:
   m_ObjectHideFlags: 0
@@ -7266,6 +7279,7 @@ MonoBehaviour:
   customRoomCanvas: {fileID: 1380215531}
   searchCustomCanvas: {fileID: 6276179968522420916}
   informationCanvas: {fileID: 4876869016772728407}
+  mainCanvasGroup: {fileID: 210785870}
   mainLobbyButtons: {fileID: 7283482416480001225}
   quickMatchButtons: {fileID: 5564283381434048494}
   customRoomSceneName: 03_RoomScene
