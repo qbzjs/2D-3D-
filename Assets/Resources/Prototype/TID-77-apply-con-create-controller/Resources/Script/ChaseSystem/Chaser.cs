@@ -17,8 +17,12 @@ namespace GHJ_Lib
         [SerializeField] private PhotonView photonView;
         [SerializeField] private float CrossStackSpeedUpRate = 0.2f;
         protected string FloorTag = "Floor";
+        [SerializeField] protected int environmentLayer;
+        [SerializeField] protected int CameraLayer;
         private void OnEnable()
         {
+            CameraLayer = LayerMask.NameToLayer("Camera");
+            environmentLayer = LayerMask.NameToLayer(GameManager.EnvironmentLayer);
             mainCamera = Camera.main;
             sphereCollider = GetComponent<SphereCollider>();
         }
@@ -39,10 +43,10 @@ namespace GHJ_Lib
             if (other.gameObject.CompareTag(GameManager.DollTag))
             {
                 Fugitive fugitive = other.GetComponent<Fugitive>();
-                
-                if (fugitive==null|| Fugitives.Contains(fugitive))
+
+                if (Fugitives.Contains(fugitive))
                 {
-                    fugitive.CanWatch(false);
+                    fugitive.SetWatch(false);
                     Fugitives.Remove(fugitive);
                 }
                 
@@ -50,86 +54,82 @@ namespace GHJ_Lib
         }
         private void Update()
         {
-            if (photonView.IsMine)
+            if (Fugitives.Count == 0)
             {
-                if (Fugitives.Count == 0)
+                return;
+            }
+            foreach (Fugitive fugitive in Fugitives)
+            {
+                if(fugitive == null)
                 {
-                    return;
+                    continue;
                 }
-
-                foreach (Fugitive fugitive in Fugitives)
+                if (IsInCameraView(fugitive.gameObject) &&
+                    CheckObstacle(fugitive.gameObject))
                 {
-                    if(fugitive == null)
+                    if (!fugitive.IsWatched)
                     {
-                        continue;
-                    }
-                    if (IsInCameraView(fugitive.gameObject) &&
-                        CheckObstacle(fugitive.gameObject))
-                    {
-                        if (!fugitive.IsWatched)
-                        {
-                            fugitive.CanWatch(true);
-                        }
-                    }
-                    else
-                    {
-                        if (fugitive.IsWatched)
-                        {
-                            fugitive.CanWatch(false);
-                        }
-                    }
-                }
-
-
-                Log.Instance.WriteLog(chaseState.ToString(), 0);
-                Log.Instance.WriteLog($"CoolDowntime : {CoolDowntime}" , 1);
-                if (CheckFugitivesIsChasedOnView())
-                {
-                    if (chaseState != ChaseState.Chasing)
-                    {
-                        chaseState = ChaseState.Chasing;
+                        fugitive.SetWatch(true);
                     }
                 }
                 else
                 {
-                    switch (chaseState)
+                    if (fugitive.IsWatched)
                     {
-                        case ChaseState.Chasing:
-                            {
-                                CoolDowntime = 2.0f;
-                                chaseState = ChaseState.CoolDown;
-                            }
-                            break;
-                        case ChaseState.CoolDown:
-                            {
-                                CoolDowntime -= Time.deltaTime;
-                                if (CoolDowntime <= 0.0f)
-                                {
-                                    CoolDowntime = 0.0f;
-                                    DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = DataManager.Instance.RoleInfos[(int)DataManager.Instance.GetLocalRoleType].MoveSpeed;
-                                    chaseState = ChaseState.Wait;
-                                }
-                            }
-                            break;
-                        case ChaseState.Wait:
-                            {
-                                
-                            }
-                            break;
+                        fugitive.SetWatch(false);
                     }
                 }
             }
+            Log.Instance.WriteLog(chaseState.ToString(), 0);
+            Log.Instance.WriteLog($"CoolDowntime : {CoolDowntime}" , 1);
+            if (CheckFugitivesIsChasedOnView())
+            {
+                if (chaseState != ChaseState.Chasing)
+                {
+                    chaseState = ChaseState.Chasing;
+                }
+            }
+            else
+            {
+                switch (chaseState)
+                {
+                    case ChaseState.Chasing:
+                        {
+                            CoolDowntime = 2.0f;
+                            chaseState = ChaseState.CoolDown;
+                        }
+                        break;
+                    case ChaseState.CoolDown:
+                        {
+                            CoolDowntime -= Time.deltaTime;
+                            if (CoolDowntime <= 0.0f)
+                            {
+                                CoolDowntime = 0.0f;
+                                DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = DataManager.Instance.RoleInfos[(int)DataManager.Instance.GetLocalRoleType].MoveSpeed;
+                                chaseState = ChaseState.Wait;
+                            }
+                        }
+                        break;
+                    case ChaseState.Wait:
+                        {
+                                
+                        }
+                        break;
+                }
+            }
+            
         }
 
         protected bool IsInCameraView(GameObject targetObject)
         {
             Vector3 targetViewPort = mainCamera.WorldToViewportPoint(targetObject.transform.position);
-
-            return (targetViewPort.x <= 1.0f &&
+            bool IsInView = (targetViewPort.x <= 1.0f &&
                     targetViewPort.x >= 0.0f &&
                     targetViewPort.y <= 1.0f &&
                     targetViewPort.y >= 0.0f &&
                     targetViewPort.z > 0.0f);
+            Debug.Log($"IsInView : {IsInView}");
+            return IsInView;
         }
 
         protected bool CheckObstacle(GameObject targetObject)
@@ -138,18 +138,23 @@ namespace GHJ_Lib
             Vector3 CamPos = mainCamera.transform.position;
             Ray ray = new Ray(CamPos, targetObject.transform.position - CamPos);
 
-            Hits = Physics.RaycastAll(ray, sphereCollider.radius, LayerMask.NameToLayer(GameManager.EnvironmentLayer));
+            
+            Hits = Physics.RaycastAll(ray, sphereCollider.radius, CameraLayer);
+            
 
             foreach (RaycastHit hit in Hits)
             {
-                Debug.Log($"Hits : {hit.collider.name}");
-                if (!hit.collider.gameObject.CompareTag(FloorTag))
+                GameObject hitObj = hit.collider.gameObject;
+                
+                if (hitObj.layer == environmentLayer && !hitObj.CompareTag(FloorTag))
                 {
+                    Debug.Log("CheckObstacle : false");
                     return false;
                 }
             }
-            Debug.Log("return True");
+            Debug.Log("CheckObstacle : true");
             return true;
+            
         }
         protected void BuffExorcistByCrossStack(Fugitive fugitive)
         {
@@ -195,34 +200,39 @@ namespace GHJ_Lib
             if (Fugitives.Count == 0)
             {
                 return;
-            }
-            RaycastHit[] Hits;
+            };
 
+            RaycastHit[] Hits;
             foreach (Fugitive fugitive in Fugitives)
             {
                 if (fugitive == null)
                 {
                     continue;
                 }
+
+                
                 Vector3 CamPos = mainCamera.transform.position;
                 Ray ray = new Ray(CamPos, fugitive.transform.position - CamPos);
 
-                Hits = Physics.RaycastAll(ray, sphereCollider.radius, LayerMask.NameToLayer(GameManager.EnvironmentLayer));
+                Hits = Physics.RaycastAll(ray, sphereCollider.radius, CameraLayer);
 
                 Gizmos.color = Color.red;
                 Gizmos.DrawLine(ray.origin, ray.origin +ray.direction*40.0f);
-
-                Gizmos.color = Color.cyan;
                 if (Hits.Length > 0)
                 {
                     foreach (RaycastHit hit in Hits)
                     {
-                        Gizmos.DrawSphere(hit.point, 0.3f);
+                        GameObject hitObj = hit.collider.gameObject;
+                        
+                        if (hitObj.layer == environmentLayer && !hitObj.CompareTag(FloorTag))
+                        {
+                            Debug.Log($"Hits Enviroment : {hit.collider.name}");
+                            Gizmos.color = Color.green;
+                            Gizmos.DrawSphere(hit.point, 0.3f);
+                        }
                     }
                 }
             }
-            
-
         }
     }
 }

@@ -20,6 +20,6 @@ namespace GHJ_Lib
 		{
 			IsCoolTime = false;
 		}
-		protected abstract IEnumerator ExcuteActiveSkill();
+		public abstract IEnumerator ExcuteActiveSkill();
 	}
 }

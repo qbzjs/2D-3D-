@@ -21,12 +21,12 @@ namespace GHJ_Lib
             {
                 case RoleData.RoleType.Bishop:
                     {
-                        pickUpTime = 0.40f;
+                        pickUpTime = 0.30f;
                     }
                     break;
                 case RoleData.RoleType.Hunter:
                     {
-                        pickUpTime = 0.40f;
+                        pickUpTime = 0.30f;
                     }
                     break;
             }

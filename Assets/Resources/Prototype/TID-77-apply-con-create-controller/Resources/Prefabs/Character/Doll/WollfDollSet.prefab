@@ -625,7 +625,7 @@ GameObject:
   - component: {fileID: 7855227633452667644}
   - component: {fileID: 926748215200101856}
   - component: {fileID: 7891203660935695451}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: WolfActSkillBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -682,7 +682,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8273805487214333315}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: CamTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -721,7 +721,7 @@ GameObject:
   - component: {fileID: 4710660828957102045}
   - component: {fileID: 3027499934071246222}
   - component: {fileID: 819067107215865435}
-  - component: {fileID: 87712019255929997}
+  - component: {fileID: 7176076297856307180}
   m_Layer: 7
   m_Name: WolfDoll
   m_TagString: Doll
@@ -931,11 +931,11 @@ MonoBehaviour:
   tpvCam: {fileID: 1480648271230592406}
   interactor: {fileID: 7732475489897246783}
   skill: {fileID: 3027499934071246222}
-  fugitive: {fileID: 87712019255929997}
+  fugitive: {fileID: 0}
   trapInteractor: {fileID: 2051113660472053083}
   skinnedMeshRenderer: {fileID: 5728598774198227744}
   ghostMaterial: {fileID: 2100000, guid: cc5b58807daaf1c46a2ad51fcab6368a, type: 2}
---- !u!114 &87712019255929997
+--- !u!114 &7176076297856307180
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -948,7 +948,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChaseGauge: 0
-  dollController: {fileID: 0}
+  dollController: {fileID: 819067107215865435}
 --- !u!1 &8614758592521025531
 GameObject:
   m_ObjectHideFlags: 0
@@ -959,7 +959,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3979524440217149278}
   - component: {fileID: 7732475489897246783}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Interactor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1107,9 +1107,65 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8273805488487672834}
     m_Modifications:
+    - target: {fileID: 100000, guid: 45b5a763cc9857e479417a701e251ef4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 45b5a763cc9857e479417a701e251ef4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 45b5a763cc9857e479417a701e251ef4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 45b5a763cc9857e479417a701e251ef4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: 45b5a763cc9857e479417a701e251ef4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100010, guid: 45b5a763cc9857e479417a701e251ef4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100012, guid: 45b5a763cc9857e479417a701e251ef4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100014, guid: 45b5a763cc9857e479417a701e251ef4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100016, guid: 45b5a763cc9857e479417a701e251ef4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100018, guid: 45b5a763cc9857e479417a701e251ef4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100020, guid: 45b5a763cc9857e479417a701e251ef4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 100022, guid: 45b5a763cc9857e479417a701e251ef4, type: 3}
       propertyPath: m_Name
       value: Wolf
+      objectReference: {fileID: 0}
+    - target: {fileID: 100022, guid: 45b5a763cc9857e479417a701e251ef4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100022, guid: 45b5a763cc9857e479417a701e251ef4, type: 3}
+      propertyPath: m_TagString
+      value: Doll
+      objectReference: {fileID: 0}
+    - target: {fileID: 100026, guid: 45b5a763cc9857e479417a701e251ef4, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 400022, guid: 45b5a763cc9857e479417a701e251ef4, type: 3}
       propertyPath: m_RootOrder
@@ -1186,6 +1242,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3248309520836587696}
     m_Modifications:
+    - target: {fileID: 5127049063610441058, guid: 60e5f7259c0dbfb40a7bad86d06a4774,
+        type: 3}
+      propertyPath: m_CollideAgainst.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 7580860024113969224, guid: 60e5f7259c0dbfb40a7bad86d06a4774,
         type: 3}
       propertyPath: m_RootOrder

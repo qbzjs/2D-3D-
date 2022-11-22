@@ -38053,6 +38053,7 @@ MonoBehaviour:
   Doll4HP: {fileID: 1026594780}
   Devil4HP: {fileID: 1026594779}
   PassiveCoolTime: {fileID: 0}
+  CharacterSkill: {fileID: 0}
 --- !u!114 &1026594779 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2494321057995966432, guid: 24f04bb31040f694895543507231a794,
@@ -54113,6 +54114,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5819a20d1612efa4c96c6d064bdbbbd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waitTime: 3
+  rotateSpeed: 1
+  camResetTime: 2
+  IsGameStart: 0
   DollPrefabs:
   - {fileID: 8865846720936348896, guid: 8d8f15897a1a6a94094a56d7a4406883, type: 3}
   - {fileID: 8865846720936348896, guid: 77fedaf7480bc3b4f9fdd953fd719e1a, type: 3}
@@ -54184,8 +54189,8 @@ MonoBehaviour:
   InteractTextUI: {fileID: 4792538854473707924}
   InteractionPrompt: {fileID: 1744713006}
   <CastSystem>k__BackingField: {fileID: 1219104196}
-  EscMenu: {fileID: 1744713003}
-  playerCount: 0
+  <DollCount>k__BackingField: 0
+  AltarCount: 4
 --- !u!4 &1371327853
 Transform:
   m_ObjectHideFlags: 0
@@ -72053,7 +72058,7 @@ GameObject:
   - component: {fileID: 1917024545}
   m_Layer: 9
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 127
@@ -78465,12 +78470,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &5501143019282614382 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3460675966716071335, guid: 373ab8b43af834a4fb6eabeff8f0fec0,
-    type: 3}
-  m_PrefabInstance: {fileID: 5501143019282614378}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5501143019324231398
 GameObject:
   m_ObjectHideFlags: 0
@@ -79168,10 +79167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerUiObject: {fileID: 6399978560757835687}
-  FriendUiObjets:
-  - {fileID: 5501143019282614382}
-  - {fileID: 5501143020252418867}
-  - {fileID: 5501143020465699746}
+  FriendUiObjects: []
   PlayerDollHP: {fileID: 6399978560757835686}
   PlayerDevilHP: {fileID: 6399978560757835685}
   Friend1DollHP: {fileID: 5501143019282614381}
@@ -79180,6 +79176,8 @@ MonoBehaviour:
   Friend2DevilHP: {fileID: 5501143020252418865}
   Friend3DollHP: {fileID: 5501143020465699745}
   Friend3DevilHP: {fileID: 5501143020465699744}
+  CommomSkill: {fileID: 0}
+  CharacterSkill: {fileID: 0}
 --- !u!224 &5501143020132567290
 RectTransform:
   m_ObjectHideFlags: 0
@@ -79518,12 +79516,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &5501143020252418867 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3460675966716071335, guid: 373ab8b43af834a4fb6eabeff8f0fec0,
-    type: 3}
-  m_PrefabInstance: {fileID: 5501143020252418863}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5501143020262854170
 RectTransform:
   m_ObjectHideFlags: 0
@@ -79750,12 +79742,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &5501143020465699746 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3460675966716071335, guid: 373ab8b43af834a4fb6eabeff8f0fec0,
-    type: 3}
-  m_PrefabInstance: {fileID: 5501143020465699742}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5501143020518187208
 RectTransform:
   m_ObjectHideFlags: 0

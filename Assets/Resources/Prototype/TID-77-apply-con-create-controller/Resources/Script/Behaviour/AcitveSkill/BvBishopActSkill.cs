@@ -8,9 +8,12 @@ namespace GHJ_Lib
 {
 	public class BvBishopActSkill: Behavior<NetworkBaseController>
 	{
+        IEnumerator enumerator;
         protected override void Activate(in NetworkBaseController actor)
         {
-            (actor.skill as BishopSkill).StartCoroutine("ExcuteActiveSkill");
+            var skill = actor.skill as BishopSkill;
+            skill.StartCoroutine(skill.ExcuteActiveSkill());
+            //skill.StartCoroutine("ExcuteActiveSkill"); 이것도 되는함수임.
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
