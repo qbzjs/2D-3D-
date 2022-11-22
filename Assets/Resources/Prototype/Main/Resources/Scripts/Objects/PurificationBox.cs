@@ -123,7 +123,6 @@ namespace KSH_Lib.Object
 
             DollInBox.EscapeFrom( transform, LayerMask.NameToLayer( "Player" ) );
             DollInBox.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Escape );
-            animator.Play( "OpenDoor" );
             photonView.RPC("ShareDollInBox_RPC", RpcTarget.AllViaServer);
         }
 
@@ -162,6 +161,7 @@ namespace KSH_Lib.Object
         void ShareDollInBox_RPC()
         {
             DollInBox = null;
+            animator.Play( "OpenDoor" );
         }
 
         [PunRPC]
