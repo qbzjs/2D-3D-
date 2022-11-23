@@ -310,7 +310,8 @@ namespace GHJ_Lib
 			int clientIdx = DataManager.Instance.PlayerIdx;
 			GameObject targetPrefab;
 
-			if (clientIdx == 0)
+			//if (clientIdx == 0)
+			if(DataManager.Instance.LocalPlayerData.roleData.Group == KSH_Lib.Data.RoleData.RoleGroup.Exorcist)
 			{
 				targetPrefab = ExorcistPrefabs[(int)DataManager.Instance.GetLocalRoleType];
 				exorcistUI.gameObject.SetActive(true);

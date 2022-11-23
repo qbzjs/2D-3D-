@@ -636,85 +636,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Damping: 0
---- !u!1001 &265512307
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 744313207208591628, guid: 3f30f85bdd054fd499673defb1a17dcb,
-        type: 3}
-      propertyPath: m_Name
-      value: WollfDollSet
-      objectReference: {fileID: 0}
-    - target: {fileID: 1480648271230592395, guid: 3f30f85bdd054fd499673defb1a17dcb,
-        type: 3}
-      propertyPath: m_LookAt
-      value: 
-      objectReference: {fileID: 906014080}
-    - target: {fileID: 3248309520836587696, guid: 3f30f85bdd054fd499673defb1a17dcb,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248309520836587696, guid: 3f30f85bdd054fd499673defb1a17dcb,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248309520836587696, guid: 3f30f85bdd054fd499673defb1a17dcb,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248309520836587696, guid: 3f30f85bdd054fd499673defb1a17dcb,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248309520836587696, guid: 3f30f85bdd054fd499673defb1a17dcb,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248309520836587696, guid: 3f30f85bdd054fd499673defb1a17dcb,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248309520836587696, guid: 3f30f85bdd054fd499673defb1a17dcb,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248309520836587696, guid: 3f30f85bdd054fd499673defb1a17dcb,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248309520836587696, guid: 3f30f85bdd054fd499673defb1a17dcb,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248309520836587696, guid: 3f30f85bdd054fd499673defb1a17dcb,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248309520836587696, guid: 3f30f85bdd054fd499673defb1a17dcb,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4147074373619449426, guid: 3f30f85bdd054fd499673defb1a17dcb,
-        type: 3}
-      propertyPath: sceneViewId
-      value: 2
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3f30f85bdd054fd499673defb1a17dcb, type: 3}
 --- !u!1 &268185749
 GameObject:
   m_ObjectHideFlags: 0
@@ -853,7 +774,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c30e891e57a7c04baba43a5fab42940, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canUpdate: 1
+  <CanUpdate>k__BackingField: 0
+  CanControl: 0
   camTarget: {fileID: 1178650779}
   virtualCam: {fileID: 340338733}
   mouseSpeed: 0.3
@@ -1173,6 +1095,76 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &609146348
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 609146350}
+  - component: {fileID: 609146349}
+  m_Layer: 0
+  m_Name: StageManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &609146349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609146348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5819a20d1612efa4c96c6d064bdbbbd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waitTime: 3
+  rotateSpeed: 1
+  camResetTime: 2
+  IsGameStart: 0
+  DollPrefabs: []
+  ExorcistPrefabs: []
+  NormalAltarPrefab: {fileID: 0}
+  ExitAltarPrefab: {fileID: 0}
+  FinalAltarPrefab: {fileID: 0}
+  PurificationBoxPrefab: {fileID: 0}
+  PlayerGenPos: []
+  NormalAltarGenPos: []
+  ExitAltarGenPos: []
+  FinalAltarGenPos: {fileID: 0}
+  PurificationBoxGenPos: []
+  CrowGenPos: []
+  Count: 0
+  InitAreaRadius: 0
+  CenterPosition: {x: 0, y: 0, z: 0}
+  dollUI: {fileID: 0}
+  exorcistUI: {fileID: 0}
+  InteractTextUI: {fileID: 0}
+  InteractionPrompt: {fileID: 0}
+  <CastSystem>k__BackingField: {fileID: 0}
+  <DollCount>k__BackingField: 0
+  AltarCount: 4
+--- !u!4 &609146350
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609146348}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &627005694
 GameObject:
   m_ObjectHideFlags: 0
@@ -1242,12 +1234,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiObj: {fileID: 1604702000}
---- !u!4 &906014080 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8273805487214333315, guid: 3f30f85bdd054fd499673defb1a17dcb,
-    type: 3}
-  m_PrefabInstance: {fileID: 265512307}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &920879563
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1930,7 +1916,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 251d849b0e2b1124490d873881817273, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canUpdate: 1
+  <CanUpdate>k__BackingField: 0
+  CanControl: 0
   camTarget: {fileID: 1178650779}
   virtualCam: {fileID: 1329096300}
   mouseSpeed: 0.3
