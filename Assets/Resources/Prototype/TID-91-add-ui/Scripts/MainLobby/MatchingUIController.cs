@@ -276,11 +276,7 @@ namespace LSH_Lib
             PhotonNetwork.CurrentRoom.IsOpen = false;
             GameManager.Instance.LoadPhotonScene(loadSceneName);
         }
-        //void OnLSHButtonClicked()
-        //{
-        //    loadSceneName = lshSceneName;
-        //    OnSkipButtonClicked();
-        //}
+        
         void InitializedPlayerImages()
         {
             for(var i = 0; i<playerLoadImgs.Length;++i)

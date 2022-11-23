@@ -160,6 +160,17 @@ namespace KSH_Lib
 				}
 			}
 		}
+		public void InitPlayerDatasCustomRoom()
+		{
+			if (playerDatas.Count == 0)
+			{
+				for (int i = 0; i < GameManager.Instance.MaxPlayerCount; ++i)
+				{
+					playerDatas.Add(new PlayerData());
+					isInitedList.Add(false);
+				}
+			}
+		}
 		public void ResetPlayerDatas()
 		{
 			playerDatas = new List<PlayerData>();

@@ -198,6 +198,9 @@ namespace KSH_Lib
             }
             else if (roomType == RoomType.Custom)
             {
+                PhotonNetwork.AutomaticallySyncScene = false;
+                DataManager.Instance.InitPlayerDatasCustomRoom();
+                DataManager.Instance.ShareAccountData();
                 GameManager.Instance.LoadScene(customRoomSceneName);
             }
         }
