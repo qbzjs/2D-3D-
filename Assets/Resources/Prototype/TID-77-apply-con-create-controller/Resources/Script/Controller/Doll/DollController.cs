@@ -14,7 +14,6 @@ namespace GHJ_Lib
 		/*--- Public Fields ---*/
 		public int CrossStack { get { return crossStack; } }
 		protected int crossStack = 0;
-		[SerializeField] protected Fugitive fugitive; 
 		public bool IsCrowDebuff { get; set; } = false;
 		public float CrowGauge { get; set; } = 0.0f;
 
@@ -33,8 +32,12 @@ namespace GHJ_Lib
 		[SerializeField] protected SkinnedMeshRenderer skinnedMeshRenderer;
 		[SerializeField] protected Material ghostMaterial;
 
+		
+		public GameObject[] BloodDecal;
 
 		public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
+
+		
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
@@ -451,6 +454,12 @@ namespace GHJ_Lib
 				}
 				break;
 			}
+		}
+
+		//effect
+		public void ShowHitEffect()
+		{
+			EffectManager.Instance.ShowDecalOnPlane(characterModel, BloodDecal[Random.Range(0,BloodDecal.Length-1)]);
 		}
 	}
 }

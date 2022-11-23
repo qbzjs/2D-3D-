@@ -17,6 +17,7 @@ namespace GHJ_Lib
             }
             actor.BaseAnimator.Play("Hit");
 
+            (actor as DollController).ShowHitEffect();
             if (actor.photonView.IsMine)
             {
                 if ((actor as DollController).CrossStack >= 2)
