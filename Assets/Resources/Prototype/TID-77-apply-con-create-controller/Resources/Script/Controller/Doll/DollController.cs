@@ -459,7 +459,7 @@ namespace GHJ_Lib
 		//effect
 		public void ShowHitEffect()
 		{
-			EffectManager.Instance.ShowDecalOnPlane(characterModel, BloodDecal[Random.Range(0,BloodDecal.Length-1)]);
+			EffectManager.Instance.ShowDecal(characterModel, BloodDecal[Random.Range(0,BloodDecal.Length-1)]);
 		}
 	}
 }

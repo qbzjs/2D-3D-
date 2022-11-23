@@ -11,7 +11,7 @@ namespace GHJ_Lib
         {
             if(Input.GetKeyDown(KeyCode.A))
             {
-                EffectManager.Instance.ShowDecalOnPlane(gameObject, effect[Random.Range(0, effect.Length - 1)]);
+                EffectManager.Instance.ShowDecal(gameObject, effect[Random.Range(0, effect.Length - 1)]);
             }
         }
     }

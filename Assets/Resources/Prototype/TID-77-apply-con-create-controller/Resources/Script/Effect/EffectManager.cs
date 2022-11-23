@@ -29,19 +29,9 @@ namespace GHJ_Lib
 			enviromentLayer = LayerMask.NameToLayer(GameManager.EnvironmentLayer);
 
 		}
-        public void ShowDecalOnPlane(GameObject centerModel, GameObject DecalPrefab)
+        public void ShowDecal(GameObject centerModel, GameObject DecalPrefab)
 		{
-
-			GameObject Blood = Instantiate(DecalPrefab, new Vector3(centerModel.transform.position.x, 0.1f, centerModel.transform.position.z), DecalPrefab.transform.rotation);
-			DecalProjector projector = Blood.GetComponent<DecalProjector>();
-			
-			if (projector == null)
-			{
-				Debug.LogError("EffectManager.ShowDecalOnPlane Missing DecalProjector");
-				return;
-			}
-
-			StartCoroutine(ClearBlood(projector));
+			Instantiate(DecalPrefab, centerModel.transform.position, DecalPrefab.transform.rotation);
 		}
 
 		public void ShowDecalAround(GameObject centerModel, GameObject DecalPrefab)
@@ -71,6 +61,7 @@ namespace GHJ_Lib
 
 		IEnumerator ClearBlood(DecalProjector projector)
 		{
+			
 			float curTime = Time.time;
 			while (true)
 			{
