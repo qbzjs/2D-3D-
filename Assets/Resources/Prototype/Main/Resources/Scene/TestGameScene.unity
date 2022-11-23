@@ -33414,7 +33414,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1632053666}
-  m_RootOrder: 340
+  m_RootOrder: 335
   m_LocalEulerAnglesHint: {x: 0, y: 12.199, z: 0}
 --- !u!64 &858561320
 MeshCollider:
@@ -54417,7 +54417,7 @@ MonoBehaviour:
   DollPrefabs:
   - {fileID: 8865846720936348896, guid: 8d8f15897a1a6a94094a56d7a4406883, type: 3}
   - {fileID: 8865846720936348896, guid: 77fedaf7480bc3b4f9fdd953fd719e1a, type: 3}
-  - {fileID: 4558624461933725297, guid: f47db0e26d0de2041822b86aeb8e5c18, type: 3}
+  - {fileID: 4558624461933725297, guid: aaf31a4a691fdc248988c75304777bd5, type: 3}
   - {fileID: 744313207208591628, guid: 3f30f85bdd054fd499673defb1a17dcb, type: 3}
   - {fileID: 8865846720936348896, guid: 2fd21950923de1b40baa4b56f2770a03, type: 3}
   ExorcistPrefabs:
@@ -54520,7 +54520,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 1371327852}
   sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -61786,7 +61787,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1632053666}
-  m_RootOrder: 99
+  m_RootOrder: 44
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1597032336
 MeshCollider:
@@ -62738,6 +62739,7 @@ Transform:
   - {fileID: 1589892065}
   - {fileID: 423273266}
   - {fileID: 695343168}
+  - {fileID: 1597032335}
   - {fileID: 198236521}
   - {fileID: 2073527596}
   - {fileID: 1800107623}
@@ -62793,7 +62795,6 @@ Transform:
   - {fileID: 1230602660}
   - {fileID: 1944448774}
   - {fileID: 918487994}
-  - {fileID: 1597032335}
   - {fileID: 78977418}
   - {fileID: 640911037}
   - {fileID: 2100761871}
@@ -63029,12 +63030,12 @@ Transform:
   - {fileID: 1751854667}
   - {fileID: 1148312075}
   - {fileID: 1749032474}
+  - {fileID: 858561319}
   - {fileID: 673181747}
   - {fileID: 440929044}
   - {fileID: 1193069658}
   - {fileID: 1467547820}
   - {fileID: 1674196470}
-  - {fileID: 858561319}
   - {fileID: 150650480}
   - {fileID: 1986843455}
   - {fileID: 196605466}
