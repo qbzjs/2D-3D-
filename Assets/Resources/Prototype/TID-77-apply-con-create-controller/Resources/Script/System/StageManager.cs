@@ -121,7 +121,7 @@ namespace GHJ_Lib
 
 			DataManager.Instance.ShareAllData();
 
-			LocalController.TPVCam.SetAxis( new Vector2( rotateSpeed, 0 ) );
+			LocalController.TPVCam.SetAxis( new Vector2( rotateSpeed, 0.0f ) );
 			while ( true )
 			{
 				if ( DataManager.Instance.IsAllClientInited )
