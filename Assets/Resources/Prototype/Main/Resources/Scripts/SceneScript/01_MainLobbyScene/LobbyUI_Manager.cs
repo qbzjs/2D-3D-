@@ -135,7 +135,7 @@ namespace KSH_Lib
             DisableCanvasesAll();
             mainLobbyCanvas.enabled = true;
             EnableMainButtonsPanel();
-
+            //PhotonNetwork.AutomaticallySyncScene = false;
             // Deubg
             //skipButtonObj.SetActive( true );
             //lshSkipButtonObj.SetActive( false );
@@ -198,7 +198,7 @@ namespace KSH_Lib
             }
             else if (roomType == RoomType.Custom)
             {
-                PhotonNetwork.AutomaticallySyncScene = false;
+                
                 DataManager.Instance.InitPlayerDatasCustomRoom();
                 DataManager.Instance.ShareAccountData();
                 GameManager.Instance.LoadScene(customRoomSceneName);
@@ -444,6 +444,7 @@ namespace KSH_Lib
         //}
         public void OnMatchingStartButton(string roleType)
         {
+            PhotonNetwork.AutomaticallySyncScene = true;
             if (roleType == "Exorcist")
             {
                 DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Exorcist;
@@ -465,7 +466,8 @@ namespace KSH_Lib
         }
         void OnMatchingCancelButton()
         {
-            if(PhotonNetwork.IsMasterClient)
+            PhotonNetwork.AutomaticallySyncScene = false;
+            if (PhotonNetwork.IsMasterClient)
             {
                 //photonView.RPC( "LeaveRoomRPC", RpcTarget.Others );
                 

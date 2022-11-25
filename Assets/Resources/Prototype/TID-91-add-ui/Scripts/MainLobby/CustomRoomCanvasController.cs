@@ -97,44 +97,52 @@ namespace LSH_Lib
             //            false, null);
             //    }
             //}
+            PhotonNetwork.AutomaticallySyncScene = true;
+            SetRoll();
+            //InitializeImage();
         }
         private void Update()
         {
-            for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; ++i)
-            {
-                RoomManager.Instance.PlayerDatas[i].Init(
-                    DataManager.Instance.PlayerDatas[i].accountData.Id,
-                    DataManager.Instance.PlayerDatas[i].accountData.Nickname,
-                    false, null);
-            }
-            CountPlayer();
+            ChangeImage();
         }
-        void CountPlayer()
+        //void CountPlayer()
+        //{
+        //    for(int i= 0; i<PhotonNetwork.CurrentRoom.PlayerCount;++i)
+        //    {
+        //        if(i == 0)
+        //        {
+        //            DataManager.Instance.PlayerDatas[i].RollType = "Exorcist";
+        //            InitializeImage(i, RoomManager.Instance.PlayerDatas[i].RollType);
+        //        }
+        //        else
+        //        {
+        //            DataManager.Instance.PlayerDatas[i].RollType = "Doll";
+        //            InitializeImage(i, RoomManager.Instance.PlayerDatas[i].RollType);
+        //        }
+
+        //    }
+        //}
+        void ChangeImage()
         {
-            for(int i= 0; i<PhotonNetwork.CurrentRoom.PlayerCount;++i)
+            if (DataManager.Instance.PreRoleGroup == RoleData.RoleGroup.Exorcist) 
             {
-                if(i == 0)
+                playeruis[DataManager.Instance.PlayerIdx].RoleType.sprite = exorcistSprites[0];
+                //playeruis[DataManager.Instance.PlayerIdx].NickName.text = DataManager.Instance.LocalPlayerData.accountData.Nickname;
+                //DataManager.Instance.LocalPlayerData.accountData.SheetIdx = DataManager.Instance.PlayerIdx;
+                for(int i = 1; i<PhotonNetwork.CurrentRoom.PlayerCount; ++i)
                 {
-                    RoomManager.Instance.PlayerDatas[i].RollType = "Exorcist";
-                    InitializeImage(i, RoomManager.Instance.PlayerDatas[i].RollType);
+                    playeruis[i].RoleType.sprite = dollSprites[0];
                 }
-                else
+            }
+            if (DataManager.Instance.PreRoleGroup == RoleData.RoleGroup.Doll)
+            {
+                playeruis[4].RoleType.sprite = exorcistSprites[0];
+                playeruis[0].RoleType.sprite = dollSprites[0];
+                //DataManager.Instance.LocalPlayerData.accountData.SheetIdx = DataManager.Instance.PlayerIdx + 1;
+                for (int i = 1; i<PhotonNetwork.CurrentRoom.PlayerCount-1; ++i)
                 {
-                    RoomManager.Instance.PlayerDatas[i].RollType = "Doll";
-                    InitializeImage(i, RoomManager.Instance.PlayerDatas[i].RollType);
+                    playeruis[i].RoleType.sprite = dollSprites[0];
                 }
-                
-            }
-        }
-        void InitializeImage(int i, string type)
-        {
-            if(type == "Exorcist")
-            {
-                playeruis[i].RoleType.sprite = exorcistSprites[0];
-            }
-            if(type == "Doll")
-            {
-                playeruis[i].RoleType.sprite = dollSprites[1];
             }
         }
 
@@ -164,8 +172,8 @@ namespace LSH_Lib
         //        //}
         //    }
         //}
-        //[SerializeField]
-        //string loadSceneName;
+        [SerializeField]
+        string loadSceneName;
         //[Header("PopUP Panel")]
         //[SerializeField]
         //GameObject InvitePanel;
@@ -267,17 +275,18 @@ namespace LSH_Lib
         //    {
         //        GUIUtility.systemCopyBuffer = invitecode.text;
         //    }
-        //    void SetRoll()
-        //    {
-        //        if(PhotonNetwork.IsMasterClient)
-        //        {
-        //            DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Exorcist;
-        //        }
-        //        else
-        //        {
-        //            DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Doll;
-        //        }
-        //    }
+        void SetRoll()
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Exorcist;
+            }
+            else
+            {
+                DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Doll;
+            }
+            //DataManager.Instance.ShareRoleData();
+        }
         //    //public CustomMatch GetSelectRoleType( CustomMatch customMatch, RoleData.RoleGroup type)
         //    //{
         //    //    Color color = new Color(32, 32, 32);
@@ -400,16 +409,21 @@ namespace LSH_Lib
         //            Debug.LogError("No RoleType set");
         //        }
         //    }
-        //    void GameStart()
-        //    {
-        //        //DataManager.Instance.InitLocalRoleData();
-        //        //cancelButtonObj.SetActive(false);
-        //        if(PhotonNetwork.IsMasterClient)
-        //        {
-        //            PhotonNetwork.CurrentRoom.IsOpen = false;
-        //            GameManager.Instance.LoadPhotonScene(loadSceneName);
-        //        }
-        //    }
+        void GameStart()
+        {
+            //DataManager.Instance.InitLocalRoleData();
+            //cancelButtonObj.SetActive(false);
+            //PhotonNetwork.AutomaticallySyncScene = true;
+                PhotonNetwork.AutomaticallySyncScene = true;
+                PhotonNetwork.CurrentRoom.IsOpen = false;
+                GameManager.Instance.LoadPhotonScene(loadSceneName);
+            //else
+            //{
+            //    PhotonNetwork.AutomaticallySyncScene = true;
+            //    //PhotonNetwork.CurrentRoom.IsOpen = false;
+            //}
+            //GameManager.Instance.LoadPhotonScene(loadSceneName);
+        }
         void ExitScene()
         {
             //if (PhotonNetwork.IsMasterClient)
@@ -421,6 +435,7 @@ namespace LSH_Lib
             //        PhotonNetwork.CloseConnection(PhotonNetwork.PlayerList[i]);
             //    }
             //}
+            DataManager.Instance.ResetPlayerDatas();
             PhotonNetwork.LeaveRoom();
             GameManager.Instance.LoadScene("02_MainLobbyScene");
         }

@@ -1386,6 +1386,7 @@ MonoBehaviour:
   InvitePanel: {fileID: 721365705528092917}
   SettingPanel: {fileID: 2083400878}
   invitecode: {fileID: 2028912709}
+  loadSceneName: 03_SelectCharacterScene
 --- !u!1001 &721365707481357195
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1630,12 +1631,12 @@ PrefabInstance:
     - target: {fileID: 5554757995097495991, guid: b37f407d79fc4364ab4dd9a0364d5016,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5554757995097495991, guid: b37f407d79fc4364ab4dd9a0364d5016,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5554757995097495991, guid: b37f407d79fc4364ab4dd9a0364d5016,
         type: 3}
@@ -1645,12 +1646,22 @@ PrefabInstance:
     - target: {fileID: 5554757995097495991, guid: b37f407d79fc4364ab4dd9a0364d5016,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: SendMessage
+      objectReference: {fileID: 0}
+    - target: {fileID: 5554757995097495991, guid: b37f407d79fc4364ab4dd9a0364d5016,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.Component, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5554757995097495991, guid: b37f407d79fc4364ab4dd9a0364d5016,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: 
+      value: ChangeRoll
+      objectReference: {fileID: 0}
+    - target: {fileID: 5554757995097495991, guid: b37f407d79fc4364ab4dd9a0364d5016,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 9053360827266320800, guid: b37f407d79fc4364ab4dd9a0364d5016,
         type: 3}
