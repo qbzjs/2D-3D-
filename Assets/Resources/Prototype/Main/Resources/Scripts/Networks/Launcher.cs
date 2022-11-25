@@ -51,7 +51,7 @@ namespace KSH_Lib
         /*--- MonoBehaviour Callbacks ---*/
         private void Awake()
         {
-            PhotonNetwork.AutomaticallySyncScene = true;
+            PhotonNetwork.AutomaticallySyncScene = false;
             PhotonNetwork.GameVersion = Application.version;
             PhotonNetwork.SendRate = 60;
             PhotonNetwork.SerializationRate = 30;

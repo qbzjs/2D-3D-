@@ -80,7 +80,7 @@ namespace KSH_Lib
 				return flag;
             }
 		}
-		List<bool> isInitedList = new List<bool>();
+		[SerializeField]List<bool> isInitedList = new List<bool>();
 
 
 
@@ -135,7 +135,6 @@ namespace KSH_Lib
 				}
 			}
 		}
-
 		public void InitLocalRoleData()
         {
 			LocalPlayerData.roleData = roleInfos[(int)PreRoleName].Clone();
@@ -157,6 +156,17 @@ namespace KSH_Lib
 				{
 					playerDatas.Add( new PlayerData() );
 					isInitedList.Add( false );
+				}
+			}
+		}
+		public void InitPlayerDatasCustomRoom()
+		{
+			if (playerDatas.Count == 0)
+			{
+				for (int i = 0; i < GameManager.Instance.MaxPlayerCount; ++i)
+				{
+					playerDatas.Add(new PlayerData());
+					isInitedList.Add(false);
 				}
 			}
 		}
@@ -202,6 +212,11 @@ namespace KSH_Lib
 		{
 			photonView.RPC( "DisconnectAllDataRPC", RpcTarget.AllViaServer, PlayerIdx );
 		}
+		public void SetNullPlayerToReady()
+        {
+			photonView.RPC("SetNullPlayerToReady_RPC", RpcTarget.AllViaServer);
+		}
+	
 
 		/*--- Private Methods ---*/
 		bool SetRoleDatasFromCSV(string csvPath)
@@ -300,6 +315,17 @@ namespace KSH_Lib
 			isInitedList[idx] = isInited;
         }
 
+		[PunRPC]
+		void SetNullPlayerToReady_RPC()
+		{
+			for(int i = 0; i < isInitedList.Count; ++i)
+            {
+				if(playerDatas[i].roleData == null)
+                {
+					isInitedList[i] = true;
+                }
+            }
+		}
 
 
 		/***************************************************
@@ -325,7 +351,7 @@ namespace KSH_Lib
 		 *	DataManager.Instance.ShareRoleData();
 		 *	
 		 *	*****************************************/
-		
+
 
 
 

@@ -67,7 +67,7 @@ namespace LSH_Lib
 
         private void Update()
         {
-            if ( uiManager.IsJoinedRoom )
+            if (uiManager.IsJoinedRoom)
             {
                 InitializedPlayerImages();
                 ChangePlayerImage();
@@ -77,9 +77,19 @@ namespace LSH_Lib
                 {
                     if (PhotonNetwork.CurrentRoom.PlayerCount == 5)
                     {
-                        isFull = true;
+                        LoadRoomScene();
+                        //isFull = true;
+                        //if (isFull)
+                        //{
+                        //    LoadNextScene();
+                        //    isFull = false;
+                        //    return;
+                        //}
+                        //return;
+                        //LoadNextScene();
+                        //StartCoroutine(why());
                     }
-
+                    
                     if (skipButtonObj.activeInHierarchy == false)
                     {
                         skipButtonObj.SetActive(true);
@@ -87,7 +97,37 @@ namespace LSH_Lib
                 }
             }
         }
+        //IEnumerator IsJoinRoom()
+        //{
+        //    if (uiManager.IsJoinedRoom)
+        //    {
+        //        InitializedPlayerImages();
+        //        ChangePlayerImage();
+        //        ChangePlayerCountText();
 
+        //        if (PhotonNetwork.IsMasterClient)
+        //        {
+        //            if (PhotonNetwork.CurrentRoom.PlayerCount == 5)
+        //            {
+        //                //isFull = true;
+        //                //if(isFull)
+        //                //{
+        //                //    LoadNextScene();
+        //                //    isFull = false;
+        //                //    return;
+        //                //}
+        //                //return;
+        //                LoadNextScene();
+        //            }
+        //            LoadNextScene();
+        //            if (skipButtonObj.activeInHierarchy == false)
+        //            {
+        //                skipButtonObj.SetActive(true);
+        //            }
+        //        }
+        //    }
+        //    yield return new WaitForSeconds(1.0f);
+        //}
         public override void OnLeftRoom()
         {
             base.OnLeftRoom();
@@ -208,11 +248,27 @@ namespace LSH_Lib
         }
         void LoadNextScene()
         {
-            if (isFull)
-            {
-                OnSkipButtonClicked();
-            }
+            ////if(isFull)
+            ////{
+            ////    LoadRoomScene();
+            ////    isFull = false;
+            ////}
+            //isFull = true;
+            //if(isFull)
+            //{
+            //    LoadRoomScene();
+            //    return;
+            //}
+            //if(PhotonNetwork.CurrentRoom.PlayerCount == 5)
+            //{
+            //    StartCoroutine(why());
+            //}
         }
+        //IEnumerator why()
+        //{
+        //    yield return new WaitForSeconds(5.0f);
+        //    LoadRoomScene();
+        //}
         void LoadRoomScene()
         {
             //DataManager.Instance.InitLocalRoleData();
@@ -220,11 +276,7 @@ namespace LSH_Lib
             PhotonNetwork.CurrentRoom.IsOpen = false;
             GameManager.Instance.LoadPhotonScene(loadSceneName);
         }
-        //void OnLSHButtonClicked()
-        //{
-        //    loadSceneName = lshSceneName;
-        //    OnSkipButtonClicked();
-        //}
+        
         void InitializedPlayerImages()
         {
             for(var i = 0; i<playerLoadImgs.Length;++i)

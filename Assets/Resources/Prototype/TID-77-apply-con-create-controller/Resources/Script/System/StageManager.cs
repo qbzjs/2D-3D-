@@ -91,7 +91,7 @@ namespace GHJ_Lib
 		void Start()
 		{
 			DollCount = PhotonNetwork.CurrentRoom.PlayerCount - 1;
-
+			DataManager.Instance.SetNullPlayerToReady();
 			InitGenerateor();
 			GeneratePlayerCharacter();
 			if ( PhotonNetwork.IsMasterClient )

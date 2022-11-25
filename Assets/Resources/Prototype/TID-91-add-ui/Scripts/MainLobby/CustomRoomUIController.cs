@@ -19,6 +19,7 @@ namespace LSH_Lib
 {
 	public class CustomRoomUIController : MonoBehaviourPunCallbacks
 	{
+        [SerializeField] string loadSceneName;
         [SerializeField] LobbyUI_Manager uiManager;
 
         [Header("Popup Menu")]
@@ -36,6 +37,7 @@ namespace LSH_Lib
         [Header("In Room")]
         [SerializeField]
         GameObject invite;
+        
         
         
         void DisalbeAll()

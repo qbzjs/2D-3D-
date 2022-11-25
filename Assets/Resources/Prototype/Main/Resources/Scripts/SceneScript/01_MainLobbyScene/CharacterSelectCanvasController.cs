@@ -471,6 +471,7 @@ namespace KSH_Lib.UI
             }
         }
 
+
         public void OnPhotonSerializeView( PhotonStream stream, PhotonMessageInfo info )
         {
         }
