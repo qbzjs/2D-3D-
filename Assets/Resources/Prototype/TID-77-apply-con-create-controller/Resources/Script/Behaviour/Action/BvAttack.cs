@@ -39,6 +39,10 @@ namespace GHJ_Lib
                     doll.DoActionBy(Attack);
                     doll.ChangeBvToGetHit();
                     actor.BaseAnimator.SetBool("IsAttack", false);
+                    if (actor.IsMine)
+                    {
+                        EffectManager.Instance.ShowBloodOnCamera(attackArea.BloodImages[Random.Range(0, attackArea.BloodImages.Length-1)]);
+                    }
                 }
                 else if (animatorStateInfo.normalizedTime >= attackTime)
                 {
