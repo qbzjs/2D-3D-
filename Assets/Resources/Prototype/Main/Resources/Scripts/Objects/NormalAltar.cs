@@ -19,6 +19,8 @@ namespace KSH_Lib.Object
         [SerializeField] float finalIntensity = 50.0f;
         [SerializeField] float increaseIntensity = 10.0f;
 
+        [SerializeField] MeshRenderer meshRenderer;
+
         public override bool CanInteract
         {
             get => !castingSystem.IsCoroutineRunning;
@@ -37,6 +39,7 @@ namespace KSH_Lib.Object
             //finishLight.SetActive(false);
             altarLight.intensity = 0.0f;
             distribution = 1.0f / (float)(candleLights.Length);
+
         }
 
         bool DollRunningCondition()

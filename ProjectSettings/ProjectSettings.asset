@@ -129,13 +129,15 @@ PlayerSettings:
   vulkanEnableLateAcquireNextImage: 0
   vulkanEnableCommandBufferRecycling: 1
   m_SupportedAspectRatios:
-    4:3: 0
-    5:4: 0
-    16:10: 0
+    4:3: 1
+    5:4: 1
+    16:10: 1
     16:9: 1
-    Others: 0
-  bundleVersion: 0.4.1-alpha
+    Others: 1
+  bundleVersion: 0.4.0-alpha
   preloadedAssets:
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -276,54 +278,54 @@ PlayerSettings:
   AndroidValidateAppBundleSize: 1
   AndroidAppBundleSizeToValidate: 150
   m_BuildTargetIcons:
+  - m_BuildTarget: 
+    m_Icons:
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: ae2aa9fb51f5b154aa46015bb1fb0a7c, type: 3}
+      m_Width: 128
+      m_Height: 128
+      m_Kind: 0
   - m_BuildTarget: Standalone
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 7ec4bac844a5a91448e7eb300e735183, type: 3}
+      m_Icon: {fileID: 2800000, guid: ae2aa9fb51f5b154aa46015bb1fb0a7c, type: 3}
       m_Width: 1024
       m_Height: 1024
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 7ec4bac844a5a91448e7eb300e735183, type: 3}
+      m_Icon: {fileID: 2800000, guid: ae2aa9fb51f5b154aa46015bb1fb0a7c, type: 3}
       m_Width: 512
       m_Height: 512
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 7ec4bac844a5a91448e7eb300e735183, type: 3}
+      m_Icon: {fileID: 2800000, guid: ae2aa9fb51f5b154aa46015bb1fb0a7c, type: 3}
       m_Width: 256
       m_Height: 256
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 7ec4bac844a5a91448e7eb300e735183, type: 3}
+      m_Icon: {fileID: 2800000, guid: ae2aa9fb51f5b154aa46015bb1fb0a7c, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 7ec4bac844a5a91448e7eb300e735183, type: 3}
+      m_Icon: {fileID: 2800000, guid: ae2aa9fb51f5b154aa46015bb1fb0a7c, type: 3}
       m_Width: 64
       m_Height: 64
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 7ec4bac844a5a91448e7eb300e735183, type: 3}
+      m_Icon: {fileID: 2800000, guid: ae2aa9fb51f5b154aa46015bb1fb0a7c, type: 3}
       m_Width: 48
       m_Height: 48
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 7ec4bac844a5a91448e7eb300e735183, type: 3}
+      m_Icon: {fileID: 2800000, guid: ae2aa9fb51f5b154aa46015bb1fb0a7c, type: 3}
       m_Width: 32
       m_Height: 32
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 7ec4bac844a5a91448e7eb300e735183, type: 3}
+      m_Icon: {fileID: 2800000, guid: ae2aa9fb51f5b154aa46015bb1fb0a7c, type: 3}
       m_Width: 16
       m_Height: 16
-      m_Kind: 0
-  - m_BuildTarget: 
-    m_Icons:
-    - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 7ec4bac844a5a91448e7eb300e735183, type: 3}
-      m_Width: 128
-      m_Height: 128
       m_Kind: 0
   m_BuildTargetPlatformIcons:
   - m_BuildTarget: iPhone

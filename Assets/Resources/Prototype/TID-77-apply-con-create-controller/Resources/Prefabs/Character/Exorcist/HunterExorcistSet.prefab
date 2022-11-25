@@ -18984,6 +18984,8 @@ MonoBehaviour:
   CoolDowntime: 0
   photonView: {fileID: 4338371689060099433}
   CrossStackSpeedUpRate: 0.2
+  environmentLayer: 0
+  CameraLayer: 0
 --- !u!1 &4263723880147710835
 GameObject:
   m_ObjectHideFlags: 0
@@ -21288,6 +21290,7 @@ GameObject:
   - component: {fileID: 8370666837667317931}
   - component: {fileID: 8660935315285977481}
   - component: {fileID: 8589422641747266009}
+  - component: {fileID: 9152457489196281586}
   m_Layer: 7
   m_Name: HunterExorcist
   m_TagString: Exorcist
@@ -21550,6 +21553,19 @@ MonoBehaviour:
   <pickUpArea>k__BackingField: {fileID: 7833536140955860914}
   <attackArea>k__BackingField: {fileID: 2569236917105950495}
   InteractObject: {fileID: 0}
+--- !u!114 &9152457489196281586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7634286343286564458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bd72437ea02dca49a20b4c36cb02d8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: {fileID: 0}
 --- !u!1 &7708037418563653430
 GameObject:
   m_ObjectHideFlags: 0
@@ -24099,6 +24115,11 @@ PrefabInstance:
       propertyPath: camTarget
       value: 
       objectReference: {fileID: 7724858755544314335}
+    - target: {fileID: 7580860024113969238, guid: 60e5f7259c0dbfb40a7bad86d06a4774,
+        type: 3}
+      propertyPath: <initAngleY>k__BackingField
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60e5f7259c0dbfb40a7bad86d06a4774, type: 3}
 --- !u!4 &3867316686142468674 stripped

@@ -93,7 +93,7 @@ namespace GHJ_Lib
         {
             Controller.AllocSkill(sk_CollectTrap);
         }
-        protected override IEnumerator ExcuteActiveSkill()
+        public override IEnumerator ExcuteActiveSkill()
         {
             if (isUse)
             {
@@ -102,7 +102,7 @@ namespace GHJ_Lib
             isUse = true;
             while (true)
             {
-                
+                Debug.Log("Trap");
                 yield return new WaitForEndOfFrame();
                 if (!isUse)
                 {

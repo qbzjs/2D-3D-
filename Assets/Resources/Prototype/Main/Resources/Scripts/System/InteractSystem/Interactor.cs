@@ -78,13 +78,17 @@ namespace KSH_Lib.Object
                 }
                 else
                 {
-                    interactionPromptUI.Inactivate();
+                    Interactable.InactiveInteractPrompt( interactionPromptUI );
                 }
             }
             else
             {
-                Interactable = null;
-                interactionPromptUI.Inactivate();
+                if(Interactable!= null)
+                {
+                    Interactable.InactiveInteractPrompt( interactionPromptUI );
+                    Interactable = null;
+                }
+                //interactionPromptUI.Inactivate();
             }
         }
         protected virtual void TryFindInteractable()

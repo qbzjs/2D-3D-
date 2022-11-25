@@ -18,9 +18,6 @@ namespace KSH_Lib
 {
     public class LobbyUI_Manager : MonoBehaviourPunCallbacks
     {
-        //public static LobbyUI_Manager Instace { get { return instance; } }
-
-        //private static LobbyUI_Manager instance;
         public enum RoomType { Null, QuickMatch, Custom }
 
         /*--- Serialized Fields ---*/
@@ -37,6 +34,7 @@ namespace KSH_Lib
         Canvas searchCustomCanvas;
         [SerializeField]
         Canvas informationCanvas;
+        [SerializeField] CanvasGroup mainCanvasGroup;
 
 
         [Header( "MainLobby Buttons UI" )]
@@ -80,20 +78,6 @@ namespace KSH_Lib
         [SerializeField]
         TextMeshProUGUI roleTextTMP;
 
-        //[Header("Matching UI")]
-        //[SerializeField]
-        //private string loadSceneName = "02_MainGameScene";
-        //[SerializeField]
-        //private TextMeshProUGUI userCntTMP;
-        //[SerializeField]
-        //private Sprite refPlayerOnSprite;
-        //[SerializeField]
-        //private Sprite refPlayerOffSprite;
-        //[SerializeField]
-        //private Image[] playerLoadImgs;
-        //[SerializeField]
-        //private GameObject cancelButtonObj;
-
 
         [Header( "CustomRoom UI" )]
         [SerializeField]
@@ -102,26 +86,11 @@ namespace KSH_Lib
         TextMeshProUGUI actionButtonTMP;
 
 
-        //[Header("Debug Only")]
-        //[SerializeField]
-        //private GameObject skipButtonObj;
-        //[SerializeField]
-        //private GameObject lshSkipButtonObj;
-        //[SerializeField]
-        //private GameObject kshSkipButtonObj;
-
         [Header( "For Debug" )]
         public TextMeshProUGUI RoomNameTMP;
-        //[SerializeField] public string roomName = "Debug";
         public RoomType roomType;
 
         string roomName = "MainTest";
-
-        //[SerializeField]
-        //string lshSceneName = "";
-        //[SerializeField]
-        //string kshSceneName = "";
-
 
         /*--- Private Fields ---*/
         public bool IsJoinedRoom { get; private set; }
@@ -132,7 +101,8 @@ namespace KSH_Lib
         /*--- MonoBehaviour Callbacks ---*/
         private void Start()
         {
-
+            mainCanvasGroup.alpha = 0.0f;
+            mainCanvasGroup.LeanAlpha(1.0f, 1.0f);
             EnableCanvasObjects();
             DisableCanvasesAll();
             mainLobbyCanvas.enabled = true;
@@ -514,6 +484,10 @@ namespace KSH_Lib
             //GameManager.Instance.Data.ChangeRole( RoleType.Doll );
         }
 
+        void QuitApplication()
+        {
+            Application.Quit();
+        }
     }
 
 }

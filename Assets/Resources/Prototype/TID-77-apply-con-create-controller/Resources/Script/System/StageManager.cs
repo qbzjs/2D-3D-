@@ -121,7 +121,7 @@ namespace GHJ_Lib
 
 			DataManager.Instance.ShareAllData();
 
-			LocalController.TPVCam.SetAxis( new Vector2( rotateSpeed, 0 ) );
+			LocalController.TPVCam.SetAxis( new Vector2( rotateSpeed, 0.0f ) );
 			while ( true )
 			{
 				if ( DataManager.Instance.IsAllClientInited )
@@ -243,9 +243,9 @@ namespace GHJ_Lib
 		void DecreseDollCountRPC()
         {
 			--DollCount;
-			if (DollCount == 2 && exitAltar.ExitAltarModel.activeInHierarchy==false)
+			if (DollCount == 1 && exitAltar.ExitAltarModel.activeInHierarchy==false)
 			{
-				exitAltar.EnableExitAltar();
+				exitAltar.OpenExitAltar();
 			}
 
 			if ( DollCount < 1 )
@@ -310,7 +310,8 @@ namespace GHJ_Lib
 			int clientIdx = DataManager.Instance.PlayerIdx;
 			GameObject targetPrefab;
 
-			if (clientIdx == 0)
+			//if (clientIdx == 0)
+			if(DataManager.Instance.LocalPlayerData.roleData.Group == KSH_Lib.Data.RoleData.RoleGroup.Exorcist)
 			{
 				targetPrefab = ExorcistPrefabs[(int)DataManager.Instance.GetLocalRoleType];
 				exorcistUI.gameObject.SetActive(true);

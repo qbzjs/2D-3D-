@@ -21,7 +21,11 @@ namespace KSH_Lib
         [field: SerializeField] public float DecreaseRate { get; protected set; }
         [field: SerializeField] public float CoolTime { get; protected set; }
 
-
+        [SerializeField] MeshRenderer _meshRenderer;
+        [SerializeField] Material outlineMaterialPrefab;
+        Material[] originMats;
+        Material[] outlinedMats;
+ 
         [Header( "Debug Only" )]
         [SerializeField] protected float RateOfGauge;
         public float OriginGauge { get { return RateOfGauge * MaxGauge; } }
@@ -31,9 +35,14 @@ namespace KSH_Lib
         public GameObject GetGameObject => gameObject;
         public virtual bool CanInteract { get => !castingSystem.IsCoroutineRunning; }
         protected NetworkBaseController targetController;
-
+        int defaultMatrialCounts;
+        bool isOutlined = false;
 
         /*--- MonoBehaviour Callbacks ---*/
+        private void Start()
+        {
+            InitMaterials();
+        }
         protected virtual void OnEnable()
         {
             if ( castingSystem == null )
@@ -61,6 +70,7 @@ namespace KSH_Lib
             if(!CanInteract)
             {
                 promptUI.Inactivate();
+                ActiveOutlineEffect( false );
                 return false;
             }
 
@@ -68,6 +78,7 @@ namespace KSH_Lib
             if ( controller == null )
             {
                 promptUI.Inactivate();
+                ActiveOutlineEffect( false );
                 return false;
             }
             if ( !controller.IsMine )
@@ -83,22 +94,63 @@ namespace KSH_Lib
             return true;
         }
 
+        void InitMaterials()
+        {
+            defaultMatrialCounts = _meshRenderer.materials.Length;
+
+            originMats = _meshRenderer.materials;
+            outlinedMats = new Material[defaultMatrialCounts + 1];
+            for ( int i = 0; i < defaultMatrialCounts; ++i )
+            {
+                outlinedMats[i] = _meshRenderer.materials[i];
+            }
+            outlinedMats[defaultMatrialCounts] = outlineMaterialPrefab;
+        }
 
         /*--- IInteractable Interfaces ---*/
         public virtual bool ActiveInteractPrompt( Interactor interactor, InteractionPromptUI promptUI )
         {
             if(!CheckController(interactor, promptUI))
             {
+                ActiveOutlineEffect( false );
                 return false;
             }
             if(!CheckAdditionalCondition( promptUI ) )
             {
+                ActiveOutlineEffect( false );
                 return false;
             }
             promptUI.Activate( prompt );
+            ActiveOutlineEffect( true );
             return true;
         }
+        public void InactiveInteractPrompt( InteractionPromptUI promptUI )
+        {
+            promptUI.Inactivate();
+            ActiveOutlineEffect( false );
+        }
         public abstract bool Interact( Interactor interactor );
+
+        void ActiveOutlineEffect(bool isActive)
+        {
+            if(isActive)
+            {
+                if( !isOutlined )
+                {
+                    _meshRenderer.materials = outlinedMats;
+                    isOutlined = true;
+                }
+            }
+            else
+            {
+                if( isOutlined )
+                {
+                    _meshRenderer.materials = originMats;
+                    isOutlined = false;
+                }
+            }
+        }
+
 
         /*--- IPunObservable Interfaces ---*/
         public void OnPhotonSerializeView( PhotonStream stream, PhotonMessageInfo info )
@@ -116,5 +168,6 @@ namespace KSH_Lib
         {
             IsExorcistInteracting = interacting;
         }
+
     }
 }

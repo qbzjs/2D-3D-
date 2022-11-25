@@ -33,6 +33,8 @@ namespace KSH_Lib
         protected bool activeAccel = true;
 
         [Header("Limit Setting")]
+        [SerializeField] bool canControlAxisY = true;
+        [field: SerializeField] public float initAngleY { get; protected set; }
         [SerializeField]
         protected float minAngleY = -40.0f;
         [SerializeField]
@@ -109,7 +111,7 @@ namespace KSH_Lib
 
         public void ResetCamTarget(float resetTime)
         {
-            camTarget.LeanRotate(new Vector3(0.0f, 0.0f, 0.0f), resetTime);
+            camTarget.LeanRotate(new Vector3(initAngleY, 0.0f, 0.0f), resetTime);
         }
 
         /*--- Protected Methods ---*/
@@ -120,9 +122,12 @@ namespace KSH_Lib
             {
                 camAxisRaw.x = -camAxisRaw.x;
             }
-            if ( isInvertVertical )
+            if(canControlAxisY)
             {
-                camAxisRaw.y = -camAxisRaw.y;
+                if (isInvertVertical)
+                {
+                    camAxisRaw.y = -camAxisRaw.y;
+                }
             }
         }
 
@@ -153,13 +158,29 @@ namespace KSH_Lib
 
             angles = camTarget.transform.eulerAngles;
             float angleVertical = angles.x;
-            if ( angleVertical >= maxAngleY && angleVertical <= 180.0f )
+
+            if (canControlAxisY)
             {
-                camTarget.transform.eulerAngles = new Vector3( maxAngleY, angles.y, angles.z );
-            }
-            else if ( angleVertical <= 360.0f + minAngleY && angleVertical >= 180.0f )
-            {
-                camTarget.transform.eulerAngles = new Vector3( 360.0f + minAngleY, angles.y, angles.z );
+                if (angleVertical >= 0.0f && angleVertical <= 180.0f)
+                {
+                    float limitAngle = Mathf.Clamp(angleVertical, minAngleY, maxAngleY);
+                    camTarget.transform.eulerAngles = new Vector3(limitAngle, angles.y, angles.z);
+                }
+                else
+                {
+                    float limitAngle = Mathf.Clamp(angleVertical, minAngleY + 360.0f, maxAngleY + 360.0f);
+                    camTarget.transform.eulerAngles = new Vector3(limitAngle + 360.0f, angles.y, angles.z);
+                }
+
+
+                //if (angleVertical >= maxAngleY && angleVertical <= 180.0f)
+                //{
+                //    camTarget.transform.eulerAngles = new Vector3(maxAngleY, angles.y, angles.z);
+                //}
+                //else if (angleVertical <= 360.0f + minAngleY && angleVertical >= 180.0f)
+                //{
+                //    camTarget.transform.eulerAngles = new Vector3(360.0f + minAngleY, angles.y, angles.z);
+                //}
             }
         }
 

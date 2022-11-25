@@ -51,7 +51,7 @@ namespace LSH_Lib
 
         //bool isJoinedRoom = false;
         CharacterSelectCanvasController charaSelectCanvasController;
-
+        bool isFull = false;
 
         private void Start()
         {
@@ -77,7 +77,7 @@ namespace LSH_Lib
                 {
                     if (PhotonNetwork.CurrentRoom.PlayerCount == 5)
                     {
-                        LoadRoomScene();
+                        isFull = true;
                     }
 
                     if (skipButtonObj.activeInHierarchy == false)
@@ -206,7 +206,13 @@ namespace LSH_Lib
         {
             LoadRoomScene();
         }
-
+        void LoadNextScene()
+        {
+            if (isFull)
+            {
+                OnSkipButtonClicked();
+            }
+        }
         void LoadRoomScene()
         {
             //DataManager.Instance.InitLocalRoleData();
