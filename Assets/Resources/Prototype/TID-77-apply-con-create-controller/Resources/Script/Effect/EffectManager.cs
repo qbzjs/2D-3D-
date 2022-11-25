@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-
+using UnityEngine.UI;
+using KSH_Lib.Data;
+using KSH_Lib;
+using KSH_Lib.Object;
 namespace GHJ_Lib
 {
 	public class EffectManager : MonoBehaviour
@@ -21,9 +24,11 @@ namespace GHJ_Lib
 			}
 		}
 
+		[SerializeField] List<Image> BloodImages = new List<Image>();
 		[SerializeField] static protected LayerMask enviromentLayer;
 		WaitForEndOfFrame frame = new WaitForEndOfFrame();
 		WaitForSeconds second = new WaitForSeconds(1.0f);
+		RectTransform UI_RectTransform;
 		private void Start()
         {
 			enviromentLayer = LayerMask.NameToLayer(GameManager.EnvironmentLayer);
@@ -77,10 +82,76 @@ namespace GHJ_Lib
 			}
 		}
 
-		public static void ShowEffectOnCamera()
+
+		public void ShowBloodOnCamera(Image BloodSprite)
 		{
+
+			Image bloodImage = Instantiate(BloodSprite);
+			bloodImage.transform.SetParent(StageManager.Instance.exorcistUI.transform);
+			bloodImage.transform.SetSiblingIndex(0);
+
 			
+			if (UI_RectTransform == null)
+			{
+				if (DataManager.Instance.LocalPlayerData.roleData is ExorcistData)
+				{
+					UI_RectTransform = StageManager.Instance.exorcistUI.GetComponent<RectTransform>();
+					Debug.Log($"UI_RectTransform : {UI_RectTransform.name}");
+				}
+				else
+				{
+					Debug.LogError("this Method Only Call Exorcist : Effectmanager.ShowBloodOnCamera");
+					return;
+				}
+			}
+			
+
+			bloodImage.rectTransform.position
+			   = new Vector3(
+				   Random.Range(-UI_RectTransform.rect.width / 2 + bloodImage.rectTransform.rect.width / 2, UI_RectTransform.rect.width / 2 - bloodImage.rectTransform.rect.width / 2),
+				   Random.Range(-UI_RectTransform.rect.height / 2 + bloodImage.rectTransform.rect.height / 2, UI_RectTransform.rect.height / 2 - bloodImage.rectTransform.rect.height / 2),
+				   0
+			   );
+			StartCoroutine(BloodImageDestroy(bloodImage));
 		}
+		public void ShowBloodOnCamera(Image BloodSprite, RectTransform rectTransform)
+		{
+			Image bloodImage = Instantiate(BloodSprite);
+			bloodImage.transform.SetParent(rectTransform.gameObject.transform);
+			bloodImage.transform.SetSiblingIndex(0);
+
+			Debug.Log(-rectTransform.rect.width + bloodImage.rectTransform.rect.width / 2);
+			Debug.Log(rectTransform.rect.width - bloodImage.rectTransform.rect.width / 2);
+			Debug.Log(-rectTransform.rect.height + bloodImage.rectTransform.rect.height / 2);
+			Debug.Log(rectTransform.rect.height - bloodImage.rectTransform.rect.height / 2);
+			bloodImage.rectTransform.localPosition
+			   = new Vector3(
+				   Random.Range(-rectTransform.rect.width/2 + bloodImage.rectTransform.rect.width / 2, rectTransform.rect.width/2 - bloodImage.rectTransform.rect.width / 2),
+				   Random.Range(-rectTransform.rect.height/2 + bloodImage.rectTransform.rect.height / 2, rectTransform.rect.height/2 - bloodImage.rectTransform.rect.height / 2),
+				   rectTransform.position.z
+			   );
+			StartCoroutine(BloodImageDestroy(bloodImage));
+		}
+
+
+
+			IEnumerator BloodImageDestroy(Image bloodImage)
+		{
+			Color curColor = bloodImage.color;
+			while (true)
+			{
+				curColor.a -= Time.deltaTime * 0.2f;
+				bloodImage.color = curColor;
+				yield return frame;
+				if (curColor.a <= 0)
+				{
+					Destroy(bloodImage.gameObject);
+					break;
+				}
+
+			}
+		}
+
 
 		public void Bleed()
 		{

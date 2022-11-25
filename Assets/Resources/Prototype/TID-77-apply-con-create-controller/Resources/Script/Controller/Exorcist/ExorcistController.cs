@@ -17,14 +17,15 @@ namespace GHJ_Lib
 		[field: SerializeField] public PickUpArea pickUpArea { get; protected set; }
 		[field: SerializeField] public AttackArea attackArea { get; protected set; }
 
-		protected GameObject caughtDoll;
 		public GameObject InteractObject;
+		protected GameObject caughtDoll;
 
 		// Behaviors
 		protected BvAttack attack = new BvAttack();
 		protected BvCatch catchDoll = new BvCatch();
 		protected BvImprison imprison = new BvImprison();
 
+		
 
 		//[SerializeField] Transform headPos;
 
