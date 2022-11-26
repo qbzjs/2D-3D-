@@ -164,7 +164,7 @@ namespace GHJ_Lib
 
 		public virtual IEnumerator UnHide()
 		{
-			yield return GameManager.Instance.WaitOneS;
+			yield return GameManager.Instance.WaitZeroPointFiveS;
             ChangeBehaviorTo( BehaviorType.Idle );
             //Transform modelTrans = characterModel.transform;
             //float rotZ = modelTrans.localRotation.eulerAngles.z;
