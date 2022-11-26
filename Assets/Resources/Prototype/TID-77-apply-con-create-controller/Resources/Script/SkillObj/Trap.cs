@@ -12,11 +12,11 @@ namespace GHJ_Lib
         [Header("Trap Setting")]
         [SerializeField] protected float ExitTrapVel = 8.3f;
         [SerializeField] protected float ClearTrapVel = 4.2f;
-        [SerializeField] protected string CollectText = "G : Collect Trap";
+        protected string CollectText = "Push SkillButton To Collect Trap";
         [SerializeField] protected SphereCollider sphereCollider;
         [SerializeField] protected Animator animator;
         protected float collectTime = 1.0f;
-        protected bool isCatchDoll =false;
+        [SerializeField] protected bool isCatchDoll =false; //serializeField는 다시 빼야함
 
         float ExitTrapRatio;
         float ClearTrapRatio;

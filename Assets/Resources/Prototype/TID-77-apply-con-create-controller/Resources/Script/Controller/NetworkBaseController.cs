@@ -219,6 +219,33 @@ namespace GHJ_Lib
 			return false;
 		}
 
+		public virtual bool IsWatching(string tag, out GameObject obj)
+		{
+			if (photonView.IsMine)
+			{
+				RaycastHit[] hits;
+				Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width, Screen.height) / 2);
+
+				float maxDist = 10.0f;
+
+				hits = Physics.RaycastAll(ray, maxDist);
+				foreach (var hit in hits)
+				{
+					if (hit.collider.CompareTag(tag))
+					{
+						obj = hit.collider.gameObject;
+						return true;
+					}
+				}
+				obj = null;
+				return false;
+
+				//if ( Physics.Raycast( ray, out hit, maxDist, LayerMask.NameToLayer("Environment"), QueryTriggerInteraction.Ignore ) )
+			}
+			obj = null;
+			return false;
+		}
+
 		public virtual bool IsWatching(GameObject gameObject)
 		{
 			if (photonView.IsMine)

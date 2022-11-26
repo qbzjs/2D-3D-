@@ -31,6 +31,7 @@ namespace GHJ_Lib
 		bool IsNotice = false;
 		string NoticeTextUninstallArea = "This Area Can't install!!";
 		string NoticeTextAlreadyInstallCrossAround = "you already install cross around";
+		string NoticeTextIsWatingCross = "Push SkillButton to Collect";
 		WaitForSeconds noticeTime = new WaitForSeconds(1.0f);
 		protected override void OnEnable()
 		{
@@ -72,8 +73,16 @@ namespace GHJ_Lib
         /*---Skill---*/
         public override void DecideActiveSkill()
         {
-			
-        }
+			GameObject targetObj;
+			if (Controller.IsWatching(GameManager.CollectTriggerTag, out targetObj) && Vector3.ProjectOnPlane((targetObj.transform.position - transform.position), Vector3.up).sqrMagnitude < CollectRange * CollectRange)
+			{
+				interactionPromptUI.Activate(NoticeTextIsWatingCross);
+			}
+			else
+			{
+				interactionPromptUI.Inactivate();
+			}
+		}
         public override bool CanActiveSkill()
 		{
 			Collider[] UninstallZones = new Collider[1];

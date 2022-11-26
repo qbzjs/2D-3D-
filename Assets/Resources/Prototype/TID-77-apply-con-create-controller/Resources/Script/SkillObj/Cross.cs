@@ -63,7 +63,6 @@ namespace GHJ_Lib
         {
             if (targetController is ExorcistController)
             {
-                promptUI.Inactivate();
                 return false;
             }
             else if (targetController is DollController)
