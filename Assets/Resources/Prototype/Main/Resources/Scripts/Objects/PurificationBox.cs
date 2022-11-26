@@ -66,6 +66,7 @@ namespace KSH_Lib.Object
         {
             if (targetController.gameObject.CompareTag(GameManager.DollTag))
             {
+                targetController.InteractType = GaugedObjType.PurificationBox;
                 targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Interact);
                 IsInteracting = true;
                 photonView.RPC("ShareInteractingInPurificationBox_RPC", RpcTarget.AllViaServer, IsInteracting );
@@ -100,7 +101,7 @@ namespace KSH_Lib.Object
             castingSystem.ResetCasting();
             IsInteracting = false;
             photonView.RPC( "ShareInteractingInPurificationBox_RPC", RpcTarget.AllViaServer, IsInteracting );
-
+            
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
         }
         void ExorcistFinishAction()
@@ -119,6 +120,7 @@ namespace KSH_Lib.Object
         public void DollFinishAction()
         {
             photonView.RPC( "ShareDustEffect", RpcTarget.All, false );
+
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 
             DollInBox.EscapeFrom( transform, LayerMask.NameToLayer( "Player" ) );

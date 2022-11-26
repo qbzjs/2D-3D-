@@ -17,7 +17,9 @@ namespace GHJ_Lib
                 DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.GetHit );
                 (actor as DollController).ShowHitEffect();
             }
-            actor.BaseAnimator.Play("Hit");
+            // >> Changed By KSH 22.11.26
+            //actor.BaseAnimator.Play("Hit");
+            actor.BaseAnimator.SetTrigger( "GetHit" );
 
             if (actor.photonView.IsMine)
             {

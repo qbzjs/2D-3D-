@@ -13,7 +13,8 @@ namespace GHJ_Lib
             {
                 DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.BePurifying );
             }
-            actor.BaseAnimator.Play("Fear");
+            //actor.BaseAnimator.Play("Fear");
+            actor.BaseAnimator.SetBool("IsPurifying", true);
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
             if ( actor.IsMine )
             {
@@ -27,7 +28,8 @@ namespace GHJ_Lib
 
             if (Bv is BvEscape)
             {
-                actor.BaseAnimator.Play("Idle_A");
+                //actor.BaseAnimator.Play("Idle_A");
+                actor.BaseAnimator.SetBool("IsPurifying", false);
                 if ( actor.IsMine )
                 {
                     (DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP += (DataManager.Instance.RoleInfos[actor.TypeIndex] as DollData).DollHP * 0.25f;
@@ -45,7 +47,8 @@ namespace GHJ_Lib
 
                 if ( dollData.DevilHP < 0.0f )
                 {
-                    actor.BaseAnimator.Play( "Idle_A" );
+                    actor.BaseAnimator.SetBool("IsPurifying", false);
+                    //actor.BaseAnimator.Play( "Idle_A" );
                     actor.BecomeGhost();
                     return new BvIdle();
                 }

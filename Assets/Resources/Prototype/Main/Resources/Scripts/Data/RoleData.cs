@@ -116,7 +116,14 @@ namespace KSH_Lib.Data
 			}
         }
 
-
+		public virtual float GetDollHP()
+        {
+			return 0.0f;
+        }
+        public virtual float GetDevilHP()
+        {
+            return 0.0f;
+        }
         //public int Score
         //      {
         //	get { return roleScore.GetRoleScore();  }

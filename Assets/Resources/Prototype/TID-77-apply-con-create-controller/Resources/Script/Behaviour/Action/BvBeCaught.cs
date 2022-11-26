@@ -14,6 +14,7 @@ namespace GHJ_Lib
             }
             //resistGauge = 0.0f;
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
+            actor.BaseAnimator.SetBool("IsCaught", true);
             if (actor.IsMine)
             { 
                 actor.CurCam.ActiveCameraControl(true);
@@ -39,6 +40,7 @@ namespace GHJ_Lib
             Behavior<NetworkBaseController> Bv =  PassIfHasSuccessor();
             if (Bv is BvBePurifying)
             {
+                actor.BaseAnimator.SetBool("IsCaught", false);
                 return Bv;
             }
 

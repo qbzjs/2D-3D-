@@ -45,6 +45,7 @@ namespace GHJ_Lib
 
 		public int TypeIndex { get; protected set; }
 		public int PlayerIndex { get; protected set; }
+		public RoleData GetRoleInfo { get { return DataManager.Instance.RoleInfos[TypeIndex]; } }
 		public bool IsMine { get { return photonView.IsMine; } }
 		public BaseCameraController FPVCam { get { return fpvCam; } }
 		public BaseCameraController TPVCam { get { return tpvCam; } }
@@ -57,16 +58,14 @@ namespace GHJ_Lib
 
 		[field: SerializeField] public Animator BaseAnimator { get; protected set; }
 
-		[Header( "Camera Settings" )]
+		[Header("Camera Settings")]
 		[SerializeField]
 		protected KSH_Lib.FPV_CameraController fpvCam;
 		[SerializeField]
 		protected TPV_CameraController tpvCam;
 		public BaseCameraController CurCam { get; protected set; }
 
-		[Header( "Interactor" )]
-		[SerializeField]
-		protected Interactor interactor;
+		[field: SerializeField] public Interactor interactor { get; protected set; }
 		//move ¿©ºÎ
 		public delegate void DelPlayerInput();
 		protected DelPlayerInput SetDirectionFunc;
@@ -74,6 +73,8 @@ namespace GHJ_Lib
 
 		//skill Component
 		public BaseSkill skill;
+
+		public GaugedObj.GaugedObjType InteractType;
 
 
 		/*--- MonoBehaviour Callbacks ---*/

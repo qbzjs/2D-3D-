@@ -8,7 +8,6 @@ namespace GHJ_Lib
 {
 	public class BvHide: Behavior<NetworkBaseController>
 	{
-
         protected override void Activate(in NetworkBaseController actor)
         {
             if ( actor.IsMine )
@@ -23,8 +22,10 @@ namespace GHJ_Lib
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
 
             if (actor.photonView.IsMine)
-            { 
-                actor.StartCoroutine("Hide");
+            {
+                // >> Changed By KSH 22.11.26
+                //actor.StartCoroutine("Hide");
+                actor.BaseAnimator.SetBool( "IsHide", true );
             }
         }
 
@@ -38,6 +39,8 @@ namespace GHJ_Lib
             {
                 if (Input.GetKeyDown(KeyCode.B))
                 {
+                    // >> Changed By KSH 22.11.26
+                    actor.BaseAnimator.SetBool( "IsHide", false );
                     actor.StartCoroutine("UnHide");
                 }
             }

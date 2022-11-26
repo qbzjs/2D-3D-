@@ -1859,11 +1859,11 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4358257972407204485}
   m_Enabled: 0
-  m_Avatar: {fileID: 9000000, guid: 19fbc6433c996574eb80fb6d445e9968, type: 3}
-  m_Controller: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: 33b8aa39b678ed04ebe408522c2e6dfc, type: 3}
+  m_Controller: {fileID: 9100000, guid: 23331aa60ca5285498a7216ae23de9cb, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -2318,8 +2318,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5171643521589291903}
-  - component: {fileID: 5171643521589291889}
   - component: {fileID: 8717308325710325274}
+  - component: {fileID: 5171643521589291889}
   - component: {fileID: 908168064620427567}
   - component: {fileID: 6962742835767228993}
   - component: {fileID: 8379097947852130464}
@@ -2342,7 +2342,7 @@ Transform:
   m_GameObject: {fileID: 5171643521589291900}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4358257972407690917}
@@ -2351,6 +2351,26 @@ Transform:
   m_Father: {fileID: 1730359088119838669}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &8717308325710325274
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5171643521589291900}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 33b8aa39b678ed04ebe408522c2e6dfc, type: 3}
+  m_Controller: {fileID: 9100000, guid: 23331aa60ca5285498a7216ae23de9cb, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!143 &5171643521589291889
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2368,27 +2388,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.86, z: 0}
---- !u!95 &8717308325710325274
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5171643521589291900}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 33b8aa39b678ed04ebe408522c2e6dfc, type: 3}
-  m_Controller: {fileID: 9100000, guid: aeb7934a4e4dd6e41b63be6f20e08d51, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_Center: {x: 0, y: 0.79, z: 0}
 --- !u!114 &908168064620427567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2444,6 +2444,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: IsInteract
+  - Type: 9
+    SynchronizeType: 0
+    Name: GetHit
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -2519,8 +2522,9 @@ MonoBehaviour:
   <BaseAnimator>k__BackingField: {fileID: 8717308325710325274}
   fpvCam: {fileID: 469547170536019050}
   tpvCam: {fileID: 61794249373964336}
-  interactor: {fileID: 4421111087651401267}
+  <interactor>k__BackingField: {fileID: 0}
   skill: {fileID: 2523616179706623431}
+  InteractType: 0
   trapInteractor: {fileID: 1433995716468315733}
   skinnedMeshRenderer: {fileID: 0}
   ghostMaterial: {fileID: 2100000, guid: cc5b58807daaf1c46a2ad51fcab6368a, type: 2}
