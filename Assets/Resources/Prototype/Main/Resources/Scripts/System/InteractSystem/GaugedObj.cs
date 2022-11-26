@@ -11,6 +11,14 @@ namespace KSH_Lib
 {
     public abstract class GaugedObj : MonoBehaviourPun, IPunObservable, IInteractable
     {
+        public enum GaugedObjType
+        {
+            Null,
+            NormalAltar,
+            FinalAltar,
+            ExitAltar,
+            PurificationBox,
+        }
 
         /*--- Serialize Fields ---*/
         [SerializeField] protected string prompt = "Press G to Interact";

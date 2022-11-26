@@ -48,10 +48,12 @@ namespace KSH_Lib.Object
         }
         void DollPauseAction()
         {
+            targetController.InteractType = GaugedObjType.Null;
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
         }
         void DollFinishAction()
         {
+            targetController.InteractType = GaugedObjType.Null;
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
             castingSystem.ResetCasting();
             //finishLight.SetActive(true);
@@ -96,6 +98,7 @@ namespace KSH_Lib.Object
 
         public override bool Interact( Interactor interactor )
         {
+            targetController.InteractType = GaugedObjType.NormalAltar;
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Interact );
 
             if ( targetController.gameObject.CompareTag(GameManager.DollTag))

@@ -48,6 +48,7 @@ namespace KSH_Lib.Object
 
         public override bool Interact( Interactor interactor )
         {
+            targetController.InteractType = GaugedObjType.FinalAltar;
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Interact );
             IsInteracting = true;
             photonView.RPC( "ShareInteractingInFinalAltar_RPC", RpcTarget.AllViaServer, IsInteracting );
@@ -65,6 +66,7 @@ namespace KSH_Lib.Object
 
         void PauseAction()
         {
+            targetController.InteractType = GaugedObjType.Null;
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
             castingSystem.ResetCasting();
             IsInteracting = false;
@@ -72,6 +74,7 @@ namespace KSH_Lib.Object
         }
         void FinishCasting()
         {
+            targetController.InteractType = GaugedObjType.Null;
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
             photonView.RPC( "OpenDoorRPC", RpcTarget.AllViaServer );
         }

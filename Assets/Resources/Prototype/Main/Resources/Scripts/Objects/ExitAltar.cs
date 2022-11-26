@@ -47,6 +47,7 @@ namespace KSH_Lib.Object
 
         public override bool Interact( Interactor interactor )
         {
+            targetController.InteractType = GaugedObjType.ExitAltar;
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Interact );
             if (altarState == AltarState.CanOpen )
             {
@@ -73,6 +74,7 @@ namespace KSH_Lib.Object
         }
         void PauseAction()
         {
+            targetController.InteractType = GaugedObjType.Null;
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
             castingSystem.ResetCasting();
         }

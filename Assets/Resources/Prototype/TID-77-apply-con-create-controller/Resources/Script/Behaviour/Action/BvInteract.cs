@@ -15,7 +15,7 @@ namespace GHJ_Lib
 			}
 
 
-			PlayAnimation( actor );
+			PlayAnimation( actor, true );
 			actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
 		}
 
@@ -24,16 +24,44 @@ namespace GHJ_Lib
 			Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
 			if (Bv is BvIdle || Bv is BvGetHit)
 			{
-				actor.BaseAnimator.SetBool("IsInteract", false);
+				//actor.BaseAnimator.SetBool("IsInteract", false);
+				PlayAnimation(actor, false);
 				return Bv;
 			}
 			return null;
         }
 
 
-		void PlayAnimation( in NetworkBaseController actor )
+		void PlayAnimation( in NetworkBaseController actor, bool state )
         {
-			actor.BaseAnimator.SetBool("IsInteract", true);
+			switch(actor.InteractType)
+            {
+				case GaugedObj.GaugedObjType.NormalAltar:
+				{
+					actor.BaseAnimator.SetBool("IsInteractWithNormalAltar", state);
+				}
+				break;
+				case GaugedObj.GaugedObjType.FinalAltar:
+                {
+					actor.BaseAnimator.SetBool("IsInteractWithFinalAltar", state);
+                }
+				break;
+				case GaugedObj.GaugedObjType.ExitAltar:
+				{
+					actor.BaseAnimator.SetBool("IsInteractWithExitAltar", state);
+				}
+				break;
+				case GaugedObj.GaugedObjType.PurificationBox:
+				{
+					actor.BaseAnimator.SetBool("IsInteractWithPurificationBox", state);
+				}
+				break;
+				default:
+                {
+					Debug.LogError("BvInteract.PlayAnimation(): interact Type Assertion");
+                }
+				break;
+            }
 		}
     }
 }
