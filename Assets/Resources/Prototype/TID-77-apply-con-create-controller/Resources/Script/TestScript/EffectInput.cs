@@ -18,7 +18,7 @@ namespace GHJ_Lib
 
             if (Input.GetKeyDown(KeyCode.B))
             {
-                EffectManager.Instance.ShowBloodOnCamera(images[Random.Range(0, images.Length - 1)], rectTransform);
+                EffectManager.Instance.RandomShowImageOnScreen(images[Random.Range(0, images.Length - 1)], rectTransform);
             }
         }
     }

@@ -8,7 +8,6 @@ namespace GHJ_Lib
 {
 	public class AttackArea: EffectArea
 	{
-        public Image[] BloodImages;
         protected override GameObject FindTargets(Collider other)
         {
             if (other.CompareTag(GameManager.DollTag))

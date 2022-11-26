@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib.Data;
-
+using UnityEngine.UI;
 namespace GHJ_Lib
 {
 	public class BvAttack: Behavior<NetworkBaseController>
@@ -12,6 +12,7 @@ namespace GHJ_Lib
         const float BishopPassiveRate = 0.15f;
         float attackTime = 0.9f;
         AttackArea attackArea;
+        Image[] bloodImages;
         protected override void Activate(in NetworkBaseController actor)
         {
             if ( actor.IsMine )
@@ -41,7 +42,11 @@ namespace GHJ_Lib
                     actor.BaseAnimator.SetBool("IsAttack", false);
                     if (actor.IsMine)
                     {
-                        EffectManager.Instance.ShowBloodOnCamera(attackArea.BloodImages[Random.Range(0, attackArea.BloodImages.Length-1)]);
+                        if (bloodImages == null)
+                        { 
+                            bloodImages  = (actor as ExorcistController).BloodImages;
+                        }
+                        EffectManager.Instance.RandomShowImageOnScreen(bloodImages[Random.Range(0, bloodImages.Length-1)]);
                     }
                 }
                 else if (animatorStateInfo.normalizedTime >= attackTime)

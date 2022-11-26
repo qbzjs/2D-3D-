@@ -24,7 +24,6 @@ namespace GHJ_Lib
 			}
 		}
 
-		[SerializeField] List<Image> BloodImages = new List<Image>();
 		[SerializeField] static protected LayerMask enviromentLayer;
 		WaitForEndOfFrame frame = new WaitForEndOfFrame();
 		WaitForSeconds second = new WaitForSeconds(1.0f);
@@ -83,14 +82,13 @@ namespace GHJ_Lib
 		}
 
 
-		public void ShowBloodOnCamera(Image BloodSprite)
+		public void RandomShowImageOnScreen(Image image)
 		{
 
-			Image bloodImage = Instantiate(BloodSprite);
+			Image bloodImage = Instantiate(image);
 			bloodImage.transform.SetParent(StageManager.Instance.exorcistUI.transform);
 			bloodImage.transform.SetSiblingIndex(0);
 
-			
 			if (UI_RectTransform == null)
 			{
 				if (DataManager.Instance.LocalPlayerData.roleData is ExorcistData)
@@ -114,9 +112,9 @@ namespace GHJ_Lib
 			   );
 			StartCoroutine(BloodImageDestroy(bloodImage));
 		}
-		public void ShowBloodOnCamera(Image BloodSprite, RectTransform rectTransform)
+		public void RandomShowImageOnScreen(Image BloodImage, RectTransform rectTransform)
 		{
-			Image bloodImage = Instantiate(BloodSprite);
+			Image bloodImage = Instantiate(BloodImage);
 			bloodImage.transform.SetParent(rectTransform.gameObject.transform);
 			bloodImage.transform.SetSiblingIndex(0);
 
