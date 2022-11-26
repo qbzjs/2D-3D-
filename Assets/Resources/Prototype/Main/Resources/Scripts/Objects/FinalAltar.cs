@@ -66,7 +66,6 @@ namespace KSH_Lib.Object
 
         void PauseAction()
         {
-            targetController.InteractType = GaugedObjType.Null;
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
             castingSystem.ResetCasting();
             IsInteracting = false;
@@ -74,7 +73,6 @@ namespace KSH_Lib.Object
         }
         void FinishCasting()
         {
-            targetController.InteractType = GaugedObjType.Null;
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
             photonView.RPC( "OpenDoorRPC", RpcTarget.AllViaServer );
         }

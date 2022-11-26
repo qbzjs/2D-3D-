@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
+using KSH_Lib.Object;
 
 namespace GHJ_Lib
 {
@@ -13,8 +14,7 @@ namespace GHJ_Lib
 			{
 				DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.Interact );
 			}
-
-
+			
 			PlayAnimation( actor, true );
 			actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
 		}
@@ -34,34 +34,45 @@ namespace GHJ_Lib
 
 		void PlayAnimation( in NetworkBaseController actor, bool state )
         {
-			switch(actor.InteractType)
-            {
-				case GaugedObj.GaugedObjType.NormalAltar:
+			if (actor.GetRoleInfo.Group == KSH_Lib.Data.RoleData.RoleGroup.Doll)
+			{
+				switch (actor.InteractType)
 				{
-					actor.BaseAnimator.SetBool("IsInteractWithNormalAltar", state);
+					case GaugedObj.GaugedObjType.NormalAltar:
+					{
+						actor.BaseAnimator.SetBool("IsInteractWithNormalAltar", state);
+					}
+					break;
+					case GaugedObj.GaugedObjType.FinalAltar:
+					{
+						actor.BaseAnimator.SetBool("IsInteractWithFinalAltar", state);
+					}
+					break;
+					case GaugedObj.GaugedObjType.ExitAltar:
+					{
+						actor.BaseAnimator.SetBool("IsInteractWithExitAltar", state);
+					}
+					break;
+					case GaugedObj.GaugedObjType.PurificationBox:
+					{
+						actor.BaseAnimator.SetBool("IsInteractWithPurificationBox", state);
+					}
+					break;
+					default:
+					{
+						Debug.LogError("BvInteract.PlayAnimation(): interact Type Assertion");
+					}
+					break;
 				}
-				break;
-				case GaugedObj.GaugedObjType.FinalAltar:
+				if(!state)
                 {
-					actor.BaseAnimator.SetBool("IsInteractWithFinalAltar", state);
-                }
-				break;
-				case GaugedObj.GaugedObjType.ExitAltar:
-				{
-					actor.BaseAnimator.SetBool("IsInteractWithExitAltar", state);
+					actor.InteractType = GaugedObj.GaugedObjType.Null;
 				}
-				break;
-				case GaugedObj.GaugedObjType.PurificationBox:
-				{
-					actor.BaseAnimator.SetBool("IsInteractWithPurificationBox", state);
-				}
-				break;
-				default:
-                {
-					Debug.LogError("BvInteract.PlayAnimation(): interact Type Assertion");
-                }
-				break;
-            }
+			}
+			else if(actor.GetRoleInfo.Group == KSH_Lib.Data.RoleData.RoleGroup.Exorcist)
+			{
+				actor.BaseAnimator.SetBool("IsInteract", state);
+			}
 		}
     }
 }

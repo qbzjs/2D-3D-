@@ -74,7 +74,6 @@ namespace KSH_Lib.Object
         }
         void PauseAction()
         {
-            targetController.InteractType = GaugedObjType.Null;
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
             castingSystem.ResetCasting();
         }

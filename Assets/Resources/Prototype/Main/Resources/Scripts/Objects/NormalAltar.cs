@@ -48,12 +48,10 @@ namespace KSH_Lib.Object
         }
         void DollPauseAction()
         {
-            targetController.InteractType = GaugedObjType.Null;
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
         }
         void DollFinishAction()
         {
-            targetController.InteractType = GaugedObjType.Null;
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
             castingSystem.ResetCasting();
             //finishLight.SetActive(true);
