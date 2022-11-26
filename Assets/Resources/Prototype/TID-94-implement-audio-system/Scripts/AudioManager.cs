@@ -6,6 +6,8 @@ namespace LSH_Lib
 {
 	public class AudioManager : MonoBehaviour
 	{
+        [SerializeField]
+        AudioSource audiosource;
 		public Sound[] sounds;
 
         public static AudioManager instance;
@@ -19,13 +21,19 @@ namespace LSH_Lib
             { 
                 Destroy(this.gameObject); 
             }
+
             foreach(Sound s in sounds)
             {
-                s.source = gameObject.AddComponent<AudioSource>();
+                if(audiosource == null)
+                {
+                    s.source = gameObject.AddComponent<AudioSource>();
+                }
+                else 
+                {
+                    s.source = audiosource;
+                }
                 s.source.clip = s.clip;
-
-                //s.source.volume = s.volume;
-                //s.source.pitch = s.pitch;
+                s.source.outputAudioMixerGroup = s.mixer;
                 s.source.loop = s.loop;
             }
         }
