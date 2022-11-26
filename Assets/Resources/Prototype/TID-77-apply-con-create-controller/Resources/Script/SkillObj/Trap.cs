@@ -97,6 +97,7 @@ namespace GHJ_Lib
         private void ExorcistFinishAction()
         {
             ((targetController as ExorcistController).skill as HunterSkill).CollectTrap(gameObject);
+            targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
         }
         private void OnTriggerEnter(Collider other)
         {

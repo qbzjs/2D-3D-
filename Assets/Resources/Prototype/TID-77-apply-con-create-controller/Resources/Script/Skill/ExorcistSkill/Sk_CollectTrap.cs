@@ -19,12 +19,9 @@ namespace GHJ_Lib
 			if (actor.BaseAnimator.GetBool("IsCollectTrap") && Bv is BvIdle)
 			{
 				actor.BaseAnimator.SetBool("IsCollectTrap", false);
+				return Bv;
 			}
 
-			if (Bv is BvIdle )
-			{
-				actor.BaseAnimator.SetBool("IsCollectTrap", false);
-			}
 			return null;
 		}
 	}
