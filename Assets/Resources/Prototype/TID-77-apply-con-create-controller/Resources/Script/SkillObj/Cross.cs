@@ -22,6 +22,7 @@ namespace GHJ_Lib
         [SerializeField] protected float increaseGauge = 5.0f;
         [SerializeField] protected float OnStackDistance = 5.0f;
 
+        [SerializeField] protected GameObject EffectSphere;
         public bool IsEnable = false;
         
         private float inverseMaxGauge;
@@ -36,6 +37,12 @@ namespace GHJ_Lib
             if (IsEnable)
             {
                 float curGage = (RateOfGauge - reductionGauge * inverseMaxGauge * Time.deltaTime);
+                if (curGage <= 0.0f)
+                {
+                    curGage = 0.0f;
+                    IsEnable = false;
+                }
+                EffectSphere.SetActive(IsEnable);
                 SyncGauge(curGage);
             }
         }
