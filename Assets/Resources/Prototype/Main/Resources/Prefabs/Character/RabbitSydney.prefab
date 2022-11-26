@@ -1860,7 +1860,7 @@ Animator:
   m_GameObject: {fileID: 4358257972407204485}
   m_Enabled: 0
   m_Avatar: {fileID: 9000000, guid: 19fbc6433c996574eb80fb6d445e9968, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4a76db7da77c44c4d808b3d9d43bb17c, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2318,8 +2318,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5171643521589291903}
-  - component: {fileID: 5171643521589291889}
   - component: {fileID: 8717308325710325274}
+  - component: {fileID: 5171643521589291889}
   - component: {fileID: 908168064620427567}
   - component: {fileID: 6962742835767228993}
   - component: {fileID: 8379097947852130464}
@@ -2351,24 +2351,6 @@ Transform:
   m_Father: {fileID: 1730359088119838669}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!143 &5171643521589291889
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5171643521589291900}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 1.57
-  m_Radius: 0.35
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.86, z: 0}
 --- !u!95 &8717308325710325274
 Animator:
   serializedVersion: 4
@@ -2389,6 +2371,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!143 &5171643521589291889
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5171643521589291900}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1.57
+  m_Radius: 0.35
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.86, z: 0}
 --- !u!114 &908168064620427567
 MonoBehaviour:
   m_ObjectHideFlags: 0

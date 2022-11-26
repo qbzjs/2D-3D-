@@ -781,6 +781,8 @@ MonoBehaviour:
   mouseSpeed: 0.3
   mouseAccel: 0.1
   activeAccel: 1
+  canControlAxisY: 1
+  <initAngleY>k__BackingField: 0
   minAngleY: -40
   maxAngleY: 40
   isInvertHorizontal: 0
@@ -1094,76 +1096,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &609146348
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 609146350}
-  - component: {fileID: 609146349}
-  m_Layer: 0
-  m_Name: StageManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &609146349
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 609146348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5819a20d1612efa4c96c6d064bdbbbd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waitTime: 3
-  rotateSpeed: 1
-  camResetTime: 2
-  IsGameStart: 0
-  DollPrefabs: []
-  ExorcistPrefabs: []
-  NormalAltarPrefab: {fileID: 0}
-  ExitAltarPrefab: {fileID: 0}
-  FinalAltarPrefab: {fileID: 0}
-  PurificationBoxPrefab: {fileID: 0}
-  PlayerGenPos: []
-  NormalAltarGenPos: []
-  ExitAltarGenPos: []
-  FinalAltarGenPos: {fileID: 0}
-  PurificationBoxGenPos: []
-  CrowGenPos: []
-  Count: 0
-  InitAreaRadius: 0
-  CenterPosition: {x: 0, y: 0, z: 0}
-  dollUI: {fileID: 0}
-  exorcistUI: {fileID: 0}
-  InteractTextUI: {fileID: 0}
-  InteractionPrompt: {fileID: 0}
-  <CastSystem>k__BackingField: {fileID: 0}
-  <DollCount>k__BackingField: 0
-  AltarCount: 4
---- !u!4 &609146350
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 609146348}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &627005694
 GameObject:
@@ -1923,6 +1855,8 @@ MonoBehaviour:
   mouseSpeed: 0.3
   mouseAccel: 0.1
   activeAccel: 1
+  canControlAxisY: 1
+  <initAngleY>k__BackingField: 0
   minAngleY: -40
   maxAngleY: 40
   isInvertHorizontal: 0

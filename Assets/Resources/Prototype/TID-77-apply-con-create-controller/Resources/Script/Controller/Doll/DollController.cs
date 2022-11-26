@@ -372,33 +372,33 @@ namespace GHJ_Lib
 			}
 		}
         protected override void MoveCharacter()
-		{
-			if (controller.enabled == false)
-			{
-				BaseAnimator.SetFloat("Move", 0);
-				CannotMove();
-				return;
-			}
-
-			if(DataManager.Instance.PlayerDatas[PlayerIndex].roleData == null)
+        {
+            if ( controller.enabled == false )
             {
-				return;
+                BaseAnimator.SetFloat( "Move", 0 );
+                CannotMove();
+                return;
             }
 
-			controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed);
+            if ( DataManager.Instance.PlayerDatas[PlayerIndex].roleData == null )
+            {
+                return;
+            }
 
-			if (direction.sqrMagnitude <= 0)
-			{
-				BaseAnimator.SetFloat("Move", 0);
-			}
-			else
-			{
-				BaseAnimator.SetFloat("Move", DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed);
-			}
-		}
+            controller.SimpleMove( direction * DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed );
+
+            if ( direction.sqrMagnitude <= 0 )
+            {
+                BaseAnimator.SetFloat( "Move", 0 );
+            }
+            else
+            {
+                BaseAnimator.SetFloat( "Move", DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed );
+            }
+        }
 
 
-		[PunRPC]
+        [PunRPC]
 		protected override void ChangeBehaviorTo_RPC( BehaviorType type )
 		{
 			switch ( type )
