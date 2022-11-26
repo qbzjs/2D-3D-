@@ -11,6 +11,8 @@ namespace GHJ_Lib
 	{
         protected EffectArea effectArea;
         protected RabbitSkill rabbit;
+        GameObject healTarget;
+        DollController peer=null;
         protected override void Activate(in NetworkBaseController actor)
         {
             if (effectArea == null)
@@ -22,27 +24,38 @@ namespace GHJ_Lib
             {
                 rabbit = actor.skill as RabbitSkill;
             }
+
+            healTarget = effectArea.GetNearestTarget();
+            if (!healTarget)
+            {
+                Debug.LogError("Sk_Heal.DoBehavior : healTarget is null ... why actSkillArea.CanGetTarget() is true???");
+                return;
+            }
+
+
+            peer = healTarget.GetComponent<DollController>();
+        
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            GameObject target = effectArea.GetNearestTarget();
-            
-            if (target)
+            if (!peer)
             {
-                Debug.LogError("Sk_Heal.DoBehavior : target is null ... why actSkillArea.CanGetTarget() is true???");
-                return new Sk_Default();
+                Debug.LogError("Sk_Heal.DoBehavior : peer is null ... why actSkillArea.CanGetTarget() is true???");
+                return PassIfHasSuccessor();
             }
 
-            DollController peer = target.GetComponent<DollController>();
-            if(peer.photonView.IsMine)
+
+            if (peer.photonView.IsMine)
             {
                 DollData peerData = (DataManager.Instance.LocalPlayerData.roleData as DollData);
                 peerData.DollHP += rabbit.HealAmount * Time.deltaTime;
                 DollData peerInitDate = (DataManager.Instance.RoleInfos[peer.TypeIndex] as DollData);
+                
                 if (peerInitDate.DollHP <= peerData.DollHP)
                 {
                     peerData.DollHP = peerInitDate.DollHP;
+                    DataManager.Instance.ShareRoleData();
                     rabbit.CancelHeal();
                     return PassIfHasSuccessor();
                 }

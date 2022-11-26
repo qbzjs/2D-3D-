@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public const string DollTag = "Doll";
     public const string SkillObjTag = "SkillObj";
     public const string CollectTriggerTag = "CollectTrigger";
+    public const string HealingTriggerTag = "HealingTrigger";
     public const string UninstallAreaTag = "UninstallArea";
     public const string DefaultLayer = "Default";
     public const string PlayerLayer = "Player";

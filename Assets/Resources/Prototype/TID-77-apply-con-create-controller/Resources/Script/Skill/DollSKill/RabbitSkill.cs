@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
+using KSH_Lib.Data;
 using Photon.Pun;
 using Photon.Realtime;
 using KSH_Lib.Object;
@@ -13,17 +14,43 @@ namespace GHJ_Lib
 		public float HealAmount = 10.0f;
 		public bool IsHeal = false;
 		protected Sk_Heal SkHeal = new Sk_Heal();
-
+		protected WaitForEndOfFrame frame = new WaitForEndOfFrame();
+		protected InteractionPromptUI interactionPromptUI;
+		protected string NoticeTextCanDoSkill = "Push SkillButton To Heal Peer";
+		protected DollController HealTarget;
 		protected override void OnEnable()
 		{
 			base.OnEnable();
+			interactionPromptUI = StageManager.Instance.InteractionPrompt;
 			Controller.AllocSkill(new BvRabbitActSkill());
 			SkillSetting();
 		}
 
 		public override void DecideActiveSkill()
 		{
+			if (actSkillArea.CanGetTarget())
+			{
+				GameObject HealtargetObj = actSkillArea.GetNearestTarget();
+				if (HealTarget == null|| HealtargetObj != HealTarget.gameObject)
+				{ 
+					HealTarget = HealtargetObj.GetComponent<DollController>();
+				}
 
+				if ((DataManager.Instance.PlayerDatas[HealTarget.PlayerIndex].roleData as DollData).DollHP < (DataManager.Instance.RoleInfos[HealTarget.TypeIndex] as DollData).DollHP)
+				{
+					interactionPromptUI.Activate(NoticeTextCanDoSkill);
+				}
+				else
+				{
+					interactionPromptUI.Inactivate();
+				}
+				
+			}
+			else
+			{
+				HealTarget = null;
+				interactionPromptUI.Inactivate();
+			}
 		}
 		public override bool CanActiveSkill()
 		{
@@ -50,7 +77,7 @@ namespace GHJ_Lib
 			while (true)
 			{
 				ActiveSkill.Update(Controller, ref ActiveSkill);
-				yield return new WaitForEndOfFrame();
+				yield return frame;
 				if (!IsHeal)
 				{
 					StageManager.Instance.dollUI.CharacterSkill.PushButton(false);
