@@ -20,7 +20,11 @@ namespace GHJ_Lib
 			Controller.AllocSkill(new BvRabbitActSkill());
 			SkillSetting();
 		}
-		
+
+		public override void DecideActiveSkill()
+		{
+
+		}
 		public override bool CanActiveSkill()
 		{
 			return actSkillArea.CanGetTarget();

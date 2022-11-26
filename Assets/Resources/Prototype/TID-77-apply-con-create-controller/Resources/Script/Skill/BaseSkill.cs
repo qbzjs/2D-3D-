@@ -15,6 +15,7 @@ namespace GHJ_Lib
 		public Behavior<NetworkBaseController> ActiveSkill = new Behavior<NetworkBaseController>(); //스킬 파츠를 합친행동(스킬 컴포넌트로 옮겨질 예정)
 		protected Sk_Default skDefault = new Sk_Default();
 
+		public abstract void DecideActiveSkill();
 		public abstract bool CanActiveSkill();
 		protected virtual void OnEnable()
 		{

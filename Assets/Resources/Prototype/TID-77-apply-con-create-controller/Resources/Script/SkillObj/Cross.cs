@@ -61,7 +61,16 @@ namespace GHJ_Lib
 
         protected override bool CheckAdditionalCondition(in InteractionPromptUI promptUI)
         {
-            return IsEnable;
+            if (targetController is ExorcistController)
+            {
+                promptUI.Inactivate();
+                return false;
+            }
+            else if (targetController is DollController)
+            { 
+                return IsEnable;
+            }
+            return false;
         }
 
         bool DollRunningCondition()

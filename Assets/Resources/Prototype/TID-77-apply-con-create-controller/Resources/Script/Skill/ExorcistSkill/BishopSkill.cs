@@ -20,6 +20,7 @@ namespace GHJ_Lib
 		protected string CrossPrefabName = "CrossModel";
 
 		protected GameObject targetCross;
+		protected GameObject targetAim;
 		protected Sk_InstallCross skInstallCross = new Sk_InstallCross();
 		protected Sk_CollectCross skCollectCross = new Sk_CollectCross();
 
@@ -29,6 +30,7 @@ namespace GHJ_Lib
 		InteractionPromptUI interactionPromptUI;
 		bool IsNotice = false;
 		string NoticeTextUninstallArea = "This Area Can't install!!";
+		string NoticeTextAlreadyInstallCrossAround = "you already install cross around";
 		WaitForSeconds noticeTime = new WaitForSeconds(1.0f);
 		protected override void OnEnable()
 		{
@@ -68,24 +70,29 @@ namespace GHJ_Lib
 			}
         }
         /*---Skill---*/
+        public override void DecideActiveSkill()
+        {
+			
+        }
         public override bool CanActiveSkill()
 		{
 			Collider[] UninstallZones = new Collider[1];
 			if (Physics.OverlapSphereNonAlloc(new Vector3(transform.position.x,0,transform.position.z), 1.0f, UninstallZones, UninstallZoneLayer) == 1)
 			{
-				StartCoroutine(NoticeUninstallArea());
+				StartCoroutine(NoticeUninstallReason(NoticeTextUninstallArea));
 				return false;
 			}
 
 			if (actSkillArea.CanGetTarget())
 			{
-				GameObject target = actSkillArea.GetNearestTarget();
-				if (Controller.IsWatching(target)&&Vector3.Distance(target.transform.position,transform.position)< CollectRange)
+				targetAim = actSkillArea.GetNearestTarget();
+				if (Controller.IsWatching(targetAim)&& Vector3.ProjectOnPlane((targetAim.transform.position - transform.position),Vector3.up).sqrMagnitude  < CollectRange*CollectRange)
 				{
-					targetCross = target;
+					targetCross = targetAim.transform.parent.gameObject;
 					SkillSettingToCollectCross();
 					return true;
 				}
+				StartCoroutine(NoticeUninstallReason(NoticeTextAlreadyInstallCrossAround));
 				return false;
 			}
 
@@ -161,22 +168,22 @@ namespace GHJ_Lib
 					Controller.BaseAnimator.SetBool("IsCollectCross", false);
 
 					PoketInCross.Add(targetCross.GetComponent<Cross>().OriginGauge);
-
-					actSkillArea.RemoveInList(targetCross);
+					
+					actSkillArea.RemoveInList(targetAim);
 					PhotonNetwork.Destroy(targetCross);
 					break;
 				}
 			}
 		}
 
-		IEnumerator NoticeUninstallArea()
+		IEnumerator NoticeUninstallReason(string reason)
 		{
 			if (IsNotice)
 			{
 				yield break;
 			}
 			IsNotice = true;
-			interactionPromptUI.Activate(NoticeTextUninstallArea);
+			interactionPromptUI.Activate(reason);
 			yield return noticeTime;
 			IsNotice = false;
 			interactionPromptUI.Inactivate();

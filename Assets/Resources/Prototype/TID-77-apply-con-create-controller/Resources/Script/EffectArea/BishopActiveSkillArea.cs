@@ -23,7 +23,7 @@ namespace GHJ_Lib
         }
         protected override GameObject FindTargets(Collider other)
         {
-            if (other.CompareTag(GameManager.SkillObjTag))
+            if (other.CompareTag(GameManager.CollectTriggerTag))
             {
                 return other.gameObject;
             }
@@ -31,7 +31,7 @@ namespace GHJ_Lib
         }
         private void OnTriggerStay(Collider other)
         {
-            if (!Bishop.IsMine||!other.CompareTag(GameManager.SkillObjTag))
+            if (!Bishop.IsMine||!other.CompareTag(GameManager.CollectTriggerTag))
             {
                 return;
             }

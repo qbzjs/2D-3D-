@@ -282,9 +282,15 @@ namespace GHJ_Lib
 
 		public virtual void DoSkill()
 		{
+			if (skill.IsCoolTime)
+			{
+				return;
+			}
+
+			skill.DecideActiveSkill();
 			if (Input.GetKeyDown(KeyCode.Mouse1))
 			{
-				if (!skill.IsCoolTime && CurBehavior is BvIdle&& skill.CanActiveSkill())
+				if (CurBehavior is BvIdle&& skill.CanActiveSkill())
 				{
 					photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.AllViaServer);
 				}
