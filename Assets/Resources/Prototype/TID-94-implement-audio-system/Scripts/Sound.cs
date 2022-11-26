@@ -14,5 +14,6 @@ namespace LSH_Lib
 		[HideInInspector]
 		public AudioSource source;
 		public bool loop;
+		public AudioMixerGroup mixer;
 	}
 }

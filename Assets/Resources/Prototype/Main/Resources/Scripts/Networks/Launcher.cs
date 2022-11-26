@@ -66,7 +66,8 @@ namespace KSH_Lib
             accountCanvasObj.SetActive(false);
 
             flikerCoroutine = StartCoroutine( FadeInOut() );
-            //AudioManager.instance.Play("Launcher");
+
+            AudioManager.instance.Play("LoginBGM");
         }
 
 
@@ -83,7 +84,8 @@ namespace KSH_Lib
         public void OnStartButtonClick()
         {
             startCanvasGroup.interactable = false;
-            //AudioManager.instance.Play("GameStart");
+            
+            AudioManager.instance.Play("GameStart");
             StopCoroutine( flikerCoroutine );
             StartCoroutine(ChangeScene());
         }

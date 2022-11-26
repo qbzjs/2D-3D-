@@ -10,6 +10,7 @@ using Photon.Realtime;
 using KSH_Lib;
 using KSH_Lib.Data;
 using KSH_Lib.UI;
+using LSH_Lib;
 
 using DEM;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -106,6 +107,7 @@ namespace KSH_Lib
             DisableCanvasesAll();
             mainLobbyCanvas.enabled = true;
             EnableMainButtonsPanel();
+            AudioManager.instance.Play("LobbyBGM");
             //PhotonNetwork.AutomaticallySyncScene = false;
             // Deubg
             //skipButtonObj.SetActive( true );
