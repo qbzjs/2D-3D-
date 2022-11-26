@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using KSH_Lib;
 using Photon.Pun;
 using Photon.Realtime;
@@ -25,9 +26,8 @@ namespace GHJ_Lib
 		protected BvCatch catchDoll = new BvCatch();
 		protected BvImprison imprison = new BvImprison();
 
-		
-
-		//[SerializeField] Transform headPos;
+		//Effect Image
+		public Image[] BloodImages;
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using KSH_Lib;
 using KSH_Lib.Data;
 namespace GHJ_Lib
@@ -14,10 +15,10 @@ namespace GHJ_Lib
             if ( actor.IsMine )
             {
                 DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.GetHit );
+                (actor as DollController).ShowHitEffect();
             }
             actor.BaseAnimator.Play("Hit");
 
-            (actor as DollController).ShowHitEffect();
             if (actor.photonView.IsMine)
             {
                 if ((actor as DollController).CrossStack >= 2)
