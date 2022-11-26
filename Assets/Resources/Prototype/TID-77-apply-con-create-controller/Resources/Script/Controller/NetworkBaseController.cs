@@ -44,6 +44,7 @@ namespace GHJ_Lib
 
 		public int TypeIndex { get; protected set; }
 		public int PlayerIndex { get; protected set; }
+		public RoleData GetRoleInfo { get { return DataManager.Instance.RoleInfos[TypeIndex]; } }
 		public bool IsMine { get { return photonView.IsMine; } }
 		public BaseCameraController FPVCam { get { return fpvCam; } }
 		public BaseCameraController TPVCam { get { return tpvCam; } }

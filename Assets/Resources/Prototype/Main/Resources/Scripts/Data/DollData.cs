@@ -62,5 +62,13 @@ namespace KSH_Lib.Data
         {
             return new DollData(Type, MoveSpeed, InteractionSpeed, ProjectileSpeed, DollHP, DevilHP);
         }
+        public override float GetDollHP()
+        {
+            return DollHP;
+        }
+        public override float GetDevilHP()
+        {
+            return DevilHP;
+        }
     }
 }

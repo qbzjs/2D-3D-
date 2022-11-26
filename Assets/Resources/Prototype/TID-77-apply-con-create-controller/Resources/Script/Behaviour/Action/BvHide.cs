@@ -40,8 +40,8 @@ namespace GHJ_Lib
                 if (Input.GetKeyDown(KeyCode.B))
                 {
                     // >> Changed By KSH 22.11.26
-                    //actor.StartCoroutine("UnHide");
                     actor.BaseAnimator.SetBool( "IsHide", false );
+                    actor.StartCoroutine("UnHide");
                 }
             }
             Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();

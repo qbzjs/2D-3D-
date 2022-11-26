@@ -51,6 +51,9 @@ namespace GHJ_Lib
 
             if ( actor is DollController )
             {
+                var curDollHP = DataManager.Instance.LocalPlayerData.roleData.GetDollHP();
+                var hpRate = curDollHP / actor.GetRoleInfo.GetDollHP();
+                actor.BaseAnimator.SetFloat( "HP", hpRate );
                 DoDollHide(actor);
                 DoDollSprint( actor );
             }

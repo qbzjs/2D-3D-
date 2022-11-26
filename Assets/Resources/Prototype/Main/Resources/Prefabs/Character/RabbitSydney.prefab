@@ -1859,11 +1859,11 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4358257972407204485}
   m_Enabled: 0
-  m_Avatar: {fileID: 9000000, guid: 19fbc6433c996574eb80fb6d445e9968, type: 3}
-  m_Controller: {fileID: 9100000, guid: 4a76db7da77c44c4d808b3d9d43bb17c, type: 2}
+  m_Avatar: {fileID: 9000000, guid: 33b8aa39b678ed04ebe408522c2e6dfc, type: 3}
+  m_Controller: {fileID: 9100000, guid: 23331aa60ca5285498a7216ae23de9cb, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -2361,7 +2361,7 @@ Animator:
   m_GameObject: {fileID: 5171643521589291900}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 33b8aa39b678ed04ebe408522c2e6dfc, type: 3}
-  m_Controller: {fileID: 9100000, guid: aeb7934a4e4dd6e41b63be6f20e08d51, type: 2}
+  m_Controller: {fileID: 9100000, guid: 23331aa60ca5285498a7216ae23de9cb, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2388,7 +2388,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.86, z: 0}
+  m_Center: {x: 0, y: 0.79, z: 0}
 --- !u!114 &908168064620427567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2444,6 +2444,12 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: IsInteract
+  - Type: 3
+    SynchronizeType: 0
+    Name: HealthState
+  - Type: 9
+    SynchronizeType: 0
+    Name: GetHit
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0

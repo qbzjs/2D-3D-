@@ -164,32 +164,34 @@ namespace GHJ_Lib
 
 		public virtual IEnumerator UnHide()
 		{
-			Transform modelTrans = characterModel.transform;
-			float rotZ = modelTrans.localRotation.eulerAngles.z;
-			Debug.Log($"localRotation.z : {modelTrans.localRotation.z}");
-			while (true)
-			{
-				Debug.Log($"rotZ : {rotZ}");
-				rotZ -= 90.0f * Time.deltaTime;
-				if (rotZ <= 0.0f)
-				{
-					rotZ = 0.0f;
-				}
-				modelTrans.localRotation = Quaternion.Euler(modelTrans.localRotation.eulerAngles.x, modelTrans.localRotation.eulerAngles.y, rotZ);
-				modelTrans.localPosition = new Vector3(modelTrans.localPosition.x, 0, modelTrans.localPosition.z);
-				//modelTrans.position = new Vector3(
-				//	(modelTrans.position.x - Mathf.Cos(modelTrans.rotation.z) + Mathf.Cos(PosZ)) * modelTrans.localScale.x / 2,
-				//	(modelTrans.position.y - Mathf.Sin(modelTrans.rotation.z) + Mathf.Sin(PosZ)) * modelTrans.localScale.y / 2,
-				//	modelTrans.position.z);
-				yield return new WaitForEndOfFrame();
-				if (rotZ.Equals(0.0f))
-				{
-					BaseAnimator.SetBool("IsHide", false);
-					ChangeBehaviorTo(BehaviorType.Idle);
-					break;
-				}
-			}
-		}
+			yield return GameManager.Instance.WaitOneS;
+            ChangeBehaviorTo( BehaviorType.Idle );
+            //Transform modelTrans = characterModel.transform;
+            //float rotZ = modelTrans.localRotation.eulerAngles.z;
+            //Debug.Log($"localRotation.z : {modelTrans.localRotation.z}");
+            //while (true)
+            //{
+            //	Debug.Log($"rotZ : {rotZ}");
+            //	rotZ -= 90.0f * Time.deltaTime;
+            //	if (rotZ <= 0.0f)
+            //	{
+            //		rotZ = 0.0f;
+            //	}
+            //	modelTrans.localRotation = Quaternion.Euler(modelTrans.localRotation.eulerAngles.x, modelTrans.localRotation.eulerAngles.y, rotZ);
+            //	modelTrans.localPosition = new Vector3(modelTrans.localPosition.x, 0, modelTrans.localPosition.z);
+            //	//modelTrans.position = new Vector3(
+            //	//	(modelTrans.position.x - Mathf.Cos(modelTrans.rotation.z) + Mathf.Cos(PosZ)) * modelTrans.localScale.x / 2,
+            //	//	(modelTrans.position.y - Mathf.Sin(modelTrans.rotation.z) + Mathf.Sin(PosZ)) * modelTrans.localScale.y / 2,
+            //	//	modelTrans.position.z);
+            //	yield return new WaitForEndOfFrame();
+            //	if (rotZ.Equals(0.0f))
+            //	{
+            //		BaseAnimator.SetBool("IsHide", false);
+            //		ChangeBehaviorTo(BehaviorType.Idle);
+            //		break;
+            //	}
+            //}
+        }
 
 
 		public void ChangeDevilHP(float delta)
