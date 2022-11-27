@@ -13,11 +13,16 @@ namespace GHJ_Lib
         private void OnEnable()
         {
             decalProjector = GetComponent<DecalProjector>();
+            RayToBottom();
+        }
+
+        private void RayToBottom()
+        {
             RaycastHit[] hits = Physics.RaycastAll(new Ray(transform.position, transform.forward), 2.0f);
             LayerMask enLayar = LayerMask.NameToLayer(GameManager.EnvironmentLayer);
             foreach (var hit in hits)
             {
-                if (hit.collider.gameObject.layer == enLayar&& hit.collider.gameObject.CompareTag("Floor"))
+                if (hit.collider.gameObject.layer == enLayar && hit.collider.gameObject.CompareTag("Floor"))
                 {
                     decalProjector.material = materials[Random.Range(0, materials.Length - 1)];
                     StartCoroutine(ClearBlood(decalProjector));
@@ -49,6 +54,11 @@ namespace GHJ_Lib
                     break;
                 }
             }
+        }
+
+        public void Activate()
+        {
+            RayToBottom();
         }
     }
 }

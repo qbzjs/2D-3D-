@@ -13,6 +13,11 @@ namespace GHJ_Lib
         private void OnEnable()
         {
             decalProjector = GetComponent<DecalProjector>();
+            RayToWall();
+        }
+
+        private void RayToWall()
+        {
             RaycastHit[] hits = Physics.RaycastAll(new Ray(transform.position, transform.forward), 1.0f);
             LayerMask enLayar = LayerMask.NameToLayer(GameManager.EnvironmentLayer);
             foreach (var hit in hits)
@@ -27,7 +32,6 @@ namespace GHJ_Lib
             }
             this.gameObject.SetActive(false);
         }
-
         private void MoveToWall(Vector3 hitPoint)
         {
             transform.position = hitPoint;
@@ -49,6 +53,11 @@ namespace GHJ_Lib
                     break;
                 }
             }
+        }
+
+        public void Activate()
+        {
+            RayToWall();
         }
     }
 }

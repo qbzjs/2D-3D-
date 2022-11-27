@@ -28,14 +28,28 @@ namespace GHJ_Lib
 		WaitForEndOfFrame frame = new WaitForEndOfFrame();
 		WaitForSeconds second = new WaitForSeconds(1.0f);
 		RectTransform UI_RectTransform;
+
+		/*---Obj Pool---*/
+		List<ParentBlood> BloodDecals = new List<ParentBlood>();
+		List<Image> bloodImages = new List<Image>();
+
 		private void Start()
         {
 			enviromentLayer = LayerMask.NameToLayer(GameManager.EnvironmentLayer);
-
 		}
         public void ShowDecal(GameObject centerModel, GameObject DecalPrefab)
 		{
-			Instantiate(DecalPrefab, centerModel.transform.position, DecalPrefab.transform.rotation);
+			foreach (var bloodDecal in BloodDecals)
+			{
+				if (!bloodDecal.gameObject.activeInHierarchy)
+				{
+					bloodDecal.gameObject.SetActive(true);
+					bloodDecal.ReActive(centerModel.transform);
+					return;
+				}
+			}
+			GameObject Decal = Instantiate(DecalPrefab, centerModel.transform.position, DecalPrefab.transform.rotation);
+			BloodDecals.Add(Decal.GetComponent<ParentBlood>());
 		}
 
 		public void ShowDecalAround(GameObject centerModel, GameObject DecalPrefab)
@@ -84,17 +98,12 @@ namespace GHJ_Lib
 
 		public void RandomShowImageOnScreen(Image image)
 		{
-
-			Image bloodImage = Instantiate(image);
-			bloodImage.transform.SetParent(StageManager.Instance.exorcistUI.transform);
-			bloodImage.transform.SetSiblingIndex(0);
-
 			if (UI_RectTransform == null)
 			{
 				if (DataManager.Instance.LocalPlayerData.roleData is ExorcistData)
 				{
-					UI_RectTransform = StageManager.Instance.exorcistUI.GetComponent<RectTransform>();
-					Debug.Log($"UI_RectTransform : {UI_RectTransform.name}");
+					UI_RectTransform = StageManager.Instance.BloodUI_Obj.GetComponent<RectTransform>();
+					//Debug.Log($"UI_RectTransform : {UI_RectTransform.name}");
 				}
 				else
 				{
@@ -102,38 +111,63 @@ namespace GHJ_Lib
 					return;
 				}
 			}
-			
 
-			bloodImage.rectTransform.position
+			foreach (var bloodImage in bloodImages)
+			{
+				if (!bloodImage.gameObject.activeInHierarchy)
+				{
+					bloodImage.rectTransform.position
+					= new Vector3(
+						   Random.Range(-UI_RectTransform.rect.width / 2 + bloodImage.rectTransform.rect.width / 2, UI_RectTransform.rect.width / 2 - bloodImage.rectTransform.rect.width / 2),
+						   Random.Range(-UI_RectTransform.rect.height / 2 + bloodImage.rectTransform.rect.height / 2, UI_RectTransform.rect.height / 2 - bloodImage.rectTransform.rect.height / 2),
+						   0
+							);
+					StartCoroutine(SlowDisaapear(bloodImage));
+					return;
+				}
+			}
+
+			Image newbloodImage = Instantiate(image);
+			newbloodImage.transform.SetParent(UI_RectTransform.transform);
+			newbloodImage.transform.SetSiblingIndex(0);
+
+			newbloodImage.rectTransform.position
 			   = new Vector3(
-				   Random.Range(-UI_RectTransform.rect.width / 2 + bloodImage.rectTransform.rect.width / 2, UI_RectTransform.rect.width / 2 - bloodImage.rectTransform.rect.width / 2),
-				   Random.Range(-UI_RectTransform.rect.height / 2 + bloodImage.rectTransform.rect.height / 2, UI_RectTransform.rect.height / 2 - bloodImage.rectTransform.rect.height / 2),
+				   Random.Range(-UI_RectTransform.rect.width / 2 + newbloodImage.rectTransform.rect.width / 2, UI_RectTransform.rect.width / 2 - newbloodImage.rectTransform.rect.width / 2),
+				   Random.Range(-UI_RectTransform.rect.height / 2 + newbloodImage.rectTransform.rect.height / 2, UI_RectTransform.rect.height / 2 - newbloodImage.rectTransform.rect.height / 2),
 				   0
 			   );
-			StartCoroutine(BloodImageDestroy(bloodImage));
+			StartCoroutine(SlowDisaapear(newbloodImage));
 		}
+		private void ActiveImage(Image image)
+		{
+			image.rectTransform.position
+					= new Vector3(
+						   Random.Range(-UI_RectTransform.rect.width / 2 + image.rectTransform.rect.width / 2, UI_RectTransform.rect.width / 2 - image.rectTransform.rect.width / 2),
+						   Random.Range(-UI_RectTransform.rect.height / 2 + image.rectTransform.rect.height / 2, UI_RectTransform.rect.height / 2 - image.rectTransform.rect.height / 2),
+						   0
+							);
+			StartCoroutine(SlowDisaapear(image));
+		}
+
 		public void RandomShowImageOnScreen(Image BloodImage, RectTransform rectTransform)
 		{
 			Image bloodImage = Instantiate(BloodImage);
 			bloodImage.transform.SetParent(rectTransform.gameObject.transform);
 			bloodImage.transform.SetSiblingIndex(0);
 
-			Debug.Log(-rectTransform.rect.width + bloodImage.rectTransform.rect.width / 2);
-			Debug.Log(rectTransform.rect.width - bloodImage.rectTransform.rect.width / 2);
-			Debug.Log(-rectTransform.rect.height + bloodImage.rectTransform.rect.height / 2);
-			Debug.Log(rectTransform.rect.height - bloodImage.rectTransform.rect.height / 2);
 			bloodImage.rectTransform.localPosition
 			   = new Vector3(
 				   Random.Range(-rectTransform.rect.width/2 + bloodImage.rectTransform.rect.width / 2, rectTransform.rect.width/2 - bloodImage.rectTransform.rect.width / 2),
 				   Random.Range(-rectTransform.rect.height/2 + bloodImage.rectTransform.rect.height / 2, rectTransform.rect.height/2 - bloodImage.rectTransform.rect.height / 2),
 				   rectTransform.position.z
 			   );
-			StartCoroutine(BloodImageDestroy(bloodImage));
+			StartCoroutine(SlowDisaapear(bloodImage));
 		}
 
 
 
-			IEnumerator BloodImageDestroy(Image bloodImage)
+		IEnumerator SlowDisaapear(Image bloodImage)
 		{
 			Color curColor = bloodImage.color;
 			while (true)
@@ -143,7 +177,7 @@ namespace GHJ_Lib
 				yield return frame;
 				if (curColor.a <= 0)
 				{
-					Destroy(bloodImage.gameObject);
+					bloodImage.gameObject.SetActive(false);
 					break;
 				}
 

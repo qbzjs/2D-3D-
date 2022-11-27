@@ -18,6 +18,8 @@ namespace KSH_Lib
             FinalAltar,
             ExitAltar,
             PurificationBox,
+            Cross,
+            Trap,
         }
 
         /*--- Serialize Fields ---*/

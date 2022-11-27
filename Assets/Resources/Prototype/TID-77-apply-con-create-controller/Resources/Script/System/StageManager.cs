@@ -55,6 +55,7 @@ namespace GHJ_Lib
 		[Header( "UI" )]
 		public DollUI dollUI;
 		public ExorcistUI exorcistUI;
+		public GameObject BloodUI_Obj;
 		public GameObject InteractTextUI;
 		public InteractionPromptUI InteractionPrompt;
 		[field: SerializeField] public CastingSystem CastSystem { get; private set; }

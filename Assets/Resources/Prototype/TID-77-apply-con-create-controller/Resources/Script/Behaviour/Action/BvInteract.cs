@@ -38,6 +38,8 @@ namespace GHJ_Lib
 			{
 				switch (actor.InteractType)
 				{
+					case GaugedObj.GaugedObjType.Cross:
+					case GaugedObj.GaugedObjType.Trap:
 					case GaugedObj.GaugedObjType.NormalAltar:
 					{
 						actor.BaseAnimator.SetBool("IsInteractWithNormalAltar", state);
