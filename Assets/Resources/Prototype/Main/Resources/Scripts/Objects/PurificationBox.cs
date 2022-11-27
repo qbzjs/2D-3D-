@@ -134,7 +134,7 @@ namespace KSH_Lib.Object
         {
             isDollPurifying = true;
             photonView.RPC( "ShareDustEffect", RpcTarget.All, false );
-
+            AudioManager.instance.Play("BoxActive", AudioManager.PlayTarget.Doll);
             while (true)
             {
                 yield return null;
