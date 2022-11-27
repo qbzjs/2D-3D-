@@ -5,6 +5,7 @@ using KSH_Lib;
 using Photon.Pun;
 using Photon.Realtime;
 using KSH_Lib.Data;
+using MSLIMA.Serializer;
 using KSH_Lib.Object;
 namespace GHJ_Lib
 {
@@ -31,21 +32,24 @@ namespace GHJ_Lib
 		[SerializeField] protected SkinnedMeshRenderer skinnedMeshRenderer;
 		[SerializeField] protected Material ghostMaterial;
 
-		
+
 		public GameObject BloodDecal;
 		public GameObject BloodSpawner;
+		public ParticleSystem HealEffect;
 		public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
-		
+
+
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
 		{
 			base.OnEnable();
+			HealEffect.Stop();
 			//CurBehavior.PushSuccessorState(idle);
 		}
 
-        public override void InitCameraSetting()
-        {
+		public override void InitCameraSetting()
+		{
 			if (photonView.IsMine)
 			{
 				base.InitCameraSetting();
@@ -55,9 +59,9 @@ namespace GHJ_Lib
 			}
 		}
 
-        /*--- Public Methods ---*/
+		/*--- Public Methods ---*/
 
-        public void ChangeBvToBeCaught(BaseCameraController cam)
+		public void ChangeBvToBeCaught(BaseCameraController cam)
 		{
 			characterModel.gameObject.SetActive(false);
 			ChangeCamera(cam);
@@ -82,29 +86,34 @@ namespace GHJ_Lib
 
 			if (photonView.IsMine)
 			{
-				//byte[] bytes = new byte[0];
-				//Serializer.Serialize(puriBox.CharacterPos.position, ref bytes);
-				//photonView.RPC("ChangeTransformRPC", RpcTarget.AllViaServer, bytes);
+				byte[] bytes = new byte[0];
+				Serializer.Serialize(puriBox.CharacterPos.position, ref bytes);
+				photonView.RPC("ChangeTransform", RpcTarget.AllViaServer, bytes);
 				ChangeBehaviorTo(BehaviorType.BePurifying);
 				//StartCoroutine( ChangeDevilHPByDeltaTime( puriBox.Damage, () => (CurBehavior is BvEscape) ) );
 			}
-			//characterModel.transform.rotation = puriBox.CharacterPos.rotation;
-			ChangeTransform(puriBox.CharacterPos.transform);
+			characterModel.transform.rotation = puriBox.CharacterPos.rotation;
 
 			ChangeCamera(tpvCam);
 			StageManager.CharacterLayerChange(characterObj, LayerMask.NameToLayer("Player"));
 		}
-
-
-		IEnumerator ChangeDevilHPByDeltaTime(float damage, System.Func<bool> EndCond )
+		[PunRPC]
+		public void ChangeTransform(byte[] data)
 		{
-			while ( true )
+			int offset = 0;
+			characterObj.transform.position = Serializer.DeserializeVector3(data, ref offset);
+		}
+
+
+		IEnumerator ChangeDevilHPByDeltaTime(float damage, System.Func<bool> EndCond)
+		{
+			while (true)
 			{
-				if ( GetDollData.DevilHP <= 0.0f || EndCond() )
+				if (GetDollData.DevilHP <= 0.0f || EndCond())
 				{
 					break;
 				}
-				ChangeDevilHP( -damage * Time.deltaTime );
+				ChangeDevilHP(-damage * Time.deltaTime);
 				yield return null;
 			}
 		}
@@ -135,14 +144,14 @@ namespace GHJ_Lib
 			float posY = modelTrans.localScale.x;
 			while (true)
 			{
-				rotZ += 90.0f * Time.deltaTime; 
+				rotZ += 90.0f * Time.deltaTime;
 
 				if (rotZ >= 90.0f)
 				{
 					rotZ = 90.0f;
 				}
 				modelTrans.localRotation = Quaternion.Euler(modelTrans.localRotation.eulerAngles.x, modelTrans.localRotation.eulerAngles.y, rotZ);
-				modelTrans.localPosition = new Vector3(modelTrans.localPosition.x, posY/2, modelTrans.localPosition.z);
+				modelTrans.localPosition = new Vector3(modelTrans.localPosition.x, posY / 2, modelTrans.localPosition.z);
 				//modelTrans.position = new Vector3(
 				//	(modelTrans.position.x - Mathf.Cos(modelTrans.rotation.z) + Mathf.Cos(PosZ)) * modelTrans.localScale.x / 2,
 				//	(modelTrans.position.y - Mathf.Sin(modelTrans.rotation.z) + Mathf.Sin(PosZ)) * modelTrans.localScale.y / 2,
@@ -158,47 +167,21 @@ namespace GHJ_Lib
 		public virtual IEnumerator UnHide()
 		{
 			yield return GameManager.Instance.WaitZeroPointFiveS;
-            //ChangeBehaviorTo( BehaviorType.Idle );
-            //Transform modelTrans = characterModel.transform;
-            //float rotZ = modelTrans.localRotation.eulerAngles.z;
-            //Debug.Log($"localRotation.z : {modelTrans.localRotation.z}");
-            //while (true)
-            //{
-            //	Debug.Log($"rotZ : {rotZ}");
-            //	rotZ -= 90.0f * Time.deltaTime;
-            //	if (rotZ <= 0.0f)
-            //	{
-            //		rotZ = 0.0f;
-            //	}
-            //	modelTrans.localRotation = Quaternion.Euler(modelTrans.localRotation.eulerAngles.x, modelTrans.localRotation.eulerAngles.y, rotZ);
-            //	modelTrans.localPosition = new Vector3(modelTrans.localPosition.x, 0, modelTrans.localPosition.z);
-            //	//modelTrans.position = new Vector3(
-            //	//	(modelTrans.position.x - Mathf.Cos(modelTrans.rotation.z) + Mathf.Cos(PosZ)) * modelTrans.localScale.x / 2,
-            //	//	(modelTrans.position.y - Mathf.Sin(modelTrans.rotation.z) + Mathf.Sin(PosZ)) * modelTrans.localScale.y / 2,
-            //	//	modelTrans.position.z);
-            //	yield return new WaitForEndOfFrame();
-            //	if (rotZ.Equals(0.0f))
-            //	{
-            //		BaseAnimator.SetBool("IsHide", false);
-            //		ChangeBehaviorTo(BehaviorType.Idle);
-            //		break;
-            //	}
-            //}
-        }
+		}
 
 
 		public void ChangeDevilHP(float delta)
-        {
-			if(IsMine)
+		{
+			if (IsMine)
 			{
 				GetDollData.DevilHP += delta;
 				DataManager.Instance.ShareRoleData();
 
-				if ( GetDollData.DevilHP <= 0.0f )
+				if (GetDollData.DevilHP <= 0.0f)
 				{
-					BaseAnimator.Play( "Idle_A" );
+					BaseAnimator.Play("Idle_A");
 					BecomeGhost();
-					CurBehavior.PushSuccessorState( new BvIdle() );
+					CurBehavior.PushSuccessorState(new BvIdle());
 				}
 			}
 		}
@@ -221,35 +204,34 @@ namespace GHJ_Lib
 			ChangeBehaviorTo(BehaviorType.BvGhost);
 		}
 
-		//[PunRPC]
-		//public void DecreaseDollCount()
-		//{
-		//	StageManager.Instance.DollCountDecrease();
-		//}
-        public override bool DoResist()
-        {
+		public override bool DoResist()
+		{
 			if (Input.GetKeyDown(KeyCode.LeftArrow)
 				|| Input.GetKeyDown(KeyCode.LeftArrow))
 			{
 				return true;
 			}
 			return false;
-        }
-
-		[PunRPC]
-		public void DisappearPurificationBox()
-		{
-			//if (interactObj is not PurificationBox)
-			//{
-			//	Debug.LogError("the nearest interactObj is not Purification Box");
-			//	return;
-			//}
-			//StageManager.Instance.Disappear(interactObj.gameObject);
 		}
 
-
-
-
+		public void BeHealed_RPC(bool isHeal)
+		{
+			photonView.RPC("BeHealed", RpcTarget.AllViaServer, isHeal);
+		}
+		[PunRPC]
+		public void BeHealed(bool isHeal)
+		{
+			if (isHeal)
+			{
+				HealEffect.Play();
+				ChangeMoveFunc(MoveType.StopRotation);
+			}
+			else
+			{
+				HealEffect.Stop();
+				ChangeMoveFunc(MoveType.Input);
+			}
+		}
 		/*--HitByExorcistSkill--*/
 		public void AprrochCrossArea()
 		{

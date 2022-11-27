@@ -8,7 +8,7 @@ using LSH_Lib;
 using KSH_Lib.Object;
 
 using Cinemachine;
-
+using TMPro;
 namespace GHJ_Lib
 {
 	public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
@@ -58,6 +58,7 @@ namespace GHJ_Lib
 		public GameObject BloodUI_Obj;
 		public GameObject InteractTextUI;
 		public InteractionPromptUI InteractionPrompt;
+		public TextMeshProUGUI IntroText;
 		[field: SerializeField] public CastingSystem CastSystem { get; private set; }
 
 		NetworkGenerator networkGenerator;
@@ -86,6 +87,7 @@ namespace GHJ_Lib
 		void Awake()
 		{
 			instance = this;
+			IntroText.alpha = 0.0f;
 		}
 
 		void Start()
@@ -140,7 +142,20 @@ namespace GHJ_Lib
 			LocalController.CurBehavior.PushSuccessorState( new BvIdle() );
 			IsGameStart = true;
 		}
-
+		IEnumerator NameActivate()
+		{
+			WaitForEndOfFrame frame = new WaitForEndOfFrame();
+			
+			while (true)
+			{ 
+				IntroText.alpha += Time.deltaTime;
+				yield return frame;
+				if (IntroText.alpha >= 1.0f)
+				{
+					break;
+				}
+			}
+		}
 
 		private void OnDrawGizmosSelected()
 		{

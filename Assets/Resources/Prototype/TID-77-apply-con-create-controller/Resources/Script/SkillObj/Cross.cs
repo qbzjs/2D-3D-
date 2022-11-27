@@ -34,6 +34,16 @@ namespace GHJ_Lib
         }
         protected void Update()
         {
+            EffectSphere.SetActive(IsEnable);
+            if (!photonView.IsMine)
+            {
+                if (IsEnable&& RateOfGauge <= 0.0f)
+                {
+                    RateOfGauge = 0.0f;
+                    IsEnable = false;
+                }
+                return;
+            }
             if (IsEnable)
             {
                 float curGage = (RateOfGauge - reductionGauge * inverseMaxGauge * Time.deltaTime);
@@ -42,9 +52,9 @@ namespace GHJ_Lib
                     curGage = 0.0f;
                     IsEnable = false;
                 }
-                EffectSphere.SetActive(IsEnable);
                 SyncGauge(curGage);
             }
+            
         }
         public void SetGauge(float gauge)
         {
@@ -92,7 +102,7 @@ namespace GHJ_Lib
 
         bool DollRunningCondition()
         {
-            return targetController.IsInteractionKeyHold();
+            return targetController.IsInteractionKeyHold()&&RateOfGauge>0.0f;
         }
         void DollPauseAction()
         {
@@ -103,15 +113,19 @@ namespace GHJ_Lib
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
             IsEnable = false;
         }
+        void DollRunningAction()
+        {
+            
+        }
         public override bool Interact(Interactor interactor)
         {
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Interact);
-
+            targetController.InteractType = GaugedObjType.Cross;
             if (targetController.gameObject.CompareTag(GameManager.DollTag))
             {
                 castingSystem.ForceSetRatioTo(RateOfGauge);
                 castingSystem.StartCasting(CastingSystem.Cast.CreateByRatio(deltaRatio: -DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed/MaxGauge, destRatio: 0.0f, coolTime: CoolTime),
-                    new CastingSystem.CastFuncSet(SyncDataWith: SyncGauge,RunningCondition: DollRunningCondition, PauseAction: DollPauseAction,FinishAction: DollFinishAction)
+                    new CastingSystem.CastFuncSet(SyncDataWith: SyncGauge,RunningCondition: DollRunningCondition, RunningAction : DollRunningAction, PauseAction: DollPauseAction,FinishAction: DollFinishAction)
                     );
                 return true;
             }

@@ -34,7 +34,6 @@ namespace GHJ_Lib
 
 
             peer = healTarget.GetComponent<DollController>();
-        
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
@@ -55,9 +54,7 @@ namespace GHJ_Lib
                 if (peerInitDate.DollHP <= peerData.DollHP)
                 {
                     peerData.DollHP = peerInitDate.DollHP;
-                    DataManager.Instance.ShareRoleData();
                     rabbit.CancelHeal();
-                    return PassIfHasSuccessor();
                 }
                 DataManager.Instance.ShareRoleData();
             }
@@ -74,6 +71,7 @@ namespace GHJ_Lib
             {
                 return null;
             }
+
             return PassIfHasSuccessor();
 
         }

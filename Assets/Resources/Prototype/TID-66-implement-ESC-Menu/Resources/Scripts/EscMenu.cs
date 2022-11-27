@@ -30,6 +30,7 @@ namespace LSH_Lib{
                     //FPV_InputManager.instance.enabled = false;
                     //PlayerInputManager.instance.enabled = false;
                     KSH_Lib.BasePlayerInputManager.Instance.enabled = false;
+                    
 
                     isInputKey = true;
                     OnSetActive(isInputKey);

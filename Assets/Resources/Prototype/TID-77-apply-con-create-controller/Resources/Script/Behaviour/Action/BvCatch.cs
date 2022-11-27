@@ -33,7 +33,7 @@ namespace GHJ_Lib
         }
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            AnimatorStateInfo animatorStateInfo = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
+            AnimatorStateInfo animatorStateInfo = actor.BaseAnimator.GetCurrentAnimatorStateInfo(1);
 
             //if (animatorStateInfo.normalizedTime >= pickUpTime && animatorStateInfo.IsName("Pickup") && actor.BaseAnimator.GetBool("IsCatch"))
             ExorcistController exorcistActor = actor as ExorcistController;
