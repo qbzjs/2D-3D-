@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using GHJ_Lib;
+using LSH_Lib;
 using Photon.Pun;
 
 namespace KSH_Lib.Object
@@ -49,12 +50,14 @@ namespace KSH_Lib.Object
         void DollPauseAction()
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
+            AudioManager.instance.Stop("DollNormalAltar");
         }
         void DollFinishAction()
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
             castingSystem.ResetCasting();
             //finishLight.SetActive(true);
+            AudioManager.instance.Stop("DollNormalAltar");
             photonView.RPC("ActiveFinishLightRPC", RpcTarget.AllViaServer);
             photonView.RPC("DecreaseAltarCountTo_RPC", RpcTarget.AllViaServer);
         }
@@ -65,7 +68,7 @@ namespace KSH_Lib.Object
             IsExorcistInteracting = false;
             photonView.RPC( "ShareExorcistInteract", RpcTarget.AllViaServer, IsExorcistInteracting );
             ChangeCandleLightsToEveryone();
-
+            AudioManager.instance.Stop("HitAltar");
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
         }
 
@@ -105,6 +108,7 @@ namespace KSH_Lib.Object
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / MaxGauge, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet( SyncGauge, DollRunningCondition, ChangeCandleLightsToEveryone, DollPauseAction, DollFinishAction )
                     );
+                AudioManager.instance.Play("DollNormalAltar");
                 return true;
             }
             else if(targetController.gameObject.CompareTag(GameManager.ExorcistTag))
@@ -117,6 +121,7 @@ namespace KSH_Lib.Object
                         targetController.InteractionSpeed / exorcistInteractMaxGauge, coolTime: CoolTime ),
                         new CastingSystem.CastFuncSet( FinishAction: ExorcistFinishAction )
                         );
+                AudioManager.instance.Play("HitAltar");
                 return true;
             }
             else
@@ -135,7 +140,11 @@ namespace KSH_Lib.Object
             {
                 if (i < curLightCount)
                 {
-                    if (!candleLights[i].activeInHierarchy) candleLights[i].SetActive(true);
+                    if (!candleLights[i].activeInHierarchy)
+                    {
+                        candleLights[i].SetActive(true);
+                        AudioManager.instance.Play("LightOn");
+                    }
                     curIdx = i;
                     continue;
                 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Photon.Pun;
 using GHJ_Lib;
-
+using LSH_Lib;
 namespace KSH_Lib.Object
 {
     public class PurificationBox : GaugedObj
@@ -79,8 +79,8 @@ namespace KSH_Lib.Object
                 targetController.ChangeBvToImprison();
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / exorcistMaxGauge, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet(FinishAction: ExorcistFinishAction ) );
-
-                if(!isDollPurifying)
+                AudioManager.instance.Play("ExorcistBox");
+                if (!isDollPurifying)
                 {
                     StartCoroutine(DestroyIfDollDead());
                 }
@@ -108,6 +108,7 @@ namespace KSH_Lib.Object
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
             photonView.RPC( "ShareDustEffect", RpcTarget.All, true );
+            
         }
 
         public void SetDoll(DollController doll)
@@ -120,11 +121,12 @@ namespace KSH_Lib.Object
         public void DollFinishAction()
         {
             photonView.RPC( "ShareDustEffect", RpcTarget.All, false );
-
+            AudioManager.instance.Stop("BoxActive");
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 
             DollInBox.EscapeFrom( transform, LayerMask.NameToLayer( "Player" ) );
             DollInBox.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Escape );
+            AudioManager.instance.Play("DollBox");
             photonView.RPC("ShareDollInBox_RPC", RpcTarget.AllViaServer);
         }
 
@@ -132,6 +134,7 @@ namespace KSH_Lib.Object
         {
             isDollPurifying = true;
             photonView.RPC( "ShareDustEffect", RpcTarget.All, false );
+
             while (true)
             {
                 yield return null;
@@ -141,8 +144,10 @@ namespace KSH_Lib.Object
                 }
                 else if (DollInBox.GetDollData.DevilHP <= 0.0f)
                 {
+                    Debug.Log("Start Remove");
+                    AudioManager.instance.Stop("BoxActive");
                     phaseEffect.DoFade(startHeight, 0.0f, destroyTime);
-
+                    AudioManager.instance.Play("BoxDestroy");
                     yield return new WaitForSeconds(destroyTime);
 
                     PhotonNetwork.Destroy(gameObject);
