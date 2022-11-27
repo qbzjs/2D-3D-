@@ -124,7 +124,7 @@ namespace GHJ_Lib
             if (targetController.gameObject.CompareTag(GameManager.DollTag))
             {
                 castingSystem.ForceSetRatioTo(RateOfGauge);
-                castingSystem.StartCasting(CastingSystem.Cast.CreateByRatio(deltaRatio: -DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed/MaxGauge, destRatio: 0.0f, coolTime: CoolTime),
+                castingSystem.StartReverseCasting(CastingSystem.Cast.CreateByRatio(deltaRatio: -DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed/MaxGauge, destRatio: 0.0f, coolTime: CoolTime),
                     new CastingSystem.CastFuncSet(SyncDataWith: SyncGauge,RunningCondition: DollRunningCondition, RunningAction : DollRunningAction, PauseAction: DollPauseAction,FinishAction: DollFinishAction)
                     );
                 return true;
