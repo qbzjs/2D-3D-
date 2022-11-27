@@ -5,7 +5,6 @@ using KSH_Lib;
 using Photon.Pun;
 using Photon.Realtime;
 using KSH_Lib.Data;
-using MSLIMA.Serializer;
 using KSH_Lib.Object;
 namespace GHJ_Lib
 {
@@ -36,7 +35,7 @@ namespace GHJ_Lib
 		public GameObject BloodDecal;
 		public GameObject BloodSpawner;
 		public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
-
+		
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
@@ -60,7 +59,7 @@ namespace GHJ_Lib
 
         public void ChangeBvToBeCaught(BaseCameraController cam)
 		{
-			//characterModel.gameObject.SetActive(false);
+			characterModel.gameObject.SetActive(false);
 			ChangeCamera(cam);
 			ChangeBehaviorTo(BehaviorType.BeCaught);
 		}
@@ -78,27 +77,22 @@ namespace GHJ_Lib
 
 		public void ChangeBvToBePurifying(KSH_Lib.Object.PurificationBox puriBox)
 		{
-			//characterModel.gameObject.SetActive(true);
+			characterModel.gameObject.SetActive(true);
 			puriBox.SetDoll(this);
 
 			if (photonView.IsMine)
 			{
-				byte[] bytes = new byte[0];
-				Serializer.Serialize(puriBox.CharacterPos.position, ref bytes);
-				photonView.RPC("ChangeTransform", RpcTarget.AllViaServer, bytes);
+				//byte[] bytes = new byte[0];
+				//Serializer.Serialize(puriBox.CharacterPos.position, ref bytes);
+				//photonView.RPC("ChangeTransformRPC", RpcTarget.AllViaServer, bytes);
 				ChangeBehaviorTo(BehaviorType.BePurifying);
 				//StartCoroutine( ChangeDevilHPByDeltaTime( puriBox.Damage, () => (CurBehavior is BvEscape) ) );
 			}
-			characterModel.transform.rotation = puriBox.CharacterPos.rotation;
+			//characterModel.transform.rotation = puriBox.CharacterPos.rotation;
+			ChangeTransform(puriBox.CharacterPos.transform);
 
 			ChangeCamera(tpvCam);
 			StageManager.CharacterLayerChange(characterObj, LayerMask.NameToLayer("Player"));
-		}
-		[PunRPC]
-		public void ChangeTransform(byte[] data)
-		{
-			int offset = 0;
-			characterObj.transform.position = Serializer.DeserializeVector3(data, ref offset);
 		}
 
 

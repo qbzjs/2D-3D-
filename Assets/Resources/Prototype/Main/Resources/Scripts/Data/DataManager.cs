@@ -31,6 +31,7 @@ namespace KSH_Lib
 		string CharcterStatusCSV = Application.streamingAssetsPath + "/Datas/CharacterStatus.csv";
 		string ItemDataCSV = Application.streamingAssetsPath + "/Datas/ItemData.csv";
 
+		public RoleData.RoleGroup GetRoleGroup { get { return LocalPlayerData.roleData.Group; } }
 		public RoleData.RoleType GetLocalRoleType { get { return LocalPlayerData.roleData.Type; } }
 
 		// Role Informations

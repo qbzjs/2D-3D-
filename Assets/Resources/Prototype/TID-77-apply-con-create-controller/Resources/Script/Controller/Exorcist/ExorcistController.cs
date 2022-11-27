@@ -30,6 +30,7 @@ namespace GHJ_Lib
 		//Effect Image
 		public Image[] BloodImages;
 
+		public bool IsPickupDoll { get; protected set; }
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
@@ -38,9 +39,16 @@ namespace GHJ_Lib
 			//CurBehavior.PushSuccessorState(idle);
 		}
 
+        protected override void Update()
+        {
+            base.Update();
+
+			BaseAnimator.SetFloat("MoveX", inputDir.x);
+			BaseAnimator.SetFloat("MoveY", inputDir.y);
+		}
 
 
-		public override void InitCameraSetting()
+        public override void InitCameraSetting()
 		{
 			if (photonView.IsMine)
 			{
@@ -64,7 +72,7 @@ namespace GHJ_Lib
 		public override void ImprisonDoll()
 		{
 			DollController doll = caughtDoll.GetComponent<DollController>();
-			//CatchObj[doll.TypeIndex - 5].gameObject.SetActive(false);
+			CatchObj[doll.TypeIndex - 5].gameObject.SetActive(false);
 
 			var interactable = gameObject.GetComponentInChildren<KSH_Lib.Object.Interactor>().Interactable;
 			if (interactable == null)
@@ -109,8 +117,6 @@ namespace GHJ_Lib
 			//}
 
 
-			BaseAnimator.SetFloat("MoveX", inputDir.x);
-			BaseAnimator.SetFloat("MoveY", inputDir.y);
 
 			if (photonView.IsMine)
 			{
@@ -136,10 +142,10 @@ namespace GHJ_Lib
 		[PunRPC]
 		protected override void ChangeBehaviorTo_RPC(BehaviorType behaviorType)
 		{
-			if (behaviorType != BehaviorType.Idle && IsMine)
-			{
-				BaseAnimator.SetFloat("AnimationSpeed", 1.0f);
-			}
+			//if (behaviorType != BehaviorType.Idle && IsMine)
+			//{
+			//	BaseAnimator.SetFloat("AnimationSpeed", 1.0f);
+			//}
 
 			switch (behaviorType)
 			{
@@ -173,10 +179,6 @@ namespace GHJ_Lib
 				break;
 			}
 		}
-		private void OnGUI()
-		{
-			GUI.Box(new Rect(100, 30, 150, 30), direction.ToString());
-		}
 
 
 		/*--- AnimationCallbacks Methods ---*/
@@ -200,7 +202,7 @@ namespace GHJ_Lib
 		public void PickUp()
 		{
 			DollController doll = caughtDoll.GetComponent<DollController>();
-			//CatchObj[doll.TypeIndex - 5].gameObject.SetActive(true);
+			CatchObj[doll.TypeIndex - 5].gameObject.SetActive(true);
 			if (doll.CurBehavior is BvbeTrapped)
 			{
 				//해당 트랩 회수
@@ -209,6 +211,14 @@ namespace GHJ_Lib
 			doll.ChangeBvToBeCaught(tpvCam);
 		}
 
+		void OnPickUpDoll()
+        {
+			IsPickupDoll = true;
+        }
+		void OnReleaseDoll()
+        {
+			IsPickupDoll = false;
+        }
 
         public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
@@ -225,6 +235,9 @@ namespace GHJ_Lib
 				stream.SendNext(this.transform.position.x);
 				stream.SendNext(this.transform.position.y);
 				stream.SendNext(this.transform.position.z);
+
+				stream.SendNext(inputDir.x);
+				stream.SendNext(inputDir.y);
 			}
 			if (stream.IsReading)
 			{
@@ -242,6 +255,9 @@ namespace GHJ_Lib
 				y = (float)stream.ReceiveNext();
 				z = (float)stream.ReceiveNext();
 				this.transform.position = new Vector3(x, y, z);
+
+				inputDir.x = (float)stream.ReceiveNext();
+				inputDir.y = (float)stream.ReceiveNext();
 			}
 		}
 	}

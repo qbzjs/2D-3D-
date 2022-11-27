@@ -14,14 +14,20 @@ namespace GHJ_Lib
             }
             //PlayAnimation( actor );
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
-            if(actor.IsMine && actor is ExorcistController)
-            {
-                actor.BaseAnimator.SetFloat( "AnimationSpeed", 0.0f );
-            }
+            //if(actor.IsMine && actor is ExorcistController)
+            //{
+            //    actor.BaseAnimator.SetFloat( "AnimationSpeed", 0.0f );
+            //}
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
+            if(actor is DollController)
+            {
+                var curDollHP = DataManager.Instance.LocalPlayerData.roleData.GetDollHP();
+                var hpRate = curDollHP / actor.GetRoleInfo.GetDollHP();
+                actor.BaseAnimator.SetFloat("HP", hpRate);
+            }
 
             if( !actor.photonView.IsMine )
             {
@@ -51,9 +57,6 @@ namespace GHJ_Lib
 
             if ( actor is DollController )
             {
-                var curDollHP = DataManager.Instance.LocalPlayerData.roleData.GetDollHP();
-                var hpRate = curDollHP / actor.GetRoleInfo.GetDollHP();
-                actor.BaseAnimator.SetFloat( "HP", hpRate );
                 DoDollHide(actor);
                 DoDollSprint( actor );
             }
