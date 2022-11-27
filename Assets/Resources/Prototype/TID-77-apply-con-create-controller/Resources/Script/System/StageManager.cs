@@ -112,7 +112,7 @@ namespace GHJ_Lib
 			introUIObj.SetActive(true);
 			introUICanvasGroup.alpha = 0.0f;
 
-			introUICanvasGroup.LeanAlpha(1.0f, 1.0f);
+			introUICanvasGroup.LeanAlpha(1.0f, 0.5f);
 
 			while ( true )
 			{
@@ -142,7 +142,7 @@ namespace GHJ_Lib
 				yield return null;
 			}
 
-			introUICanvasGroup.LeanAlpha(0.0f, 1.0f);
+			introUICanvasGroup.LeanAlpha(0.0f, 0.5f);
 
 			yield return new WaitForSeconds( waitTime );
 			LocalController.TPVCam.ResetCamTarget( camResetTime );
