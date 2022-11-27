@@ -83,6 +83,7 @@ namespace GHJ_Lib
 		public void ChangeBvToBePurifying(KSH_Lib.Object.PurificationBox puriBox)
 		{
 			characterModel.gameObject.SetActive(true);
+			HealEffect.Stop();// 임시방편
 			puriBox.SetDoll(this);
 
 			if (photonView.IsMine)
