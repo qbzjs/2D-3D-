@@ -21,7 +21,7 @@ namespace GHJ_Lib
                 DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.Attack );
             }
             PlayAnimation( actor );
-            AudioManager.instance.Play("BishopAttack", AudioManager.PlayTarget.Exorcist);
+            AudioManager.instance.Play("BishopAttack");
             if (actor.skill is BishopSkill)
             {
                 isBishopPassive = true;

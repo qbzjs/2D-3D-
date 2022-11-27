@@ -43,7 +43,7 @@ namespace GHJ_Lib
 				StageManager.Instance.dollUI.CharacterSkill.StartCountDown(15.0f);
 			}
 			IsCoolTime = true;
-			AudioManager.instance.Play("WolfSkill", AudioManager.PlayTarget.Doll);
+			AudioManager.instance.Play("WolfSkill");
 			//½ºÅ³Áß
 			yield return new WaitForSeconds(0.2f);//¼±µô
 

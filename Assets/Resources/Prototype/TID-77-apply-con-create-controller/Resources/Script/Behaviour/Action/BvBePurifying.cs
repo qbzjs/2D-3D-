@@ -17,7 +17,7 @@ namespace GHJ_Lib
             //actor.BaseAnimator.Play("Fear");
             actor.BaseAnimator.SetBool("IsPurifying", true);
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
-            AudioManager.instance.Play("BoxActive");
+            AudioManager.instance.Play("BoxActive", AudioManager.PlayTarget.Doll);
             if ( actor.IsMine )
             {
                 actor.ActivateCameraCollision( false );
@@ -49,7 +49,7 @@ namespace GHJ_Lib
 
                 if ( dollData.DevilHP < 0.0f )
                 {
-                    AudioManager.instance.Play("DollDie");
+                    AudioManager.instance.Play("DollDie", AudioManager.PlayTarget.Doll);
                     actor.BaseAnimator.SetBool("IsPurifying", false);
                     //actor.BaseAnimator.Play( "Idle_A" );
                     actor.BecomeGhost();

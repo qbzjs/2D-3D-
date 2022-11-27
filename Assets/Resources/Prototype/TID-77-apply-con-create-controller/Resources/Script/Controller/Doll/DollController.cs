@@ -389,7 +389,7 @@ namespace GHJ_Lib
             }
 
             controller.SimpleMove( direction * DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed );
-			AudioManager.instance.Play("DollWalk");
+			AudioManager.instance.Play("DollWalk", AudioManager.PlayTarget.Doll);
             if ( direction.sqrMagnitude <= 0 )
             {
                 BaseAnimator.SetFloat( "Move", 0 );

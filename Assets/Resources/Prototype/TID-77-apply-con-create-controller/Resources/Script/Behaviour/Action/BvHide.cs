@@ -20,7 +20,7 @@ namespace GHJ_Lib
                 StageManager.Instance.dollUI.CommomSkill.StartCountDown(1.0f);
             }
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
-            AudioManager.instance.Play("DollHide");
+            AudioManager.instance.Play("DollHide", AudioManager.PlayTarget.Doll);
 
             actor.BaseAnimator.SetBool("IsHide", true);
             
