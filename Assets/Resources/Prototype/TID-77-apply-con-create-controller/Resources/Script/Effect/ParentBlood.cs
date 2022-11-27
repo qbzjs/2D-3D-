@@ -7,6 +7,7 @@ namespace GHJ_Lib
 	public class ParentBlood: MonoBehaviour
 	{
 		[SerializeField] GameObject[] Bloods = new GameObject[5];
+		Quaternion[] initRots = new Quaternion[5];
 		BottomBlood bottomBlood;
 		SideBlood[] sideBloods=new SideBlood[4];
 		private void OnEnable()
@@ -17,6 +18,16 @@ namespace GHJ_Lib
 			sideBloods[2] = Bloods[3].GetComponent<SideBlood>();
 			sideBloods[3] = Bloods[4].GetComponent<SideBlood>();
 
+			for(int i=0;i<Bloods.Length;++i)
+			{
+				initRots[i] = new Quaternion();
+				initRots[i] = Bloods[i].transform.localRotation;
+			}
+			bottomBlood.gameObject.transform.position = transform.position;
+			for (int i = 0; i < sideBloods.Length; ++i)
+			{
+				sideBloods[i].gameObject.transform.position = transform.position;
+			}
 		}
         void Update()
 		{
@@ -34,11 +45,20 @@ namespace GHJ_Lib
 		{
 			this.transform.position = transform.position;
 			this.transform.rotation = transform.rotation;
+
+			bottomBlood.gameObject.SetActive(true);
+			bottomBlood.gameObject.transform.position = transform.position;
+			bottomBlood.gameObject.transform.localRotation = initRots[0];
 			bottomBlood.Activate();
-			sideBloods[0].Activate();
-			sideBloods[1].Activate();
-			sideBloods[2].Activate();
-			sideBloods[3].Activate();
+
+			for (int i = 0; i < sideBloods.Length; ++i)
+			{
+				sideBloods[i].gameObject.SetActive(true);
+				sideBloods[i].gameObject.transform.position = transform.position;
+				sideBloods[i].gameObject.transform.localRotation = initRots[i+1];
+				sideBloods[i].Activate();
+			}
+
 		}
 	}
 }

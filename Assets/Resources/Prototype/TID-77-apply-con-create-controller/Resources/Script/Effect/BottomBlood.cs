@@ -40,7 +40,7 @@ namespace GHJ_Lib
         }
         IEnumerator ClearBlood(DecalProjector projector)
         {
-
+            projector.fadeFactor = 1.0f;
             float curTime = Time.time;
             while (true)
             {

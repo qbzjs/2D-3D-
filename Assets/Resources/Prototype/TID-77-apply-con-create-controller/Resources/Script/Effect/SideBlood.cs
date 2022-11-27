@@ -26,20 +26,20 @@ namespace GHJ_Lib
                 {
                     decalProjector.material = materials[Random.Range(0, materials.Length - 1)];
                     StartCoroutine(ClearBlood(decalProjector));
-                    MoveToWall(hit.point);
+                    MoveToWall(hit.point,hit.normal);
                     return;
                 }
             }
             this.gameObject.SetActive(false);
         }
-        private void MoveToWall(Vector3 hitPoint)
+        private void MoveToWall(Vector3 hitPoint,Vector3 normal)
         {
             transform.position = hitPoint;
             transform.position -= transform.forward* 0.1f;
         }
         IEnumerator ClearBlood(DecalProjector projector)
         {
-
+            projector.fadeFactor = 1.0f;
             float curTime = Time.time;
             while (true)
             {

@@ -34,7 +34,7 @@ namespace GHJ_Lib
 
 		
 		public GameObject BloodDecal;
-
+		public GameObject BloodSpawner;
 		public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
 
 		
@@ -461,7 +461,7 @@ namespace GHJ_Lib
 		//effect
 		public void ShowHitEffect()
 		{
-			EffectManager.Instance.ShowDecal(characterModel, BloodDecal);
+			EffectManager.Instance.ShowDecal(BloodSpawner, BloodDecal);
 		}
 	}
 }
