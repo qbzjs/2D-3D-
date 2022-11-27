@@ -295,7 +295,7 @@ namespace GHJ_Lib
 					DollPrefabs[3], ExorcistPrefabs[3],
 					DollPrefabs[4], ExorcistPrefabs[4],
 					NormalAltarPrefab, ExitAltarPrefab, FinalAltarPrefab,
-					PurificationBoxPrefab
+					PurificationBoxPrefab,DoorPrefab
 					}
 				);
 		}
@@ -305,10 +305,14 @@ namespace GHJ_Lib
 			networkGenerator.GenerateSpread(NormalAltarPrefab, NormalAltarGenPos, Count, InitAreaRadius, CenterPosition);
 			networkGenerator.GenerateRandomly(ExitAltarPrefab, ExitAltarGenPos);
 			networkGenerator.Generate(FinalAltarPrefab, FinalAltarGenPos.transform.position, FinalAltarGenPos.rotation);
-
+			
 			foreach (var purificationBoxGenPos in PurificationBoxGenPos)
 			{
 				networkGenerator.Generate(PurificationBoxPrefab, purificationBoxGenPos.transform.position, purificationBoxGenPos.transform.rotation);
+			}
+			foreach (var DoorPos in DoorGenPos)
+			{
+				networkGenerator.Generate(DoorPrefab, DoorPos.transform.position, DoorPos.transform.rotation);
 			}
 		}
 		void GeneratePlayerCharacter()

@@ -20,6 +20,7 @@ namespace KSH_Lib
             PurificationBox,
             Cross,
             Trap,
+            Door,
         }
 
         /*--- Serialize Fields ---*/
