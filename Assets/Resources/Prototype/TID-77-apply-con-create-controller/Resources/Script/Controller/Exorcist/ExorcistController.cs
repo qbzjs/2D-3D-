@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using KSH_Lib;
+using LSH_Lib;
 using Photon.Pun;
 using Photon.Realtime;
 namespace GHJ_Lib
@@ -152,6 +153,7 @@ namespace GHJ_Lib
 				case BehaviorType.Attack:
 				{
 					Debug.Log("attack : " + attack);
+					
 					CurBehavior.PushSuccessorState(attack);
 				}
 				break;

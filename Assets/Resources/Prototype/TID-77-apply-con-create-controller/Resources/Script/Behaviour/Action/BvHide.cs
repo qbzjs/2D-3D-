@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
 using KSH_Lib.Data;
-
+using LSH_Lib;
 namespace GHJ_Lib
 {
 	public class BvHide: Behavior<NetworkBaseController>
@@ -20,10 +20,10 @@ namespace GHJ_Lib
                 StageManager.Instance.dollUI.CommomSkill.StartCountDown(1.0f);
             }
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
-
+            AudioManager.instance.Play("DollHide");
 
             actor.BaseAnimator.SetBool("IsHide", true);
-
+            
             //if (actor.photonView.IsMine)
             //{
             //    // >> Changed By KSH 22.11.26

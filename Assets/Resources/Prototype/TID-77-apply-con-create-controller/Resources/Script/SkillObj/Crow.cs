@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using KSH_Lib;
+using LSH_Lib;
 namespace GHJ_Lib
 {
     public class Crow : EffectArea
@@ -97,6 +98,7 @@ namespace GHJ_Lib
         {
             if (other.gameObject.CompareTag(GameManager.DollTag))
             {
+                AudioManager.instance.Play("Crow");
                 return other.gameObject;
             }
             return null;

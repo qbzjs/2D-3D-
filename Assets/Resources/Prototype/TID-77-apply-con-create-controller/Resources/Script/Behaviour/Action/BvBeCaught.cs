@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
+using LSH_Lib;
 namespace GHJ_Lib
 {
 	public class BvBeCaught: Behavior<NetworkBaseController>
@@ -14,6 +15,7 @@ namespace GHJ_Lib
             }
             //resistGauge = 0.0f;
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
+            AudioManager.instance.Play("DollCaught");
             actor.BaseAnimator.SetBool("IsCaught", true);
             if (actor.IsMine)
             { 
