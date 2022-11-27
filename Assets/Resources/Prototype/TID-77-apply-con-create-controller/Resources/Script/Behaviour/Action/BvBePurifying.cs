@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
 using KSH_Lib.Data;
+using LSH_Lib;
 namespace GHJ_Lib
 {
     public class BvBePurifying : Behavior<NetworkBaseController>
@@ -16,6 +17,7 @@ namespace GHJ_Lib
             //actor.BaseAnimator.Play("Fear");
             actor.BaseAnimator.SetBool("IsPurifying", true);
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
+            AudioManager.instance.Play("BoxActive", AudioManager.PlayTarget.Doll);
             if ( actor.IsMine )
             {
                 actor.ActivateCameraCollision( false );
@@ -47,6 +49,7 @@ namespace GHJ_Lib
 
                 if ( dollData.DevilHP < 0.0f )
                 {
+                    AudioManager.instance.Play("DollDie", AudioManager.PlayTarget.Doll);
                     actor.BaseAnimator.SetBool("IsPurifying", false);
                     //actor.BaseAnimator.Play( "Idle_A" );
                     actor.BecomeGhost();

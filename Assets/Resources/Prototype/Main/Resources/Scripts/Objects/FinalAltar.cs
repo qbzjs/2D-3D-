@@ -57,7 +57,7 @@ namespace KSH_Lib.Object
             castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / MaxGauge ),
                 new CastingSystem.CastFuncSet( RunningCondition: RunningCondition, PauseAction: PauseAction, FinishAction: FinishCasting )
                 );
-            AudioManager.instance.Play("DollNormalAltar");
+            AudioManager.instance.Play("DollNormalAltar",AudioManager.PlayTarget.Doll);
             return true;
         }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib.Data;
 using UnityEngine.UI;
+using LSH_Lib;
 namespace GHJ_Lib
 {
 	public class BvAttack: Behavior<NetworkBaseController>
@@ -20,6 +21,7 @@ namespace GHJ_Lib
                 DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.Attack );
             }
             PlayAnimation( actor );
+            AudioManager.instance.Play("BishopAttack");
             if (actor.skill is BishopSkill)
             {
                 isBishopPassive = true;
@@ -76,6 +78,7 @@ namespace GHJ_Lib
 
         public virtual void Attack(DollData targetData)
         {
+            AudioManager.instance.Play("BishopHit");
             targetData.DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower;
             if (isBishopPassive)
             {

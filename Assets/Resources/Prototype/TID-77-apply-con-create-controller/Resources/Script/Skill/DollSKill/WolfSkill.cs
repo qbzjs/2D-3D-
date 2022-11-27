@@ -4,7 +4,7 @@ using UnityEngine;
 using KSH_Lib;
 using Photon.Pun;
 using Photon.Realtime;
-
+using LSH_Lib;
 namespace GHJ_Lib
 {
 	public class WolfSkill: DollSkill
@@ -45,6 +45,7 @@ namespace GHJ_Lib
 				StageManager.Instance.dollUI.CharacterSkill.StartCountDown(15.0f);
 			}
 			IsCoolTime = true;
+			AudioManager.instance.Play("WolfSkill");
 			//½ºÅ³Áß
 			yield return new WaitForSeconds(0.2f);//¼±µô
 

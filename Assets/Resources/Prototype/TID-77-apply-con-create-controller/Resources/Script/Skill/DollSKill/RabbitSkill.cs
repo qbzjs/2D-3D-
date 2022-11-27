@@ -6,7 +6,7 @@ using KSH_Lib.Data;
 using Photon.Pun;
 using Photon.Realtime;
 using KSH_Lib.Object;
-
+using LSH_Lib;
 namespace GHJ_Lib
 {
 	public class RabbitSkill: DollSkill
@@ -74,6 +74,7 @@ namespace GHJ_Lib
         public override IEnumerator ExcuteActiveSkill()
 		{
 			IsCoolTime = true;
+			AudioManager.instance.Play("RabbitSkill", AudioManager.PlayTarget.Doll);
 			//½ºÅ³Áß
 			yield return new WaitForSeconds(0.2f);//¼±µô
 			IsHeal = true;

@@ -56,7 +56,7 @@ namespace KSH_Lib.Object
                 {
                     castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / MaxGauge ),
                         new CastingSystem.CastFuncSet ( RunningCondition: DollRunningCondition, PauseAction: PauseAction, FinishAction: DollFinishAction ) );
-                    AudioManager.instance.Play("DollExitAltar");
+                    AudioManager.instance.Play("DollExitAltar", AudioManager.PlayTarget.Doll);
                 }
                 else if (targetController.gameObject.CompareTag( GameManager.ExorcistTag ) )
                 {

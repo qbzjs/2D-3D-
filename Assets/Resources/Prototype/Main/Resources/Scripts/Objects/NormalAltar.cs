@@ -108,7 +108,7 @@ namespace KSH_Lib.Object
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / MaxGauge, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet( SyncGauge, DollRunningCondition, ChangeCandleLightsToEveryone, DollPauseAction, DollFinishAction )
                     );
-                AudioManager.instance.Play("DollNormalAltar");
+                AudioManager.instance.Play("DollNormalAltar", AudioManager.PlayTarget.Doll);
                 return true;
             }
             else if(targetController.gameObject.CompareTag(GameManager.ExorcistTag))
@@ -143,7 +143,7 @@ namespace KSH_Lib.Object
                     if (!candleLights[i].activeInHierarchy)
                     {
                         candleLights[i].SetActive(true);
-                        AudioManager.instance.Play("LightOn");
+                        AudioManager.instance.Play("LightOn",AudioManager.PlayTarget.Doll);
                     }
                     curIdx = i;
                     continue;

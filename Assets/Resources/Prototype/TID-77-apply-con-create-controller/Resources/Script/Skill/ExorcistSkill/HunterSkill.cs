@@ -108,6 +108,7 @@ namespace GHJ_Lib
             {
                 Debug.Log("Trap");
                 yield return new WaitForEndOfFrame();
+                AudioManager.instance.Play("HunterSkill", AudioManager.PlayTarget.Exorcist);
                 if (!isUse)
                 {
                     Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);

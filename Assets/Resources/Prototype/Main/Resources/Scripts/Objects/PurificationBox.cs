@@ -73,6 +73,7 @@ namespace KSH_Lib.Object
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / MaxGauge, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet( RunningCondition: DollRunningAction, PauseAction: PauseAction, FinishAction: DollFinishAction)
                     );
+                AudioManager.instance.Play("DollPurificationBoxInteract", AudioManager.PlayTarget.Doll);
             }
             else if(targetController.gameObject.CompareTag(GameManager.ExorcistTag))
             {
@@ -101,7 +102,7 @@ namespace KSH_Lib.Object
             castingSystem.ResetCasting();
             IsInteracting = false;
             photonView.RPC( "ShareInteractingInPurificationBox_RPC", RpcTarget.AllViaServer, IsInteracting );
-            
+            AudioManager.instance.Stop("DollPurificationBoxInteract");
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
         }
         void ExorcistFinishAction()
@@ -121,12 +122,12 @@ namespace KSH_Lib.Object
         public void DollFinishAction()
         {
             photonView.RPC( "ShareDustEffect", RpcTarget.All, false );
-            AudioManager.instance.Stop("BoxActive");
+            AudioManager.instance.Stop("DollPurificationBoxInteract");
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 
             DollInBox.EscapeFrom( transform, LayerMask.NameToLayer( "Player" ) );
             DollInBox.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Escape );
-            AudioManager.instance.Play("DollBox");
+            AudioManager.instance.Play("BoxOpen");
             photonView.RPC("ShareDollInBox_RPC", RpcTarget.AllViaServer);
         }
 
@@ -134,7 +135,6 @@ namespace KSH_Lib.Object
         {
             isDollPurifying = true;
             photonView.RPC( "ShareDustEffect", RpcTarget.All, false );
-
             while (true)
             {
                 yield return null;
@@ -145,7 +145,6 @@ namespace KSH_Lib.Object
                 else if (DollInBox.GetDollData.DevilHP <= 0.0f)
                 {
                     Debug.Log("Start Remove");
-                    AudioManager.instance.Stop("BoxActive");
                     phaseEffect.DoFade(startHeight, 0.0f, destroyTime);
                     AudioManager.instance.Play("BoxDestroy");
                     yield return new WaitForSeconds(destroyTime);

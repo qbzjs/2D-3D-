@@ -6508,7 +6508,7 @@ MonoBehaviour:
   sounds:
   - name: BGM
     clip: {fileID: 8300000, guid: 4912c2e139733614ea1fe6874787e555, type: 3}
-    volume: 0.3
+    volume: 0.2
     pitch: 1
     source: {fileID: 0}
     loop: 1
@@ -6520,6 +6520,13 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
     loop: 1
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: LightOn
+    clip: {fileID: 8300000, guid: 91d1bd9c4366c5e4e839af5ff564551c, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
     mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
   - name: DollExitAltar
     clip: {fileID: 8300000, guid: ced6c4437d9317b4781088c8afc16ec1, type: 3}
@@ -6535,7 +6542,7 @@ MonoBehaviour:
     source: {fileID: 0}
     loop: 0
     mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
-  - name: DollBox
+  - name: BoxOpen
     clip: {fileID: 8300000, guid: 373d6242637532441a74ad9e8eb2a48f, type: 3}
     volume: 1
     pitch: 1
@@ -6556,13 +6563,6 @@ MonoBehaviour:
     source: {fileID: 0}
     loop: 1
     mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
-  - name: LightOn
-    clip: {fileID: 8300000, guid: 91d1bd9c4366c5e4e839af5ff564551c, type: 3}
-    volume: 1
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
   - name: BoxDestroy
     clip: {fileID: 8300000, guid: 1018deb09089c5f4f955019840dcf3dc, type: 3}
     volume: 1
@@ -6572,6 +6572,167 @@ MonoBehaviour:
     mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
   - name: FinalOpen
     clip: {fileID: 8300000, guid: 09c44416cffee104ba1a79d827e32ee6, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: BishopSkill
+    clip: {fileID: 8300000, guid: 5b5bff578745ea748a1be230b2a5c7d9, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: HunterSkill
+    clip: {fileID: 8300000, guid: 27570c9adf0acc44fa2973c145257135, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: CollectObject
+    clip: {fileID: 8300000, guid: 2fad7590417d9684db920753b4876013, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: Crow
+    clip: {fileID: 8300000, guid: c1df79ad73139e44ba9cef5c109d6f5a, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: HunterAttack
+    clip: {fileID: 8300000, guid: f219c28637ffc5e428fc27639a92bafe, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: BishopAttack
+    clip: {fileID: 8300000, guid: f219c28637ffc5e428fc27639a92bafe, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: TrapActive
+    clip: {fileID: 8300000, guid: 9c51834ff8c514341bffb03ab2f7ce1c, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: BishopRunRampage
+    clip: {fileID: 8300000, guid: a67fb3331c2f93645a6ba1dece8f3997, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: ExorcistInteract
+    clip: {fileID: 8300000, guid: 9d801b6bc823f0d40ab90946b4e0b619, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: BishopHit
+    clip: {fileID: 8300000, guid: 2f6eb460a92e63d4698cebc8a9601dad, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: HunterHit
+    clip: {fileID: 8300000, guid: 20d655caaac948a43805c228e3e9f8d2, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: DollCaught
+    clip: {fileID: 8300000, guid: 2a810f3ac1c47ff4cb64645c167bf33c, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: ExoricstPurificationBox
+    clip: {fileID: 8300000, guid: 14db9d1b152e2944cb6897ff7b733d42, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: DollHit1
+    clip: {fileID: 8300000, guid: c86b01d77dff7e74d819f37e77268c10, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: DollHit2
+    clip: {fileID: 8300000, guid: 375d356bc2d6a754b951b50fa4cfe560, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: DollHit3
+    clip: {fileID: 8300000, guid: 73e4bbeb3c5597047baa9d1b8322e78b, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: DollDie
+    clip: {fileID: 8300000, guid: 4cfaf9b711dde1a4fb42f085527ecbe9, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: DollCollapse
+    clip: {fileID: 8300000, guid: 005620c34aafbeb4b8605a60e97903c9, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: RabbitSkill
+    clip: {fileID: 8300000, guid: 74cb042640a61d040a419b221b0bb74d, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: WolfSkill
+    clip: {fileID: 8300000, guid: d69762b4fd30b5748ba62320ed05de62, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: DollPurificationBoxInteract
+    clip: {fileID: 8300000, guid: c68d7eaaf3ef03a49b90955291431980, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: DollHide
+    clip: {fileID: 8300000, guid: f0f8072d848b132428b1daeb0fdaf865, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: DollWalk
+    clip: {fileID: 8300000, guid: ceb2bc6da0750c44b9912cd0523d3fbd, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}

@@ -7,6 +7,7 @@ using Photon.Realtime;
 using KSH_Lib.Data;
 using MSLIMA.Serializer;
 using KSH_Lib.Object;
+using LSH_Lib;
 namespace GHJ_Lib
 {
 	public class DollController : NetworkBaseController, IPunObservable
@@ -363,7 +364,7 @@ namespace GHJ_Lib
             }
 
             controller.SimpleMove( direction * DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed );
-
+			AudioManager.instance.Play("DollWalk", AudioManager.PlayTarget.Doll);
             if ( direction.sqrMagnitude <= 0 )
             {
                 BaseAnimator.SetFloat( "Move", 0 );
@@ -371,6 +372,7 @@ namespace GHJ_Lib
             else
             {
                 BaseAnimator.SetFloat( "Move", DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed );
+				
             }
         }
 

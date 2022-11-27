@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using KSH_Lib;
 using KSH_Lib.Data;
+using LSH_Lib;
 namespace GHJ_Lib
 {
 	public class BvGetHit: Behavior<NetworkBaseController>
@@ -19,6 +20,7 @@ namespace GHJ_Lib
             (actor as DollController).ShowHitEffect();
             // >> Changed By KSH 22.11.26
             //actor.BaseAnimator.Play("Hit");
+            AudioManager.instance.Play("DollHit1");
             actor.BaseAnimator.SetTrigger( "GetHit" );
 
             if (actor.photonView.IsMine)
