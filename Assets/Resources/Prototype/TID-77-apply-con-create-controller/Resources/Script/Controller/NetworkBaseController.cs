@@ -9,6 +9,7 @@ using KSH_Lib.Data;
 using Cinemachine;
 using System;
 using KSH_Lib.Object;
+using MSLIMA.Serializer;
 namespace GHJ_Lib
 {
 	public class NetworkBaseController : BasePlayerController, IPunObservable
@@ -104,7 +105,6 @@ namespace GHJ_Lib
 				var velocity = direction * DataManager.Instance.LocalPlayerData.roleData.MoveSpeed;
 				var turnSpeed = rotateSpeed;
 				photonTransformView.SetSynchronizedValues( velocity, turnSpeed );
-
 			}
 			RotateToDirection();
 			MoveCharacter();
@@ -279,6 +279,21 @@ namespace GHJ_Lib
 		public bool IsInteractionKeyDown()
 		{
 			return Input.GetKeyDown( KeyCode.G );
+		}
+		public void ChangeTransform(in Transform targetTF)
+		{
+			byte[] bytes = new byte[0];
+			Serializer.Serialize(targetTF.transform.position, ref bytes);
+			Serializer.Serialize(targetTF.transform.rotation, ref bytes);
+			photonView.RPC("ChangeTransformRPC", RpcTarget.AllViaServer, bytes);
+		}
+		[PunRPC]
+		public void ChangeTransformRPC(byte[] data)
+		{
+			int offset = 0;
+			var pos = Serializer.DeserializeVector3(data, ref offset);
+			var rot = Serializer.DeserializeQuaternion(data, ref offset);
+			characterObj.transform.SetPositionAndRotation(pos, rot);
 		}
 
 		[PunRPC]

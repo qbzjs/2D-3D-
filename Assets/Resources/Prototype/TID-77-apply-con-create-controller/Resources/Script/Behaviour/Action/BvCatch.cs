@@ -7,7 +7,7 @@ namespace GHJ_Lib
 {
 	public class BvCatch: Behavior<NetworkBaseController>
 	{
-        float pickUpTime;
+        //float pickUpTime;
         protected override void Activate(in NetworkBaseController actor)
         {
             if ( actor.IsMine )
@@ -17,27 +17,29 @@ namespace GHJ_Lib
             actor.BaseAnimator.SetBool("IsCatch", true);
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
 
-            switch (DataManager.Instance.GetLocalRoleType)
-            {
-                case RoleData.RoleType.Bishop:
-                    {
-                        pickUpTime = 0.30f;
-                    }
-                    break;
-                case RoleData.RoleType.Hunter:
-                    {
-                        pickUpTime = 0.30f;
-                    }
-                    break;
-            }
+            //switch (DataManager.Instance.GetLocalRoleType)
+            //{
+            //    case RoleData.RoleType.Bishop:
+            //        {
+            //            pickUpTime = 0.30f;
+            //        }
+            //        break;
+            //    case RoleData.RoleType.Hunter:
+            //        {
+            //            pickUpTime = 0.30f;
+            //        }
+            //        break;
+            //}
         }
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
             AnimatorStateInfo animatorStateInfo = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
 
-            if (animatorStateInfo.normalizedTime >= pickUpTime && animatorStateInfo.IsName("Pickup") && actor.BaseAnimator.GetBool("IsCatch"))
+            //if (animatorStateInfo.normalizedTime >= pickUpTime && animatorStateInfo.IsName("Pickup") && actor.BaseAnimator.GetBool("IsCatch"))
+            ExorcistController exorcistActor = actor as ExorcistController;
+            if (exorcistActor.IsPickupDoll)
             {
-                (actor as ExorcistController).PickUp();
+                exorcistActor.PickUp();
                 actor.BaseAnimator.SetBool("IsCatch", false);
                 actor.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
             }

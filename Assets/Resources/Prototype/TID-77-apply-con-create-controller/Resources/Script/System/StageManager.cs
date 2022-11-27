@@ -61,20 +61,19 @@ namespace GHJ_Lib
 		[field: SerializeField] public CastingSystem CastSystem { get; private set; }
 
 		NetworkGenerator networkGenerator;
-		public ExorcistController Exorcist
+		public NetworkBaseController[] PlayerControllers { get; private set; } = new NetworkBaseController[5];
+		public ExorcistController ExorcistCon
 		{
 			get
 			{
-				if ( exorcist == null )
-				{
-					GameObject exor = GameObject.FindGameObjectWithTag( "Exorcist" );
-					exorcist = exor.GetComponent<ExorcistController>();
+				if(exorcistController == null)
+                {
+					exorcistController = (ExorcistController)PlayerControllers[0];
 				}
-				return exorcist;
+				return exorcistController;
 			}
 		}
-		ExorcistController exorcist;
-		public NetworkBaseController[] PlayerControllers { get; private set; } = new NetworkBaseController[5];
+		ExorcistController exorcistController;
 
 
 		/*--- Private Fields ---*/

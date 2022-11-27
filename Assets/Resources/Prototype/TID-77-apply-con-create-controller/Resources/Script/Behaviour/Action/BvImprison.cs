@@ -25,6 +25,8 @@ namespace GHJ_Lib
         {
 			AnimatorStateInfo animatorStateInfo = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
 			if (animatorStateInfo.normalizedTime >= 0.5f && actor.BaseAnimator.GetBool("IsImprison") && animatorStateInfo.IsName("Imprison"))
+			//ExorcistController exorcistActor = actor as ExorcistController;
+			//if(!exorcistActor.IsPickupDoll)
 			{
 				actor.BaseAnimator.SetBool("IsImprison", false);
 				actor.ImprisonDoll();
