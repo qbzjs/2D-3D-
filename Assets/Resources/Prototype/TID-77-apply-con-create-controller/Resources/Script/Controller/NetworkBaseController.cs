@@ -345,7 +345,6 @@ namespace GHJ_Lib
 		//행동은 한번에 하나씩 존재
 		public virtual void ChangeBehaviorTo( BehaviorType type )
 		{
-			Debug.Log("Type : " + type);
 			photonView.RPC( "ChangeBehaviorTo_RPC", RpcTarget.AllViaServer, type );
 		}
 		[PunRPC]

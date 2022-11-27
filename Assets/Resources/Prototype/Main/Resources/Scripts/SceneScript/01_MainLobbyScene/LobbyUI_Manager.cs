@@ -144,7 +144,7 @@ namespace KSH_Lib
         public override void OnJoinRandomFailed( short returnCode, string message )
         {
             base.OnJoinRandomFailed( returnCode, message );
-            Debug.Log( "OnJoinRandomFailed Called " + message );
+            //Debug.Log( "OnJoinRandomFailed Called " + message );
             // Need To Implement fail to Join popup message
         }
         public override void OnCreatedRoom()
@@ -152,16 +152,16 @@ namespace KSH_Lib
             //add new script
             PhotonNetwork.CurrentRoom.SetCustomProperties( new Hashtable { { "roomNumber", GameManager.Instance.GetRoomNumber() } } );
             //
-            Debug.Log( $"OnCreatedRoom Called, Room Name: {PhotonNetwork.CurrentRoom.Name}" );
+            //Debug.Log( $"OnCreatedRoom Called, Room Name: {PhotonNetwork.CurrentRoom.Name}" );
         }
         public override void OnCreateRoomFailed( short returnCode, string message )
         {
             base.OnCreateRoomFailed( returnCode, message );
-            Debug.Log( "OnCreateRoomFailed Called " + message );
+            //Debug.Log( "OnCreateRoomFailed Called " + message );
         }
         public override void OnJoinedRoom()
         {
-            Debug.Log( "OnJoindRoom Called" );
+            //Debug.Log( "OnJoindRoom Called" );
 
             DataManager.Instance.SetPlayerIdx();
             IsJoinedRoom = true;
@@ -180,7 +180,7 @@ namespace KSH_Lib
         public override void OnJoinRoomFailed( short returnCode, string message )
         {
             base.OnJoinRoomFailed( returnCode, message );
-            Debug.Log( "OnJoinRoomFailed Called " + message );
+            //Debug.Log( "OnJoinRoomFailed Called " + message );
         }
         public override void OnPlayerEnteredRoom( Player newPlayer )
         {
@@ -193,7 +193,7 @@ namespace KSH_Lib
 
         public override void OnLeftRoom()
         {
-            Debug.Log( "OnLeftRoom Called" );
+            //Debug.Log( "OnLeftRoom Called" );
             DataManager.Instance.ResetLocalRoleData();
             IsJoinedRoom = false;
             EnableMainLobbyCanvas();

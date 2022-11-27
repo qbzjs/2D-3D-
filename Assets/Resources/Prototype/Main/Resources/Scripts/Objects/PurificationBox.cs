@@ -141,7 +141,6 @@ namespace KSH_Lib.Object
                 }
                 else if (DollInBox.GetDollData.DevilHP <= 0.0f)
                 {
-                    Debug.Log("Start Remove");
                     phaseEffect.DoFade(startHeight, 0.0f, destroyTime);
 
                     yield return new WaitForSeconds(destroyTime);

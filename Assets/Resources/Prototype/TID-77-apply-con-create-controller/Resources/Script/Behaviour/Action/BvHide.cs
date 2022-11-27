@@ -21,32 +21,35 @@ namespace GHJ_Lib
             }
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
 
-            if (actor.photonView.IsMine)
-            {
-                // >> Changed By KSH 22.11.26
-                //actor.StartCoroutine("Hide");
-                actor.BaseAnimator.SetBool( "IsHide", true );
-            }
+
+            actor.BaseAnimator.SetBool("IsHide", true);
+
+            //if (actor.photonView.IsMine)
+            //{
+            //    // >> Changed By KSH 22.11.26
+            //    //actor.StartCoroutine("Hide");
+            //    actor.BaseAnimator.SetBool( "IsHide", true );
+            //}
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-
-
             //if()외부의 조건
             // 이동, 상호작용,아이템사용, 퇴마사로부터 피격 
+            
             if (actor.photonView.IsMine)
             {
                 if (Input.GetKeyDown(KeyCode.B))
                 {
-                    // >> Changed By KSH 22.11.26
-                    actor.BaseAnimator.SetBool( "IsHide", false );
-                    actor.StartCoroutine("UnHide");
+                    actor.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
                 }
             }
             Behavior<NetworkBaseController> Bv = PassIfHasSuccessor();
             if (Bv is BvIdle||Bv is BvGetHit)
-            { 
+            {
+                // >> Changed By KSH 22.11.26
+                actor.BaseAnimator.SetBool("IsHide", false);
+                actor.StartCoroutine("UnHide");
                 return Bv;
             }
             return null; 

@@ -130,8 +130,6 @@ namespace KSH_Lib.Object
         {
             int curLightCount = (int)OriginGauge / (int)(distribution * MaxGauge);
 
-            Debug.Log($"curLightCount: {curLightCount}");
-
             int curIdx = 0;
             for (int i = 0; i < candleLights.Length; ++i)
             {
