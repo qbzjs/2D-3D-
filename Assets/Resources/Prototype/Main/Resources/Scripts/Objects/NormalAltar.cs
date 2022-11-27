@@ -142,7 +142,11 @@ namespace KSH_Lib.Object
             {
                 if (i < curLightCount)
                 {
-                    if (!candleLights[i].activeInHierarchy) candleLights[i].SetActive(true);
+                    if (!candleLights[i].activeInHierarchy)
+                    {
+                        candleLights[i].SetActive(true);
+                        AudioManager.instance.Play("LightOn");
+                    }
                     curIdx = i;
                     continue;
                 }

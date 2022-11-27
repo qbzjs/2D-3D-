@@ -6626,7 +6626,7 @@ MonoBehaviour:
     volume: 0.3
     pitch: 1
     source: {fileID: 0}
-    loop: 0
+    loop: 1
     mixer: {fileID: -3332057722168944667, guid: 76876fb4c3bce694195e9d1027a1b5ba,
       type: 2}
   - name: DollNormalAltar
@@ -6634,17 +6634,52 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     source: {fileID: 0}
-    loop: 0
+    loop: 1
     mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
   - name: DollExitAltar
     clip: {fileID: 8300000, guid: ced6c4437d9317b4781088c8afc16ec1, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
-    loop: 0
+    loop: 1
     mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
   - name: HitAltar
     clip: {fileID: 8300000, guid: 764e2da556e3de244bea1e09b4595f00, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: DollBox
+    clip: {fileID: 8300000, guid: 373d6242637532441a74ad9e8eb2a48f, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: ExorcistBox
+    clip: {fileID: 8300000, guid: ef8eb513a1791f044abc7f3d8f6b1d93, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: BoxActive
+    clip: {fileID: 8300000, guid: 697c146e402ef3744a28fc30847e5acf, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: LightOn
+    clip: {fileID: 8300000, guid: 69bb896106318d340bc608dd27b62169, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: BoxDestroy
+    clip: {fileID: 8300000, guid: 1018deb09089c5f4f955019840dcf3dc, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
