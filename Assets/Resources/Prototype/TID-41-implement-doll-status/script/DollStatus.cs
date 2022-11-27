@@ -115,11 +115,11 @@ namespace GHJ_Lib
             return Damage;
 
         }
-        private void OnGUI()
-        {
-            GUI.Box(new Rect(0, 0, 150, 30), DollTempHealth.ToString());
-            GUI.Box(new Rect(0, 30, 150, 30), InteractionSpeed.ToString());
-        }
+        //private void OnGUI()
+        //{
+        //    GUI.Box(new Rect(0, 0, 150, 30), DollTempHealth.ToString());
+        //    GUI.Box(new Rect(0, 30, 150, 30), InteractionSpeed.ToString());
+        //}
         #region Public Methods
 
         public void Move(float moveSpeed)

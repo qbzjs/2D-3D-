@@ -166,7 +166,7 @@ namespace GHJ_Lib
                     targetViewPort.y <= 1.0f &&
                     targetViewPort.y >= 0.0f &&
                     targetViewPort.z > 0.0f);
-            Debug.Log($"IsInView : {IsInView}");
+            //Debug.Log($"IsInView : {IsInView}");
             return IsInView;
         }
 
@@ -186,11 +186,11 @@ namespace GHJ_Lib
                 
                 if (hitObj.layer == environmentLayer && !hitObj.CompareTag(FloorTag))
                 {
-                    Debug.Log("CheckObstacle : false");
+                    //Debug.Log("CheckObstacle : false");
                     return false;
                 }
             }
-            Debug.Log("CheckObstacle : true");
+            //Debug.Log("CheckObstacle : true");
             return true;
             
         }
@@ -225,7 +225,7 @@ namespace GHJ_Lib
                     check = true;
                 }
             }
-            Debug.Log($"Check : {check}");
+           // Debug.Log($"Check : {check}");
             return check;
         }
 
@@ -265,7 +265,7 @@ namespace GHJ_Lib
                         
                         if (hitObj.layer == environmentLayer && !hitObj.CompareTag(FloorTag))
                         {
-                            Debug.Log($"Hits Enviroment : {hit.collider.name}");
+                            //Debug.Log($"Hits Enviroment : {hit.collider.name}");
                             Gizmos.color = Color.green;
                             Gizmos.DrawSphere(hit.point, 0.3f);
                         }

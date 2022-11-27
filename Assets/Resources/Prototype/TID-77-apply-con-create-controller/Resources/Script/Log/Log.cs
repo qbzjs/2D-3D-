@@ -36,40 +36,40 @@ namespace GHJ_Lib
 			WriteInfo[num] = info;
 		}
 		
-		private void OnGUI()
-        {
-			if (curPlayer == null)
-			{
-				return;
-			}
+		//private void OnGUI()
+  //      {
+		//	if (curPlayer == null)
+		//	{
+		//		return;
+		//	}
 
-			DollController doll=null;
-			ExorcistController exorcist = null;
-			if (curPlayer is DollController)
-			{
-				doll = curPlayer as DollController;
-				GUI.Box(new Rect(0, 0, doll.CurBehavior.ToString().Length*10, 30), doll.CurBehavior.ToString());
-			}
+		//	DollController doll=null;
+		//	ExorcistController exorcist = null;
+		//	if (curPlayer is DollController)
+		//	{
+		//		doll = curPlayer as DollController;
+		//		GUI.Box(new Rect(0, 0, doll.CurBehavior.ToString().Length*10, 30), doll.CurBehavior.ToString());
+		//	}
 
-			if (curPlayer is ExorcistController)
-			{
-				exorcist = curPlayer as ExorcistController;
-				GUI.Box(new Rect(0, 0, exorcist.CurBehavior.ToString().Length*10, 30), exorcist.CurBehavior.ToString());
-			}
+		//	if (curPlayer is ExorcistController)
+		//	{
+		//		exorcist = curPlayer as ExorcistController;
+		//		GUI.Box(new Rect(0, 0, exorcist.CurBehavior.ToString().Length*10, 30), exorcist.CurBehavior.ToString());
+		//	}
 
-			if (isWrite)
-			{
-				for (int i = 0; i < WriteInfo.Length; ++i)
-				{
-					if (WriteInfo[i] is null)
-					{
-						continue;
-					}
-					GUI.Box(new Rect(0, 30*(i+1), WriteInfo[i].Length * 10, 30), WriteInfo[i]);
-				}
+		//	if (isWrite)
+		//	{
+		//		for (int i = 0; i < WriteInfo.Length; ++i)
+		//		{
+		//			if (WriteInfo[i] is null)
+		//			{
+		//				continue;
+		//			}
+		//			GUI.Box(new Rect(0, 30*(i+1), WriteInfo[i].Length * 10, 30), WriteInfo[i]);
+		//		}
 				
-			}
-        }
+		//	}
+  //      }
 
     
     }
