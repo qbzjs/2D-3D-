@@ -192,7 +192,7 @@ namespace GHJ_Lib
 				case KSH_Lib.Data.RoleData.RoleType.Hunter:
 				{
 					Vector3 moveDirection = camTarget.transform.forward;
-					direction = new Vector3(moveDirection.x, 0, moveDirection.z).normalized * 0.5f;
+					direction = new Vector3(moveDirection.x, 0, moveDirection.z).normalized * 0.2f;
 				}
 				break;
 			}

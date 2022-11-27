@@ -21326,7 +21326,7 @@ Animator:
   m_GameObject: {fileID: 7634286343286564458}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 7292998d2f7b72647a5e4c922592c9e4, type: 2}
-  m_Controller: {fileID: 9100000, guid: bca13ca22db293541bb17c000f120a1c, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8489c7ee82ba7a744b5a65b38ce23bc6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -21422,6 +21422,12 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: IsCollectTrap
+  - Type: 1
+    SynchronizeType: 0
+    Name: MoveX
+  - Type: 1
+    SynchronizeType: 0
+    Name: MoveY
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -21531,8 +21537,9 @@ MonoBehaviour:
   <BaseAnimator>k__BackingField: {fileID: 4768974081547765619}
   fpvCam: {fileID: 1636091751684382377}
   tpvCam: {fileID: 3867316686142468700}
-  interactor: {fileID: 0}
+  <interactor>k__BackingField: {fileID: 0}
   skill: {fileID: 8660935315285977481}
+  InteractType: 0
   hideObjects:
   - {fileID: 1330980742234009746}
   - {fileID: 1665596669053442664}
@@ -23668,7 +23675,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6748732668910270940}
-  - component: {fileID: 6592521886399361371}
   m_Layer: 0
   m_Name: HunterModel
   m_TagString: Untagged
@@ -23757,26 +23763,6 @@ Transform:
   m_Father: {fileID: 7634286343286564457}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &6592521886399361371
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9082651182844295875}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: c75bf507b1ae3fe4693cf3a795bd65eb, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &9132375887574226963
 GameObject:
   m_ObjectHideFlags: 0
