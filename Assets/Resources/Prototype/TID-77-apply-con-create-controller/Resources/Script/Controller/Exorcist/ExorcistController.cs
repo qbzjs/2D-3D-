@@ -29,9 +29,6 @@ namespace GHJ_Lib
 		//Effect Image
 		public Image[] BloodImages;
 
-		[SerializeField] Transform spine;
-		[SerializeField] Transform spineFollowTarget;
-		const float spineDefaultRotZ = -14.064f;
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
@@ -134,7 +131,6 @@ namespace GHJ_Lib
 			{
 				controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[0].roleData.MoveSpeed);
 			}
-			RotateSpine();
 		}
 
 		[PunRPC]
@@ -212,11 +208,6 @@ namespace GHJ_Lib
 			StageManager.CharacterLayerChange(caughtDoll, 8);
 			doll.ChangeBvToBeCaught(tpvCam);
 		}
-
-		void RotateSpine()
-        {
-			spine.LookAt(spineFollowTarget);
-        }
 
 
         public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
