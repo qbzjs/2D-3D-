@@ -24,19 +24,6 @@ namespace GHJ_Lib
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            if (actor.photonView.IsMine)
-            {
-                //if (actor.DoResist())
-                //{
-                //    resistGauge += 1.0f;
-                //}
-            }
-
-            //if (resistGauge > 10.0f)
-            //{
-            //    //actor.Escape
-            //}
-
             Behavior<NetworkBaseController> Bv =  PassIfHasSuccessor();
             if (Bv is BvBePurifying)
             {

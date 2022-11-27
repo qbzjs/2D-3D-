@@ -200,7 +200,7 @@ namespace GHJ_Lib
 		public void PickUp()
 		{
 			DollController doll = caughtDoll.GetComponent<DollController>();
-			CatchObj[doll.TypeIndex - 5].gameObject.SetActive(true);
+			//CatchObj[doll.TypeIndex - 5].gameObject.SetActive(true);
 			if (doll.CurBehavior is BvbeTrapped)
 			{
 				//해당 트랩 회수

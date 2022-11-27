@@ -61,7 +61,7 @@ namespace GHJ_Lib
 
         public void ChangeBvToBeCaught(BaseCameraController cam)
 		{
-			characterModel.gameObject.SetActive(false);
+			//characterModel.gameObject.SetActive(false);
 			ChangeCamera(cam);
 			ChangeBehaviorTo(BehaviorType.BeCaught);
 		}
@@ -79,7 +79,7 @@ namespace GHJ_Lib
 
 		public void ChangeBvToBePurifying(KSH_Lib.Object.PurificationBox puriBox)
 		{
-			characterModel.gameObject.SetActive(true);
+			//characterModel.gameObject.SetActive(true);
 			puriBox.SetDoll(this);
 
 			if (photonView.IsMine)

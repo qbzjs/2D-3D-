@@ -2,13 +2,23 @@ using UnityEngine.Audio;
 using System;
 using UnityEngine;
 
+using KSH_Lib;
+using KSH_Lib.Data;
+
 namespace LSH_Lib
 {
-	public class AudioManager : MonoBehaviour
-	{
+    public class AudioManager : MonoBehaviour
+    {
+        public enum PlayTarget
+        {
+            All,
+            Exorcist,
+            Doll
+        }
+
         [SerializeField]
         AudioSource audiosource;
-		public Sound[] sounds;
+        public Sound[] sounds;
 
         public static AudioManager instance;
         private void Awake()
@@ -18,17 +28,17 @@ namespace LSH_Lib
                 instance = this;
             }
             else
-            { 
-                Destroy(this.gameObject); 
+            {
+                Destroy(this.gameObject);
             }
 
-            foreach(Sound s in sounds)
+            foreach (Sound s in sounds)
             {
-                if(audiosource == null)
+                if (audiosource == null)
                 {
                     s.source = gameObject.AddComponent<AudioSource>();
                 }
-                else 
+                else
                 {
                     s.source = audiosource;
                 }
@@ -56,6 +66,41 @@ namespace LSH_Lib
         {
             Sound s = Array.Find(sounds, sound => sound.name == name);
             s.source.Stop();
+        }
+        public void Play(string name, PlayTarget type)
+        {
+            var localData = DataManager.Instance.LocalPlayerData;
+
+            if (localData == null || localData.roleData == null || localData.roleData.Group == RoleData.RoleGroup.Null)
+            {
+                Play(name);
+                return;
+            }
+
+            switch (type)
+            {
+                case PlayTarget.All:
+                {
+                    Play(name);
+                }
+                break;
+                case PlayTarget.Exorcist:
+                {
+                    if (localData.roleData.Group == RoleData.RoleGroup.Exorcist)
+                    {
+                        Play(name);
+                    }
+                }
+                break;
+                case PlayTarget.Doll:
+                {
+                    if(localData.roleData.Group == RoleData.RoleGroup.Doll)
+                    {
+                        Play(name);
+                    }
+                }
+                break;
+            }
         }
     }
 }
