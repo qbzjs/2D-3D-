@@ -111,7 +111,25 @@ namespace KSH_Lib
 
             curCoroutine = StartCoroutine( Casting( cast, funcSet ) );
         }
+        public void StartReverseCasting(Cast cast, CastFuncSet funcSet)
+        {
+            if (IsCoroutineRunning)
+            {
+                Debug.LogWarning("CastingSystem.StartCasting: castingSlider is already activated!");
+                return;
+            }
 
+            if (funcSet.RunningCondition != null)
+            {
+                if (!funcSet.RunningCondition())
+                {
+                    Debug.Log("CastingSystem.StartCasting: runnig condition is false");
+                    return;
+                }
+            }
+
+            curCoroutine = StartCoroutine(ReverseCasting(cast, funcSet));
+        }
         public void ForceSetRatioTo(float ratio)
         {
             slider.value = ratio;
@@ -193,6 +211,46 @@ namespace KSH_Lib
                     castFunc.SyncDataWith(slider.value);
                     
                     if(castFunc.RunningAction != null)
+                    {
+                        castFunc.RunningAction();
+                    }
+                }
+
+                yield return null;
+            }
+            yield return null;
+        }
+        IEnumerator ReverseCasting(Cast cast, CastFuncSet castFunc)
+        {
+            castingSliderObj.SetActive(true);
+            IsCoroutineRunning = true;
+
+            while (true)
+            {
+                // Check Finish Condition
+                if (slider.value <= cast.destRatio)
+                {
+                    FinishCasting(cast, castFunc, true);
+                    break;
+                }
+
+                // Check Runnig Condition
+                if (castFunc.RunningCondition != null)
+                {
+                    if (!castFunc.RunningCondition())
+                    {
+                        FinishCasting(cast, castFunc, false);
+                        break;
+                    }
+                }
+
+                // Change Value and Sync
+                slider.value += cast.deltaRatio * Time.deltaTime;
+                if (castFunc.SyncDataWith != null)
+                {
+                    castFunc.SyncDataWith(slider.value);
+
+                    if (castFunc.RunningAction != null)
                     {
                         castFunc.RunningAction();
                     }
