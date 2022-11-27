@@ -14,6 +14,7 @@ namespace GHJ_Lib
 
         /*Uninstall Zone Parameter*/
         [SerializeField] protected LayerMask UninstallZoneLayer;
+        [SerializeField] Transform spawnTransform;
         string NoticeTextUninstallArea = "This Area Can't install!!";
         WaitForSeconds noticeTime = new WaitForSeconds(1.0f);
         bool IsNotice = false;
@@ -116,7 +117,7 @@ namespace GHJ_Lib
         private void FinishAction()
         {
             (controller.skill as HunterSkill).InstallTrap();
-            PhotonNetwork.Instantiate((controller.skill as HunterSkill).TrapName, controller.transform.position, controller.transform.rotation);
+            PhotonNetwork.Instantiate((controller.skill as HunterSkill).TrapName, spawnTransform.position, controller.transform.rotation);
             StageManager.Instance.exorcistUI.CharacterSkill.StartCountDown(CoolTime);
         }
 

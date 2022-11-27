@@ -224,6 +224,7 @@ Transform:
   - {fileID: 6840167633627000520}
   - {fileID: 852612206769584281}
   - {fileID: 463361258426193630}
+  - {fileID: 282448135813503205}
   m_Father: {fileID: 5377492404594038689}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -806,6 +807,37 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.37197948, y: -0.029434085, z: -0.00031861663}
     m_Extent: {x: 0.077732176, y: 0.077844284, z: 0.088500045}
   m_DirtyAABB: 0
+--- !u!1 &1186980156409140668
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 282448135813503205}
+  m_Layer: 0
+  m_Name: CrossGenPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &282448135813503205
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186980156409140668}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.23, z: 0.927}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1135580242134031447}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1210258133701803068
 GameObject:
   m_ObjectHideFlags: 0
@@ -18760,6 +18792,7 @@ MonoBehaviour:
   CrossMaxCount: 5
   RecoverGauge: 5
   MaxCrossGauge: 60
+  spawnTransform: {fileID: 282448135813503205}
 --- !u!114 &1454505674329797724
 MonoBehaviour:
   m_ObjectHideFlags: 0

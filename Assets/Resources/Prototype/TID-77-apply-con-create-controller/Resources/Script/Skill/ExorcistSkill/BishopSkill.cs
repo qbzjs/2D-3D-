@@ -18,6 +18,7 @@ namespace GHJ_Lib
 		public float MaxCrossGauge = 60.0f;
 		protected float CollectRange = 3.0f;
 		protected string CrossPrefabName = "CrossModel";
+		[SerializeField] Transform spawnTransform;
 
 		protected GameObject targetCross;
 		protected GameObject targetAim;
@@ -154,7 +155,7 @@ namespace GHJ_Lib
 					Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 					Controller.BaseAnimator.SetBool("IsInstallCross", false);
 
-					GameObject cross = PhotonNetwork.Instantiate(CrossPrefabName, new Vector3(transform.position.x,transform.position.y +0.23f,transform.position.z), CrossPrefab.transform.rotation);
+					GameObject cross = PhotonNetwork.Instantiate(CrossPrefabName, spawnTransform.position, CrossPrefab.transform.rotation);
 
 					PoketInCross.Sort();
 					cross.GetComponent<Cross>().SetGauge(PoketInCross[PoketInCross.Count -1]);
