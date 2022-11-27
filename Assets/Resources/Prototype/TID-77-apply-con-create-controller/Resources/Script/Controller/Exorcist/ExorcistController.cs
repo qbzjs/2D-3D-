@@ -7,9 +7,9 @@ using Photon.Pun;
 using Photon.Realtime;
 namespace GHJ_Lib
 {
-	public class ExorcistController: NetworkBaseController, IPunObservable
+	public class ExorcistController : NetworkBaseController, IPunObservable
 	{
-		[Header( "Object Hide Setting" )]
+		[Header("Object Hide Setting")]
 		[SerializeField] protected GameObject[] hideObjects;
 		[SerializeField] float hideTime = 2.0f;
 
@@ -28,6 +28,7 @@ namespace GHJ_Lib
 
 		//Effect Image
 		public Image[] BloodImages;
+
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
@@ -58,19 +59,19 @@ namespace GHJ_Lib
 				obj.SetActive(false);
 			}
 		}
-        // Behavior Callbacks
-        public override void ImprisonDoll()
+		// Behavior Callbacks
+		public override void ImprisonDoll()
 		{
 
 			DollController doll = caughtDoll.GetComponent<DollController>();
-			CatchObj[doll.TypeIndex - 5].gameObject.SetActive( false );
+			CatchObj[doll.TypeIndex - 5].gameObject.SetActive(false);
 
 			var interactable = gameObject.GetComponentInChildren<KSH_Lib.Object.Interactor>().Interactable;
-			if(interactable == null)
-            {
+			if (interactable == null)
+			{
 				Debug.LogError("ExorcistController.ImprisonDoll(): Can not find interactable");
 				return;
-            }
+			}
 			var purificationBox = interactable.GetGameObject.GetComponent<GaugedObj>() as KSH_Lib.Object.PurificationBox;
 			if (purificationBox == null)
 			{
@@ -81,9 +82,9 @@ namespace GHJ_Lib
 			caughtDoll = null;
 		}
 		public DollController GetCaughtDoll()
-        {
+		{
 			return caughtDoll.GetComponent<DollController>();
-		}			
+		}
 
 		// Behavior Conditions
 		public override void ChangeBvToImprison()
@@ -95,20 +96,25 @@ namespace GHJ_Lib
 			ChangeBehaviorTo(BehaviorType.Catch);
 		}
 
-        /*--- Protected Methods ---*/
-        protected override void RotateToDirection()
+		/*--- Protected Methods ---*/
+		protected override void RotateToDirection()
 		{
-			if (direction.sqrMagnitude > 0.01f)
-			{
-				BaseAnimator.SetFloat("MoveSpeed", direction.magnitude);
-			}
-			else
-			{
-				BaseAnimator.SetFloat("MoveSpeed", 0);
-			}
+			//if (direction.sqrMagnitude > 0.01f)
+			//{
+			//	BaseAnimator.SetFloat("MoveSpeed", direction.magnitude);
+			//}
+			//else
+			//{
+			//	BaseAnimator.SetFloat("MoveSpeed", 0);
+			//}
+
+
+			BaseAnimator.SetFloat("MoveX", inputDir.x);
+			BaseAnimator.SetFloat("MoveY", inputDir.y);
+
 			if (photonView.IsMine)
 			{
-				if(fpvCam.CanControl)
+				if (fpvCam.CanControl)
 				{
 					characterModel.transform.rotation = Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y, 0.0f);
 				}
@@ -121,7 +127,7 @@ namespace GHJ_Lib
 				return;
 			}
 
-			if(DataManager.Instance.PlayerDatas[0].roleData != null)
+			if (DataManager.Instance.PlayerDatas[0].roleData != null)
 			{
 				controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[0].roleData.MoveSpeed);
 			}
@@ -130,42 +136,46 @@ namespace GHJ_Lib
 		[PunRPC]
 		protected override void ChangeBehaviorTo_RPC(BehaviorType behaviorType)
 		{
-			if(behaviorType != BehaviorType.Idle && IsMine)
+			if (behaviorType != BehaviorType.Idle && IsMine)
 			{
-				BaseAnimator.SetFloat( "AnimationSpeed", 1.0f );
+				BaseAnimator.SetFloat("AnimationSpeed", 1.0f);
 			}
 
-			switch ( behaviorType )
+			switch (behaviorType)
 			{
 				case BehaviorType.Idle:
-					{
-						Debug.Log("Idle : " + idle);
-						CurBehavior.PushSuccessorState(idle);
-					}
-					break;
+				{
+					Debug.Log("Idle : " + idle);
+					CurBehavior.PushSuccessorState(idle);
+				}
+				break;
 				case BehaviorType.Attack:
-					{
-						Debug.Log("attack : " + attack);
-						CurBehavior.PushSuccessorState(attack);
-					}
-					break;
+				{
+					Debug.Log("attack : " + attack);
+					CurBehavior.PushSuccessorState(attack);
+				}
+				break;
 				case BehaviorType.Interact:
-					{
-						CurBehavior.PushSuccessorState(interact);
-					}
-					break;
+				{
+					CurBehavior.PushSuccessorState(interact);
+				}
+				break;
 				case BehaviorType.Imprison:
-					{
-						CurBehavior.PushSuccessorState( imprison );
-					}
-					break;
+				{
+					CurBehavior.PushSuccessorState(imprison);
+				}
+				break;
 				case BehaviorType.Catch:
-					{
-						caughtDoll = pickUpArea.GetNearestTarget();
-						CurBehavior.PushSuccessorState(catchDoll);
-					}
-					break;
+				{
+					caughtDoll = pickUpArea.GetNearestTarget();
+					CurBehavior.PushSuccessorState(catchDoll);
+				}
+				break;
 			}
+		}
+		private void OnGUI()
+		{
+			GUI.Box(new Rect(100, 30, 150, 30), direction.ToString());
 		}
 
 
@@ -182,7 +192,7 @@ namespace GHJ_Lib
 				case KSH_Lib.Data.RoleData.RoleType.Hunter:
 				{
 					Vector3 moveDirection = camTarget.transform.forward;
-					direction = new Vector3(moveDirection.x, 0, moveDirection.z).normalized*0.5f;
+					direction = new Vector3(moveDirection.x, 0, moveDirection.z).normalized * 0.2f;
 				}
 				break;
 			}
@@ -190,7 +200,7 @@ namespace GHJ_Lib
 		public void PickUp()
 		{
 			DollController doll = caughtDoll.GetComponent<DollController>();
-			CatchObj[doll.TypeIndex-5].gameObject.SetActive(true);
+			CatchObj[doll.TypeIndex - 5].gameObject.SetActive(true);
 			if (doll.CurBehavior is BvbeTrapped)
 			{
 				//해당 트랩 회수

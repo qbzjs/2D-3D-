@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 0a1274b7538bf194f9677333a91e2d08
 ModelImporter:
-  serializedVersion: 20101
+  serializedVersion: 21300
   internalIDToNameTable: []
   externalObjects: {}
   materials:
@@ -14,6 +14,7 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -35,7 +36,7 @@ ModelImporter:
   meshes:
     lODScreenPercentages: []
     globalScale: 1
-    meshCompression: 0
+    meshCompression: 2
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
@@ -43,6 +44,7 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    nodeNameCollisionStrategy: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
@@ -54,6 +56,7 @@ ModelImporter:
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
+    optimizeBones: 1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
@@ -522,22 +525,26 @@ ModelImporter:
     - name: Character1_Ctrl_LeftWristEffector
       parentName: Character1_Ctrl_Reference
       position: {x: -0.7052498, y: 1.4822775, z: 0.014987049}
-      rotation: {x: -0.00000009685755, y: 0.000000014901161, z: 0.000000016763806, w: 1}
+      rotation: {x: -0.00000009685755, y: 0.000000014901161, z: 0.000000016763806,
+        w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Character1_Ctrl_RightWristEffector
       parentName: Character1_Ctrl_Reference
       position: {x: 0.70524687, y: 1.482277, z: 0.014982867}
-      rotation: {x: -0.0000000745058, y: 0.000000014668329, z: 0.000000027939674, w: 1}
+      rotation: {x: -0.0000000745058, y: 0.000000014668329, z: 0.000000027939674,
+        w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Character1_Ctrl_LeftKneeEffector
       parentName: Character1_Ctrl_Reference
       position: {x: -0.15770626, y: 0.5128174, z: -0.020315062}
-      rotation: {x: 0.000000029802322, y: 0.00000008940697, z: 0.000000029802322, w: 1}
+      rotation: {x: 0.000000029802322, y: 0.00000008940697, z: 0.000000029802322,
+        w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Character1_Ctrl_RightKneeEffector
       parentName: Character1_Ctrl_Reference
       position: {x: 0.158335, y: 0.5074267, z: -0.020402163}
-      rotation: {x: -0.000000014901161, y: -0.000000059604645, z: 0.000000029802322, w: 1}
+      rotation: {x: -0.000000014901161, y: -0.000000059604645, z: 0.000000029802322,
+        w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Character1_Ctrl_LeftElbowEffector
       parentName: Character1_Ctrl_Reference
@@ -547,7 +554,8 @@ ModelImporter:
     - name: Character1_Ctrl_RightElbowEffector
       parentName: Character1_Ctrl_Reference
       position: {x: 0.45888633, y: 1.4758478, z: -0.06230343}
-      rotation: {x: -0.00000008940697, y: -0.000000014901161, z: 0.000000022351742, w: 1}
+      rotation: {x: -0.00000008940697, y: -0.000000014901161, z: 0.000000022351742,
+        w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Character1_Ctrl_ChestOriginEffector
       parentName: Character1_Ctrl_Reference
@@ -597,7 +605,8 @@ ModelImporter:
     - name: Character1_Ctrl_LeftLeg
       parentName: Character1_Ctrl_LeftUpLeg
       position: {x: -0.0676478, y: -0.44018078, z: -0.01501129}
-      rotation: {x: 0.000000044703484, y: 0.000000074505806, z: 0.000000029802326, w: 1}
+      rotation: {x: 0.000000044703484, y: 0.000000074505806, z: 0.000000029802326,
+        w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Character1_Ctrl_LeftFoot
       parentName: Character1_Ctrl_LeftLeg
@@ -612,7 +621,8 @@ ModelImporter:
     - name: Character1_Ctrl_RightLeg
       parentName: Character1_Ctrl_RightUpLeg
       position: {x: 0.06827719, y: -0.44557253, z: -0.015104155}
-      rotation: {x: -0.00000001490116, y: -0.000000059604645, z: 0.000000044703484, w: 1}
+      rotation: {x: -0.00000001490116, y: -0.000000059604645, z: 0.000000044703484,
+        w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Character1_Ctrl_RightFoot
       parentName: Character1_Ctrl_RightLeg
@@ -657,17 +667,20 @@ ModelImporter:
     - name: Character1_Ctrl_RightShoulder
       parentName: Character1_Ctrl_Spine2
       position: {x: 0.03782001, y: 0.12171478, z: 0.007375443}
-      rotation: {x: 0.000000059604645, y: 0.000000014901161, z: -0.00000001490116, w: 1}
+      rotation: {x: 0.000000059604645, y: 0.000000014901161, z: -0.00000001490116,
+        w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Character1_Ctrl_RightArm
       parentName: Character1_Ctrl_RightShoulder
       position: {x: 0.13918267, y: -0.026707916, z: -0.05717738}
-      rotation: {x: -0.000000029802322, y: -0.000000013038516, z: -4.1633363e-16, w: 1}
+      rotation: {x: -0.000000029802322, y: -0.000000013038516, z: -4.1633363e-16,
+        w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Character1_Ctrl_RightForeArm
       parentName: Character1_Ctrl_RightArm
       position: {x: 0.28188327, y: -0.019458313, z: 0.022478428}
-      rotation: {x: -0.000000029802322, y: -0.000000016763808, z: 0.000000019790605, w: 1}
+      rotation: {x: -0.000000029802322, y: -0.000000016763808, z: 0.000000019790605,
+        w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Character1_Ctrl_RightHand
       parentName: Character1_Ctrl_RightForeArm
@@ -1126,6 +1139,8 @@ ModelImporter:
   animationType: 3
   humanoidOversampling: 1
   avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

@@ -224,6 +224,7 @@ Transform:
   - {fileID: 6840167633627000520}
   - {fileID: 852612206769584281}
   - {fileID: 463361258426193630}
+  - {fileID: 282448135813503205}
   m_Father: {fileID: 5377492404594038689}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -806,6 +807,37 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.37197948, y: -0.029434085, z: -0.00031861663}
     m_Extent: {x: 0.077732176, y: 0.077844284, z: 0.088500045}
   m_DirtyAABB: 0
+--- !u!1 &1186980156409140668
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 282448135813503205}
+  m_Layer: 0
+  m_Name: CrossGenPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &282448135813503205
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186980156409140668}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.23, z: 0.927}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1135580242134031447}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1210258133701803068
 GameObject:
   m_ObjectHideFlags: 0
@@ -18531,7 +18563,7 @@ Animator:
   m_GameObject: {fileID: 5377492404594038690}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 3a1a93db8bbbe854fac3e78dd60c67f8, type: 2}
-  m_Controller: {fileID: 9100000, guid: e49448baf874da2428fb9aaecdaf76c7, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2dfac2f378df15b43a5ace8a8ae18ea0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -18626,6 +18658,12 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: IsCollectCross
+  - Type: 1
+    SynchronizeType: 0
+    Name: MoveX
+  - Type: 1
+    SynchronizeType: 0
+    Name: MoveY
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -18754,6 +18792,7 @@ MonoBehaviour:
   CrossMaxCount: 5
   RecoverGauge: 5
   MaxCrossGauge: 60
+  spawnTransform: {fileID: 282448135813503205}
 --- !u!114 &1454505674329797724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18881,8 +18920,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 3880535480926427075}
   m_AABB:
-    m_Center: {x: 0.000010967255, y: 0.10215899, z: 0.94042265}
-    m_Extent: {x: 0.6831215, y: 0.27324376, z: 0.68391955}
+    m_Center: {x: -0.030484617, y: 0.0124204755, z: 0.9406518}
+    m_Extent: {x: 0.41389218, y: 0.64930665, z: 0.68369067}
   m_DirtyAABB: 0
 --- !u!183 &7737829247586660979
 Cloth:
@@ -23404,8 +23443,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 3880535480926427075}
   m_AABB:
-    m_Center: {x: 0.036952525, y: 0.0070149153, z: 1.047159}
-    m_Extent: {x: 0.3094215, y: 0.1960636, z: 0.5755069}
+    m_Center: {x: 0.0030537248, y: -0.03738171, z: 1.0563111}
+    m_Extent: {x: 0.23170437, y: 0.2862404, z: 0.566355}
   m_DirtyAABB: 0
 --- !u!183 &7737829248156865765
 Cloth:
