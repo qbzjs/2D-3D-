@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Photon.Pun;
 using GHJ_Lib;
-
+using LSH_Lib;
 namespace KSH_Lib.Object
 {
     public class PurificationBox : GaugedObj

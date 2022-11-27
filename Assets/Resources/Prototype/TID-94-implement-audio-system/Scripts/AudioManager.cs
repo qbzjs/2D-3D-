@@ -33,25 +33,23 @@ namespace LSH_Lib
                     s.source = audiosource;
                 }
                 s.source.clip = s.clip;
+                s.source.volume = s.volume;
+                s.source.pitch = s.pitch;
                 s.source.outputAudioMixerGroup = s.mixer;
                 s.source.loop = s.loop;
             }
         }
-        private void Update()
-        {
-            foreach(Sound s in sounds)
-            {
-                s.source.volume = s.volume;
-                s.source.pitch = s.pitch;
-            }
-        }
+        //private void Update()
+        //{
+        //    foreach(Sound s in sounds)
+        //    {
+        //        s.source.volume = s.volume;
+        //        s.source.pitch = s.pitch;
+        //    }
+        //}
         public void Play(string name)
         {
             Sound s = Array.Find(sounds, sound => sound.name == name);
-            if(s == null)
-            {
-                Debug.LogError("can not find audio" + name + " source file");
-            }
             s.source.Play();
         }
         public void Stop(string name)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using GHJ_Lib;
+using LSH_Lib;
 using Photon.Pun;
 
 namespace KSH_Lib.Object
@@ -55,11 +56,14 @@ namespace KSH_Lib.Object
                 {
                     castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / MaxGauge ),
                         new CastingSystem.CastFuncSet ( RunningCondition: DollRunningCondition, PauseAction: PauseAction, FinishAction: DollFinishAction ) );
+                    AudioManager.instance.Play("DollExitAltar");
                 }
                 else if (targetController.gameObject.CompareTag( GameManager.ExorcistTag ) )
                 {
                     castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / exorcistMaxGauge ),
                         new CastingSystem.CastFuncSet( RunningCondition: targetController.IsInteractionKeyHold, PauseAction: PauseAction, FinishAction: ExorcistFinishAction ) );
+                    AudioManager.instance.Play("HitAltar");
+                
                 }
                 else
                 {
@@ -76,20 +80,24 @@ namespace KSH_Lib.Object
         {
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
             castingSystem.ResetCasting();
+            AudioManager.instance.Stop("DollExitAltar");
         }
         void DollFinishAction()
         {
             photonView.RPC("ExitGameRPC", RpcTarget.AllViaServer);
+            AudioManager.instance.Stop("DollExitAltar");
         }
         void ExorcistFinishAction()
         {
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
             photonView.RPC( "ChangeAltarStateTo_RPC", RpcTarget.AllViaServer, AltarState.Closed );
+            AudioManager.instance.Stop("HitAltar");
         }
 
         public void OpenExitAltar()
         {
             photonView.RPC( "ChangeAltarStateTo_RPC", RpcTarget.AllViaServer, AltarState.CanOpen );
+
         }
 
         [PunRPC]
