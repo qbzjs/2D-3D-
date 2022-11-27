@@ -88,11 +88,21 @@ namespace GHJ_Lib
             dollController.DoActionBy(DetectedDoll);
         }
 
+        public void SettingToInstallTrap_RPC()
+        {
+            photonView.RPC("SettingToInstallTrap", RpcTarget.AllViaServer);
+        }
+        [PunRPC]
         public void SettingToInstallTrap()
         {
             Controller.AllocSkill(sk_InstallTrap);
         }
 
+        public void SettingToCollectTrap_RPC()
+        {
+            photonView.RPC("SettingToCollectTrap", RpcTarget.AllViaServer);
+        }
+        [PunRPC]
         public void SettingToCollectTrap()
         {
             Controller.AllocSkill(sk_CollectTrap);

@@ -12,6 +12,7 @@ namespace GHJ_Lib
             if ( actor.IsMine )
             {
                 DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.BeCaught );
+                StageManager.Instance.InteractionPrompt.Inactivate();
             }
             //resistGauge = 0.0f;
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
