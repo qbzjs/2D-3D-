@@ -37,7 +37,6 @@ namespace GHJ_Lib
 		public GameObject BloodSpawner;
 		public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
 
-		
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
@@ -46,7 +45,7 @@ namespace GHJ_Lib
 			//CurBehavior.PushSuccessorState(idle);
 		}
 
-		public override void InitCameraSetting()
+        public override void InitCameraSetting()
         {
 			if (photonView.IsMine)
 			{

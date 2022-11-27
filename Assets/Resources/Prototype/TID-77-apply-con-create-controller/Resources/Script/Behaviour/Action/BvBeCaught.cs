@@ -24,6 +24,8 @@ namespace GHJ_Lib
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
+            actor.transform.SetPositionAndRotation(StageManager.Instance.Exorcist.catchTransform.position, StageManager.Instance.Exorcist.catchTransform.rotation);
+
             Behavior<NetworkBaseController> Bv =  PassIfHasSuccessor();
             if (Bv is BvBePurifying)
             {

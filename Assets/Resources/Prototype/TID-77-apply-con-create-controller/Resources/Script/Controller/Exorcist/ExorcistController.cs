@@ -17,6 +17,7 @@ namespace GHJ_Lib
 		[SerializeField] private GameObject[] CatchObj;
 		[field: SerializeField] public PickUpArea pickUpArea { get; protected set; }
 		[field: SerializeField] public AttackArea attackArea { get; protected set; }
+		[field: SerializeField] public Transform catchTransform { get; protected set; }
 
 		public GameObject InteractObject;
 		protected GameObject caughtDoll;
@@ -62,9 +63,8 @@ namespace GHJ_Lib
 		// Behavior Callbacks
 		public override void ImprisonDoll()
 		{
-
 			DollController doll = caughtDoll.GetComponent<DollController>();
-			CatchObj[doll.TypeIndex - 5].gameObject.SetActive(false);
+			//CatchObj[doll.TypeIndex - 5].gameObject.SetActive(false);
 
 			var interactable = gameObject.GetComponentInChildren<KSH_Lib.Object.Interactor>().Interactable;
 			if (interactable == null)
