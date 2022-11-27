@@ -31,6 +31,7 @@ namespace GHJ_Lib
       
         public override bool Interact(Interactor interactor)
         {
+            targetController.InteractType = GaugedObjType.Trap;
             if (targetController.gameObject.CompareTag(GameManager.DollTag))
             {
                 castingSystem.ForceSetRatioTo(RateOfGauge);
@@ -49,6 +50,7 @@ namespace GHJ_Lib
             }
             else if (targetController.gameObject.CompareTag(GameManager.ExorcistTag))
             {
+                
                 castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(castTime : collectTime),
                     new CastingSystem.CastFuncSet(FinishAction: ExorcistFinishAction));
                 return true;

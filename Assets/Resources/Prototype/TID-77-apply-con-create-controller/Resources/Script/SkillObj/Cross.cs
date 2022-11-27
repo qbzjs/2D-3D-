@@ -34,8 +34,14 @@ namespace GHJ_Lib
         }
         protected void Update()
         {
+            EffectSphere.SetActive(IsEnable);
             if (!photonView.IsMine)
             {
+                if (IsEnable&& RateOfGauge <= 0.0f)
+                {
+                    RateOfGauge = 0.0f;
+                    IsEnable = false;
+                }
                 return;
             }
             if (IsEnable)
@@ -46,9 +52,9 @@ namespace GHJ_Lib
                     curGage = 0.0f;
                     IsEnable = false;
                 }
-                EffectSphere.SetActive(IsEnable);
                 SyncGauge(curGage);
             }
+            
         }
         public void SetGauge(float gauge)
         {
@@ -114,7 +120,7 @@ namespace GHJ_Lib
         public override bool Interact(Interactor interactor)
         {
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Interact);
-
+            targetController.InteractType = GaugedObjType.Cross;
             if (targetController.gameObject.CompareTag(GameManager.DollTag))
             {
                 castingSystem.ForceSetRatioTo(RateOfGauge);

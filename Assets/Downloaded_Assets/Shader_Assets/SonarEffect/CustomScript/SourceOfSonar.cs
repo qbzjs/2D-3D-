@@ -17,12 +17,14 @@ namespace GHJ_Lib
             {
                 if (!circle.gameObject.activeInHierarchy)
                 {
+                    
                     circle.gameObject.SetActive(true);
-                    circle.ReStart();
+                    circle.ReStart(this.transform);
                     SimpleSonarShader_SonarSender.Instance.StartSonarRing(transform.position, Impulse);
                     return;
                 }
             }
+            
             GameObject sCircle = Instantiate(SonarCircle, transform.position, transform.rotation);
             SonarCircles.Add(sCircle.GetComponent<SonarCircle>());
             SimpleSonarShader_SonarSender.Instance.StartSonarRing(transform.position, Impulse);
