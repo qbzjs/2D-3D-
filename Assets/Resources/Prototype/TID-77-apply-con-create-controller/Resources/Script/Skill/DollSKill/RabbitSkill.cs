@@ -28,6 +28,10 @@ namespace GHJ_Lib
 
 		public override void DecideActiveSkill()
 		{
+			if (IsHeal)
+			{
+				return;
+			}
 			if (actSkillArea.CanGetTarget())
 			{
 				GameObject HealtargetObj = actSkillArea.GetNearestTarget();
@@ -73,15 +77,24 @@ namespace GHJ_Lib
 			//½ºÅ³Áß
 			yield return new WaitForSeconds(0.2f);//¼±µô
 			IsHeal = true;
-			StageManager.Instance.dollUI.CharacterSkill.PushButton(true);
+			if (Controller.IsMine)
+			{ 
+				StageManager.Instance.dollUI.CharacterSkill.PushButton(true);
+				HealTarget.BeHealed_RPC(IsHeal);
+			}
+			
 			while (true)
 			{
 				ActiveSkill.Update(Controller, ref ActiveSkill);
 				yield return frame;
 				if (!IsHeal)
 				{
-					StageManager.Instance.dollUI.CharacterSkill.PushButton(false);
-					Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
+					if (Controller.IsMine)
+					{
+						StageManager.Instance.dollUI.CharacterSkill.PushButton(false);
+						HealTarget.BeHealed_RPC(IsHeal);
+						Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
+					}
 					break;
 				}
 			}
