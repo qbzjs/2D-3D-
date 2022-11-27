@@ -39,6 +39,7 @@ namespace GHJ_Lib
 		public GameObject ExitAltarPrefab;
 		public GameObject FinalAltarPrefab;
 		public GameObject PurificationBoxPrefab;
+		public GameObject DoorPrefab;
 
 		[Header( "GenPos" )]
 		public Transform[] PlayerGenPos;
@@ -47,6 +48,8 @@ namespace GHJ_Lib
 		public Transform FinalAltarGenPos;
 		public Transform[] PurificationBoxGenPos;
 		public Transform[] CrowGenPos;
+		public Transform[] DoorGenPos;
+
 		[Header( "NormalAltarSetting" )]
 		public int Count;
 		public float InitAreaRadius;
@@ -106,6 +109,7 @@ namespace GHJ_Lib
 
 		IEnumerator GameStartSequence()
 		{
+			
 			while ( true )
 			{
 				if ( LocalController != null )
@@ -143,20 +147,7 @@ namespace GHJ_Lib
 			LocalController.CurBehavior.PushSuccessorState( new BvIdle() );
 			IsGameStart = true;
 		}
-		IEnumerator NameActivate()
-		{
-			WaitForEndOfFrame frame = new WaitForEndOfFrame();
-			
-			while (true)
-			{ 
-				IntroText.alpha += Time.deltaTime;
-				yield return frame;
-				if (IntroText.alpha >= 1.0f)
-				{
-					break;
-				}
-			}
-		}
+
 
 		private void OnDrawGizmosSelected()
 		{
