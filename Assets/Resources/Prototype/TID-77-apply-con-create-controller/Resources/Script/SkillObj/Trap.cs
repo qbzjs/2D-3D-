@@ -94,6 +94,11 @@ namespace GHJ_Lib
             { 
                 beTrappedDoll.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
             }
+            photonView.RPC("EscapeTrap", RpcTarget.AllViaServer);
+        }
+        [PunRPC]
+        public void EscapeTrap()
+        {
             beTrappedDoll = null;
         }
         private void ExorcistFinishAction()
@@ -140,9 +145,14 @@ namespace GHJ_Lib
             while (true)
             {
                 yield return waitForEndOfFrame;
-                if (beTrappedDoll==null||behavior is BvBeCaught)
+                if (beTrappedDoll == null)
                 {
-                    beTrappedDoll = null;
+                    yield break;
+                }
+
+                if (behavior is BvBeCaught)
+                {
+                    photonView.RPC("EscapeTrap", RpcTarget.AllViaServer);
                     yield break;
                 }
                 

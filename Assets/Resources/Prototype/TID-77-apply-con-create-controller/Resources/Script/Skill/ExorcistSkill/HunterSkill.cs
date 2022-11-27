@@ -42,7 +42,8 @@ namespace GHJ_Lib
             base.OnEnable();
             SettingCrowGenPosIdx();
             TrapCount = 5;
-            Controller.AllocSkill(new BvHunterActSkill());
+            // Controller.AllocSkill(new BvHunterActSkill());
+            Controller.AllocSkill(sk_InstallTrap);
             TrapName = "Trap";
 
             if(!isRegistered)
@@ -131,15 +132,15 @@ namespace GHJ_Lib
             yield return new WaitForSeconds(1.0f);
             RandomSpawnCrows(1);
 
-            yield return new WaitForSeconds(10.0f);
+            yield return new WaitForSeconds(300.0f);
             ClearCrowTo_RPC();
             RandomSpawnCrows(2);
 
-            yield return new WaitForSeconds(15.0f);
+            yield return new WaitForSeconds(480.0f);
             ClearCrowTo_RPC();
             RandomSpawnCrows(3);
 
-            yield return new WaitForSeconds(20.0f);
+            yield return new WaitForSeconds(720.0f);
             ClearCrowTo_RPC();
             RandomSpawnCrows(4);
         }
