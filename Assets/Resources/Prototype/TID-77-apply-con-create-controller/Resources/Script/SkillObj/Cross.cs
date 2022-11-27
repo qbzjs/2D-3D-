@@ -119,7 +119,8 @@ namespace GHJ_Lib
         }
         public override bool Interact(Interactor interactor)
         {
-            targetController.InteractType = GaugedObjType.Cross;
+            //targetController.InteractType = GaugedObjType.Cross;
+            targetController.SetInteractType(GaugedObjType.Cross);
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Interact);
             if (targetController.gameObject.CompareTag(GameManager.DollTag))
             {

@@ -99,7 +99,8 @@ namespace KSH_Lib.Object
 
         public override bool Interact( Interactor interactor )
         {
-            targetController.InteractType = GaugedObjType.NormalAltar;
+            //targetController.InteractType = GaugedObjType.NormalAltar;
+            targetController.SetInteractType(GaugedObjType.NormalAltar);
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Interact );
 
             if ( targetController.gameObject.CompareTag(GameManager.DollTag))

@@ -402,6 +402,16 @@ namespace GHJ_Lib
 		}
 
 		/*--IpunObserve--*/
+		public void SetInteractType(GaugedObj.GaugedObjType type)
+        {
+			photonView.RPC("ShareInteractTypeRPC", RpcTarget.All, type);
+        }
+
+		[PunRPC]
+		public void ShareInteractTypeRPC(GaugedObj.GaugedObjType type)
+        {
+			InteractType = type;
+        }
 		public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 		{
 			if (stream.IsWriting)

@@ -49,7 +49,7 @@ namespace KSH_Lib.Object
 
         public override bool Interact( Interactor interactor )
         {
-            targetController.InteractType = GaugedObjType.FinalAltar;
+            targetController.SetInteractType(GaugedObjType.FinalAltar);
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Interact );
             IsInteracting = true;
             photonView.RPC( "ShareInteractingInFinalAltar_RPC", RpcTarget.AllViaServer, IsInteracting );
