@@ -4551,7 +4551,8 @@ MonoBehaviour:
   trapInteractor: {fileID: 2051113660472053083}
   skinnedMeshRenderer: {fileID: 0}
   ghostMaterial: {fileID: 2100000, guid: cc5b58807daaf1c46a2ad51fcab6368a, type: 2}
-  BloodDecal: []
+  BloodDecal: {fileID: 0}
+  BloodSpawner: {fileID: 0}
 --- !u!114 &7176076297856307180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5132,6 +5133,21 @@ PrefabInstance:
       propertyPath: camTarget
       value: 
       objectReference: {fileID: 8273805487214333314}
+    - target: {fileID: 7580860024113969238, guid: 60e5f7259c0dbfb40a7bad86d06a4774,
+        type: 3}
+      propertyPath: maxAngleY
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7580860024113969238, guid: 60e5f7259c0dbfb40a7bad86d06a4774,
+        type: 3}
+      propertyPath: minAngleY
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7580860024113969238, guid: 60e5f7259c0dbfb40a7bad86d06a4774,
+        type: 3}
+      propertyPath: <initAngleY>k__BackingField
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60e5f7259c0dbfb40a7bad86d06a4774, type: 3}
 --- !u!4 &1480648271230592392 stripped

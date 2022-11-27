@@ -24,9 +24,9 @@ namespace GHJ_Lib
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
 			AnimatorStateInfo animatorStateInfo = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
-			//if (animatorStateInfo.normalizedTime >= 0.5f && actor.BaseAnimator.GetBool("IsImprison") && animatorStateInfo.IsName("Imprison"))
-			ExorcistController exorcistActor = actor as ExorcistController;
-			if(!exorcistActor.IsPickupDoll)
+			if (animatorStateInfo.normalizedTime >= 0.5f && actor.BaseAnimator.GetBool("IsImprison") && animatorStateInfo.IsName("Imprison"))
+			//ExorcistController exorcistActor = actor as ExorcistController;
+			//if(!exorcistActor.IsPickupDoll)
 			{
 				actor.BaseAnimator.SetBool("IsImprison", false);
 				actor.ImprisonDoll();
@@ -37,7 +37,7 @@ namespace GHJ_Lib
 				{
 					return null;
 				}
-				else// if (animatorStateInfo.IsName("Idle"))
+				else if (animatorStateInfo.IsName("Idle"))
 				{
 					return new BvIdle();
 				}

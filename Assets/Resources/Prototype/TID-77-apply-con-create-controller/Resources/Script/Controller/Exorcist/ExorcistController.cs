@@ -41,7 +41,17 @@ namespace GHJ_Lib
 
         protected override void Update()
         {
-            base.Update();
+			//if (photonView.IsMine)
+			//{
+			//	SetDirectionFunc();
+			//	var velocity = direction * DataManager.Instance.LocalPlayerData.roleData.MoveSpeed;
+			//	var turnSpeed = rotateSpeed;
+			//	photonTransformView.SetSynchronizedValues(velocity, turnSpeed);
+
+			//	RotateToDirection();
+			//	MoveCharacter();
+			//}
+			base.Update();
 
 			BaseAnimator.SetFloat("MoveX", inputDir.x);
 			BaseAnimator.SetFloat("MoveY", inputDir.y);

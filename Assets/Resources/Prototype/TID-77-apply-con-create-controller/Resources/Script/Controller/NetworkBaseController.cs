@@ -105,10 +105,9 @@ namespace GHJ_Lib
 				var velocity = direction * DataManager.Instance.LocalPlayerData.roleData.MoveSpeed;
 				var turnSpeed = rotateSpeed;
 				photonTransformView.SetSynchronizedValues( velocity, turnSpeed );
-
-				RotateToDirection();
-				MoveCharacter();
 			}
+			RotateToDirection();
+			MoveCharacter();
 
 			CurBehavior.Update( this, ref CurBehavior );
 		}
