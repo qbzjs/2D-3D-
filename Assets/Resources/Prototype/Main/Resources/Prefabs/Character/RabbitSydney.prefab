@@ -2348,6 +2348,7 @@ Transform:
   - {fileID: 4358257972407690917}
   - {fileID: 5171643520874515198}
   - {fileID: 874952318819489691}
+  - {fileID: 5720440958551660961}
   m_Father: {fileID: 1730359088119838669}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2441,12 +2442,33 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: IsSkill
-  - Type: 4
-    SynchronizeType: 0
-    Name: IsInteract
   - Type: 9
     SynchronizeType: 0
     Name: GetHit
+  - Type: 1
+    SynchronizeType: 0
+    Name: HP
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsInteractWithNormalAltar
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsInteractWithFinalAltar
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsInteractWithExitAltar
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsInteractWithPurificationBox
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsCaught
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsCollapse
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsPurifying
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -2528,15 +2550,9 @@ MonoBehaviour:
   trapInteractor: {fileID: 1433995716468315733}
   skinnedMeshRenderer: {fileID: 0}
   ghostMaterial: {fileID: 2100000, guid: cc5b58807daaf1c46a2ad51fcab6368a, type: 2}
-  BloodDecal:
-  - {fileID: 7344561124073196817, guid: 3fa8f004dc131c7418e985a9ba7f4d30, type: 3}
-  - {fileID: 1076311785938229365, guid: 13c7b12109208b74892d2a6c881de69a, type: 3}
-  - {fileID: 7131505194390795653, guid: 9563c15ec85366341960e916f3e3b626, type: 3}
-  - {fileID: 1094304143450258687, guid: c4854452a98928546b324a7e467f48f1, type: 3}
-  - {fileID: 5244257856157917377, guid: 24aafeeaf82a4e0409ea664be91fc27a, type: 3}
-  - {fileID: 6163919722672298736, guid: 3a8184a4a9a32f245af59f016ea5f93d, type: 3}
-  - {fileID: 7960688461737284764, guid: 8ac0bf4c00e0141469033241f652ed1a, type: 3}
-  - {fileID: 3891477681319162185, guid: fecc941577fc7d94e9e28f6e685bb9c9, type: 3}
+  BloodDecal: {fileID: 2523305837166033593, guid: 1421c161f15795d4fa00afa475bb6f8a,
+    type: 3}
+  BloodSpawner: {fileID: 8197337303650732328}
 --- !u!114 &1880955903577764238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3825,6 +3841,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4880825355541206676}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8197337303650732328
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5720440958551660961}
+  m_Layer: 7
+  m_Name: BloodSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5720440958551660961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8197337303650732328}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.584, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5171643521589291903}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8325106425429565548
 GameObject:

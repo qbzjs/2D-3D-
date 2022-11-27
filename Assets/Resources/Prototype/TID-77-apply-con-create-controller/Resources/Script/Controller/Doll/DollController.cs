@@ -33,8 +33,8 @@ namespace GHJ_Lib
 		[SerializeField] protected Material ghostMaterial;
 
 		
-		public GameObject[] BloodDecal;
-
+		public GameObject BloodDecal;
+		public GameObject BloodSpawner;
 		public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
 
 		
@@ -461,7 +461,7 @@ namespace GHJ_Lib
 		//effect
 		public void ShowHitEffect()
 		{
-			EffectManager.Instance.ShowDecal(characterModel, BloodDecal[Random.Range(0,BloodDecal.Length-1)]);
+			EffectManager.Instance.ShowDecal(BloodSpawner, BloodDecal);
 		}
 	}
 }
