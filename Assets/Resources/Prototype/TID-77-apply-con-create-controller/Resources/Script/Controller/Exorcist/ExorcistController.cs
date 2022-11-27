@@ -32,11 +32,13 @@ namespace GHJ_Lib
 		public Image[] BloodImages;
 
 		public bool IsPickupDoll { get; protected set; }
+		[field: SerializeField] public TrailRenderer weaponTrail { get; protected set; }
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
 		{
 			base.OnEnable();
+			weaponTrail.enabled = false;
 			//CurBehavior.PushSuccessorState(idle);
 		}
 

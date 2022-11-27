@@ -61,7 +61,9 @@ namespace GHJ_Lib
 		public GameObject BloodUI_Obj;
 		public GameObject InteractTextUI;
 		public InteractionPromptUI InteractionPrompt;
-		public TextMeshProUGUI IntroText;
+		public GameObject introUIObj;
+		public CanvasGroup introUICanvasGroup;
+
 		[field: SerializeField] public CastingSystem CastSystem { get; private set; }
 
 		NetworkGenerator networkGenerator;
@@ -90,7 +92,6 @@ namespace GHJ_Lib
 		void Awake()
 		{
 			instance = this;
-			IntroText.alpha = 0.0f;
 		}
 
 		void Start()
@@ -108,7 +109,11 @@ namespace GHJ_Lib
 
 		IEnumerator GameStartSequence()
 		{
-			
+			introUIObj.SetActive(true);
+			introUICanvasGroup.alpha = 0.0f;
+
+			introUICanvasGroup.LeanAlpha(1.0f, 1.0f);
+
 			while ( true )
 			{
 				if ( LocalController != null )
@@ -137,9 +142,12 @@ namespace GHJ_Lib
 				yield return null;
 			}
 
+			introUICanvasGroup.LeanAlpha(0.0f, 1.0f);
+
 			yield return new WaitForSeconds( waitTime );
 			LocalController.TPVCam.ResetCamTarget( camResetTime );
 			yield return new WaitForSeconds( camResetTime );
+			introUIObj.SetActive(false);
 
 			LocalController.InitCameraSetting();
 			LocalController.ChangeMoveFunc( NetworkBaseController.MoveType.Input );

@@ -14,12 +14,15 @@ namespace GHJ_Lib
         float attackTime = 0.9f;
         AttackArea attackArea;
         Image[] bloodImages;
+        ExorcistController exorcistController;
         protected override void Activate(in NetworkBaseController actor)
         {
             if ( actor.IsMine )
             {
                 DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.Attack );
             }
+            exorcistController = (actor as ExorcistController);
+            exorcistController.weaponTrail.enabled = true;
             PlayAnimation( actor );
             AudioManager.instance.Play("BishopAttack");
             if (actor.skill is BishopSkill)
@@ -27,7 +30,7 @@ namespace GHJ_Lib
                 isBishopPassive = true;
             }
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.CamForward);
-            attackArea = (actor as ExorcistController).attackArea;
+            attackArea = exorcistController.attackArea;
         }
         
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
@@ -64,6 +67,7 @@ namespace GHJ_Lib
                 }
                 if (animatorStateInfo.IsName("Idle"))
                 {
+                    exorcistController.weaponTrail.enabled = false;
                     actor.BaseAnimator.SetBool("IsAttack", false);
                     return new BvIdle();
                 }
