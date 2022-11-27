@@ -224,6 +224,7 @@ Transform:
   - {fileID: 6840167633627000520}
   - {fileID: 852612206769584281}
   - {fileID: 463361258426193630}
+  - {fileID: 5109699558202495622}
   m_Father: {fileID: 5377492404594038689}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -18531,7 +18532,7 @@ Animator:
   m_GameObject: {fileID: 5377492404594038690}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 3a1a93db8bbbe854fac3e78dd60c67f8, type: 2}
-  m_Controller: {fileID: 9100000, guid: e49448baf874da2428fb9aaecdaf76c7, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2dfac2f378df15b43a5ace8a8ae18ea0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -18626,6 +18627,12 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: IsCollectCross
+  - Type: 1
+    SynchronizeType: 0
+    Name: MoveX
+  - Type: 1
+    SynchronizeType: 0
+    Name: MoveY
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -18733,6 +18740,8 @@ MonoBehaviour:
   - {fileID: 6388653657669474325, guid: b7eac02baf064974897ea4ca7c79a033, type: 3}
   - {fileID: 1123957487534283753, guid: 4f2c2146ecfdd1a4bba46f41addc9f41, type: 3}
   - {fileID: 7376339690605747261, guid: 9f2ccd5d3cc3acb43b7d64b641ad8c37, type: 3}
+  spine: {fileID: 1285749064974737700}
+  spineFollowTarget: {fileID: 5109699558202495622}
 --- !u!114 &6538268825645442193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18881,8 +18890,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 3880535480926427075}
   m_AABB:
-    m_Center: {x: 0.000010967255, y: 0.10215899, z: 0.94042265}
-    m_Extent: {x: 0.6831215, y: 0.27324376, z: 0.68391955}
+    m_Center: {x: 0.0012114048, y: 0.13303775, z: 0.95332336}
+    m_Extent: {x: 0.68432194, y: 0.304109, z: 0.6710191}
   m_DirtyAABB: 0
 --- !u!183 &7737829247586660979
 Cloth:
@@ -22958,6 +22967,37 @@ Transform:
   m_Father: {fileID: 1707584913139132957}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
+--- !u!1 &5948265920667931269
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5109699558202495622}
+  m_Layer: 0
+  m_Name: SpineFollowTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5109699558202495622
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5948265920667931269}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.219, z: 0.807}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1135580242134031447}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5964719835658518091
 GameObject:
   m_ObjectHideFlags: 0
@@ -23404,8 +23444,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 3880535480926427075}
   m_AABB:
-    m_Center: {x: 0.036952525, y: 0.0070149153, z: 1.047159}
-    m_Extent: {x: 0.3094215, y: 0.1960636, z: 0.5755069}
+    m_Center: {x: 0.0005027056, y: 0.017071262, z: 1.0659813}
+    m_Extent: {x: 0.34588346, y: 0.2164129, z: 0.55668485}
   m_DirtyAABB: 0
 --- !u!183 &7737829248156865765
 Cloth:
