@@ -7,45 +7,14 @@ namespace GHJ_Lib
 {
     public class BishopActiveSkillArea : EffectArea
     {
-        [SerializeField]InteractionPromptUI promptUI;
-        public string PromptUIString = "PushDown G to Collect Cross";
-        public ExorcistController Bishop;
-        protected void OnEnable()
-        {
-            if (promptUI == null)
-            {
-                promptUI = GHJ_Lib.StageManager.Instance.InteractionPrompt;
-                if (promptUI == null)
-                {
-                    Debug.LogError("GuageObject.Enable: Can not find textUI");
-                }
-            }
-        }
         protected override GameObject FindTargets(Collider other)
         {
-            if (other.CompareTag(GameManager.SkillObjTag))
+            if (other.CompareTag(GameManager.CollectTriggerTag))
             {
                 return other.gameObject;
             }
             return null;
         }
-        private void OnTriggerStay(Collider other)
-        {
-            if (!Bishop.IsMine||!other.CompareTag(GameManager.SkillObjTag))
-            {
-                return;
-            }
-            GameObject target = other.gameObject;
-            if (other.gameObject != GetNearestTarget())
-            {
-                promptUI.Inactivate();
-                return;
-            }
-            if (Bishop.IsWatching(target))
-            {
-                promptUI.Activate(PromptUIString);
-            }
-            
-        }
+
     }
 }

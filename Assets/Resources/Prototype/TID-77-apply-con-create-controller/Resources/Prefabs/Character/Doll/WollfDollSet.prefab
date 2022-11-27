@@ -614,6 +614,51 @@ Transform:
   m_Father: {fileID: 4121739647973347574}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4758699261509516443
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7730392967093692246}
+  - component: {fileID: 2956648065590508190}
+  m_Layer: 7
+  m_Name: HealingTrigger
+  m_TagString: HealingTrigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7730392967093692246
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4758699261509516443}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.11, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 5728598774184788500}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &2956648065590508190
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4758699261509516443}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6239320611883771830
 GameObject:
   m_ObjectHideFlags: 0
@@ -931,10 +976,10 @@ MonoBehaviour:
   tpvCam: {fileID: 1480648271230592406}
   interactor: {fileID: 7732475489897246783}
   skill: {fileID: 3027499934071246222}
-  fugitive: {fileID: 0}
   trapInteractor: {fileID: 2051113660472053083}
   skinnedMeshRenderer: {fileID: 5728598774198227744}
   ghostMaterial: {fileID: 2100000, guid: cc5b58807daaf1c46a2ad51fcab6368a, type: 2}
+  BloodDecal: []
 --- !u!114 &7176076297856307180
 MonoBehaviour:
   m_ObjectHideFlags: 0

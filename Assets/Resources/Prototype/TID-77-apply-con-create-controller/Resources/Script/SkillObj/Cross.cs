@@ -22,17 +22,35 @@ namespace GHJ_Lib
         [SerializeField] protected float increaseGauge = 5.0f;
         [SerializeField] protected float OnStackDistance = 5.0f;
 
-        public bool IsEnable = true;
+        [SerializeField] protected GameObject EffectSphere;
+        public bool IsEnable = false;
+        
+        private float inverseMaxGauge;
         /*--- Private Fields ---*/
         protected override void OnEnable()
         {
             base.OnEnable();
             MaxGauge = 60.0f;
         }
+        protected void Update()
+        {
+            if (IsEnable)
+            {
+                float curGage = (RateOfGauge - reductionGauge * inverseMaxGauge * Time.deltaTime);
+                if (curGage <= 0.0f)
+                {
+                    curGage = 0.0f;
+                    IsEnable = false;
+                }
+                EffectSphere.SetActive(IsEnable);
+                SyncGauge(curGage);
+            }
+        }
         public void SetGauge(float gauge)
         {
             SyncGauge(gauge / MaxGauge);
             IsEnable = true;
+            inverseMaxGauge = 1 / MaxGauge;
         }
 
         /*
@@ -61,7 +79,15 @@ namespace GHJ_Lib
 
         protected override bool CheckAdditionalCondition(in InteractionPromptUI promptUI)
         {
-            return IsEnable;
+            if (targetController is ExorcistController)
+            {
+                return false;
+            }
+            else if (targetController is DollController)
+            { 
+                return IsEnable;
+            }
+            return false;
         }
 
         bool DollRunningCondition()

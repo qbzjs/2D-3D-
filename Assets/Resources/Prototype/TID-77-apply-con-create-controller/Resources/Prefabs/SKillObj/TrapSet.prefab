@@ -53,12 +53,15 @@ MonoBehaviour:
   <MaxGauge>k__BackingField: 100
   <DecreaseRate>k__BackingField: 0.3
   <CoolTime>k__BackingField: 0.5
+  _meshRenderer: {fileID: 3549713807782099242}
+  outlineMaterialPrefab: {fileID: 2100000, guid: fe11520d2254b734a80b0e45fc5133c8,
+    type: 2}
   RateOfGauge: 0
   ExitTrapVel: 8.3
   ClearTrapVel: 4.2
-  CollectText: 'G : UnLock Trap'
   sphereCollider: {fileID: 7976452020468269883}
   animator: {fileID: 3549713807789347890}
+  isCatchDoll: 0
 --- !u!135 &7976452020468269883
 SphereCollider:
   m_ObjectHideFlags: 0

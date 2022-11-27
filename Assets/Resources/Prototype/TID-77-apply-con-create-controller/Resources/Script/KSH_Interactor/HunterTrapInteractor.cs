@@ -26,8 +26,11 @@ namespace GHJ_Lib
 
         protected override void TryInteract()
         {
-            foundCount = Physics.OverlapSphereNonAlloc(interactionPoint.position, interactionPointRadius, colliders, interactableMask);
-            
+            if (controller.CurBehavior is not BvIdle)
+            {
+                return;
+            }
+
             Collider[] UninstallZones = new Collider[1];
             if (Physics.OverlapSphereNonAlloc(interactionPoint.position, interactionPointRadius, UninstallZones, UninstallZoneLayer) ==1)
             {
@@ -38,6 +41,7 @@ namespace GHJ_Lib
                 return;
             }
 
+            foundCount = Physics.OverlapSphereNonAlloc(interactionPoint.position, interactionPointRadius, colliders, interactableMask);
 
             if (foundCount > 0)
             {
@@ -77,7 +81,7 @@ namespace GHJ_Lib
             else
             {
                 interactionPromptUI.Inactivate();
-                if ((controller.skill as HunterSkill).TrapCount > 0)
+                if ((controller.skill as HunterSkill).TrapCount > 0 )
                 {
                     if (Input.GetKeyDown(interactionKey)&&!castingSystem.IsCoroutineRunning)
                     {

@@ -180,7 +180,7 @@ namespace GHJ_Lib
 		protected virtual void CamForwardMove()
 		{
 			Vector3 moveDirection = camTarget.transform.forward;
-			direction = moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z).normalized;
+			direction = new Vector3(moveDirection.x, 0, moveDirection.z).normalized;
 		}
 		protected void CannotMove()
 		{
@@ -217,6 +217,33 @@ namespace GHJ_Lib
 
 				//if ( Physics.Raycast( ray, out hit, maxDist, LayerMask.NameToLayer("Environment"), QueryTriggerInteraction.Ignore ) )
 			}
+			return false;
+		}
+
+		public virtual bool IsWatching(string tag, out GameObject obj)
+		{
+			if (photonView.IsMine)
+			{
+				RaycastHit[] hits;
+				Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width, Screen.height) / 2);
+
+				float maxDist = 10.0f;
+
+				hits = Physics.RaycastAll(ray, maxDist);
+				foreach (var hit in hits)
+				{
+					if (hit.collider.CompareTag(tag))
+					{
+						obj = hit.collider.gameObject;
+						return true;
+					}
+				}
+				obj = null;
+				return false;
+
+				//if ( Physics.Raycast( ray, out hit, maxDist, LayerMask.NameToLayer("Environment"), QueryTriggerInteraction.Ignore ) )
+			}
+			obj = null;
 			return false;
 		}
 
@@ -283,9 +310,15 @@ namespace GHJ_Lib
 
 		public virtual void DoSkill()
 		{
+			if (skill.IsCoolTime)
+			{
+				return;
+			}
+
+			skill.DecideActiveSkill();
 			if (Input.GetKeyDown(KeyCode.Mouse1))
 			{
-				if (!skill.IsCoolTime && CurBehavior is BvIdle&& skill.CanActiveSkill())
+				if (CurBehavior is BvIdle&& skill.CanActiveSkill())
 				{
 					photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.AllViaServer);
 				}
