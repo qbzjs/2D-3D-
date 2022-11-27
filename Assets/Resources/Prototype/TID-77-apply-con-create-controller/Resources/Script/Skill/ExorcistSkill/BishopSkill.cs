@@ -118,7 +118,10 @@ namespace GHJ_Lib
 		public override IEnumerator ExcuteActiveSkill()
 		{
 			IsCoolTime = true;
-			StageManager.Instance.exorcistUI.CharacterSkill.StartCountDown(15.0f);
+			if (Controller.IsMine)
+			{ 
+				StageManager.Instance.exorcistUI.CharacterSkill.StartCountDown(15.0f);
+			}
 			yield return new WaitForSeconds(0.2f);//¼±µô
 			while (ActiveSkill.Count != 0)
 			{
