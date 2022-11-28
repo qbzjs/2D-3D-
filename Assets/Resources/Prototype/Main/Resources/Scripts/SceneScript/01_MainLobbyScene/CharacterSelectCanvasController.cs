@@ -209,7 +209,7 @@ namespace KSH_Lib.UI
             DataManager.Instance.InitLocalRoleData();
             DataManager.Instance.ShareRoleData();
 
-            infoMatches[0] = GetSelectInfoByRoleType( infoMatches[0], DataManager.Instance.LocalPlayerData.roleData.Type );
+            infoMatches[0] = GetSelectInfoByRoleType( infoMatches[0], DataManager.Instance.LocalPlayerData.roleData.Type, playerIdx );
             
             photonView.RPC("ChangeSelectInfosRPC", RpcTarget.Others, playerIdx, (int)DataManager.Instance.LocalPlayerData.roleData.Type);
 
@@ -228,11 +228,11 @@ namespace KSH_Lib.UI
             {
                 if(infoMatches[i].playerIdx == playerIdx)
                 {
-                    infoMatches[i] = GetSelectInfoByRoleType( infoMatches[i], (RoleData.RoleType)type);
+                    infoMatches[i] = GetSelectInfoByRoleType( infoMatches[i], (RoleData.RoleType)type, playerIdx);
                 }
             }
         }
-        public InfoMatch GetSelectInfoByRoleType( InfoMatch infoMatch, RoleData.RoleType type )
+        public InfoMatch GetSelectInfoByRoleType( InfoMatch infoMatch, RoleData.RoleType type, int index )
         {
             Color nameColor;
             switch ( type )
@@ -240,7 +240,7 @@ namespace KSH_Lib.UI
                 case RoleData.RoleType.Bishop:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Bishop],
-                        DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                        DataManager.Instance.PlayerDatas[index].accountData.Nickname,
                         "아타나시오"
                         );
                     nameColor = exorcistColor;
@@ -249,7 +249,7 @@ namespace KSH_Lib.UI
                 case RoleData.RoleType.Hunter:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Hunter],
-                        DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                        DataManager.Instance.PlayerDatas[index].accountData.Nickname,
                         "샬라이"
                         );
                     nameColor = exorcistColor;
@@ -258,7 +258,7 @@ namespace KSH_Lib.UI
                 case RoleData.RoleType.Photographer:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Photographer],
-                        DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                        DataManager.Instance.PlayerDatas[index].accountData.Nickname,
                         "강채율"
                         );
                     nameColor = exorcistColor;
@@ -267,7 +267,7 @@ namespace KSH_Lib.UI
                 case RoleData.RoleType.Priest:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Priest],
-                        DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                        DataManager.Instance.PlayerDatas[index].accountData.Nickname,
                         "알베르토 이든"
                         );
                     nameColor = exorcistColor;
@@ -276,7 +276,7 @@ namespace KSH_Lib.UI
                 case RoleData.RoleType.Wolf:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Wolf],
-                        DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                        DataManager.Instance.PlayerDatas[index].accountData.Nickname,
                         "라이"
                         );
                     nameColor = roleNameColor;
@@ -285,7 +285,7 @@ namespace KSH_Lib.UI
                 case RoleData.RoleType.Rabbit:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Rabbit],
-                        DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                        DataManager.Instance.PlayerDatas[index].accountData.Nickname,
                         "제니"
                         );
                     nameColor = roleNameColor;
@@ -294,7 +294,7 @@ namespace KSH_Lib.UI
                 case RoleData.RoleType.Tortoise:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Tortoise],
-                        DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                        DataManager.Instance.PlayerDatas[index].accountData.Nickname,
                         "태오"
                         );
                     nameColor = roleNameColor;
@@ -303,7 +303,7 @@ namespace KSH_Lib.UI
                 case RoleData.RoleType.Penguin:
                 {
                     infoMatch.ui.Refresh( roleSprites[(int)ImageOrder.Penguin],
-                        DataManager.Instance.LocalPlayerData.accountData.Nickname,
+                        DataManager.Instance.PlayerDatas[index].accountData.Nickname,
                         "제임스"
                         );
                     nameColor = roleNameColor;
