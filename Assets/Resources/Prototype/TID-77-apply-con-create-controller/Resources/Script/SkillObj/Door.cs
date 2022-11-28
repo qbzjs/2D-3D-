@@ -4,6 +4,7 @@ using UnityEngine;
 using KSH_Lib;
 using KSH_Lib.Object;
 using Photon.Pun;
+using LSH_Lib;
 namespace GHJ_Lib
 {
     public class Door : GaugedObj
@@ -15,6 +16,8 @@ namespace GHJ_Lib
 
         [Header("Door AutoCasting Properties")]
         [SerializeField] private float AutoCastingTime = 0.5f;
+
+        public DoorAudio DoorAudio;
 
         protected override void OnEnable()
         {
@@ -45,8 +48,10 @@ namespace GHJ_Lib
             {
                 castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(castTime: AutoCastingTime),
                     new CastingSystem.CastFuncSet(FinishAction: InteractDoor));
+                DoorAudio.Play("DoorOpen");
                 return true;
             }
+            
             return false;
         }
 
