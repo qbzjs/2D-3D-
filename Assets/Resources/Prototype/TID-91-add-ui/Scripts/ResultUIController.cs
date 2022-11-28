@@ -173,7 +173,7 @@ namespace LSH_Lib
                 case 10:
                     return statusIcons[2];
                 default:
-                    return null;
+                    return statusIcons[2];
             }
         }
     }

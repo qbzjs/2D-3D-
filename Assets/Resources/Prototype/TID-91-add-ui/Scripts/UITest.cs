@@ -17,11 +17,13 @@ namespace LSH_Lib
             maxSize.x = imagesize;
             maxSize.y = imagesize;
             maxSize.z = 1;
+
             //this.gameObject.GetComponent<Image>().enabled = false;
         }
         public void OnPointerEnter(PointerEventData eventData)
         {
             //this.gameObject.GetComponent<Image>().enabled = true;
+            AudioManager.instance.Play("ButtonOver");
             text.gameObject.transform.LeanScale(maxSize, 0.1f).setEaseInOutCubic();
             this.gameObject.transform.LeanScale(maxSize, 0.0f).setEaseInOutCubic();
         }
@@ -36,7 +38,10 @@ namespace LSH_Lib
         public void OnPointerDown(PointerEventData eventData)
         {
             text.gameObject.transform.LeanScale(Vector3.one, 0.0f).setEaseInOutCubic();
+            AudioManager.instance.Play("ButtonClick");
         }
+        
+
     }
 
 }

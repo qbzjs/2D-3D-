@@ -45,6 +45,7 @@ namespace GHJ_Lib
 		public GameObject BloodDecal;
 		public GameObject BloodSpawner;
 		public ParticleSystem HealEffect;
+		public RabbitAudio RabbitAudio;
 		public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
 	
 
@@ -385,7 +386,8 @@ namespace GHJ_Lib
 		}
         protected override void MoveCharacter()
         {
-            if ( controller.enabled == false )
+			//RabbitAudio.PlaySound("DollWalk");
+			if ( controller.enabled == false )
             {
                 BaseAnimator.SetFloat( "Move", 0 );
                 CannotMove();
@@ -398,13 +400,16 @@ namespace GHJ_Lib
             }
 
             controller.SimpleMove( direction * DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed );
-			AudioManager.instance.Play("DollWalk", AudioManager.PlayTarget.Doll);
-            if ( direction.sqrMagnitude <= 0 )
+			
+			//AudioManager.instance.Play("DollWalk", AudioManager.PlayTarget.Doll);
+			if ( direction.sqrMagnitude <= 0 )
             {
                 BaseAnimator.SetFloat( "Move", 0 );
+				RabbitAudio.Stop("DollWalk");
             }
             else
             {
+				RabbitAudio.PlaySound("DollWalk");
                 BaseAnimator.SetFloat( "Move", DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed );
 				
             }
