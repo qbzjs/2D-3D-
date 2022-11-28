@@ -11,21 +11,25 @@ namespace GHJ_Lib
 	{
         const float AnimationFinishPoint = 0.9f;
         const float CrossStackBonusRate = 0.2f;
+        DollController dollActor;
         protected override void Activate(in NetworkBaseController actor)
         {
             if ( actor.IsMine )
             {
                 DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.GetHit );
             }
-            (actor as DollController).ShowHitEffect();
+            dollActor = actor as DollController;
+            dollActor.ShowHitEffect();
             // >> Changed By KSH 22.11.26
             //actor.BaseAnimator.Play("Hit");
+            dollActor.hitParticle.Clear();
+            dollActor.hitParticle.Play();
             AudioManager.instance.Play("DollHit1");
             actor.BaseAnimator.SetTrigger( "GetHit" );
 
             if (actor.photonView.IsMine)
             {
-                if ((actor as DollController).CrossStack >= 2)
+                if ( dollActor.CrossStack >= 2)
                 {
                     (DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower * CrossStackBonusRate;
                 }

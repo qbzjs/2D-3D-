@@ -35,6 +35,11 @@ namespace GHJ_Lib
 		[SerializeField] protected GameObject ghostPrefab;
 		[SerializeField] protected Animator ghostAnimator;
 		[field: SerializeField] public TrailRenderer runTrail { get; protected set; }
+		[field: SerializeField] public ParticleSystem hitParticle { get; protected set; }
+		[field: SerializeField] public ParticleSystem ghostInEffect { get; protected set; }
+		[field: SerializeField] public ParticleSystem ghostOutEffect { get; protected set; }
+		[field: SerializeField] public ParticleSystem explosionEffect { get; protected set; }
+
 
 
 		public GameObject BloodDecal;
@@ -49,14 +54,18 @@ namespace GHJ_Lib
 		{
 			base.OnEnable();
 			HealEffect.Stop();
-			runTrail.emitting = false;		
+			runTrail.emitting = false;
+			hitParticle.Stop();
+			ghostInEffect.Stop();
+			ghostOutEffect.Stop();
+			explosionEffect.Stop();
+
 			//CurBehavior.PushSuccessorState(idle);
 		}
 
         protected override void Update()
         {
             base.Update();
-
 			//For Debug Ghost
 			if(Input.GetKeyDown(KeyCode.Alpha0))
             {
@@ -224,7 +233,8 @@ namespace GHJ_Lib
 				interactor.gameObject.SetActive(false);
 				characterObj.SetActive(false);
 			}
-
+			explosionEffect.Clear();
+			explosionEffect.Play();
 			StageManager.CharacterLayerChange(characterObj, LayerMask.NameToLayer(GameManager.GhostLayer));//8 : Ghost Layer
 			ChangeBehaviorTo(BehaviorType.BvGhost);
 		}

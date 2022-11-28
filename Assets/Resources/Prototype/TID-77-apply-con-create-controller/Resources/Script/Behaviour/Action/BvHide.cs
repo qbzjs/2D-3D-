@@ -8,6 +8,7 @@ namespace GHJ_Lib
 {
 	public class BvHide: Behavior<NetworkBaseController>
 	{
+        DollController dollActor;
         protected override void Activate(in NetworkBaseController actor)
         {
             if ( actor.IsMine )
@@ -20,6 +21,11 @@ namespace GHJ_Lib
                 StageManager.Instance.dollUI.CommomSkill.StartCountDown(1.0f);
             }
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
+
+            dollActor = actor as DollController;
+            dollActor.ghostOutEffect.Clear();
+            dollActor.ghostOutEffect.Play();
+
             AudioManager.instance.Play("DollHide", AudioManager.PlayTarget.Doll);
 
             actor.BaseAnimator.SetBool("IsHide", true);
@@ -48,6 +54,8 @@ namespace GHJ_Lib
             if (Bv is BvIdle||Bv is BvGetHit)
             {
                 // >> Changed By KSH 22.11.26
+                dollActor.ghostInEffect.Clear();
+                dollActor.ghostInEffect.Play();
                 actor.BaseAnimator.SetBool("IsHide", false);
                 actor.StartCoroutine("UnHide");
                 return Bv;
