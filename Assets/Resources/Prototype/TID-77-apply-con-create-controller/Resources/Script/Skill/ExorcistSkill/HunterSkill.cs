@@ -91,7 +91,7 @@ namespace GHJ_Lib
 
         public void SettingToInstallTrap_RPC()
         {
-            photonView.RPC("SettingToInstallTrap", RpcTarget.AllViaServer);
+            photonView.RPC("SettingToInstallTrap", RpcTarget.All);
         }
         [PunRPC]
         public void SettingToInstallTrap()
@@ -101,7 +101,7 @@ namespace GHJ_Lib
 
         public void SettingToCollectTrap_RPC()
         {
-            photonView.RPC("SettingToCollectTrap", RpcTarget.AllViaServer);
+            photonView.RPC("SettingToCollectTrap", RpcTarget.All);
         }
         [PunRPC]
         public void SettingToCollectTrap()
