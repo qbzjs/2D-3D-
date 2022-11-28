@@ -51,7 +51,7 @@ namespace LSH_Lib
 
         //bool isJoinedRoom = false;
         CharacterSelectCanvasController charaSelectCanvasController;
-        bool isFull = false;
+        bool isStartLoadGame = false;
 
         private void Start()
         {
@@ -75,8 +75,9 @@ namespace LSH_Lib
 
                 if (PhotonNetwork.IsMasterClient)
                 {
-                    if (PhotonNetwork.CurrentRoom.PlayerCount == 5)
+                    if (PhotonNetwork.CurrentRoom.PlayerCount == 5 && !isStartLoadGame )
                     {
+                        isStartLoadGame = true;
                         LoadRoomScene();
                         //isFull = true;
                         //if (isFull)

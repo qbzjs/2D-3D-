@@ -161,6 +161,7 @@ namespace KSH_Lib.UI
             OnSelectRole();
 
             DataManager.Instance.InitPlayerDatas();
+            DataManager.Instance.ShareAccountData();
             //bishopInformation.SetActive(true);
             isDecidedArr = new bool[PhotonNetwork.CurrentRoom.PlayerCount];
             IndexingInfo();
