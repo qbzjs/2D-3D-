@@ -86,7 +86,7 @@ namespace GHJ_Lib
             {
                 if(actor.IsMine)
                 {
-                    actor.runTrail.enabled = true;
+                    actor.runTrail.emitting = true;
                 }
 
                 actor.BaseAnimator.SetBool("Run", true);
@@ -96,7 +96,7 @@ namespace GHJ_Lib
             {
                 if ( actor.IsMine )
                 {
-                    actor.runTrail.enabled = false;
+                    actor.runTrail.emitting = false;
                 }
                 actor.BaseAnimator.SetBool("Run", false);
                 actor.ChangeMoveSpeed( 1.0f );

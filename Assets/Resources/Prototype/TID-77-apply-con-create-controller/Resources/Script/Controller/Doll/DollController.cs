@@ -49,7 +49,7 @@ namespace GHJ_Lib
 		{
 			base.OnEnable();
 			HealEffect.Stop();
-			runTrail.enabled = false;		
+			runTrail.emitting = false;		
 			//CurBehavior.PushSuccessorState(idle);
 		}
 
