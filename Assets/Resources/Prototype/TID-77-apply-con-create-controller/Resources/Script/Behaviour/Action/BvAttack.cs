@@ -51,7 +51,7 @@ namespace GHJ_Lib
                         { 
                             bloodImages  = (actor as ExorcistController).BloodImages;
                         }
-                        EffectManager.Instance.RandomShowImageOnScreen(bloodImages[Random.Range(0, bloodImages.Length-1)]);
+                        //EffectManager.Instance.RandomShowImageOnScreen(bloodImages[Random.Range(0, bloodImages.Length-1)]);
                     }
                 }
                 else if (animatorStateInfo.normalizedTime >= attackTime)
