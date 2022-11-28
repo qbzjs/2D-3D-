@@ -51,7 +51,21 @@ namespace GHJ_Lib
 			//CurBehavior.PushSuccessorState(idle);
 		}
 
-		public override void InitCameraSetting()
+        protected override void Update()
+        {
+            base.Update();
+
+			//For Debug Ghost
+			if(Input.GetKeyDown(KeyCode.Alpha0))
+            {
+				if(IsMine)
+                {
+                    BecomeGhost();
+                }
+			}
+        }
+
+        public override void InitCameraSetting()
 		{
 			if (photonView.IsMine)
 			{
