@@ -34,13 +34,14 @@ namespace GHJ_Lib
 		//[SerializeField] protected Material ghostMaterial;
 		[SerializeField] protected GameObject ghostPrefab;
 		[SerializeField] protected Animator ghostAnimator;
+		[field: SerializeField] public TrailRenderer runTrail { get; protected set; }
 
 
 		public GameObject BloodDecal;
 		public GameObject BloodSpawner;
 		public ParticleSystem HealEffect;
 		public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
-
+	
 
 
 		/*--- MonoBehaviour Callbacks ---*/
@@ -48,6 +49,7 @@ namespace GHJ_Lib
 		{
 			base.OnEnable();
 			HealEffect.Stop();
+			runTrail.enabled = false;		
 			//CurBehavior.PushSuccessorState(idle);
 		}
 

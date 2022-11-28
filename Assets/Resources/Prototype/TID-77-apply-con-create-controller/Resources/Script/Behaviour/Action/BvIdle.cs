@@ -58,7 +58,7 @@ namespace GHJ_Lib
             if ( actor is DollController )
             {
                 DoDollHide(actor);
-                DoDollSprint( actor );
+                DoDollSprint( actor as DollController );
             }
             else if ( actor is ExorcistController )
             {
@@ -80,15 +80,24 @@ namespace GHJ_Lib
         }
 
 
-        void DoDollSprint( in NetworkBaseController actor )
+        void DoDollSprint( in DollController actor )
         {
             if ( Input.GetKeyDown( KeyCode.LeftShift ) )
             {
+                if(actor.IsMine)
+                {
+                    actor.runTrail.enabled = true;
+                }
+
                 actor.BaseAnimator.SetBool("Run", true);
                 actor.ChangeMoveSpeed( 2.0f );
             }
             else if ( Input.GetKeyUp( KeyCode.LeftShift ) )
             {
+                if ( actor.IsMine )
+                {
+                    actor.runTrail.enabled = false;
+                }
                 actor.BaseAnimator.SetBool("Run", false);
                 actor.ChangeMoveSpeed( 1.0f );
             }

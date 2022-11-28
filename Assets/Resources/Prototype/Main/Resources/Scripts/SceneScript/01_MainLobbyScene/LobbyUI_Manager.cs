@@ -88,6 +88,7 @@ namespace KSH_Lib
 
 
         [Header( "For Debug" )]
+        public GameObject DebugUIObj;
         public TextMeshProUGUI RoomNameTMP;
         public RoomType roomType;
 
@@ -423,13 +424,28 @@ namespace KSH_Lib
                 DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Exorcist;
                 //PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount });
                 //PhotonNetwork.CreateRoom( RoomNameTMP.text , new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
-                PhotonNetwork.CreateRoom(null);
+
+                if( DebugUIObj.activeInHierarchy)
+                {
+                    PhotonNetwork.CreateRoom( RoomNameTMP.text, new RoomOptions { MaxPlayers = GameManager.Instance.MaxPlayerCount } );
+                }
+                else
+                {
+                    PhotonNetwork.CreateRoom( null );
+                }
             }
             else if (roleType == "Doll")
             {
                 DataManager.Instance.PreRoleGroup = RoleData.RoleGroup.Doll;
                 //PhotonNetwork.JoinRoom( RoomNameTMP.text );
-                PhotonNetwork.JoinRandomRoom();
+                if ( DebugUIObj.activeInHierarchy )
+                {
+                    PhotonNetwork.JoinRoom( RoomNameTMP.text );
+                }
+                else
+                {
+                    PhotonNetwork.JoinRandomRoom();
+                }
             }
             else 
             {
