@@ -30,8 +30,10 @@ namespace GHJ_Lib
 		protected BvbeTrapped bvbeTrapped = new BvbeTrapped();
 		protected BvGhost bvGhost = new BvGhost();
 
-		[SerializeField] protected SkinnedMeshRenderer skinnedMeshRenderer;
-		[SerializeField] protected Material ghostMaterial;
+		//[SerializeField] protected SkinnedMeshRenderer skinnedMeshRenderer;
+		//[SerializeField] protected Material ghostMaterial;
+		[SerializeField] protected GameObject ghostPrefab;
+		[SerializeField] protected Animator ghostAnimator;
 
 
 		public GameObject BloodDecal;
@@ -134,7 +136,6 @@ namespace GHJ_Lib
 			//UI ¹Ù²ï´Ù
 			StageManager.Instance.DecereseDollCount();
 			photonView.RPC("_BecomeGhost", RpcTarget.All);
-			photonView.RPC("DisappearPurificationBox", RpcTarget.All);
 			ChangeBehaviorTo(BehaviorType.Idle);
 		}
 
@@ -193,7 +194,13 @@ namespace GHJ_Lib
 		{
 			if (IsMine)
 			{
-				skinnedMeshRenderer.material = ghostMaterial;
+				//skinnedMeshRenderer.material = ghostMaterial;
+				characterModel.SetActive( false );
+				characterModel = ghostPrefab;
+				characterModel.SetActive( true );
+
+				BaseAnimator = ghostAnimator;
+
 				interactor.enabled = false;
 			}
 			else
