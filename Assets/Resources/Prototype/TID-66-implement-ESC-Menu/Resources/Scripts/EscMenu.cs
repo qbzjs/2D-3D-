@@ -10,6 +10,7 @@ namespace LSH_Lib{
     public class EscMenu : MonoBehaviour
     {
         public GameObject ExitButton;
+        public GameObject option;
         public GameObject OptionUIPanel;
         private bool isInputKey = false;
 
@@ -45,7 +46,7 @@ namespace LSH_Lib{
                     //FPV_InputManager.instance.enabled = true;
                     //PlayerInputManager.instance.enabled = true;
                     KSH_Lib.BasePlayerInputManager.Instance.enabled = true;
-
+                    option.SetActive(false);
                     isInputKey = false;
                     OnSetActive(isInputKey);
                 }
@@ -55,10 +56,15 @@ namespace LSH_Lib{
         {
             ExitButton.SetActive(isInput);
             OptionUIPanel.SetActive(isInput);
+            
         }
         void OnExitButton()
         {
             StageManager.Instance.ExitGame( StageManager.Instance.LocalController );
+        }
+        void optionButton()
+        {
+            option.SetActive(true);
         }
     }
 }
