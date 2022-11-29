@@ -47,7 +47,7 @@ namespace GHJ_Lib
 			IsCoolTime = true;
 			//AudioManager.instance.Play("WolfSkill");
 			AudioPlayer.Play("WolfSkill");
-			Controller.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
+			
 			//½ºÅ³Áß
 			yield return new WaitForSeconds(0.2f);//¼±µô
 
