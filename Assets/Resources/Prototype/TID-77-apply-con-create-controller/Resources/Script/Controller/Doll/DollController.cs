@@ -48,7 +48,6 @@ namespace GHJ_Lib
 		public ParticleSystem HealEffect;
         public RabbitAudio RabbitAudio;
         public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
-	
 
 
 		/*--- MonoBehaviour Callbacks ---*/
