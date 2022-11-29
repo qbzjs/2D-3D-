@@ -244,8 +244,12 @@ namespace GHJ_Lib
 				GameManager.Instance.DisconnectAllPlayer();
 			}
         }
+        public override void OnPlayerLeftRoom( Player otherPlayer )
+        {
+            base.OnPlayerLeftRoom( otherPlayer );
+        }
 
-		public void DecereseDollCount()
+        public void DecereseDollCount()
 		{
 			if ( !PhotonNetwork.InRoom )
 			{

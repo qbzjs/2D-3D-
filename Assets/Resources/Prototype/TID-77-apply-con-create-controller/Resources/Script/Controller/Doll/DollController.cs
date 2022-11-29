@@ -194,6 +194,7 @@ namespace GHJ_Lib
 			}
 		}
 
+
 		public virtual IEnumerator UnHide()
 		{
 			yield return GameManager.Instance.WaitZeroPointFiveS;

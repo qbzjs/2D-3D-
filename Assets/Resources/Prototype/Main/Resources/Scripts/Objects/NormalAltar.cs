@@ -50,6 +50,8 @@ namespace KSH_Lib.Object
         void DollPauseAction()
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
+
+            photonView.RPC( "StopDollEffects_RPC", RpcTarget.All );
             AudioManager.instance.Stop("DollNormalAltar");
         }
         void DollFinishAction()
@@ -60,6 +62,8 @@ namespace KSH_Lib.Object
             AudioManager.instance.Stop("DollNormalAltar");
             photonView.RPC("ActiveFinishLightRPC", RpcTarget.AllViaServer);
             photonView.RPC("DecreaseAltarCountTo_RPC", RpcTarget.AllViaServer);
+
+            photonView.RPC( "StopDollEffects_RPC", RpcTarget.All );
         }
         void ExorcistFinishAction()
         {
@@ -70,6 +74,8 @@ namespace KSH_Lib.Object
             ChangeCandleLightsToEveryone();
             AudioManager.instance.Stop("HitAltar");
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
+            
+            photonView.RPC( "StopExorcistEffects_RPC", RpcTarget.All );
         }
 
 
@@ -109,6 +115,8 @@ namespace KSH_Lib.Object
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / MaxGauge, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet( SyncGauge, DollRunningCondition, ChangeCandleLightsToEveryone, DollPauseAction, DollFinishAction )
                     );
+
+                photonView.RPC( "PlayDollEffects_RPC", RpcTarget.All );
                 AudioManager.instance.Play("DollNormalAltar", AudioManager.PlayTarget.Doll);
                 return true;
             }
@@ -122,6 +130,8 @@ namespace KSH_Lib.Object
                         targetController.InteractionSpeed / exorcistInteractMaxGauge, coolTime: CoolTime ),
                         new CastingSystem.CastFuncSet( FinishAction: ExorcistFinishAction )
                         );
+
+                photonView.RPC( "PlayExorcistEffects_RPC", RpcTarget.All );
                 AudioManager.instance.Play("HitAltar");
                 return true;
             }
