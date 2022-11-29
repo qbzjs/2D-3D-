@@ -85,6 +85,7 @@ namespace GHJ_Lib
 
                 actor.BaseAnimator.SetBool("Run", true);
                 actor.ChangeMoveSpeed( 2.0f );
+                actor.Trace_RPC(true);
             }
             else if ( Input.GetKeyUp( KeyCode.LeftShift ) )
             {
@@ -94,6 +95,7 @@ namespace GHJ_Lib
                 }
                 actor.BaseAnimator.SetBool("Run", false);
                 actor.ChangeMoveSpeed( 1.0f );
+                actor.Trace_RPC(false);
             }
         }
 

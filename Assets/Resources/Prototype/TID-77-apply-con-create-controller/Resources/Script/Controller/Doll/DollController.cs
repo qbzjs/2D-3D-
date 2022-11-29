@@ -41,7 +41,7 @@ namespace GHJ_Lib
 		[field: SerializeField] public ParticleSystem ghostOutEffect { get; protected set; }
 		[field: SerializeField] public ParticleSystem explosionEffect { get; protected set; }
 
-
+		[field: SerializeField] public ParticleSystem TraceEffect { get; protected set; } // << : 2022 11-29 By GHJ
 
 		public GameObject BloodDecal;
 		public GameObject BloodSpawner;
@@ -287,6 +287,11 @@ namespace GHJ_Lib
 			{
 				case 1:
 					{
+						var TraceLifeTime = TraceEffect.main.startLifetime;
+						TraceLifeTime.constantMax = 10.0f;
+						TraceLifeTime.constantMin = 9.5f;
+						var TraceParticles = TraceEffect.main.maxParticles;
+						TraceParticles *= TraceParticles * 2;
 						//흔적 짙어짐
 						//흔적 유지시간 길어짐 (데이터테이블에 있을지) 없다면 코루틴으로 ...
 					}
@@ -335,7 +340,25 @@ namespace GHJ_Lib
 			}
 		}
 
-		public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        public void Trace_RPC(bool isSpawn)
+        {
+			photonView.RPC("Trace", RpcTarget.AllViaServer, isSpawn);
+        }
+		[PunRPC]
+		public void Trace(bool isSpawn)
+		{
+
+			if (isSpawn)
+			{
+				TraceEffect.Play();
+			}
+			else
+			{
+				TraceEffect.Stop();
+			}
+		}
+
+        public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 		{
 			if (stream.IsWriting)
 			{
