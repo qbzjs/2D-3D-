@@ -107,7 +107,7 @@ namespace GHJ_Lib
 				if (Controller.IsWatching(targetAim)&& Vector3.ProjectOnPlane((targetAim.transform.position - transform.position),Vector3.up).sqrMagnitude  < CollectRange*CollectRange)
 				{
 					targetCross = targetAim.transform.parent.gameObject;
-					SkillSettingToCollectCross();
+					photonView.RPC("SkillSettingToCollectCross",RpcTarget.All);
 					return true;
 				}
 				StartCoroutine(NoticeUninstallReason(NoticeTextAlreadyInstallCrossAround));
@@ -119,8 +119,8 @@ namespace GHJ_Lib
 				return false;
 			}
 			else
-			{ 
-				SkillSettingToInstallCross();
+			{
+				photonView.RPC("SkillSettingToInstallCross", RpcTarget.All);
 				return true;
 			}
 		}
@@ -149,11 +149,13 @@ namespace GHJ_Lib
 			}
 			yield return new WaitForSeconds(0.2f);
 		}
+		[PunRPC]
 		private void SkillSettingToInstallCross()
 		{
 			ExcuteEnum = ExcuteActiveSkill();
 			ActiveSkill.SetSuccessorStates(new List<Behavior<NetworkBaseController>>() {skDefault,skInstallCross });
 		}
+		[PunRPC]
 		private void SkillSettingToCollectCross()
 		{
 			ExcuteEnum = ExcuteCollect();

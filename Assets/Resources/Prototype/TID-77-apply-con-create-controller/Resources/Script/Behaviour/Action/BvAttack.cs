@@ -93,11 +93,11 @@ namespace GHJ_Lib
         {
             switch (actor.TypeIndex)
             {
-                case 2:
+                case 1:
                     {
                         return attackArea.CanGetTarget() && (animatorStateInfo.normalizedTime >= bishopDelayTime && animatorStateInfo.normalizedTime <= bishopAttackTime);
                     }
-                case 5:
+                case 4:
                     {
                         return attackArea.CanGetTarget() && (
                             (animatorStateInfo.normalizedTime >= firstHunterDelayTime && animatorStateInfo.normalizedTime <= firstHunterAttackTime)
