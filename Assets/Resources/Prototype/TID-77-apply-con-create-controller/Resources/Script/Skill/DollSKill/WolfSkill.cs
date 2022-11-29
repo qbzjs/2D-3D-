@@ -28,9 +28,9 @@ namespace GHJ_Lib
 		}
 		/*--- Public Methods ---*/
 
-		public override void DecideActiveSkill()
+		public override bool NoTiceTextOfCanSkill()
 		{
-
+			return false;
 		}
 		public override bool CanActiveSkill()
 		{

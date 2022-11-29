@@ -28,11 +28,11 @@ namespace GHJ_Lib
 			SkillSetting();
 		}
 
-		public override void DecideActiveSkill()
+		public override bool NoTiceTextOfCanSkill()
 		{
 			if (IsHeal)
 			{
-				return;
+				return false;
 			}
 			if (actSkillArea.CanGetTarget())
 			{
@@ -57,6 +57,8 @@ namespace GHJ_Lib
 				HealTarget = null;
 				interactionPromptUI.Inactivate();
 			}
+			return false;
+
 		}
 		public override bool CanActiveSkill()
 		{

@@ -33,7 +33,7 @@ namespace GHJ_Lib
 		string NoticeTextUninstallArea = "This Area Can't install!!";
 		string NoticeTextAlreadyInstallCrossAround = "you already install cross around";
 		string NoticeTextIsWatingCross = "Push SkillButton to Collect";
-		WaitForSeconds noticeTime = new WaitForSeconds(5.0f);
+		WaitForSeconds noticeTime = new WaitForSeconds(3.0f);
 		WaitForEndOfFrame frame = new WaitForEndOfFrame();
 		protected override void OnEnable()
 		{
@@ -73,16 +73,22 @@ namespace GHJ_Lib
 			}
         }
         /*---Skill---*/
-        public override void DecideActiveSkill()
+        public override bool NoTiceTextOfCanSkill()
         {
 			GameObject targetObj;
 			if (Controller.IsWatching(GameManager.CollectTriggerTag, out targetObj) && Vector3.ProjectOnPlane((targetObj.transform.position - transform.position), Vector3.up).sqrMagnitude < CollectRange * CollectRange)
 			{
 				interactionPromptUI.Activate(NoticeTextIsWatingCross);
+				IsNotice = false;
+				return true;
 			}
 			else
 			{
-				interactionPromptUI.Inactivate();
+				if (!IsNotice)
+				{
+					interactionPromptUI.Inactivate();
+				}
+				return false;
 			}
 		}
         public override bool CanActiveSkill()

@@ -71,9 +71,9 @@ namespace GHJ_Lib
             isUse = false;
             PhotonNetwork.Destroy(gameObject);
         }
-        public override void DecideActiveSkill()
+        public override bool NoTiceTextOfCanSkill()
         {
-
+            return false;
         }
         public override bool CanActiveSkill() // NetworkBaseController 를 통해 Curbehvior를 바꿀지 말지.. 또는 스킬을 사용하기위한조건이 있다면 여기서 작성
         {
