@@ -108,7 +108,7 @@ namespace KSH_Lib
             DisableCanvasesAll();
             mainLobbyCanvas.enabled = true;
             EnableMainButtonsPanel();
-            AudioManager.instance.Play("LobbyBGM");
+            UIAudioManager.instance.Play("LobbyBGM");
             //PhotonNetwork.AutomaticallySyncScene = false;
             // Deubg
             //skipButtonObj.SetActive( true );

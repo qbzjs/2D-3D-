@@ -24,7 +24,7 @@ namespace GHJ_Lib
             exorcistController = (actor as ExorcistController);
             exorcistController.weaponTrail.enabled = true;
             PlayAnimation( actor );
-            AudioManager.instance.Play("BishopAttack");
+            //AudioManager.instance.Play("BishopAttack");
             if (actor.skill is BishopSkill)
             {
                 isBishopPassive = true;
@@ -82,7 +82,7 @@ namespace GHJ_Lib
 
         public virtual void Attack(DollData targetData)
         {
-            AudioManager.instance.Play("BishopHit");
+            //AudioManager.instance.Play("BishopHit");
             targetData.DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower;
             if (isBishopPassive)
             {

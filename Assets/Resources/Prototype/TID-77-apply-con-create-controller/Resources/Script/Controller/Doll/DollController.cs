@@ -97,6 +97,7 @@ namespace GHJ_Lib
 			characterModel.gameObject.SetActive(false);
 			ChangeCamera(cam);
 			ChangeBehaviorTo(BehaviorType.BeCaught);
+			RabbitAudio.Play("DollCaught");
 		}
 		public void ChangeBvToGetHit()
 		{
@@ -105,6 +106,7 @@ namespace GHJ_Lib
 				if (photonView.IsMine)
 				{
 					ChangeBehaviorTo(BehaviorType.GetHit);
+					RabbitAudio.Play("DollHit1");
 				}
 			}
 		}
@@ -173,6 +175,7 @@ namespace GHJ_Lib
 			BaseAnimator.SetBool("IsHide", true);
 			float rotZ = modelTrans.localRotation.eulerAngles.z;
 			float posY = modelTrans.localScale.x;
+			RabbitAudio.Play("Hide");
 			while (true)
 			{
 				rotZ += 90.0f * Time.deltaTime;
@@ -407,13 +410,11 @@ namespace GHJ_Lib
 			if ( direction.sqrMagnitude <= 0 )
             {
                 BaseAnimator.SetFloat( "Move", 0 );
-				RabbitAudio.Stop("DollWalk");
             }
             else
             {
-				RabbitAudio.PlaySound("DollWalk");
+				RabbitAudio.Play("DollWalk");
                 BaseAnimator.SetFloat( "Move", DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed );
-				
             }
         }
 

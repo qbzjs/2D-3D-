@@ -20,6 +20,7 @@ namespace KSH_Lib.Object
         [SerializeField] float destroyTime = 1.5f;
         [SerializeField] float startHeight = 1.2f;
 
+        public AudioPlayer AudioPlayer;
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -56,13 +57,13 @@ namespace KSH_Lib.Object
                 {
                     castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / MaxGauge ),
                         new CastingSystem.CastFuncSet ( RunningCondition: DollRunningCondition, PauseAction: PauseAction, FinishAction: DollFinishAction ) );
-                    AudioManager.instance.Play("DollExitAltar", AudioManager.PlayTarget.Doll);
+                    AudioPlayer.Play("DollExitAltar");//, AudioManager.PlayTarget.Doll);
                 }
                 else if (targetController.gameObject.CompareTag( GameManager.ExorcistTag ) )
                 {
                     castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / exorcistMaxGauge ),
                         new CastingSystem.CastFuncSet( RunningCondition: targetController.IsInteractionKeyHold, PauseAction: PauseAction, FinishAction: ExorcistFinishAction ) );
-                    AudioManager.instance.Play("HitAltar");
+                    AudioPlayer.Play("HitAltar");
                 
                 }
                 else
@@ -80,18 +81,18 @@ namespace KSH_Lib.Object
         {
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
             castingSystem.ResetCasting();
-            AudioManager.instance.Stop("DollExitAltar");
+            AudioPlayer.Stop("DollExitAltar");
         }
         void DollFinishAction()
         {
             photonView.RPC("ExitGameRPC", RpcTarget.AllViaServer);
-            AudioManager.instance.Stop("DollExitAltar");
+            AudioPlayer.Stop("DollExitAltar");
         }
         void ExorcistFinishAction()
         {
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
             photonView.RPC( "ChangeAltarStateTo_RPC", RpcTarget.AllViaServer, AltarState.Closed );
-            AudioManager.instance.Stop("HitAltar");
+            AudioPlayer.Stop("HitAltar");
         }
 
         public void OpenExitAltar()

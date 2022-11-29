@@ -26,7 +26,7 @@ namespace GHJ_Lib
             dollActor.hitEffect.Clear();
             dollActor.hitEffect.Play();
             dollActor.hitParticle.Play();
-            AudioManager.instance.Play("DollHit1");
+            //AudioManager.instance.Play("DollHit1");
             actor.BaseAnimator.SetTrigger( "GetHit" );
 
             if (actor.photonView.IsMine)

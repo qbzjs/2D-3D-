@@ -18,6 +18,8 @@ namespace GHJ_Lib
 		protected InteractionPromptUI interactionPromptUI;
 		protected string NoticeTextCanDoSkill = "Push SkillButton To Heal Peer";
 		protected DollController HealTarget;
+
+		public RabbitAudio RabbitAudio;
 		protected override void OnEnable()
 		{
 			base.OnEnable();
@@ -74,7 +76,7 @@ namespace GHJ_Lib
         public override IEnumerator ExcuteActiveSkill()
 		{
 			IsCoolTime = true;
-			AudioManager.instance.Play("RabbitSkill", AudioManager.PlayTarget.Doll);
+			RabbitAudio.Play("RabbitSkill");
 			//½ºÅ³Áß
 			yield return new WaitForSeconds(0.2f);//¼±µô
 			IsHeal = true;

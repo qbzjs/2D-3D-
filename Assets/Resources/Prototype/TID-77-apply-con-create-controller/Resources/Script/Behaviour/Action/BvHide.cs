@@ -26,7 +26,7 @@ namespace GHJ_Lib
             dollActor.ghostOutEffect.Clear();
             dollActor.ghostOutEffect.Play();
 
-            AudioManager.instance.Play("DollHide", AudioManager.PlayTarget.Doll);
+            //AudioManager.instance.Play("DollHide", AudioManager.PlayTarget.Doll);
 
             actor.BaseAnimator.SetBool("IsHide", true);
             

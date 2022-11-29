@@ -14,6 +14,8 @@ namespace KSH_Lib
         [Header("GameObject Settings")]
         [SerializeField]
         GameObject startButtonObj;
+        [SerializeField]
+        AudioSource gameStartAudio;
 
         [Header("CanvasGroup Settings")]
         [SerializeField]
@@ -64,10 +66,10 @@ namespace KSH_Lib
             startButtonObj.SetActive(false);
             accountCanvasGroup.alpha = 0;
             accountCanvasObj.SetActive(false);
-
+            
             flikerCoroutine = StartCoroutine( FadeInOut() );
 
-            AudioManager.instance.Play("LoginBGM");
+            
         }
 
 
@@ -84,8 +86,7 @@ namespace KSH_Lib
         public void OnStartButtonClick()
         {
             startCanvasGroup.interactable = false;
-            
-            AudioManager.instance.Play("GameStart");
+            gameStartAudio.Play();
             StopCoroutine( flikerCoroutine );
             StartCoroutine(ChangeScene());
         }

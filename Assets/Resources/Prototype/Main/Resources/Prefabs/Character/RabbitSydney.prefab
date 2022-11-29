@@ -39631,10 +39631,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3048340147280403274}
-  - component: {fileID: 2869270572448135762}
+  - component: {fileID: 1819764580922912698}
   - component: {fileID: 5092077292971116391}
   m_Layer: 7
-  m_Name: Audios
+  m_Name: RabbitAudio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39655,7 +39655,7 @@ Transform:
   m_Father: {fileID: 5171643521589291903}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2869270572448135762
+--- !u!114 &1819764580922912698
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -39668,14 +39668,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rabbitAudio: {fileID: 5092077292971116391}
-  sounds:
-  - name: DollWalk
-    clip: {fileID: 8300000, guid: ceb2bc6da0750c44b9912cd0523d3fbd, type: 3}
-    volume: 1
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
 --- !u!82 &5092077292971116391
 AudioSource:
   m_ObjectHideFlags: 0
@@ -80238,6 +80230,7 @@ MonoBehaviour:
   Controller: {fileID: 5635292189464165282}
   HealAmount: 10
   IsHeal: 0
+  RabbitAudio: {fileID: 1819764580922912698}
 --- !u!114 &5635292189464165282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80266,6 +80259,7 @@ MonoBehaviour:
   ghostAnimator: {fileID: 5472159711029038101}
   <runTrail>k__BackingField: {fileID: 6877905796877637014}
   <hitParticle>k__BackingField: {fileID: 3676445669178797868}
+  <hitEffect>k__BackingField: {fileID: 3550766228553654728}
   <ghostInEffect>k__BackingField: {fileID: 3211217755066479442}
   <ghostOutEffect>k__BackingField: {fileID: 4068873439830446888}
   <explosionEffect>k__BackingField: {fileID: 168568224365952547}
@@ -80273,7 +80267,7 @@ MonoBehaviour:
     type: 3}
   BloodSpawner: {fileID: 8197337303650732328}
   HealEffect: {fileID: 2112050414019026634}
-  RabbitAudio: {fileID: 2869270572448135762}
+  RabbitAudio: {fileID: 1819764580922912698}
 --- !u!114 &1880955903577764238
 MonoBehaviour:
   m_ObjectHideFlags: 0

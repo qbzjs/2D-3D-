@@ -22,6 +22,7 @@ namespace KSH_Lib.Object
 
         [SerializeField] MeshRenderer meshRenderer;
 
+        public AudioPlayer AudioPlayer;
         public override bool CanInteract
         {
             get => !castingSystem.IsCoroutineRunning;
@@ -50,14 +51,14 @@ namespace KSH_Lib.Object
         void DollPauseAction()
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
-            AudioManager.instance.Stop("DollNormalAltar");
+            AudioPlayer.Stop("DollNormalAltar");
         }
         void DollFinishAction()
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
             castingSystem.ResetCasting();
             //finishLight.SetActive(true);
-            AudioManager.instance.Stop("DollNormalAltar");
+            AudioPlayer.Stop("DollNormalAltar");
             photonView.RPC("ActiveFinishLightRPC", RpcTarget.AllViaServer);
             photonView.RPC("DecreaseAltarCountTo_RPC", RpcTarget.AllViaServer);
         }
@@ -68,7 +69,7 @@ namespace KSH_Lib.Object
             IsExorcistInteracting = false;
             photonView.RPC( "ShareExorcistInteract", RpcTarget.AllViaServer, IsExorcistInteracting );
             ChangeCandleLightsToEveryone();
-            AudioManager.instance.Stop("HitAltar");
+            AudioPlayer.Stop("HitAltar");
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
         }
 
@@ -109,7 +110,7 @@ namespace KSH_Lib.Object
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / MaxGauge, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet( SyncGauge, DollRunningCondition, ChangeCandleLightsToEveryone, DollPauseAction, DollFinishAction )
                     );
-                AudioManager.instance.Play("DollNormalAltar", AudioManager.PlayTarget.Doll);
+                AudioPlayer.Play("DollNormalAltar"); //targetdoll
                 return true;
             }
             else if(targetController.gameObject.CompareTag(GameManager.ExorcistTag))
@@ -122,7 +123,7 @@ namespace KSH_Lib.Object
                         targetController.InteractionSpeed / exorcistInteractMaxGauge, coolTime: CoolTime ),
                         new CastingSystem.CastFuncSet( FinishAction: ExorcistFinishAction )
                         );
-                AudioManager.instance.Play("HitAltar");
+                AudioPlayer.Play("HitAltar");
                 return true;
             }
             else
@@ -144,7 +145,7 @@ namespace KSH_Lib.Object
                     if (!candleLights[i].activeInHierarchy)
                     {
                         candleLights[i].SetActive(true);
-                        AudioManager.instance.Play("LightOn",AudioManager.PlayTarget.Doll);
+                        AudioPlayer.Play("LightOn");//,AudioManager.PlayTarget.Doll);
                     }
                     curIdx = i;
                     continue;
