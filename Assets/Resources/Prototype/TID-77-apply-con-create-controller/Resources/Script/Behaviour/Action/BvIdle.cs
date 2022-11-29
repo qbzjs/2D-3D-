@@ -6,6 +6,7 @@ namespace GHJ_Lib
 {
 	public class BvIdle: Behavior<NetworkBaseController>
 	{
+
         protected override void Activate(in NetworkBaseController actor)
         {
             if ( actor.IsMine )
@@ -22,13 +23,6 @@ namespace GHJ_Lib
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            if(actor is DollController)
-            {
-                var curDollHP = DataManager.Instance.LocalPlayerData.roleData.GetDollHP();
-                var hpRate = curDollHP / actor.GetRoleInfo.GetDollHP();
-                actor.BaseAnimator.SetFloat("HP", hpRate);
-            }
-
             if( !actor.photonView.IsMine )
             {
                 //actor.BaseAnimator.StopPlayback();

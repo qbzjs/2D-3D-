@@ -11,17 +11,19 @@ using LSH_Lib;
 namespace GHJ_Lib
 {
 	public class DollController : NetworkBaseController, IPunObservable
-	{
-		/*--- Public Fields ---*/
-		public int CrossStack { get { return crossStack; } }
+    {
+        /*--- Public Fields ---*/
+        public int CrossStack { get { return crossStack; } }
 		protected int crossStack = 0;
 		public bool IsCrowDebuff { get; set; } = false;
 		public float CrowGauge { get; set; } = 0.0f;
 
 		public GameObject trapInteractor;
 
-		/*--- Protected Fields ---*/
-		protected BvCollapse down = new BvCollapse();
+
+
+        /*--- Protected Fields ---*/
+        protected BvCollapse down = new BvCollapse();
 		protected BvGetHit hit = new BvGetHit();
 		protected BvBeCaught caught = new BvBeCaught();
 		protected BvBePurifying purified = new BvBePurifying();
@@ -47,8 +49,6 @@ namespace GHJ_Lib
 		public GameObject BloodSpawner;
 		public ParticleSystem HealEffect;
 		public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
-	
-
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
@@ -471,6 +471,12 @@ namespace GHJ_Lib
 				}
 				break;
 			}
+		}
+
+		[PunRPC]
+		void ChangeHPState(float hpRate)
+        {
+			BaseAnimator.SetFloat( "HP", hpRate );
 		}
 
 		//effect

@@ -29,6 +29,13 @@ namespace GHJ_Lib
             AudioManager.instance.Play("DollHit1");
             actor.BaseAnimator.SetTrigger( "GetHit" );
 
+            if(actor.IsMine)
+            {
+                var curDollHP = DataManager.Instance.LocalPlayerData.roleData.GetDollHP();
+                var hpRate = curDollHP / actor.GetRoleInfo.GetDollHP();
+                actor.BaseAnimator.SetFloat( "HP", hpRate );
+            }
+
             if (actor.photonView.IsMine)
             {
                 if ( dollActor.CrossStack >= 2)
