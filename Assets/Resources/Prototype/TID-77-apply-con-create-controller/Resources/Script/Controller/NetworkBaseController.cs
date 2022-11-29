@@ -57,6 +57,9 @@ namespace GHJ_Lib
 
 		protected PhotonTransformViewClassic photonTransformView;
 
+		[Header( "Audio Settings" )]
+		[SerializeField] protected AudioSource walkSound;
+
 		[field: SerializeField] public Animator BaseAnimator { get; protected set; }
 
 		[Header("Camera Settings")]

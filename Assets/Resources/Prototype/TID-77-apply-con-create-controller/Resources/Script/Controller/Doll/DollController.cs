@@ -407,13 +407,10 @@ namespace GHJ_Lib
 			if ( direction.sqrMagnitude <= 0 )
             {
                 BaseAnimator.SetFloat( "Move", 0 );
-				RabbitAudio.Stop("DollWalk");
             }
             else
             {
-				RabbitAudio.PlaySound("DollWalk");
                 BaseAnimator.SetFloat( "Move", DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed );
-				
             }
         }
 
