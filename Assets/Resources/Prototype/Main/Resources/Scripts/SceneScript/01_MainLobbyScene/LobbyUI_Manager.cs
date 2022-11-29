@@ -95,6 +95,7 @@ namespace KSH_Lib
 
         /*--- Private Fields ---*/
         public bool IsJoinedRoom { get; private set; }
+        private const string randomStringPool = "aAbBcCdDeEfFgGhHiIjJkKlLnNmMoOpPqQrRsStTuUvVwWxXyYzZ1234567890";
 
         CharacterSelectCanvasController charaSelectCanvasController;
 
@@ -473,7 +474,15 @@ namespace KSH_Lib
             //matchingUIController.isJoinedRoom = false;
             //EnableMainLobbyCanvas();
         }
-        
+        public string CreateRandomRoomName(int nameLength)
+        {
+            string roomName = new string("");
+            for (int i = 0; i < nameLength; ++i)
+            {
+                roomName += randomStringPool[Random.Range(0, randomStringPool.Length-1)].ToString();
+            }
+            return roomName;
+        }
 
 
 

@@ -78,6 +78,8 @@ namespace GHJ_Lib
 		public GaugedObj.GaugedObjType InteractType;
 		public bool IshideInnerCoolTime = false;
 
+		public bool IsESC = false;
+
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
 		{
@@ -325,7 +327,7 @@ namespace GHJ_Lib
 
 		public virtual void DoSkill()
 		{
-			if (skill.IsCoolTime && !skill.ShowCanUseSkillMsg())
+			if (!skill.ShowCanUseSkillMsg()&&skill.IsCoolTime)
 			{
 				return;
 			}
