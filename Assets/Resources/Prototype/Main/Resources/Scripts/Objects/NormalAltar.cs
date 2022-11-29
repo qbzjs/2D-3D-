@@ -23,6 +23,7 @@ namespace KSH_Lib.Object
         [SerializeField] MeshRenderer meshRenderer;
 
         public AudioPlayer AudioPlayer;
+        public AudioPlayer CandlesAudio;
         public override bool CanInteract
         {
             get => !castingSystem.IsCoroutineRunning;
@@ -154,7 +155,7 @@ namespace KSH_Lib.Object
                     if (!candleLights[i].activeInHierarchy)
                     {
                         candleLights[i].SetActive(true);
-                        AudioPlayer.Play("LightOn");//,AudioManager.PlayTarget.Doll);
+                        CandlesAudio.Play("LightOn");//,AudioManager.PlayTarget.Doll);
                     }
                     curIdx = i;
                     continue;

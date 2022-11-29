@@ -28,10 +28,12 @@ namespace GHJ_Lib
         {
             if (animator.GetBool(IsOpenStr))
             {
+                DoorAudio.Play("DoorOpen");
                 photonView.RPC("SendStateOfDoor", RpcTarget.AllViaServer, false);
             }
             else
             {
+                DoorAudio.Play("DoorOpen");
                 photonView.RPC("SendStateOfDoor", RpcTarget.AllViaServer, true);
             }
             
@@ -57,7 +59,7 @@ namespace GHJ_Lib
             {
                 castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(castTime: AutoCastingTime),
                     new CastingSystem.CastFuncSet(FinishAction: InteractDoor));
-                DoorAudio.Play("DoorOpen");
+                
                 return true;
             }
             
