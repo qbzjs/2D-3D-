@@ -31,7 +31,18 @@ namespace LSH_Lib
                     return;
                 }
             }
-
+        }
+        public void Play(string name, AudioManager.PlayTarget target)
+        {
+            //AudioManager.instance.Play(myIdx, name);
+            for (int i = 0; i < rabbitAudios.Length; ++i)
+            {
+                if (!rabbitAudios[i].isPlaying)
+                {
+                    AudioManager.instance.PlayNew(name, rabbitAudios[i], target);
+                    return;
+                }
+            }
         }
         public void Stop(string name)
         {

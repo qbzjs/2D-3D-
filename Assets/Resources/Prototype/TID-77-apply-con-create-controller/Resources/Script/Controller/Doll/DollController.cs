@@ -448,8 +448,12 @@ namespace GHJ_Lib
         {
 			RabbitAudio.Play(name);
         }
+		public void DollAnimationAudio(string name, AudioManager.PlayTarget target)
+		{
+			RabbitAudio.Play(name, target);
+		}
 
-        [PunRPC]
+		[PunRPC]
 		protected override void ChangeBehaviorTo_RPC( BehaviorType type )
 		{
 			switch ( type )

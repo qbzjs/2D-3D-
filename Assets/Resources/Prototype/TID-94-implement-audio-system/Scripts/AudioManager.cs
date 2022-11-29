@@ -80,6 +80,41 @@ namespace LSH_Lib
             audioSource.volume = s.volume;
             audioSource.Play();
         }
+        public void PlayNew(string name, AudioSource audioSource, PlayTarget type)
+        {
+            var localData = DataManager.Instance.LocalPlayerData;
+
+            if (localData == null || localData.roleData == null || localData.roleData.Group == RoleData.RoleGroup.Null)
+            {
+                PlayNew(name, audioSource);
+                return;
+            }
+
+            switch (type)
+            {
+                case PlayTarget.All:
+                {
+                    PlayNew(name, audioSource);
+                }
+                break;
+                case PlayTarget.Exorcist:
+                {
+                    if (localData.roleData.Group == RoleData.RoleGroup.Exorcist)
+                    {
+                        PlayNew(name, audioSource);
+                    }
+                }
+                break;
+                case PlayTarget.Doll:
+                {
+                    if (localData.roleData.Group == RoleData.RoleGroup.Doll)
+                    {
+                        PlayNew(name, audioSource);
+                    }
+                }
+                break;
+            }
+        }
 
         public void Play(string name, PlayTarget type)
         {
