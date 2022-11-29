@@ -52,6 +52,6 @@ namespace LSH_Lib
             backgroundVolume.value = 0.8f;
             backgroundVolumeText.text = (backgroundVolume.value * 100).ToString();
         }
-
+        
     }
 }

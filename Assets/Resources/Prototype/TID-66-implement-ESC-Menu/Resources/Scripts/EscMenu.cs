@@ -66,5 +66,9 @@ namespace LSH_Lib{
         {
             option.SetActive(true);
         }
+        void CloseOption()
+        {
+            OptionUIPanel.SetActive(false);
+        }
     }
 }
