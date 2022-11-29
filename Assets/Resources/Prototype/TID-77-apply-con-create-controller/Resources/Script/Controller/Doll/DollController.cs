@@ -62,7 +62,7 @@ namespace GHJ_Lib
 			ghostInEffect.Stop();
 			ghostOutEffect.Stop();
 			explosionEffect.Stop();
-
+			TraceEffect.Stop();
 			//CurBehavior.PushSuccessorState(idle);
 		}
 
