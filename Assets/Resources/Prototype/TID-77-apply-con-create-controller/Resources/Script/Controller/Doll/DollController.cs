@@ -348,6 +348,10 @@ namespace GHJ_Lib
 		[PunRPC]
 		public void Trace(bool isSpawn)
 		{
+			if (DataManager.Instance.PlayerIdx != 0)
+			{
+				return;
+			}
 
 			if (isSpawn)
 			{

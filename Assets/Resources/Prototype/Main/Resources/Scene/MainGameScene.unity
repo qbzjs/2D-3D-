@@ -15985,6 +15985,7 @@ MonoBehaviour:
     type: 3}
   DoorPrefab: {fileID: 6465464295464073376, guid: 62aa5868ac4435740bbd1d9fc73e27db,
     type: 3}
+  FakeDollPrefabs: []
   PlayerGenPos:
   - {fileID: 872018582}
   - {fileID: 2146874709}
@@ -16037,9 +16038,13 @@ MonoBehaviour:
   - {fileID: 1836202474}
   - {fileID: 1362880009}
   - {fileID: 576079275}
+  FakeDollsGenPos:
+  - {fileID: 3368325674128573461, guid: 20ef6fb33e0fc25409d37b00c06ddd64, type: 3}
+  - {fileID: 2930139000226137517, guid: 38a5b573459376a4ab8aa7bb517f5d2d, type: 3}
   Count: 5
   InitAreaRadius: 40
   CenterPosition: {x: 0, y: 0, z: 0}
+  CountofFakeDolls: 0
   dollUI: {fileID: 638113923}
   exorcistUI: {fileID: 1504082278}
   BloodUI_Obj: {fileID: 1662500041}
