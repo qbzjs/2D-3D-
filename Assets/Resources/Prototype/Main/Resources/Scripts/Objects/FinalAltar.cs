@@ -57,7 +57,7 @@ namespace KSH_Lib.Object
             castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / MaxGauge ),
                 new CastingSystem.CastFuncSet( RunningCondition: RunningCondition, PauseAction: PauseAction, FinishAction: FinishCasting )
                 );
-            AudioManager.instance.Play("DollNormalAltar",AudioManager.PlayTarget.Doll);
+            //AudioManager.instance.Play("DollNormalAltar",AudioManager.PlayTarget.Doll);
             return true;
         }
 
@@ -71,13 +71,13 @@ namespace KSH_Lib.Object
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
             castingSystem.ResetCasting();
             IsInteracting = false;
-            AudioManager.instance.Stop("DollNormalAltar");
+            //AudioManager.instance.Stop("DollNormalAltar");
             photonView.RPC( "ShareInteractingInFinalAltar_RPC", RpcTarget.AllViaServer, IsInteracting );
         }
         void FinishCasting()
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
-            AudioManager.instance.Stop("DollNormalAltar");
+            //AudioManager.instance.Stop("DollNormalAltar");
             photonView.RPC( "OpenDoorRPC", RpcTarget.AllViaServer );
             
         }
@@ -96,7 +96,7 @@ namespace KSH_Lib.Object
         void OpenDoorRPC()
         {
             animator.SetBool( "IsDoorOpen", true );
-            AudioManager.instance.Play("FinalOpen");
+            //AudioManager.instance.Play("FinalOpen");
         }
     }
 }

@@ -17,7 +17,7 @@ namespace GHJ_Lib
             //actor.BaseAnimator.Play("Fear");
             actor.BaseAnimator.SetBool("IsPurifying", true);
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
-            AudioManager.instance.Play("BoxActive", AudioManager.PlayTarget.Doll);
+            //AudioManager.instance.Play("BoxActive", AudioManager.PlayTarget.Doll);
             if ( actor.IsMine )
             {
                 actor.ActivateCameraCollision( false );

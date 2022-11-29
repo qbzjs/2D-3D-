@@ -4873,7 +4873,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1380705051}
-  - component: {fileID: 1380705050}
+  - component: {fileID: 1380705052}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -4881,45 +4881,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1380705050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1380705049}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 016a80fcf95f2f241933b0a4052d944d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audiosource: {fileID: 0}
-  sounds:
-  - name: LobbyBGM
-    clip: {fileID: 8300000, guid: b672733672fcdea4aab2d20fe6066951, type: 3}
-    volume: 1
-    pitch: 1
-    source: {fileID: 0}
-    loop: 1
-    mixer: {fileID: -3332057722168944667, guid: 76876fb4c3bce694195e9d1027a1b5ba,
-      type: 2}
-  - name: ButtonOver
-    clip: {fileID: 8300000, guid: afb4dac9700ca4147a4e30670230976f, type: 3}
-    volume: 1
-    pitch: 3
-    source: {fileID: 0}
-    loop: 0
-    mixer: {fileID: -3332057722168944667, guid: 76876fb4c3bce694195e9d1027a1b5ba,
-      type: 2}
-  - name: ButtonClick
-    clip: {fileID: 8300000, guid: b1709fbdb164bb8468fd016225389c47, type: 3}
-    volume: 1
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    mixer: {fileID: -3332057722168944667, guid: 76876fb4c3bce694195e9d1027a1b5ba,
-      type: 2}
-  audioSources: []
 --- !u!4 &1380705051
 Transform:
   m_ObjectHideFlags: 0
@@ -4935,6 +4896,42 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1380705052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1380705049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 891276dd136106d42b82bc43023214b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: LobbyBGM
+    clip: {fileID: 8300000, guid: b672733672fcdea4aab2d20fe6066951, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 1
+    mixer: {fileID: -3332057722168944667, guid: 76876fb4c3bce694195e9d1027a1b5ba,
+      type: 2}
+  - name: ButtonOver
+    clip: {fileID: 8300000, guid: afb4dac9700ca4147a4e30670230976f, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: ButtonClick
+    clip: {fileID: 8300000, guid: b1709fbdb164bb8468fd016225389c47, type: 3}
+    volume: 1
+    pitch: 2
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  audioSources: []
 --- !u!1001 &1418203166
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -23,7 +23,7 @@ namespace LSH_Lib
         public void OnPointerEnter(PointerEventData eventData)
         {
             //this.gameObject.GetComponent<Image>().enabled = true;
-            AudioManager.instance.Play("ButtonOver");
+            //UIAudioManager.instance.Play("ButtonOver");
             text.gameObject.transform.LeanScale(maxSize, 0.1f).setEaseInOutCubic();
             this.gameObject.transform.LeanScale(maxSize, 0.0f).setEaseInOutCubic();
         }
@@ -38,7 +38,7 @@ namespace LSH_Lib
         public void OnPointerDown(PointerEventData eventData)
         {
             text.gameObject.transform.LeanScale(Vector3.one, 0.0f).setEaseInOutCubic();
-            AudioManager.instance.Play("ButtonClick");
+            UIAudioManager.instance.Play("ButtonOver");
         }
         
 

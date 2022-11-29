@@ -6622,14 +6622,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rabbitAudio: {fileID: 3963560740952347172}
-  sounds:
-  - name: DollWalk
-    clip: {fileID: 8300000, guid: ceb2bc6da0750c44b9912cd0523d3fbd, type: 3}
-    volume: 1
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
 --- !u!82 &3963560740952347172
 AudioSource:
   m_ObjectHideFlags: 0
@@ -87270,6 +87262,7 @@ MonoBehaviour:
   psvSkillArea: {fileID: 3507965375796044402}
   Controller: {fileID: 819067107215865435}
   sourceOfSonar: {fileID: 1293361680691006526}
+  AudioPlayer: {fileID: 2836844265799144937}
 --- !u!114 &819067107215865435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87307,6 +87300,7 @@ MonoBehaviour:
     type: 3}
   BloodSpawner: {fileID: 3800578030771357847}
   HealEffect: {fileID: 7734110688277639850}
+  RabbitAudio: {fileID: 2836844265799144937}
 --- !u!114 &7176076297856307180
 MonoBehaviour:
   m_ObjectHideFlags: 0

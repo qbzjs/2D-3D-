@@ -11,19 +11,17 @@ using LSH_Lib;
 namespace GHJ_Lib
 {
 	public class DollController : NetworkBaseController, IPunObservable
-    {
-        /*--- Public Fields ---*/
-        public int CrossStack { get { return crossStack; } }
+	{
+		/*--- Public Fields ---*/
+		public int CrossStack { get { return crossStack; } }
 		protected int crossStack = 0;
 		public bool IsCrowDebuff { get; set; } = false;
 		public float CrowGauge { get; set; } = 0.0f;
 
 		public GameObject trapInteractor;
 
-
-
-        /*--- Protected Fields ---*/
-        protected BvCollapse down = new BvCollapse();
+		/*--- Protected Fields ---*/
+		protected BvCollapse down = new BvCollapse();
 		protected BvGetHit hit = new BvGetHit();
 		protected BvBeCaught caught = new BvBeCaught();
 		protected BvBePurifying purified = new BvBePurifying();
@@ -48,7 +46,10 @@ namespace GHJ_Lib
 		public GameObject BloodDecal;
 		public GameObject BloodSpawner;
 		public ParticleSystem HealEffect;
-		public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
+        public RabbitAudio RabbitAudio;
+        public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
+	
+
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
@@ -96,6 +97,7 @@ namespace GHJ_Lib
 			characterModel.gameObject.SetActive(false);
 			ChangeCamera(cam);
 			ChangeBehaviorTo(BehaviorType.BeCaught);
+			RabbitAudio.Play("DollCaught");
 		}
 		public void ChangeBvToGetHit()
 		{
@@ -104,6 +106,7 @@ namespace GHJ_Lib
 				if (photonView.IsMine)
 				{
 					ChangeBehaviorTo(BehaviorType.GetHit);
+					RabbitAudio.Play("DollHit1");
 				}
 			}
 		}
@@ -172,6 +175,7 @@ namespace GHJ_Lib
 			BaseAnimator.SetBool("IsHide", true);
 			float rotZ = modelTrans.localRotation.eulerAngles.z;
 			float posY = modelTrans.localScale.x;
+			RabbitAudio.Play("Hide");
 			while (true)
 			{
 				rotZ += 90.0f * Time.deltaTime;
@@ -193,7 +197,6 @@ namespace GHJ_Lib
 				}
 			}
 		}
-
 
 		public virtual IEnumerator UnHide()
 		{
@@ -234,7 +237,7 @@ namespace GHJ_Lib
 			else
 			{
 				interactor.gameObject.SetActive(false);
-				characterModel.SetActive(false);
+				characterObj.SetActive(false);
 			}
 			explosionEffect.Clear();
 			explosionEffect.Play();
@@ -410,6 +413,7 @@ namespace GHJ_Lib
             }
             else
             {
+				RabbitAudio.Play("DollWalk");
                 BaseAnimator.SetFloat( "Move", DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed );
             }
         }
@@ -471,12 +475,6 @@ namespace GHJ_Lib
 				}
 				break;
 			}
-		}
-
-		[PunRPC]
-		void ChangeHPState(float hpRate)
-        {
-			BaseAnimator.SetFloat( "HP", hpRate );
 		}
 
 		//effect

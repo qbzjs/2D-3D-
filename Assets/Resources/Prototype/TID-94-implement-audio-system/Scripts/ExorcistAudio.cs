@@ -2,34 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using UnityEngine.Audio;
 
 namespace LSH_Lib
 {
-	public class RabbitAudio : MonoBehaviour
+	public class ExorcistAudio : MonoBehaviour
 	{
-		[SerializeField]
-		AudioSource rabbitAudio;
+        [SerializeField]
+        AudioSource audioSource;
         [SerializeField]
         Sound[] sounds;
         int myIdx;
         private void Start()
         {
-            myIdx = AudioManager.instance.AddAudio(rabbitAudio);
-            //foreach(Sound s in sounds)
-            //{
-            //    s.source = rabbitAudio;
-            //    s.source.clip = s.clip;
-            //    s.source.volume = s.volume;
-            //    s.source.pitch = s.pitch;
-            //    s.source.outputAudioMixerGroup = s.mixer;
-            //    s.source.loop = s.loop;
-            //}
+            myIdx = AudioManager.instance.AddAudio(audioSource);
         }
         public void PlaySound(string name)
         {
             Sound s = Array.Find(sounds, sound => sound.name == name);
-            s.source = rabbitAudio;
+            s.source = audioSource;
             s.source.clip = s.clip;
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
@@ -39,7 +29,8 @@ namespace LSH_Lib
         }
         public void Stop(string name)
         {
-            AudioManager.instance.Stop(name);
+            Sound s = Array.Find(sounds, sound => sound.name == name);
+            s.source.Stop();
         }
     }
 }

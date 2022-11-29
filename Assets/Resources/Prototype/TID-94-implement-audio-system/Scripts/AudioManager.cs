@@ -18,7 +18,7 @@ namespace LSH_Lib
         }
 
         [SerializeField]
-        AudioSource audiosource;
+        //AudioSource audiosource;
         public Sound[] sounds;
         [SerializeField]
         List<AudioSource> audioSources = new List<AudioSource>();
@@ -35,28 +35,28 @@ namespace LSH_Lib
                 Destroy(this.gameObject);
             }
 
-            foreach (Sound s in sounds)
-            {
-                if (audiosource == null)
-                {
-                    s.source = gameObject.AddComponent<AudioSource>();
-                }
-                else
-                {
-                    s.source = audiosource;
-                }
-                s.source.clip = s.clip;
-                s.source.volume = s.volume;
-                s.source.pitch = s.pitch;
-                s.source.outputAudioMixerGroup = s.mixer;
-                s.source.loop = s.loop;
-            }
+            //foreach (Sound s in sounds)
+            //{
+            //    if (audiosource == null)
+            //    {
+            //        s.source = gameObject.AddComponent<AudioSource>();
+            //    }
+            //    else
+            //    {
+            //        s.source = audiosource;
+            //    }
+            //    s.source.clip = s.clip;
+            //    s.source.volume = s.volume;
+            //    s.source.pitch = s.pitch;
+            //    s.source.outputAudioMixerGroup = s.mixer;
+            //    s.source.loop = s.loop;
+            //}
         }
       
         public int AddAudio(AudioSource audioSource)
         {
             audioSources.Add(audioSource);
-            return audioSources.Count;
+            return audioSources.Count-1;
         }
         public void Play(string name)
         {
@@ -66,8 +66,10 @@ namespace LSH_Lib
         public void Play(int index, string name)
         {
             Sound s = Array.Find(sounds, sound => sound.name == name);
-            s.source = audioSources[index];
-            s.source.Play();
+            audioSources[index].clip = s.clip;
+            audioSources[index].outputAudioMixerGroup = s.mixer;
+            audioSources[index].volume = s.volume;
+            audioSources[index].Play();
         }
         public void Play(string name, PlayTarget type)
         {
@@ -107,7 +109,16 @@ namespace LSH_Lib
         public void Stop(string name)
         {
             Sound s = Array.Find(sounds, sound => sound.name == name);
+
             s.source.Stop();
+        }
+        public void Stop(int index, string name)
+        {
+            Sound s = Array.Find(sounds, sound => sound.name == name);
+            audioSources[index].clip = s.clip;
+            audioSources[index].outputAudioMixerGroup = s.mixer;
+            audioSources[index].volume = s.volume;
+            audioSources[index].Stop();
         }
     }
 }

@@ -17,12 +17,13 @@ namespace KSH_Lib.Object
         [SerializeField] public bool IsInteracting { get; private set; }
         [SerializeField] public float Damage { get; private set; }
 
+        public AudioPlayer AudioSource;
 
         [Header("Destroy Effect")]
         [SerializeField] KSH_Lib.Util.PhaseEffect phaseEffect;
         [SerializeField] float destroyTime = 1.5f;
         [SerializeField] float startHeight = 5.2f;
-        [SerializeField] ParticleSystem[] purificationEffect;
+        [SerializeField] ParticleSystem[] particles;
 
         bool isDollPurifying;
 
@@ -30,7 +31,7 @@ namespace KSH_Lib.Object
         protected override void OnEnable()
         {
             base.OnEnable();
-            StopEffects();
+            StopParticles();
         }
 
         protected override bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
@@ -72,14 +73,16 @@ namespace KSH_Lib.Object
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / MaxGauge, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet( RunningCondition: DollRunningAction, PauseAction: PauseAction, FinishAction: DollFinishAction)
                     );
-                AudioManager.instance.Play("DollPurificationBoxInteract", AudioManager.PlayTarget.Doll);
+
+                AudioSource.Play("DollPurificationBoxInteract");//, AudioManager.PlayTarget.Doll);
             }
             else if(targetController.gameObject.CompareTag(GameManager.ExorcistTag))
             {
                 targetController.ChangeBvToImprison();
                 castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / exorcistMaxGauge, coolTime: CoolTime ),
                     new CastingSystem.CastFuncSet(FinishAction: ExorcistFinishAction ) );
-                AudioManager.instance.Play("ExorcistBox");
+                
+                AudioSource.Play("ExorcistBox");
                 if (!isDollPurifying)
                 {
                     StartCoroutine(DestroyIfDollDead());
@@ -101,13 +104,15 @@ namespace KSH_Lib.Object
             castingSystem.ResetCasting();
             IsInteracting = false;
             photonView.RPC( "ShareInteractingInPurificationBox_RPC", RpcTarget.AllViaServer, IsInteracting );
-            AudioManager.instance.Stop("DollPurificationBoxInteract");
+
+            AudioSource.Stop("DollPurificationBoxInteract");
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
         }
         void ExorcistFinishAction()
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
-            photonView.RPC( "ShareDustEffect", RpcTarget.All, true );
+            
+            photonView.RPC( "PlayPurificationEffect", RpcTarget.All );
         }
 
         public void SetDoll(DollController doll)
@@ -119,23 +124,20 @@ namespace KSH_Lib.Object
 
         public void DollFinishAction()
         {
-            photonView.RPC( "StartEffects_RPC", RpcTarget.All );
-            AudioManager.instance.Stop("DollPurificationBoxInteract");
+            photonView.RPC( "StopPurificationEffect", RpcTarget.All );
+            AudioSource.Stop("DollPurificationBoxInteract");
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 
             DollInBox.EscapeFrom( transform, LayerMask.NameToLayer( "Player" ) );
             DollInBox.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Escape );
-            AudioManager.instance.Play("BoxOpen");
+            AudioSource.Play("BoxOpen");
             photonView.RPC("ShareDollInBox_RPC", RpcTarget.AllViaServer);
         }
 
         IEnumerator DestroyIfDollDead()
         {
             isDollPurifying = true;
-            yield return GameManager.Instance.WaitOneS;
-            yield return GameManager.Instance.WaitOneS;
-            yield return GameManager.Instance.WaitOneS;
-            photonView.RPC( "StopEffects_RPC", RpcTarget.All );
+            photonView.RPC( "StopPurificationEffect", RpcTarget.All );
             while (true)
             {
                 yield return null;
@@ -147,7 +149,7 @@ namespace KSH_Lib.Object
                 {
                     Debug.Log("Start Remove");
                     phaseEffect.DoFade(startHeight, 0.0f, destroyTime);
-                    AudioManager.instance.Play("BoxDestroy");
+                    AudioSource.Play("BoxDestroy");
                     yield return new WaitForSeconds(destroyTime);
 
                     PhotonNetwork.Destroy(gameObject);
@@ -155,20 +157,18 @@ namespace KSH_Lib.Object
                 yield return null;
             }
         }
-
-        void PlayEffects()
+        void PlayParticles()
         {
-            for ( int i = 0; i < purificationEffect.Length; ++i )
+            for ( int i = 0; i < particles.Length; ++i )
             {
-                purificationEffect[i].Clear();
-                purificationEffect[i].Play();
+                particles[i].Play();
             }
         }
-        void StopEffects()
+        void StopParticles()
         {
-            for ( int i = 0; i < purificationEffect.Length; ++i )
+            for(int i = 0; i < particles.Length; ++i )
             {
-                purificationEffect[i].Stop();
+                particles[i].Stop();
             }
         }
 
@@ -187,16 +187,15 @@ namespace KSH_Lib.Object
         }
 
         [PunRPC]
-        void PlayEffects_RPC(bool isEnabled)
+        void PlayPurificationEffect()
         {
-            PlayEffects();
+            PlayParticles();
         }
+
         [PunRPC]
-        void StopEffects_RPC( bool isEnabled )
+        void StopPurificationEffect()
         {
-            StopEffects();
+            StopParticles();
         }
-
-
     }
 }

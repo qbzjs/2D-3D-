@@ -98,7 +98,7 @@ namespace GHJ_Lib
         {
             if (other.gameObject.CompareTag(GameManager.DollTag))
             {
-                AudioManager.instance.Play("Crow");
+                //AudioManager.instance.Play("Crow");
                 return other.gameObject;
             }
             return null;
