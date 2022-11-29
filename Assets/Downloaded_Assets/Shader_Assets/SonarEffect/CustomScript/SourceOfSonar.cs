@@ -30,6 +30,38 @@ namespace GHJ_Lib
             SimpleSonarShader_SonarSender.Instance.StartSonarRing(transform.position, Impulse);
         }
 
+        public void StartCircleSonar(Transform transform)
+        {
+            foreach (SonarCircle circle in SonarCircles)
+            {
+                if (!circle.gameObject.activeInHierarchy)
+                {
+
+                    circle.gameObject.SetActive(true);
+                    circle.ReStart(transform);
+                    SimpleSonarShader_SonarSender.Instance.StartSonarRing(transform.position, Impulse);
+                    return;
+                }
+            }
+
+            GameObject sCircle = Instantiate(SonarCircle, transform.position, transform.rotation);
+            SonarCircles.Add(sCircle.GetComponent<SonarCircle>());
+            SimpleSonarShader_SonarSender.Instance.StartSonarRing(transform.position, Impulse);
+        }
+        public void StartCircleSonar(int num,float intervalTime)
+        {
+            StartCoroutine(StartNumberOfSonar(num, intervalTime));
+        }
+        IEnumerator StartNumberOfSonar(int num, float intervalTime)
+        {
+            WaitForSeconds interval = new WaitForSeconds(intervalTime);
+            Transform startTransform = this.transform;
+            StartCircleSonar(startTransform);
+            yield return interval;
+            StartCircleSonar(startTransform);
+            yield return interval;
+            StartCircleSonar(startTransform);
+        }
     }
 }
 
