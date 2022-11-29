@@ -156,7 +156,7 @@ namespace GHJ_Lib
 					Controller.BaseAnimator.SetBool("IsInstallCross", false);
 
 					GameObject cross = PhotonNetwork.Instantiate(CrossPrefabName, spawnTransform.position, CrossPrefab.transform.rotation);
-					AudioManager.instance.Play("BishopSkill", AudioManager.PlayTarget.Exorcist);
+					//AudioManager.instance.Play("BishopSkill", AudioManager.PlayTarget.Exorcist);
 					PoketInCross.Sort();
 					cross.GetComponent<Cross>().SetGauge(PoketInCross[PoketInCross.Count -1]);
 					PoketInCross.RemoveAt(PoketInCross.Count - 1);
@@ -181,7 +181,7 @@ namespace GHJ_Lib
 					Controller.BaseAnimator.SetBool("IsCollectCross", false);
 
 					PoketInCross.Add(targetCross.GetComponent<Cross>().OriginGauge);
-					AudioManager.instance.Play("CollectObject", AudioManager.PlayTarget.Exorcist);
+					//AudioManager.instance.Play("CollectObject", AudioManager.PlayTarget.Exorcist);
 					actSkillArea.RemoveInList(targetAim);
 					PhotonNetwork.Destroy(targetCross);
 					break;

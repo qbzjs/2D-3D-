@@ -17,7 +17,7 @@ namespace GHJ_Lib
 		protected Sk_Detected skDetected = new Sk_Detected();
 		/*--- Private Fields ---*/
 
-
+		public RabbitAudio AudioPlayer;
 		/*--- MonoBehaviour Callbacks ---*/
 
 		protected override void OnEnable()
@@ -45,7 +45,8 @@ namespace GHJ_Lib
 				StageManager.Instance.dollUI.CharacterSkill.StartCountDown(15.0f);
 			}
 			IsCoolTime = true;
-			AudioManager.instance.Play("WolfSkill");
+			//AudioManager.instance.Play("WolfSkill");
+			AudioPlayer.Play("WolfSkill");
 			//½ºÅ³Áß
 			yield return new WaitForSeconds(0.2f);//¼±µô
 
