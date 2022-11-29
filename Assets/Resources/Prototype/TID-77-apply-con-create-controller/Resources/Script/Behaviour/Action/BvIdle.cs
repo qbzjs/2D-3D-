@@ -4,14 +4,14 @@ using UnityEngine;
 using KSH_Lib;
 namespace GHJ_Lib
 {
-	public class BvIdle: Behavior<NetworkBaseController>
-	{
+    public class BvIdle : Behavior<NetworkBaseController>
+    {
 
         protected override void Activate(in NetworkBaseController actor)
         {
-            if ( actor.IsMine )
+            if (actor.IsMine)
             {
-                DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.Idle );
+                DataManager.Instance.ShareBehavior((int)NetworkBaseController.BehaviorType.Idle);
             }
             //PlayAnimation( actor );
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
@@ -23,15 +23,15 @@ namespace GHJ_Lib
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            if( !actor.photonView.IsMine )
+            if (!actor.photonView.IsMine)
             {
                 //actor.BaseAnimator.StopPlayback();
                 return PassIfHasSuccessor();
             }
 
-            if(!StageManager.Instance.IsGameStart)
+            if (!StageManager.Instance.IsGameStart)
             {
-                actor.ChangeMoveFunc( NetworkBaseController.MoveType.Stop );
+                actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
                 return PassIfHasSuccessor();
             }
 
@@ -48,18 +48,17 @@ namespace GHJ_Lib
             //    }
             //}
 
-
-            if ( actor is DollController )
+            if (actor is DollController)
             {
                 DoDollHide(actor);
-                DoDollSprint( actor as DollController );
+                DoDollSprint(actor as DollController);
             }
-            else if ( actor is ExorcistController )
+            else if (actor is ExorcistController)
             {
                 ExorcistController exorcist = (actor as ExorcistController);
-                if ( Input.GetKeyDown( KeyCode.Mouse0 ) )
+                if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    if ( exorcist.pickUpArea.CanGetTarget() )
+                    if (exorcist.pickUpArea.CanGetTarget())
                     {
 
                         exorcist.ChangeBvToCatch();
@@ -74,36 +73,40 @@ namespace GHJ_Lib
         }
 
 
-        void DoDollSprint( in DollController actor )
+        void DoDollSprint(in DollController actor)
         {
-            if ( Input.GetKeyDown( KeyCode.LeftShift ) )
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                if(actor.IsMine)
+                if (actor.IsMine)
                 {
                     actor.runTrail.emitting = true;
                 }
 
                 actor.BaseAnimator.SetBool("Run", true);
-                actor.ChangeMoveSpeed( 2.0f );
+                actor.ChangeMoveSpeed(2.0f);
                 actor.Trace_RPC(true);
             }
-            else if ( Input.GetKeyUp( KeyCode.LeftShift ) )
+            else if (Input.GetKeyUp(KeyCode.LeftShift))
             {
-                if ( actor.IsMine )
+                if (actor.IsMine)
                 {
                     actor.runTrail.emitting = false;
                 }
                 actor.BaseAnimator.SetBool("Run", false);
-                actor.ChangeMoveSpeed( 1.0f );
+                actor.ChangeMoveSpeed(1.0f);
                 actor.Trace_RPC(false);
             }
         }
 
         void DoDollHide(in NetworkBaseController actor)
         {
+            
             if (Input.GetKeyDown(KeyCode.B))
             {
-                actor.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Hide);
+                if (!actor.IshideInnerCoolTime)
+                { 
+                    actor.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Hide);
+                }
             }
         }
         /*

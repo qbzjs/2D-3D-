@@ -75,9 +75,8 @@ namespace GHJ_Lib
 
 		//skill Component
 		public BaseSkill skill;
-
 		public GaugedObj.GaugedObjType InteractType;
-
+		public bool IshideInnerCoolTime = false;
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
@@ -398,6 +397,14 @@ namespace GHJ_Lib
 				AcionFunc(DataManager.Instance.LocalPlayerData.roleData as DollData);
 				DataManager.Instance.ShareRoleData();
 			}
+		}
+
+		//나중에 클래스로 만들어보기
+		public IEnumerator InnerCoolTime(float time)
+		{
+			IshideInnerCoolTime = true;
+			yield return new WaitForSeconds(time);
+			IshideInnerCoolTime = false;
 		}
 
 		/*--IpunObserve--*/
