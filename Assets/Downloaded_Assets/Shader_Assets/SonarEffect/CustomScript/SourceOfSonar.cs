@@ -56,11 +56,11 @@ namespace GHJ_Lib
         {
             WaitForSeconds interval = new WaitForSeconds(intervalTime);
             Transform startTransform = this.transform;
-            StartCircleSonar(startTransform);
-            yield return interval;
-            StartCircleSonar(startTransform);
-            yield return interval;
-            StartCircleSonar(startTransform);
+            for (int i = 0; i < num; ++i)
+            { 
+                StartCircleSonar(startTransform);
+                yield return interval;
+            }
         }
     }
 }
