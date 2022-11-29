@@ -71,6 +71,16 @@ namespace LSH_Lib
             audioSources[index].volume = s.volume;
             audioSources[index].Play();
         }
+
+        public void PlayNew(string name, AudioSource audioSource)
+        {
+            Sound s = Array.Find(sounds, sound => sound.name == name);
+            audioSource.clip = s.clip;
+            audioSource.outputAudioMixerGroup = s.mixer;
+            audioSource.volume = s.volume;
+            audioSource.Play();
+        }
+
         public void Play(string name, PlayTarget type)
         {
             var localData = DataManager.Instance.LocalPlayerData;

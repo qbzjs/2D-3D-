@@ -9,15 +9,29 @@ namespace LSH_Lib
 	public class RabbitAudio : MonoBehaviour
 	{
 		[SerializeField]
-		AudioSource rabbitAudio;
+		AudioSource[] rabbitAudios;
+        //int[] indices;
+        //[SerializeField] AudioSource rabbitAudio;
         int myIdx;
         private void Start()
         {
-            myIdx = AudioManager.instance.AddAudio(rabbitAudio);
+            //indices = new int[rabbitAudios.Length];
+            //myIdx = AudioManager.instance.AddAudio(rabbitAudio);
+            // AddAudios();
+            myIdx = AudioManager.instance.AddAudio(rabbitAudios[0]);
         }
         public void Play(string name)
         {
-            AudioManager.instance.Play(myIdx, name);
+            //AudioManager.instance.Play(myIdx, name);
+            for (int i = 0; i < rabbitAudios.Length; ++i)
+            {
+                if (!rabbitAudios[i].isPlaying)
+                {
+                    AudioManager.instance.PlayNew(name, rabbitAudios[i]);
+                    return;
+                }
+            }
+
         }
         public void Stop(string name)
         {

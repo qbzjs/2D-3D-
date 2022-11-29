@@ -49,7 +49,6 @@ namespace GHJ_Lib
 
                 if ( dollData.DevilHP < 0.0f )
                 {
-                    AudioManager.instance.Play("DollDie", AudioManager.PlayTarget.Doll);
                     actor.BaseAnimator.SetBool("IsPurifying", false);
                     //actor.BaseAnimator.Play( "Idle_A" );
                     actor.BecomeGhost();
