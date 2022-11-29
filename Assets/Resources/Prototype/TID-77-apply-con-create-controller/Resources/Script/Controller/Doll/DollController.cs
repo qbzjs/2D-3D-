@@ -36,6 +36,7 @@ namespace GHJ_Lib
 		[SerializeField] protected Animator ghostAnimator;
 		[field: SerializeField] public TrailRenderer runTrail { get; protected set; }
 		[field: SerializeField] public ParticleSystem hitParticle { get; protected set; }
+		[field: SerializeField] public ParticleSystem hitEffect { get; protected set; }
 		[field: SerializeField] public ParticleSystem ghostInEffect { get; protected set; }
 		[field: SerializeField] public ParticleSystem ghostOutEffect { get; protected set; }
 		[field: SerializeField] public ParticleSystem explosionEffect { get; protected set; }
@@ -57,6 +58,7 @@ namespace GHJ_Lib
 			HealEffect.Stop();
 			runTrail.emitting = false;
 			hitParticle.Stop();
+			hitEffect.Stop();
 			ghostInEffect.Stop();
 			ghostOutEffect.Stop();
 			explosionEffect.Stop();

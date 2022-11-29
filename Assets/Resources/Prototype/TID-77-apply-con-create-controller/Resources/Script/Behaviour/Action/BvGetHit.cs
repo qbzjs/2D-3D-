@@ -23,6 +23,8 @@ namespace GHJ_Lib
             // >> Changed By KSH 22.11.26
             //actor.BaseAnimator.Play("Hit");
             dollActor.hitParticle.Clear();
+            dollActor.hitEffect.Clear();
+            dollActor.hitEffect.Play();
             dollActor.hitParticle.Play();
             AudioManager.instance.Play("DollHit1");
             actor.BaseAnimator.SetTrigger( "GetHit" );
