@@ -17,6 +17,7 @@ namespace GHJ_Lib
             //resistGauge = 0.0f;
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
             //AudioManager.instance.Play("DollCaught");
+            (actor as DollController).DollAnimationAudio("DollCaught");
             actor.BaseAnimator.SetBool("IsCaught", true);
             if (actor.IsMine)
             { 

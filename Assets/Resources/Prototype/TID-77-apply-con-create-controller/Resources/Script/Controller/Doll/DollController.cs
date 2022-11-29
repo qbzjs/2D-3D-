@@ -95,7 +95,6 @@ namespace GHJ_Lib
 		{
 			characterModel.gameObject.SetActive(false);
 			ChangeCamera(cam);
-			RabbitAudio.Play("DollCaught");
 			ChangeBehaviorTo(BehaviorType.BeCaught);
 			
 		}
@@ -106,7 +105,6 @@ namespace GHJ_Lib
 				if (photonView.IsMine)
 				{
 					ChangeBehaviorTo(BehaviorType.GetHit);
-					RabbitAudio.Play("DollHit1");
 				}
 			}
 		}

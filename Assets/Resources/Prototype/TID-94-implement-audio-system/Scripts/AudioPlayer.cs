@@ -11,7 +11,7 @@ namespace LSH_Lib
         int myIdx;
         private void Start()
         {
-            //myIdx = AudioManager.instance.AddAudio(AudioSources[0]);
+            myIdx = AudioManager.instance.AddAudio(AudioSources[0]);
         }
         public void Play(string name)
         {
