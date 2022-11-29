@@ -46,7 +46,6 @@ namespace GHJ_Lib
 		public GameObject BloodDecal;
 		public GameObject BloodSpawner;
 		public ParticleSystem HealEffect;
-		public RabbitAudio RabbitAudio;
 		public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
 	
 
@@ -234,7 +233,7 @@ namespace GHJ_Lib
 			else
 			{
 				interactor.gameObject.SetActive(false);
-				characterObj.SetActive(false);
+				characterModel.SetActive(false);
 			}
 			explosionEffect.Clear();
 			explosionEffect.Play();

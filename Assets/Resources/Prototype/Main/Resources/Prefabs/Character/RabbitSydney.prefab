@@ -29535,7 +29535,6 @@ GameObject:
   - component: {fileID: 7871871931253396574}
   - component: {fileID: 349997065993091692}
   - component: {fileID: 4565329937850999858}
-  - component: {fileID: 3717511943188348014}
   m_Layer: 7
   m_Name: ShadowPlane
   m_TagString: Untagged
@@ -29552,7 +29551,7 @@ Transform:
   m_GameObject: {fileID: 229853735135175052}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.011, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5171643521589291903}
@@ -29608,20 +29607,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3717511943188348014
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 229853735135175052}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &270761499366631365
 GameObject:
   m_ObjectHideFlags: 0
@@ -80255,7 +80240,6 @@ MonoBehaviour:
     type: 3}
   BloodSpawner: {fileID: 8197337303650732328}
   HealEffect: {fileID: 2112050414019026634}
-  RabbitAudio: {fileID: 0}
 --- !u!114 &1880955903577764238
 MonoBehaviour:
   m_ObjectHideFlags: 0
