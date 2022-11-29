@@ -36,6 +36,15 @@ namespace GHJ_Lib
             }
             
         }
+        protected override bool CheckAdditionalCondition(in InteractionPromptUI promptUI)
+        {
+            if (targetController is ExorcistController)
+            {
+                promptUI.Inactivate();
+                return false;
+            }
+            return true;
+        }
         [PunRPC]
         public void SendStateOfDoor(bool isOpen)
         {

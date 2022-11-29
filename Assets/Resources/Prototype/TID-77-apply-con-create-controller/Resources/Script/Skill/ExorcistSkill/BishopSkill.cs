@@ -33,7 +33,8 @@ namespace GHJ_Lib
 		string NoticeTextUninstallArea = "This Area Can't install!!";
 		string NoticeTextAlreadyInstallCrossAround = "you already install cross around";
 		string NoticeTextIsWatingCross = "Push SkillButton to Collect";
-		WaitForSeconds noticeTime = new WaitForSeconds(1.0f);
+		WaitForSeconds noticeTime = new WaitForSeconds(5.0f);
+		WaitForEndOfFrame frame = new WaitForEndOfFrame();
 		protected override void OnEnable()
 		{
 			base.OnEnable();
@@ -148,9 +149,10 @@ namespace GHJ_Lib
 			}
 			while (true)
 			{
-				yield return new WaitForEndOfFrame();
+				yield return frame;
+
 				AnimatorStateInfo animatorState = Controller.BaseAnimator.GetCurrentAnimatorStateInfo(0);
-				if (animatorState.normalizedTime >=0.6f)
+				if (animatorState.normalizedTime >=0.6f&& animatorState.IsName("install Cross"))
 				{
 					Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 					Controller.BaseAnimator.SetBool("IsInstallCross", false);
@@ -173,9 +175,9 @@ namespace GHJ_Lib
 			}
 			while (true)
 			{
-				yield return new WaitForEndOfFrame();
+				yield return frame;
 				AnimatorStateInfo animatorState = Controller.BaseAnimator.GetCurrentAnimatorStateInfo(0);
-				if (animatorState.normalizedTime >= 0.6f)
+				if (animatorState.normalizedTime >= 0.2f&& animatorState.IsName("Collect Cross"))
 				{
 					Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 					Controller.BaseAnimator.SetBool("IsCollectCross", false);
