@@ -82,6 +82,10 @@ namespace GHJ_Lib
 				obj.SetActive(false);
 			}
 		}
+		public void PlayAnimationSound(string name)
+        {
+			AudioPlayer.Play(name);
+        }
 		// Behavior Callbacks
 		public override void ImprisonDoll()
 		{

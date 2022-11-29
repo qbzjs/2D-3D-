@@ -331,21 +331,18 @@ namespace GHJ_Lib
 			{
 				networkGenerator.Generate(DoorPrefab, DoorPos.transform.position, DoorPos.transform.rotation);
 			}
-			/*
-			if (FakeDollsGenPos !=null)
-			{
-				for (int i = 0; i < FakeDollsGenPos.Length; ++i)
-				{
-					if ((CountofFakeDolls > 0 && Random.Range(0, 1) > 0)|| FakeDollsGenPos.Length-i == CountofFakeDolls)
-					{
-						CountofFakeDolls--;
-						continue;
-					}
+
+			//for (int i = 0; i < FakeDollsGenPos.Length; ++i)
+			//{
+			//	if ((CountofFakeDolls > 0 && Random.Range(0, 1) > 0)|| FakeDollsGenPos.Length-i == CountofFakeDolls)
+			//	{
+			//		CountofFakeDolls--;
+			//		continue;
+			//	}
 				
-					networkGenerator.Generate(FakeDollPrefabs[Random.Range(0, FakeDollPrefabs.Length - 1)], FakeDollsGenPos[i].position, FakeDollsGenPos[i].rotation);
-				}
-			}
-			*/
+			//	networkGenerator.Generate(FakeDollPrefabs[Random.Range(0, FakeDollPrefabs.Length - 1)], FakeDollsGenPos[i].position, FakeDollsGenPos[i].rotation);
+			//}
+
 		}
 		void GeneratePlayerCharacter()
 		{
