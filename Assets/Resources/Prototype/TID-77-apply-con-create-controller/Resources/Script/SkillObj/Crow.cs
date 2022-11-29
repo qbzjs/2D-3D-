@@ -12,6 +12,7 @@ namespace GHJ_Lib
         public Collider DetectRange;
         [SerializeField]protected HunterSkill owner;
         protected Vector3 initPos;
+        public AudioPlayer AudioPlayer;
         enum FlyingCondition{ Landing, Flying , Idle };
         FlyingCondition flyingCondition;
         private void Start()
@@ -98,7 +99,7 @@ namespace GHJ_Lib
         {
             if (other.gameObject.CompareTag(GameManager.DollTag))
             {
-                //AudioManager.instance.Play("Crow");
+                AudioPlayer.Play("Crow");
                 return other.gameObject;
             }
             return null;

@@ -34,6 +34,7 @@ namespace GHJ_Lib
 		string NoticeTextAlreadyInstallCrossAround = "you already install cross around";
 		string NoticeTextIsWatingCross = "Push SkillButton to Collect";
 		WaitForSeconds noticeTime = new WaitForSeconds(1.0f);
+		public AudioPlayer AudioPlayer;
 		protected override void OnEnable()
 		{
 			base.OnEnable();
@@ -156,7 +157,7 @@ namespace GHJ_Lib
 					Controller.BaseAnimator.SetBool("IsInstallCross", false);
 
 					GameObject cross = PhotonNetwork.Instantiate(CrossPrefabName, spawnTransform.position, CrossPrefab.transform.rotation);
-					//AudioManager.instance.Play("BishopSkill", AudioManager.PlayTarget.Exorcist);
+					AudioPlayer.Play("BishopSkill");
 					PoketInCross.Sort();
 					cross.GetComponent<Cross>().SetGauge(PoketInCross[PoketInCross.Count -1]);
 					PoketInCross.RemoveAt(PoketInCross.Count - 1);
@@ -181,7 +182,7 @@ namespace GHJ_Lib
 					Controller.BaseAnimator.SetBool("IsCollectCross", false);
 
 					PoketInCross.Add(targetCross.GetComponent<Cross>().OriginGauge);
-					//AudioManager.instance.Play("CollectObject", AudioManager.PlayTarget.Exorcist);
+					AudioPlayer.Play("CollectObject");
 					actSkillArea.RemoveInList(targetAim);
 					PhotonNetwork.Destroy(targetCross);
 					break;

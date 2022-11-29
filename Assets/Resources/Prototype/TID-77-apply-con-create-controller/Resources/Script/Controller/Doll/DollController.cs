@@ -96,8 +96,9 @@ namespace GHJ_Lib
 		{
 			characterModel.gameObject.SetActive(false);
 			ChangeCamera(cam);
-			ChangeBehaviorTo(BehaviorType.BeCaught);
 			RabbitAudio.Play("DollCaught");
+			ChangeBehaviorTo(BehaviorType.BeCaught);
+			
 		}
 		public void ChangeBvToGetHit()
 		{
@@ -172,10 +173,10 @@ namespace GHJ_Lib
 		public virtual IEnumerator Hide()
 		{
 			Transform modelTrans = characterModel.transform;
+			RabbitAudio.Play("Hide");
 			BaseAnimator.SetBool("IsHide", true);
 			float rotZ = modelTrans.localRotation.eulerAngles.z;
 			float posY = modelTrans.localScale.x;
-			RabbitAudio.Play("Hide");
 			while (true)
 			{
 				rotZ += 90.0f * Time.deltaTime;
