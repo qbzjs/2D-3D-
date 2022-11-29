@@ -33,8 +33,8 @@ namespace GHJ_Lib
 		string NoticeTextUninstallArea = "This Area Can't install!!";
 		string NoticeTextAlreadyInstallCrossAround = "you already install cross around";
 		string NoticeTextIsWatingCross = "Push SkillButton to Collect";
-		WaitForSeconds noticeTime = new WaitForSeconds(3.0f);
-		WaitForEndOfFrame frame = new WaitForEndOfFrame();
+		WaitForSeconds noticeTime = new WaitForSeconds(1.0f);
+		public AudioPlayer AudioPlayer;
 		protected override void OnEnable()
 		{
 			base.OnEnable();
@@ -73,22 +73,16 @@ namespace GHJ_Lib
 			}
         }
         /*---Skill---*/
-        public override bool NoTiceTextOfCanSkill()
+        public override void DecideActiveSkill()
         {
 			GameObject targetObj;
 			if (Controller.IsWatching(GameManager.CollectTriggerTag, out targetObj) && Vector3.ProjectOnPlane((targetObj.transform.position - transform.position), Vector3.up).sqrMagnitude < CollectRange * CollectRange)
 			{
 				interactionPromptUI.Activate(NoticeTextIsWatingCross);
-				IsNotice = false;
-				return true;
 			}
 			else
 			{
-				if (!IsNotice)
-				{
-					interactionPromptUI.Inactivate();
-				}
-				return false;
+				interactionPromptUI.Inactivate();
 			}
 		}
         public override bool CanActiveSkill()
@@ -155,16 +149,15 @@ namespace GHJ_Lib
 			}
 			while (true)
 			{
-				yield return frame;
-
+				yield return new WaitForEndOfFrame();
 				AnimatorStateInfo animatorState = Controller.BaseAnimator.GetCurrentAnimatorStateInfo(0);
-				if (animatorState.normalizedTime >=0.6f&& animatorState.IsName("install Cross"))
+				if (animatorState.normalizedTime >=0.6f)
 				{
 					Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 					Controller.BaseAnimator.SetBool("IsInstallCross", false);
 
 					GameObject cross = PhotonNetwork.Instantiate(CrossPrefabName, spawnTransform.position, CrossPrefab.transform.rotation);
-					//AudioManager.instance.Play("BishopSkill", AudioManager.PlayTarget.Exorcist);
+					AudioPlayer.Play("BishopSkill");
 					PoketInCross.Sort();
 					cross.GetComponent<Cross>().SetGauge(PoketInCross[PoketInCross.Count -1]);
 					PoketInCross.RemoveAt(PoketInCross.Count - 1);
@@ -181,15 +174,15 @@ namespace GHJ_Lib
 			}
 			while (true)
 			{
-				yield return frame;
+				yield return new WaitForEndOfFrame();
 				AnimatorStateInfo animatorState = Controller.BaseAnimator.GetCurrentAnimatorStateInfo(0);
-				if (animatorState.normalizedTime >= 0.2f&& animatorState.IsName("Collect Cross"))
+				if (animatorState.normalizedTime >= 0.6f)
 				{
 					Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 					Controller.BaseAnimator.SetBool("IsCollectCross", false);
 
 					PoketInCross.Add(targetCross.GetComponent<Cross>().OriginGauge);
-					//AudioManager.instance.Play("CollectObject", AudioManager.PlayTarget.Exorcist);
+					AudioPlayer.Play("CollectObject");
 					actSkillArea.RemoveInList(targetAim);
 					PhotonNetwork.Destroy(targetCross);
 					break;

@@ -36,6 +36,7 @@ namespace GHJ_Lib
 
         static bool isRegistered;
 
+        public AudioPlayer AudioPlayer;
         protected override void OnEnable()
         {
             isUse = false;
@@ -119,7 +120,7 @@ namespace GHJ_Lib
             {
                 //Debug.Log("Trap");
                 yield return new WaitForEndOfFrame();
-                //AudioManager.instance.Play("HunterSkill", AudioManager.PlayTarget.Exorcist);
+                AudioPlayer.Play("HunterSkill");
                 if (!isUse)
                 {
                     Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);

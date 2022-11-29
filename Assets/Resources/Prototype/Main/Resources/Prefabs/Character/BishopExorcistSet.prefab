@@ -19126,7 +19126,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6936794485078518966}
-  - component: {fileID: 1613259626980147359}
+  - component: {fileID: 2018376267757445357}
   - component: {fileID: 1704771951464727697}
   m_Layer: 7
   m_Name: Audio
@@ -19150,7 +19150,7 @@ Transform:
   m_Father: {fileID: 5377492404594038689}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1613259626980147359
+--- !u!114 &2018376267757445357
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19159,18 +19159,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3223484045191661879}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01ff61fa5ed9f5845b87484e5e40a8be, type: 3}
+  m_Script: {fileID: 11500000, guid: 200c6bb842ea1ea4c95603505c571630, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 1704771951464727697}
-  sounds:
-  - name: ExorcistWalk
-    clip: {fileID: 0}
-    volume: 0
-    pitch: 0
-    source: {fileID: 0}
-    loop: 0
-    mixer: {fileID: 0}
+  AudioSource: {fileID: 1704771951464727697}
 --- !u!82 &1704771951464727697
 AudioSource:
   m_ObjectHideFlags: 0
@@ -22431,7 +22423,6 @@ MonoBehaviour:
   camTarget: {fileID: 5917684622130587940}
   moveSpeed: 6
   rotateSpeed: 600
-  walkSound: {fileID: 1704771951464727697}
   <BaseAnimator>k__BackingField: {fileID: 7024509903019800251}
   fpvCam: {fileID: 6732188400664118986}
   tpvCam: {fileID: 209766531295493849}
@@ -22470,6 +22461,7 @@ MonoBehaviour:
   - {fileID: 1123957487534283753, guid: 4f2c2146ecfdd1a4bba46f41addc9f41, type: 3}
   - {fileID: 7376339690605747261, guid: 9f2ccd5d3cc3acb43b7d64b641ad8c37, type: 3}
   <weaponTrail>k__BackingField: {fileID: 8801370546962011673}
+  AudioPlayer: {fileID: 2018376267757445357}
 --- !u!114 &6538268825645442193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22492,6 +22484,7 @@ MonoBehaviour:
   RecoverGauge: 5
   MaxCrossGauge: 60
   spawnTransform: {fileID: 282448135813503205}
+  AudioPlayer: {fileID: 2018376267757445357}
 --- !u!114 &1454505674329797724
 MonoBehaviour:
   m_ObjectHideFlags: 0
