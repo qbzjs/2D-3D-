@@ -20,6 +20,7 @@ namespace KSH_Lib.Object
         [SerializeField] float destroyTime = 1.5f;
         [SerializeField] float startHeight = 1.2f;
 
+
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -56,14 +57,17 @@ namespace KSH_Lib.Object
                 {
                     castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / MaxGauge ),
                         new CastingSystem.CastFuncSet ( RunningCondition: DollRunningCondition, PauseAction: PauseAction, FinishAction: DollFinishAction ) );
+
+                    photonView.RPC( "PlayDollEffects_RPC", RpcTarget.All );
                     AudioManager.instance.Play("DollExitAltar", AudioManager.PlayTarget.Doll);
                 }
                 else if (targetController.gameObject.CompareTag( GameManager.ExorcistTag ) )
                 {
                     castingSystem.StartCasting( CastingSystem.Cast.CreateByRatio( targetController.InteractionSpeed / exorcistMaxGauge ),
                         new CastingSystem.CastFuncSet( RunningCondition: targetController.IsInteractionKeyHold, PauseAction: PauseAction, FinishAction: ExorcistFinishAction ) );
+
+                    photonView.RPC( "PlayExorcistEffects_RPC", RpcTarget.All );
                     AudioManager.instance.Play("HitAltar");
-                
                 }
                 else
                 {
@@ -80,17 +84,26 @@ namespace KSH_Lib.Object
         {
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
             castingSystem.ResetCasting();
+
+            photonView.RPC( "StopDollEffects_RPC", RpcTarget.All );
+
+            StopExorcistEffects();
+            StopDollEffects();
             AudioManager.instance.Stop("DollExitAltar");
         }
         void DollFinishAction()
         {
             photonView.RPC("ExitGameRPC", RpcTarget.AllViaServer);
+
+            photonView.RPC( "StopDollEffects_RPC", RpcTarget.All );
             AudioManager.instance.Stop("DollExitAltar");
         }
         void ExorcistFinishAction()
         {
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
             photonView.RPC( "ChangeAltarStateTo_RPC", RpcTarget.AllViaServer, AltarState.Closed );
+
+            photonView.RPC( "StopExorcistEffects_RPC", RpcTarget.All );
             AudioManager.instance.Stop("HitAltar");
         }
 

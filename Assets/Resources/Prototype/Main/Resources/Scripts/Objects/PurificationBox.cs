@@ -22,7 +22,7 @@ namespace KSH_Lib.Object
         [SerializeField] KSH_Lib.Util.PhaseEffect phaseEffect;
         [SerializeField] float destroyTime = 1.5f;
         [SerializeField] float startHeight = 5.2f;
-        [SerializeField] ParticleSystem particle;
+        [SerializeField] ParticleSystem[] purificationEffect;
 
         bool isDollPurifying;
 
@@ -30,7 +30,7 @@ namespace KSH_Lib.Object
         protected override void OnEnable()
         {
             base.OnEnable();
-            particle.Stop();
+            StopEffects();
         }
 
         protected override bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
@@ -119,7 +119,7 @@ namespace KSH_Lib.Object
 
         public void DollFinishAction()
         {
-            photonView.RPC( "ShareDustEffect", RpcTarget.All, false );
+            photonView.RPC( "StartEffects_RPC", RpcTarget.All );
             AudioManager.instance.Stop("DollPurificationBoxInteract");
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 
@@ -135,7 +135,7 @@ namespace KSH_Lib.Object
             yield return GameManager.Instance.WaitOneS;
             yield return GameManager.Instance.WaitOneS;
             yield return GameManager.Instance.WaitOneS;
-            photonView.RPC( "ShareDustEffect", RpcTarget.All, false );
+            photonView.RPC( "StopEffects_RPC", RpcTarget.All );
             while (true)
             {
                 yield return null;
@@ -156,6 +156,22 @@ namespace KSH_Lib.Object
             }
         }
 
+        void PlayEffects()
+        {
+            for ( int i = 0; i < purificationEffect.Length; ++i )
+            {
+                purificationEffect[i].Clear();
+                purificationEffect[i].Play();
+            }
+        }
+        void StopEffects()
+        {
+            for ( int i = 0; i < purificationEffect.Length; ++i )
+            {
+                purificationEffect[i].Stop();
+            }
+        }
+
 
         [PunRPC]
         void ShareInteractingInPurificationBox_RPC( bool isInteracting )
@@ -171,9 +187,16 @@ namespace KSH_Lib.Object
         }
 
         [PunRPC]
-        void ShareDustEffect(bool isEnabled)
+        void PlayEffects_RPC(bool isEnabled)
         {
-            particle.Play();
+            PlayEffects();
         }
+        [PunRPC]
+        void StopEffects_RPC( bool isEnabled )
+        {
+            StopEffects();
+        }
+
+
     }
 }

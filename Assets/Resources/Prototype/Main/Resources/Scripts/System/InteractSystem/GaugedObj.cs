@@ -36,7 +36,11 @@ namespace KSH_Lib
         [SerializeField] Material outlineMaterialPrefab;
         Material[] originMats;
         Material[] outlinedMats;
- 
+
+        [Header("Effects")]
+        [SerializeField] ParticleSystem[] dollParticles;
+        [SerializeField] ParticleSystem[] exorcistParticles;
+
         [Header( "Debug Only" )]
         [SerializeField] protected float RateOfGauge;
         public float OriginGauge { get { return RateOfGauge * MaxGauge; } }
@@ -64,6 +68,8 @@ namespace KSH_Lib
                     Debug.LogError( "GuageObject.Enable: Can not find CastingSystem" );
                 }
             }
+            StopDollEffects();
+            StopExorcistEffects();
         }
 
         protected virtual void SyncGauge( float gauge )
@@ -142,6 +148,37 @@ namespace KSH_Lib
         }
         public abstract bool Interact( Interactor interactor );
 
+        public void PlayDollEffects()
+        {
+            foreach(var effect in dollParticles )
+            {
+                effect.Clear();
+                effect.Play();
+            }
+        }
+        public void StopDollEffects()
+        {
+            foreach ( var effect in dollParticles )
+            {
+                effect.Stop();
+            }
+        }
+        public void PlayExorcistEffects()
+        {
+            foreach ( var effect in exorcistParticles )
+            {
+                effect.Clear();
+                effect.Play();
+            }
+        }
+        public void StopExorcistEffects()
+        {
+            foreach ( var effect in exorcistParticles )
+            {
+                effect.Stop();
+            }
+        }
+
         void ActiveOutlineEffect(bool isActive)
         {
             if(isActive)
@@ -163,6 +200,8 @@ namespace KSH_Lib
         }
 
 
+
+
         /*--- IPunObservable Interfaces ---*/
         public void OnPhotonSerializeView( PhotonStream stream, PhotonMessageInfo info )
         {
@@ -178,6 +217,30 @@ namespace KSH_Lib
         public void ShareExorcistInteract( bool interacting )
         {
             IsExorcistInteracting = interacting;
+        }
+
+        [PunRPC]
+        public virtual void PlayDollEffects_RPC()
+        {
+            PlayDollEffects();
+        }
+
+        [PunRPC]
+        public virtual void StopDollEffects_RPC()
+        {
+            StopDollEffects();
+        }
+
+        [PunRPC]
+        public virtual void PlayExorcistEffects_RPC()
+        {
+            PlayExorcistEffects();
+        }
+
+        [PunRPC]
+        public virtual void StopExorcistEffects_RPC()
+        {
+            StopExorcistEffects();
         }
 
     }
