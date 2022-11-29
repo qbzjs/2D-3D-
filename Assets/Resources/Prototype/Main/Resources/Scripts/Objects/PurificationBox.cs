@@ -23,7 +23,6 @@ namespace KSH_Lib.Object
         [SerializeField] float destroyTime = 1.5f;
         [SerializeField] float startHeight = 5.2f;
         [SerializeField] ParticleSystem particle;
-        ParticleSystem.EmissionModule emission;
 
         bool isDollPurifying;
 
@@ -31,8 +30,7 @@ namespace KSH_Lib.Object
         protected override void OnEnable()
         {
             base.OnEnable();
-            emission = particle.emission;
-            emission.enabled = false;
+            particle.Stop();
         }
 
         protected override bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
@@ -110,7 +108,6 @@ namespace KSH_Lib.Object
         {
             targetController.ChangeBehaviorTo( NetworkBaseController.BehaviorType.Idle );
             photonView.RPC( "ShareDustEffect", RpcTarget.All, true );
-            
         }
 
         public void SetDoll(DollController doll)
@@ -135,6 +132,9 @@ namespace KSH_Lib.Object
         IEnumerator DestroyIfDollDead()
         {
             isDollPurifying = true;
+            yield return GameManager.Instance.WaitOneS;
+            yield return GameManager.Instance.WaitOneS;
+            yield return GameManager.Instance.WaitOneS;
             photonView.RPC( "ShareDustEffect", RpcTarget.All, false );
             while (true)
             {
@@ -173,7 +173,7 @@ namespace KSH_Lib.Object
         [PunRPC]
         void ShareDustEffect(bool isEnabled)
         {
-            emission.enabled = isEnabled;
+            particle.Play();
         }
     }
 }
