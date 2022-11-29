@@ -40,6 +40,7 @@ namespace GHJ_Lib
 		public GameObject FinalAltarPrefab;
 		public GameObject PurificationBoxPrefab;
 		public GameObject DoorPrefab;
+		public GameObject[] FakeDollPrefabs;
 
 		[Header( "GenPos" )]
 		public Transform[] PlayerGenPos;
@@ -49,11 +50,15 @@ namespace GHJ_Lib
 		public Transform[] PurificationBoxGenPos;
 		public Transform[] CrowGenPos;
 		public Transform[] DoorGenPos;
+		public Transform[] FakeDollsGenPos;
 
 		[Header( "NormalAltarSetting" )]
 		public int Count;
 		public float InitAreaRadius;
 		public Vector3 CenterPosition;
+
+		[Header("FakeDollsSpawnSetting")]
+		public int CountofFakeDolls;
 
 		[Header( "UI" )]
 		public DollUI dollUI;
@@ -317,7 +322,7 @@ namespace GHJ_Lib
 			networkGenerator.GenerateSpread(NormalAltarPrefab, NormalAltarGenPos, Count, InitAreaRadius, CenterPosition);
 			networkGenerator.GenerateRandomly(ExitAltarPrefab, ExitAltarGenPos);
 			networkGenerator.Generate(FinalAltarPrefab, FinalAltarGenPos.transform.position, FinalAltarGenPos.rotation);
-			
+
 			foreach (var purificationBoxGenPos in PurificationBoxGenPos)
 			{
 				networkGenerator.Generate(PurificationBoxPrefab, purificationBoxGenPos.transform.position, purificationBoxGenPos.transform.rotation);
@@ -326,6 +331,18 @@ namespace GHJ_Lib
 			{
 				networkGenerator.Generate(DoorPrefab, DoorPos.transform.position, DoorPos.transform.rotation);
 			}
+
+			for (int i = 0; i < FakeDollsGenPos.Length; ++i)
+			{
+				if ((CountofFakeDolls > 0 && Random.Range(0, 1) > 0)|| FakeDollsGenPos.Length-i == CountofFakeDolls)
+				{
+					CountofFakeDolls--;
+					continue;
+				}
+				
+				networkGenerator.Generate(FakeDollPrefabs[Random.Range(0, FakeDollPrefabs.Length - 1)], FakeDollsGenPos[i].position, FakeDollsGenPos[i].rotation);
+			}
+
 		}
 		void GeneratePlayerCharacter()
 		{
