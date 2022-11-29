@@ -35,6 +35,7 @@ namespace GHJ_Lib
 		string NoticeTextIsWatingCross = "Push SkillButton to Collect";
 		WaitForSeconds noticeTime = new WaitForSeconds(1.0f);
 		public AudioPlayer AudioPlayer;
+		public IEnumerator ExcuteEnum;
 		protected override void OnEnable()
 		{
 			base.OnEnable();
@@ -139,12 +140,23 @@ namespace GHJ_Lib
 			yield return new WaitForSeconds(14.6f);
 			IsCoolTime = false;
 		}
+		public IEnumerator ExcuteCollect()
+		{
+			yield return new WaitForSeconds(0.2f);
+			while (ActiveSkill.Count != 0)
+			{
+				ActiveSkill.Update(Controller, ref ActiveSkill);
+			}
+			yield return new WaitForSeconds(0.2f);
+		}
 		private void SkillSettingToInstallCross()
 		{
+			ExcuteEnum = ExcuteActiveSkill();
 			ActiveSkill.SetSuccessorStates(new List<Behavior<NetworkBaseController>>() {skDefault,skInstallCross });
 		}
 		private void SkillSettingToCollectCross()
 		{
+			ExcuteEnum = ExcuteCollect();
 			ActiveSkill.SetSuccessorStates(new List<Behavior<NetworkBaseController>>() { skDefault, skCollectCross });
 		}
 		IEnumerator SetCross()

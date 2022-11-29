@@ -11,6 +11,13 @@ namespace GHJ_Lib
     {
         bool isBishopPassive = false;
         const float BishopPassiveRate = 0.15f;
+        float bishopDelayTime=0.358f;
+        float bishopAttackTime = 0.463f;
+        float firstHunterDelayTime=0.232f;
+        float firstHunterAttackTime=0.287f;
+        float secondHunterDelayTime=0.492f;
+        float secondHunterAttackTime=0.523f;
+
         float attackTime = 0.9f;
         AttackArea attackArea;
         Image[] bloodImages;
@@ -38,21 +45,13 @@ namespace GHJ_Lib
             AnimatorStateInfo animatorStateInfo = actor.BaseAnimator.GetCurrentAnimatorStateInfo(0);
             if (actor.BaseAnimator.GetBool("IsAttack")&& animatorStateInfo.IsName("Attack"))
             {
-                if (attackArea.CanGetTarget())
+                if (CanHitDoll(actor,animatorStateInfo))
                 {
                     GameObject target = attackArea.GetNearestTarget();
                     DollController doll = target.GetComponent<DollController>();
                     doll.DoActionBy(Attack);
                     doll.ChangeBvToGetHit();
                     actor.BaseAnimator.SetBool("IsAttack", false);
-                    if (actor.IsMine)
-                    {
-                        if (bloodImages == null)
-                        { 
-                            bloodImages  = (actor as ExorcistController).BloodImages;
-                        }
-                        //EffectManager.Instance.RandomShowImageOnScreen(bloodImages[Random.Range(0, bloodImages.Length-1)]);
-                    }
                 }
                 else if (animatorStateInfo.normalizedTime >= attackTime)
                 {
@@ -88,6 +87,29 @@ namespace GHJ_Lib
             {
                 targetData.DevilHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower* BishopPassiveRate;
             }
+        }
+
+        bool CanHitDoll(NetworkBaseController actor,AnimatorStateInfo animatorStateInfo)
+        {
+            switch (actor.TypeIndex)
+            {
+                case 2:
+                    {
+                        return attackArea.CanGetTarget() && (animatorStateInfo.normalizedTime >= bishopDelayTime && animatorStateInfo.normalizedTime <= bishopAttackTime);
+                    }
+                case 5:
+                    {
+                        return attackArea.CanGetTarget() && (
+                            (animatorStateInfo.normalizedTime >= firstHunterDelayTime && animatorStateInfo.normalizedTime <= firstHunterAttackTime)
+                            || (animatorStateInfo.normalizedTime >= secondHunterDelayTime && animatorStateInfo.normalizedTime <= secondHunterAttackTime));
+                    }
+                default:
+                    {
+                        Debug.LogError("Player Type Error");
+                        return false;
+                    }
+            }
+            
         }
     }
 }

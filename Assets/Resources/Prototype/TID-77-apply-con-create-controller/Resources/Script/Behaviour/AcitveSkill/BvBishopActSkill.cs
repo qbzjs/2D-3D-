@@ -12,7 +12,7 @@ namespace GHJ_Lib
         protected override void Activate(in NetworkBaseController actor)
         {
             var skill = actor.skill as BishopSkill;
-            skill.StartCoroutine(skill.ExcuteActiveSkill());
+            skill.StartCoroutine(skill.ExcuteEnum);
             //skill.StartCoroutine("ExcuteActiveSkill"); 이것도 되는함수임.
         }
 

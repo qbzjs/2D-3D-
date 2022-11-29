@@ -23,6 +23,11 @@ namespace GHJ_Lib
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
+            if (actor.IsESC)
+            {
+                return null;
+            }
+
             if (!actor.photonView.IsMine)
             {
                 //actor.BaseAnimator.StopPlayback();

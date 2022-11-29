@@ -26,6 +26,8 @@ namespace LSH_Lib
         [SerializeField]
         TextMeshProUGUI roomcode;
         [SerializeField]
+        int CustomRoomNameLength;
+        [SerializeField]
         GameObject copysuccess;
         string roomName;
 
@@ -37,8 +39,11 @@ namespace LSH_Lib
         [Header("In Room")]
         [SerializeField]
         GameObject invite;
-        
-        
+
+        void InstanceRoomCode()
+        {
+            roomcode.text = uiManager.CreateRandomRoomName(CustomRoomNameLength);
+        }
         
         void DisalbeAll()
         {
