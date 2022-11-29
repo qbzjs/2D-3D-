@@ -332,11 +332,11 @@ namespace GHJ_Lib
 			}
 			if (Input.GetKeyDown(KeyCode.Mouse1))
 			{
-				if ((CurBehavior is BvIdle&& skill.CanActiveSkill()))
-				{
-					photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.AllViaServer);
-				}
-			}
+                if ((CurBehavior is BvIdle && skill.CanActiveSkill()))
+                {
+                    photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.AllViaServer);
+                }
+            }
 		}
 
 		public virtual void ChangeBvToInteract()

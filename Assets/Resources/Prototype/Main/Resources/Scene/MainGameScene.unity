@@ -7003,6 +7003,55 @@ MonoBehaviour:
     source: {fileID: 0}
     loop: 0
     mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: DollWalk1
+    clip: {fileID: 8300000, guid: 260066ac63c595b478f621644d06c9da, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: DollWalk2
+    clip: {fileID: 8300000, guid: 842063df15b0d20479082ad0939eb9a7, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: DollWalk3
+    clip: {fileID: 8300000, guid: 3c29653b372f9664fb00a3a981a31a12, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: DollWalk4
+    clip: {fileID: 8300000, guid: e8b5356e2d392a44c82e806739d3e354, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: DollWalk5
+    clip: {fileID: 8300000, guid: e8b5356e2d392a44c82e806739d3e354, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: DollWalk6
+    clip: {fileID: 8300000, guid: e8b5356e2d392a44c82e806739d3e354, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
+  - name: DollWalk7
+    clip: {fileID: 8300000, guid: e8b5356e2d392a44c82e806739d3e354, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+    mixer: {fileID: 2626549424551446101, guid: 76876fb4c3bce694195e9d1027a1b5ba, type: 2}
   audioSources: []
 --- !u!1 &351170427
 GameObject:
@@ -15985,6 +16034,7 @@ MonoBehaviour:
     type: 3}
   DoorPrefab: {fileID: 6465464295464073376, guid: 62aa5868ac4435740bbd1d9fc73e27db,
     type: 3}
+  FakeDollPrefabs: []
   PlayerGenPos:
   - {fileID: 872018582}
   - {fileID: 2146874709}
@@ -16037,9 +16087,11 @@ MonoBehaviour:
   - {fileID: 1836202474}
   - {fileID: 1362880009}
   - {fileID: 576079275}
+  FakeDollsGenPos: []
   Count: 5
   InitAreaRadius: 40
   CenterPosition: {x: 0, y: 0, z: 0}
+  CountofFakeDolls: 0
   dollUI: {fileID: 638113923}
   exorcistUI: {fileID: 1504082278}
   BloodUI_Obj: {fileID: 1662500041}

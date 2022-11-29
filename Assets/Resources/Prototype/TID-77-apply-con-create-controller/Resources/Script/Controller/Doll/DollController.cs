@@ -173,8 +173,8 @@ namespace GHJ_Lib
 		public virtual IEnumerator Hide()
 		{
 			Transform modelTrans = characterModel.transform;
-			RabbitAudio.Play("Hide");
 			BaseAnimator.SetBool("IsHide", true);
+			RabbitAudio.Play("DollHide");
 			float rotZ = modelTrans.localRotation.eulerAngles.z;
 			float posY = modelTrans.localScale.x;
 			while (true)
@@ -437,11 +437,14 @@ namespace GHJ_Lib
             }
             else
             {
-				RabbitAudio.Play("DollWalk");
+				//RabbitAudio.Play("DollWalk");
                 BaseAnimator.SetFloat( "Move", DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed );
             }
         }
-
+		public void DollAnimationAudio(string name)
+        {
+			RabbitAudio.Play(name);
+        }
 
         [PunRPC]
 		protected override void ChangeBehaviorTo_RPC( BehaviorType type )
