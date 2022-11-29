@@ -108,6 +108,7 @@ namespace GHJ_Lib
 				{
 					targetCross = targetAim.transform.parent.gameObject;
 					photonView.RPC("SkillSettingToCollectCross",RpcTarget.All);
+					ActiveSkill.SetSuccessorStates(new List<Behavior<NetworkBaseController>>() { skDefault, skInstallCross });
 					return true;
 				}
 				StartCoroutine(NoticeUninstallReason(NoticeTextAlreadyInstallCrossAround));
@@ -121,6 +122,7 @@ namespace GHJ_Lib
 			else
 			{
 				photonView.RPC("SkillSettingToInstallCross", RpcTarget.All);
+				ActiveSkill.SetSuccessorStates(new List<Behavior<NetworkBaseController>>() { skDefault, skCollectCross });
 				return true;
 			}
 		}
@@ -153,13 +155,11 @@ namespace GHJ_Lib
 		private void SkillSettingToInstallCross()
 		{
 			ExcuteEnum = ExcuteActiveSkill();
-			ActiveSkill.SetSuccessorStates(new List<Behavior<NetworkBaseController>>() {skDefault,skInstallCross });
 		}
 		[PunRPC]
 		private void SkillSettingToCollectCross()
 		{
 			ExcuteEnum = ExcuteCollect();
-			ActiveSkill.SetSuccessorStates(new List<Behavior<NetworkBaseController>>() { skDefault, skCollectCross });
 		}
 		IEnumerator SetCross()
 		{
