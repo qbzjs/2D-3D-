@@ -72,20 +72,26 @@ namespace GHJ_Lib
 				}
 			}
         }
-        /*---Skill---*/
-        public override void DecideActiveSkill()
-        {
+		/*---Skill---*/
+		public override bool ShowCanUseSkillMsg()
+		{
 			GameObject targetObj;
 			if (Controller.IsWatching(GameManager.CollectTriggerTag, out targetObj) && Vector3.ProjectOnPlane((targetObj.transform.position - transform.position), Vector3.up).sqrMagnitude < CollectRange * CollectRange)
 			{
 				interactionPromptUI.Activate(NoticeTextIsWatingCross);
+				IsNotice = false;
+				return true;
 			}
 			else
 			{
-				interactionPromptUI.Inactivate();
+				if (!IsNotice)
+				{
+					interactionPromptUI.Inactivate();
+				}
+				return false;
 			}
 		}
-        public override bool CanActiveSkill()
+		public override bool CanActiveSkill()
 		{
 			Collider[] UninstallZones = new Collider[1];
 			if (Physics.OverlapSphereNonAlloc(new Vector3(transform.position.x,0,transform.position.z), 1.0f, UninstallZones, UninstallZoneLayer) == 1)
@@ -151,7 +157,7 @@ namespace GHJ_Lib
 			{
 				yield return new WaitForEndOfFrame();
 				AnimatorStateInfo animatorState = Controller.BaseAnimator.GetCurrentAnimatorStateInfo(0);
-				if (animatorState.normalizedTime >=0.6f)
+				if (animatorState.normalizedTime >=0.6f && animatorState.IsName("install Cross"))
 				{
 					Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 					Controller.BaseAnimator.SetBool("IsInstallCross", false);
@@ -176,7 +182,7 @@ namespace GHJ_Lib
 			{
 				yield return new WaitForEndOfFrame();
 				AnimatorStateInfo animatorState = Controller.BaseAnimator.GetCurrentAnimatorStateInfo(0);
-				if (animatorState.normalizedTime >= 0.6f)
+				if (animatorState.normalizedTime >= 0.2f && animatorState.IsName("Collect Cross"))
 				{
 					Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 					Controller.BaseAnimator.SetBool("IsCollectCross", false);

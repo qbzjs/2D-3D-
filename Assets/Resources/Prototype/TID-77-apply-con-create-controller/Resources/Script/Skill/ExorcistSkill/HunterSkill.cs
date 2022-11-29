@@ -72,7 +72,7 @@ namespace GHJ_Lib
             isUse = false;
             PhotonNetwork.Destroy(gameObject);
         }
-        public override bool NoTiceTextOfCanSkill()
+        public override bool ShowCanUseSkillMsg()
         {
             return false;
         }

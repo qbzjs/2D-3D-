@@ -28,7 +28,7 @@ namespace GHJ_Lib
 		}
 		/*--- Public Methods ---*/
 
-		public override bool NoTiceTextOfCanSkill()
+		public override bool ShowCanUseSkillMsg()
 		{
 			return false;
 		}

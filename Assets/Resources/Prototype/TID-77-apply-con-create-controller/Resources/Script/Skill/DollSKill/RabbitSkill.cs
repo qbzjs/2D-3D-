@@ -28,7 +28,7 @@ namespace GHJ_Lib
 			SkillSetting();
 		}
 
-		public override bool NoTiceTextOfCanSkill()
+		public override bool ShowCanUseSkillMsg()
 		{
 			if (IsHeal)
 			{

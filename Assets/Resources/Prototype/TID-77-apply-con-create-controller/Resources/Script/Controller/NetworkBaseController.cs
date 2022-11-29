@@ -326,7 +326,7 @@ namespace GHJ_Lib
 
 		public virtual void DoSkill()
 		{
-			if (skill.IsCoolTime && !skill.NoTiceTextOfCanSkill())
+			if (skill.IsCoolTime && !skill.ShowCanUseSkillMsg())
 			{
 				return;
 			}
