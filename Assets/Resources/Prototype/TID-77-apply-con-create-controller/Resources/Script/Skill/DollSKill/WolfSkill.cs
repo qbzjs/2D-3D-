@@ -12,7 +12,7 @@ namespace GHJ_Lib
 		/*--- Public Fields ---*/
 		/*--- Protected Fields ---*/
 		[SerializeField] protected SourceOfSonar sourceOfSonar;
-		WaitForSeconds SonarInterval = new WaitForSeconds(0.4f);
+		[SerializeField] protected float SonarInterval=0.4f;
 
 		protected Sk_Detected skDetected = new Sk_Detected();
 		/*--- Private Fields ---*/
@@ -47,6 +47,7 @@ namespace GHJ_Lib
 			IsCoolTime = true;
 			//AudioManager.instance.Play("WolfSkill");
 			AudioPlayer.Play("WolfSkill");
+			
 			//½ºÅ³Áß
 			yield return new WaitForSeconds(0.2f);//¼±µô
 
@@ -56,6 +57,7 @@ namespace GHJ_Lib
 			}
 			SkillSetting();
 			yield return new WaitForSeconds(0.2f);//ÈÄµô
+			
 			Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 			yield return new WaitForSeconds(14.6f);
 			IsCoolTime = false;
@@ -69,20 +71,11 @@ namespace GHJ_Lib
 		[PunRPC]
 		public void DoWolfActiveSkill()
 		{
-			StartCoroutine(TripleSonar());
+			sourceOfSonar.StartCircleSonar(3, SonarInterval);
 			if (actSkillArea.CanGetTarget())
 			{
 				actSkillArea.Targets[0].GetComponent<ExorcistController>().DoActionBy(Detected);
 			}
-		}
-
-		IEnumerator TripleSonar()
-		{
-			sourceOfSonar.StartCircleSonar();
-			yield return SonarInterval;
-			sourceOfSonar.StartCircleSonar();
-			yield return SonarInterval;
-			sourceOfSonar.StartCircleSonar();
 		}
 		IEnumerator Detected(GameObject characterModel)
 		{
