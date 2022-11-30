@@ -34,8 +34,6 @@ namespace KSH_Lib
 
         [SerializeField] MeshRenderer _meshRenderer;
         [SerializeField] Material outlineMaterialPrefab;
-        Material[] originMats;
-        Material[] outlinedMats;
 
         [Header("Effects")]
         [SerializeField] ParticleSystem[] dollParticles;
@@ -45,13 +43,16 @@ namespace KSH_Lib
         [SerializeField] protected float RateOfGauge;
         public float OriginGauge { get { return RateOfGauge * MaxGauge; } }
 
+        [SerializeField] Material[] originMats;
+        [SerializeField] Material[] outlinedMats;
+        [SerializeField] int defaultMatrialCounts;
+        [SerializeField] bool isOutlined = false;
+
         /*--- Fields ---*/
         public string InteractionPrompt => prompt;
         public GameObject GetGameObject => gameObject;
         public virtual bool CanInteract { get => !castingSystem.IsCoroutineRunning; }
         protected NetworkBaseController targetController;
-        int defaultMatrialCounts;
-        bool isOutlined = false;
 
         /*--- MonoBehaviour Callbacks ---*/
         private void Start()
@@ -193,7 +194,7 @@ namespace KSH_Lib
             {
                 if( isOutlined )
                 {
-                    isOutlined = false;
+                    isOutlined = false; 
                     if (_meshRenderer == null)
                     {
                         return;
