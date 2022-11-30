@@ -34,7 +34,6 @@ namespace GHJ_Lib
 		public bool IsPickupDoll { get; protected set; }
 		[field: SerializeField] public TrailRenderer weaponTrail { get; protected set; }
 
-		public AudioPlayer AudioPlayer;
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
 		{

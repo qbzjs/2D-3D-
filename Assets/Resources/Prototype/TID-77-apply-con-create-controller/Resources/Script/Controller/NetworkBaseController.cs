@@ -10,6 +10,8 @@ using Cinemachine;
 using System;
 using KSH_Lib.Object;
 using MSLIMA.Serializer;
+using LSH_Lib;
+
 namespace GHJ_Lib
 {
 	public class NetworkBaseController : BasePlayerController, IPunObservable
@@ -64,7 +66,7 @@ namespace GHJ_Lib
 		[SerializeField]
 		protected KSH_Lib.FPV_CameraController fpvCam;
 		[SerializeField]
-		protected TPV_CameraController tpvCam;
+		protected KSH_Lib.TPV_CameraController tpvCam;
 		public BaseCameraController CurCam { get; protected set; }
 
 		[field: SerializeField] public Interactor interactor { get; protected set; }
@@ -79,6 +81,9 @@ namespace GHJ_Lib
 		public bool IshideInnerCoolTime = false;
 
 		public bool IsESC = false;
+
+		[Header("Audio Settings")]
+		public AudioPlayer AudioPlayer;
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()

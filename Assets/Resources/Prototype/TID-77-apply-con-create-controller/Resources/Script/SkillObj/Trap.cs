@@ -4,6 +4,8 @@ using UnityEngine;
 using KSH_Lib.Object;
 using KSH_Lib;
 using Photon.Pun;
+using LSH_Lib;
+
 namespace GHJ_Lib
 {
 	public class Trap: GaugedObj
@@ -20,6 +22,8 @@ namespace GHJ_Lib
 
         float ExitTrapRatio;
         float ClearTrapRatio;
+
+        [SerializeField] AudioPlayer Audio;
 
         WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
         protected override void OnEnable()
@@ -105,6 +109,7 @@ namespace GHJ_Lib
         {
             ((targetController as ExorcistController).skill as HunterSkill).CollectTrap(gameObject);
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
+            Audio.Play( "CollectTrap" );
         }
         private void OnTriggerEnter(Collider other)
         {
@@ -125,6 +130,8 @@ namespace GHJ_Lib
                         sphereCollider.radius = 0.59f;
                     }
                     animator.Play("Trap");
+                    Audio.Play( "TrapActive" );
+
                     // 덫 잠기는 애니매이션, 또는 위치변환 
                 }
             }

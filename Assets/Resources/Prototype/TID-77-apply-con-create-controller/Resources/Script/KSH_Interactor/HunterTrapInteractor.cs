@@ -116,6 +116,7 @@ namespace GHJ_Lib
         }
         private void FinishAction()
         {
+            controller.AudioPlayer.Play( "HunterSkill" );
             (controller.skill as HunterSkill).InstallTrap();
             PhotonNetwork.Instantiate((controller.skill as HunterSkill).TrapName, spawnTransform.position, controller.transform.rotation);
             StageManager.Instance.exorcistUI.CharacterSkill.StartCountDown(CoolTime);
