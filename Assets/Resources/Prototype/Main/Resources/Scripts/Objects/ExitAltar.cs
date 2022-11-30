@@ -32,12 +32,6 @@ namespace KSH_Lib.Object
                 photonView.RPC( "ChangeAltarStateTo_RPC", RpcTarget.AllViaServer, AltarState.CanOpen );
             }
         }
-
-        protected override void Start()
-        {
-            base.Start();
-        }
-
         protected override bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
         {
             if (targetController.CurBehavior is not BvIdle)

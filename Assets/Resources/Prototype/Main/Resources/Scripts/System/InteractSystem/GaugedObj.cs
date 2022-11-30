@@ -55,10 +55,6 @@ namespace KSH_Lib
         protected NetworkBaseController targetController;
 
         /*--- MonoBehaviour Callbacks ---*/
-        protected virtual void Start()
-        {
-            InitMaterials();
-        }
         protected virtual void OnEnable()
         {
             if ( castingSystem == null )
@@ -71,6 +67,7 @@ namespace KSH_Lib
             }
             StopDollEffects();
             StopExorcistEffects();
+            InitMaterials();
         }
 
         protected virtual void SyncGauge( float gauge )
