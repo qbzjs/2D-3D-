@@ -86,6 +86,7 @@ namespace GHJ_Lib
 		}
 		ExorcistController exorcistController;
 
+		public ChasingSound ChasingBGM;
 
 		/*--- Private Fields ---*/
 		static StageManager instance;

@@ -24,7 +24,7 @@ namespace GHJ_Lib
         protected ExorcistData exorcistData, initData;
         protected RoleData.RoleType roleType;
 
-        public AudioPlayer AudioPlayer;
+        //public AudioPlayer AudioPlayer;
         private void OnEnable()
         {
             CameraLayer = LayerMask.NameToLayer("Camera");
@@ -138,7 +138,8 @@ namespace GHJ_Lib
                 if (chaseState != ChaseState.Chasing)
                 {
                     chaseState = ChaseState.Chasing;
-                    AudioPlayer.Play("ChasingBGM"); //<<: ChaseSound 
+                    StageManager.Instance.ChasingBGM.Play();
+                    //AudioPlayer.Play("ChasingBGM"); //<<: ChaseSound 
                     //DataManager.Instance.ShareRoleData();
                 }
             }
@@ -161,7 +162,8 @@ namespace GHJ_Lib
                                 exorcistData.MoveSpeed = initData.MoveSpeed;
                                 DataManager.Instance.ShareRoleData();
                                 chaseState = ChaseState.Wait;
-                                AudioPlayer.Stop("ChasingBGM"); //<<:ChaseSound
+                                StageManager.Instance.ChasingBGM.Stop();
+                                //AudioPlayer.Stop("ChasingBGM"); //<<:ChaseSound
                             }
                         }
                         break;

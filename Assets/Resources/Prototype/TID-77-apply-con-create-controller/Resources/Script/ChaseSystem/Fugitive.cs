@@ -12,7 +12,7 @@ namespace GHJ_Lib
         public bool IsChased { get; private set; }
         [field: SerializeField] public bool IsWatched { get; set; }
         [SerializeField] protected float ChaseGauge = 0.0f;
-        public AudioPlayer AudioPlayer;
+
         public int GetStack
         {
             get {
@@ -85,7 +85,7 @@ namespace GHJ_Lib
                     IsChased = true;
                     if (photonView.IsMine)
                     { 
-                        AudioPlayer.Play("ChasingBGM"); //<<: ChaseSound 
+                        StageManager.Instance.ChasingBGM.Play(); //<<: ChaseSound 
                     }
                 }
             }
@@ -96,7 +96,7 @@ namespace GHJ_Lib
                     IsChased = false;
                     if (photonView.IsMine)
                     {
-                        AudioPlayer.Stop("ChasingBGM"); //<<:ChaseSound
+                        StageManager.Instance.ChasingBGM.Stop();
                     }
                 }
             }

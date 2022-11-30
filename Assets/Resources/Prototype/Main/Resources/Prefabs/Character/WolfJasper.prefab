@@ -91783,6 +91783,7 @@ MonoBehaviour:
   Controller: {fileID: 819067107215865435}
   sourceOfSonar: {fileID: 1293361680691006526}
   SonarInterval: 0.4
+  howlingTime: 1.2
   Audio: {fileID: 4209064456108281946}
 --- !u!114 &819067107215865435
 MonoBehaviour:
@@ -91809,6 +91810,7 @@ MonoBehaviour:
   InteractType: 0
   IshideInnerCoolTime: 0
   IsESC: 0
+  AudioPlayer: {fileID: 4209064456108281946}
   trapInteractor: {fileID: 2051113660472053083}
   ghostPrefab: {fileID: 6892113955728994714}
   ghostAnimator: {fileID: 6892113955728994715}
@@ -91823,7 +91825,6 @@ MonoBehaviour:
     type: 3}
   BloodSpawner: {fileID: 3800578030771357847}
   HealEffect: {fileID: 7734110688277639850}
-  Audio: {fileID: 4209064456108281946}
 --- !u!114 &7176076297856307180
 MonoBehaviour:
   m_ObjectHideFlags: 0
