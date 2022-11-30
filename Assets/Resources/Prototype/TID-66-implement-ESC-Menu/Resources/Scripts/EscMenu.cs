@@ -68,6 +68,13 @@ namespace LSH_Lib{
         }
         void CloseOption()
         {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            //TPV_PlayerInputManager.instance.enabled = true;
+            //FPV_InputManager.instance.enabled = true;
+            //PlayerInputManager.instance.enabled = true;
+            KSH_Lib.BasePlayerInputManager.Instance.enabled = true;
             OptionUIPanel.SetActive(false);
         }
     }

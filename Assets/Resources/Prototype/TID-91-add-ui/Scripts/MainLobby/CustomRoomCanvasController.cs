@@ -99,11 +99,17 @@ namespace LSH_Lib
             //}
             PhotonNetwork.AutomaticallySyncScene = true;
             SetRoll();
+            invitecode.text = PhotonNetwork.CurrentRoom.Name;
             //InitializeImage();
         }
         private void Update()
         {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                DisalbeAllPanel();
+            }
             ChangeImage();
+            
         }
         //void CountPlayer()
         //{
