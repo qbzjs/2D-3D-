@@ -77,12 +77,16 @@ namespace GHJ_Lib
                 }
                 photonView.RPC("SyncChaseGauge", RpcTarget.All, ChaseGauge);
             }
+
             if (ChaseGauge >= 50.0f)
             {
                 if (!IsChased)
                 { 
                     IsChased = true;
-                    AudioPlayer.Play("ChasingBGM"); //<<: ChaseSound 
+                    if (photonView.IsMine)
+                    { 
+                        AudioPlayer.Play("ChasingBGM"); //<<: ChaseSound 
+                    }
                 }
             }
             else
@@ -90,7 +94,10 @@ namespace GHJ_Lib
                 if (IsChased)
                 { 
                     IsChased = false;
-                    AudioPlayer.Stop("ChasingBGM"); //<<:ChaseSound
+                    if (photonView.IsMine)
+                    {
+                        AudioPlayer.Stop("ChasingBGM"); //<<:ChaseSound
+                    }
                 }
             }
 
