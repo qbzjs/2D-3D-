@@ -13,6 +13,7 @@ namespace GHJ_Lib
         protected RabbitSkill rabbit;
         GameObject healTarget;
         DollController peer=null;
+        bool healStart = false;
         protected override void Activate(in NetworkBaseController actor)
         {
             if (effectArea == null)
@@ -24,8 +25,12 @@ namespace GHJ_Lib
             {
                 rabbit = actor.skill as RabbitSkill;
             }
+            GameObject target = effectArea.GetNearestTarget();
+            if (healTarget != target)
+            {
+                healTarget = target;
+            }
 
-            healTarget = effectArea.GetNearestTarget();
             if (!healTarget)
             {
                 Debug.LogError("Sk_Heal.DoBehavior : healTarget is null ... why actSkillArea.CanGetTarget() is true???");
@@ -41,12 +46,20 @@ namespace GHJ_Lib
             if (!peer)
             {
                 Debug.LogError("Sk_Heal.DoBehavior : peer is null ... why actSkillArea.CanGetTarget() is true???");
-                return PassIfHasSuccessor();
+                return new BvIdle();
             }
-
-            if (peer.CurBehavior is not BvIdle&& rabbit.IsHeal)
+            
+            if (!healStart)
             {
-                rabbit.CancelHeal();
+                if (peer.CurBehavior is BvIdle)
+                {
+                    return null;
+                }
+
+                if (peer.CurBehavior is not BvBehealed)
+                {
+                    healStart = true;
+                }
             }
 
             if (peer.photonView.IsMine)
@@ -76,7 +89,12 @@ namespace GHJ_Lib
                 return null;
             }
 
-            return PassIfHasSuccessor();
+            Behavior<NetworkBaseController> Bv  = PassIfHasSuccessor();
+            if (Bv!=null)
+            {
+                healStart = false;
+            }
+            return Bv;
 
         }
             

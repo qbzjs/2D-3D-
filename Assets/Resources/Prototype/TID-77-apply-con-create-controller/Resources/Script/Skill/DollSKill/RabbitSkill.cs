@@ -66,7 +66,7 @@ namespace GHJ_Lib
 		}
 		public override bool CanActiveSkill()
 		{
-			return actSkillArea.CanGetTarget();
+			return actSkillArea.CanGetTarget()&& HealTarget.CurBehavior is BvIdle;
 		}
 		public void CancelHeal()
 		{
@@ -89,7 +89,8 @@ namespace GHJ_Lib
 			if (Controller.IsMine)
 			{ 
 				StageManager.Instance.dollUI.CharacterSkill.PushButton(true);
-				HealTarget.BeHealed_RPC(IsHeal);
+				HealTarget.BeHealedAnimation_RPC(IsHeal);
+				HealTarget.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Behealed);
 			}
 			
 			while (true)
@@ -101,7 +102,8 @@ namespace GHJ_Lib
 					if (Controller.IsMine)
 					{
 						StageManager.Instance.dollUI.CharacterSkill.PushButton(false);
-						HealTarget.BeHealed_RPC(IsHeal);
+						HealTarget.BeHealedAnimation_RPC(IsHeal);
+						HealTarget.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 						Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 					}
 					break;
