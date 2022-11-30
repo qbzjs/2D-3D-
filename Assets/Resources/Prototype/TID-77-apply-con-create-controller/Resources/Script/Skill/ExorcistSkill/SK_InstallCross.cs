@@ -16,7 +16,7 @@ namespace GHJ_Lib
 			}
 
 			//actor.BaseAnimator.SetBool("IsInstallCross", true);
-			actor.ShareAnimationBoll( "IsInstallCross", true );
+			(actor as ExorcistController).PlayInstallCross(true);
 
 			bishopSkill.StartCoroutine("SetCross");
 			

@@ -156,6 +156,27 @@ namespace GHJ_Lib
 			}
 		}
 
+		public void PlayInstallCross(bool state)
+        {
+			photonView.RPC( "PlayInstallCrossRPC", RpcTarget.All, state );
+        }
+
+		[PunRPC]
+		void PlayInstallCrossRPC(bool state)
+		{
+			BaseAnimator.SetBool( "IsInstallCross", state );
+		}
+		public void PlayInstallTrap( bool state )
+		{
+			photonView.RPC( "PlayInstallCrossRPC", RpcTarget.All, state );
+		}
+
+		[PunRPC]
+		void PlayInstallTrapRPC( bool state )
+		{
+			BaseAnimator.SetBool( "IsInstallTrap", state );
+		}
+
 		[PunRPC]
 		protected override void ChangeBehaviorTo_RPC(BehaviorType behaviorType)
 		{

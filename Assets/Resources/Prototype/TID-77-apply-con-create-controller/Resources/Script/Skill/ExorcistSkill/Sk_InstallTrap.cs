@@ -10,7 +10,7 @@ namespace GHJ_Lib
 		{
 			//actor.BaseAnimator.SetBool("IsInstallTrap", true);
 
-			actor.ShareAnimationBoll( "IsInstallCross", true );
+			(actor as ExorcistController).PlayInstallCross( true );
 			(actor.skill as HunterSkill).StartCoroutine("ExcuteActiveSkill");
 			actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
 		}
