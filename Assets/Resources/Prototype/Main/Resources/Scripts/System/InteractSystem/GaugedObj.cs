@@ -193,8 +193,12 @@ namespace KSH_Lib
             {
                 if( isOutlined )
                 {
-                    _meshRenderer.materials = originMats;
                     isOutlined = false;
+                    if (_meshRenderer == null)
+                    {
+                        return;
+                    }
+                    _meshRenderer.materials = originMats;
                 }
             }
         }
