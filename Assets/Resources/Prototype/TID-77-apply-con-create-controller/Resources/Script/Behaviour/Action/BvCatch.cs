@@ -37,7 +37,7 @@ namespace GHJ_Lib
 
             //if (animatorStateInfo.normalizedTime >= pickUpTime && animatorStateInfo.IsName("Pickup") && actor.BaseAnimator.GetBool("IsCatch"))
             ExorcistController exorcistActor = actor as ExorcistController;
-            if (exorcistActor.IsPickupDoll)
+            if (exorcistActor.IsPickupDoll&& exorcistActor.pickUpArea.CanGetTarget())
             {
                 exorcistActor.PickUp();
                 actor.BaseAnimator.SetBool("IsCatch", false);

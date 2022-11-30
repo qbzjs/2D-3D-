@@ -81,6 +81,18 @@ namespace GHJ_Lib
                     continue;
                 }
 
+                if (!(fugitive.curBehaviour is BvIdle ||
+                    fugitive.curBehaviour is BvInteract ||
+                    fugitive.curBehaviour is BvGetHit))
+                {
+                    if (Fugitives.Contains(fugitive))
+                    {
+                        fugitive.SetWatch(false);
+                        Fugitives.Remove(fugitive);
+                    }
+                    continue;
+                }
+
                 if (IsInCameraView(fugitive.gameObject) &&
                     CheckObstacle(fugitive.gameObject))
                 {

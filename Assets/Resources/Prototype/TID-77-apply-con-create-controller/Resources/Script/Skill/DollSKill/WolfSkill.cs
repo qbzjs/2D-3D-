@@ -13,7 +13,7 @@ namespace GHJ_Lib
 		/*--- Protected Fields ---*/
 		[SerializeField] protected SourceOfSonar sourceOfSonar;
 		[SerializeField] protected float SonarInterval=0.4f;
-
+		[SerializeField] protected float howlingTime = 1.2f;
 		protected Sk_Detected skDetected = new Sk_Detected();
 		/*--- Private Fields ---*/
 
@@ -45,6 +45,7 @@ namespace GHJ_Lib
 				StageManager.Instance.dollUI.CharacterSkill.StartCountDown(15.0f);
 			}
 			IsCoolTime = true;
+			Controller.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
 			//AudioManager.instance.Play("WolfSkill");
 			AudioPlayer.Play("WolfSkill");
 			
@@ -57,7 +58,9 @@ namespace GHJ_Lib
 			}
 			SkillSetting();
 			yield return new WaitForSeconds(0.2f);//ÈÄµô
-			
+
+			yield return new WaitForSeconds(howlingTime);
+
 			Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 			yield return new WaitForSeconds(14.6f);
 			IsCoolTime = false;

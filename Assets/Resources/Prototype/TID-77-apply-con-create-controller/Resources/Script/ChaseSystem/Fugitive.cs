@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using KSH_Lib;
 namespace GHJ_Lib
 {
     public class Fugitive : MonoBehaviourPun
@@ -20,6 +21,10 @@ namespace GHJ_Lib
             }
         }
         [SerializeField] protected DollController dollController;
+        public Behavior<NetworkBaseController> curBehaviour
+        {
+            get { return dollController.CurBehavior; }
+        }
         public void SetWatch(bool IsWatchTarget)
         {
             if (IsWatchTarget)
