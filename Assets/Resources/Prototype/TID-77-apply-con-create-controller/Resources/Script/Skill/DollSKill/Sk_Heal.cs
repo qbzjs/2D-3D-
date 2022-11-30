@@ -44,6 +44,10 @@ namespace GHJ_Lib
                 return PassIfHasSuccessor();
             }
 
+            if (peer.CurBehavior is not BvIdle&& rabbit.IsHeal)
+            {
+                rabbit.CancelHeal();
+            }
 
             if (peer.photonView.IsMine)
             {

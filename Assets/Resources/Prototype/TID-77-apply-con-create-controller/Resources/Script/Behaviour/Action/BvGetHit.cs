@@ -42,6 +42,7 @@ namespace GHJ_Lib
                 if ( dollActor.CrossStack >= 2)
                 {
                     (DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower * CrossStackBonusRate;
+                    DataManager.Instance.ShareRoleData();
                 }
             }
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
@@ -49,8 +50,11 @@ namespace GHJ_Lib
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            if ((DataManager.Instance.PlayerDatas[actor.PlayerIndex].roleData as DollData).DollHP < 0.0f)
+            DollData dollData = (DataManager.Instance.PlayerDatas[actor.PlayerIndex].roleData as DollData);
+            if (dollData.DollHP <= 0.0f)
             {
+                dollData.DollHP = 0.0f;
+                DataManager.Instance.ShareRoleData();
                 return new BvCollapse();
             }
 

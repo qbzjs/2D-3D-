@@ -83,9 +83,17 @@ namespace GHJ_Lib
         {
             //AudioManager.instance.Play("BishopHit");
             targetData.DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower;
+            if (targetData.DollHP <= 0.0f)
+            {
+                targetData.DollHP = 0.0f;
+            }
             if (isBishopPassive)
             {
                 targetData.DevilHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower* BishopPassiveRate;
+                if (targetData.DevilHP <= 0.0f)
+                {
+                    targetData.DevilHP = 0.0f;
+                }
             }
         }
 
