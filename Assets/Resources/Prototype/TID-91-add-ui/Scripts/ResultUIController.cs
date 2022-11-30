@@ -68,6 +68,10 @@ namespace LSH_Lib
                 myTypeText.text = type;
                 for (int i = 1; i < DataManager.Instance.PlayerDatas.Count; ++i)
                 {
+                    if(DataManager.Instance.PlayerDatas[i].roleData == null)
+                    {
+                        break;
+                    }
                     string icontype;
                     playerInfors[i-1].NickName.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
                     icontype = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
