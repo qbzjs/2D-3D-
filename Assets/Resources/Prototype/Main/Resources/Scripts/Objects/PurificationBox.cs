@@ -85,7 +85,8 @@ namespace KSH_Lib.Object
                 AudioSource.Play("ExorcistBox");
                 if (!isDollPurifying)
                 {
-                    StartCoroutine(DestroyIfDollDead());
+                    //StartCoroutine(DestroyIfDollDead());
+                    photonView.RPC( "Destroy_RPC", RpcTarget.AllViaServer );
                 }
             }
             else
@@ -137,7 +138,8 @@ namespace KSH_Lib.Object
         IEnumerator DestroyIfDollDead()
         {
             isDollPurifying = true;
-            photonView.RPC( "StopPurificationEffect", RpcTarget.All );
+            //photonView.RPC( "StopPurificationEffect", RpcTarget.All );
+            StopPurificationEffect();
             while (true)
             {
                 yield return null;
@@ -150,13 +152,23 @@ namespace KSH_Lib.Object
                     Debug.Log("Start Remove");
                     phaseEffect.DoFade(startHeight, 0.0f, destroyTime);
                     AudioSource.Play("BoxDestroy");
-                    yield return new WaitForSeconds(destroyTime);
 
-                    PhotonNetwork.Destroy(gameObject);
+                    if(photonView.IsMine)
+                    {
+                        yield return new WaitForSeconds( destroyTime );
+                        PhotonNetwork.Destroy( gameObject );
+                    }
                 }
                 yield return null;
             }
         }
+
+        [PunRPC]
+        void Destroy_RPC()
+        {
+            StartCoroutine( DestroyIfDollDead() );
+        }
+
         void PlayParticles()
         {
             for ( int i = 0; i < particles.Length; ++i )
