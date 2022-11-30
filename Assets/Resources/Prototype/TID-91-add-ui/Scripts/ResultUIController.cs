@@ -122,7 +122,7 @@ namespace LSH_Lib
                     {
                         for(int uiOrder = 0, j = i; uiOrder< playerInfors.Length - 1; ++uiOrder, ++j)
                         {
-                            if (DataManager.Instance.PlayerDatas[j].roleData == null)
+                            if (DataManager.Instance.PlayerDatas[j].roleData == null || j == playeridx)
                             {
                                 break;
                             }
