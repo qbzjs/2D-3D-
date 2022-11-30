@@ -109,9 +109,9 @@ namespace KSH_Lib
             }
         }
 
-        public void ResetCamTarget(float resetTime)
+        public void ResetCamTarget(float resetTime, float targetHeight)
         {
-            camTarget.LeanRotate(new Vector3(initAngleY, 0.0f, 0.0f), resetTime);
+            camTarget.LeanRotate(new Vector3(initAngleY, targetHeight, 0.0f), resetTime);
         }
 
         /*--- Protected Methods ---*/

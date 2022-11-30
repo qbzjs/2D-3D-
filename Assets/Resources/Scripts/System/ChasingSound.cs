@@ -9,15 +9,14 @@ namespace KSH_Lib
         [SerializeField] AudioSource audioSource;
         public void Play()
         {
-            audioSource.volume = 0.0f;
-
             audioSource.Play();
+            audioSource.volume = 0.0f;
             StartCoroutine( ChangeVolume( ChangeValue, 0.0f, 1.0f, 1.0f ) );
         }
         public void Stop()
         {
             audioSource.volume = 1.0f;
-            StartCoroutine( StopSound( ChangeValue, 0.0f, 1.0f, 1.0f ) );
+            StartCoroutine(FadeOut( ChangeValue, 0.0f, 1.0f, 1.0f ) );
         }
 
 
@@ -26,9 +25,9 @@ namespace KSH_Lib
             audioSource.volume = input;
         }
 
-        IEnumerator StopSound( System.Action<float> ChangeValue, float from, float to, float time )
+        IEnumerator FadeOut( System.Action<float> ChangeValue, float from, float to, float time )
         {
-            yield return ChangeVolume( ChangeValue, from, to, time );
+            yield return StartCoroutine(ChangeVolume(ChangeValue, from, to, time));
             yield return new WaitForSeconds( time );
             audioSource.Stop();
         }

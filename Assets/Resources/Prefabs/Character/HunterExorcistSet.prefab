@@ -16090,7 +16090,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1122330391813174785}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.1, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -27410,7 +27410,7 @@ MonoBehaviour:
   - {fileID: 95600952109098282}
   - {fileID: 3339995100823872314}
   - {fileID: 3420727757208386187}
-  hideTime: 3
+  hideTime: 1.5
   <Aura>k__BackingField: {fileID: 0}
   CatchObj:
   - {fileID: 0}
@@ -30410,6 +30410,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4886522118172941226}
     m_Modifications:
+    - target: {fileID: 7580860023851094352, guid: 60e5f7259c0dbfb40a7bad86d06a4774,
+        type: 3}
+      propertyPath: CameraDistance
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7580860024113969224, guid: 60e5f7259c0dbfb40a7bad86d06a4774,
         type: 3}
       propertyPath: m_RootOrder
@@ -30492,8 +30497,13 @@ PrefabInstance:
       objectReference: {fileID: 7802847519808138915}
     - target: {fileID: 7580860024113969238, guid: 60e5f7259c0dbfb40a7bad86d06a4774,
         type: 3}
+      propertyPath: minZoomLength
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7580860024113969238, guid: 60e5f7259c0dbfb40a7bad86d06a4774,
+        type: 3}
       propertyPath: <initAngleY>k__BackingField
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60e5f7259c0dbfb40a7bad86d06a4774, type: 3}

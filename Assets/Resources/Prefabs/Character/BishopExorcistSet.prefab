@@ -22300,7 +22300,7 @@ MonoBehaviour:
   - {fileID: 6824584770362292684}
   - {fileID: 8638816360016280085}
   - {fileID: 1117506563466229492}
-  hideTime: 3
+  hideTime: 1.5
   <Aura>k__BackingField: {fileID: 0}
   CatchObj:
   - {fileID: 0}
@@ -22620,8 +22620,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 3880535480926427075}
   m_AABB:
-    m_Center: {x: -0.030484617, y: 0.0124204755, z: 0.9406518}
-    m_Extent: {x: 0.41389218, y: 0.64930665, z: 0.68369067}
+    m_Center: {x: 0.0012114048, y: 0.102020465, z: 0.9404259}
+    m_Extent: {x: 0.68432194, y: 0.2730917, z: 0.68391657}
   m_DirtyAABB: 0
 --- !u!183 &7737829247586660979
 Cloth:
@@ -27859,8 +27859,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 3880535480926427075}
   m_AABB:
-    m_Center: {x: 0.0030537248, y: -0.03738171, z: 1.0563111}
-    m_Extent: {x: 0.23170437, y: 0.2862404, z: 0.566355}
+    m_Center: {x: 0.04341376, y: 0.012714326, z: 1.0471723}
+    m_Extent: {x: 0.3029724, y: 0.20177826, z: 0.5754938}
   m_DirtyAABB: 0
 --- !u!183 &7737829248156865765
 Cloth:
@@ -35310,6 +35310,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6954322916910557794}
     m_Modifications:
+    - target: {fileID: 7580860023851094352, guid: 60e5f7259c0dbfb40a7bad86d06a4774,
+        type: 3}
+      propertyPath: CameraDistance
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7580860024113969224, guid: 60e5f7259c0dbfb40a7bad86d06a4774,
         type: 3}
       propertyPath: m_RootOrder
@@ -35402,8 +35407,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7580860024113969238, guid: 60e5f7259c0dbfb40a7bad86d06a4774,
         type: 3}
+      propertyPath: minZoomLength
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7580860024113969238, guid: 60e5f7259c0dbfb40a7bad86d06a4774,
+        type: 3}
       propertyPath: <initAngleY>k__BackingField
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60e5f7259c0dbfb40a7bad86d06a4774, type: 3}

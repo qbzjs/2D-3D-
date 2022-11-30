@@ -151,7 +151,7 @@ namespace GHJ_Lib
 			introUICanvasGroup.LeanAlpha(0.0f, 0.5f);
 
 			yield return new WaitForSeconds( waitTime );
-			LocalController.TPVCam.ResetCamTarget( camResetTime );
+			LocalController.TPVCam.ResetCamTarget( camResetTime, 20.0f );
 			yield return new WaitForSeconds( camResetTime );
 			introUIObj.SetActive(false);
 
