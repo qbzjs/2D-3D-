@@ -52,11 +52,14 @@ namespace LSH_Lib
         [SerializeField]
         GameObject[] uiModels;
 
+        [SerializeField] List<PlayerData> copiedPlayerDatas = new List<PlayerData>();
+
         int playeridx;
         string type;
         private void Start()
         {
             playeridx = DataManager.Instance.PlayerIdx;
+            CopyRoleDatas();
         }
         private void Update()
         {
@@ -86,7 +89,11 @@ namespace LSH_Lib
                 playerInfors[3].Backgroud.sprite = backgrounds[1];
                 for (int i = 0; i < DataManager.Instance.PlayerDatas.Count; ++i)
                 {
-                    if (i == playeridx)
+                    if (DataManager.Instance.PlayerDatas[i].roleData == null)
+                    {
+                        break;
+                    }
+                    else if (i == playeridx)
                     {
                         mynameText.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
                         type = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
@@ -104,15 +111,19 @@ namespace LSH_Lib
                     }
                     else
                     {
-                        for(int j = 0; j<DataManager.Instance.PlayerDatas.Count-2; ++j)
+                        for(int uiOrder = 0; uiOrder< DataManager.Instance.PlayerDatas.Count-2; ++uiOrder)
                         {
+                            if (DataManager.Instance.PlayerDatas[uiOrder].roleData == null)
+                            {
+                                break;
+                            }
                             string icontype;
-                            playerInfors[j].NickName.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
+                            playerInfors[uiOrder].NickName.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
                             icontype = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
-                            playerInfors[j].RoleType.text = icontype;
-                            playerInfors[j].PlayerIcon.sprite = SetIcon(icontype);
+                            playerInfors[uiOrder].RoleType.text = icontype;
+                            playerInfors[uiOrder].PlayerIcon.sprite = SetIcon(icontype);
                             int statustype = (int)DataManager.Instance.PlayerDatas[i].behaviorType;
-                            playerInfors[j].StatusIcon.sprite = SetStatusIcon(statustype);
+                            playerInfors[uiOrder].StatusIcon.sprite = SetStatusIcon(statustype);
                         }
                     }
                 }
@@ -180,6 +191,21 @@ namespace LSH_Lib
                     return statusIcons[2];
                 default:
                     return statusIcons[2];
+            }
+        }
+        void CopyRoleDatas()
+        {
+            for(int i = 0; i < DataManager.Instance.PlayerDatas.Count; ++i)
+            {
+                if(DataManager.Instance.PlayerDatas[i].roleData == null)
+                {
+                    break;
+                }
+                PlayerData data = new PlayerData();
+                data.roleData = DataManager.Instance.PlayerDatas[i].roleData.Clone();
+                data.accountData = DataManager.Instance.PlayerDatas[i].accountData;
+                data.behaviorType = DataManager.Instance.PlayerDatas[i].behaviorType;
+                copiedPlayerDatas.Add(data);
             }
         }
     }

@@ -420,9 +420,13 @@ namespace LSH_Lib
             //DataManager.Instance.InitLocalRoleData();
             //cancelButtonObj.SetActive(false);
             //PhotonNetwork.AutomaticallySyncScene = true;
+            if(PhotonNetwork.IsMasterClient)
+            {
                 PhotonNetwork.AutomaticallySyncScene = true;
                 PhotonNetwork.CurrentRoom.IsOpen = false;
                 GameManager.Instance.LoadPhotonScene(loadSceneName);
+            }
+                
             //else
             //{
             //    PhotonNetwork.AutomaticallySyncScene = true;
