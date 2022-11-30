@@ -46,7 +46,7 @@ namespace GHJ_Lib
 		public GameObject BloodDecal;
 		public GameObject BloodSpawner;
 		public ParticleSystem HealEffect;
-        public RabbitAudio RabbitAudio;
+        public AudioPlayer Audio;
         public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
 
 
@@ -171,7 +171,7 @@ namespace GHJ_Lib
 		{
 			Transform modelTrans = characterModel.transform;
 			BaseAnimator.SetBool("IsHide", true);
-			RabbitAudio.Play("DollHide");
+			Audio.Play("DollHide");
 			float rotZ = modelTrans.localRotation.eulerAngles.z;
 			float posY = modelTrans.localScale.x;
 			while (true)
@@ -444,11 +444,11 @@ namespace GHJ_Lib
         }
 		public void DollAnimationAudio(string name)
         {
-			RabbitAudio.Play(name);
+			Audio.Play(name);
         }
 		public void DollAnimationAudio(string name, AudioManager.PlayTarget target)
 		{
-			RabbitAudio.Play(name, target);
+			Audio.Play(name, target);
 		}
 
 		[PunRPC]
