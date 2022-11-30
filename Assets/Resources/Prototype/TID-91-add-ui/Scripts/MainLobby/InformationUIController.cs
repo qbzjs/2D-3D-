@@ -15,10 +15,10 @@ namespace LSH_Lib
 		GameObject bishopInformation;
 		[SerializeField]
 		GameObject hunterInformation;
-		[SerializeField]
-		GameObject photographerInformation;
-		[SerializeField]
-		GameObject priestInformation;
+		//[SerializeField]
+		//GameObject photographerInformation;
+		//[SerializeField]
+		//GameObject priestInformation;
 
 		[Header("Character Select Buttons")]
 		[SerializeField]
@@ -37,8 +37,8 @@ namespace LSH_Lib
         {
 			bishopInformation.SetActive(false);
 			hunterInformation.SetActive(false);
-			photographerInformation.SetActive(false);
-			priestInformation.SetActive(false);
+			//photographerInformation.SetActive(false);
+			//priestInformation.SetActive(false);
 			dollSelectButtons.SetActive(false);
 			exorcistSelectButtons.SetActive(false);
 			itemInformationPanel.SetActive(false);
@@ -66,16 +66,16 @@ namespace LSH_Lib
 			DisableAllPanel();
 			hunterInformation.SetActive(true);
         }
-		void EnablePhotographerInformation()
-        {
-			DisableAllPanel();
-			photographerInformation.SetActive(true);
-        }
-		void EnablePriestInformation()
-        {
-			DisableAllPanel();
-			priestInformation.SetActive(true);
-        }
+		//void EnablePhotographerInformation()
+  //      {
+		//	DisableAllPanel();
+		//	photographerInformation.SetActive(true);
+  //      }
+		//void EnablePriestInformation()
+  //      {
+		//	DisableAllPanel();
+		//	priestInformation.SetActive(true);
+  //      }
 		
 	}
 }
