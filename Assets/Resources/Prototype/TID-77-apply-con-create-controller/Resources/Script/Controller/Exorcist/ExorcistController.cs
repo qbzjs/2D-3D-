@@ -244,7 +244,11 @@ namespace GHJ_Lib
 		{
 			if (caughtDoll == null)
 			{
-				
+				caughtDoll = pickUpArea.GetNearestTarget();
+				if (caughtDoll == null)
+				{
+					Debug.LogError("Missing GetNearestTarget");
+				}
 			}
 			DollController doll = caughtDoll.GetComponent<DollController>();
 			CatchObj[doll.TypeIndex - 5].gameObject.SetActive(true);
