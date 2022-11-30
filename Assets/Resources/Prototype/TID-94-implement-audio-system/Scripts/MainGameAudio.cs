@@ -5,8 +5,7 @@ using UnityEngine.Audio;
 using LSH_Lib;
 public class MainGameAudio : MonoBehaviour
 {
-    [SerializeField]
-    AudioSource audioSource;
+    public AudioSource audioSource;
     int myidx;
     private void Start()
     {
