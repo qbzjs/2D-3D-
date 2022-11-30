@@ -11,7 +11,7 @@ namespace GHJ_Lib
         enum BuffCondition {None ,Approach , Ready, Running }
         BuffCondition buffCondition = BuffCondition.None;
         
-        bool isOnBuff = false;
+        //bool isOnBuff = false;
         protected override GameObject FindTargets(Collider other)
         {
             if (other.CompareTag(GameManager.ExorcistTag))

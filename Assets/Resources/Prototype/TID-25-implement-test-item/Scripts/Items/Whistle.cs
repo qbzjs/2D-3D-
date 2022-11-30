@@ -20,7 +20,7 @@ namespace LSH_Lib
         {
             data = DataManager.Instance.ItemInfos[(int)Item.ItemOrder.Whistle];
         }
-        private void Update()
+        protected override void Update()
         {
             if (Input.GetKey(KeyCode.Space))
             {

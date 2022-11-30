@@ -27,8 +27,6 @@ namespace KSH_Lib
         [SerializeField]
         float sceneFadeInTime = 1.0f;
         [SerializeField]
-        float videoFadeInTime = 0.5f;
-        [SerializeField]
         float startButtonFadeTime = 0.5f;
         [SerializeField]
         float startButtonWaitTime = 1.0f;
