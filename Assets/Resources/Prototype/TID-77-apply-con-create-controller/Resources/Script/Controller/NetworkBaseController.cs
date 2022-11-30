@@ -36,6 +36,7 @@ namespace GHJ_Lib
 			BeTrapped,
 			BvGhost,
 			Hold,
+			Behealed,
 		}
 
 		public enum MoveType

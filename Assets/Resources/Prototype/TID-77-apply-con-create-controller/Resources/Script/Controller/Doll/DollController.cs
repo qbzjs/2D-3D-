@@ -29,7 +29,7 @@ namespace GHJ_Lib
 		protected BvHide bvHide = new BvHide();
 		protected BvbeTrapped bvbeTrapped = new BvbeTrapped();
 		protected BvGhost bvGhost = new BvGhost();
-
+		protected BvBehealed bvBeHealed = new BvBehealed();
 		//[SerializeField] protected SkinnedMeshRenderer skinnedMeshRenderer;
 		//[SerializeField] protected Material ghostMaterial;
 		[SerializeField] protected GameObject ghostPrefab;
@@ -252,22 +252,20 @@ namespace GHJ_Lib
 			return false;
 		}
 
-		public void BeHealed_RPC(bool isHeal)
+		public void BeHealedAnimation_RPC(bool isHeal)
 		{
-			photonView.RPC("BeHealed", RpcTarget.AllViaServer, isHeal);
+			photonView.RPC("BeHealedAnimation", RpcTarget.AllViaServer, isHeal);
 		}
 		[PunRPC]
-		public void BeHealed(bool isHeal)
+		public void BeHealedAnimation(bool isHeal)
 		{
 			if (isHeal)
 			{
 				HealEffect.Play();
-				ChangeMoveFunc(MoveType.StopRotation);
 			}
 			else
 			{
 				HealEffect.Stop();
-				ChangeMoveFunc(MoveType.Input);
 			}
 		}
 		/*--HitByExorcistSkill--*/
@@ -505,6 +503,11 @@ namespace GHJ_Lib
 					CurBehavior.PushSuccessorState(bvGhost);
 				}
 				break;
+				case BehaviorType.Behealed:
+					{
+						CurBehavior.PushSuccessorState(bvBeHealed);
+					}
+					break;
 			}
 		}
 
