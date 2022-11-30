@@ -87,7 +87,8 @@ namespace LSH_Lib
                         mynameText.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
                         type = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
                         myTypeText.text = type;
-                        myState.sprite = SetIcon(type);
+                        int statustype = (int)DataManager.Instance.PlayerDatas[i].behaviorType;
+                        myState.sprite = SetStatusIcon(statustype);
                     }
                     else if( i == 0)
                     {
