@@ -122,16 +122,16 @@ namespace LSH_Lib
                     {
                         for(int uiOrder = 0; uiOrder< playerInfors.Length - 1; ++uiOrder)
                         {
-                            if (DataManager.Instance.PlayerDatas[i].roleData == null)
+                            if (DataManager.Instance.PlayerDatas[i + 1].roleData == null)
                             {
                                 break;
                             }
                             string icontype;
-                            playerInfors[uiOrder].NickName.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
-                            icontype = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
+                            playerInfors[uiOrder].NickName.text = DataManager.Instance.PlayerDatas[i+1].accountData.Nickname;
+                            icontype = DataManager.Instance.PlayerDatas[i + 1].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i + 1].roleData.Type);
                             playerInfors[uiOrder].RoleType.text = icontype;
                             playerInfors[uiOrder].PlayerIcon.sprite = SetIcon(icontype);
-                            int statustype = (int)DataManager.Instance.PlayerDatas[i].behaviorType;
+                            int statustype = (int)DataManager.Instance.PlayerDatas[i + 1].behaviorType;
                             playerInfors[uiOrder].StatusIcon.sprite = SetStatusIcon(statustype);
                         }
                     }
