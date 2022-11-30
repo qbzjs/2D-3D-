@@ -34,7 +34,13 @@ namespace GHJ_Lib
                 actor.BaseAnimator.SetBool("IsPurifying", false);
                 if ( actor.IsMine )
                 {
-                    (DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP += (DataManager.Instance.RoleInfos[actor.TypeIndex] as DollData).DollHP * 0.25f;
+                    DollData dollData = (DataManager.Instance.LocalPlayerData.roleData as DollData);
+                    DollData initDollData = (DataManager.Instance.RoleInfos[actor.TypeIndex] as DollData);
+                    dollData.DollHP += initDollData.DollHP * 0.25f;
+                    if(dollData.DollHP > initDollData.DollHP)
+                    {
+                        dollData.DollHP = initDollData.DollHP;
+                    }
                     DataManager.Instance.ShareRoleData();
                     actor.ActivateCameraCollision( true );
                 }

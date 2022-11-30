@@ -42,13 +42,16 @@ namespace GHJ_Lib
 					HealTarget = HealtargetObj.GetComponent<DollController>();
 				}
 
-				if ((DataManager.Instance.PlayerDatas[HealTarget.PlayerIndex].roleData as DollData).DollHP < (DataManager.Instance.RoleInfos[HealTarget.TypeIndex] as DollData).DollHP)
+				if ((DataManager.Instance.PlayerDatas[HealTarget.PlayerIndex].roleData as DollData).DollHP < (DataManager.Instance.RoleInfos[HealTarget.TypeIndex] as DollData).DollHP && HealTarget.CurBehavior is BvIdle)
 				{
+					
 					interactionPromptUI.Activate(NoticeTextCanDoSkill);
+					return false;
 				}
 				else
 				{
 					interactionPromptUI.Inactivate();
+					return true;
 				}
 				
 			}
@@ -56,8 +59,9 @@ namespace GHJ_Lib
 			{
 				HealTarget = null;
 				interactionPromptUI.Inactivate();
+				return true;
 			}
-			return false;
+			//return false;
 
 		}
 		public override bool CanActiveSkill()
