@@ -85,10 +85,9 @@ namespace GHJ_Lib
                     fugitive.curBehaviour is BvInteract ||
                     fugitive.curBehaviour is BvGetHit))
                 {
-                    if (Fugitives.Contains(fugitive))
+                    if (fugitive.IsWatched)
                     {
                         fugitive.SetWatch(false);
-                        Fugitives.Remove(fugitive);
                     }
                     continue;
                 }
