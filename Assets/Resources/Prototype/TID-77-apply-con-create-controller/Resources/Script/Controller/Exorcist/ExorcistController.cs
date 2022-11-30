@@ -207,7 +207,9 @@ namespace GHJ_Lib
 			{
 				case KSH_Lib.Data.RoleData.RoleType.Bishop:
 				{
-					direction = Vector3.zero;
+					//direction = Vector3.zero;
+					Vector3 moveDirection = camTarget.transform.forward;
+					direction = new Vector3(moveDirection.x, 0, moveDirection.z).normalized * 0.2f;
 				}
 				break;
 				case KSH_Lib.Data.RoleData.RoleType.Hunter:

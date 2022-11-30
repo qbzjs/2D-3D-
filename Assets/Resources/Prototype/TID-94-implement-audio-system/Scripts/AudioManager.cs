@@ -75,6 +75,10 @@ namespace LSH_Lib
         public void PlayNew(string name, AudioSource audioSource)
         {
             Sound s = Array.Find(sounds, sound => sound.name == name);
+            if(s == null)
+            {
+                Debug.LogError($"Can not find sound {name}, Please add to audio Manager");
+            }
             audioSource.clip = s.clip;
             audioSource.outputAudioMixerGroup = s.mixer;
             audioSource.volume = s.volume;
