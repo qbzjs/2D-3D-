@@ -4,6 +4,8 @@ using UnityEngine;
 using Photon.Pun;
 using KSH_Lib;
 using KSH_Lib.Data;
+using LSH_Lib;
+
 namespace GHJ_Lib
 {
     public class Chaser : MonoBehaviour
@@ -21,6 +23,8 @@ namespace GHJ_Lib
         [SerializeField] protected int CameraLayer;
         protected ExorcistData exorcistData, initData;
         protected RoleData.RoleType roleType;
+
+        public AudioPlayer AudioPlayer;
         private void OnEnable()
         {
             CameraLayer = LayerMask.NameToLayer("Camera");
@@ -134,6 +138,7 @@ namespace GHJ_Lib
                 if (chaseState != ChaseState.Chasing)
                 {
                     chaseState = ChaseState.Chasing;
+                    AudioPlayer.Play("ChasingBGM"); //<<: ChaseSound 
                     //DataManager.Instance.ShareRoleData();
                 }
             }
@@ -156,6 +161,7 @@ namespace GHJ_Lib
                                 exorcistData.MoveSpeed = initData.MoveSpeed;
                                 DataManager.Instance.ShareRoleData();
                                 chaseState = ChaseState.Wait;
+                                AudioPlayer.Stop("ChasingBGM"); //<<:ChaseSound
                             }
                         }
                         break;

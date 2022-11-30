@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using KSH_Lib;
+using LSH_Lib;
+
 namespace GHJ_Lib
 {
     public class Fugitive : MonoBehaviourPun
@@ -10,6 +12,7 @@ namespace GHJ_Lib
         public bool IsChased { get; private set; }
         [field: SerializeField] public bool IsWatched { get; set; }
         [SerializeField] protected float ChaseGauge = 0.0f;
+        public AudioPlayer AudioPlayer;
         public int GetStack
         {
             get {
@@ -48,36 +51,47 @@ namespace GHJ_Lib
         }
         void Update()
         {
-            if (IsWatched)
+            if (DataManager.Instance.PlayerIdx == 0)
             {
-                if (ChaseGauge < 150.0f)
+                if (IsWatched)
                 {
-                    ChaseGauge += 5*Time.deltaTime;
+                    if (ChaseGauge < 150.0f)
+                    {
+                        ChaseGauge += 5 * Time.deltaTime;
+                    }
+                    else
+                    {
+                        ChaseGauge = 150.0f;
+                    }
                 }
                 else
                 {
-                    ChaseGauge = 150.0f;
+                    if (ChaseGauge > 0.0f)
+                    {
+                        ChaseGauge -= 5 * Time.deltaTime;
+                    }
+                    else
+                    {
+                        ChaseGauge = 0.0f;
+                    }
                 }
+                photonView.RPC("SyncChaseGauge", RpcTarget.All, ChaseGauge);
             }
-            else
-            {
-                if (ChaseGauge > 0.0f)
-                {
-                    ChaseGauge -= 5 * Time.deltaTime;
-                }
-                else
-                {
-                    ChaseGauge = 0.0f;
-                }
-            }
-
             if (ChaseGauge >= 50.0f)
             {
-                IsChased = true;
+                if (!IsChased)
+                { 
+                    IsChased = true;
+                    AudioPlayer.Play("ChasingBGM"); //<<: ChaseSound 
+                }
             }
             else
             {
-                IsChased = false;
+                if (IsChased)
+                { 
+                    IsChased = false;
+                    AudioPlayer.Stop("ChasingBGM"); //<<:ChaseSound
+                }
             }
 
             if (dollController.IsMine)
@@ -87,6 +101,13 @@ namespace GHJ_Lib
                 Log.Instance.WriteLog("ChaseGauge" + ChaseGauge.ToString(), 4);
             }
         }
+
+        [PunRPC]
+        public void SyncChaseGauge(float curGauge)
+        {
+            ChaseGauge = curGauge;
+        }
+
     }
 
 }
