@@ -174,7 +174,8 @@ namespace GHJ_Lib
 				if (animatorState.normalizedTime >=0.6f && animatorState.IsName("install Cross"))
 				{
 					Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
-					Controller.BaseAnimator.SetBool("IsInstallCross", false);
+					//Controller.BaseAnimator.SetBool("IsInstallCross", false);
+					photonView.RPC( "ShareAnimator_RPC", RpcTarget.All, false );
 
 					GameObject cross = PhotonNetwork.Instantiate(CrossPrefabName, spawnTransform.position, CrossPrefab.transform.rotation);
 					AudioPlayer.Play("BishopSkill");
@@ -186,6 +187,13 @@ namespace GHJ_Lib
 				}
 			}
 		}
+
+		[PunRPC]
+		void ShareAnimator_RPC(bool state)
+		{
+			Controller.BaseAnimator.SetBool( "IsInstallCross", state );
+		}
+
 		IEnumerator CollectCross()
 		{
 			if (ActiveSkill is not Sk_CollectCross)
@@ -199,7 +207,8 @@ namespace GHJ_Lib
 				if (animatorState.normalizedTime >= 0.2f && animatorState.IsName("Collect Cross"))
 				{
 					Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
-					Controller.BaseAnimator.SetBool("IsCollectCross", false);
+					photonView.RPC( "ShareAnimator_RPC", RpcTarget.All, false );
+					//Controller.BaseAnimator.SetBool("IsCollectCross", false);
 
 					PoketInCross.Add(targetCross.GetComponent<Cross>().OriginGauge);
 					AudioPlayer.Play("CollectObject");

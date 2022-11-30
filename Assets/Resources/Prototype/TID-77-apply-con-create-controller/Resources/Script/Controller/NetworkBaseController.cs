@@ -406,6 +406,16 @@ namespace GHJ_Lib
 			}
 		}
 
+		public void ShareAnimationBoll(string name, bool state)
+        {
+			photonView.RPC( "ShareAnimationBool_RPC", RpcTarget.All, name, state );
+        }
+		[PunRPC]
+		void ShareAnimationBool_RPC(string name, bool state)
+        {
+			BaseAnimator.SetBool( name, state );
+		}
+
 		//나중에 클래스로 만들어보기
 		public IEnumerator InnerCoolTime(float time)
 		{

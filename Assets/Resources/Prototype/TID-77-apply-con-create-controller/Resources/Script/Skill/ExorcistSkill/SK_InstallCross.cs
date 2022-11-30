@@ -15,7 +15,9 @@ namespace GHJ_Lib
 				bishopSkill = (actor.skill as BishopSkill);
 			}
 
-			actor.BaseAnimator.SetBool("IsInstallCross", true);
+			//actor.BaseAnimator.SetBool("IsInstallCross", true);
+			actor.ShareAnimationBoll( "IsInstallCross", true );
+
 			bishopSkill.StartCoroutine("SetCross");
 			
 			actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
