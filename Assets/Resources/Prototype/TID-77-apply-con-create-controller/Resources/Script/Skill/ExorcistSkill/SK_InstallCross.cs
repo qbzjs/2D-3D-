@@ -15,8 +15,8 @@ namespace GHJ_Lib
 				bishopSkill = (actor.skill as BishopSkill);
 			}
 
-			//actor.BaseAnimator.SetBool("IsInstallCross", true);
-			(actor as ExorcistController).PlayInstallCross(true);
+			actor.BaseAnimator.SetBool("IsInstallCross", true);
+			//(actor as ExorcistController).PlayInstallCross(true);
 
 			bishopSkill.StartCoroutine("SetCross");
 			
