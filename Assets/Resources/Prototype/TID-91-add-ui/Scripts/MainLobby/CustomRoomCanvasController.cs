@@ -104,7 +104,12 @@ namespace LSH_Lib
         }
         private void Update()
         {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                DisalbeAllPanel();
+            }
             ChangeImage();
+            
         }
         //void CountPlayer()
         //{
