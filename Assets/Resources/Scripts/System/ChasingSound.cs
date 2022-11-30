@@ -9,47 +9,34 @@ namespace KSH_Lib
         [SerializeField] AudioSource audioSource;
         public void Play()
         {
-            audioSource.Play();
-            audioSource.volume = 0.0f;
-            StartCoroutine( ChangeVolume( ChangeValue, 0.0f, 1.0f, 1.0f ) );
+            StartCoroutine(FadeIn(3.0f));
         }
         public void Stop()
         {
-            audioSource.volume = 1.0f;
-            StartCoroutine(FadeOut( ChangeValue, 0.0f, 1.0f, 1.0f ) );
+            StartCoroutine(FadeOut(3.0f));
         }
 
-
-        void ChangeValue(float input)
+        IEnumerator FadeOut(float FadeTime)
         {
-            audioSource.volume = input;
-        }
-
-        IEnumerator FadeOut( System.Action<float> ChangeValue, float from, float to, float time )
-        {
-            yield return StartCoroutine(ChangeVolume(ChangeValue, from, to, time));
-            yield return new WaitForSeconds( time );
+            float startVolume = audioSource.volume;
+            while (audioSource.volume > 0)
+            {
+                audioSource.volume -= startVolume * Time.deltaTime / FadeTime;
+                yield return null;
+            }
             audioSource.Stop();
         }
 
-        IEnumerator ChangeVolume(System.Action<float> ChangeValue, float from, float to, float time)
+        IEnumerator FadeIn(float FadeTime)
         {
-            float delta = (to - from) / time;
-            float desire = 0.0f;
-
-            while ( true )
+            audioSource.Play();
+            audioSource.volume = 0f;
+            while (audioSource.volume < 1)
             {
-                if(desire >= to)
-                {
-                    break;
-                }
-                desire += delta;
-
-                ChangeValue( desire );
-
-                yield return false;
+                audioSource.volume += Time.deltaTime / FadeTime;
+                yield return null;
             }
-            yield return true;
         }
+
     }
 }

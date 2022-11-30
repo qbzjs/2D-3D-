@@ -157,7 +157,8 @@ namespace GHJ_Lib
 
 			LocalController.InitCameraSetting();
 			LocalController.ChangeMoveFunc( NetworkBaseController.MoveType.Input );
-			LocalController.CurBehavior.PushSuccessorState( new BvIdle() );
+			//LocalController.CurBehavior.PushSuccessorState( new BvIdle() );
+			LocalController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 			IsGameStart = true;
 		}
 

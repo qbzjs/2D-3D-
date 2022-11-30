@@ -120,15 +120,15 @@ namespace GHJ_Lib
 			CurBehavior.Update(this, ref CurBehavior);
 		}
 
-		//private void OnGUI()
-		//{
-		//    if ( DataManager.Instance.IsAllClientInited )
-		//    {
-		//        GUI.Box( new Rect( 300, PlayerIndex * 30, 200, 30 ), $"Player{PlayerIndex}: {DataManager.Instance.PlayerDatas[PlayerIndex].behaviorType}" );
-		//    }
-		//}
+        private void OnGUI()
+        {
+            if (DataManager.Instance.IsAllClientInited)
+            {
+                GUI.Box(new Rect(300, PlayerIndex * 30, 200, 30), $"Player{PlayerIndex}: {DataManager.Instance.PlayerDatas[PlayerIndex].behaviorType}");
+            }
+        }
 
-		public virtual void InitCameraSetting()
+        public virtual void InitCameraSetting()
 		{
 			fpvCam.InitCam();
 			tpvCam.InitCam();

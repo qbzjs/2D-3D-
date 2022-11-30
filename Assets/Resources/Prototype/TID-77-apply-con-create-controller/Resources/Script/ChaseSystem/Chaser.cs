@@ -85,6 +85,7 @@ namespace GHJ_Lib
                     continue;
                 }
 
+                // Debug.Log($"fugtive.curBehaviour = {fugitive.curBehaviour}");
                 if (!(fugitive.curBehaviour is BvIdle ||
                     fugitive.curBehaviour is BvInteract ||
                     fugitive.curBehaviour is BvGetHit))
@@ -268,7 +269,6 @@ namespace GHJ_Lib
                     continue;
                 }
 
-                
                 Vector3 CamPos = mainCamera.transform.position;
                 Ray ray = new Ray(CamPos, fugitive.transform.position - CamPos);
 
