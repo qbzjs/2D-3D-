@@ -33,6 +33,11 @@ namespace KSH_Lib.Object
             }
         }
 
+        protected override void Start()
+        {
+            base.Start();
+        }
+
         protected override bool CheckAdditionalCondition( in InteractionPromptUI promptUI )
         {
             if (targetController.CurBehavior is not BvIdle)

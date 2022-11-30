@@ -55,7 +55,7 @@ namespace KSH_Lib
         protected NetworkBaseController targetController;
 
         /*--- MonoBehaviour Callbacks ---*/
-        private void Start()
+        protected virtual void Start()
         {
             InitMaterials();
         }
