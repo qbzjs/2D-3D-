@@ -93,8 +93,13 @@ namespace LSH_Lib
                     {
                         break;
                     }
+
                     else if (i == playeridx)
                     {
+                        if ( DataManager.Instance.PlayerDatas[i].roleData == null )
+                        {
+                            break;
+                        }
                         mynameText.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
                         type = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
                         myTypeText.text = type;
@@ -103,6 +108,10 @@ namespace LSH_Lib
                     }
                     else if( i == 0)
                     {
+                        if ( DataManager.Instance.PlayerDatas[i].roleData == null )
+                        {
+                            break;
+                        }
                         string icontype;
                         playerInfors[3].NickName.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
                         icontype = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
@@ -111,9 +120,9 @@ namespace LSH_Lib
                     }
                     else
                     {
-                        for(int uiOrder = 0; uiOrder< DataManager.Instance.PlayerDatas.Count-2; ++uiOrder)
+                        for(int uiOrder = 0; uiOrder< playerInfors.Length - 1; ++uiOrder)
                         {
-                            if (DataManager.Instance.PlayerDatas[uiOrder].roleData == null)
+                            if (DataManager.Instance.PlayerDatas[i].roleData == null)
                             {
                                 break;
                             }
@@ -127,39 +136,6 @@ namespace LSH_Lib
                         }
                     }
                 }
-                ////inforResults[playerInfors.Length - 1].playerIdx = 0;
-                //for(int i = 0; i<DataManager.Instance.PlayerDatas.Count; ++i)
-                //{
-                //    if(i == playeridx)
-                //    {
-                //        mynameText.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
-                //        type = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
-                //        myTypeText.text = type;
-                //    }
-                //    else 
-                //    {
-                //        string icontype;
-                //        if(DataManager.Instance.PlayerDatas[i].roleData.Group == RoleData.RoleGroup.Exorcist)
-                //        {
-                            
-                //            playerInfors[3].NickName.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
-                //            icontype = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
-                //            playerInfors[3].RoleType.text = icontype;
-                //            playerInfors[3].PlayerIcon.sprite = SetIcon(icontype);
-                //        }
-                //        else
-                //        {
-                //            for (int j = 0; j < playerInfors.Length - 1; j++)
-                //            {
-                //                playerInfors[j].NickName.text = DataManager.Instance.PlayerDatas[i].accountData.Nickname;
-                //                icontype = DataManager.Instance.PlayerDatas[i].roleData.GetTypeStr(DataManager.Instance.PlayerDatas[i].roleData.Type);
-                //                playerInfors[j].RoleType.text = icontype;
-                //                playerInfors[j].PlayerIcon.sprite = SetIcon(icontype);
-                //            }
-                //            //playerInfors[i].StatusIcon.sprite = SetSprite(DataManager.Instance.PlayerDatas[i].roleData.Group.)
-                //        }
-                //    }
-                //}    
             }
         }
         Sprite SetIcon(string target)
