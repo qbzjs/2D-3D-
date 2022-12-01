@@ -20,6 +20,7 @@ namespace GHJ_Lib
             {
                 effectArea = actor.skill.actSkillArea;
             }
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
 
             if (rabbit == null)
             {

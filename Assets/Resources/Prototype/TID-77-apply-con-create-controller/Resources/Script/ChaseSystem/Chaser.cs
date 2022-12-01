@@ -197,7 +197,7 @@ namespace GHJ_Lib
             Ray ray = new Ray(CamPos, targetObject.transform.position - CamPos);
 
             
-            Hits = Physics.RaycastAll(ray, sphereCollider.radius, CameraLayer);
+            Hits = Physics.RaycastAll(ray, sphereCollider.radius);
             
 
             foreach (RaycastHit hit in Hits)
@@ -272,7 +272,7 @@ namespace GHJ_Lib
                 Vector3 CamPos = mainCamera.transform.position;
                 Ray ray = new Ray(CamPos, fugitive.transform.position - CamPos);
 
-                Hits = Physics.RaycastAll(ray, sphereCollider.radius, CameraLayer);
+                Hits = Physics.RaycastAll(ray, sphereCollider.radius);
 
                 Gizmos.color = Color.red;
                 Gizmos.DrawLine(ray.origin, ray.origin +ray.direction*40.0f);
