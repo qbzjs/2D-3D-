@@ -27,9 +27,9 @@ MonoBehaviour:
     EnableProtocolFallback: 1
     AuthMode: 0
     EnableLobbyStatistics: 0
-    NetworkLogging: 1
-  DevRegion: kr
-  PunLogging: 2
+    NetworkLogging: 0
+  DevRegion: 
+  PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
@@ -122,6 +122,36 @@ MonoBehaviour:
   - ShareBehaviorRPC
   - CanWatch_RPC
   - ShareDustEffect
+  - SetNullPlayerToReady_RPC
+  - BeHealed
+  - ChangeTransformRPC
+  - SendStateOfDoor
+  - ShareInteractTypeRPC
+  - SettingToInstallTrap
+  - EscapeTrap
+  - SettingToCollectTrap
+  - PlayEffects_RPC
+  - StopEffects_RPC
+  - PlayDollEffects_RPC
+  - PlayExorcistEffects_RPC
+  - StopDollEffects_RPC
+  - StopExorcistEffects_RPC
+  - ChangeHPState
+  - PlayPurificationEffect
+  - StopPurificationEffect
+  - Trace
+  - SkillSettingToCollectCross
+  - SkillSettingToInstallCross
+  - SyncChaseGauge
+  - ShareAnimator
+  - ShareAnimator_RPC
+  - ShareAnimationBool_RPC
+  - PlayInstallCrossRPC
+  - PlayInstallTrapRPC
+  - ShareAnimatorCollectParmeter_RPC
+  - ShareAnimatorInstallParmeter_RPC
+  - BeHealedAnimation
+  - Destroy_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

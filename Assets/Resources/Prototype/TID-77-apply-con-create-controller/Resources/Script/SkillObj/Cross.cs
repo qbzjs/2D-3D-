@@ -22,17 +22,45 @@ namespace GHJ_Lib
         [SerializeField] protected float increaseGauge = 5.0f;
         [SerializeField] protected float OnStackDistance = 5.0f;
 
-        public bool IsEnable = true;
+        [SerializeField] protected GameObject EffectSphere;
+        public bool IsEnable = false;
+        
+        private float inverseMaxGauge;
         /*--- Private Fields ---*/
         protected override void OnEnable()
         {
             base.OnEnable();
             MaxGauge = 60.0f;
         }
+        protected void Update()
+        {
+            EffectSphere.SetActive(IsEnable);
+            if (!photonView.IsMine)
+            {
+                if (IsEnable&& RateOfGauge <= 0.0f)
+                {
+                    RateOfGauge = 0.0f;
+                    IsEnable = false;
+                }
+                return;
+            }
+            if (IsEnable)
+            {
+                float curGage = (RateOfGauge - reductionGauge * inverseMaxGauge * Time.deltaTime);
+                if (curGage <= 0.0f)
+                {
+                    curGage = 0.0f;
+                    IsEnable = false;
+                }
+                SyncGauge(curGage);
+            }
+            
+        }
         public void SetGauge(float gauge)
         {
             SyncGauge(gauge / MaxGauge);
             IsEnable = true;
+            inverseMaxGauge = 1 / MaxGauge;
         }
 
         /*
@@ -61,12 +89,20 @@ namespace GHJ_Lib
 
         protected override bool CheckAdditionalCondition(in InteractionPromptUI promptUI)
         {
-            return IsEnable;
+            if (targetController is ExorcistController)
+            {
+                return false;
+            }
+            else if (targetController is DollController)
+            { 
+                return IsEnable;
+            }
+            return false;
         }
 
         bool DollRunningCondition()
         {
-            return targetController.IsInteractionKeyHold();
+            return targetController.IsInteractionKeyHold()&&RateOfGauge>0.0f;
         }
         void DollPauseAction()
         {
@@ -77,15 +113,20 @@ namespace GHJ_Lib
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
             IsEnable = false;
         }
+        void DollRunningAction()
+        {
+            
+        }
         public override bool Interact(Interactor interactor)
         {
+            //targetController.InteractType = GaugedObjType.Cross;
+            targetController.SetInteractType(GaugedObjType.Cross);
             targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Interact);
-
             if (targetController.gameObject.CompareTag(GameManager.DollTag))
             {
                 castingSystem.ForceSetRatioTo(RateOfGauge);
-                castingSystem.StartCasting(CastingSystem.Cast.CreateByRatio(deltaRatio: DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed/MaxGauge,destRatio: 1.0f-RateOfGauge, coolTime: CoolTime),
-                    new CastingSystem.CastFuncSet(SyncDataWith: SyncGauge,RunningCondition: DollRunningCondition, PauseAction: DollPauseAction,FinishAction: DollFinishAction)
+                castingSystem.StartReverseCasting(CastingSystem.Cast.CreateByRatio(deltaRatio: -DataManager.Instance.LocalPlayerData.roleData.InteractionSpeed/MaxGauge, destRatio: 0.0f, coolTime: CoolTime),
+                    new CastingSystem.CastFuncSet(SyncDataWith: SyncGauge,RunningCondition: DollRunningCondition, RunningAction : DollRunningAction, PauseAction: DollPauseAction,FinishAction: DollFinishAction)
                     );
                 return true;
             }

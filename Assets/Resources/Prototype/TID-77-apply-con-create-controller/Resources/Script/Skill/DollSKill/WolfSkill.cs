@@ -4,18 +4,20 @@ using UnityEngine;
 using KSH_Lib;
 using Photon.Pun;
 using Photon.Realtime;
-
+using LSH_Lib;
 namespace GHJ_Lib
 {
 	public class WolfSkill: DollSkill
 	{
 		/*--- Public Fields ---*/
 		/*--- Protected Fields ---*/
+		[SerializeField] protected SourceOfSonar sourceOfSonar;
+		[SerializeField] protected float SonarInterval=0.4f;
+		[SerializeField] protected float howlingTime = 1.2f;
 		protected Sk_Detected skDetected = new Sk_Detected();
-
 		/*--- Private Fields ---*/
 
-
+		public AudioPlayer Audio;
 		/*--- MonoBehaviour Callbacks ---*/
 
 		protected override void OnEnable()
@@ -26,6 +28,10 @@ namespace GHJ_Lib
 		}
 		/*--- Public Methods ---*/
 
+		public override bool ShowCanUseSkillMsg()
+		{
+			return false;
+		}
 		public override bool CanActiveSkill()
 		{
 			return true;
@@ -39,6 +45,10 @@ namespace GHJ_Lib
 				StageManager.Instance.dollUI.CharacterSkill.StartCountDown(15.0f);
 			}
 			IsCoolTime = true;
+			Controller.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
+			//AudioManager.instance.Play("WolfSkill");
+			Audio.Play("WolfSkill");
+			
 			//½ºÅ³Áß
 			yield return new WaitForSeconds(0.2f);//¼±µô
 
@@ -48,6 +58,9 @@ namespace GHJ_Lib
 			}
 			SkillSetting();
 			yield return new WaitForSeconds(0.2f);//ÈÄµô
+
+			yield return new WaitForSeconds(howlingTime);
+
 			Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 			yield return new WaitForSeconds(14.6f);
 			IsCoolTime = false;
@@ -61,6 +74,7 @@ namespace GHJ_Lib
 		[PunRPC]
 		public void DoWolfActiveSkill()
 		{
+			sourceOfSonar.StartCircleSonar(3, SonarInterval);
 			if (actSkillArea.CanGetTarget())
 			{
 				actSkillArea.Targets[0].GetComponent<ExorcistController>().DoActionBy(Detected);

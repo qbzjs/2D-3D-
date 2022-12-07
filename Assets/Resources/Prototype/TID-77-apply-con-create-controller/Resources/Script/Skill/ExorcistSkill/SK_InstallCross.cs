@@ -16,6 +16,8 @@ namespace GHJ_Lib
 			}
 
 			actor.BaseAnimator.SetBool("IsInstallCross", true);
+			//(actor as ExorcistController).PlayInstallCross(true);
+
 			bishopSkill.StartCoroutine("SetCross");
 			
 			actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);

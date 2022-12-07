@@ -12,7 +12,8 @@ namespace GHJ_Lib
             {
                 DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.Collapse );
             }
-            actor.BaseAnimator.Play("Death");
+            //actor.BaseAnimator.Play("Death");
+            actor.BaseAnimator.SetBool("IsCollapse", true);
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
         }
 
@@ -26,6 +27,7 @@ namespace GHJ_Lib
 
             if (Bv is BvBeCaught)
             {
+                actor.BaseAnimator.SetBool("IsCollapse", false);
                 return Bv;
             }
 

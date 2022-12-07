@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
+using LSH_Lib;
 namespace GHJ_Lib
 {
 	public class BvBeCaught: Behavior<NetworkBaseController>
@@ -11,9 +12,13 @@ namespace GHJ_Lib
             if ( actor.IsMine )
             {
                 DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.BeCaught );
+                StageManager.Instance.InteractionPrompt.Inactivate();
             }
             //resistGauge = 0.0f;
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
+            //AudioManager.instance.Play("DollCaught");
+            (actor as DollController).DollAnimationAudio("DollCaught");
+            actor.BaseAnimator.SetBool("IsCaught", true);
             if (actor.IsMine)
             { 
                 actor.CurCam.ActiveCameraControl(true);
@@ -23,22 +28,10 @@ namespace GHJ_Lib
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            if (actor.photonView.IsMine)
-            {
-                //if (actor.DoResist())
-                //{
-                //    resistGauge += 1.0f;
-                //}
-            }
-
-            //if (resistGauge > 10.0f)
-            //{
-            //    //actor.Escape
-            //}
-
             Behavior<NetworkBaseController> Bv =  PassIfHasSuccessor();
             if (Bv is BvBePurifying)
             {
+                actor.BaseAnimator.SetBool("IsCaught", false);
                 return Bv;
             }
 

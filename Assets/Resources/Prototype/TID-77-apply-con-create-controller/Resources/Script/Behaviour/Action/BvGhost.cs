@@ -16,7 +16,7 @@ namespace GHJ_Lib
                 DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.BvGhost );
             }
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
-            actor.BaseAnimator.Play("Idle_A");
+            //actor.BaseAnimator.Play("Idle_A");
             players = StageManager.Instance.PlayerControllers;
             curIdx = actor.PlayerIndex;
         }

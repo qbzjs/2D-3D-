@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using KSH_Lib;
 using KSH_Lib.Data;
+using LSH_Lib;
 namespace GHJ_Lib
 {
     public class BvBePurifying : Behavior<NetworkBaseController>
@@ -13,8 +14,10 @@ namespace GHJ_Lib
             {
                 DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.BePurifying );
             }
-            actor.BaseAnimator.Play("Fear");
+            //actor.BaseAnimator.Play("Fear");
+            actor.BaseAnimator.SetBool("IsPurifying", true);
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
+            //AudioManager.instance.Play("BoxActive", AudioManager.PlayTarget.Doll);
             if ( actor.IsMine )
             {
                 actor.ActivateCameraCollision( false );
@@ -27,10 +30,17 @@ namespace GHJ_Lib
 
             if (Bv is BvEscape)
             {
-                actor.BaseAnimator.Play("Idle_A");
+                //actor.BaseAnimator.Play("Idle_A");
+                actor.BaseAnimator.SetBool("IsPurifying", false);
                 if ( actor.IsMine )
                 {
-                    (DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP += (DataManager.Instance.RoleInfos[actor.TypeIndex] as DollData).DollHP * 0.25f;
+                    DollData dollData = (DataManager.Instance.LocalPlayerData.roleData as DollData);
+                    DollData initDollData = (DataManager.Instance.RoleInfos[actor.TypeIndex] as DollData);
+                    dollData.DollHP += initDollData.DollHP * 0.25f;
+                    if(dollData.DollHP > initDollData.DollHP)
+                    {
+                        dollData.DollHP = initDollData.DollHP;
+                    }
                     DataManager.Instance.ShareRoleData();
                     actor.ActivateCameraCollision( true );
                 }
@@ -45,7 +55,8 @@ namespace GHJ_Lib
 
                 if ( dollData.DevilHP < 0.0f )
                 {
-                    actor.BaseAnimator.Play( "Idle_A" );
+                    actor.BaseAnimator.SetBool("IsPurifying", false);
+                    //actor.BaseAnimator.Play( "Idle_A" );
                     actor.BecomeGhost();
                     return new BvIdle();
                 }

@@ -9,6 +9,8 @@ namespace GHJ_Lib
 		protected override void Activate(in NetworkBaseController actor)
 		{
 			actor.BaseAnimator.SetBool("IsInstallTrap", true);
+
+			//(actor as ExorcistController).PlayInstallCross( true );
 			(actor.skill as HunterSkill).StartCoroutine("ExcuteActiveSkill");
 			actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
 		}

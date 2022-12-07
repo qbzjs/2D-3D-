@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using KSH_Lib;
@@ -8,6 +9,9 @@ using KSH_Lib.Data;
 using Cinemachine;
 using System;
 using KSH_Lib.Object;
+using MSLIMA.Serializer;
+using LSH_Lib;
+
 namespace GHJ_Lib
 {
 	public class NetworkBaseController : BasePlayerController, IPunObservable
@@ -32,6 +36,7 @@ namespace GHJ_Lib
 			BeTrapped,
 			BvGhost,
 			Hold,
+			Behealed,
 		}
 
 		public enum MoveType
@@ -44,6 +49,7 @@ namespace GHJ_Lib
 
 		public int TypeIndex { get; protected set; }
 		public int PlayerIndex { get; protected set; }
+		public RoleData GetRoleInfo { get { return DataManager.Instance.RoleInfos[TypeIndex]; } }
 		public bool IsMine { get { return photonView.IsMine; } }
 		public BaseCameraController FPVCam { get { return fpvCam; } }
 		public BaseCameraController TPVCam { get { return tpvCam; } }
@@ -54,18 +60,17 @@ namespace GHJ_Lib
 
 		protected PhotonTransformViewClassic photonTransformView;
 
+
 		[field: SerializeField] public Animator BaseAnimator { get; protected set; }
 
-		[Header( "Camera Settings" )]
+		[Header("Camera Settings")]
 		[SerializeField]
 		protected KSH_Lib.FPV_CameraController fpvCam;
 		[SerializeField]
-		protected TPV_CameraController tpvCam;
+		protected KSH_Lib.TPV_CameraController tpvCam;
 		public BaseCameraController CurCam { get; protected set; }
 
-		[Header( "Interactor" )]
-		[SerializeField]
-		protected Interactor interactor;
+		[field: SerializeField] public Interactor interactor { get; protected set; }
 		//move 여부
 		public delegate void DelPlayerInput();
 		protected DelPlayerInput SetDirectionFunc;
@@ -73,50 +78,55 @@ namespace GHJ_Lib
 
 		//skill Component
 		public BaseSkill skill;
+		public GaugedObj.GaugedObjType InteractType;
+		public bool IshideInnerCoolTime = false;
 
+		public bool IsESC = false;
+
+		[Header("Audio Settings")]
+		public AudioPlayer AudioPlayer;
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
 		{
 			base.Start();
 			photonTransformView = GetComponent<PhotonTransformViewClassic>();
-			if ( photonTransformView == null )
+			if (photonTransformView == null)
 			{
-				Debug.LogError( "NetworkBaseController.OnEnable: Can not init photonTransformView" );
+				Debug.LogError("NetworkBaseController.OnEnable: Can not init photonTransformView");
 			}
 
-			if ( photonView.IsMine )
+			if (photonView.IsMine)
 			{
 				TypeIndex = (int)DataManager.Instance.LocalPlayerData.roleData.Type;
 				PlayerIndex = DataManager.Instance.PlayerIdx;
-				photonView.RPC( "SetPlayerIdx", RpcTarget.All, PlayerIndex, TypeIndex );
+				photonView.RPC("SetPlayerIdx", RpcTarget.All, PlayerIndex, TypeIndex);
 			}
 			StageManager.Instance.RegisterPlayer(gameObject);
-			
+
 		}
 		protected override void Update()
 		{
-			if ( photonView.IsMine )
+			if (photonView.IsMine)
 			{
 				SetDirectionFunc();
 				var velocity = direction * DataManager.Instance.LocalPlayerData.roleData.MoveSpeed;
 				var turnSpeed = rotateSpeed;
-				photonTransformView.SetSynchronizedValues( velocity, turnSpeed );
-
+				photonTransformView.SetSynchronizedValues(velocity, turnSpeed);
 			}
 			RotateToDirection();
 			MoveCharacter();
 
-			CurBehavior.Update( this, ref CurBehavior );
+			CurBehavior.Update(this, ref CurBehavior);
 		}
 
-        private void OnGUI()
-        {
-            if(DataManager.Instance.IsAllClientInited)
-            {
-				GUI.Box( new Rect( 300, PlayerIndex * 30, 200, 30 ), $"Player{PlayerIndex}: {DataManager.Instance.PlayerDatas[PlayerIndex].behaviorType}");
-            }
-        }
+        //private void OnGUI()
+        //{
+        //    if (DataManager.Instance.IsAllClientInited)
+        //    {
+        //        GUI.Box(new Rect(300, PlayerIndex * 30, 200, 30), $"Player{PlayerIndex}: {DataManager.Instance.PlayerDatas[PlayerIndex].behaviorType}");
+        //    }
+        //}
 
         public virtual void InitCameraSetting()
 		{
@@ -142,7 +152,7 @@ namespace GHJ_Lib
 		/*--- Public Methods ---*/
 		public void ChangeMoveFunc(MoveType moveType)
 		{
-			if(IsMine)
+			if (IsMine)
 			{
 				switch (moveType)
 				{
@@ -155,7 +165,7 @@ namespace GHJ_Lib
 					case MoveType.Stop:
 						{
 							SetDirectionFunc = CannotMove;
-							CurCam.ActiveCameraControl( false );
+							CurCam.ActiveCameraControl(false);
 						}
 						break;
 					case MoveType.CamForward:
@@ -178,7 +188,7 @@ namespace GHJ_Lib
 		protected virtual void CamForwardMove()
 		{
 			Vector3 moveDirection = camTarget.transform.forward;
-			direction = moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z).normalized;
+			direction = new Vector3(moveDirection.x, 0, moveDirection.z).normalized;
 		}
 		protected void CannotMove()
 		{
@@ -196,25 +206,52 @@ namespace GHJ_Lib
 		}
 		public virtual bool IsWatching(string tag)
 		{
-			if(photonView.IsMine)
-            {
+			if (photonView.IsMine)
+			{
 				RaycastHit[] hits;
-				Ray ray = Camera.main.ScreenPointToRay( new Vector2( Screen.width, Screen.height ) / 2 );
+				Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width, Screen.height) / 2);
 
 				float maxDist = 10.0f;
 
-				hits = Physics.RaycastAll( ray, maxDist );
-				foreach(var hit in hits)
-                {
-					if(hit.collider.CompareTag(tag))
-                    {
+				hits = Physics.RaycastAll(ray, maxDist);
+				foreach (var hit in hits)
+				{
+					if (hit.collider.CompareTag(tag))
+					{
 						return true;
-                    }
-                }
+					}
+				}
 				return false;
 
 				//if ( Physics.Raycast( ray, out hit, maxDist, LayerMask.NameToLayer("Environment"), QueryTriggerInteraction.Ignore ) )
 			}
+			return false;
+		}
+
+		public virtual bool IsWatching(string tag, out GameObject obj)
+		{
+			if (photonView.IsMine)
+			{
+				RaycastHit[] hits;
+				Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width, Screen.height) / 2);
+
+				float maxDist = 10.0f;
+
+				hits = Physics.RaycastAll(ray, maxDist);
+				foreach (var hit in hits)
+				{
+					if (hit.collider.CompareTag(tag))
+					{
+						obj = hit.collider.gameObject;
+						return true;
+					}
+				}
+				obj = null;
+				return false;
+
+				//if ( Physics.Raycast( ray, out hit, maxDist, LayerMask.NameToLayer("Environment"), QueryTriggerInteraction.Ignore ) )
+			}
+			obj = null;
 			return false;
 		}
 
@@ -244,50 +281,69 @@ namespace GHJ_Lib
 
 
 		public bool IsInteractionKeyHold()
-        {
-            return Input.GetKey( KeyCode.G )&&(CurBehavior is not BvGetHit);
-        }
+		{
+			return Input.GetKey(KeyCode.G) && (CurBehavior is not BvGetHit);
+		}
 		public bool IsInteractionKeyDown()
 		{
-			return Input.GetKeyDown( KeyCode.G );
+			return Input.GetKeyDown(KeyCode.G);
+		}
+		public void ChangeTransform(in Transform targetTF)
+		{
+			byte[] bytes = new byte[0];
+			Serializer.Serialize(targetTF.transform.position, ref bytes);
+			Serializer.Serialize(targetTF.transform.rotation, ref bytes);
+			photonView.RPC("ChangeTransformRPC", RpcTarget.AllViaServer, bytes);
+		}
+		[PunRPC]
+		public void ChangeTransformRPC(byte[] data)
+		{
+			int offset = 0;
+			var pos = Serializer.DeserializeVector3(data, ref offset);
+			var rot = Serializer.DeserializeQuaternion(data, ref offset);
+			characterObj.transform.SetPositionAndRotation(pos, rot);
 		}
 
 		[PunRPC]
-		public void SetPlayerIdx( int playerIdx, int typeIdx )
+		public void SetPlayerIdx(int playerIdx, int typeIdx)
 		{
 			PlayerIndex = playerIdx;
 			TypeIndex = typeIdx;
-			
+
 		}
 
 		public void ActivateCameraCollision(bool enable)
-        {
-			if(enable)
-            {
+		{
+			if (enable)
+			{
 				tpvCam.Cm3rdPersonFollow.CameraCollisionFilter.value = LayerMask.NameToLayer("Environment") | LayerMask.NameToLayer("Player");
 			}
 			else
-            {
+			{
 				tpvCam.Cm3rdPersonFollow.CameraCollisionFilter.value = 0;
 			}
-        }
+		}
 
 		// Behavior Callback
 		public virtual void ChangeMoveSpeed(float speedRate)
-        {
+		{
 			DataManager.Instance.LocalPlayerData.roleData.MoveSpeed = DataManager.Instance.RoleInfos[TypeIndex].MoveSpeed * speedRate;
 			DataManager.Instance.ShareRoleData();
 		}
 
 		public virtual void DoSkill()
 		{
+			if (!skill.ShowCanUseSkillMsg()&&skill.IsCoolTime)
+			{
+				return;
+			}
 			if (Input.GetKeyDown(KeyCode.Mouse1))
 			{
-				if (!skill.IsCoolTime && CurBehavior is BvIdle&& skill.CanActiveSkill())
-				{
-					photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.AllViaServer);
-				}
-			}
+                if ((CurBehavior is BvIdle && skill.CanActiveSkill()))
+                {
+                    photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.AllViaServer);
+                }
+            }
 		}
 
 		public virtual void ChangeBvToInteract()
@@ -310,7 +366,6 @@ namespace GHJ_Lib
 		//행동은 한번에 하나씩 존재
 		public virtual void ChangeBehaviorTo( BehaviorType type )
 		{
-			Debug.Log("Type : " + type);
 			photonView.RPC( "ChangeBehaviorTo_RPC", RpcTarget.AllViaServer, type );
 		}
 		[PunRPC]
@@ -352,7 +407,26 @@ namespace GHJ_Lib
 			}
 		}
 
+
+		//나중에 클래스로 만들어보기
+		public IEnumerator InnerCoolTime(float time)
+		{
+			IshideInnerCoolTime = true;
+			yield return new WaitForSeconds(time);
+			IshideInnerCoolTime = false;
+		}
+
 		/*--IpunObserve--*/
+		public void SetInteractType(GaugedObj.GaugedObjType type)
+        {
+			photonView.RPC("ShareInteractTypeRPC", RpcTarget.All, type);
+        }
+
+		[PunRPC]
+		public void ShareInteractTypeRPC(GaugedObj.GaugedObjType type)
+        {
+			InteractType = type;
+        }
 		public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 		{
 			if (stream.IsWriting)

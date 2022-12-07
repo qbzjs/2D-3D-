@@ -7,6 +7,7 @@ using Photon.Realtime;
 using KSH_Lib.Data;
 using MSLIMA.Serializer;
 using KSH_Lib.Object;
+using LSH_Lib;
 namespace GHJ_Lib
 {
 	public class DollController : NetworkBaseController, IPunObservable
@@ -28,26 +29,56 @@ namespace GHJ_Lib
 		protected BvHide bvHide = new BvHide();
 		protected BvbeTrapped bvbeTrapped = new BvbeTrapped();
 		protected BvGhost bvGhost = new BvGhost();
+		protected BvBehealed bvBeHealed = new BvBehealed();
+		//[SerializeField] protected SkinnedMeshRenderer skinnedMeshRenderer;
+		//[SerializeField] protected Material ghostMaterial;
+		[SerializeField] protected GameObject ghostPrefab;
+		[SerializeField] protected Animator ghostAnimator;
+		[field: SerializeField] public TrailRenderer runTrail { get; protected set; }
+		[field: SerializeField] public ParticleSystem hitParticle { get; protected set; }
+		[field: SerializeField] public ParticleSystem hitEffect { get; protected set; }
+		[field: SerializeField] public ParticleSystem ghostInEffect { get; protected set; }
+		[field: SerializeField] public ParticleSystem ghostOutEffect { get; protected set; }
+		[field: SerializeField] public ParticleSystem explosionEffect { get; protected set; }
 
-		[SerializeField] protected SkinnedMeshRenderer skinnedMeshRenderer;
-		[SerializeField] protected Material ghostMaterial;
+		[field: SerializeField] public ParticleSystem TraceEffect { get; protected set; } // << : 2022 11-29 By GHJ
 
-		
-		public GameObject[] BloodDecal;
+		public GameObject BloodDecal;
+		public GameObject BloodSpawner;
+		public ParticleSystem HealEffect;
+        public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
 
-		public DollData GetDollData { get { return DataManager.Instance.PlayerDatas[PlayerIndex].roleData as DollData; } }
-
-		
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
 		{
 			base.OnEnable();
+			HealEffect.Stop();
+			runTrail.emitting = false;
+			hitParticle.Stop();
+			hitEffect.Stop();
+			ghostInEffect.Stop();
+			ghostOutEffect.Stop();
+			explosionEffect.Stop();
+			TraceEffect.Stop();
 			//CurBehavior.PushSuccessorState(idle);
 		}
 
-		public override void InitCameraSetting()
+        protected override void Update()
         {
+            base.Update();
+			//For Debug Ghost
+			if(Input.GetKeyDown(KeyCode.Alpha0))
+            {
+				if(IsMine)
+                {
+                    BecomeGhost();
+                }
+			}
+        }
+
+        public override void InitCameraSetting()
+		{
 			if (photonView.IsMine)
 			{
 				base.InitCameraSetting();
@@ -57,13 +88,14 @@ namespace GHJ_Lib
 			}
 		}
 
-        /*--- Public Methods ---*/
+		/*--- Public Methods ---*/
 
-        public void ChangeBvToBeCaught(BaseCameraController cam)
+		public void ChangeBvToBeCaught(BaseCameraController cam)
 		{
 			characterModel.gameObject.SetActive(false);
 			ChangeCamera(cam);
 			ChangeBehaviorTo(BehaviorType.BeCaught);
+			
 		}
 		public void ChangeBvToGetHit()
 		{
@@ -80,6 +112,7 @@ namespace GHJ_Lib
 		public void ChangeBvToBePurifying(KSH_Lib.Object.PurificationBox puriBox)
 		{
 			characterModel.gameObject.SetActive(true);
+			HealEffect.Stop();// 임시방편
 			puriBox.SetDoll(this);
 
 			if (photonView.IsMine)
@@ -103,15 +136,15 @@ namespace GHJ_Lib
 		}
 
 
-		IEnumerator ChangeDevilHPByDeltaTime(float damage, System.Func<bool> EndCond )
+		IEnumerator ChangeDevilHPByDeltaTime(float damage, System.Func<bool> EndCond)
 		{
-			while ( true )
+			while (true)
 			{
-				if ( GetDollData.DevilHP <= 0.0f || EndCond() )
+				if (GetDollData.DevilHP <= 0.0f || EndCond())
 				{
 					break;
 				}
-				ChangeDevilHP( -damage * Time.deltaTime );
+				ChangeDevilHP(-damage * Time.deltaTime);
 				yield return null;
 			}
 		}
@@ -130,7 +163,6 @@ namespace GHJ_Lib
 			//UI 바뀐다
 			StageManager.Instance.DecereseDollCount();
 			photonView.RPC("_BecomeGhost", RpcTarget.All);
-			photonView.RPC("DisappearPurificationBox", RpcTarget.All);
 			ChangeBehaviorTo(BehaviorType.Idle);
 		}
 
@@ -138,18 +170,19 @@ namespace GHJ_Lib
 		{
 			Transform modelTrans = characterModel.transform;
 			BaseAnimator.SetBool("IsHide", true);
+			AudioPlayer.Play("DollHide");
 			float rotZ = modelTrans.localRotation.eulerAngles.z;
 			float posY = modelTrans.localScale.x;
 			while (true)
 			{
-				rotZ += 90.0f * Time.deltaTime; 
+				rotZ += 90.0f * Time.deltaTime;
 
 				if (rotZ >= 90.0f)
 				{
 					rotZ = 90.0f;
 				}
 				modelTrans.localRotation = Quaternion.Euler(modelTrans.localRotation.eulerAngles.x, modelTrans.localRotation.eulerAngles.y, rotZ);
-				modelTrans.localPosition = new Vector3(modelTrans.localPosition.x, posY/2, modelTrans.localPosition.z);
+				modelTrans.localPosition = new Vector3(modelTrans.localPosition.x, posY / 2, modelTrans.localPosition.z);
 				//modelTrans.position = new Vector3(
 				//	(modelTrans.position.x - Mathf.Cos(modelTrans.rotation.z) + Mathf.Cos(PosZ)) * modelTrans.localScale.x / 2,
 				//	(modelTrans.position.y - Mathf.Sin(modelTrans.rotation.z) + Mathf.Sin(PosZ)) * modelTrans.localScale.y / 2,
@@ -164,46 +197,22 @@ namespace GHJ_Lib
 
 		public virtual IEnumerator UnHide()
 		{
-			Transform modelTrans = characterModel.transform;
-			float rotZ = modelTrans.localRotation.eulerAngles.z;
-			Debug.Log($"localRotation.z : {modelTrans.localRotation.z}");
-			while (true)
-			{
-				Debug.Log($"rotZ : {rotZ}");
-				rotZ -= 90.0f * Time.deltaTime;
-				if (rotZ <= 0.0f)
-				{
-					rotZ = 0.0f;
-				}
-				modelTrans.localRotation = Quaternion.Euler(modelTrans.localRotation.eulerAngles.x, modelTrans.localRotation.eulerAngles.y, rotZ);
-				modelTrans.localPosition = new Vector3(modelTrans.localPosition.x, 0, modelTrans.localPosition.z);
-				//modelTrans.position = new Vector3(
-				//	(modelTrans.position.x - Mathf.Cos(modelTrans.rotation.z) + Mathf.Cos(PosZ)) * modelTrans.localScale.x / 2,
-				//	(modelTrans.position.y - Mathf.Sin(modelTrans.rotation.z) + Mathf.Sin(PosZ)) * modelTrans.localScale.y / 2,
-				//	modelTrans.position.z);
-				yield return new WaitForEndOfFrame();
-				if (rotZ.Equals(0.0f))
-				{
-					BaseAnimator.SetBool("IsHide", false);
-					ChangeBehaviorTo(BehaviorType.Idle);
-					break;
-				}
-			}
+			yield return GameManager.Instance.WaitZeroPointFiveS;
 		}
 
 
 		public void ChangeDevilHP(float delta)
-        {
-			if(IsMine)
+		{
+			if (IsMine)
 			{
 				GetDollData.DevilHP += delta;
 				DataManager.Instance.ShareRoleData();
 
-				if ( GetDollData.DevilHP <= 0.0f )
+				if (GetDollData.DevilHP <= 0.0f)
 				{
-					BaseAnimator.Play( "Idle_A" );
+					BaseAnimator.Play("Idle_A");
 					BecomeGhost();
-					CurBehavior.PushSuccessorState( new BvIdle() );
+					CurBehavior.PushSuccessorState(new BvIdle());
 				}
 			}
 		}
@@ -213,7 +222,13 @@ namespace GHJ_Lib
 		{
 			if (IsMine)
 			{
-				skinnedMeshRenderer.material = ghostMaterial;
+				//skinnedMeshRenderer.material = ghostMaterial;
+				characterModel.SetActive( false );
+				characterModel = ghostPrefab;
+				characterModel.SetActive( true );
+
+				BaseAnimator = ghostAnimator;
+
 				interactor.enabled = false;
 			}
 			else
@@ -221,40 +236,38 @@ namespace GHJ_Lib
 				interactor.gameObject.SetActive(false);
 				characterObj.SetActive(false);
 			}
-
+			explosionEffect.Clear();
+			explosionEffect.Play();
 			StageManager.CharacterLayerChange(characterObj, LayerMask.NameToLayer(GameManager.GhostLayer));//8 : Ghost Layer
 			ChangeBehaviorTo(BehaviorType.BvGhost);
 		}
 
-		//[PunRPC]
-		//public void DecreaseDollCount()
-		//{
-		//	StageManager.Instance.DollCountDecrease();
-		//}
-        public override bool DoResist()
-        {
+		public override bool DoResist()
+		{
 			if (Input.GetKeyDown(KeyCode.LeftArrow)
 				|| Input.GetKeyDown(KeyCode.LeftArrow))
 			{
 				return true;
 			}
 			return false;
-        }
-
-		[PunRPC]
-		public void DisappearPurificationBox()
-		{
-			//if (interactObj is not PurificationBox)
-			//{
-			//	Debug.LogError("the nearest interactObj is not Purification Box");
-			//	return;
-			//}
-			//StageManager.Instance.Disappear(interactObj.gameObject);
 		}
 
-
-
-
+		public void BeHealedAnimation_RPC(bool isHeal)
+		{
+			photonView.RPC("BeHealedAnimation", RpcTarget.AllViaServer, isHeal);
+		}
+		[PunRPC]
+		public void BeHealedAnimation(bool isHeal)
+		{
+			if (isHeal)
+			{
+				HealEffect.Play();
+			}
+			else
+			{
+				HealEffect.Stop();
+			}
+		}
 		/*--HitByExorcistSkill--*/
 		public void AprrochCrossArea()
 		{
@@ -269,6 +282,11 @@ namespace GHJ_Lib
 			{
 				case 1:
 					{
+						var TraceLifeTime = TraceEffect.main.startLifetime;
+						TraceLifeTime.constantMax = 10.0f;
+						TraceLifeTime.constantMin = 9.5f;
+						var TraceParticles = TraceEffect.main.maxParticles;
+						TraceParticles *= TraceParticles * 2;
 						//흔적 짙어짐
 						//흔적 유지시간 길어짐 (데이터테이블에 있을지) 없다면 코루틴으로 ...
 					}
@@ -317,7 +335,29 @@ namespace GHJ_Lib
 			}
 		}
 
-		public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        public void Trace_RPC(bool isSpawn)
+        {
+			photonView.RPC("Trace", RpcTarget.AllViaServer, isSpawn);
+        }
+		[PunRPC]
+		public void Trace(bool isSpawn)
+		{
+			if (DataManager.Instance.PlayerIdx != 0)
+			{
+				return;
+			}
+
+			if (isSpawn)
+			{
+				TraceEffect.Play();
+			}
+			else
+			{
+				TraceEffect.Stop();
+			}
+		}
+
+        public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 		{
 			if (stream.IsWriting)
 			{
@@ -372,31 +412,41 @@ namespace GHJ_Lib
 			}
 		}
         protected override void MoveCharacter()
-		{
-			if (controller.enabled == false)
-			{
-				BaseAnimator.SetFloat("Move", 0);
-				CannotMove();
-				return;
-			}
-
-			if(DataManager.Instance.PlayerDatas[PlayerIndex].roleData == null)
+        {
+			//RabbitAudio.PlaySound("DollWalk");
+			if ( controller.enabled == false )
             {
-				return;
+                BaseAnimator.SetFloat( "Move", 0 );
+                CannotMove();
+                return;
             }
 
-			controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed);
+            if ( DataManager.Instance.PlayerDatas[PlayerIndex].roleData == null )
+            {
+                return;
+            }
 
-			if (direction.sqrMagnitude <= 0)
-			{
-				BaseAnimator.SetFloat("Move", 0);
-			}
-			else
-			{
-				BaseAnimator.SetFloat("Move", DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed);
-			}
+            controller.SimpleMove( direction * DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed );
+			
+			//AudioManager.instance.Play("DollWalk", AudioManager.PlayTarget.Doll);
+			if ( direction.sqrMagnitude <= 0 )
+            {
+                BaseAnimator.SetFloat( "Move", 0 );
+            }
+            else
+            {
+				//RabbitAudio.Play("DollWalk");
+                BaseAnimator.SetFloat( "Move", DataManager.Instance.PlayerDatas[PlayerIndex].roleData.MoveSpeed );
+            }
+        }
+		public void DollAnimationAudio(string name)
+        {
+			AudioPlayer.Play(name);
+        }
+		public void DollAnimationAudio(string name, AudioManager.PlayTarget target)
+		{
+			AudioPlayer.Play(name, target);
 		}
-
 
 		[PunRPC]
 		protected override void ChangeBehaviorTo_RPC( BehaviorType type )
@@ -453,13 +503,18 @@ namespace GHJ_Lib
 					CurBehavior.PushSuccessorState(bvGhost);
 				}
 				break;
+				case BehaviorType.Behealed:
+					{
+						CurBehavior.PushSuccessorState(bvBeHealed);
+					}
+					break;
 			}
 		}
 
 		//effect
 		public void ShowHitEffect()
 		{
-			EffectManager.Instance.ShowDecal(characterModel, BloodDecal[Random.Range(0,BloodDecal.Length-1)]);
+			EffectManager.Instance.ShowDecal(BloodSpawner, BloodDecal);
 		}
 	}
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 using Photon.Pun;
 using KSH_Lib;
 using KSH_Lib.Data;
+using LSH_Lib;
+
 namespace GHJ_Lib
 {
     public class Chaser : MonoBehaviour
@@ -21,6 +23,8 @@ namespace GHJ_Lib
         [SerializeField] protected int CameraLayer;
         protected ExorcistData exorcistData, initData;
         protected RoleData.RoleType roleType;
+
+        //public AudioPlayer AudioPlayer;
         private void OnEnable()
         {
             CameraLayer = LayerMask.NameToLayer("Camera");
@@ -81,6 +85,18 @@ namespace GHJ_Lib
                     continue;
                 }
 
+                // Debug.Log($"fugtive.curBehaviour = {fugitive.curBehaviour}");
+                if (!(fugitive.curBehaviour is BvIdle ||
+                    fugitive.curBehaviour is BvInteract ||
+                    fugitive.curBehaviour is BvGetHit))
+                {
+                    if (fugitive.IsWatched)
+                    {
+                        fugitive.SetWatch(false);
+                    }
+                    continue;
+                }
+
                 if (IsInCameraView(fugitive.gameObject) &&
                     CheckObstacle(fugitive.gameObject))
                 {
@@ -123,6 +139,8 @@ namespace GHJ_Lib
                 if (chaseState != ChaseState.Chasing)
                 {
                     chaseState = ChaseState.Chasing;
+                    StageManager.Instance.ChasingBGM.Play();
+                    //AudioPlayer.Play("ChasingBGM"); //<<: ChaseSound 
                     //DataManager.Instance.ShareRoleData();
                 }
             }
@@ -145,6 +163,8 @@ namespace GHJ_Lib
                                 exorcistData.MoveSpeed = initData.MoveSpeed;
                                 DataManager.Instance.ShareRoleData();
                                 chaseState = ChaseState.Wait;
+                                StageManager.Instance.ChasingBGM.Stop();
+                                //AudioPlayer.Stop("ChasingBGM"); //<<:ChaseSound
                             }
                         }
                         break;
@@ -166,7 +186,7 @@ namespace GHJ_Lib
                     targetViewPort.y <= 1.0f &&
                     targetViewPort.y >= 0.0f &&
                     targetViewPort.z > 0.0f);
-            Debug.Log($"IsInView : {IsInView}");
+            //Debug.Log($"IsInView : {IsInView}");
             return IsInView;
         }
 
@@ -177,7 +197,7 @@ namespace GHJ_Lib
             Ray ray = new Ray(CamPos, targetObject.transform.position - CamPos);
 
             
-            Hits = Physics.RaycastAll(ray, sphereCollider.radius, CameraLayer);
+            Hits = Physics.RaycastAll(ray, sphereCollider.radius);
             
 
             foreach (RaycastHit hit in Hits)
@@ -186,11 +206,11 @@ namespace GHJ_Lib
                 
                 if (hitObj.layer == environmentLayer && !hitObj.CompareTag(FloorTag))
                 {
-                    Debug.Log("CheckObstacle : false");
+                    //Debug.Log("CheckObstacle : false");
                     return false;
                 }
             }
-            Debug.Log("CheckObstacle : true");
+            //Debug.Log("CheckObstacle : true");
             return true;
             
         }
@@ -225,7 +245,7 @@ namespace GHJ_Lib
                     check = true;
                 }
             }
-            Debug.Log($"Check : {check}");
+           // Debug.Log($"Check : {check}");
             return check;
         }
 
@@ -249,11 +269,10 @@ namespace GHJ_Lib
                     continue;
                 }
 
-                
                 Vector3 CamPos = mainCamera.transform.position;
                 Ray ray = new Ray(CamPos, fugitive.transform.position - CamPos);
 
-                Hits = Physics.RaycastAll(ray, sphereCollider.radius, CameraLayer);
+                Hits = Physics.RaycastAll(ray, sphereCollider.radius);
 
                 Gizmos.color = Color.red;
                 Gizmos.DrawLine(ray.origin, ray.origin +ray.direction*40.0f);
@@ -265,7 +284,7 @@ namespace GHJ_Lib
                         
                         if (hitObj.layer == environmentLayer && !hitObj.CompareTag(FloorTag))
                         {
-                            Debug.Log($"Hits Enviroment : {hit.collider.name}");
+                            //Debug.Log($"Hits Enviroment : {hit.collider.name}");
                             Gizmos.color = Color.green;
                             Gizmos.DrawSphere(hit.point, 0.3f);
                         }

@@ -4,6 +4,8 @@ using UnityEngine;
 using KSH_Lib.Object;
 using KSH_Lib;
 using Photon.Pun;
+using LSH_Lib;
+
 namespace GHJ_Lib
 {
 	public class Trap: GaugedObj
@@ -12,14 +14,16 @@ namespace GHJ_Lib
         [Header("Trap Setting")]
         [SerializeField] protected float ExitTrapVel = 8.3f;
         [SerializeField] protected float ClearTrapVel = 4.2f;
-        [SerializeField] protected string CollectText = "G : Collect Trap";
+        protected string CollectText = "Push SkillButton To Collect Trap";
         [SerializeField] protected SphereCollider sphereCollider;
         [SerializeField] protected Animator animator;
         protected float collectTime = 1.0f;
-        protected bool isCatchDoll =false;
+        [SerializeField] protected bool isCatchDoll =false; //serializeField는 다시 빼야함
 
         float ExitTrapRatio;
         float ClearTrapRatio;
+
+        [SerializeField] AudioPlayer Audio;
 
         WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
         protected override void OnEnable()
@@ -31,6 +35,7 @@ namespace GHJ_Lib
       
         public override bool Interact(Interactor interactor)
         {
+            targetController.InteractType = GaugedObjType.Trap;
             if (targetController.gameObject.CompareTag(GameManager.DollTag))
             {
                 castingSystem.ForceSetRatioTo(RateOfGauge);
@@ -49,6 +54,7 @@ namespace GHJ_Lib
             }
             else if (targetController.gameObject.CompareTag(GameManager.ExorcistTag))
             {
+                
                 castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(castTime : collectTime),
                     new CastingSystem.CastFuncSet(FinishAction: ExorcistFinishAction));
                 return true;
@@ -92,11 +98,18 @@ namespace GHJ_Lib
             { 
                 beTrappedDoll.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
             }
+            photonView.RPC("EscapeTrap", RpcTarget.AllViaServer);
+        }
+        [PunRPC]
+        public void EscapeTrap()
+        {
             beTrappedDoll = null;
         }
         private void ExorcistFinishAction()
         {
             ((targetController as ExorcistController).skill as HunterSkill).CollectTrap(gameObject);
+            targetController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
+            Audio.Play( "CollectTrap" );
         }
         private void OnTriggerEnter(Collider other)
         {
@@ -117,6 +130,8 @@ namespace GHJ_Lib
                         sphereCollider.radius = 0.59f;
                     }
                     animator.Play("Trap");
+                    Audio.Play( "TrapActive" );
+
                     // 덫 잠기는 애니매이션, 또는 위치변환 
                 }
             }
@@ -137,9 +152,14 @@ namespace GHJ_Lib
             while (true)
             {
                 yield return waitForEndOfFrame;
-                if (beTrappedDoll==null||behavior is BvBeCaught)
+                if (beTrappedDoll == null)
                 {
-                    beTrappedDoll = null;
+                    yield break;
+                }
+
+                if (behavior is BvBeCaught)
+                {
+                    photonView.RPC("EscapeTrap", RpcTarget.AllViaServer);
                     yield break;
                 }
                 

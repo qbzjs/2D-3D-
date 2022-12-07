@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using KSH_Lib;
+using LSH_Lib;
+
 namespace GHJ_Lib
 {
     public class Fugitive : MonoBehaviourPun
@@ -9,6 +12,7 @@ namespace GHJ_Lib
         public bool IsChased { get; private set; }
         [field: SerializeField] public bool IsWatched { get; set; }
         [SerializeField] protected float ChaseGauge = 0.0f;
+
         public int GetStack
         {
             get {
@@ -20,6 +24,10 @@ namespace GHJ_Lib
             }
         }
         [SerializeField] protected DollController dollController;
+        public Behavior<NetworkBaseController> curBehaviour
+        {
+            get { return dollController.CurBehavior; }
+        }
         public void SetWatch(bool IsWatchTarget)
         {
             if (IsWatchTarget)
@@ -43,36 +51,54 @@ namespace GHJ_Lib
         }
         void Update()
         {
-            if (IsWatched)
+            if (DataManager.Instance.PlayerIdx == 0)
             {
-                if (ChaseGauge < 150.0f)
+                if (IsWatched)
                 {
-                    ChaseGauge += 5*Time.deltaTime;
+                    if (ChaseGauge < 150.0f)
+                    {
+                        ChaseGauge += 5 * Time.deltaTime;
+                    }
+                    else
+                    {
+                        ChaseGauge = 150.0f;
+                    }
                 }
                 else
                 {
-                    ChaseGauge = 150.0f;
+                    if (ChaseGauge > 0.0f)
+                    {
+                        ChaseGauge -= 5 * Time.deltaTime;
+                    }
+                    else
+                    {
+                        ChaseGauge = 0.0f;
+                    }
                 }
-            }
-            else
-            {
-                if (ChaseGauge > 0.0f)
-                {
-                    ChaseGauge -= 5 * Time.deltaTime;
-                }
-                else
-                {
-                    ChaseGauge = 0.0f;
-                }
+                photonView.RPC("SyncChaseGauge", RpcTarget.All, ChaseGauge);
             }
 
             if (ChaseGauge >= 50.0f)
             {
-                IsChased = true;
+                if (!IsChased)
+                { 
+                    IsChased = true;
+                    if (photonView.IsMine)
+                    { 
+                        StageManager.Instance.ChasingBGM.Play(); //<<: ChaseSound 
+                    }
+                }
             }
             else
             {
-                IsChased = false;
+                if (IsChased)
+                { 
+                    IsChased = false;
+                    if (photonView.IsMine)
+                    {
+                        StageManager.Instance.ChasingBGM.Stop();
+                    }
+                }
             }
 
             if (dollController.IsMine)
@@ -82,6 +108,13 @@ namespace GHJ_Lib
                 Log.Instance.WriteLog("ChaseGauge" + ChaseGauge.ToString(), 4);
             }
         }
+
+        [PunRPC]
+        public void SyncChaseGauge(float curGauge)
+        {
+            ChaseGauge = curGauge;
+        }
+
     }
 
 }

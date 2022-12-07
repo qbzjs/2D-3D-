@@ -13,6 +13,11 @@ namespace GHJ_Lib
         private void OnEnable()
         {
             decalProjector = GetComponent<DecalProjector>();
+            RayToWall();
+        }
+
+        private void RayToWall()
+        {
             RaycastHit[] hits = Physics.RaycastAll(new Ray(transform.position, transform.forward), 1.0f);
             LayerMask enLayar = LayerMask.NameToLayer(GameManager.EnvironmentLayer);
             foreach (var hit in hits)
@@ -21,21 +26,20 @@ namespace GHJ_Lib
                 {
                     decalProjector.material = materials[Random.Range(0, materials.Length - 1)];
                     StartCoroutine(ClearBlood(decalProjector));
-                    MoveToWall(hit.point);
+                    MoveToWall(hit.point,hit.normal);
                     return;
                 }
             }
             this.gameObject.SetActive(false);
         }
-
-        private void MoveToWall(Vector3 hitPoint)
+        private void MoveToWall(Vector3 hitPoint,Vector3 normal)
         {
             transform.position = hitPoint;
             transform.position -= transform.forward* 0.1f;
         }
         IEnumerator ClearBlood(DecalProjector projector)
         {
-
+            projector.fadeFactor = 1.0f;
             float curTime = Time.time;
             while (true)
             {
@@ -49,6 +53,11 @@ namespace GHJ_Lib
                     break;
                 }
             }
+        }
+
+        public void Activate()
+        {
+            RayToWall();
         }
     }
 }

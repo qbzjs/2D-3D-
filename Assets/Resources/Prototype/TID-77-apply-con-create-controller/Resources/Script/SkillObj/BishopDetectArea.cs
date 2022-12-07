@@ -20,7 +20,10 @@ namespace GHJ_Lib
                 }
                 if (doll.CrossStack >= 4)
                 {
-                    doll.DoActionBy(Detected);
+                    if (DataManager.Instance.PlayerIdx == 0)
+                    { 
+                        doll.DoActionBy(Detected);
+                    }
                 }
                 else
                 {

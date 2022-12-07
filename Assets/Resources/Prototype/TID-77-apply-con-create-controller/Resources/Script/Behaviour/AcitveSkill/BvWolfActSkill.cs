@@ -11,6 +11,8 @@ namespace GHJ_Lib
         protected override void Activate(in NetworkBaseController actor)
         {
             (actor.skill as WolfSkill).StartCoroutine("ExcuteActiveSkill");
+            actor.BaseAnimator.SetTrigger("DoActiveSkill");
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.StopRotation);
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)

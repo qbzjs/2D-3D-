@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using KSH_Lib;
+using LSH_Lib;
 using Photon.Pun;
 using Photon.Realtime;
 namespace GHJ_Lib
 {
-	public class ExorcistController: NetworkBaseController, IPunObservable
+	public class ExorcistController : NetworkBaseController, IPunObservable
 	{
-		[Header( "Object Hide Setting" )]
+		[Header("Object Hide Setting")]
 		[SerializeField] protected GameObject[] hideObjects;
 		[SerializeField] float hideTime = 2.0f;
 
@@ -16,28 +18,50 @@ namespace GHJ_Lib
 		[SerializeField] private GameObject[] CatchObj;
 		[field: SerializeField] public PickUpArea pickUpArea { get; protected set; }
 		[field: SerializeField] public AttackArea attackArea { get; protected set; }
+		[field: SerializeField] public Transform catchTransform { get; protected set; }
 
-		protected GameObject caughtDoll;
 		public GameObject InteractObject;
+		protected GameObject caughtDoll;
 
 		// Behaviors
 		protected BvAttack attack = new BvAttack();
 		protected BvCatch catchDoll = new BvCatch();
 		protected BvImprison imprison = new BvImprison();
 
+		//Effect Image
+		public Image[] BloodImages;
 
-		//[SerializeField] Transform headPos;
+		public bool IsPickupDoll { get; protected set; }
+		[field: SerializeField] public TrailRenderer weaponTrail { get; protected set; }
 
 		/*--- MonoBehaviour Callbacks ---*/
 		public override void OnEnable()
 		{
 			base.OnEnable();
+			weaponTrail.enabled = false;
 			//CurBehavior.PushSuccessorState(idle);
 		}
 
+        protected override void Update()
+        {
+			//if (photonView.IsMine)
+			//{
+			//	SetDirectionFunc();
+			//	var velocity = direction * DataManager.Instance.LocalPlayerData.roleData.MoveSpeed;
+			//	var turnSpeed = rotateSpeed;
+			//	photonTransformView.SetSynchronizedValues(velocity, turnSpeed);
+
+			//	RotateToDirection();
+			//	MoveCharacter();
+			//}
+			base.Update();
+
+			BaseAnimator.SetFloat("MoveX", inputDir.x);
+			BaseAnimator.SetFloat("MoveY", inputDir.y);
+		}
 
 
-		public override void InitCameraSetting()
+        public override void InitCameraSetting()
 		{
 			if (photonView.IsMine)
 			{
@@ -57,19 +81,22 @@ namespace GHJ_Lib
 				obj.SetActive(false);
 			}
 		}
-        // Behavior Callbacks
-        public override void ImprisonDoll()
+		public void PlayAnimationSound(string name)
+        {
+			AudioPlayer.Play(name);
+        }
+		// Behavior Callbacks
+		public override void ImprisonDoll()
 		{
-
 			DollController doll = caughtDoll.GetComponent<DollController>();
-			CatchObj[doll.TypeIndex - 5].gameObject.SetActive( false );
+			CatchObj[doll.TypeIndex - 5].gameObject.SetActive(false);
 
 			var interactable = gameObject.GetComponentInChildren<KSH_Lib.Object.Interactor>().Interactable;
-			if(interactable == null)
-            {
+			if (interactable == null)
+			{
 				Debug.LogError("ExorcistController.ImprisonDoll(): Can not find interactable");
 				return;
-            }
+			}
 			var purificationBox = interactable.GetGameObject.GetComponent<GaugedObj>() as KSH_Lib.Object.PurificationBox;
 			if (purificationBox == null)
 			{
@@ -80,9 +107,9 @@ namespace GHJ_Lib
 			caughtDoll = null;
 		}
 		public DollController GetCaughtDoll()
-        {
+		{
 			return caughtDoll.GetComponent<DollController>();
-		}			
+		}
 
 		// Behavior Conditions
 		public override void ChangeBvToImprison()
@@ -94,20 +121,23 @@ namespace GHJ_Lib
 			ChangeBehaviorTo(BehaviorType.Catch);
 		}
 
-        /*--- Protected Methods ---*/
-        protected override void RotateToDirection()
+		/*--- Protected Methods ---*/
+		protected override void RotateToDirection()
 		{
-			if (direction.sqrMagnitude > 0.01f)
-			{
-				BaseAnimator.SetFloat("MoveSpeed", direction.magnitude);
-			}
-			else
-			{
-				BaseAnimator.SetFloat("MoveSpeed", 0);
-			}
+			//if (direction.sqrMagnitude > 0.01f)
+			//{
+			//	BaseAnimator.SetFloat("MoveSpeed", direction.magnitude);
+			//}
+			//else
+			//{
+			//	BaseAnimator.SetFloat("MoveSpeed", 0);
+			//}
+
+
+
 			if (photonView.IsMine)
 			{
-				if(fpvCam.CanControl)
+				if (fpvCam.CanControl)
 				{
 					characterModel.transform.rotation = Quaternion.Euler(0.0f, camTarget.transform.rotation.eulerAngles.y, 0.0f);
 				}
@@ -120,50 +150,72 @@ namespace GHJ_Lib
 				return;
 			}
 
-			if(DataManager.Instance.PlayerDatas[0].roleData != null)
+			if (DataManager.Instance.PlayerDatas[0].roleData != null)
 			{
 				controller.SimpleMove(direction * DataManager.Instance.PlayerDatas[0].roleData.MoveSpeed);
 			}
 		}
 
+		public void PlayInstallCross(bool state)
+        {
+			photonView.RPC( "PlayInstallCrossRPC", RpcTarget.All, state );
+        }
+
+		[PunRPC]
+		void PlayInstallCrossRPC(bool state)
+		{
+			BaseAnimator.SetBool( "IsInstallCross", state );
+		}
+		public void PlayInstallTrap( bool state )
+		{
+			photonView.RPC( "PlayInstallCrossRPC", RpcTarget.All, state );
+		}
+
+		[PunRPC]
+		void PlayInstallTrapRPC( bool state )
+		{
+			BaseAnimator.SetBool( "IsInstallTrap", state );
+		}
+
 		[PunRPC]
 		protected override void ChangeBehaviorTo_RPC(BehaviorType behaviorType)
 		{
-			if(behaviorType != BehaviorType.Idle && IsMine)
-			{
-				BaseAnimator.SetFloat( "AnimationSpeed", 1.0f );
-			}
+			//if (behaviorType != BehaviorType.Idle && IsMine)
+			//{
+			//	BaseAnimator.SetFloat("AnimationSpeed", 1.0f);
+			//}
 
-			switch ( behaviorType )
+			switch (behaviorType)
 			{
 				case BehaviorType.Idle:
-					{
-						Debug.Log("Idle : " + idle);
-						CurBehavior.PushSuccessorState(idle);
-					}
-					break;
+				{
+					Debug.Log("Idle : " + idle);
+					CurBehavior.PushSuccessorState(idle);
+				}
+				break;
 				case BehaviorType.Attack:
-					{
-						Debug.Log("attack : " + attack);
-						CurBehavior.PushSuccessorState(attack);
-					}
-					break;
+				{
+					Debug.Log("attack : " + attack);
+					
+					CurBehavior.PushSuccessorState(attack);
+				}
+				break;
 				case BehaviorType.Interact:
-					{
-						CurBehavior.PushSuccessorState(interact);
-					}
-					break;
+				{
+					CurBehavior.PushSuccessorState(interact);
+				}
+				break;
 				case BehaviorType.Imprison:
-					{
-						CurBehavior.PushSuccessorState( imprison );
-					}
-					break;
+				{
+					CurBehavior.PushSuccessorState(imprison);
+				}
+				break;
 				case BehaviorType.Catch:
-					{
-						caughtDoll = pickUpArea.GetNearestTarget();
-						CurBehavior.PushSuccessorState(catchDoll);
-					}
-					break;
+				{
+					caughtDoll = pickUpArea.GetNearestTarget();
+					CurBehavior.PushSuccessorState(catchDoll);
+				}
+				break;
 			}
 		}
 
@@ -175,21 +227,31 @@ namespace GHJ_Lib
 			{
 				case KSH_Lib.Data.RoleData.RoleType.Bishop:
 				{
-					direction = Vector3.zero;
+					//direction = Vector3.zero;
+					Vector3 moveDirection = camTarget.transform.forward;
+					direction = new Vector3(moveDirection.x, 0, moveDirection.z).normalized * 0.2f;
 				}
 				break;
 				case KSH_Lib.Data.RoleData.RoleType.Hunter:
 				{
 					Vector3 moveDirection = camTarget.transform.forward;
-					direction = new Vector3(moveDirection.x, 0, moveDirection.z).normalized;
+					direction = new Vector3(moveDirection.x, 0, moveDirection.z).normalized * 0.2f;
 				}
 				break;
 			}
 		}
 		public void PickUp()
 		{
+			if (caughtDoll == null)
+			{
+				caughtDoll = pickUpArea.GetNearestTarget();
+				if (caughtDoll == null)
+				{
+					Debug.LogError("Missing GetNearestTarget");
+				}
+			}
 			DollController doll = caughtDoll.GetComponent<DollController>();
-			CatchObj[doll.TypeIndex-5].gameObject.SetActive(true);
+			CatchObj[doll.TypeIndex - 5].gameObject.SetActive(true);
 			if (doll.CurBehavior is BvbeTrapped)
 			{
 				//해당 트랩 회수
@@ -198,6 +260,14 @@ namespace GHJ_Lib
 			doll.ChangeBvToBeCaught(tpvCam);
 		}
 
+		void OnPickUpDoll()
+        {
+			IsPickupDoll = true;
+        }
+		void OnReleaseDoll()
+        {
+			IsPickupDoll = false;
+        }
 
         public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
@@ -214,6 +284,9 @@ namespace GHJ_Lib
 				stream.SendNext(this.transform.position.x);
 				stream.SendNext(this.transform.position.y);
 				stream.SendNext(this.transform.position.z);
+
+				stream.SendNext(inputDir.x);
+				stream.SendNext(inputDir.y);
 			}
 			if (stream.IsReading)
 			{
@@ -231,6 +304,9 @@ namespace GHJ_Lib
 				y = (float)stream.ReceiveNext();
 				z = (float)stream.ReceiveNext();
 				this.transform.position = new Vector3(x, y, z);
+
+				inputDir.x = (float)stream.ReceiveNext();
+				inputDir.y = (float)stream.ReceiveNext();
 			}
 		}
 	}

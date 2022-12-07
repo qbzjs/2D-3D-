@@ -11,40 +11,68 @@ namespace GHJ_Lib
 	{
         protected EffectArea effectArea;
         protected RabbitSkill rabbit;
+        GameObject healTarget;
+        DollController peer=null;
+        bool healStart = false;
         protected override void Activate(in NetworkBaseController actor)
         {
             if (effectArea == null)
             {
                 effectArea = actor.skill.actSkillArea;
             }
+            actor.ChangeMoveFunc(NetworkBaseController.MoveType.Stop);
 
             if (rabbit == null)
             {
                 rabbit = actor.skill as RabbitSkill;
             }
+            GameObject target = effectArea.GetNearestTarget();
+            if (healTarget != target)
+            {
+                healTarget = target;
+            }
+
+            if (!healTarget)
+            {
+                Debug.LogError("Sk_Heal.DoBehavior : healTarget is null ... why actSkillArea.CanGetTarget() is true???");
+                return;
+            }
+
+
+            peer = healTarget.GetComponent<DollController>();
         }
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            GameObject target = effectArea.GetNearestTarget();
-            
-            if (target)
+            if (!peer)
             {
-                Debug.LogError("Sk_Heal.DoBehavior : target is null ... why actSkillArea.CanGetTarget() is true???");
-                return new Sk_Default();
+                Debug.LogError("Sk_Heal.DoBehavior : peer is null ... why actSkillArea.CanGetTarget() is true???");
+                return new BvIdle();
+            }
+            
+            if (!healStart)
+            {
+                if (peer.CurBehavior is BvIdle)
+                {
+                    return null;
+                }
+
+                if (peer.CurBehavior is not BvBehealed)
+                {
+                    healStart = true;
+                }
             }
 
-            DollController peer = target.GetComponent<DollController>();
-            if(peer.photonView.IsMine)
+            if (peer.photonView.IsMine)
             {
                 DollData peerData = (DataManager.Instance.LocalPlayerData.roleData as DollData);
                 peerData.DollHP += rabbit.HealAmount * Time.deltaTime;
                 DollData peerInitDate = (DataManager.Instance.RoleInfos[peer.TypeIndex] as DollData);
+                
                 if (peerInitDate.DollHP <= peerData.DollHP)
                 {
                     peerData.DollHP = peerInitDate.DollHP;
                     rabbit.CancelHeal();
-                    return PassIfHasSuccessor();
                 }
                 DataManager.Instance.ShareRoleData();
             }
@@ -61,7 +89,13 @@ namespace GHJ_Lib
             {
                 return null;
             }
-            return PassIfHasSuccessor();
+
+            Behavior<NetworkBaseController> Bv  = PassIfHasSuccessor();
+            if (Bv!=null)
+            {
+                healStart = false;
+            }
+            return Bv;
 
         }
             

@@ -8,7 +8,7 @@ using LSH_Lib;
 using KSH_Lib.Object;
 
 using Cinemachine;
-
+using TMPro;
 namespace GHJ_Lib
 {
 	public class StageManager : MonoBehaviourPunCallbacks, IPunObservable
@@ -39,6 +39,8 @@ namespace GHJ_Lib
 		public GameObject ExitAltarPrefab;
 		public GameObject FinalAltarPrefab;
 		public GameObject PurificationBoxPrefab;
+		public GameObject DoorPrefab;
+		public GameObject[] FakeDollPrefabs;
 
 		[Header( "GenPos" )]
 		public Transform[] PlayerGenPos;
@@ -47,34 +49,44 @@ namespace GHJ_Lib
 		public Transform FinalAltarGenPos;
 		public Transform[] PurificationBoxGenPos;
 		public Transform[] CrowGenPos;
+		public Transform[] DoorGenPos;
+		public Transform[] FakeDollsGenPos;
+
 		[Header( "NormalAltarSetting" )]
 		public int Count;
 		public float InitAreaRadius;
 		public Vector3 CenterPosition;
 
+		[Header("FakeDollsSpawnSetting")]
+		public int CountofFakeDolls;
+
 		[Header( "UI" )]
 		public DollUI dollUI;
 		public ExorcistUI exorcistUI;
+		public GameObject BloodUI_Obj;
 		public GameObject InteractTextUI;
 		public InteractionPromptUI InteractionPrompt;
+		public GameObject introUIObj;
+		public CanvasGroup introUICanvasGroup;
+
 		[field: SerializeField] public CastingSystem CastSystem { get; private set; }
 
 		NetworkGenerator networkGenerator;
-		public ExorcistController Exorcist
+		public NetworkBaseController[] PlayerControllers { get; private set; } = new NetworkBaseController[5];
+		public ExorcistController ExorcistCon
 		{
 			get
 			{
-				if ( exorcist == null )
-				{
-					GameObject exor = GameObject.FindGameObjectWithTag( "Exorcist" );
-					exorcist = exor.GetComponent<ExorcistController>();
+				if(exorcistController == null)
+                {
+					exorcistController = (ExorcistController)PlayerControllers[0];
 				}
-				return exorcist;
+				return exorcistController;
 			}
 		}
-		ExorcistController exorcist;
-		public NetworkBaseController[] PlayerControllers { get; private set; } = new NetworkBaseController[5];
+		ExorcistController exorcistController;
 
+		public ChasingSound ChasingBGM;
 
 		/*--- Private Fields ---*/
 		static StageManager instance;
@@ -91,7 +103,7 @@ namespace GHJ_Lib
 		void Start()
 		{
 			DollCount = PhotonNetwork.CurrentRoom.PlayerCount - 1;
-
+			DataManager.Instance.SetNullPlayerToReady();
 			InitGenerateor();
 			GeneratePlayerCharacter();
 			if ( PhotonNetwork.IsMasterClient )
@@ -103,6 +115,11 @@ namespace GHJ_Lib
 
 		IEnumerator GameStartSequence()
 		{
+			introUIObj.SetActive(true);
+			introUICanvasGroup.alpha = 0.0f;
+
+			introUICanvasGroup.LeanAlpha(1.0f, 0.5f);
+
 			while ( true )
 			{
 				if ( LocalController != null )
@@ -131,13 +148,17 @@ namespace GHJ_Lib
 				yield return null;
 			}
 
+			introUICanvasGroup.LeanAlpha(0.0f, 0.5f);
+
 			yield return new WaitForSeconds( waitTime );
-			LocalController.TPVCam.ResetCamTarget( camResetTime );
+			LocalController.TPVCam.ResetCamTarget( camResetTime, 20.0f );
 			yield return new WaitForSeconds( camResetTime );
+			introUIObj.SetActive(false);
 
 			LocalController.InitCameraSetting();
 			LocalController.ChangeMoveFunc( NetworkBaseController.MoveType.Input );
-			LocalController.CurBehavior.PushSuccessorState( new BvIdle() );
+			//LocalController.CurBehavior.PushSuccessorState( new BvIdle() );
+			LocalController.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
 			IsGameStart = true;
 		}
 
@@ -230,8 +251,12 @@ namespace GHJ_Lib
 				GameManager.Instance.DisconnectAllPlayer();
 			}
         }
+        public override void OnPlayerLeftRoom( Player otherPlayer )
+        {
+            base.OnPlayerLeftRoom( otherPlayer );
+        }
 
-		public void DecereseDollCount()
+        public void DecereseDollCount()
 		{
 			if ( !PhotonNetwork.InRoom )
 			{
@@ -289,7 +314,7 @@ namespace GHJ_Lib
 					DollPrefabs[3], ExorcistPrefabs[3],
 					DollPrefabs[4], ExorcistPrefabs[4],
 					NormalAltarPrefab, ExitAltarPrefab, FinalAltarPrefab,
-					PurificationBoxPrefab
+					PurificationBoxPrefab,DoorPrefab
 					}
 				);
 		}
@@ -304,6 +329,22 @@ namespace GHJ_Lib
 			{
 				networkGenerator.Generate(PurificationBoxPrefab, purificationBoxGenPos.transform.position, purificationBoxGenPos.transform.rotation);
 			}
+			foreach (var DoorPos in DoorGenPos)
+			{
+				networkGenerator.Generate(DoorPrefab, DoorPos.transform.position, DoorPos.transform.rotation);
+			}
+
+			//for (int i = 0; i < FakeDollsGenPos.Length; ++i)
+			//{
+			//	if ((CountofFakeDolls > 0 && Random.Range(0, 1) > 0)|| FakeDollsGenPos.Length-i == CountofFakeDolls)
+			//	{
+			//		CountofFakeDolls--;
+			//		continue;
+			//	}
+				
+			//	networkGenerator.Generate(FakeDollPrefabs[Random.Range(0, FakeDollPrefabs.Length - 1)], FakeDollsGenPos[i].position, FakeDollsGenPos[i].rotation);
+			//}
+
 		}
 		void GeneratePlayerCharacter()
 		{

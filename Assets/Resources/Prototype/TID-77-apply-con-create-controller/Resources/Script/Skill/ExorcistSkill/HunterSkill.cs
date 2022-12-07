@@ -35,14 +35,14 @@ namespace GHJ_Lib
         public bool isUse { get; protected set; }
 
         static bool isRegistered;
-
         protected override void OnEnable()
         {
             isUse = false;
             base.OnEnable();
             SettingCrowGenPosIdx();
             TrapCount = 5;
-            Controller.AllocSkill(new BvHunterActSkill());
+            // Controller.AllocSkill(new BvHunterActSkill());
+            Controller.AllocSkill(sk_InstallTrap);
             TrapName = "Trap";
 
             if(!isRegistered)
@@ -70,6 +70,10 @@ namespace GHJ_Lib
             isUse = false;
             PhotonNetwork.Destroy(gameObject);
         }
+        public override bool ShowCanUseSkillMsg()
+        {
+            return false;
+        }
         public override bool CanActiveSkill() // NetworkBaseController 를 통해 Curbehvior를 바꿀지 말지.. 또는 스킬을 사용하기위한조건이 있다면 여기서 작성
         {
             return false;
@@ -84,11 +88,21 @@ namespace GHJ_Lib
             dollController.DoActionBy(DetectedDoll);
         }
 
+        public void SettingToInstallTrap_RPC()
+        {
+            photonView.RPC("SettingToInstallTrap", RpcTarget.All);
+        }
+        [PunRPC]
         public void SettingToInstallTrap()
         {
             Controller.AllocSkill(sk_InstallTrap);
         }
 
+        public void SettingToCollectTrap_RPC()
+        {
+            photonView.RPC("SettingToCollectTrap", RpcTarget.All);
+        }
+        [PunRPC]
         public void SettingToCollectTrap()
         {
             Controller.AllocSkill(sk_CollectTrap);
@@ -102,7 +116,7 @@ namespace GHJ_Lib
             isUse = true;
             while (true)
             {
-                Debug.Log("Trap");
+                //Debug.Log("Trap");
                 yield return new WaitForEndOfFrame();
                 if (!isUse)
                 {
@@ -116,15 +130,15 @@ namespace GHJ_Lib
             yield return new WaitForSeconds(1.0f);
             RandomSpawnCrows(1);
 
-            yield return new WaitForSeconds(10.0f);
+            yield return new WaitForSeconds(300.0f);
             ClearCrowTo_RPC();
             RandomSpawnCrows(2);
 
-            yield return new WaitForSeconds(15.0f);
+            yield return new WaitForSeconds(480.0f);
             ClearCrowTo_RPC();
             RandomSpawnCrows(3);
 
-            yield return new WaitForSeconds(20.0f);
+            yield return new WaitForSeconds(720.0f);
             ClearCrowTo_RPC();
             RandomSpawnCrows(4);
         }

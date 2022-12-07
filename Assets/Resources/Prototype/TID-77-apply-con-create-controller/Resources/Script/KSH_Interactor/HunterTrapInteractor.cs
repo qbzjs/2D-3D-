@@ -14,6 +14,7 @@ namespace GHJ_Lib
 
         /*Uninstall Zone Parameter*/
         [SerializeField] protected LayerMask UninstallZoneLayer;
+        [SerializeField] Transform spawnTransform;
         string NoticeTextUninstallArea = "This Area Can't install!!";
         WaitForSeconds noticeTime = new WaitForSeconds(1.0f);
         bool IsNotice = false;
@@ -26,8 +27,11 @@ namespace GHJ_Lib
 
         protected override void TryInteract()
         {
-            foundCount = Physics.OverlapSphereNonAlloc(interactionPoint.position, interactionPointRadius, colliders, interactableMask);
-            
+            if (controller.CurBehavior is not BvIdle)
+            {
+                return;
+            }
+
             Collider[] UninstallZones = new Collider[1];
             if (Physics.OverlapSphereNonAlloc(interactionPoint.position, interactionPointRadius, UninstallZones, UninstallZoneLayer) ==1)
             {
@@ -38,6 +42,7 @@ namespace GHJ_Lib
                 return;
             }
 
+            foundCount = Physics.OverlapSphereNonAlloc(interactionPoint.position, interactionPointRadius, colliders, interactableMask);
 
             if (foundCount > 0)
             {
@@ -64,7 +69,7 @@ namespace GHJ_Lib
                     bool canInteract = Trap.ActiveInteractPrompt(this, interactionPromptUI);//isWatching 까지 넣어줄것.
                     if (canInteract && Input.GetKeyDown(interactionKey))
                     {
-                        (controller.skill as HunterSkill).SettingToCollectTrap();
+                        (controller.skill as HunterSkill).SettingToCollectTrap_RPC();
                         controller.photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.AllViaServer);
                         Trap.Interact(this); //Manual Casting
                     }
@@ -77,11 +82,11 @@ namespace GHJ_Lib
             else
             {
                 interactionPromptUI.Inactivate();
-                if ((controller.skill as HunterSkill).TrapCount > 0)
+                if ((controller.skill as HunterSkill).TrapCount > 0 )
                 {
                     if (Input.GetKeyDown(interactionKey)&&!castingSystem.IsCoroutineRunning)
                     {
-                        (controller.skill as HunterSkill).SettingToInstallTrap();
+                        (controller.skill as HunterSkill).SettingToInstallTrap_RPC();
                         controller.photonView.RPC("ChangeSkillBehaviorTo_RPC", RpcTarget.All);
                         castingSystem.StartCasting(CastingSystem.Cast.CreateByTime(3.0f,coolTime : CoolTime), new CastingSystem.CastFuncSet(RunningCondition: RunningCondition,PauseAction : PauseAction,FinishAction: FinishAction) ); // RunningCondition : Input.getKey / PauseAction : Idle로 바꿔줌 /  FinishAction : Idle 바꿔주고 설치
                     }
@@ -111,8 +116,9 @@ namespace GHJ_Lib
         }
         private void FinishAction()
         {
+            controller.AudioPlayer.Play( "HunterSkill" );
             (controller.skill as HunterSkill).InstallTrap();
-            PhotonNetwork.Instantiate((controller.skill as HunterSkill).TrapName, controller.transform.position, controller.transform.rotation);
+            PhotonNetwork.Instantiate((controller.skill as HunterSkill).TrapName, spawnTransform.position, controller.transform.rotation);
             StageManager.Instance.exorcistUI.CharacterSkill.StartCountDown(CoolTime);
         }
 

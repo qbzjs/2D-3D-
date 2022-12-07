@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using KSH_Lib;
+using LSH_Lib;
 namespace GHJ_Lib
 {
     public class Crow : EffectArea
@@ -11,6 +12,7 @@ namespace GHJ_Lib
         public Collider DetectRange;
         [SerializeField]protected HunterSkill owner;
         protected Vector3 initPos;
+        public AudioPlayer AudioPlayer;
         enum FlyingCondition{ Landing, Flying , Idle };
         FlyingCondition flyingCondition;
         private void Start()
@@ -97,6 +99,7 @@ namespace GHJ_Lib
         {
             if (other.gameObject.CompareTag(GameManager.DollTag))
             {
+                AudioPlayer.Play("Crow");
                 return other.gameObject;
             }
             return null;

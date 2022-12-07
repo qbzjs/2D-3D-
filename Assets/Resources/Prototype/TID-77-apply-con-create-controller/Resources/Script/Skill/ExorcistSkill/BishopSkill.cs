@@ -5,7 +5,7 @@ using KSH_Lib;
 using KSH_Lib.Object;
 using Photon.Pun;
 using Photon.Realtime;
-
+using LSH_Lib;
 namespace GHJ_Lib
 {
 	public class BishopSkill: ExorcistSkill
@@ -18,8 +18,10 @@ namespace GHJ_Lib
 		public float MaxCrossGauge = 60.0f;
 		protected float CollectRange = 3.0f;
 		protected string CrossPrefabName = "CrossModel";
+		[SerializeField] Transform spawnTransform;
 
 		protected GameObject targetCross;
+		protected GameObject targetAim;
 		protected Sk_InstallCross skInstallCross = new Sk_InstallCross();
 		protected Sk_CollectCross skCollectCross = new Sk_CollectCross();
 
@@ -29,7 +31,11 @@ namespace GHJ_Lib
 		InteractionPromptUI interactionPromptUI;
 		bool IsNotice = false;
 		string NoticeTextUninstallArea = "This Area Can't install!!";
+		string NoticeTextAlreadyInstallCrossAround = "you already install cross around";
+		string NoticeTextIsWatingCross = "Push SkillButton to Collect";
 		WaitForSeconds noticeTime = new WaitForSeconds(1.0f);
+		public AudioPlayer AudioPlayer;
+		public IEnumerator ExcuteEnum;
 		protected override void OnEnable()
 		{
 			base.OnEnable();
@@ -67,25 +73,45 @@ namespace GHJ_Lib
 				}
 			}
         }
-        /*---Skill---*/
-        public override bool CanActiveSkill()
+		/*---Skill---*/
+		public override bool ShowCanUseSkillMsg()
+		{
+			GameObject targetObj;
+			if (Controller.IsWatching(GameManager.CollectTriggerTag, out targetObj) && Vector3.ProjectOnPlane((targetObj.transform.position - transform.position), Vector3.up).sqrMagnitude < CollectRange * CollectRange)
+			{
+				interactionPromptUI.Activate(NoticeTextIsWatingCross);
+				IsNotice = false;
+				return true;
+			}
+			else
+			{
+				if (!IsNotice)
+				{
+					interactionPromptUI.Inactivate();
+				}
+				return false;
+			}
+		}
+		public override bool CanActiveSkill()
 		{
 			Collider[] UninstallZones = new Collider[1];
 			if (Physics.OverlapSphereNonAlloc(new Vector3(transform.position.x,0,transform.position.z), 1.0f, UninstallZones, UninstallZoneLayer) == 1)
 			{
-				StartCoroutine(NoticeUninstallArea());
+				StartCoroutine(NoticeUninstallReason(NoticeTextUninstallArea));
 				return false;
 			}
 
 			if (actSkillArea.CanGetTarget())
 			{
-				GameObject target = actSkillArea.GetNearestTarget();
-				if (Controller.IsWatching(target)&&Vector3.Distance(target.transform.position,transform.position)< CollectRange)
+				targetAim = actSkillArea.GetNearestTarget();
+				if (Controller.IsWatching(targetAim)&& Vector3.ProjectOnPlane((targetAim.transform.position - transform.position),Vector3.up).sqrMagnitude  < CollectRange*CollectRange)
 				{
-					targetCross = target;
-					SkillSettingToCollectCross();
+					targetCross = targetAim.transform.parent.gameObject;
+					ActiveSkill.SetSuccessorStates(new List<Behavior<NetworkBaseController>>() { skDefault, skCollectCross });
+					photonView.RPC("SkillSettingToCollectCross",RpcTarget.All);
 					return true;
 				}
+				StartCoroutine(NoticeUninstallReason(NoticeTextAlreadyInstallCrossAround));
 				return false;
 			}
 
@@ -94,15 +120,19 @@ namespace GHJ_Lib
 				return false;
 			}
 			else
-			{ 
-				SkillSettingToInstallCross();
+			{
+				ActiveSkill.SetSuccessorStates(new List<Behavior<NetworkBaseController>>() { skDefault, skInstallCross });
+				photonView.RPC("SkillSettingToInstallCross", RpcTarget.All);
 				return true;
 			}
 		}
 		public override IEnumerator ExcuteActiveSkill()
 		{
 			IsCoolTime = true;
-			StageManager.Instance.exorcistUI.CharacterSkill.StartCountDown(15.0f);
+			if (Controller.IsMine)
+			{ 
+				StageManager.Instance.exorcistUI.CharacterSkill.StartCountDown(15.0f);
+			}
 			yield return new WaitForSeconds(0.2f);//¼±µô
 			while (ActiveSkill.Count != 0)
 			{
@@ -112,13 +142,24 @@ namespace GHJ_Lib
 			yield return new WaitForSeconds(14.6f);
 			IsCoolTime = false;
 		}
+		public IEnumerator ExcuteCollect()
+		{
+			yield return new WaitForSeconds(0.2f);
+			while (ActiveSkill.Count != 0)
+			{
+				ActiveSkill.Update(Controller, ref ActiveSkill);
+			}
+			yield return new WaitForSeconds(0.2f);
+		}
+		[PunRPC]
 		private void SkillSettingToInstallCross()
 		{
-			ActiveSkill.SetSuccessorStates(new List<Behavior<NetworkBaseController>>() {skDefault,skInstallCross });
+			ExcuteEnum = ExcuteActiveSkill();
 		}
+		[PunRPC]
 		private void SkillSettingToCollectCross()
 		{
-			ActiveSkill.SetSuccessorStates(new List<Behavior<NetworkBaseController>>() { skDefault, skCollectCross });
+			ExcuteEnum = ExcuteCollect();
 		}
 		IEnumerator SetCross()
 		{
@@ -130,13 +171,14 @@ namespace GHJ_Lib
 			{
 				yield return new WaitForEndOfFrame();
 				AnimatorStateInfo animatorState = Controller.BaseAnimator.GetCurrentAnimatorStateInfo(0);
-				if (animatorState.normalizedTime >=0.6f)
+				if (animatorState.normalizedTime >=0.6f && animatorState.IsName("install Cross"))
 				{
 					Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
-					Controller.BaseAnimator.SetBool("IsInstallCross", false);
+					//Controller.BaseAnimator.SetBool("IsInstallCross", false);
+					photonView.RPC("ShareAnimatorInstallParmeter_RPC", RpcTarget.All, false );
 
-					GameObject cross = PhotonNetwork.Instantiate(CrossPrefabName, new Vector3(transform.position.x,transform.position.y +0.23f,transform.position.z), CrossPrefab.transform.rotation);
-
+					GameObject cross = PhotonNetwork.Instantiate(CrossPrefabName, spawnTransform.position, CrossPrefab.transform.rotation);
+					AudioPlayer.Play("BishopSkill");
 					PoketInCross.Sort();
 					cross.GetComponent<Cross>().SetGauge(PoketInCross[PoketInCross.Count -1]);
 					PoketInCross.RemoveAt(PoketInCross.Count - 1);
@@ -144,6 +186,18 @@ namespace GHJ_Lib
 					break;
 				}
 			}
+		}
+
+		[PunRPC]
+		void ShareAnimatorInstallParmeter_RPC(bool state)
+		{
+			Controller.BaseAnimator.SetBool( "IsInstallCross", state );
+		}
+
+		[PunRPC]
+		void ShareAnimatorCollectParmeter_RPC(bool state)
+		{
+			Controller.BaseAnimator.SetBool("IsCollectCross", state);
 		}
 		IEnumerator CollectCross()
 		{
@@ -155,28 +209,29 @@ namespace GHJ_Lib
 			{
 				yield return new WaitForEndOfFrame();
 				AnimatorStateInfo animatorState = Controller.BaseAnimator.GetCurrentAnimatorStateInfo(0);
-				if (animatorState.normalizedTime >= 0.6f)
+				if (animatorState.normalizedTime >= 0.2f && animatorState.IsName("Collect Cross"))
 				{
 					Controller.ChangeBehaviorTo(NetworkBaseController.BehaviorType.Idle);
-					Controller.BaseAnimator.SetBool("IsCollectCross", false);
+					photonView.RPC("ShareAnimatorCollectParmeter_RPC", RpcTarget.All, false );
+					//Controller.BaseAnimator.SetBool("IsCollectCross", false);
 
 					PoketInCross.Add(targetCross.GetComponent<Cross>().OriginGauge);
-
-					actSkillArea.RemoveInList(targetCross);
+					AudioPlayer.Play("CollectObject");
+					actSkillArea.RemoveInList(targetAim);
 					PhotonNetwork.Destroy(targetCross);
 					break;
 				}
 			}
 		}
 
-		IEnumerator NoticeUninstallArea()
+		IEnumerator NoticeUninstallReason(string reason)
 		{
 			if (IsNotice)
 			{
 				yield break;
 			}
 			IsNotice = true;
-			interactionPromptUI.Activate(NoticeTextUninstallArea);
+			interactionPromptUI.Activate(reason);
 			yield return noticeTime;
 			IsNotice = false;
 			interactionPromptUI.Inactivate();

@@ -1,28 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using KSH_Lib;
 using KSH_Lib.Data;
+using LSH_Lib;
 namespace GHJ_Lib
 {
 	public class BvGetHit: Behavior<NetworkBaseController>
 	{
         const float AnimationFinishPoint = 0.9f;
         const float CrossStackBonusRate = 0.2f;
+        DollController dollActor;
         protected override void Activate(in NetworkBaseController actor)
         {
             if ( actor.IsMine )
             {
                 DataManager.Instance.ShareBehavior( (int)NetworkBaseController.BehaviorType.GetHit );
             }
-            actor.BaseAnimator.Play("Hit");
+            dollActor = actor as DollController;
+            dollActor.ShowHitEffect();
+            // >> Changed By KSH 22.11.26
+            //actor.BaseAnimator.Play("Hit");
+            dollActor.hitParticle.Clear();
+            dollActor.hitEffect.Clear();
+            dollActor.hitEffect.Play();
+            dollActor.hitParticle.Play();
+            //AudioManager.instance.Play("DollHit1");
+            dollActor.DollAnimationAudio("DollHit1");
+            actor.BaseAnimator.SetTrigger( "GetHit" );
 
-            (actor as DollController).ShowHitEffect();
+            if(actor.IsMine)
+            {
+                var curDollHP = DataManager.Instance.LocalPlayerData.roleData.GetDollHP();
+                var hpRate = curDollHP / actor.GetRoleInfo.GetDollHP();
+                actor.BaseAnimator.SetFloat( "HP", hpRate );
+            }
+
             if (actor.photonView.IsMine)
             {
-                if ((actor as DollController).CrossStack >= 2)
+                if ( dollActor.CrossStack >= 2)
                 {
                     (DataManager.Instance.LocalPlayerData.roleData as DollData).DollHP -= (DataManager.Instance.PlayerDatas[0].roleData as ExorcistData).AttackPower * CrossStackBonusRate;
+                    DataManager.Instance.ShareRoleData();
                 }
             }
             actor.ChangeMoveFunc(NetworkBaseController.MoveType.Input);
@@ -30,8 +50,11 @@ namespace GHJ_Lib
 
         protected override Behavior<NetworkBaseController> DoBehavior(in NetworkBaseController actor)
         {
-            if ((DataManager.Instance.PlayerDatas[actor.PlayerIndex].roleData as DollData).DollHP < 0.0f)
+            DollData dollData = (DataManager.Instance.PlayerDatas[actor.PlayerIndex].roleData as DollData);
+            if (dollData.DollHP <= 0.0f)
             {
+                dollData.DollHP = 0.0f;
+                DataManager.Instance.ShareRoleData();
                 return new BvCollapse();
             }
 
